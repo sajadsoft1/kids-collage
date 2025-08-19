@@ -1,0 +1,117 @@
+@import 'tailwindcss';
+@import '../../vendor/power-components/livewire-powergrid/resources/css/tailwind4.css';
+@import "flatpickr/dist/flatpickr.min.css";
+
+
+/* ---------sources--------- */
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+@source '../../app/Livewire/*Table.php';
+@source '../../app/Livewire/**/*Table.php';
+@source '../../vendor/power-components/livewire-powergrid/src/Themes/Tailwind.php';
+@source '../../vendor/power-components/livewire-powergrid/resources/views/**/*.php';
+
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol', 'Noto Color Emoji';
+}
+/*@source inline('{sm:,md:,lg:,xl:,}w-{1,2,3,4,5,6,7,8,9,10,11,12}/12');*/
+
+/**
+    The lines above are intact.
+    The lines below were added by maryUI installer.
+*/
+
+/** daisyUI */
+@plugin "daisyui" {
+    themes: light --default, dark;
+    base: true;
+    styled: true;
+    utils: true;
+    prefix: "";
+    logs: true;
+    themeRoot: ":root";
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* maryUI */
+@source "../../vendor/robsontenorio/mary/src/View/Components/**/*.php";
+
+/* Theme toggle */
+@custom-variant dark (&:where(.dark, .dark *));
+/*@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));*/
+
+/**
+* Paginator - Traditional style
+* Because Laravel defaults does not match well the design of daisyUI.
+*/
+
+.mary-table-pagination span[aria-current="page"] > span {
+    @apply bg-primary text-base-100
+}
+
+.mary-table-pagination button {
+    @apply cursor-pointer
+}
+
+/* end mary ui*/
+
+#pg-footer nav {
+    @apply ms-5;
+}
+#pg-footer nav > div .btn{
+    @apply btn-sm;
+}
+
+#pg-footer nav > div a svg{
+    @apply rtl:rotate-180;
+}
+* {
+    font-family: Vazirmatn, sans-serif;
+}
+/* start powergrid*/
+.responsive-row-expand-container {
+    @apply flex-col gap-y-5 bg-base-300 rounded-md;
+}
+.responsive-row-expand-item-container {
+    @apply flex justify-between items-center;
+}
+#power-grid-table-base > div > div:nth-child(2) {
+    @apply max-[600px]:flex max-md:flex-col gap-y-3
+}
+
+#power-grid-table-base > div > div:nth-child(2) > label {
+    @apply rounded-lg max-md:w-full
+}
+/*end powergrid*/
+
+
+.mary-active-menu {
+    @apply bg-primary text-white;
+}
+
+/* Custom theme variables */
+:root {
+    --color-base-100: #ffffff; /* Light gray */
+    --color-base-200: #f0f2f5; /* Slightly darker gray */
+    --color-base-300: #f2f4f6; /* Even darker gray */
+}
+
+/* Dark theme variables */
+.dark {
+    --color-base-100: #101828;
+    --color-base-200: #1e1e30;
+    --color-base-300: #0f0f0f;
+}

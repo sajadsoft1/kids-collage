@@ -1,0 +1,14 @@
+<?php
+
+declare(strict_types=1);
+
+
+use App\Livewire\Admin\Pages\{{model}}\{{model}}UpdateOrCreate;
+use App\Livewire\Admin\Pages\{{model}}\{{model}}Table;
+use Illuminate\Support\Facades\Route;
+
+Route::group(['prefix' => 'admin/{{kmodel}}', 'as' => 'admin.{{kmodel}}.'], function () {
+    Route::get('/', {{model}}Table::class)->name('index');
+    Route::get('create', {{model}}UpdateOrCreate::class)->name('create')->can('create,App\Models\{{model}}');
+    Route::get('{{{kmodel}}}/edit', {{model}}UpdateOrCreate::class)->name('edit')->can('update,{{kmodel}}');
+});

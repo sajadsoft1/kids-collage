@@ -1,0 +1,37 @@
+<?php
+
+namespace App\Actions\{{model}};
+
+use App\Actions\Translation\SyncTranslationAction;
+use App\Models\{{model}};
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
+use Lorisleiva\Actions\Concerns\AsAction;
+use Throwable;
+
+class Store{{model}}Action
+{
+    use AsAction;
+
+    public function __construct(
+        private readonly SyncTranslationAction $syncTranslationAction,
+    ) {}
+
+    /**
+     * @param array{
+     *     title:string,
+     *     description:string
+     * } $payload
+     * @return {{model}}
+     * @throws Throwable
+     */
+    public function handle(array $payload): {{model}}
+    {
+        return DB::transaction(function () use ($payload) {
+            $model =  {{model}}::create($payload);
+            $this->syncTranslationAction->handle($model, Arr::only($payload, ['title', 'description']));
+
+            return $model->refresh();
+        });
+    }
+}

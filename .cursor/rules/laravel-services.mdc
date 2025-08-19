@@ -1,0 +1,98 @@
+# Service Layer Rules
+
+## Service Structure & Naming
+- Use singular, PascalCase naming (e.g., `FileService`, `SeoBuilder`)
+- Place in: `app/Services/{Service}.php` or `app/Services/{Feature}/{Service}.php`
+- Use `declare(strict_types=1);` at the top
+- Follow PSR-12 coding standards
+
+## Service Class Template
+Use the template from `app/console/commands/stubs/model.stub` as a reference for service structure and follow the patterns shown in existing services.
+
+## Key Principles
+- **Single Responsibility**: Each service handles one specific domain
+- **Dependency Injection**: Inject dependencies in constructor
+- **Type Safety**: Use strict typing and proper type hints
+- **Error Handling**: Handle exceptions appropriately
+- **Stateless**: Services should be stateless when possible
+- **Reusable**: Make services reusable across the application
+
+## Service Categories
+
+### File Services
+- Handle file uploads, conversions, and management
+- Use Spatie Media Library integration
+- Manage image conversions and optimizations
+- Handle file cleanup and storage
+
+### SEO Services
+- Manage meta tags, Open Graph, JSON-LD
+- Generate sitemaps
+- Handle SEO optimization
+- Manage canonical URLs and hreflangs
+
+### Setting Services
+- Manage application settings
+- Handle configuration management
+- Provide setting templates
+- Cache settings for performance
+
+### Permission Services
+- Handle role-based permissions
+- Manage user access control
+- Provide permission checking utilities
+- Handle permission caching
+
+### User View Services
+- Track user interactions
+- Handle view counting
+- Manage user analytics
+- Provide user behavior insights
+
+## Service Methods
+- Use descriptive method names
+- Keep methods focused and small
+- Use proper return types
+- Document complex methods with PHPDoc
+- Handle errors gracefully
+
+## Error Handling
+- Use try-catch blocks for expected exceptions
+- Log errors appropriately
+- Return meaningful error messages
+- Don't expose sensitive information in errors
+
+## Testing Services
+- Test each service method independently
+- Mock dependencies when needed
+- Test both success and failure scenarios
+- Verify error handling works correctly
+
+## Service Registration
+- Register services in `AppServiceProvider` if needed
+- Use service containers for complex dependencies
+- Bind interfaces to implementations
+- Use singleton pattern when appropriate
+
+## Performance Considerations
+- Cache expensive operations
+- Use lazy loading when possible
+- Optimize database queries
+- Use background jobs for heavy operations
+
+## Common Service Patterns
+
+### Builder Pattern
+Implement builder pattern following the established patterns.
+
+### Template Pattern
+Implement template pattern following the established patterns.
+
+## Best Practices
+- Use descriptive method names
+- Keep methods focused and small
+- Use proper return types
+- Document complex methods
+- Handle errors gracefully
+- Test thoroughly
+- Follow established patterns

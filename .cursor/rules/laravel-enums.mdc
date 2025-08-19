@@ -1,0 +1,71 @@
+# PHP Enums Rules
+
+## Enum Structure & Naming
+- Use PascalCase naming (e.g., `BooleanEnum`, `CategoryTypeEnum`)
+- Place in: `app/Enums/{Enum}.php`
+- Use `declare(strict_types=1);` at the top
+- Follow PSR-12 coding standards
+- Use `EnumToArray` trait for common functionality
+
+## Enum Class Template
+Use the template from `app/console/commands/stubs/model.stub` as a reference for enum structure and follow the patterns shown in existing enums.
+
+## Key Principles
+- **Type Safety**: Use enums for categorical data
+- **Translation Support**: Use Laravel's translation system
+- **Consistency**: Follow consistent naming patterns
+- **Reusability**: Make enums reusable across the application
+- **Documentation**: Document enum purposes and usage
+
+## Common Enum Types
+
+### Boolean Enum
+Use BooleanEnum for status fields following the established pattern.
+
+### Category Enums
+Create specific enums for categorical data following the established pattern.
+
+### Status Enums
+Create status enums for various model states following the established pattern.
+
+## Enum Methods
+
+### Options Method
+Implement options() method to provide select options following the established pattern.
+
+### Title Method
+Implement title() method to provide human-readable labels following the established pattern.
+
+### Color Method
+Implement color() method to provide UI colors following the established pattern.
+
+### To Array Method
+Implement toArray() method to provide complete enum data following the established pattern.
+
+## Translation Integration
+
+### Label Translation
+Use Laravel's translation system for enum labels following the established pattern.
+
+### Feature-Specific Translation
+Organize translations by feature following the established pattern.
+
+## Usage in Models
+
+### Casting
+Cast enum fields in model $casts array following the established pattern.
+
+### Validation
+Use enums in validation rules following the established pattern.
+
+### Forms
+Use enums in form selects following the established pattern.
+
+## Best Practices
+- Use descriptive case names
+- Implement all required methods
+- Follow consistent naming conventions
+- Document enum purposes
+- Use translation keys
+- Test enum functionality
+- Handle edge cases appropriately

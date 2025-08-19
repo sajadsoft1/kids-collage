@@ -1,0 +1,77 @@
+# Laravel Policies Rules
+
+## Policy Structure & Naming
+- Use PascalCase naming (e.g., `BlogPolicy`, `UserPolicy`)
+- Place in: `app/Policies/{Model}Policy.php`
+- Use `declare(strict_types=1);` at the top
+- Follow PSR-12 coding standards
+
+## Policy Class Template
+Use the template from `app/console/commands/stubs/policy.php.stub` as the base structure for all policies.
+
+## Key Principles
+- **Authorization**: Use policies for model-specific authorization
+- **Permission Integration**: Integrate with PermissionsService
+- **Type Safety**: Use strict typing and proper type hints
+- **Consistency**: Follow consistent naming patterns
+- **Security**: Implement proper access control
+
+## Policy Registration
+Register policies in `AuthServiceProvider` following the pattern shown in the policy stub.
+
+## Common Policy Methods
+
+### View Policies
+Use the viewAny and view methods from the policy stub template.
+
+### Create Policies
+Use the create method from the policy stub template.
+
+### Update Policies
+Use the update method from the policy stub template.
+
+### Delete Policies
+Use the delete, restore, and forceDelete methods from the policy stub template.
+
+## Advanced Policy Methods
+
+### Owner-Based Policies
+Extend the base policy methods to include ownership checks when needed.
+
+### Status-Based Policies
+Add custom methods like publish and approve following the same pattern as the base methods.
+
+## Policy Usage
+
+### In Controllers
+Use `$this->authorize()` method calls following Laravel's authorization patterns.
+
+### In Livewire Components
+Use `$this->authorize()` method calls in mount and action methods.
+
+### In Blade Templates
+Use `@can` and `@cannot` directives for conditional rendering.
+
+### In Routes
+Use the `->can()` method on route definitions for route-level authorization.
+
+## Permission Integration
+
+### Permission Names
+Follow the standard CRUD permission naming convention as defined in the policy stub.
+
+### Role-Based Policies
+Extend base policies to include role-based checks when needed.
+
+## Testing Policies
+Create comprehensive tests for all policy methods following Laravel's testing patterns.
+
+## Best Practices
+- Use descriptive method names
+- Implement proper permission checks using PermissionsService
+- Consider ownership in policies
+- Test all policy methods
+- Use consistent naming conventions
+- Document complex authorization logic
+- Handle edge cases appropriately
+- Integrate with role-based permissions

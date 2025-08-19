@@ -1,0 +1,88 @@
+# Laravel Testing Rules
+
+## Testing Structure & Naming
+- Use PascalCase naming (e.g., `BlogTest`, `UserActionTest`)
+- Place in: `tests/{Feature|Unit}/{Test}.php`
+- Use `declare(strict_types=1);` at the top
+- Follow PSR-12 coding standards
+- Use descriptive test method names
+
+## Test Class Template
+Use the template from `app/console/commands/stubs/model.stub` as a reference for test structure and follow the patterns shown in existing tests.
+
+## Key Principles
+- **AAA Pattern**: Arrange, Act, Assert
+- **Isolation**: Each test should be independent
+- **Descriptive Names**: Use clear, descriptive test names
+- **Single Responsibility**: Test one thing per test method
+- **Coverage**: Aim for high test coverage
+- **Performance**: Keep tests fast and efficient
+
+## Test Categories
+
+### Feature Tests
+Test complete features and user interactions following Laravel's testing patterns.
+
+### Unit Tests
+Test individual components and methods following Laravel's testing patterns.
+
+### Action Tests
+Test Laravel Actions following the established patterns.
+
+### Model Tests
+Test model relationships, scopes, and methods following the established patterns.
+
+### Policy Tests
+Test authorization policies following the established patterns.
+
+## Testing Patterns
+
+### Database Testing
+Use RefreshDatabase trait and factories for database testing following the established patterns.
+
+### Authentication Testing
+Test authenticated and unauthenticated access following the established patterns.
+
+### Authorization Testing
+Test permissions and policies following the established patterns.
+
+### Form Testing
+Test form validation and submission following the established patterns.
+
+### API Testing
+Test API endpoints following the established patterns.
+
+## Test Data Management
+
+### Factories
+Use model factories for test data following the established patterns.
+
+### Seeders
+Use database seeders for complex test scenarios following the established patterns.
+
+### Fakers
+Use Faker for generating realistic test data following the established patterns.
+
+## Assertion Patterns
+
+### Model Assertions
+Assert model properties and relationships following the established patterns.
+
+### Response Assertions
+Assert HTTP responses following the established patterns.
+
+### Database Assertions
+Assert database state following the established patterns.
+
+### Exception Assertions
+Assert exceptions following the established patterns.
+
+## Best Practices
+- Use descriptive test method names
+- Follow AAA pattern consistently
+- Keep tests independent
+- Use factories for test data
+- Test both success and failure scenarios
+- Mock external dependencies
+- Use data providers for multiple test cases
+- Maintain high test coverage

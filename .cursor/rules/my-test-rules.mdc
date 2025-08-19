@@ -1,0 +1,8 @@
+- use pest for testing
+- follow testing patterns shown in existing test files
+- use test stubs from app/console/commands/stubs/ when available
+description: use pint for testing
+globs:
+alwaysApply: false
+---
+- use pest for testing

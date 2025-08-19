@@ -1,0 +1,37 @@
+<?php
+
+declare(strict_types=1);
+
+return [
+    'dashboard'               => 'داشبورد',
+    'profile'                 => 'پروفایل',
+    'board_management'        => 'مدیریت بورد ها',
+    'calendar'                => 'تقویم',
+    'data_management'         => 'اطلاعات',
+    'users'                   => 'کاربران',
+    'blogs'                   => 'مقالات',
+    'setting'                 => 'تنظیمات',
+    'tag'                     => 'تگ',
+    'categories'              => 'دسته بندی ها',
+    'base_management'         => 'اطلاعات پایه',
+    'category_management'     => 'دسته بندی ها',
+    'blog_management'         => 'مقالات',
+    'service_management'      => 'سرویس ها',
+    'tag_management'          => 'تگ ها',
+    'ticket_management'       => 'تیکت ها',
+    'report_management'       => 'گزارشات',
+    'notice_management'       => 'اطلاعیه ها',
+    'user_management'         => 'کاربران',
+    'role_management'         => 'نقش ها',
+    'slider_management'       => 'اسلایدر',
+    'faq_management'          => 'سوالات پرتکرار',
+    'opinion_management'      => 'نظرات ویژه',
+    'comment_management'      => 'نظرات',
+    'banner_management'       => 'بنر ها',
+    'portfolio_management'    => 'نمونه کار ها',
+    'client_management'       => 'مشتریان',
+    'teammate_management'     => 'معرفی اعضای تیم',
+    'page_management'         => 'صفحات',
+    'contact_us_management'   => 'تماس با ما',
+    'social_media_management' => 'شبکه های اجتماعی',
+];

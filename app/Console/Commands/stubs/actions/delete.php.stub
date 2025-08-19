@@ -1,0 +1,23 @@
+<?php
+
+namespace App\Actions\{{model}};
+
+use App\Models\{{model}};
+use Illuminate\Support\Facades\DB;
+use Lorisleiva\Actions\Concerns\AsAction;
+use Throwable;
+
+class Delete{{model}}Action
+{
+    use AsAction;
+
+    /**
+     * @throws Throwable
+     */
+    public function handle({{model}} ${{cmodel}}): bool
+    {
+        return DB::transaction(function () use (${{cmodel}}) {
+            return ${{cmodel}}->delete();
+        });
+    }
+}

@@ -1,0 +1,90 @@
+# Multilingual Support Rules
+
+## Language Configuration
+- Support English (en) and Persian/Farsi (fa)
+- Use route-based language switching
+- Implement Persian date handling (Jalali calendar)
+- Support RTL layout for Persian
+
+## Language Files Structure
+Use the language file structure following the patterns shown in `app/console/commands/stubs/lang-en.php.stub` and `app/console/commands/stubs/lang-fa.php.stub`.
+
+## Translation File Template
+Use the translation file templates from the language stubs following the established patterns.
+
+## Route Configuration
+Configure multilingual routes following the established patterns.
+
+## Middleware Configuration
+Configure language middleware following the established patterns.
+
+## Key Principles
+- **Consistency**: Use consistent translation keys across features
+- **Context**: Provide context for translators
+- **Pluralization**: Handle plural forms correctly
+- **Interpolation**: Use placeholders for dynamic content
+- **Fallbacks**: Provide fallback translations
+
+## Translation Usage
+
+### Basic Translation
+Use Laravel's translation system following the established patterns.
+
+### Dynamic Translation
+Use dynamic translation with placeholders following the established patterns.
+
+### Pluralization
+Handle pluralization following the established patterns.
+
+## Model Translation
+
+### Translatable Fields
+Implement translatable fields following the established patterns.
+
+### Translation Sync
+Use translation sync following the established patterns.
+
+### Translation Access
+Access translations following the established patterns.
+
+## View Translation
+
+### Blade Templates
+Use translation in Blade templates following the established patterns.
+
+### Livewire Components
+Use translation in Livewire components following the established patterns.
+
+### Form Labels
+Use translation for form labels following the established patterns.
+
+## Date and Time Translation
+
+### Persian Calendar
+Implement Persian calendar following the established patterns.
+
+### Date Formatting
+Format dates following the established patterns.
+
+### Time Zones
+Handle time zones following the established patterns.
+
+## RTL Support
+
+### Layout Direction
+Implement RTL layout following the established patterns.
+
+### Text Direction
+Handle text direction following the established patterns.
+
+### CSS Classes
+Use RTL CSS classes following the established patterns.
+
+## Best Practices
+- Use consistent translation keys
+- Provide context for translators
+- Handle pluralization correctly
+- Use placeholders for dynamic content
+- Implement proper fallbacks
+- Support RTL languages
+- Test translations thoroughly

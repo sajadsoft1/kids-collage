@@ -1,0 +1,114 @@
+# Livewire Components Rules
+
+## Component Structure & Naming
+- Use PascalCase naming (e.g., `BlogTable`, `UserUpdateOrCreate`)
+- Place in: `app/Livewire/{Admin|Web}/Pages/{Feature}/{Component}.php`
+- Use `declare(strict_types=1);` at the top
+- Follow PSR-12 coding standards
+
+## Component Templates
+
+### Table Component Template
+Use the template from `app/console/commands/stubs/datatable.php.stub` as the base structure for table components.
+
+### Update/Create Component Template
+Use the template from `app/console/commands/stubs/update-or-create.php.stub` as the base structure for update/create components.
+
+## Key Principles
+- **Single Responsibility**: Each component handles one specific feature
+- **Type Safety**: Use strict typing and proper type hints
+- **Reusability**: Create reusable components
+- **Performance**: Optimize for speed and efficiency
+- **Accessibility**: Follow WCAG guidelines
+- **Responsive Design**: Mobile-first approach
+
+## Component Categories
+
+### Table Components
+- Use PowerGrid for data tables
+- Implement search and filtering
+- Support pagination and sorting
+- Include action buttons
+- Handle responsive design
+
+### Form Components
+- Handle form validation
+- Support file uploads
+- Implement real-time validation
+- Handle form submission
+- Support edit/create modes
+
+### Display Components
+- Show data in various formats
+- Support different view modes
+- Handle data relationships
+- Implement caching when needed
+
+## PowerGrid Integration
+
+### Basic Setup
+Follow the PowerGrid setup pattern shown in the datatable stub.
+
+### Fields and Columns
+Use PowerGrid fields and columns following the patterns in the stub.
+
+### Filtering and Search
+Implement filtering and search functionality as shown in the stub.
+
+### Responsive Design
+Handle mobile responsiveness following the patterns in the stub.
+
+## Form Handling
+
+### Validation
+Use Laravel's validation features with Livewire's real-time validation.
+
+### File Uploads
+Handle file uploads using Livewire's file upload features.
+
+### Form Submission
+Implement form submission following the patterns in the update-or-create stub.
+
+## Component Lifecycle
+
+### Mount Method
+Initialize component state and load data as needed.
+
+### Render Method
+Return the appropriate view with component data.
+
+### Action Methods
+Handle user interactions and form submissions.
+
+## Error Handling
+
+### Validation Errors
+Display validation errors appropriately.
+
+### Exception Handling
+Handle exceptions gracefully and show user-friendly messages.
+
+### Loading States
+Show loading indicators during async operations.
+
+## Testing Components
+
+### Unit Testing
+Test component methods and properties.
+
+### Feature Testing
+Test component interactions and form submissions.
+
+### Browser Testing
+Test component behavior in real browsers.
+
+## Best Practices
+- Use descriptive method names
+- Implement proper error handling
+- Follow accessibility guidelines
+- Optimize for performance
+- Test thoroughly
+- Document component usage
+- Use consistent naming conventions
+- Handle edge cases appropriately
+

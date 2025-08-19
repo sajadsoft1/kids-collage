@@ -1,0 +1,83 @@
+# SEO Patterns Rules
+
+## SEO Architecture
+- Use `SeoBuilder` service for dynamic SEO generation
+- Implement `SeoOption` model for page-specific SEO
+- Generate sitemaps for different content types
+- Support Open Graph, JSON-LD, and meta tags
+
+## SeoBuilder Service Usage
+Use the SeoBuilder service following the patterns shown in existing SEO implementations.
+
+## SeoBuilder Class Structure
+Use the SeoBuilder class structure following the patterns shown in existing SEO implementations.
+
+## Model-Specific SEO Methods
+Implement model-specific SEO methods following the established patterns.
+
+## SEO Implementation Patterns
+
+### Basic SEO Setup
+Follow the basic SEO setup pattern shown in existing implementations.
+
+### Model-Specific SEO
+Implement model-specific SEO following the established patterns.
+
+### Dynamic SEO Generation
+Use dynamic SEO generation following the established patterns.
+
+## Meta Tags Implementation
+
+### Title Tags
+Implement title tags following the established patterns.
+
+### Description Tags
+Implement description tags following the established patterns.
+
+### Keywords Tags
+Implement keywords tags following the established patterns.
+
+### Canonical URLs
+Implement canonical URLs following the established patterns.
+
+## Open Graph Implementation
+
+### Basic Open Graph
+Implement basic Open Graph tags following the established patterns.
+
+### Advanced Open Graph
+Implement advanced Open Graph features following the established patterns.
+
+### Image Handling
+Handle Open Graph images following the established patterns.
+
+## JSON-LD Implementation
+
+### Basic JSON-LD
+Implement basic JSON-LD following the established patterns.
+
+### Structured Data
+Implement structured data following the established patterns.
+
+### Multi-Entity JSON-LD
+Implement multi-entity JSON-LD following the established patterns.
+
+## Sitemap Generation
+
+### XML Sitemaps
+Generate XML sitemaps following the established patterns.
+
+### Dynamic Sitemaps
+Generate dynamic sitemaps following the established patterns.
+
+### Sitemap Index
+Create sitemap indexes following the established patterns.
+
+## SEO Best Practices
+- Use descriptive titles and descriptions
+- Implement proper canonical URLs
+- Support multiple languages
+- Optimize for mobile devices
+- Use structured data appropriately
+- Monitor SEO performance
+- Follow search engine guidelines

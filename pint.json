@@ -1,0 +1,191 @@
+{
+  "preset": "laravel",
+  "exclude": [
+    "./vendor",
+    "./node_modules",
+    "./bootstrap",
+    "./docker",
+    "./config",
+    "./storage",
+    "./stubs",
+    "./routes",
+    "./public",
+    "./resources/docs",
+    "./.githooks",
+    "./resources/views"
+  ],
+  "notName": [
+    "*.blade.php",
+    "*.css",
+    "*.js",
+    "*.blade"
+  ],
+  "notPath": [
+    "./database/old_database/users.php"
+  ],
+  "rules": {
+    "phpdoc_align": {
+      "align": "vertical"
+    },
+    "phpdoc_separation": false,
+    "align_multiline_comment": true,
+    "blank_line_after_namespace": true,
+    "simplified_null_return": true,
+    "braces": false,
+    "blank_line_before_statement": {
+      "statements": [
+        "break",
+        "continue",
+        "declare",
+        "return",
+        "throw",
+        "try"
+      ]
+    },
+    "array_indentation": true,
+    "trim_array_spaces": true,
+    "combine_consecutive_issets": true,
+    "combine_consecutive_unsets": true,
+    "whitespace_after_comma_in_array": {
+      "ensure_single_space": true
+    },
+    "curly_braces_position": {
+      "allow_single_line_empty_anonymous_classes": false
+    },
+    "single_line_comment_spacing": true,
+    "multiline_comment_opening_closing": true,
+    "no_empty_comment": true,
+    "no_multiline_whitespace_around_double_arrow": true,
+    "no_trailing_comma_in_singleline_array": true,
+    "no_whitespace_before_comma_in_array": {
+      "after_heredoc": true
+    },
+    "binary_operator_spaces": {
+      "default": "single_space",
+      "operators": {
+        "=>": "align_single_space_minimal_by_scope",
+        "|": "no_space",
+        "=": "align",
+        "xor": null,
+        "+=": "align_single_space",
+        "===": "align_single_space_minimal"
+      }
+    },
+    "constant_case": {
+      "case": "lower"
+    },
+    "array_syntax": {
+      "syntax": "short"
+    },
+    "concat_space": {
+      "spacing": "one"
+    },
+    "list_syntax": {
+      "syntax": "short"
+    },
+    "new_with_braces": {
+      "anonymous_class": false,
+      "named_class": false
+    },
+    "explicit_string_variable": true,
+    "ordered_class_elements": {
+      "order": [
+        "use_trait",
+        "case",
+        "constant",
+        "constant_public",
+        "constant_protected",
+        "constant_private",
+        "property_public",
+        "property_protected",
+        "property_private",
+        "construct",
+        "destruct",
+        "magic",
+        "phpunit"
+      ],
+      "sort_algorithm": "none"
+    },
+    "assign_null_coalescing_to_coalesce_equal": true,
+    "cast_spaces": true,
+    "class_attributes_separation": {
+      "elements": {
+        "method": "one"
+      }
+    },
+    "clean_namespace": true,
+    "declare_parentheses": true,
+    "declare_strict_types": true,
+    "doctrine_annotation_indentation": true,
+    "doctrine_annotation_spaces": true,
+    "fully_qualified_strict_types": true,
+    "function_typehint_space": true,
+    "global_namespace_import": true,
+    "heredoc_indentation": true,
+    "include": true,
+    "lambda_not_used_import": true,
+    "linebreak_after_opening_tag": true,
+    "magic_constant_casing": true,
+    "magic_method_casing": true,
+    "method_argument_space": {
+      "on_multiline": "ensure_fully_multiline",
+      "keep_multiple_spaces_after_comma": true
+    },
+    "method_chaining_indentation": true,
+    "multiline_whitespace_before_semicolons": true,
+    "native_function_casing": true,
+    "native_function_type_declaration_casing": true,
+    "no_alias_language_construct_call": true,
+    "no_alternative_syntax": true,
+    "no_empty_statement": true,
+    "no_extra_blank_lines": {
+      "tokens": [
+        "attribute",
+        "break",
+        "case",
+        "continue",
+        "curly_brace_block",
+        "default",
+        "extra",
+        "parenthesis_brace_block",
+        "return",
+        "square_brace_block",
+        "switch",
+        "throw",
+        "use"
+      ]
+    },
+    "no_leading_namespace_whitespace": true,
+    "no_mixed_echo_print": true,
+    "no_multiple_statements_per_line": true,
+    "no_singleline_whitespace_before_semicolons": true,
+    "no_spaces_around_offset": true,
+    "no_unneeded_import_alias": true,
+    "no_unused_imports": true,
+    "no_whitespace_in_blank_line": false,
+    "not_operator_with_space": true,
+    "not_operator_with_successor_space": true,
+    "php_unit_fqcn_annotation": true,
+    "phpdoc_line_span": {
+      "const": "single",
+      "method": "single",
+      "property": "single"
+    },
+    "phpdoc_scalar": true,
+    "phpdoc_single_line_var_spacing": true,
+    "phpdoc_var_without_name": true,
+    "simple_to_complex_string_variable": true,
+    "simplified_if_return": true,
+    "single_quote": true,
+    "standardize_not_equals": true,
+    "trailing_comma_in_multiline": true,
+    "types_spaces": true,
+    "unary_operator_spaces": true,
+    "modernize_types_casting": false,
+    "no_useless_else": false,
+    "single_line_comment_style": false,
+    "ordered_imports": {
+      "sort_algorithm": "alpha"
+    }
+  }
+}

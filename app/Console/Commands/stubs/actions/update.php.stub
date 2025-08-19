@@ -1,0 +1,39 @@
+<?php
+
+namespace App\Actions\{{model}};
+
+use App\Actions\Translation\SyncTranslationAction;
+use App\Models\{{model}};
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
+use Lorisleiva\Actions\Concerns\AsAction;
+use Throwable;
+
+class Update{{model}}Action
+{
+    use AsAction;
+
+    public function __construct(
+        private readonly SyncTranslationAction $syncTranslationAction,
+    ) {}
+
+
+    /**
+     * @param {{model}} ${{cmodel}}
+     * @param array{
+     *     title:string,
+     *     description:string
+     * }               $payload
+     * @return {{model}}
+     * @throws Throwable
+     */
+    public function handle({{model}} ${{cmodel}}, array $payload): {{model}}
+    {
+        return DB::transaction(function () use (${{cmodel}}, $payload) {
+            ${{cmodel}}->update($payload);
+            $this->syncTranslationAction->handle(${{cmodel}}, Arr::only($payload, ['title', 'description']));
+
+            return ${{cmodel}}->refresh();
+        });
+    }
+}

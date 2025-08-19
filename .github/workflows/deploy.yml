@@ -1,0 +1,38 @@
+name: Laravel CI/CD Deployment
+
+on:
+  push:
+    branches:
+      - development
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+
+      - name: Add SSH key
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Deploy to server
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} <<EOF
+            cd ${{ secrets.DEPLOY_PATH }}
+            git pull origin development
+            composer install --no-interaction --prefer-dist --optimize-autoloader
+            npm install
+            npm run build
+            php artisan migrate --force
+            php artisan config:cache
+            php artisan route:cache
+            php artisan view:cache
+          EOF

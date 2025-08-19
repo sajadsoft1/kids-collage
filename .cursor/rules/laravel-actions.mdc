@@ -1,0 +1,64 @@
+# Laravel Actions Pattern Rules
+
+## Action Structure & Naming
+- Use `Laravel Actions` package for all business logic
+- Follow naming: `{Action}Action.php` (e.g., `StoreUserAction.php`)
+- Place in: `app/Actions/{Model}/{Action}Action.php`
+- Use `AsAction` trait in every action class
+
+## Action Class Templates
+
+### Store Action Template
+Use the template from `app/console/commands/stubs/actions/store.php.stub` as the base structure for store actions.
+
+### Update Action Template
+Use the template from `app/console/commands/stubs/actions/update.php.stub` as the base structure for update actions.
+
+### Delete Action Template
+Use the template from `app/console/commands/stubs/actions/delete.php.stub` as the base structure for delete actions.
+
+## Key Principles
+- **Single Responsibility**: Each action handles one specific operation
+- **Dependency Injection**: Inject services in constructor (especially SyncTranslationAction)
+- **Database Transactions**: Wrap operations in DB::transaction()
+- **Type Safety**: Use strict typing and proper type hints
+- **Error Handling**: Use try-catch for expected exceptions
+- **Translation Support**: Use SyncTranslationAction for multilingual content
+
+## Common Action Types
+- `Store{Model}Action` - Create new records with translation support
+- `Update{Model}Action` - Update existing records with translation support
+- `Delete{Model}Action` - Soft/hard delete records
+
+## Translation Integration
+- Use `SyncTranslationAction` for handling translatable fields
+- Pass translatable fields to `SyncTranslationAction::handle()`
+- Use `Arr::only()` to extract translatable fields from payload
+
+## File Operations in Actions
+- Use `FileService` for media operations when needed
+- Handle file uploads, conversions, and cleanup
+- Use Spatie Media Library integration
+- Follow naming: `addMedia($model, $file, 'collection')`
+
+## Validation in Actions
+- Validate payload before processing
+- Use Laravel's validation features
+- Return validation errors appropriately
+- Handle file validation separately
+
+## Error Handling
+- Use `abort()` for authorization failures
+- Throw custom exceptions for business logic errors
+- Log errors appropriately
+- Return meaningful error messages
+
+## Testing Actions
+- Test each action independently
+- Mock dependencies when needed
+- Test both success and failure scenarios
+- Verify database transactions work correctly
+description:
+globs:
+alwaysApply: false
+---

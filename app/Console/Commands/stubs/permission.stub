@@ -1,0 +1,21 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Services\Permissions\Models;
+
+use App\Models\{{model}};
+
+class {{model}}Permissions extends BasePermissions
+{
+    public const All     = "{{model}}.All";
+    public const Index   = "{{model}}.Index";
+    public const Show    = "{{model}}.Show";
+    public const Store   = "{{model}}.Store";
+    public const Update  = "{{model}}.Update";
+    public const Toggle  = "{{model}}.Toggle";
+    public const Delete  = "{{model}}.Delete";
+    public const Restore = "{{model}}.Restore";
+
+    protected string $model = {{model}}::class;
+}

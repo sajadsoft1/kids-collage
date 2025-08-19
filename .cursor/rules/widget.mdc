@@ -1,0 +1,15 @@
+---
+alwaysApply: true
+---
+
+# Livewire Widget Rules
+- use "livewire.admin.widget" prefix for widget components
+- use "https://mary-ui.com" as the source of the components
+- dont make extra css or javascript for the components
+- make the components responsive
+- use alpinejs for the components if needed
+- use tailwindcss for the components with daisyui
+- write code block comments in the components for the readability
+- write the components optionally with the inputs
+
+

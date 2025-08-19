@@ -1,0 +1,70 @@
+# Blade Components Rules
+
+## Component Structure & Naming
+- Use kebab-case naming (e.g., `blog-table`, `user-form`)
+- Place in: `resources/views/livewire/{admin|web}/pages/{feature}/`
+- Use semantic HTML structure
+- Follow Tailwind CSS and DaisyUI patterns
+
+## Component Templates
+
+### Update/Create Form Template
+Use the template from `app/console/commands/stubs/update-or-create-view.php.stub` as the base structure for update/create forms.
+
+## Key Principles
+- **Reusability**: Create reusable components
+- **Semantic HTML**: Use proper HTML structure
+- **Accessibility**: Follow WCAG guidelines
+- **Responsive Design**: Mobile-first approach
+- **Consistency**: Follow established patterns
+- **Performance**: Optimize for speed
+
+## Component Categories
+
+### Layout Components
+- **Breadcrumbs**: Navigation breadcrumbs with actions
+- **Cards**: Content containers with headers
+- **Modals**: Popup dialogs
+- **Sidebars**: Navigation sidebars
+- **Headers**: Page headers with actions
+
+### Form Components
+- **Inputs**: Text, email, password inputs
+- **Selects**: Dropdown selections
+- **Toggles**: Boolean switches
+- **Textareas**: Multi-line text inputs
+- **File Uploads**: File input components
+- **Date Pickers**: Date selection components
+
+### Display Components
+- **Tables**: Data tables with PowerGrid
+- **Lists**: Item lists
+- **Cards**: Content cards
+- **Badges**: Status indicators
+- **Icons**: Icon components
+- **Images**: Image components with fallbacks
+
+### Data Components
+- **Charts**: Data visualization
+- **Statistics**: Number displays
+- **Progress Bars**: Progress indicators
+- **Timelines**: Event timelines
+- **Maps**: Location displays
+
+## Tailwind CSS Integration
+
+### Utility Classes
+Use Tailwind CSS utility classes for layout, spacing, colors, and typography following the patterns shown in the component stubs.
+
+### DaisyUI Components
+Use DaisyUI components like cards, buttons, and form elements following the patterns shown in the component stubs.
+
+## Component Best Practices
+- Use semantic HTML elements
+- Follow accessibility guidelines
+- Implement responsive design
+- Use consistent naming conventions
+- Optimize for performance
+- Test across different browsers
+- Document component usage
+- Follow established patterns

@@ -1,0 +1,94 @@
+# Eloquent Models Rules
+
+## Model Structure & Naming
+- Use singular, PascalCase naming (e.g., `User`, `Blog`, `PortFolio`)
+- Place in: `app/Models/{Model}.php`
+- Use `declare(strict_types=1);` at the top
+- Follow PSR-12 coding standards
+
+## Model Class Template
+Use the template from `stubs/model.stub` as the base structure for all models.
+
+## Key Principles
+- **Single Responsibility**: Each model represents one entity
+- **Type Safety**: Use strict typing and proper type hints
+- **Traits Usage**: Use appropriate traits for functionality
+- **Translation Support**: Use `HasTranslationAuto` trait for multilingual content
+- **Enum Casting**: Use enums for categorical data
+
+## Required Traits
+- `HasFactory` - For model factories
+- `HasTranslationAuto` - For automatic translation handling
+- `InteractsWithMedia` - For Spatie Media Library (when needed)
+- `CLogsActivity` - For activity logging (when needed)
+- `HasRoles` - For user permissions (User model)
+- `Notifiable` - For notifications (User model)
+
+## Translation Support
+- Use `HasTranslationAuto` trait for automatic translation handling
+- Define `$translatable` array with translatable fields
+- Use `languages` field to store language-specific data
+- Translation fields are automatically handled by the trait
+
+## Enum Integration
+- Use `BooleanEnum` for status fields (published)
+- Create specific enums for categorical data
+- Cast enums properly in `$casts` array
+- Use enum methods for labels and colors
+
+## Fillable Fields
+- Include `published` for status management
+- Include `languages` for translation support
+- Add other model-specific fields as needed
+
+## Casts Configuration
+- Cast `published` to `BooleanEnum`
+- Cast `languages` to `array`
+- Add other casts as needed for the model
+
+## Translatable Fields
+- Define translatable fields in `$translatable` array
+- Common fields: `title`, `description`
+- Add model-specific translatable fields
+
+## Model Sections
+Use the provided sections for organization:
+- **Model Configuration** - Model-specific configuration
+- **Model Relations** - Eloquent relationships
+- **Model Scope** - Query scopes
+- **Model Attributes** - Accessors and mutators
+- **Model Custom Methods** - Custom model methods
+
+## Relationships
+- Use proper relationship types (hasOne, hasMany, belongsTo, belongsToMany)
+- Define inverse relationships when needed
+- Use foreign key constraints
+- Follow naming conventions
+
+## Scopes & Accessors
+- Create scopes for common queries
+- Use accessors for computed attributes
+- Follow naming: `scope{Scope}` and `get{Attribute}Attribute`
+- Keep scopes simple and reusable
+
+## Validation Rules
+- Define validation rules in separate Form Request classes
+- Use model events for complex validation
+- Implement custom validation methods when needed
+
+## Database Conventions
+- Use snake_case for column names
+- Use `id` as primary key
+- Use `created_at` and `updated_at` for timestamps
+- Use `deleted_at` for soft deletes
+- Use foreign keys with `_id` suffix
+
+## Testing Models
+- Create factories for test data
+- Test relationships and scopes
+- Test translation functionality
+- Test accessors and mutators
+description:
+globs:
+alwaysApply: false
+---
