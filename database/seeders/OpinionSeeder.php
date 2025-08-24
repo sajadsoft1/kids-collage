@@ -6,6 +6,8 @@ namespace Database\Seeders;
 
 use App\Actions\Opinion\StoreOpinionAction;
 use Illuminate\Database\Seeder;
+use Exception;
+
 
 class OpinionSeeder extends Seeder
 {
