@@ -42,46 +42,20 @@
         <div class="mx-[19.71%] xxxl:mx-[14.71%] xxl:mx-[9.71%] xl:mx-[5.71%] md:mx-[12px]">
             <div class="grid grid-cols-3 md:grid-cols-2 xs:grid-cols-1 gap-[30px]">
                 <!-- single feature -->
-                <div
-                    class="bg-[#FAF9F6] hover:bg-edyellow border-t-[7px] border-edyellow hover:border-edpurple duration-[400ms] p-[30px] sm:p-[25px] group relative z-[1] before:absolute before:-z-[1] before:inset-0 before:bg-[url('../assets/img/faeture-bg.jpg')] before:mix-blend-hard-light before:opacity-0 before:duration-[400ms] hover:before:opacity-15">
+               @foreach(trans('web/home.features') as $feature)
+                    <div
+                            class="bg-[#FAF9F6] hover:bg-edyellow border-t-[7px] border-edyellow hover:border-edpurple duration-[400ms] p-[30px] sm:p-[25px] group relative z-[1] before:absolute before:-z-[1] before:inset-0 before:bg-[url('../assets/img/faeture-bg.jpg')] before:mix-blend-hard-light before:opacity-0 before:duration-[400ms] hover:before:opacity-15">
                     <span class="icon">
-                        <img src="{{ asset('assets/web/img/feature-1.svg') }}" alt="feature" class="mb-[11px]">
+                        <img src="{{$feature['icon']}}" alt="feature" class="mb-[11px]">
                     </span>
-                    <h4 class="font-semibold text-[24px] xl:text-[22px] mb-[3px] text-edblue"><a href="#"
-                            class="hover:text-edpurple">School Life</a></h4>
-                    <p class="text-edgray2 group-hover:text-black mb-[18px]">Eimply dummy text printing ypese tting
-                        industry. Ipsum has been the</p>
-                    <a href="#" class="text-edblue hover:text-edpurple"><span class="text-[14px]"><i
-                                class="fa-solid fa-angle-right"></i></span> View More</a>
-                </div>
+                        <h4 class="font-semibold text-[24px] xl:text-[22px] mb-[3px] text-edblue">
+                            <a href="#"  class="hover:text-edpurple">{{$feature['title']}}</a></h4>
+                        <p class="text-edgray2 group-hover:text-black mb-[18px]">{{$feature['description']}}</p>
+                        <a href="{{$feature['action']}}" class="text-edblue hover:text-edpurple"><span class="text-[14px]"><i
+                                        class="fa-solid fa-angle-right"></i></span> {{$feature['action_text']}}</a>
+                    </div>
+               @endforeach
 
-                <!-- single feature -->
-                <div
-                    class="bg-[#FAF9F6] hover:bg-edyellow border-t-[7px] border-edyellow hover:border-edpurple duration-[400ms] p-[30px] sm:p-[25px] group relative z-[1] before:absolute before:-z-[1] before:inset-0 before:bg-[url('../assets/img/faeture-bg.jpg')] before:mix-blend-hard-light before:opacity-0 before:duration-[400ms] hover:before:opacity-15">
-                    <span class="icon">
-                        <img src="{{ asset('assets/web/img/feature-2.svg') }}" alt="feature" class="mb-[11px]">
-                    </span>
-                    <h4 class="font-semibold text-[24px] xl:text-[22px] mb-[3px] text-edblue"><a href="#"
-                            class="hover:text-edpurple">Academics </a></h4>
-                    <p class="text-black group-hover:text-black mb-[18px]">Eimply dummy text printing ypese tting
-                        industry. Ipsum has been the</p>
-                    <a href="#" class="text-edblue hover:text-edpurple"><span class="text-[14px]"><i
-                                class="fa-solid fa-angle-right"></i></span> View More</a>
-                </div>
-
-                <!-- single feature -->
-                <div
-                    class="bg-[#FAF9F6] hover:bg-edyellow border-t-[7px] border-edyellow hover:border-edpurple duration-[400ms] p-[30px] sm:p-[25px] group relative z-[1] before:absolute before:-z-[1] before:inset-0 before:bg-[url('../assets/img/faeture-bg.jpg')] before:mix-blend-hard-light before:opacity-0 before:duration-[400ms] hover:before:opacity-15">
-                    <span class="icon">
-                        <img src="{{ asset('assets/web/img/feature-3.svg') }}" alt="feature" class="mb-[11px]">
-                    </span>
-                    <h4 class="font-semibold text-[24px] xl:text-[22px] mb-[3px] text-edblue"><a href="#"
-                            class="hover:text-edpurple">Community</a></h4>
-                    <p class="text-edgray2 group-hover:text-black mb-[18px]">Eimply dummy text printing ypese tting
-                        industry. Ipsum has been the</p>
-                    <a href="#" class="text-edblue hover:text-edpurple"><span class="text-[14px]"><i
-                                class="fa-solid fa-angle-right"></i></span> View More</a>
-                </div>
             </div>
         </div>
     </section>
@@ -94,62 +68,44 @@
             <div class="flex md:flex-col justify-between items-center gap-x-[60px] xl:gap-x-[40px] gap-y-[40px]">
                 <!-- img -->
                 <div class="max-w-[50%] md:max-w-full grow relative">
-                    <img src="{{ asset('assets/web/img/about-img.png') }}" alt="about image">
+                    <img src="{{ trans('web/home.about.image') }}" alt="about image">
                     <img src="{{ asset('assets/web/img/about-img-vector.svg') }}" alt="vector"
                         class="absolute -top-[25px] left-[25px] -z-[1] w-[90%] max-w-[100%]">
                 </div>
 
                 <!-- txt -->
                 <div class="max-w-[50%] md:max-w-full shrink-0 grow">
-                    <h6 class="ed-section-sub-title">about us</h6>
-                    <h2 class="ed-section-title mb-[9px]">Welcome to best school for your child</h2>
-                    <p class="text-edgray">luctus. Curabitur nibh justo imperdiet non ex non tempus faucibus urna
-                        Aliquam at elit vitae dui sagittis maximus eget vitae diam In fermentum </p>
+                    <h6 class="ed-section-sub-title">{{trans('web/home.about.section')}}</h6>
+                    <h2 class="ed-section-title mb-[9px]">{{{trans('web/home.about.title')}}}</h2>
+                    <p class="text-edgray">{{trans('web/home.about.description')}}</p>
                     <!-- infos -->
-                    <div
-                        class="flex xs:flex-col gap-y-[15px] gap-x-[30px] xxl:gap-x-[20px] mt-[16px] xxs:mb-[30px] pb-[30px] border-b border-[#dbdbdb] mb-[26px]">
+                    <div class="flex xs:flex-col gap-y-[15px] gap-x-[30px] xxl:gap-x-[20px] mt-[16px] xxs:mb-[30px] pb-[30px] border-b border-[#dbdbdb] mb-[26px]">
                         <!-- single info -->
-                        <div
-                            class="flex items-center lg:flex-col lg:items-start md:flex-row md:items-center gap-[20px] xl:gap-[15px]">
-                            <div
-                                class="shrink-0 bg-edpurple h-[80px] xl:h-[70px] aspect-square rounded-[6px] flex items-center justify-center">
-                                <img src="{{ asset('assets/web/img/icon/target.svg') }}" alt="icon">
+                        @foreach(trans('web/home.about.items') as $row)
+                            <div class="flex items-center lg:flex-col lg:items-start md:flex-row md:items-center gap-[20px] xl:gap-[15px]">
+                                <div class="shrink-0 bg-edpurple h-[80px] xl:h-[70px] aspect-square rounded-[6px] flex items-center justify-center">
+                                    <img src="{{ $row['image'] }}" alt="icon">
+                                </div>
+                                <div>
+                                    <h6 class="font-semibold text-[18px] text-edblue mb-[5px]">{{ $row['title'] }}</h6>
+                                    <p class="text-[16px] text-edgray">{{ $row['description'] }}</p>
+                                </div>
                             </div>
-
-                            <!-- txt -->
-                            <div>
-                                <h6 class="font-semibold text-[18px] text-edblue mb-[5px]">Our Mission</h6>
-                                <p class="text-[16px] text-edgray">Aliquam erat volutpat nullam imperdiet</p>
-                            </div>
-                        </div>
-
-                        <div
-                            class="flex items-center lg:flex-col lg:items-start md:flex-row md:items-center gap-[20px] xl:gap-[15px]">
-                            <div
-                                class="shrink-0 bg-edpurple h-[80px] xl:h-[70px] aspect-square rounded-[6px] flex items-center justify-center">
-                                <img src="{{ asset('assets/web/img/icon/book-light.svg') }}" alt="icon">
-                            </div>
-
-                            <!-- txt -->
-                            <div>
-                                <h6 class="font-semibold text-[18px] text-edblue mb-[5px]">Our Vision</h6>
-                                <p class="text-[16px] text-edgray">Ut vehiculadictumst maecenas ante.</p>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
 
                     <div class="flex flex-wrap items-center gap-x-[24px] gap-y-[20px]">
                         <div class="flex gap-x-[8px]">
                             <div class="rounded-full overflow-hidden w-[58px] aspect-square shrink-0">
-                                <img src="{{ asset('assets/web/img/user.png') }}" alt="Principal"
+                                <img src="{{ trans('web/home.about.user.image') }}" alt="Principal"
                                     class="w-[58px] aspect-square">
                             </div>
                             <div>
-                                <h5 class="font-semibold text-[18px] text-black mb-[4px]">Ronald Richards</h5>
-                                <h6 class="text-edgray">Principal <span class="text-edpurple">Edutics</span></h6>
+                                <h5 class="font-semibold text-[18px] text-black mb-[4px]">{{trans('web/home.about.user.name')}}</h5>
+                                <h6 class="text-edgray">{{trans('web/home.about.user.role')}}</h6>
                             </div>
                         </div>
-                        <a href="#" class="ed-btn">Message Principal</a>
+                        <a href="{{trans('web/home.about.user.action')}}" class="ed-btn">{{trans('web/home.about.user.action_text')}}</a>
                     </div>
                 </div>
             </div>
@@ -159,111 +115,52 @@
 
 
     <!-- CLASSES SECTION START -->
-    <section
-        class="py-[120px] xl:py-[80px] md:py-[60px] bg-[url('{{ asset('assets/web/img/classes-bg.jpg') }}')] bg-cover bg-top bg-no-repeat">
+    <section class="py-[120px] xl:py-[80px] md:py-[60px] bg-cover bg-top bg-no-repeat"
+    style="background-image: url('{{asset('assets/web/img/classes-bg.jpg')}}')">
         <div class="mx-[19.71%] xxxl:mx-[14.71%] xxl:mx-[9.71%] xl:mx-[5.71%] md:mx-[12px]">
             <!-- section heading -->
             <div class="text-center mb-[46px] lg:mb-[36px] xxs:mb-[26px]">
-                <h6 class="ed-section-sub-title">academic classes</h6>
-                <h2 class="ed-section-title">Edutics academic classes</h2>
+                <h6 class="ed-section-sub-title">{{ trans('web/home.class.section') }}</h6>
+                <h2 class="ed-section-title">{{ trans('web/home.class.title') }}</h2>
             </div>
 
             <!-- cards -->
             <div
                 class="grid grid-cols-3 md:grid-cols-2 xs:grid-cols-1 xs:max-w-[80%] xxs:max-w-full mx-auto gap-[30px] lg:gap-[20px]">
                 <!-- single class card -->
-                <div
-                    class="bg-[url('../assets/img/class-bg.png')] bg-no-repeat bg-center bg-[length:100%_100%] p-[25px] sm:p-[20px]">
-                    <div class="mb-[22px]">
-                        <img src="{{ asset('assets/web/img/class-1.png') }}" alt="class image"
-                            class="aspect-[161/108] object-cover w-full">
-                    </div>
-                    <!-- txt -->
-                    <div>
-                        <h5 class="font-semibold text-[20px] text-edblue mb-[8px]"><a href="#"
-                                class="hover:text-edpurple">English Classes</a></h5>
-                        <p class="text-edgray mb-[15px]">Nulla a auctor leo. Vestibulum viverra mattis arcu nec
-                            viverra. Vivamus </p>
-                        <!-- infos -->
-                        <div
-                            class="flex gap-x-[20px] sm:flex-wrap justify-between sm:justify-start pt-[17px] border-t border-dashed border-edyellow">
-                            <div class="font-semibold">
-                                <span class="text-[14px] text-edyellow">Age</span>
-                                <h6>3-5 years</h6>
-                            </div>
-                            <div class="font-semibold">
-                                <span class="text-[14px] text-edyellow">Weekly </span>
-                                <h6>5 Days</h6>
-                            </div>
-                            <div class="font-semibold">
-                                <span class="text-[14px] text-edyellow">Time</span>
-                                <h6>4.30 Hrs</h6>
+                @foreach(range(1,3) as $row)
+                    <div class="bg-no-repeat bg-center bg-[length:100%_100%] p-[25px] sm:p-[20px]"
+                         style="background-image: url('{{asset('assets/web/img/class-bg.png')}}')">
+                        <div class="mb-[22px]">
+                            <img src="{{ asset('assets/web/img/class-1.png') }}"
+                                 alt="class image"
+                                 class="aspect-[161/108] object-cover w-full">
+                        </div>
+                        <!-- txt -->
+                        <div>
+                            <h5 class="font-semibold text-[20px] text-edblue mb-[8px]">
+                                <a href="#" class="hover:text-edpurple">English Classes</a></h5>
+                            <p class="text-edgray mb-[15px]">Nulla a auctor leo. Vestibulum viverra mattis arcu nec
+                                viverra. Vivamus </p>
+                            <!-- infos -->
+                            <div class="flex gap-x-[20px] sm:flex-wrap justify-between sm:justify-start pt-[17px] border-t border-dashed border-edyellow">
+                                <div class="font-semibold">
+                                    <span class="text-[14px] text-edyellow">Age</span>
+                                    <h6>3-5 years</h6>
+                                </div>
+                                <div class="font-semibold">
+                                    <span class="text-[14px] text-edyellow">Weekly </span>
+                                    <h6>5 Days</h6>
+                                </div>
+                                <div class="font-semibold">
+                                    <span class="text-[14px] text-edyellow">Time</span>
+                                    <h6>4.30 Hrs</h6>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <!-- single class card -->
-                <div
-                    class="bg-[url('../assets/img/class-bg.png')] bg-no-repeat bg-center bg-[length:100%_100%] p-[25px] sm:p-[20px]">
-                    <div class="mb-[22px]">
-                        <img src="{{ asset('assets/web/img/class-2.png') }}" alt="class image"
-                            class="aspect-[161/108] object-cover w-full">
-                    </div>
-                    <!-- txt -->
-                    <div>
-                        <h5 class="font-semibold text-[20px] text-edblue mb-[8px]"><a href="#"
-                                class="hover:text-edpurple">Tutoring Individual</a></h5>
-                        <p class="text-edgray mb-[15px]">Nulla a auctor leo. Vestibulum viverra mattis arcu nec
-                            viverra. Vivamus </p>
-                        <!-- infos -->
-                        <div
-                            class="flex gap-x-[20px] sm:flex-wrap justify-between sm:justify-start pt-[17px] border-t border-dashed border-edyellow">
-                            <div class="font-semibold">
-                                <span class="text-[14px] text-edyellow">Age</span>
-                                <h6>3-5 years</h6>
-                            </div>
-                            <div class="font-semibold">
-                                <span class="text-[14px] text-edyellow">Weekly </span>
-                                <h6>5 Days</h6>
-                            </div>
-                            <div class="font-semibold">
-                                <span class="text-[14px] text-edyellow">Time</span>
-                                <h6>4.30 Hrs</h6>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- single class card -->
-                <div
-                    class="bg-[url('../assets/img/class-bg.png')] bg-no-repeat bg-center bg-[length:100%_100%] p-[25px] sm:p-[20px]">
-                    <div class="mb-[22px]">
-                        <img src="{{ asset('assets/web/img/class-3.png') }}" alt="class image"
-                            class="aspect-[161/108] object-cover w-full">
-                    </div>
-                    <!-- txt -->
-                    <div>
-                        <h5 class="font-semibold text-[20px] text-edblue mb-[8px]"><a href="#"
-                                class="hover:text-edpurple">Tutoring Online</a></h5>
-                        <p class="text-edgray mb-[15px]">Nulla a auctor leo. Vestibulum viverra mattis arcu nec
-                            viverra. Vivamus </p>
-                        <!-- infos -->
-                        <div
-                            class="flex gap-x-[20px] sm:flex-wrap justify-between sm:justify-start pt-[17px] border-t border-dashed border-edyellow">
-                            <div class="font-semibold">
-                                <span class="text-[14px] text-edyellow">Age</span>
-                                <h6>3-5 years</h6>
-                            </div>
-                            <div class="font-semibold">
-                                <span class="text-[14px] text-edyellow">Weekly </span>
-                                <h6>5 Days</h6>
-                            </div>
-                            <div class="font-semibold">
-                                <span class="text-[14px] text-edyellow">Time</span>
-                                <h6>4.30 Hrs</h6>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
+
             </div>
         </div>
     </section>
@@ -276,12 +173,11 @@
             <div class="flex flex-col gap-x-[85px] items-start relative">
                 <!-- heading -->
                 <div
-                    class="relative w-full before:absolute before:bottom-0 before:mb-[8%] before:left-0 before:bg-[url('{{asset('assets/web/img/admission-title-vector.svg')}}')] before:bg-no-repeat before:bg-[length:100%_100%] before:w-[100%] before:h-[88px] before:pointer-events-none lg:before:hidden">
+                    class="relative w-full before:absolute before:bottom-0 before:mb-[8%] before:left-0 before:bg-[url('../../assets/web/img/admission-title-vector.svg')] before:bg-no-repeat before:bg-[length:100%_100%] before:w-[100%] before:h-[88px] before:pointer-events-none lg:before:hidden">
                     <div class="shrink-0 max-w-[290px]">
-                        <h6 class="ed-section-sub-title">Admission</h6>
-                        <h2 class="ed-section-title !text-[30px] pb-[42px] lg:pb-0 mb-[40px] lg:mb-[20px]">Admission
-                            Process</h2>
-                        <a href="#" class="ed-btn">Admission Now</a>
+                        <h6 class="ed-section-sub-title">{{trans('web/home.admission_process.section')}}</h6>
+                        <h2 class="ed-section-title !text-[30px] pb-[42px] lg:pb-0 mb-[40px] lg:mb-[20px]">{{trans('web/home.admission_process.title')}}</h2>
+                        <a href="{{trans('web/home.admission_process.action')}}" class="ed-btn">{{trans('web/home.admission_process.action_text')}}</a>
                     </div>
                 </div>
 
@@ -289,49 +185,20 @@
                 <div
                     class="grid grid-cols-3 sm:grid-cols-2 xxs:grid-cols-1 gap-[24px] -mt-[140px] lg:mt-[25px] w-[66%] ml-auto lg:w-[100%]">
                     <!-- single process -->
-                    <div class="bg-white rounded-[10px] p-[24px] shadow-[0_4px_50px_rgba(0,0,0,0.09)]">
+                    @foreach(range(1,3) as $row)
+                        <div class="bg-white rounded-[10px] p-[24px] shadow-[0_4px_50px_rgba(0,0,0,0.09)]">
                         <span class="icon block mb-[13px]">
                             <img src="{{ asset('assets/web/img/admission-process-icon.svg') }}" alt="admission process" class="mb-[11px]">
                         </span>
-                        <h4 class="font-semibold text-[18px] mb-[5px] text-edblue">
-                            <a href="#"  class="hover:text-edpurple">Request Info</a>
-                        </h4>
-                        <p class="text-edgray2 group-hover:text-black mb-[18px]">Penatibus Et Magnis Dis Parturient.
-                        </p>
-                        <a href="#"
-                            class="ed-btn !h-[40px] !bg-white border !border-edpurple !text-edpurple !text-[14px] !font-semibold hover:!bg-edpurple hover:!text-white">Read
-                            More</a>
-                    </div>
+                            <h4 class="font-semibold text-[18px] mb-[5px] text-edblue">
+                                <a href="#"  class="hover:text-edpurple">Request Info</a>
+                            </h4>
+                            <p class="text-edgray2 group-hover:text-black mb-[18px]">Penatibus Et Magnis Dis Parturient.
+                            </p>
+                            <a href="#" class="ed-btn !h-[40px] !bg-white border !border-edpurple !text-edpurple !text-[14px] !font-semibold hover:!bg-edpurple hover:!text-white">Read More</a>
+                        </div>
+                    @endforeach
 
-                    <!-- single process -->
-                    <div class="bg-white rounded-[10px] p-[24px] shadow-[0_4px_50px_rgba(0,0,0,0.09)]">
-                        <span class="icon block mb-[13px]">
-                            <img src="{{ asset('assets/web/img/admission-process-icon.svg') }}"
-                                alt="admission process" class="mb-[11px]">
-                        </span>
-                        <h4 class="font-semibold text-[18px] mb-[5px] text-edblue"><a href="#"
-                                class="hover:text-edpurple">Apply Online</a></h4>
-                        <p class="text-edgray2 group-hover:text-black mb-[18px]">Penatibus Et Magnis Dis Parturient.
-                        </p>
-                        <a href="#"
-                            class="ed-btn !h-[40px] !bg-white border !border-edpurple !text-edpurple !text-[14px] !font-semibold hover:!bg-edpurple hover:!text-white">Read
-                            More</a>
-                    </div>
-
-                    <!-- single process -->
-                    <div class="bg-white rounded-[10px] p-[24px] shadow-[0_4px_50px_rgba(0,0,0,0.09)]">
-                        <span class="icon block mb-[13px]">
-                            <img src="{{ asset('assets/web/img/admission-process-icon.svg') }}"
-                                alt="admission process" class="mb-[11px]">
-                        </span>
-                        <h4 class="font-semibold text-[18px] mb-[5px] text-edblue"><a href="#"
-                                class="hover:text-edpurple">Submit Form</a></h4>
-                        <p class="text-edgray2 group-hover:text-black mb-[18px]">Penatibus Et Magnis Dis Parturient.
-                        </p>
-                        <a href="#"
-                            class="ed-btn !h-[40px] !bg-white border !border-edpurple !text-edpurple !text-[14px] !font-semibold hover:!bg-edpurple hover:!text-white">Read
-                            More</a>
-                    </div>
                 </div>
             </div>
         </div>
@@ -354,80 +221,49 @@
                 <!-- form -->
                 <div class="grow max-w-[49%] lg:max-w-full">
                     <!-- heading -->
-                    <div class="bg-edpurple p-[22px] pl-[170px] xxl:pl-[130px] xs:pl-[40px] xxs:pl-[22px]">
-                        <h6 class="ed-section-sub-title ed-section-sub-title--white">Form</h6>
-                        <h3 class="font-semibold text-[30px] xxs:text-[25px] text-white">Admission Form</h3>
+                    <div class="bg-edpurple p-[22px] ps-[170px] xxl:ps-[130px] xs:ps-[40px] xxs:ps-[22px]">
+                        <h6 class="ed-section-sub-title ed-section-sub-title--white">{{trans('web/home.register_form.form.section')}}</h6>
+                        <h3 class="font-semibold text-[30px] xxs:text-[25px] text-white">{{trans('web/home.register_form.form.title')}}</h3>
                     </div>
 
                     <!-- main content -->
-                    <div class="p-[40px] pr-0 lg:pr-[40px] text-center">
-                        <img src="{{ asset('assets/web/img/form-img.png') }}" alt="form image"
+                    <div class="p-[40px] pr-0 lg:pe-[40px] text-center">
+                        <img src="{{trans('web/home.register_form.form.image')}}" alt="form image"
                             class="mx-auto drop-shadow-[0_4px_30px_rgba(0,0,0,0.1)] mb-[17px]">
-                        <h5 class="text-[20px] text-edblue mb-[28px]">Free Download Admission Form</h5>
-                        <a href="assets/pdf/notice.pdf" download class="ed-btn">Download Free</a>
+                        <h5 class="text-[20px] text-edblue mb-[28px]">{{trans('web/home.register_form.form.description')}}</h5>
+                        <a href="{{trans('web/home.register_form.form.action')}}" download class="ed-btn">{{trans('web/home.register_form.form.action_text')}}</a>
                     </div>
                 </div>
 
                 <!-- notice -->
                 <div class="grow max-w-[51%] lg:max-w-full">
                     <!-- heading -->
-                    <div class="bg-edpurple p-[22px] pl-[170px] xxl:pl-[130px] xs:pl-[40px] xxs:pl-[22px]">
-                        <h6 class="ed-section-sub-title ed-section-sub-title--white">notice</h6>
-                        <h3 class="font-semibold text-[30px] xxs:text-[25px] text-white">Important Notice</h3>
+                    <div class="bg-edpurple p-[22px] ps-[170px] xxl:ps-[130px] xs:ps-[40px] xxs:ps-[22px]">
+                        <h6 class="ed-section-sub-title ed-section-sub-title--white">{{trans('web/home.register_form.notice.section')}}</h6>
+                        <h3 class="font-semibold text-[30px] xxs:text-[25px] text-white">{{trans('web/home.register_form.notice.title')}}</h3>
                     </div>
 
                     <!-- main content -->
-                    <div class="p-[40px] xl:px-[25px] lg:pl-[70px] sm:pl-[50px] xxs:p-[15px] space-y-[22px]">
+                    <div class="p-[40px] xl:px-[25px] lg:ps-[70px] sm:ps-[50px] xxs:p-[15px] space-y-[22px]">
                         <!-- single notice -->
-                        <div
-                            class="flex gap-x-[20px] items-center relative before:absolute before:h-[1px] before:w-[40px] xl:before:w-[30px] before:bg-edpurple before:right-[100%] before:top-[50%] before:-translate-y-[50%] xxs:before:content-none after:absolute after:w-[1px] after:h-[114%] after:bg-edpurple after:bottom-[50%] after:right-[calc(100%+40px)] xl:after:right-[calc(100%+30px)] xxs:after:content-none first:after:content-none">
+                      @foreach(range(1,3) as $row)
                             <div
-                                class="xxs:hidden icon shrink-0 p-[14px] bg-white border border-[#d9d9d9] rounded-[10px] w-[110px] xl:w-[90px] aspect-square flex items-center justify-center">
-                                <img src="{{ asset('assets/web/img/notice-icon.png') }}" alt="icon">
-                            </div>
+                                    class="flex gap-x-[20px] items-center relative before:absolute before:h-[1px] before:w-[40px] xl:before:w-[30px] before:bg-edpurple before:right-[100%] before:top-[50%] before:-translate-y-[50%] xxs:before:content-none after:absolute after:w-[1px] after:h-[114%] after:bg-edpurple after:bottom-[50%] after:right-[calc(100%+40px)] xl:after:right-[calc(100%+30px)] xxs:after:content-none first:after:content-none">
+                                <div
+                                        class="xxs:hidden icon shrink-0 p-[14px] bg-white border border-[#d9d9d9] rounded-[10px] w-[110px] xl:w-[90px] aspect-square flex items-center justify-center">
+                                    <img src="{{ asset('assets/web/img/notice-icon.png') }}" alt="icon">
+                                </div>
 
-                            <div class="pb-[26px] md:pb-[16px] border-b border-[#D9D9D9]">
-                                <h5 class="font-semibold text-[20px] text-edblue mb-[6px]"><a href="#"
-                                        class="hover:text-edpurple">Summer Course Starts From 1st June</a></h5>
-                                <h6 class="font-medium text-edpurple mb-[10px]">September 14, 2024</h6>
-                                <p class="text-edgray">There are many variations of passages of Lorem Ipsum available,
-                                    but the majority</p>
+                                <div class="pb-[26px] md:pb-[16px] border-b border-[#D9D9D9]">
+                                    <h5 class="font-semibold text-[20px] text-edblue mb-[6px]"><a href="#"
+                                                                                                  class="hover:text-edpurple">Summer Course Starts From 1st June</a></h5>
+                                    <h6 class="font-medium text-edpurple mb-[10px]">September 14, 2024</h6>
+                                    <p class="text-edgray">There are many variations of passages of Lorem Ipsum available,
+                                        but the majority</p>
+                                </div>
                             </div>
-                        </div>
+                      @endforeach
 
-                        <!-- single notice -->
-                        <div
-                            class="flex gap-x-[20px] items-center relative before:absolute before:h-[1px] before:w-[40px] xl:before:w-[30px] before:bg-edpurple before:right-[100%] before:top-[50%] before:-translate-y-[50%] xxs:before:content-none after:absolute after:w-[1px] after:h-[114%] after:bg-edpurple after:bottom-[50%] after:right-[calc(100%+40px)] xl:after:right-[calc(100%+30px)] xxs:after:content-none first:after:content-none">
-                            <div
-                                class="xxs:hidden icon shrink-0 p-[14px] bg-white border border-[#d9d9d9] rounded-[10px] w-[110px] xl:w-[90px] aspect-square flex items-center justify-center">
-                                <img src="{{ asset('assets/web/img/notice-icon.png') }}" alt="icon">
-                            </div>
-
-                            <div class="pb-[26px] md:pb-[16px] border-b border-[#D9D9D9]">
-                                <h5 class="font-semibold text-[20px] text-edblue mb-[6px]"><a href="#"
-                                        class="hover:text-edpurple">Summer Course Starts From 1st June</a></h5>
-                                <h6 class="font-medium text-edpurple mb-[10px]">September 14, 2024</h6>
-                                <p class="text-edgray">There are many variations of passages of Lorem Ipsum available,
-                                    but the majority</p>
-                            </div>
-                        </div>
-
-                        <!-- single notice -->
-                        <div
-                            class="flex gap-x-[20px] items-center relative before:absolute before:h-[1px] before:w-[40px] xl:before:w-[30px] before:bg-edpurple before:right-[100%] before:top-[50%] before:-translate-y-[50%] xxs:before:content-none after:absolute after:w-[1px] after:h-[114%] after:bg-edpurple after:bottom-[50%] after:right-[calc(100%+40px)] xl:after:right-[calc(100%+30px)] xxs:after:content-none first:after:content-none">
-                            <div
-                                class="xxs:hidden icon shrink-0 p-[14px] bg-white border border-[#d9d9d9] rounded-[10px] w-[110px] xl:w-[90px] aspect-square flex items-center justify-center">
-                                <img src="{{ asset('assets/web/img/notice-icon.png') }}" alt="icon">
-                            </div>
-
-                            <div class="pb-[26px] md:pb-[16px] border-b border-[#D9D9D9]">
-                                <h5 class="font-semibold text-[20px] text-edblue mb-[6px]"><a href="#"
-                                        class="hover:text-edpurple">Summer Course Starts From 1st June</a></h5>
-                                <h6 class="font-medium text-edpurple mb-[10px]">September 14, 2024</h6>
-                                <p class="text-edgray">There are many variations of passages of Lorem Ipsum available,
-                                    but the majority</p>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -449,17 +285,16 @@
         <div class="mx-[19.71%] xxxl:mx-[14.71%] xxl:mx-[9.71%] xl:mx-[5.71%] md:mx-[12px]">
             <div class="flex md:flex-col items-center gap-[60px] lg:gap-[40px] md:gap-y-[20px]">
                 <div class="grow md:pt-[60px]">
-                    <h6 class="ed-section-sub-title ed-section-sub-title--white">ARE YOU READY FOR THIS OFFER</h6>
-                    <h2 class="ed-section-title !text-white mb-[36px]">50% Offer For Very First 60 <span
-                            class="font-normal text-[40px] xxl:text-[35px] xl:text-[30px] xs:text-[28px] xxs:text-[25px]">Student’s
-                            & Mentors</span></h2>
+                    <h6 class="ed-section-sub-title ed-section-sub-title--white">{{trans('web/home.cta.section')}}</h6>
+                    <h2 class="ed-section-title !text-white mb-[36px]">{{trans('web/home.cta.title')}}
+                        <span class="font-normal text-[40px] xxl:text-[35px] xl:text-[30px] xs:text-[28px] xxs:text-[25px]">
+                            {{trans('web/home.cta.description')}}
+                        </span>
+                    </h2>
                     <div class="flex flex-wrap gap-[16px]">
-                        <a href="#"
-                            class="ed-btn !bg-edyellow !text-black hover:!bg-edblue hover:!text-white">Become a
-                            student</a>
-                        <a href="#"
-                            class="ed-btn !bg-transparent !text-white border border-white hover:!bg-white hover:!text-edblue">Become
-                            a teacher</a>
+                        <a href="{{trans('web/home.cta.action')}}" class="ed-btn !bg-edyellow !text-black hover:!bg-edblue hover:!text-white">
+                            {{trans('web/home.cta.action_text')}}
+                        </a>
                     </div>
                 </div>
 
