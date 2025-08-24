@@ -18,80 +18,68 @@
     @livewireStyles
 </head>
 
-<body x-data>
-    {{-- NAVBAR mobile only --}}
-    <x-nav sticky class="lg:hidden h-12">
-        <x-slot:brand>
-            <x-icon name="o-cube" class="w-6 h-6 text-primary" />
-        </x-slot:brand>
-        <x-slot:actions>
-            <label for="main-drawer" class="lg:hidden mr-3">
-                <x-icon name="o-bars-3" class="cursor-pointer" />
-            </label>
-        </x-slot:actions>
-    </x-nav>
-    {{-- END NAVBAR mobile only --}}
+<div x-data="{
+    open: localStorage.getItem('sidebar_open') === 'true' ? true : false,
+    isDesktop: window.innerWidth >= 1024,
+
+    init() {
+        // Set initial state based on screen size
+        this.isDesktop = window.innerWidth >= 1024;
+
+        // Watch for screen size changes
+        window.addEventListener('resize', () => {
+            const wasDesktop = this.isDesktop;
+            this.isDesktop = window.innerWidth >= 1024;
+
+            // If switching to desktop, open sidebar
+            if (this.isDesktop && !wasDesktop) {
+                this.open = true;
+                localStorage.setItem('sidebar_open', 'true');
+            }
+            // If switching to mobile, close sidebar
+            else if (!this.isDesktop && wasDesktop) {
+                this.open = false;
+                localStorage.setItem('sidebar_open', 'false');
+            }
+        });
+
+        // Watch for open state changes and save to localStorage
+        this.$watch('open', (value) => {
+            localStorage.setItem('sidebar_open', value.toString());
+        });
+    }
+}" @keydown.window.escape="open = false" class="flex flex-col min-h-screen bg-base-300">
+
+    @include('admin.layouts.navbar-mobile')
 
 
-    <x-main full-width class="aaa" active-bg-color="">
+    <!-- Static sidebar for desktop -->
+    @include('admin.layouts.navbar')
 
 
-        {{-- SIDEBAR --}}
-        <x-slot:sidebar drawer="main-drawer" collapsible
-            class="no-scrollbar bg-base-100 border-e border-base-content/10">
-            {{-- Using the reusable collapsible header component --}}
-            <x-collapsible-header expanded-title="Karnoweb" expanded-subtitle="Admin Dashboard" collapsed-text="Admin"
-                collapsed-icon="o-cube" variant="icon" />
 
-            <x-menu activate-by-route class="!p-0 flex flex-col">
-
-                {{-- Menu Items --}}
-                <div class="flex-1 overflow-y-auto">
-                    @foreach ($navbarMenu as $menu)
-                        @if (Arr::has($menu, 'sub_menu'))
-                            @if (Arr::get($menu, 'access', true))
-                                <x-menu-sub :title="Arr::get($menu, 'title')" :icon="Arr::get($menu, 'icon')" class="">
-                                    @foreach (Arr::get($menu, 'sub_menu', []) as $subMenu)
-                                        <x-menu-item :exact="Arr::get($subMenu, 'exact', false)" :title="Arr::get($subMenu, 'title')" :icon="Arr::get($subMenu, 'icon')"
-                                            :badge="Arr::get($subMenu, 'badge')" :badge-classes="Arr::get($subMenu, 'badge_classes', 'float-left')" :link="route(
-                                                Arr::get($subMenu, 'route_name'),
-                                                Arr::get($subMenu, 'params', []),
-                                            )" class="" />
-                                    @endforeach
-                                </x-menu-sub>
-                            @endif
-                        @elseif(Arr::has($menu, 'type') && Arr::get($menu, 'type') === 'seperator')
-                            <x-menu-separator :title="Arr::get($menu, 'title')" class="" />
-                        @else
-                            @if (Arr::get($menu, 'access', true))
-                                <x-menu-item :exact="Arr::get($menu, 'exact', false)" :title="Arr::get($menu, 'title')" :icon="Arr::get($menu, 'icon')" :badge="Arr::get($menu, 'badge')"
-                                    :badge-classes="Arr::get($menu, 'badge_classes', 'float-left')" :link="route(Arr::get($menu, 'route_name'), Arr::get($menu, 'params', []))" class="" />
-                            @endif
-                        @endif
-                    @endforeach
+    <div class="flex flex-col flex-1" x-bind:class="open ? 'lg:ps-72' : 'lg:ps-0'">
+        @include('admin.layouts.header')
+        <main class="h-full flex-1 container mx-auto">
+            <div class="px-4 sm:px-6 lg:px-8 h-full">
+                <div class="container">
+                    {{ $slot }}
                 </div>
-
-            </x-menu>
-
-        </x-slot:sidebar>
-
-        {{-- The `$slot` goes here --}}
-        <x-slot:content class="!pt-0 overflow-y-auto max-h-[calc(100vh)] bg-base-300 rounded-4xl p-10">
-            {{ $slot }}
-        </x-slot:content>
-    </x-main>
-    {{-- MAIN --}}
+            </div>
+        </main>
+        @include('admin.layouts.footer')
+    </div>
 
 
-    {{-- Toast --}}
-    <x-toast position="toast-button toast-end" />
 
-    {{-- Spotlight Component --}}
-    <x-spotlight shortcut="meta.k" search-text="Search for users, blogs, categories, or actions..."
-        no-results-text="No results found." />
 
-    @livewireScripts
-    @livewireCalendarScripts
+</div>
+
+{{--  TOAST area --}}
+<x-toast position="toast-button toast-end" />
+
+@livewireScripts
+@livewireCalendarScripts
 </body>
 
 </html>

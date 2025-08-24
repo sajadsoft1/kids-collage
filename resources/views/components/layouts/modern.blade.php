@@ -20,7 +20,7 @@
 
 <body class="bg-gradient-to-br from-base-200 via-base-100 to-base-300 min-h-screen" x-data>
     {{-- Background Decorations --}}
-    <div class="fixed inset-0 overflow-hidden pointer-events-none">
+    <div class="fixed left-0 right-0 top-0 bottom-0 overflow-hidden pointer-events-none">
         <div class="absolute -top-40 -right-40 w-80 h-80 bg-primary/10 rounded-full blur-3xl"></div>
         <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-secondary/10 rounded-full blur-3xl"></div>
     </div>

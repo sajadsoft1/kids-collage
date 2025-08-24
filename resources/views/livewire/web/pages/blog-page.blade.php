@@ -5,7 +5,7 @@
                 <div
                     class="xl:w-8/12 lg:w-8/12 w-full flex-[0_0_auto] !px-[15px] max-w-full md:!px-[20px] lg:!px-[20px] xl:!px-[35px]">
                     <div class="blog classic-view">
-                        @foreach (range(1,3) as $value)
+                        @foreach (range(1, 3) as $value)
                             <article class="post !mb-8">
                                 <div class="card">
                                     <figure class="card-img-top overlay overlay-1 hover-scale group"><a
@@ -13,7 +13,7 @@
                                                 class="!transition-all !duration-[0.35s] !ease-in-out group-hover:scale-105"
                                                 src="/assets/img/photos/b1.jpg" alt="image"></a>
                                         <figcaption
-                                            class="group-hover:opacity-100 absolute w-full h-full opacity-0 text-center px-4 py-3 inset-0 z-[5] pointer-events-none p-2">
+                                            class="group-hover:opacity-100 absolute w-full h-full opacity-0 text-center px-4 py-3 top-0 right-0 bottom-0 left-0 z-[5] pointer-events-none p-2">
                                             <h5
                                                 class="from-top  !mb-0 absolute w-full translate-y-[-80%] p-[.75rem_1rem] left-0 top-2/4">
                                                 Read More</h5>
@@ -29,15 +29,19 @@
                                             <!-- /.post-category -->
                                             <h2 class="post-title !mt-1 !leading-[1.35] !mb-0"><a
                                                     class="!text-[#343f52] hover:!text-[#3f78e0]"
-                                                    href="./blog-post.html">Amet Dolor Bibendum Parturient Cursus</a></h2>
+                                                    href="./blog-post.html">Amet Dolor Bibendum Parturient Cursus</a>
+                                            </h2>
                                         </div>
                                         <!-- /.post-header -->
                                         <div class="!relative">
-                                            <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia
+                                            <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget
+                                                lacinia
                                                 odio sem nec elit. Nullam quis risus eget urna mollis ornare vel. Nulla
                                                 vitae elit libero, a pharetra augue. Praesent commodo cursus magna, vel
-                                                scelerisque nisl consectetur et. Sed posuere consectetur est at lobortis.
-                                                Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac
+                                                scelerisque nisl consectetur et. Sed posuere consectetur est at
+                                                lobortis.
+                                                Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus
+                                                ac
                                                 cursus commodo, tortor mauris condimentum nibh. Cras mattis consectetur
                                                 purus.</p>
                                         </div>
@@ -55,13 +59,15 @@
                                                 <a class="!text-[#aab0bc] hover:!text-[#3f78e0] hover:!border-[#3f78e0]"
                                                     href="#"><i
                                                         class="uil uil-user pr-[0.2rem] align-[-.05rem] before:content-['\ed6f']"></i><span>By
-                                                        Sandbox</span></a></li>
+                                                        Sandbox</span></a>
+                                            </li>
                                             <li
                                                 class="post-comments inline-block before:content-[''] before:inline-block before:w-[0.2rem] before:h-[0.2rem] before:opacity-50 before:m-[0_.6rem_0] before:rounded-[100%] before:align-[.15rem] before:bg-[#aab0bc]">
                                                 <a class="!text-[#aab0bc] hover:!text-[#3f78e0] hover:!border-[#3f78e0]"
                                                     href="#"><i
                                                         class="uil uil-comment pr-[0.2rem] align-[-.05rem] before:content-['\ea54']"></i>3<span>
-                                                        Comments</span></a></li>
+                                                        Comments</span></a>
+                                            </li>
                                             <li class="post-likes !ms-auto inline-block"><a
                                                     class="!text-[#aab0bc] hover:!text-[#3f78e0] hover:!border-[#3f78e0]"
                                                     href="#"><i
@@ -80,7 +86,7 @@
                     <div class="blog itemgrid grid-view">
                         <div
                             class="flex flex-wrap mx-[-15px] isotope xl:mx-[-20px] lg:mx-[-20px] md:mx-[-20px] !mt-[-40px] !mb-8">
-                            @foreach (range(1,3) as $value)
+                            @foreach (range(1, 3) as $value)
                                 <article
                                     class="item post xl:w-6/12 lg:w-6/12 md:w-6/12 w-full flex-[0_0_auto] xl:!px-[20px] lg:!px-[20px] md:!px-[20px] !mt-[40px] !px-[15px] max-w-full">
                                     <div class="card">
@@ -89,7 +95,7 @@
                                                     class="!transition-all !duration-[0.35s] !ease-in-out group-hover:scale-105"
                                                     src="/assets/img/photos/b4.jpg" alt="image"></a>
                                             <figcaption
-                                                class="group-hover:opacity-100 absolute w-full h-full opacity-0 text-center px-4 py-3 inset-0 z-[5] pointer-events-none p-2">
+                                                class="group-hover:opacity-100 absolute w-full h-full opacity-0 text-center px-4 py-3 top-0 right-0 bottom-0 left-0 z-[5] pointer-events-none p-2">
                                                 <h5
                                                     class="from-top  !mb-0 absolute w-full translate-y-[-80%] p-[.75rem_1rem] left-0 top-2/4">
                                                     Read More</h5>
@@ -110,7 +116,8 @@
                                             <!-- /.post-header -->
                                             <div class="!relative">
                                                 <p>Mauris convallis non ligula non interdum. Gravida vulputate convallis
-                                                    tempus vestibulum cras imperdiet nun eu dolor. Aenean lacinia bibendum
+                                                    tempus vestibulum cras imperdiet nun eu dolor. Aenean lacinia
+                                                    bibendum
                                                     nulla sed.</p>
                                             </div>
                                             <!-- /.post-content -->
@@ -178,8 +185,7 @@
                                     class="form-control relative block w-full text-[.75rem] font-medium !text-[#60697b] bg-[#fefefe] bg-clip-padding border shadow-[0_0_1.25rem_rgba(30,34,40,0.04)] rounded-[0.4rem] border-solid border-[rgba(8,60,130,0.07)] transition-[border-color] duration-[0.15s] ease-in-out     focus:shadow-[0_0_1.25rem_rgba(30,34,40,0.04),unset]   focus-visible:!border-[rgba(63,120,224,0.5)]   placeholder:!text-[#959ca9] placeholder:opacity-100 m-0 !pr-9 p-[.6rem_1rem] h-[calc(2.5rem_+_2px)] min-h-[calc(2.5rem_+_2px)] !leading-[1.25]"
                                     placeholder="">
                                 <label for="search-form"
-                                    class="inline-block !text-[#959ca9] text-[.75rem] absolute z-[2] h-full overflow-hidden text-start text-ellipsis whitespace-nowrap pointer-events-none border origin-[0_0] px-4 py-[0.6rem] border-solid border-transparent left-0 top-0 font-Manrope"
-                                >
+                                    class="inline-block !text-[#959ca9] text-[.75rem] absolute z-[2] h-full overflow-hidden text-start text-ellipsis whitespace-nowrap pointer-events-none border origin-[0_0] px-4 py-[0.6rem] border-solid border-transparent left-0 top-0 font-Manrope">
                                     {{ trans('web/blogs.sidebar.search') }}
                                 </label>
                             </div>
@@ -188,7 +194,7 @@
                     <div class="widget !mt-[40px]">
                         <h4 class="widget-title !mb-3">{{ trans('web/blogs.sidebar.popular') }}</h4>
                         <ul class="m-0 p-0 after:content-[''] after:block after:h-0 after:clear-both after:invisible">
-                            @foreach (range(1,3) as $value)
+                            @foreach (range(1, 3) as $value)
                                 <li class=" clear-both block overflow-hidden">
                                     <figure class="!rounded-[.4rem] float-left w-14 !h-[4.5rem]"><a
                                             href="./blog-post.html"><img class="!rounded-[.4rem]"
@@ -217,8 +223,9 @@
                     <div class="widget !mt-[40px]">
                         <h4 class="widget-title !mb-3">{{ trans('web/blogs.sidebar.categories') }}</h4>
                         <ul class="pl-0 list-none bullet-primary !text-inherit">
-                            @foreach (range(1,3) as $value)
-                                <li class="relative !pl-[1rem] before:absolute  before:top-[-0.15rem] before:text-[1rem] before:content-['\2022'] before:left-0 before:font-SansSerif">
+                            @foreach (range(1, 3) as $value)
+                                <li
+                                    class="relative !pl-[1rem] before:absolute  before:top-[-0.15rem] before:text-[1rem] before:content-['\2022'] before:left-0 before:font-SansSerif">
                                     <a class="!text-[#60697b] hover:!text-[#3f78e0]" href="#">Teamwork (21)</a>
                                 </li>
                             @endforeach
@@ -228,7 +235,7 @@
                     <div class="widget !mt-[40px]">
                         <h4 class="widget-title !mb-3">{{ trans('web/blogs.sidebar.tags') }}</h4>
                         <ul class="pl-0 list-none tag-list">
-                            @foreach (range(1,3) as $value)
+                            @foreach (range(1, 3) as $value)
                                 <li class="!mt-0 !mb-[0.45rem] !me-[0.2rem] inline-block">
                                     <a href="#"
                                         class="btn btn-soft-ash btn-sm !rounded-[50rem] flex items-center hover:translate-y-[-0.15rem] hover:shadow-[0_0.25rem_0.75rem_rgba(30,34,40,.05)] before:not-italic before:content-['#'] before:font-normal before:!pr-[0.2rem]">Still

@@ -7,6 +7,7 @@ namespace App\Livewire\Web\Pages;
 use App\Models\Blog;
 use App\Models\Faq;
 use App\Models\PortFolio;
+use App\Models\Slider;
 use App\Services\SeoBuilder;
 use Illuminate\View\View;
 use Livewire\Component;
@@ -30,6 +31,10 @@ class HomePage extends Component
             ->apply();
 
         return view('livewire.web.pages.home-page', [
+            'sliders'    => Slider::where('published', true)
+                ->orderByDesc('id')
+                ->get(),
+
             'faqs'       => Faq::where('published', true)
                 ->where('favorite', true)
                 ->orderByDesc('ordering')

@@ -60,6 +60,6 @@ Route::multilingual('sitemap-article.xml', [SitemapController::class, 'article']
 Route::multilingual('sitemap-portfolio.xml', [SitemapController::class, 'portfolio'])->name('sitemap-portfolio');
 
 // laravel not found route
-Route::fallback(function () {
-    return redirect(localized_route('home-page'));
-});
+//Route::fallback(function () {
+//    return redirect(localized_route('home-page'));
+//});

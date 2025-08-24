@@ -60,7 +60,7 @@
             <!-- Divider -->
             <div class="mt-6">
                 <div class="relative">
-                    <div class="absolute inset-0 flex items-center">
+                    <div class="absolute top-0 right-0 bottom-0 left-0 flex items-center">
                         <div class="w-full border-t border-gray-300 dark:border-gray-600"></div>
                     </div>
                     <div class="relative flex justify-center text-sm">

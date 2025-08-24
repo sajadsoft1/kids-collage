@@ -1,77 +1,119 @@
-<footer class="!bg-[#ffffff] ">
-    <div class="container py-16 xl:!py-20 lg:!py-20 md:!py-20">
-        <div class="flex flex-wrap mx-[-15px] !mt-[-30px] xl:!mt-0 lg:!mt-0">
-            <div class="md:w-4/12 xl:w-3/12 lg:w-3/12 w-full flex-[0_0_auto] !px-[15px] max-w-full xl:!mt-0 lg:!mt-0 !mt-[30px]">
-                <div class="widget">
-                    <img class="!mb-4" src="/assets/img/logo-dark.png" srcset="/assets/img/logo-dark@2x.png 2x" alt="image">
-                    <p class="!mb-4">© 2024 Sandbox. <br class="hidden xl:block lg:block">All rights reserved.</p>
-                    <nav class="nav social">
-                        <a class="!text-[1rem] transition-all duration-[0.2s] ease-in-out translate-y-0 motion-reduce:transition-none hover:translate-y-[-0.15rem] m-[0_.7rem_0_0]" href="#"><i class="uil uil-twitter before:content-['\ed59'] !text-[#5daed5] text-[1rem]"></i></a>
-                        <a class="!text-[1rem] transition-all duration-[0.2s] ease-in-out translate-y-0 motion-reduce:transition-none hover:translate-y-[-0.15rem] m-[0_.7rem_0_0]" href="#"><i class="uil uil-facebook-f before:content-['\eae2'] !text-[#4470cf] text-[1rem]"></i></a>
-                        <a class="!text-[1rem] transition-all duration-[0.2s] ease-in-out translate-y-0 motion-reduce:transition-none hover:translate-y-[-0.15rem] m-[0_.7rem_0_0]" href="#"><i class="uil uil-dribbble before:content-['\eaa2'] !text-[#e94d88] text-[1rem]"></i></a>
-                        <a class="!text-[1rem] transition-all duration-[0.2s] ease-in-out translate-y-0 motion-reduce:transition-none hover:translate-y-[-0.15rem] m-[0_.7rem_0_0]" href="#"><i class="uil uil-instagram before:content-['\eb9c'] !text-[#d53581] text-[1rem]"></i></a>
-                        <a class="!text-[1rem] transition-all duration-[0.2s] ease-in-out translate-y-0 motion-reduce:transition-none hover:translate-y-[-0.15rem] m-[0_.7rem_0_0]" href="#"><i class="uil uil-youtube before:content-['\edb5'] !text-[#c8312b] text-[1rem]"></i></a>
-                    </nav>
-                    <!-- /.social -->
-                </div>
-                <!-- /.widget -->
+<footer
+    class="bg-edblue relative z-[1] before:absolute before:left-0 before:right-0 before:top-0 before:bottom-0 before:-z-[1] before:bg-[url({{ asset('assets/web/img/footer-bg.jpg') }})] before:opacity-[7%] before:bg-no-repeat before:bg-cover before:bg-center text-white">
+    <div class="mx-[19.71%] xxxl:mx-[14.71%] xxl:mx-[9.71%] xl:mx-[5.71%] md:mx-[12px]">
+        <!-- footer top -->
+        <div class="flex flex-wrap justify-between gap-[35px] pt-[100px] pb-[58px] border-b border-white/20">
+            <!-- footer about -->
+            <div class="max-w-[370px] xxs:max-w-full">
+                <a href="index.html" class="inline-block mb-[23px]"><img src="/100_100.png" alt="logo"></a>
+                <p class="text-[#D9D9D9] mb-[19px]">Nullam interdum libero vitae pretium aliquam donec nibh purus laoreet
+                    in ullamcorper vel malesuada sit amet enim.</p>
+
+                <ul class="space-y-[17px]">
+                    <li class="flex items-center gap-[8px]">
+                        <span class="icon"><img src="/assets/web/img/call-icon-yellow.svg" alt="icon"></span>
+                        <a href="tel:+6108-666-0112" class="hover:text-edyellow">+6108-666-0112</a>
+                    </li>
+
+                    <li class="flex items-center gap-[8px]">
+                        <span class="icon"><img src="/assets/web/img/message-yellow.svg" alt="icon"></span>
+                        <a href="mailto:info@gmail.com" class="hover:text-edyellow">info@gmail.com</a>
+                    </li>
+                </ul>
             </div>
-            <!-- /column -->
-            <div class="md:w-4/12 xl:w-3/12 lg:w-3/12 w-full flex-[0_0_auto] !px-[15px] max-w-full xl:!mt-0 lg:!mt-0 !mt-[30px]">
-                <div class="widget">
-                    <h4 class="widget-title !mb-3">Get in Touch</h4>
-                    <address class="xl:!pr-20 xxl:!pr-28 not-italic !leading-[inherit] block !mb-4">Moonshine St. 14/05 Light City, London, United Kingdom</address>
-                    <a class="!text-[#60697b] hover:!text-[#60697b]" href="mailto:first.last@email.com">info@email.com</a><br> 00 (123) 456 78 90
+
+            <!-- footer widget -->
+            <div>
+                <h6
+                    class="font-semibold text-[18px] pb-[15px] mb-[30px] relative before:absolute before:bottom-0 before:left-0 before:h-[1.5px] before:w-[20px] before:bg-edyellow after:absolute after:bottom-0 after:left-[30px] after:h-[1.5px] after:w-[63px] after:bg-white">
+                    Quick Links</h6>
+
+                <div class="space-y-[18px]">
+                    <a href="#" class="flex items-center gap-[10px] opacity-80 hover:text-edyellow"><span
+                            class="icon"><img src="/assets/web/img/double-arrow.svg" alt="icon"></span> Edutics
+                        About</a>
+                    <a href="#" class="flex items-center gap-[10px] opacity-80 hover:text-edyellow"><span
+                            class="icon"><img src="/assets/web/img/double-arrow.svg" alt="icon"></span> Contact
+                        Us</a>
+                    <a href="#" class="flex items-center gap-[10px] opacity-80 hover:text-edyellow"><span
+                            class="icon"><img src="/assets/web/img/double-arrow.svg" alt="icon"></span> Blog &
+                        News</a>
+                    <a href="#" class="flex items-center gap-[10px] opacity-80 hover:text-edyellow"><span
+                            class="icon"><img src="/assets/web/img/double-arrow.svg" alt="icon"></span> FAQ’S</a>
+                    <a href="#" class="flex items-center gap-[10px] opacity-80 hover:text-edyellow"><span
+                            class="icon"><img src="/assets/web/img/double-arrow.svg" alt="icon"></span> Login /
+                        Register</a>
                 </div>
-                <!-- /.widget -->
             </div>
-            <!-- /column -->
-            <div class="md:w-4/12 xl:w-3/12 lg:w-3/12 w-full flex-[0_0_auto] !px-[15px] max-w-full xl:!mt-0 lg:!mt-0 !mt-[30px]">
-                <div class="widget">
-                    <h4 class="widget-title !mb-3">Learn More</h4>
-                    <ul class="pl-0 list-none !mb-0">
-                        <li><a class="!text-[#60697b] hover:!text-[#f78b77]" href="#">About Us</a></li>
-                        <li class="!mt-[0.35rem]"><a class="!text-[#60697b] hover:!text-[#f78b77]" href="#">Our Story</a></li>
-                        <li class="!mt-[0.35rem]"><a class="!text-[#60697b] hover:!text-[#f78b77]" href="#">Projects</a></li>
-                        <li class="!mt-[0.35rem]"><a class="!text-[#60697b] hover:!text-[#f78b77]" href="#">Terms of Use</a></li>
-                        <li class="!mt-[0.35rem]"><a class="!text-[#60697b] hover:!text-[#f78b77]" href="#">Privacy Policy</a></li>
-                    </ul>
+
+            <!-- footer widget -->
+            <div>
+                <h6
+                    class="font-semibold text-[18px] pb-[15px] mb-[30px] relative before:absolute before:bottom-0 before:left-0 before:h-[1.5px] before:w-[20px] before:bg-edyellow after:absolute after:bottom-0 after:left-[30px] after:h-[1.5px] after:w-[63px] after:bg-white">
+                    Main Navigation</h6>
+
+                <div class="space-y-[18px]">
+                    <a href="#" class="flex items-center gap-[10px] opacity-80 hover:text-edyellow"><span
+                            class="icon"><img src="/assets/web/img/double-arrow.svg" alt="icon"></span>
+                        Admission</a>
+                    <a href="#" class="flex items-center gap-[10px] opacity-80 hover:text-edyellow"><span
+                            class="icon"><img src="/assets/web/img/double-arrow.svg" alt="icon"></span>
+                        Research</a>
+                    <a href="#" class="flex items-center gap-[10px] opacity-80 hover:text-edyellow"><span
+                            class="icon"><img src="/assets/web/img/double-arrow.svg" alt="icon"></span>
+                        Academics</a>
+                    <a href="#" class="flex items-center gap-[10px] opacity-80 hover:text-edyellow"><span
+                            class="icon"><img src="/assets/web/img/double-arrow.svg" alt="icon"></span> Student
+                        Life</a>
+                    <a href="#" class="flex items-center gap-[10px] opacity-80 hover:text-edyellow"><span
+                            class="icon"><img src="/assets/web/img/double-arrow.svg" alt="icon"></span>
+                        Conferences</a>
                 </div>
-                <!-- /.widget -->
             </div>
-            <!-- /column -->
-            <div class="md:w-full xl:w-3/12 lg:w-3/12 w-full flex-[0_0_auto] !px-[15px] max-w-full xl:!mt-0 lg:!mt-0 !mt-[30px]">
-                <div class="widget">
-                    <h4 class="widget-title !mb-3">Our Newsletter</h4>
-                    <p class="!mb-5">Subscribe to our newsletter to get our news & deals delivered to you.</p>
-                    <div class="newsletter-wrapper">
-                        <!-- Begin Mailchimp Signup Form -->
-                        <div id="mc_embed_signup2">
-                            <form action="https://elemisfreebies.us20.list-manage.com/subscribe/post?u=aa4947f70a475ce162057838d&amp;id=b49ef47a9a" method="post" id="mc-embedded-subscribe-form2" name="mc-embedded-subscribe-form" class="validate dark-fields" target="_blank" novalidate>
-                                <div id="mc_embed_signup_scroll2">
-                                    <div class="!text-start input-group form-floating !relative flex flex-wrap items-stretch w-full">
-                                        <input type="email" value="" name="EMAIL" class="required form-control  relative block w-full text-[.75rem] font-medium !text-[#60697b] bg-[#fefefe] bg-clip-padding border shadow-[0_0_1.25rem_rgba(30,34,40,0.04)] rounded-[0.4rem] border-solid border-[rgba(8,60,130,0.07)] transition-[border-color] duration-[0.15s] ease-in-out     focus:shadow-[0_0_1.25rem_rgba(30,34,40,0.04),unset]   focus-visible:!border-[rgba(63,120,224,0.5)]   placeholder:!text-[#959ca9] placeholder:opacity-100 m-0 !pr-9 p-[.6rem_1rem] h-[calc(2.5rem_+_2px)] min-h-[calc(2.5rem_+_2px)] !leading-[1.25]" placeholder="" id="mce-EMAIL2">
-                                        <label class="!ms-[0.05rem] !text-[#959ca9] text-[.75rem] absolute z-[2] h-full overflow-hidden text-start text-ellipsis whitespace-nowrap pointer-events-none origin-[0_0] px-4 py-[0.6rem] left-0 top-0" for="mce-EMAIL2">Email Address</label>
-                                        <input type="submit" value="Join" name="subscribe" id="mc-embedded-subscribe2" class="btn btn-orange !text-white !bg-[#f78b77] border-[#f78b77] hover:text-white hover:bg-[#f78b77] hover:!border-[#f78b77] active:text-white active:bg-[#f78b77] active:border-[#f78b77] disabled:text-white disabled:bg-[#f78b77] disabled:border-[#f78b77] !relative z-[2] focus:z-[5] hover:!transform-none hover:!translate-none border-0">
-                                    </div>
-                                    <div id="mce-responses2" class="clear">
-                                        <div class="response" id="mce-error-response2" style="display:none"></div>
-                                        <div class="response" id="mce-success-response2" style="display:none"></div>
-                                    </div> <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-                                    <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_ddc180777a163e0f9f66ee014_4b1bcfa0bc" tabindex="-1" value=""></div>
-                                    <div class="clear"></div>
-                                </div>
-                            </form>
-                        </div>
-                        <!--End mc_embed_signup-->
+
+            <!-- footer widget -->
+            <div class="max-w-[300px]">
+                <h6
+                    class="font-semibold text-[18px] pb-[15px] mb-[30px] relative before:absolute before:bottom-0 before:left-0 before:h-[1.5px] before:w-[20px] before:bg-edyellow after:absolute after:bottom-0 after:left-[30px] after:h-[1.5px] after:w-[63px] after:bg-white">
+                    Newsletter</h6>
+
+                <div>
+                    <p class="text-[#d9d9d9]/80 mb-[21px]">Sign up to seargin weekly newsletter to get the latest
+                        updates.</p>
+
+                    <!-- newsltr form -->
+                    <form class="border border-white/20 rounded-full flex h-[56px] p-[4px]">
+                        <input type="email" name="email" placeholder="Enter Email Address"
+                            class="text-[14px] bg-transparent w-full rounded-full focus:outline-none px-[20px]">
+                        <button
+                            class="bg-edyellow rounded-full aspect-square flex items-center justify-center hover:bg-edpurple"><img
+                                src="/assets/web/img/icon/submit-icon.svg" alt="icon"></button>
+                    </form>
+
+                    <!-- social links -->
+                    <div class="flex gap-[20px] mt-[30px]">
+                        <span
+                            class="pl-[30px] font-medium text-[#d9d9d9] relative before:absolute before:left-0 before:top-[50%] before:-translate-y-[50%] before:h-[1px] before:w-[20px] before:bg-[#d9d9d9]">Follow
+                            on</span>
+                        <span class="inline-flex gap-[16px] text-[#d9d9d9]">
+                            <a href="#" class="hover:text-edyellow"><i class="fa-brands fa-facebook-f"></i></a>
+                            <a href="#" class="hover:text-edyellow"><i class="fa-brands fa-x-twitter"></i></a>
+                            <a href="#" class="hover:text-edyellow"><i class="fa-brands fa-linkedin-in"></i></a>
+                            <a href="#" class="hover:text-edyellow"><i class="fa-brands fa-youtube"></i></a>
+                        </span>
                     </div>
-                    <!-- /.newsletter-wrapper -->
                 </div>
-                <!-- /.widget -->
             </div>
-            <!-- /column -->
         </div>
-        <!--/.row -->
+
+        <!-- footer bottom -->
+        <div class="flex flex-wrap items-center justify-between gap-[15px] pt-[20px] pb-[50px] text-[#d9d9d9]">
+            <p>&copy; All Copyright 2024 by Edutics</p>
+
+            <div class="flex flex-wrap gap-[40px] xxs:gap-[15px]">
+                <a href="#" class="hover:text-edyellow">Terms & Conditions</a>
+                <a href="#" class="hover:text-edyellow">Privacy Policy</a>
+            </div>
+        </div>
     </div>
-    <!-- /.container -->
 </footer>

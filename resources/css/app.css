@@ -20,6 +20,10 @@
 }
 /*@source inline('{sm:,md:,lg:,xl:,}w-{1,2,3,4,5,6,7,8,9,10,11,12}/12');*/
 
+/* Safelist for lg:ms pattern */
+@source inline('lg:ms-{0,1,2,3,4,5,6,7,8,9,10,11,12,14,16,20,24,28,32,36,40,44,48,52,56,60,64,72,80,96,auto}');
+@source inline('lg:ps-{0,1,2,3,4,5,6,7,8,9,10,11,12,14,16,20,24,28,32,36,40,44,48,52,56,60,64,72,80,96,auto}');
+
 /**
     The lines above are intact.
     The lines below were added by maryUI installer.
@@ -104,9 +108,12 @@
 
 /* Custom theme variables */
 :root {
-    --color-base-100: #ffffff; /* Light gray */
-    --color-base-200: #f0f2f5; /* Slightly darker gray */
-    --color-base-300: #f2f4f6; /* Even darker gray */
+    /* --color-base-100: #F1F7FF;
+    --color-base-200: #F1F7F9;
+    --color-base-300: #F1F7B5;
+    --color-primary: #FD8A8A;
+    --color-secondary: #A8D1D1;
+    --color-accent: #9EA1D4; */
 }
 
 /* Dark theme variables */

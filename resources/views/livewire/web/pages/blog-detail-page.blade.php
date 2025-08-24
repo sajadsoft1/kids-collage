@@ -37,7 +37,8 @@
                                                         <a href="/assets/img/photos/b8-full.jpg"
                                                             data-glightbox="title: Heading; description: Purus Vulputate Sem Tellus Quam"
                                                             data-gallery="post"> <img src="/assets/img/photos/b8.jpg"
-                                                                alt="image"></a></figure>
+                                                                alt="image"></a>
+                                                    </figure>
                                                 </div>
                                                 <!--/column -->
                                                 <div
@@ -46,7 +47,8 @@
                                                         class="overflow-hidden translate-y-0 group rounded cursor-dark">
                                                         <a href="/assets/img/photos/b9-full.jpg" data-glightbox
                                                             data-gallery="post"> <img src="/assets/img/photos/b9.jpg"
-                                                                alt="image"></a></figure>
+                                                                alt="image"></a>
+                                                    </figure>
                                                 </div>
                                                 <!--/column -->
                                                 <div
@@ -55,7 +57,8 @@
                                                         class="overflow-hidden translate-y-0 group rounded cursor-dark">
                                                         <a href="/assets/img/photos/b10-full.jpg" data-glightbox
                                                             data-gallery="post"> <img src="/assets/img/photos/b10.jpg"
-                                                                alt="image"></a></figure>
+                                                                alt="image"></a>
+                                                    </figure>
                                                 </div>
                                                 <!--/column -->
                                                 <div
@@ -64,7 +67,8 @@
                                                         class="overflow-hidden translate-y-0 group rounded cursor-dark">
                                                         <a href="/assets/img/photos/b11-full.jpg" data-glightbox
                                                             data-gallery="post"> <img src="/assets/img/photos/b11.jpg"
-                                                                alt="image"></a></figure>
+                                                                alt="image"></a>
+                                                    </figure>
                                                 </div>
                                                 <!--/column -->
                                             </div>
@@ -107,10 +111,9 @@
                                             class="post-footer xl:!flex xl:!flex-row xl:!justify-between lg:!flex lg:!flex-row lg:!justify-between md:!flex md:!flex-row md:!justify-between !items-center !mt-8">
                                             <div>
                                                 <ul class="pl-0 list-none tag-list  !mb-0">
-                                                    @foreach(range(1,3) as $value)
+                                                    @foreach (range(1, 3) as $value)
                                                         <li class="!mt-0 !mb-[0.45rem] !me-[0.2rem] inline-block">
-                                                            <a
-                                                                href="#"
+                                                            <a href="#"
                                                                 class="btn btn-soft-ash btn-sm !rounded-[50rem] flex items-center hover:translate-y-[-0.15rem] hover:shadow-[0_0.25rem_0.75rem_rgba(30,34,40,.05)] before:not-italic before:content-['#'] before:font-normal before:!pr-[0.2rem]">Still
                                                                 Life
                                                             </a>
@@ -128,11 +131,11 @@
                                 <div class="author-info xl:!flex lg:!flex md:!flex items-center !mb-3">
                                     <div class="flex items-center">
                                         <figure class="w-12 h-12 !relative !me-4 rounded-[100%]"><img
-                                                class="rounded-[50%]" alt="image"
-                                                src="/assets/img/avatars/u5.jpg"></figure>
+                                                class="rounded-[50%]" alt="image" src="/assets/img/avatars/u5.jpg">
+                                        </figure>
                                         <div>
-                                            <h6><a href="#"
-                                                    class="!text-[#343f52] hover:!text-[#3f78e0]">Nikolas Brooten</a>
+                                            <h6><a href="#" class="!text-[#343f52] hover:!text-[#3f78e0]">Nikolas
+                                                    Brooten</a>
                                             </h6>
                                             <span class="!text-[0.75rem] !text-[#aab0bc] m-0 p-0 list-none">Sales
                                                 Manager</span>
@@ -175,17 +178,17 @@
                                     data-dots="true" data-items-md="2" data-items-xs="1">
                                     <div class="swiper">
                                         <div class="swiper-wrapper">
-                                            @foreach(range(1,3) as $value)
+                                            @foreach (range(1, 3) as $value)
                                                 <div class="swiper-slide">
                                                     <article>
-                                                        <figure class="overlay overlay-1 hover-scale group rounded !mb-5">
+                                                        <figure
+                                                            class="overlay overlay-1 hover-scale group rounded !mb-5">
                                                             <a href="#">
-                                                                <img
-                                                                    class="!transition-all !duration-[0.35s] !ease-in-out group-hover:scale-105"
+                                                                <img class="!transition-all !duration-[0.35s] !ease-in-out group-hover:scale-105"
                                                                     src="/assets/img/photos/b4.jpg" alt="image">
                                                             </a>
                                                             <figcaption
-                                                                class="group-hover:opacity-100 absolute w-full h-full opacity-0 text-center px-4 py-3 inset-0 z-[5] pointer-events-none p-2">
+                                                                class="group-hover:opacity-100 absolute w-full h-full opacity-0 text-center px-4 py-3 top-0 right-0 bottom-0 left-0 z-[5] pointer-events-none p-2">
                                                                 <h5
                                                                     class="from-top  !mb-0 absolute w-full translate-y-[-80%] p-[.75rem_1rem] left-0 top-2/4">
                                                                     {{ trans('web/blog.content.similar.similar_btn') }}
@@ -201,7 +204,8 @@
                                                             <!-- /.post-category -->
                                                             <h2 class="post-title h3 !mt-1 !mb-3"><a
                                                                     class="!text-[#343f52] hover:!text-[#3f78e0]"
-                                                                    href="./blog-post.html">Ligula tristique quis risus</a>
+                                                                    href="./blog-post.html">Ligula tristique quis
+                                                                    risus</a>
                                                             </h2>
                                                         </div>
                                                         <!-- /.post-header -->
@@ -310,7 +314,8 @@
                                                         <div class="flex items-center">
                                                             <figure class="w-12 h-12 !relative !me-4 rounded-[100%]">
                                                                 <img class="rounded-[50%]" alt="image"
-                                                                    src="/assets/img/avatars/u3.jpg"></figure>
+                                                                    src="/assets/img/avatars/u3.jpg">
+                                                            </figure>
                                                             <div>
                                                                 <h6 class=" m-0 !mb-[0.2rem]"><a href="#"
                                                                         class="!text-[#343f52] hover:!text-[#3f78e0]">Pearce
@@ -347,7 +352,8 @@
                                                                     <figure
                                                                         class="w-12 h-12 !relative !me-4 rounded-[100%]">
                                                                         <img class="rounded-[50%]" alt="image"
-                                                                            src="/assets/img/avatars/u2.jpg"></figure>
+                                                                            src="/assets/img/avatars/u2.jpg">
+                                                                    </figure>
                                                                     <div>
                                                                         <h6 class=" m-0 !mb-[0.2rem]"><a
                                                                                 href="#"
@@ -447,11 +453,10 @@
                             class="search-form relative before:content-['\eca5'] before:block before:absolute before:-translate-y-2/4 before:text-[0.9rem] before:!text-[#959ca9] before:z-[9] before:right-3 before:top-2/4 font-Unicons">
                             <div class="form-floating relative !mb-0">
                                 <input id="search-form" type="text"
-                                       class="form-control relative block w-full text-[.75rem] font-medium !text-[#60697b] bg-[#fefefe] bg-clip-padding border shadow-[0_0_1.25rem_rgba(30,34,40,0.04)] rounded-[0.4rem] border-solid border-[rgba(8,60,130,0.07)] transition-[border-color] duration-[0.15s] ease-in-out     focus:shadow-[0_0_1.25rem_rgba(30,34,40,0.04),unset]   focus-visible:!border-[rgba(63,120,224,0.5)]   placeholder:!text-[#959ca9] placeholder:opacity-100 m-0 !pr-9 p-[.6rem_1rem] h-[calc(2.5rem_+_2px)] min-h-[calc(2.5rem_+_2px)] !leading-[1.25]"
-                                       placeholder="">
+                                    class="form-control relative block w-full text-[.75rem] font-medium !text-[#60697b] bg-[#fefefe] bg-clip-padding border shadow-[0_0_1.25rem_rgba(30,34,40,0.04)] rounded-[0.4rem] border-solid border-[rgba(8,60,130,0.07)] transition-[border-color] duration-[0.15s] ease-in-out     focus:shadow-[0_0_1.25rem_rgba(30,34,40,0.04),unset]   focus-visible:!border-[rgba(63,120,224,0.5)]   placeholder:!text-[#959ca9] placeholder:opacity-100 m-0 !pr-9 p-[.6rem_1rem] h-[calc(2.5rem_+_2px)] min-h-[calc(2.5rem_+_2px)] !leading-[1.25]"
+                                    placeholder="">
                                 <label for="search-form"
-                                       class="inline-block !text-[#959ca9] text-[.75rem] absolute z-[2] h-full overflow-hidden text-start text-ellipsis whitespace-nowrap pointer-events-none border origin-[0_0] px-4 py-[0.6rem] border-solid border-transparent left-0 top-0 font-Manrope"
-                                >
+                                    class="inline-block !text-[#959ca9] text-[.75rem] absolute z-[2] h-full overflow-hidden text-start text-ellipsis whitespace-nowrap pointer-events-none border origin-[0_0] px-4 py-[0.6rem] border-solid border-transparent left-0 top-0 font-Manrope">
                                     {{ trans('web/blog.sidebar.search') }}
                                 </label>
                             </div>
@@ -460,16 +465,18 @@
                     <div class="widget !mt-[40px]">
                         <h4 class="widget-title !mb-3">{{ trans('web/blog.sidebar.popular') }}</h4>
                         <ul class="m-0 p-0 after:content-[''] after:block after:h-0 after:clear-both after:invisible">
-                            @foreach (range(1,3) as $value)
+                            @foreach (range(1, 3) as $value)
                                 <li class=" clear-both block overflow-hidden">
                                     <figure class="!rounded-[.4rem] float-left w-14 !h-[4.5rem]">
                                         <a href="./blog-post.html">
-                                            <img class="!rounded-[.4rem]" src="/assets/img/photos/a1.jpg" alt="image">
+                                            <img class="!rounded-[.4rem]" src="/assets/img/photos/a1.jpg"
+                                                alt="image">
                                         </a>
                                     </figure>
                                     <div class="!relative !ms-[4.25rem] !mb-0">
                                         <h6 class="!mb-2">
-                                            <a class="!text-[#343f52] hover:!text-[#3f78e0]" href="./blog-post.html">Magna Mollis Ultricies</a>
+                                            <a class="!text-[#343f52] hover:!text-[#3f78e0]"
+                                                href="./blog-post.html">Magna Mollis Ultricies</a>
                                         </h6>
                                         <ul class="!text-[0.7rem] !text-[#aab0bc] m-0 p-0 list-none">
                                             <li class="post-date inline-block"><i
@@ -478,7 +485,7 @@
                                             <li
                                                 class="post-comments inline-block before:content-[''] before:inline-block before:w-[0.2rem] before:h-[0.2rem] before:opacity-50 before:m-[0_.6rem_0] before:rounded-[100%] before:align-[.15rem] before:bg-[#aab0bc]">
                                                 <a class="!text-[#aab0bc] hover:!text-[#3f78e0] hover:!border-[#3f78e0]"
-                                                   href="#"><i
+                                                    href="#"><i
                                                         class="uil uil-comment pr-[0.2rem] align-[-.05rem] before:content-['\ea54']"></i>3</a>
                                             </li>
                                         </ul>
@@ -492,8 +499,9 @@
                     <div class="widget !mt-[40px]">
                         <h4 class="widget-title !mb-3">{{ trans('web/blog.sidebar.categories') }}</h4>
                         <ul class="pl-0 list-none bullet-primary !text-inherit">
-                            @foreach (range(1,3) as $value)
-                                <li class="relative !pl-[1rem] before:absolute  before:top-[-0.15rem] before:text-[1rem] before:content-['\2022'] before:left-0 before:font-SansSerif">
+                            @foreach (range(1, 3) as $value)
+                                <li
+                                    class="relative !pl-[1rem] before:absolute  before:top-[-0.15rem] before:text-[1rem] before:content-['\2022'] before:left-0 before:font-SansSerif">
                                     <a class="!text-[#60697b] hover:!text-[#3f78e0]" href="#">Teamwork (21)</a>
                                 </li>
                             @endforeach
@@ -503,10 +511,10 @@
                     <div class="widget !mt-[40px]">
                         <h4 class="widget-title !mb-3">{{ trans('web/blog.sidebar.tags') }}</h4>
                         <ul class="pl-0 list-none tag-list">
-                            @foreach (range(1,3) as $value)
+                            @foreach (range(1, 3) as $value)
                                 <li class="!mt-0 !mb-[0.45rem] !me-[0.2rem] inline-block">
                                     <a href="#"
-                                       class="btn btn-soft-ash btn-sm !rounded-[50rem] flex items-center hover:translate-y-[-0.15rem] hover:shadow-[0_0.25rem_0.75rem_rgba(30,34,40,.05)] before:not-italic before:content-['#'] before:font-normal before:!pr-[0.2rem]">Still
+                                        class="btn btn-soft-ash btn-sm !rounded-[50rem] flex items-center hover:translate-y-[-0.15rem] hover:shadow-[0_0.25rem_0.75rem_rgba(30,34,40,.05)] before:not-italic before:content-['#'] before:font-normal before:!pr-[0.2rem]">Still
                                         Life
                                     </a>
                                 </li>

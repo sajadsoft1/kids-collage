@@ -11,8 +11,8 @@
 </head>
 
 <body class="h-full">
-    <div class="absolute inset-y-0 right-0 -z-10 w-full overflow-hidden bg-[#3b82f6]/10 ring-2 ring-[#3b82f6]/20">
-        <svg class="absolute inset-0 h-full w-full stroke-[#3b82f6]/40 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
+    <div class="absolute top-0 right-0 bottom-0 -z-10 w-full overflow-hidden bg-[#3b82f6]/10 ring-2 ring-[#3b82f6]/20">
+        <svg class="absolute top-0 right-0 bottom-0 left-0 h-full w-full stroke-[#3b82f6]/40 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
             aria-hidden="true">
             <defs>
                 <pattern id="83fd4e5a-9d52-42fc-97b6-718e5d7ee527" width="200" height="200" x="100%" y="-1"
