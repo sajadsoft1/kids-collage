@@ -6,6 +6,8 @@ namespace Database\Seeders;
 
 use App\Actions\Teammate\StoreTeammateAction;
 use Illuminate\Database\Seeder;
+use Exception;
+
 
 class TeammateSeeder extends Seeder
 {

@@ -6,6 +6,8 @@ namespace Database\Seeders;
 
 use App\Actions\Client\StoreClientAction;
 use Illuminate\Database\Seeder;
+use Exception;
+
 
 class ClientSeeder extends Seeder
 {

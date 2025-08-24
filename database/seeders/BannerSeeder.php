@@ -6,6 +6,8 @@ namespace Database\Seeders;
 
 use App\Actions\Banner\StoreBannerAction;
 use Illuminate\Database\Seeder;
+use Exception;
+
 
 class BannerSeeder extends Seeder
 {

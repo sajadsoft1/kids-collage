@@ -24,6 +24,7 @@ class FakeSeeder extends Seeder
             ContactUsSeeder::class,
             OpinionSeeder::class,
             SocialMediaSeeder::class,
+            SliderSeeder::class
         ]);
     }
 }
