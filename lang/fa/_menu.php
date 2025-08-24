@@ -16,6 +16,7 @@ return [
     'base_management'         => 'اطلاعات پایه',
     'category_management'     => 'دسته بندی ها',
     'blog_management'         => 'مقالات',
+    'news_management'         => 'اخبار',
     'service_management'      => 'سرویس ها',
     'tag_management'          => 'تگ ها',
     'ticket_management'       => 'تیکت ها',

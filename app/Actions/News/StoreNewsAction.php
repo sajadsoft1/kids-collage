@@ -1,11 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
-namespace App\Actions\Blog;
+namespace App\Actions\News;
 
 use App\Actions\Translation\SyncTranslationAction;
-use App\Models\Blog;
+use App\Models\News;
 use App\Services\File\FileService;
 use App\Services\SeoOption\SeoOptionService;
 use Illuminate\Support\Arr;
@@ -13,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Lorisleiva\Actions\Concerns\AsAction;
 use Throwable;
 
-class StoreBlogAction
+class StoreNewsAction
 {
     use AsAction;
 
@@ -25,36 +23,46 @@ class StoreBlogAction
 
     /**
      * @param array{
-     *     title:string,
-     *     description:string,
-     *     body:string,
-     *     published:boolean,
-     *     published_at:string,
-     *     category_id:int,
-     *     slug:string,
-     *     seo_title:string,
-     *     seo_description:string,
-     *     canonical?:string,
-     *     old_url?:string,
-     *     redirect_to?:string,
-     *     robots_meta:string,
-     *     tags:array<string>,
-     *     image:string
+     * title:string,
+     * description:string,
+     * body:string,
+     * published:boolean,
+     * published_at:string,
+     * category_id:int,
+     * slug:string,
+     * seo_title:string,
+     * seo_description:string,
+     * canonical?:string,
+     * old_url?:string,
+     * redirect_to?:string,
+     * robots_meta:string,
+     * tags:array<string>,
+     * image:string
      * } $payload
+     * @return News
      * @throws Throwable
      */
-    public function handle(array $payload): Blog
+    public function handle(array $payload): News
     {
         return DB::transaction(function () use ($payload) {
             $payload['user_id'] = $payload['user_id']??auth()->user()->id;
-            $model              = Blog::create(Arr::only($payload, ['slug', 'published', 'published_at', 'category_id', 'user_id']));
-            $this->syncTranslationAction->handle($model, Arr::only($payload, ['title', 'description', 'body']));
+            $model =  News::create(Arr::only($payload, [
+                'slug',
+                'published',
+                'published_at',
+                'user_id',
+                'category_id',
+                'view_count',
+                'comment_count',
+                'wish_count',
+                'languages',
+            ]));
+            $this->syncTranslationAction->handle($model, Arr::only($payload, ['title', 'description','body']));
             $this->seoOptionService->create($model, Arr::only($payload, ['seo_title', 'seo_description', 'canonical', 'old_url', 'redirect_to', 'robots_meta']));
             $this->fileService->addMedia($model, Arr::get($payload, 'image'));
             if ($tags = Arr::get($payload, 'tags')) {
                 $model->syncTags($tags);
             }
-
             return $model->refresh();
         });
     }

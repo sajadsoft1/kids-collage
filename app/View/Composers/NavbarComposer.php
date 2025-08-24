@@ -11,6 +11,7 @@ use App\Models\Client;
 use App\Models\Comment;
 use App\Models\ContactUs;
 use App\Models\Faq;
+use App\Models\News;
 use App\Models\Opinion;
 use App\Models\Page;
 use App\Models\PortFolio;
@@ -68,6 +69,14 @@ class NavbarComposer
                         'title'      => trans('_menu.blog_management'),
                         'route_name' => 'admin.blog.index',
                         'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Blog::class, 'Index')),
+                    ],
+                    [
+                        'icon'       => 's-newspaper',
+                        'params'     => [],
+                        'exact'      => true,
+                        'title'      => trans('_menu.news_management'),
+                        'route_name' => 'admin.news.index',
+                        'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(News::class, 'Index')),
                     ],
                     [
                         'icon'       => 'lucide.gallery-horizontal-end',

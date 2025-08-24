@@ -30,7 +30,7 @@ class BotCommand extends Command
     protected $description = 'Generate all base components for an entity (Model, Actions, Policy, Livewire, Routes, etc.)';
 
     /** Execute the console command. */
-    public function handle(): int
+    public function handle(): void
     {
         $model = $this->argument('model');
         $model = Str::studly($model);
