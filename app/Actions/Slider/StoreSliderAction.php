@@ -43,7 +43,10 @@ class StoreSliderAction
     public function handle(array $payload): Slider
     {
         return DB::transaction(function () use ($payload) {
-            $model = Slider::create($payload);
+            $model = Slider::create(Arr::only($payload, [
+                'published', 'extra_attributes', 'languages', 'ordering', 'published_at', 'expired_at', 'link', 'position',
+                'has_timer', 'timer_start',
+            ]));
             $this->syncTranslationAction->handle($model, Arr::only($payload, ['title', 'description']));
             $this->fileService->addMedia($model, Arr::get($payload, 'image'));
 

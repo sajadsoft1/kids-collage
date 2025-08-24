@@ -1,26 +1,29 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Database\Seeders;
 
-use App\Actions\SocialMedia\StoreSocialMediaAction;
+use App\Actions\Slider\StoreSliderAction;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Exception;
 
 
-class SocialMediaSeeder extends Seeder
+class SliderSeeder extends Seeder
 {
-    /** Run the database seeds. */
+    /**
+     * Run the database seeds.
+     */
     public function run(): void
     {
         $data = require database_path('seeders/data/karno.php');
-        foreach ($data['social_media'] as $row) {
-            $model = StoreSocialMediaAction::run([
+        foreach ($data['slider'] as $row) {
+            $model = StoreSliderAction::run([
                 'title'    => $row['title'],
-                'position' => $row['position'],
-                'link'     => $row['link'],
+                'description' => $row['position'],
+                'published'     => $row['published'],
                 'ordering' => $row['ordering'],
+                'link' => $row['link'],
+                'position' => $row['position'],
             ]);
         }
 
