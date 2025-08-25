@@ -323,13 +323,12 @@
         <div class="mx-[19.71%] xxxl:mx-[14.71%] xxl:mx-[9.71%] xl:mx-[5.71%] md:mx-[12px]">
             <div class="flex md:flex-col gap-[45px] items-center">
                 <div>
-                    <h6 class="ed-section-sub-title">my services</h6>
-                    <h2 class="ed-section-title mb-[19px]">Learn to play, converse with confidence.</h2>
-                    <p class="mb-[31px]">luctus. Curabitur nibh justo imperdiet non ex non tempus faucibus urna Aliquam
-                        at elit vitae dui sagittis maximus eget vitae.</p>
+                    <h6 class="ed-section-sub-title">{{ trans('web/home.services.section') }}</h6>
+                    <h2 class="ed-section-title mb-[19px]">{{ trans('web/home.services.title') }}</h2>
+                    <p class="mb-[31px]">{{ trans('web/home.services.description') }}</p>
 
                     <div class="flex flex-wrap gap-x-[24px] gap-y-[15px]">
-                        <a href="#" class="ed-btn">know more</a>
+                        <a href="{{ trans('web/home.services.action') }}" class="ed-btn">{{ trans('web/home.services.action_text') }}</a>
                         <div class="flex items-center gap-[16px]">
                             <span
                                 class="icon bg-edyellow w-[44px] aspect-square rounded-full outline-[1px] outline outline-edyellow outline-offset-[2px] flex items-center justify-center">
@@ -338,10 +337,11 @@
                             </span>
 
                             <span class="font-semibold txt text-etBlack">
-                                <span class="block text-[16px] font-medium text-edgray mb-[2px] opacity-80">Call Us
-                                    Now</span>
-                                <a href="tel:+208-555-0112"
-                                    class="font-semibold text-[18px] hover:text-edyellow">+208-555-0112</a>
+                                <span class="block text-[16px] font-medium text-edgray mb-[2px] opacity-80">
+                                    {{ trans('web/home.services.call.title') }}
+                                </span>
+                                <a href="tel:{{ trans('web/home.services.call.number') }}"
+                                    class="font-semibold text-[18px] hover:text-edyellow">{{ trans('web/home.services.call.number') }}</a>
                             </span>
                         </div>
                     </div>
