@@ -51,49 +51,21 @@
                 <div class="ed-header-nav-container">
                     <ul
                         class="to-go-to-sidebar-in-mobile ed-header-nav flex lg:flex-col gap-x-[43px] xl:gap-x-[33px] font-kanit text-[17px] font-normal">
-                        <li class="has-sub-menu relative">
-                            <a role="button">Home</a>
-
-                            <ul class="ed-header-submenu">
-                                <li><a href="index.html">Home</a></li>
-                                <li><a href="index-2.html">Home 02</a></li>
-                            </ul>
+                        <li>
+                            <a href="{{ localized_route('home-page') }}">{{ trans('web/general.header.home') }}</a>
                         </li>
-                        <li><a href="about.html">About us</a></li>
-                        <li class="has-sub-menu relative">
-                            <a role="button">Courses</a>
-
-                            <ul class="ed-header-submenu">
-                                <li><a href="course-grid.html">Courses Grid</a></li>
-                                <li><a href="course-filter.html">Courses Filter</a></li>
-                                <li><a href="course-details.html">Course Details</a></li>
-                            </ul>
+                        <li>
+                            <a href="#">{{ trans('web/general.header.news') }}</a>
                         </li>
-                        <li class="has-sub-menu relative">
-                            <a role="button">Pages</a>
-
-                            <ul class="ed-header-submenu">
-                                <li><a href="teachers.html">Teachers</a></li>
-                                <li><a href="teacher-details.html">Teacher Details</a></li>
-                                <li><a href="events.html">Events</a></li>
-                                <li><a href="events-2.html">Events V.2</a></li>
-                                <li><a href="event-details.html">Event Details</a></li>
-                                <li><a href="gallery.html">Gallery</a></li>
-                                <li><a href="faq.html">FAQ</a></li>
-                                <li><a href="coming-soon.html">Coming Soon Page</a></li>
-                                <li><a href="404.html">Error 404</a></li>
-                            </ul>
+                        <li>
+                            <a href="{{ localized_route('blog') }}">{{ trans('web/general.header.blogs') }}</a>
                         </li>
-                        <li class="has-sub-menu relative">
-                            <a role="button">News</a>
-
-                            <ul class="ed-header-submenu">
-                                <li><a href="news-grid.html">News Grid</a></li>
-                                <li><a href="news-list.html">News List</a></li>
-                                <li><a href="news-details.html">News Details</a></li>
-                            </ul>
+                        <li>
+                            <a href="#">{{ trans('web/general.header.about_us') }}</a>
                         </li>
-                        <li><a href="contact.html">Contact us</a></li>
+                        <li><a
+                                href="{{ localized_route('contact-us') }}">{{ trans('web/general.header.contact_us') }}</a>
+                        </li>
                     </ul>
                 </div>
 

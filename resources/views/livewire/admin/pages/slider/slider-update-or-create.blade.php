@@ -6,7 +6,7 @@
     <x-admin.shared.bread-crumbs :breadcrumbs="$breadcrumbs" :breadcrumbs-actions="$breadcrumbsActions" />
     <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
 
-        <div class="col-span-2 grid grid-cols-1 gap-4">
+        <div class="grid grid-cols-1 col-span-2 gap-4">
             <x-card :title="trans('general.page_sections.data')" shadow separator progress-indicator="submit">
                 <div class="grid grid-cols-1 gap-4">
                     <x-input :label="trans('validation.attributes.title')" wire:model="title" required />
@@ -14,7 +14,7 @@
 
                     <x-input :label="trans('validation.attributes.link')" wire:model="link" type="url" />
 
-                    <x-datetime :label="trans('validation.attributes.expired_at')" wire:model="expired_at" />
+                    <x-admin.shared.smart-datetime :label="trans('validation.attributes.expired_at')" wire:model="expired_at" />
 
 
                 </div>
@@ -86,10 +86,10 @@
                     <x-admin.shared.published-config :has-published-at="$this->getHasPublishedAtProperty()" :default-date="$published_at" />
                 </x-card>
                 <x-card :title="trans('setting.model')" shadow separator progress-indicator="submit" class="mt-5">
-                    <div class="grid grid-col-1 gap-4 ">
-                        <x-toggle :label="trans('validation.attributes.has_timer')" wire:model="has_timer" right />
+                    <div class="grid gap-4 grid-col-1 ">
+                        <x-toggle :label="trans('validation.attributes.has_timer')" wire:model.live="has_timer" right value="1" />
                         <div wire:show="has_timer">
-                            <x-datetime :label="trans('validation.attributes.timer_start')" wire:model="timer_start" />
+                            <x-admin.shared.smart-datetime :label="trans('validation.attributes.timer_start')" wire-property-name="timer_start" />
                         </div>
                         <x-input :label="trans('validation.attributes.ordering')" wire:model="ordering" type="number" required />
                     </div>

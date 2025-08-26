@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Livewire\Web\Pages;
 
+use App\Models\Blog;
 use App\Services\SeoBuilder;
 use Livewire\Component;
 
@@ -23,7 +24,12 @@ class BlogPage extends Component
             ])
             ->apply();
 
-        return view('livewire.web.pages.blog-page')
+        return view('livewire.web.pages.blog-page', [
+            'blogs' => Blog::query()
+                ->where('published', 1)
+                ->orderBy('created_at', 'desc')
+                ->paginate(10),
+        ])
             ->layout('components.layouts.web');
     }
 }

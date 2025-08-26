@@ -3,100 +3,120 @@
 declare(strict_types=1);
 
 return [
-    'sliders' => [
-        'btn_show' => 'بریم بیینیم'
+    'sliders'           => [
+        'btn_show' => 'بریم بیینیم',
     ],
-    'features' => [
+    'features'          => [
         [
-            'icon'=> asset('assets/web/img/feature-1.svg'),
-            'title'=>'School Life',
-            'description'=>'Eimply dummy text printing ypese tting industry. Ipsum has been the',
-            'action'=>'#',
-            'action_text'=>'View More',
+            'icon'        => asset('assets/web/img/feature-1.svg'),
+            'title'       => 'زندگی مدرسه‌ای',
+            'description' => 'متن ساده و خلاصه‌ای از صنعت چاپ و نشر. لورم ایپسوم بوده است',
+            'action'      => '#',
+            'action_text' => 'بیشتر ببینید',
         ],
         [
-            'icon'=> asset('assets/web/img/feature-2.svg'),
-            'title'=>'Academics',
-            'description'=>'Eimply dummy text printing ypese tting industry. Ipsum has been the',
-            'action'=>'#',
-            'action_text'=>'View More',
+            'icon'        => asset('assets/web/img/feature-2.svg'),
+            'title'       => 'آموزشی',
+            'description' => 'متن ساده و خلاصه‌ای از صنعت چاپ و نشر. لورم ایپسوم بوده است',
+            'action'      => '#',
+            'action_text' => 'بیشتر ببینید',
         ],
         [
-            'icon'=> asset('assets/web/img/feature-3.svg'),
-            'title'=>'Community',
-            'description'=>'Eimply dummy text printing ypese tting industry. Ipsum has been the',
-            'action'=>'#',
-            'action_text'=>'View More',
+            'icon'        => asset('assets/web/img/feature-3.svg'),
+            'title'       => 'اجتماع',
+            'description' => 'متن ساده و خلاصه‌ای از صنعت چاپ و نشر. لورم ایپسوم بوده است',
+            'action'      => '#',
+            'action_text' => 'بیشتر ببینید',
         ],
-
     ],
-    'about' => [
-        'section'=>'درباره ما',
-        'image'=>asset('assets/web/img/about-img.png'),
-        'title'=>'Welcome to best school for your child',
-        'description'=>'',
-        'items'=>[
+    'about'             => [
+        'section'     => 'درباره ما',
+        'image'       => asset('assets/web/img/about-img.png'),
+        'title'       => 'به بهترین مدرسه برای فرزندتان خوش آمدید',
+        'description' => '',
+        'items'       => [
             [
-                'image'=>asset('assets/web/img/icon/target.svg'),
-                'title'=>'Our Mission',
-                'description'=>'Aliquam erat volutpat nullam imperdiet',
+                'image'       => asset('assets/web/img/icon/target.svg'),
+                'title'       => 'ماموریت ما',
+                'description' => 'آلیکام ارات ولوتپات نولام ایمپردیت',
             ],
             [
-                'image'=>asset('assets/web/img/icon/book-light.svg'),
-                'title'=>'Our Vision',
-                'description'=>'Ut vehiculadictumst maecenas ante.',
+                'image'       => asset('assets/web/img/icon/book-light.svg'),
+                'title'       => 'چشم‌انداز ما',
+                'description' => 'اوت ویکولادیکتومست مایسیناس آنته',
             ],
         ],
-        'user'=>[
-            'image'=>asset('assets/web/img/user.png'),
-            'name'=> 'Ronald Richards',
-            'role'=> 'CTO',
-            'action'=>'#',
-            'action_text'=>'Message Principal',
-        ]
-
-    ],
-    'class'=> [
-        'section'=>'academic classes',
-        'title'=>'Edutics academic classes',
-    ],
-    'admission_process'=>[
-      'section'=>'Admission',
-      'title'=>'Admission Process',
-      'action'=>'#',
-      'action_text'=>'Admission Now',
-    ],
-    'register_form'=> [
-        'form'=>[
-          'section'=>'Form',
-          'title'=>'Admission Form',
-          'image'=>asset('assets/web/img/form-img.png'),
-          'description'=>'Free Download Admission Form',
-          'action'=>'#',
-          'action_text'=>'Download Free',
+        'user'        => [
+            'image'       => asset('assets/web/img/user.png'),
+            'name'        => 'رونالد ریچاردز',
+            'role'        => 'مدیر فنی',
+            'action'      => '#',
+            'action_text' => 'پیام به مدیر',
         ],
-        'notice'=>[
-            'section'=>'Registration',
-            'title'=>'Registration Form',
-        ]
     ],
-    'cta'=>[
-        'section'=>'ARE YOU READY FOR THIS OFFER',
-        'title'=>'50% Offer For Very First 60',
-        'description'=>'Student’s & Mentors',
-        'action'=>'#',
-        'action_text'=>'Become a teacher',
-        'image'=>asset('assets/web/img/cta-img.png'),
+    'class'             => [
+        'section' => 'کلاس‌های آموزشی',
+        'title'   => 'کلاس‌های آموزشی ادوتیکس',
     ],
-    'services'=>[
-        'section'=>'my services',
-        'title'=>'Learn to play, converse with confidence.',
-        'description'=>'luctus. Curabitur nibh justo imperdiet non ex non tempus faucibus urna Aliquam at elit vitae dui sagittis maximus eget vitae.',
-        'action'=>'#',
-        'action_text'=>'Our Services',
-        'call'=>[
-            'title'=>'تماس با ما',
-            'number'=>''
-        ]
-    ]
+    'admission_process' => [
+        'section'     => 'ثبت‌نام',
+        'title'       => 'فرآیند ثبت‌نام',
+        'action'      => '#',
+        'action_text' => 'ثبت‌نام کنید',
+    ],
+    'register_form'     => [
+        'form'   => [
+            'section'     => 'فرم',
+            'title'       => 'فرم ثبت‌نام',
+            'image'       => asset('assets/web/img/form-img.png'),
+            'description' => 'دانلود رایگان فرم ثبت‌نام',
+            'action'      => '#',
+            'action_text' => 'دانلود رایگان',
+        ],
+        'notice' => [
+            'section' => 'ثبت‌نام',
+            'title'   => 'فرم ثبت‌نام',
+        ],
+    ],
+    'cta'               => [
+        'section'     => 'آیا برای این پیشنهاد آماده هستید',
+        'title'       => 'پیشنهاد ۵۰٪ برای ۶۰ نفر اول',
+        'description' => 'دانش‌آموزان و مربیان',
+        'action'      => '#',
+        'action_text' => 'معلم شوید',
+        'image'       => asset('assets/web/img/cta-img.png'),
+    ],
+    'services'          => [
+        'section'     => 'خدمات من',
+        'title'       => 'یاد بگیرید بازی کنید، با اعتماد به نفس صحبت کنید.',
+        'description' => 'لوکتوس. کورابیتور نیب جاستو ایمپردیت نون اکس نون تمپوس فاوکیبوس اورنا آلیکام ات الیت ویتای دوئی ساگیتیس ماکسیموس اگت ویتای.',
+        'action'      => '#',
+        'action_text' => 'خدمات ما',
+        'call'        => [
+            'title'  => 'تماس با ما',
+            'number' => '',
+        ],
+    ],
+    'gallery'           => [
+        'section'     => 'گالری مدرسه ما',
+        'title'       => 'گالری مدرسه ما',
+        'action'      => '#',
+        'action_text' => 'بیشتر ببینید',
+    ],
+    'testimonial'       => [
+        'section' => 'نظرات',
+        'title'   => 'بازخورد دانش‌آموزان',
+    ],
+    'event'             => [
+        'section' => 'رویداد',
+        'title'   => 'رویدادهای آینده',
+    ],
+    'teachers'          => [
+        'section' => 'متخصصان ما',
+        'title'   => 'معلمان متخصص ما',
+    ],
+    'blog'              => [
+        'section' => 'آخرین وبلاگ',
+        'title'   => 'آخرین اخبار ما',
+    ],
 ];

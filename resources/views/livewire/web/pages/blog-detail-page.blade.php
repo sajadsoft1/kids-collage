@@ -1,532 +1,475 @@
-<div>
-    <section class="wrapper !bg-[#fef4f2]">
-        <div class="container py-[4.5rem] xl:!py-24 lg:!py-24 md:!py-24">
-            <div class="flex flex-wrap mx-[-15px] xl:mx-[-35px] lg:mx-[-20px] items-start">
-                <div
-                    class="xl:w-8/12 lg:w-8/12 w-full flex-[0_0_auto] !px-[15px] max-w-full md:!px-[20px] lg:!px-[20px] xl:!px-[35px]">
-                    <div class="blog single">
-                        <div class="card">
-                            <figure class="card-img-top">
-                                <img src="/assets/img/photos/b1.jpg" alt="image">
-                            </figure>
-                            <div
-                                class="card-body flex-[1_1_auto] p-[40px] xl:!p-[2.8rem_3rem_2.8rem] lg:!p-[2.8rem_3rem_2.8rem] md:!p-[2.8rem_3rem_2.8rem]">
-                                <div class="classic-view">
-                                    <article class="post !mb-8">
-                                        <div class="relative !mb-5">
-                                            <h2 class="h1 !mb-4 !leading-[1.3]">Cras mattis consectetur purus fermentum
-                                            </h2>
-                                            <p>Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh,
-                                                ut fermentum massa justo sit amet. Vivamus sagittis lacus vel augue
-                                                laoreet rutrum faucibus dolor auctor. Cras mattis consectetur purus sit
-                                                amet fermentum. Aenean lacinia bibendum nulla sed consectetur. Curabitur
-                                                blandit tempus porttitor. Vivamus sagittis lacus vel augue laoreet
-                                                rutrum faucibus dolor auctor. Nullam quis risus eget porta ac
-                                                consectetur vestibulum.</p>
-                                            <p>Donec sed odio dui consectetur adipiscing elit. Etiam adipiscing
-                                                tincidunt elit, eu convallis felis suscipit ut. Phasellus rhoncus
-                                                tincidunt auctor. Nullam eu sagittis mauris. Donec non dolor ac elit
-                                                aliquam tincidunt at at sapien. Aenean tortor libero, condimentum ac
-                                                laoreet vitae, varius tempor nisi. Duis non arcu vel lectus urna mollis
-                                                ornare vel eu leo.</p>
-                                            <div class="flex flex-wrap mx-[-15px] !mt-3 !mb-10">
-                                                <div
-                                                    class="xl:w-6/12 lg:w-6/12 md:w-6/12 w-full flex-[0_0_auto] !px-[15px] max-w-full !mt-[30px]">
-                                                    <figure
-                                                        class="overflow-hidden translate-y-0 group rounded cursor-dark">
-                                                        <a href="/assets/img/photos/b8-full.jpg"
-                                                            data-glightbox="title: Heading; description: Purus Vulputate Sem Tellus Quam"
-                                                            data-gallery="post"> <img src="/assets/img/photos/b8.jpg"
-                                                                alt="image"></a>
-                                                    </figure>
-                                                </div>
-                                                <!--/column -->
-                                                <div
-                                                    class="xl:w-6/12 lg:w-6/12 md:w-6/12 w-full flex-[0_0_auto] !px-[15px] max-w-full !mt-[30px]">
-                                                    <figure
-                                                        class="overflow-hidden translate-y-0 group rounded cursor-dark">
-                                                        <a href="/assets/img/photos/b9-full.jpg" data-glightbox
-                                                            data-gallery="post"> <img src="/assets/img/photos/b9.jpg"
-                                                                alt="image"></a>
-                                                    </figure>
-                                                </div>
-                                                <!--/column -->
-                                                <div
-                                                    class="xl:w-6/12 lg:w-6/12 md:w-6/12 w-full flex-[0_0_auto] !px-[15px] max-w-full !mt-[30px]">
-                                                    <figure
-                                                        class="overflow-hidden translate-y-0 group rounded cursor-dark">
-                                                        <a href="/assets/img/photos/b10-full.jpg" data-glightbox
-                                                            data-gallery="post"> <img src="/assets/img/photos/b10.jpg"
-                                                                alt="image"></a>
-                                                    </figure>
-                                                </div>
-                                                <!--/column -->
-                                                <div
-                                                    class="xl:w-6/12 lg:w-6/12 md:w-6/12 w-full flex-[0_0_auto] !px-[15px] max-w-full !mt-[30px]">
-                                                    <figure
-                                                        class="overflow-hidden translate-y-0 group rounded cursor-dark">
-                                                        <a href="/assets/img/photos/b11-full.jpg" data-glightbox
-                                                            data-gallery="post"> <img src="/assets/img/photos/b11.jpg"
-                                                                alt="image"></a>
-                                                    </figure>
-                                                </div>
-                                                <!--/column -->
-                                            </div>
-                                            <!-- /.row -->
-                                            <p>Maecenas sed diam eget risus varius blandit sit amet non magna. Cum
-                                                sociis natoque penatibus et magnis dis parturient montes, nascetur
-                                                ridiculus mus. Donec sed odio dui. Nulla vitae elit libero, a pharetra
-                                                augue. Maecenas faucibus mollis interdum. Donec id elit non mi porta
-                                                gravida at eget metus. Nullam quis risus eget urna mollis ornare vel eu
-                                                leo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                                                posuere consectetur est at lobortis. Cras mattis consectetur purus sit
-                                                amet fermentum. Praesent commodo cursus magna.</p>
-                                            <blockquote
-                                                class="border-l-[#3f78e0] !leading-[1.7] font-medium !pl-4 border-l-[0.15rem] border-solid !text-[1rem] !my-8">
-                                                <p>Sed posuere consectetur est at lobortis. Lorem ipsum dolor sit amet,
-                                                    consectetur adipiscing elit. Duis mollis, est non commodo luctus,
-                                                    nisi erat porttitor ligula lacinia odio sem nec elit purus.</p>
-                                                <footer
-                                                    class="!text-[0.6rem] !text-[#aab0bc] !mb-4 before:content-['\2014\a0'] font-bold uppercase !tracking-[0.02rem] !mt-0">
-                                                    Very important person</footer>
-                                            </blockquote>
-                                            <h3 class="h2 !mb-4">Sit Vulputate Bibendum Purus</h3>
-                                            <p>Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh,
-                                                ut fermentum massa justo sit amet risus. Aenean lacinia bibendum nulla
-                                                sed consectetur. Cras mattis consectetur purus sit amet fermentum.
-                                                Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
-                                                Vestibulum id ligula porta felis euismod semper.</p>
-                                            <p>Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh,
-                                                ut fermentum massa justo sit amet risus. Donec sed odio dui. Cras justo
-                                                odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus
-                                                ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa
-                                                justo sit amet risus. Sed posuere consectetur est at lobortis. Donec id
-                                                elit non mi porta gravida at eget metus. Nulla vitae elit libero, a
-                                                pharetra augue. Cum sociis natoque penatibus et magnis dis parturient
-                                                montes, nascetur ridiculus mus. Fusce dapibus, tellus ac cursus commodo,
-                                                tortor mauris condimentum nibh.</p>
-                                        </div>
-                                        <!-- /.post-content -->
-                                        <div
-                                            class="post-footer xl:!flex xl:!flex-row xl:!justify-between lg:!flex lg:!flex-row lg:!justify-between md:!flex md:!flex-row md:!justify-between !items-center !mt-8">
-                                            <div>
-                                                <ul class="pl-0 list-none tag-list  !mb-0">
-                                                    @foreach (range(1, 3) as $value)
-                                                        <li class="!mt-0 !mb-[0.45rem] !me-[0.2rem] inline-block">
-                                                            <a href="#"
-                                                                class="btn btn-soft-ash btn-sm !rounded-[50rem] flex items-center hover:translate-y-[-0.15rem] hover:shadow-[0_0.25rem_0.75rem_rgba(30,34,40,.05)] before:not-italic before:content-['#'] before:font-normal before:!pr-[0.2rem]">Still
-                                                                Life
-                                                            </a>
-                                                        </li>
-                                                    @endforeach
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <!-- /.post-footer -->
-                                    </article>
-                                    <!-- /.post -->
-                                </div>
-                                <!-- /.classic-view -->
-                                <hr>
-                                <div class="author-info xl:!flex lg:!flex md:!flex items-center !mb-3">
-                                    <div class="flex items-center">
-                                        <figure class="w-12 h-12 !relative !me-4 rounded-[100%]"><img
-                                                class="rounded-[50%]" alt="image" src="/assets/img/avatars/u5.jpg">
-                                        </figure>
-                                        <div>
-                                            <h6><a href="#" class="!text-[#343f52] hover:!text-[#3f78e0]">Nikolas
-                                                    Brooten</a>
-                                            </h6>
-                                            <span class="!text-[0.75rem] !text-[#aab0bc] m-0 p-0 list-none">Sales
-                                                Manager</span>
-                                        </div>
-                                    </div>
-                                    <div class="!mt-3 xl:!mt-0 lg:!mt-0 md:!mt-0 !ms-auto">
-                                        <a href="#"
-                                            class="btn btn-sm btn-soft-ash !rounded-[50rem] btn-icon btn-icon-start !mb-0 hover:translate-y-[-0.15rem] hover:shadow-[0_0.25rem_0.75rem_rgba(30,34,40,0.15)]"><i
-                                                class="uil uil-file-alt !me-[0.3rem] before:content-['\eaec'] text-[.8rem]"></i>
-                                            {{ trans('web/blog.content.author.author_btn') }}
-                                        </a>
-                                    </div>
-                                </div>
-                                <!-- /.author-info -->
-                                <p>Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum
-                                    massa justo sit amet risus. Maecenas faucibus mollis interdum. Fusce dapibus, tellus
-                                    ac. Maecenas faucibus mollis interdum.</p>
+<div class="">
+    <!-- BREADCRUMB SECTION START -->
+    <section
+        class="pt-[327px] xl:pt-[287px] lg:pt-[237px] sm:pt-[200px] xxs:pt-[180px] pb-[158px] xl:pb-[118px] lg:pb-[98px] sm:pb-[68px] xs:pb-[48px] text-center bg-[url('../assets/img/breadcrumb-bg.jpg')] bg-no-repeat bg-cover bg-center relative z-[1] overflow-hidden before:absolute before:-z-[1] before:inset-0 before:bg-edblue/70 before:pointer-events-none">
+        <div class="mx-[19.71%] xxxl:mx-[14.71%] xxl:mx-[9.71%] xl:mx-[5.71%] md:mx-[12px]">
+            <h1 class="font-semibold text-[clamp(35px,6vw,56px)] text-white">News Details</h1>
+            <ul class="flex items-center justify-center gap-[10px] text-white">
+                <li><a href="index.html" class="text-edyellow">Home</a></li>
+                <li><span class="text-[12px]"><i class="fa-solid fa-angle-double-right"></i></span></li>
+                <li>News Details</li>
+            </ul>
+        </div>
 
-                                <nav class="nav social">
-                                    <a class=" text-[1rem] transition-all duration-[0.2s] ease-in-out translate-y-0 motion-reduce:transition-none hover:translate-y-[-0.15rem] m-[0_.7rem_0_0]"
-                                        href="#"><i
-                                            class=" text-[1rem] !text-[#5daed5] before:content-['\ed59'] uil uil-twitter"></i></a>
-                                    <a class=" text-[1rem] transition-all duration-[0.2s] ease-in-out translate-y-0 motion-reduce:transition-none hover:translate-y-[-0.15rem] m-[0_.7rem_0_0]"
-                                        href="#"><i
-                                            class=" text-[1rem] !text-[#4470cf] before:content-['\eae2'] uil uil-facebook-f"></i></a>
-                                    <a class=" text-[1rem] transition-all duration-[0.2s] ease-in-out translate-y-0 motion-reduce:transition-none hover:translate-y-[-0.15rem] m-[0_.7rem_0_0]"
-                                        href="#"><i
-                                            class=" text-[1rem] !text-[#e94d88] before:content-['\eaa2'] uil uil-dribbble"></i></a>
-                                    <a class=" text-[1rem] transition-all duration-[0.2s] ease-in-out translate-y-0 motion-reduce:transition-none hover:translate-y-[-0.15rem] m-[0_.7rem_0_0]"
-                                        href="#"><i
-                                            class=" text-[1rem] !text-[#d53581] before:content-['\eb9c'] uil uil-instagram"></i></a>
-                                    <a class=" text-[1rem] transition-all duration-[0.2s] ease-in-out translate-y-0 motion-reduce:transition-none hover:translate-y-[-0.15rem] m-[0_.7rem_0_0]"
-                                        href="#"><i
-                                            class=" text-[1rem] !text-[#c8312b] before:content-['\edb5'] uil uil-youtube"></i></a>
-                                </nav>
-                                <!-- /.social -->
-                                <hr>
-                                <h3 class="!mb-6">{{ trans('web/blog.content.similar.similar_title') }}</h3>
-                                <div class="swiper-container blog grid-view !mb-24 relative z-10" data-margin="30"
-                                    data-dots="true" data-items-md="2" data-items-xs="1">
-                                    <div class="swiper">
-                                        <div class="swiper-wrapper">
-                                            @foreach (range(1, 3) as $value)
-                                                <div class="swiper-slide">
-                                                    <article>
-                                                        <figure
-                                                            class="overlay overlay-1 hover-scale group rounded !mb-5">
-                                                            <a href="#">
-                                                                <img class="!transition-all !duration-[0.35s] !ease-in-out group-hover:scale-105"
-                                                                    src="/assets/img/photos/b4.jpg" alt="image">
-                                                            </a>
-                                                            <figcaption
-                                                                class="group-hover:opacity-100 absolute w-full h-full opacity-0 text-center px-4 py-3 top-0 right-0 bottom-0 left-0 z-[5] pointer-events-none p-2">
-                                                                <h5
-                                                                    class="from-top  !mb-0 absolute w-full translate-y-[-80%] p-[.75rem_1rem] left-0 top-2/4">
-                                                                    {{ trans('web/blog.content.similar.similar_btn') }}
-                                                                </h5>
-                                                            </figcaption>
-                                                        </figure>
-                                                        <div class="post-header !mb-[.9rem]">
-                                                            <div
-                                                                class="inline-flex !mb-[.4rem] uppercase !tracking-[0.02rem] text-[0.7rem] font-bold !text-[#aab0bc] relative align-top !pl-[1.4rem] before:content-[''] before:absolute before:inline-block before:translate-y-[-60%] before:w-3 before:h-[0.05rem] before:left-0 before:top-2/4 before:bg-[#3f78e0]">
-                                                                <a href="#" class="hover"
-                                                                    rel="category">Coding</a>
-                                                            </div>
-                                                            <!-- /.post-category -->
-                                                            <h2 class="post-title h3 !mt-1 !mb-3"><a
-                                                                    class="!text-[#343f52] hover:!text-[#3f78e0]"
-                                                                    href="./blog-post.html">Ligula tristique quis
-                                                                    risus</a>
-                                                            </h2>
-                                                        </div>
-                                                        <!-- /.post-header -->
-                                                        <div class="post-footer">
-                                                            <ul
-                                                                class="!text-[0.7rem] !text-[#aab0bc] m-0 p-0 list-none  !mb-0">
-                                                                <li class="post-date inline-block"><i
-                                                                        class="uil uil-calendar-alt pr-[0.2rem] align-[-.05rem] before:content-['\e9ba']"></i><span>14
-                                                                        Apr 2022</span></li>
-                                                                <li
-                                                                    class="post-comments inline-block before:content-[''] before:inline-block before:w-[0.2rem] before:h-[0.2rem] before:opacity-50 before:m-[0_.6rem_0] before:rounded-[100%] before:align-[.15rem] before:bg-[#aab0bc]">
-                                                                    <a class="!text-[#aab0bc] hover:!text-[#3f78e0] hover:!border-[#3f78e0]"
-                                                                        href="#"><i
-                                                                            class="uil uil-comment pr-[0.2rem] align-[-.05rem] before:content-['\ea54']"></i>4</a>
-                                                                </li>
-                                                            </ul>
-                                                            <!-- /.post-meta -->
-                                                        </div>
-                                                        <!-- /.post-footer -->
-                                                    </article>
-                                                    <!-- /article -->
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                </div>
-                                <hr>
-                                <div id="comments" class="relative !m-0">
-                                    <h3 class="!mb-6">5 {{ trans('web/blog.content.comments.title') }}</h3>
-                                    <ol id="singlecomments" class="commentlist m-0 p-0 list-none">
-                                        <li class="comment !mt-8">
-                                            <div
-                                                class="comment-header xl:!flex lg:!flex md:!flex items-center !mb-[.5rem]">
-                                                <div class="flex items-center">
-                                                    <figure class="w-12 h-12 !relative !me-4 rounded-[100%]"><img
-                                                            class="rounded-[50%]" alt="image"
-                                                            src="/assets/img/avatars/u1.jpg"></figure>
-                                                    <div>
-                                                        <h6 class=" m-0 !mb-[0.2rem]"><a href="#"
-                                                                class="!text-[#343f52] hover:!text-[#3f78e0]">Connor
-                                                                Gibson</a></h6>
-                                                        <ul class="!text-[0.7rem] !text-[#aab0bc] m-0 p-0 list-none">
-                                                            <li><i
-                                                                    class="uil uil-calendar-alt pr-[0.2rem] align-[-.05rem] before:content-['\e9ba']"></i>14
-                                                                Jan 2022</li>
-                                                        </ul>
-                                                        <!-- /.post-meta -->
-                                                    </div>
-                                                    <!-- /div -->
-                                                </div>
-                                                <!-- /div -->
-                                                <div class="!mt-3 xl:!mt-0 lg:!mt-0 md:!mt-0 !ms-auto">
-                                                    <a href="#"
-                                                        class="btn btn-soft-ash btn-sm !rounded-[50rem] btn-icon btn-icon-start !mb-0 hover:translate-y-[-0.15rem] hover:shadow-[0_0.25rem_0.75rem_rgba(30,34,40,0.15)]"><i
-                                                            class="uil uil-comments !me-[0.3rem] before:content-['\ea56'] text-[.8rem]"></i>
-                                                        {{ trans('web/blog.content.comments.replay') }}
-                                                    </a>
-                                                </div>
-                                                <!-- /div -->
-                                            </div>
-                                            <!-- /.comment-header -->
-                                            <p>Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis
-                                                vestibulum. Duis mollis, est non commodo luctus, nisi erat porttitor
-                                                ligula, eget lacinia odio sem nec elit. Sed posuere consectetur est at
-                                                lobortis integer posuere erat ante.</p>
-                                        </li>
-                                        <li class="comment !mt-8">
-                                            <div
-                                                class="comment-header xl:!flex lg:!flex md:!flex items-center !mb-[.5rem]">
-                                                <div class="flex items-center">
-                                                    <figure class="w-12 h-12 !relative !me-4 rounded-[100%]"><img
-                                                            class="rounded-[50%]" alt="image"
-                                                            src="/assets/img/avatars/u2.jpg"></figure>
-                                                    <div>
-                                                        <h6 class=" m-0 !mb-[0.2rem]"><a href="#"
-                                                                class="!text-[#343f52] hover:!text-[#3f78e0]">Nikolas
-                                                                Brooten</a></h6>
-                                                        <ul class="!text-[0.7rem] !text-[#aab0bc] m-0 p-0 list-none">
-                                                            <li><i
-                                                                    class="uil uil-calendar-alt pr-[0.2rem] align-[-.05rem] before:content-['\e9ba']"></i>21
-                                                                Feb 2022</li>
-                                                        </ul>
-                                                        <!-- /.post-meta -->
-                                                    </div>
-                                                    <!-- /div -->
-                                                </div>
-                                                <!-- /div -->
-                                                <div class="!mt-3 xl:!mt-0 lg:!mt-0 md:!mt-0 !ms-auto">
-                                                    <a href="#"
-                                                        class="btn btn-soft-ash btn-sm !rounded-[50rem] btn-icon btn-icon-start !mb-0 hover:translate-y-[-0.15rem] hover:shadow-[0_0.25rem_0.75rem_rgba(30,34,40,0.15)]"><i
-                                                            class="uil uil-comments !me-[0.3rem] before:content-['\ea56'] text-[.8rem]"></i>
-                                                        {{ trans('web/blog.content.comments.replay') }}
-                                                    </a>
-                                                </div>
-                                                <!-- /div -->
-                                            </div>
-                                            <!-- /.comment-header -->
-                                            <p>Quisque tristique tincidunt metus non aliquam. Quisque ac risus sit amet
-                                                quam sollicitudin vestibulum vitae malesuada libero. Mauris magna elit,
-                                                suscipit non ornare et, blandit a tellus. Pellentesque dignissim ornare
-                                                faucibus mollis.</p>
-                                            <ul class="children">
-                                                <li class="comment !mt-8">
-                                                    <div
-                                                        class="comment-header xl:!flex lg:!flex md:!flex items-center !mb-[.5rem]">
-                                                        <div class="flex items-center">
-                                                            <figure class="w-12 h-12 !relative !me-4 rounded-[100%]">
-                                                                <img class="rounded-[50%]" alt="image"
-                                                                    src="/assets/img/avatars/u3.jpg">
-                                                            </figure>
-                                                            <div>
-                                                                <h6 class=" m-0 !mb-[0.2rem]"><a href="#"
-                                                                        class="!text-[#343f52] hover:!text-[#3f78e0]">Pearce
-                                                                        Frye</a></h6>
-                                                                <ul
-                                                                    class="!text-[0.7rem] !text-[#aab0bc] m-0 p-0 list-none">
-                                                                    <li><i
-                                                                            class="uil uil-calendar-alt pr-[0.2rem] align-[-.05rem] before:content-['\e9ba']"></i>22
-                                                                        Feb 2022</li>
-                                                                </ul>
-                                                                <!-- /.post-meta -->
-                                                            </div>
-                                                            <!-- /div -->
-                                                        </div>
-                                                        <!-- /div -->
-                                                        <div class="!mt-3 xl:!mt-0 lg:!mt-0 md:!mt-0 !ms-auto">
-                                                            <a href="#"
-                                                                class="btn btn-soft-ash btn-sm !rounded-[50rem] btn-icon btn-icon-start !mb-0 hover:translate-y-[-0.15rem] hover:shadow-[0_0.25rem_0.75rem_rgba(30,34,40,0.15)]"><i
-                                                                    class="uil uil-comments !me-[0.3rem] before:content-['\ea56'] text-[.8rem]"></i>
-                                                                {{ trans('web/blog.content.comments.replay') }}
-                                                            </a>
-                                                        </div>
-                                                        <!-- /div -->
-                                                    </div>
-                                                    <!-- /.comment-header -->
-                                                    <p>Cras mattis consectetur purus sit amet fermentum. Integer posuere
-                                                        erat a ante venenatis dapibus posuere velit aliquet. Etiam porta
-                                                        sem malesuada magna mollis.</p>
-                                                    <ul class="children">
-                                                        <li class="comment !mt-8">
-                                                            <div
-                                                                class="comment-header xl:!flex lg:!flex md:!flex items-center !mb-[.5rem]">
-                                                                <div class="flex items-center">
-                                                                    <figure
-                                                                        class="w-12 h-12 !relative !me-4 rounded-[100%]">
-                                                                        <img class="rounded-[50%]" alt="image"
-                                                                            src="/assets/img/avatars/u2.jpg">
-                                                                    </figure>
-                                                                    <div>
-                                                                        <h6 class=" m-0 !mb-[0.2rem]"><a
-                                                                                href="#"
-                                                                                class="!text-[#343f52] hover:!text-[#3f78e0]">Nikolas
-                                                                                Brooten</a></h6>
-                                                                        <ul
-                                                                            class="!text-[0.7rem] !text-[#aab0bc] m-0 p-0 list-none">
-                                                                            <li><i
-                                                                                    class="uil uil-calendar-alt pr-[0.2rem] align-[-.05rem] before:content-['\e9ba']"></i>4
-                                                                                Apr 2022</li>
-                                                                        </ul>
-                                                                        <!-- /.post-meta -->
-                                                                    </div>
-                                                                    <!-- /div -->
-                                                                </div>
-                                                                <!-- /div -->
-                                                                <div class="!mt-3 xl:!mt-0 lg:!mt-0 md:!mt-0 !ms-auto">
-                                                                    <a href="#"
-                                                                        class="btn btn-soft-ash btn-sm !rounded-[50rem] btn-icon btn-icon-start !mb-0 hover:translate-y-[-0.15rem] hover:shadow-[0_0.25rem_0.75rem_rgba(30,34,40,0.15)]"><i
-                                                                            class="uil uil-comments !me-[0.3rem] before:content-['\ea56'] text-[.8rem]"></i>
-                                                                        {{ trans('web/blog.content.comments.replay') }}
-                                                                    </a>
-                                                                </div>
-                                                                <!-- /div -->
-                                                            </div>
-                                                            <!-- /.comment-header -->
-                                                            <p>Nullam id dolor id nibh ultricies vehicula ut id. Cras
-                                                                mattis consectetur purus sit amet fermentum. Aenean eu
-                                                                leo quam. Pellentesque ornare sem lacinia aenean
-                                                                bibendum nulla consectetur.</p>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ol>
-                                </div>
-                                <!-- /#comments -->
-                                <hr>
-                                <h3 class="!mb-3">{{ trans('web/blog.content.comments.send_title') }}</h3>
-                                <form class="comment-form">
-                                    <div class="form-floating relative !mb-4">
-                                        <input type="text"
-                                            class=" form-control  relative block w-full text-[.75rem] font-medium !text-[#60697b] bg-[#fefefe] bg-clip-padding border shadow-[0_0_1.25rem_rgba(30,34,40,0.04)] rounded-[0.4rem] border-solid border-[rgba(8,60,130,0.07)] transition-[border-color] duration-[0.15s] ease-in-out     focus:shadow-[0_0_1.25rem_rgba(30,34,40,0.04),unset]   focus-visible:!border-[rgba(63,120,224,0.5)]   placeholder:!text-[#959ca9] placeholder:opacity-100 m-0 !pr-9 p-[.6rem_1rem] h-[calc(2.5rem_+_2px)] min-h-[calc(2.5rem_+_2px)] !leading-[1.25]"
-                                            placeholder="" id="c-name">
-                                        <label
-                                            class="inline-block !text-[#959ca9] text-[.75rem] absolute z-[2] h-full overflow-hidden text-start text-ellipsis whitespace-nowrap pointer-events-none border origin-[0_0] px-4 py-[0.6rem] border-solid border-transparent left-0 top-0 font-Manrope"
-                                            for="c-name">{{ trans('web/blog.content.comments.send_name') }} *</label>
-                                    </div>
-                                    <div class="form-floating relative !mb-4">
-                                        <input type="text"
-                                            class=" form-control  relative block w-full text-[.75rem] font-medium !text-[#60697b] bg-[#fefefe] bg-clip-padding border shadow-[0_0_1.25rem_rgba(30,34,40,0.04)] rounded-[0.4rem] border-solid border-[rgba(8,60,130,0.07)] transition-[border-color] duration-[0.15s] ease-in-out     focus:shadow-[0_0_1.25rem_rgba(30,34,40,0.04),unset]   focus-visible:!border-[rgba(63,120,224,0.5)]   placeholder:!text-[#959ca9] placeholder:opacity-100 m-0 !pr-9 p-[.6rem_1rem] h-[calc(2.5rem_+_2px)] min-h-[calc(2.5rem_+_2px)] !leading-[1.25]"
-                                            placeholder="" id="c-family">
-                                        <label
-                                            class="inline-block !text-[#959ca9] text-[.75rem] absolute z-[2] h-full overflow-hidden text-start text-ellipsis whitespace-nowrap pointer-events-none border origin-[0_0] px-4 py-[0.6rem] border-solid border-transparent left-0 top-0 font-Manrope"
-                                            for="c-family">{{ trans('web/blog.content.comments.send_family') }}*</label>
-                                    </div>
-                                    <div class="form-floating relative !mb-4">
-                                        <input type="tel"
-                                            class=" form-control  relative block w-full text-[.75rem] font-medium !text-[#60697b] bg-[#fefefe] bg-clip-padding border shadow-[0_0_1.25rem_rgba(30,34,40,0.04)] rounded-[0.4rem] border-solid border-[rgba(8,60,130,0.07)] transition-[border-color] duration-[0.15s] ease-in-out     focus:shadow-[0_0_1.25rem_rgba(30,34,40,0.04),unset]   focus-visible:!border-[rgba(63,120,224,0.5)]   placeholder:!text-[#959ca9] placeholder:opacity-100 m-0 !pr-9 p-[.6rem_1rem] h-[calc(2.5rem_+_2px)] min-h-[calc(2.5rem_+_2px)] !leading-[1.25]"
-                                            placeholder="" id="c-phone">
-                                        <label
-                                            class="inline-block !text-[#959ca9] text-[.75rem] absolute z-[2] h-full overflow-hidden text-start text-ellipsis whitespace-nowrap pointer-events-none border origin-[0_0] px-4 py-[0.6rem] border-solid border-transparent left-0 top-0 font-Manrope"
-                                            for="c-phone">{{ trans('web/blog.content.comments.send_phone') }}*</label>
-                                    </div>
-                                    <div class="form-floating relative !mb-4">
-                                        <input type="email"
-                                            class=" form-control  relative block w-full text-[.75rem] font-medium !text-[#60697b] bg-[#fefefe] bg-clip-padding border shadow-[0_0_1.25rem_rgba(30,34,40,0.04)] rounded-[0.4rem] border-solid border-[rgba(8,60,130,0.07)] transition-[border-color] duration-[0.15s] ease-in-out     focus:shadow-[0_0_1.25rem_rgba(30,34,40,0.04),unset]   focus-visible:!border-[rgba(63,120,224,0.5)]   placeholder:!text-[#959ca9] placeholder:opacity-100 m-0 !pr-9 p-[.6rem_1rem] h-[calc(2.5rem_+_2px)] min-h-[calc(2.5rem_+_2px)] !leading-[1.25]"
-                                            placeholder="" id="c-email">
-                                        <label
-                                            class="inline-block !text-[#959ca9] text-[.75rem] absolute z-[2] h-full overflow-hidden text-start text-ellipsis whitespace-nowrap pointer-events-none border origin-[0_0] px-4 py-[0.6rem] border-solid border-transparent left-0 top-0 font-Manrope"
-                                            for="c-email">{{ trans('web/blog.content.comments.send_email') }}*</label>
-                                    </div>
-                                    <div class="form-floating relative !mb-4">
-                                        <textarea name="textarea"
-                                            class=" form-control  relative block w-full text-[.75rem] font-medium !text-[#60697b] bg-[#fefefe] bg-clip-padding border shadow-[0_0_1.25rem_rgba(30,34,40,0.04)] rounded-[0.4rem] border-solid border-[rgba(8,60,130,0.07)] transition-[border-color] duration-[0.15s] ease-in-out     focus:shadow-[0_0_1.25rem_rgba(30,34,40,0.04),unset]   focus-visible:!border-[rgba(63,120,224,0.5)]   placeholder:!text-[#959ca9] placeholder:opacity-100 m-0 !pr-9 p-[.6rem_1rem] h-[calc(2.5rem_+_2px)] min-h-[calc(2.5rem_+_2px)] !leading-[1.25]"
-                                            placeholder="" style="height: 150px"></textarea>
-                                        <label
-                                            class="inline-block !text-[#959ca9] text-[.75rem] absolute z-[2] h-full overflow-hidden text-start text-ellipsis whitespace-nowrap pointer-events-none border origin-[0_0] px-4 py-[0.6rem] border-solid border-transparent left-0 top-0 font-Manrope">{{ trans('web/blog.content.comments.send_comment') }}
-                                            *</label>
-                                    </div>
-                                    <button type="submit"
-                                        class="btn btn-primary !text-white !bg-[#3f78e0] border-[#3f78e0] hover:text-white hover:bg-[#3f78e0] hover:!border-[#3f78e0]   active:text-white active:bg-[#3f78e0] active:border-[#3f78e0] disabled:text-white disabled:bg-[#3f78e0] disabled:border-[#3f78e0] !rounded-[50rem] !mb-0 hover:translate-y-[-0.15rem] hover:shadow-[0_0.25rem_0.75rem_rgba(30,34,40,0.15)]">{{ trans('web/blog.content.comments.send_btn') }}</button>
-                                </form>
-                                <!-- /.comment-form -->
+        <div class="vectors">
+            <img src="assets/img/breadcrumb-vector-1.svg" alt="vector"
+                class="absolute -z-[1] pointer-events-none bottom-[34px] left-0 xl:left-auto xl:right-[90%]">
+            <img src="assets/img/breadcrumb-vector-2.svg" alt="vector"
+                class="absolute -z-[1] pointer-events-none bottom-0 right-0 xl:right-auto xl:left-[60%]">
+        </div>
+    </section>
+    <!-- BREADCRUMB SECTION END -->
+
+
+    <!-- MAIN CONTENT START -->
+    <div class="ed-event-details-content py-[120px] xl:py-[80px] md:py-[60px]">
+        <div class="mx-[19.71%] xxxl:mx-[14.71%] xxl:mx-[9.71%] xl:mx-[5.71%] md:mx-[12px]">
+            <div class="flex gap-[30px] lg:gap-[20px] md:flex-col md:items-center">
+                <!-- left content -->
+                <div class="left grow space-y-[40px] md:space-y-[30px]">
+                    <!-- post -->
+                    <div>
+                        <div class="img overflow-hidden rounded-[8px] mb-[30px] relative">
+                            <img src="assets/img/news-details-img-1.jpg" alt="news-cover"
+                                class="max-h-[380px] max-w-full aspect-[770/380]">
+
+                            <div
+                                class="bg-[#ECF0F5] rounded-[10px] font-medium text-[14px] text-black inline-block uppercase overflow-hidden text-center absolute top-[20px] left-[20px]">
+                                <span class="bg-edpurple text-white block py-[3px] rounded-[10px]">10</span>
+                                <span class="px-[11px] py-[2px] block">June</span>
                             </div>
-                            <!-- /.card-body -->
                         </div>
-                        <!-- /.card -->
+
+                        <!-- txt -->
+                        <div>
+                            <!-- infos -->
+                            <div class="flex items-center gap-[30px] mb-[7px]">
+                                <!-- single info -->
+                                <div class="flex gap-[10px] items-center">
+                                    <span class="icon shrink-0"><img src="assets/img/icon/user.svg"
+                                            alt="icon"></span>
+                                    <span class="text-[14px] text-edgray">by <a href="#">Admin</a></span>
+                                </div>
+
+                                <!-- single info -->
+                                <div class="flex gap-[10px] items-center">
+                                    <span class="icon shrink-0"><img src="assets/img/icon/tag.svg"
+                                            alt="icon"></span>
+                                    <span class="text-[14px] text-edgray"><a href="#">Business</a></span>
+                                </div>
+                            </div>
+
+                            <h3
+                                class="text-[30px] lg:text-[27px] sm:text-[24px] xxs:text-[22px] font-semibold text-black mb-[18px]">
+                                <a href="news-details.html" class="hover:text-edpurple">Make Your Expanding Contracting
+                                    Content</a></h3>
+
+                            <p class="font-normal text-[16px] text-edgray mb-[16px]">Consectetur adipisicing elit, sed
+                                do eiusmod tempor incididunt ut labore et dolore of magna aliqua. Ut enim ad minim
+                                veniam, made of owl the quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                                dolor commodo consequat. Duis aute irure and dolor in reprehenderit.</p>
+
+                            <p class="font-normal text-[16px] text-edgray mb-[16px]">The is ipsum dolor sit amet
+                                consectetur adipiscing elit. Fusce eleifend porta arcu In hac habitasse the is platea
+                                augue thelorem turpoi dictumst. In lacus libero faucibus at malesuada sagittis placerat
+                                eros sed istincidunt augue ac ante rutrum sed the is sodales augue consequat.</p>
+
+                            <p class="font-normal text-[16px] text-edgray mb-[16px]">Nulla facilisi. Vestibulum
+                                tristique sem in eros eleifend imperdiet. Donec quis convallis neque. In id lacus
+                                pulvinar lacus, eget vulputate lectus. Ut viverra bibendum lorem, at tempus nibh mattis
+                                in. Sed a massa eget lacus consequat auctor.</p>
+
+                            <!-- img -->
+                            <div class="grid grid-cols-2 xxs:grid-cols-1 gap-[30px] lg:gap-[20px] mt-[32px] mb-[33px]">
+                                <img src="assets/img/news-details-img-2.jpg" alt="Image" class="rounded-[10px]">
+                                <img src="assets/img/news-details-img-3.jpg" alt="Image" class="rounded-[10px]">
+                            </div>
+
+                            <p class="font-normal text-[16px] text-edgray mb-[16px]">The is ipsum dolor sit amet
+                                consectetur adipiscing elit. Fusce eleifend porta arcu In hac sodales habitasse the is
+                                platea augue thelorem turpoi dictumst. In lacus libero faucibus at malesuada sagittis
+                                placerat eros sed istincidunt augue ac ante rutrum sed the is augue consequat.</p>
+
+                            <blockquote
+                                class="bg-edoffwhite italic rounded-[10px] px-[40px] xxs:p-[25px] pr-[120px] xxs:pr-[100px] py-[30px] mt-[32px] mb-[28px] relative text-[16px] font-normal">
+                                Pellentesque sollicitudin congue dolor non aliquam. Morbi volutpat, nisi vel ultricies
+                                urnacondimentum, sapien neque lobortis tortor, quis efficitur mi eu metus. Praesent
+                                eleifend orci sit amet est vehicula.
+
+                                <span class="icon absolute right-[40px] bottom-[35px]">
+                                    <svg width="36" height="26" viewBox="0 0 36 26" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M0 15.3691H7.71428L2.57139 25.5539H10.2857L15.4286 15.3691V0.0917969H0V15.3691Z"
+                                            class="fill-edpurple" />
+                                        <path
+                                            d="M20.5703 0.0917969V15.3691H28.2846L23.1417 25.5539H30.856L35.9989 15.3691V0.0917969H20.5703Z"
+                                            class="fill-edpurple" />
+                                    </svg>
+                                </span>
+                            </blockquote>
+
+                            <p class="font-normal text-[16px] text-edgray mb-[16px]">Consectetur adipisicing elit, sed
+                                do eiusmod tempor incididunt ut labore et dolore of magna aliqua. Ut enim ad minim
+                                veniam, made of owl the quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                                dolor commodo consequat. Duis aute irure and dolor in reprehenderit.</p>
+                        </div>
                     </div>
-                </div>
-                <!-- /column -->
-                <aside
-                    class="sticky top-10 xl:w-4/12 lg:w-4/12 w-full bg-white py-8 rounded-xl flex-[0_0_auto] xl:!px-[35px] lg:!px-[20px] !px-[15px] max-w-full sidebar">
-                    <div class="widget">
-                        <form
-                            class="search-form relative before:content-['\eca5'] before:block before:absolute before:-translate-y-2/4 before:text-[0.9rem] before:!text-[#959ca9] before:z-[9] before:right-3 before:top-2/4 font-Unicons">
-                            <div class="form-floating relative !mb-0">
-                                <input id="search-form" type="text"
-                                    class="form-control relative block w-full text-[.75rem] font-medium !text-[#60697b] bg-[#fefefe] bg-clip-padding border shadow-[0_0_1.25rem_rgba(30,34,40,0.04)] rounded-[0.4rem] border-solid border-[rgba(8,60,130,0.07)] transition-[border-color] duration-[0.15s] ease-in-out     focus:shadow-[0_0_1.25rem_rgba(30,34,40,0.04),unset]   focus-visible:!border-[rgba(63,120,224,0.5)]   placeholder:!text-[#959ca9] placeholder:opacity-100 m-0 !pr-9 p-[.6rem_1rem] h-[calc(2.5rem_+_2px)] min-h-[calc(2.5rem_+_2px)] !leading-[1.25]"
-                                    placeholder="">
-                                <label for="search-form"
-                                    class="inline-block !text-[#959ca9] text-[.75rem] absolute z-[2] h-full overflow-hidden text-start text-ellipsis whitespace-nowrap pointer-events-none border origin-[0_0] px-4 py-[0.6rem] border-solid border-transparent left-0 top-0 font-Manrope">
-                                    {{ trans('web/blog.sidebar.search') }}
-                                </label>
+
+                    <!-- actions -->
+                    <div
+                        class="border-y border-[#d9d9d9] py-[24px] flex items-center justify-between xs:flex-col xs:items-start gap-[20px]">
+                        <div class="flex gap-[28px] items-center">
+                            <!-- tags  -->
+                            <h6 class="font-medium text-[16px] text-black">Tags:</h6>
+                            <div class="flex flex-wrap gap-[13px]">
+                                <a href="#"
+                                    class="border border-[#e5e5e5] text-[14px] text-[#181818] px-[12px] py-[5px] rounded-[4px] hover:bg-edpurple hover:border-edpurple hover:text-white">Course</a>
+                                <a href="#"
+                                    class="border border-[#e5e5e5] text-[14px] text-[#181818] px-[12px] py-[5px] rounded-[4px] hover:bg-edpurple hover:border-edpurple hover:text-white">Education</a>
+                            </div>
+                        </div>
+
+                        <!-- share options -->
+                        <div class="flex gap-[28px] items-center">
+                            <h6 class="font-medium text-[16px] text-black">Share:</h6>
+                            <div class="flex gap-[15px] text-[16px]">
+                                <a href="#" class="text-[#757277] hover:text-edpurple"><i
+                                        class="fa-brands fa-facebook-f"></i></a>
+                                <a href="#" class="text-[#757277] hover:text-edpurple"><i
+                                        class="fa-brands fa-twitter"></i></a>
+                                <a href="#" class="text-[#757277] hover:text-edpurple"><i
+                                        class="fa-brands fa-linkedin-in"></i></a>
+                                <a href="#" class="text-[#757277] hover:text-edpurple"><i
+                                        class="fa-brands fa-youtube"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- comments -->
+                    <div class="!mt-[60px] xxs:!mt-[30px]">
+                        <h5 class="font-medium text-[24px] text-black mb-[32px] xxs:mb-[20px]">02 Comments</h5>
+
+                        <div class="all-comments space-y-[40px] xxs:space-y-[25px]">
+                            <!-- single comment -->
+                            <div
+                                class="ed-event-details-comment flex xxs:flex-col items-start gap-x-[20px] pb-[40px] xxs:pb-[25px] border-b border-[#ECECEC]">
+                                <div class="user-img rounded-full overflow-hidden w-[96px] h-[96px] shrink-0">
+                                    <img src="assets/img/user-2.png" alt="user" class="object-cover w-full h-full">
+                                </div>
+
+                                <div class="pt-[17px]">
+                                    <div class="user-info mb-[19px]">
+                                        <h5 class="user-name font-medium text-[20px] text-black mb-[9px]">Ralph edwards
+                                        </h5>
+                                        <h6 class="font-normal text-[16px] text-edgray">February 10, 2024 at 2:37 pm
+                                        </h6>
+                                    </div>
+                                    <div class="comment">
+                                        <p class="text-[16px] text-edgray2">
+                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit voluptatum
+                                            quaerat nemo eaque delectus ratione maiores expedita pariatur illum facilis
+                                            at repellendus nesciunt veniam animi, omnis corrupti reiciendis explicabo
+                                            itaque id.
+                                        </p>
+                                    </div>
+
+                                    <button
+                                        class="h-[30px] px-[16px] bg-edpurple text-[14px] text-white rounded-[6px] mt-[22px] hover:bg-black">Reply</button>
+                                </div>
+                            </div>
+
+                            <!-- single comment -->
+                            <div
+                                class="ed-event-details-comment flex xxs:flex-col items-start gap-x-[20px] pb-[40px] xxs:pb-[25px] border-b border-[#ECECEC]">
+                                <div class="user-img rounded-full overflow-hidden w-[96px] h-[96px] shrink-0">
+                                    <img src="assets/img/user-4.png" alt="user"
+                                        class="object-cover w-full h-full">
+                                </div>
+
+                                <div class="pt-[17px]">
+                                    <div class="user-info mb-[19px]">
+                                        <h5 class="user-name font-medium text-[20px] text-black mb-[9px]">Esther Howard
+                                        </h5>
+                                        <h6 class="font-normal text-[16px] text-edgray">February 10, 2024 at 2:37 pm
+                                        </h6>
+                                    </div>
+                                    <div class="comment">
+                                        <p class="text-[16px] text-edgray2">
+                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit voluptatum
+                                            quaerat nemo eaque delectus ratione maiores expedita pariatur illum facilis
+                                            at repellendus nesciunt veniam animi, omnis corrupti reiciendis explicabo
+                                            itaque id.
+                                        </p>
+                                    </div>
+
+                                    <button
+                                        class="h-[30px] px-[16px] bg-edpurple text-[14px] text-white rounded-[6px] mt-[22px] hover:bg-black">Reply</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- comment form -->
+                    <div class="!mt-[60px] xxs:!mt-[30px]">
+                        <h5 class="font-medium text-[24px] text-black mb-[32px] xxs:mb-[20px]">Leave a Comment</h5>
+
+                        <form action="#" class="grid grid-cols-2 xxs:grid-cols-1 gap-[30px]">
+                            <div>
+                                <label for="ed-comment-form-name"
+                                    class="block mb-[11px] font-medium text-[16px] text-black">Your Name*</label>
+                                <input type="text" name="name" id="ed-comment-form-name"
+                                    placeholder="Your Name"
+                                    class="h-[60px] xxs:h-[50px] text-[16px] px-[20px] xxs:px-[15px] rounded-[4px] border border-[#E5E5E5] w-full focus:outline-none">
+                            </div>
+
+                            <div>
+                                <label for="ed-comment-form-email"
+                                    class="block mb-[11px] font-medium text-[16px] text-black">Your Email*</label>
+                                <input type="email" name="email" id="ed-comment-form-email"
+                                    placeholder="Your Email"
+                                    class="text-[16px] h-[60px] xxs:h-[50px] px-[20px] xxs:px-[15px] rounded-[4px] border border-[#E5E5E5] w-full focus:outline-none">
+                            </div>
+
+                            <div class="col-span-2 xxs:col-span-1">
+                                <label for="ed-comment-form-message"
+                                    class="block mb-[11px] font-medium text-[16px] text-black">Your Review*</label>
+                                <textarea name="message" id="ed-comment-form-message" placeholder="Write Message"
+                                    class="h-[200px] text-[16px] py-[18px] px-[20px] xxs:px-[15px] rounded-[4px] border border-[#E5E5E5] w-full focus:outline-none"></textarea>
+                            </div>
+
+                            <div>
+                                <button type="submit"
+                                    class="bg-edpurple h-[55px] px-[24px] rounded-[8px] text-white text-[16px] hover:bg-black">Post
+                                    Comment <span class="pl-[5px]"><i
+                                            class="fa-solid fa-arrow-right-long"></i></span></button>
                             </div>
                         </form>
                     </div>
-                    <div class="widget !mt-[40px]">
-                        <h4 class="widget-title !mb-3">{{ trans('web/blog.sidebar.popular') }}</h4>
-                        <ul class="m-0 p-0 after:content-[''] after:block after:h-0 after:clear-both after:invisible">
-                            @foreach (range(1, 3) as $value)
-                                <li class=" clear-both block overflow-hidden">
-                                    <figure class="!rounded-[.4rem] float-left w-14 !h-[4.5rem]">
-                                        <a href="./blog-post.html">
-                                            <img class="!rounded-[.4rem]" src="/assets/img/photos/a1.jpg"
-                                                alt="image">
-                                        </a>
-                                    </figure>
-                                    <div class="!relative !ms-[4.25rem] !mb-0">
-                                        <h6 class="!mb-2">
-                                            <a class="!text-[#343f52] hover:!text-[#3f78e0]"
-                                                href="./blog-post.html">Magna Mollis Ultricies</a>
-                                        </h6>
-                                        <ul class="!text-[0.7rem] !text-[#aab0bc] m-0 p-0 list-none">
-                                            <li class="post-date inline-block"><i
-                                                    class="uil uil-calendar-alt pr-[0.2rem] align-[-.05rem] before:content-['\e9ba']"></i><span>26
-                                                    Mar 2022</span></li>
-                                            <li
-                                                class="post-comments inline-block before:content-[''] before:inline-block before:w-[0.2rem] before:h-[0.2rem] before:opacity-50 before:m-[0_.6rem_0] before:rounded-[100%] before:align-[.15rem] before:bg-[#aab0bc]">
-                                                <a class="!text-[#aab0bc] hover:!text-[#3f78e0] hover:!border-[#3f78e0]"
-                                                    href="#"><i
-                                                        class="uil uil-comment pr-[0.2rem] align-[-.05rem] before:content-['\ea54']"></i>3</a>
-                                            </li>
-                                        </ul>
-                                        <!-- /.post-meta -->
-                                    </div>
-                                </li>
-                            @endforeach
+                </div>
+
+                <!-- right sidebar -->
+                <div class="right max-w-full w-[370px] lg:w-[360px] shrink-0 space-y-[30px] md:space-y-[25px]">
+                    <!-- search widget -->
+                    <div class="bg-edoffwhite rounded-[10px] p-[30px] xxs:px-[20px] pt-[20px] xxs:pt-[10px]">
+                        <h4
+                            class="font-semibold text-[18px] text-black border-b border-[#dddddd] relative pb-[11px] before:content-normal before:absolute before:left-0 before:bottom-0 before:w-[50px] before:h-[2px] before:bg-edpurple">
+                            Search</h4>
+
+                        <!-- search form -->
+                        <form action="#"
+                            class="border border-[#e5e5e5] rounded-[8px] flex h-[60px] px-[20px] mt-[30px]">
+                            <input type="search" name="search" id="ed-news-search"
+                                class="w-full bg-transparent text-[16px] focus:outline-none"
+                                placeholder="Search here..">
+                            <button type="submit" class="text-[16px] hover:text-edpurple"><i
+                                    class="fa-solid fa-magnifying-glass"></i></button>
+                        </form>
+                    </div>
+
+                    <!-- Categories widget -->
+                    <div class="bg-edoffwhite rounded-[10px] p-[30px] xxs:px-[20px] pt-[20px] xxs:pt-[10px]">
+                        <h4
+                            class="font-semibold text-[18px] text-black border-b border-[#dddddd] relative pb-[11px] before:content-normal before:absolute before:left-0 before:bottom-0 before:w-[50px] before:h-[2px] before:bg-edpurple">
+                            Categories</h4>
+
+                        <ul class="mt-[30px] text-[16px]">
+                            <li class="text-black py-[16px] border-b border-t border-[#D9D9D9]">
+                                <a href="#" class="flex items-center justify-between hover:text-edpurple">
+                                    <span>Art & Design</span>
+                                    <span>(2)</span>
+                                </a>
+                            </li>
+                            <li class="text-black py-[16px] border-b border-[#D9D9D9]">
+                                <a href="#" class="flex items-center justify-between hover:text-edpurple">
+                                    <span>Development</span>
+                                    <span>(4)</span>
+                                </a>
+                            </li>
+                            <li class="text-black py-[16px] border-b border-[#D9D9D9]">
+                                <a href="#" class="flex items-center justify-between hover:text-edpurple">
+                                    <span>Data Science</span>
+                                    <span>(3)</span>
+                                </a>
+                            </li>
+                            <li class="text-black py-[16px] border-b border-[#D9D9D9]">
+                                <a href="#" class="flex items-center justify-between hover:text-edpurple">
+                                    <span>Marketing</span>
+                                    <span>(2)</span>
+                                </a>
+                            </li>
+                            <li class="text-black py-[16px] border-b border-[#D9D9D9]">
+                                <a href="#" class="flex items-center justify-between hover:text-edpurple">
+                                    <span>Finance</span>
+                                    <span>(5)</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
-                    <!-- /.widget -->
-                    <div class="widget !mt-[40px]">
-                        <h4 class="widget-title !mb-3">{{ trans('web/blog.sidebar.categories') }}</h4>
-                        <ul class="pl-0 list-none bullet-primary !text-inherit">
-                            @foreach (range(1, 3) as $value)
-                                <li
-                                    class="relative !pl-[1rem] before:absolute  before:top-[-0.15rem] before:text-[1rem] before:content-['\2022'] before:left-0 before:font-SansSerif">
-                                    <a class="!text-[#60697b] hover:!text-[#3f78e0]" href="#">Teamwork (21)</a>
-                                </li>
-                            @endforeach
-                        </ul>
+
+                    <!-- Recent Post widget -->
+                    <div class="bg-edoffwhite rounded-[10px] p-[30px] xxs:px-[20px] pt-[20px] xxs:pt-[10px]">
+                        <h4
+                            class="font-semibold text-[18px] text-black border-b border-[#dddddd] relative pb-[11px] before:content-normal before:absolute before:left-0 before:bottom-0 before:w-[50px] before:h-[2px] before:bg-edpurple">
+                            Recent Post</h4>
+
+                        <div class="posts mt-[30px] space-y-[24px]">
+                            <!-- single post -->
+                            <div class="flex items-center gap-[16px]">
+                                <div class="rounded-[6px] w-[78px] h-[79px] overflow-hidden shrink-0">
+                                    <img src="assets/img/blog-1.png" alt="Post Image" class="object-cover h-full">
+                                </div>
+
+                                <div>
+                                    <span class="date text-[14px] text-edgray flex items-center gap-[12px] mb-[3px]">
+                                        <span class="icon">
+                                            <svg width="16" height="17" viewBox="0 0 16 17" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M15.6756 4.42875C15.5769 2.78656 14.2056 1.5 12.5541 1.5H11.75V0.875C11.75 0.70924 11.6842 0.550268 11.5669 0.433058C11.4497 0.315848 11.2908 0.25 11.125 0.25C10.9592 0.25 10.8003 0.315848 10.6831 0.433058C10.5659 0.550268 10.5 0.70924 10.5 0.875V1.5H5.50001V0.875C5.50001 0.70924 5.43416 0.550268 5.31695 0.433058C5.19974 0.315848 5.04077 0.25 4.87501 0.25C4.70924 0.25 4.55027 0.315848 4.43306 0.433058C4.31585 0.550268 4.25001 0.70924 4.25001 0.875V1.5H3.44594C1.79407 1.5 0.422818 2.78656 0.32438 4.42875C0.139068 7.5175 0.142505 10.6506 0.334693 13.7409C0.432193 15.3103 1.68938 16.5675 3.25875 16.665C4.83157 16.7628 6.41563 16.8116 7.99969 16.8116C9.58344 16.8116 11.1678 16.7628 12.7406 16.665C14.31 16.5675 15.5672 15.3103 15.6647 13.7409C15.8572 10.6522 15.8606 7.51937 15.6756 4.42875ZM14.4175 13.6634C14.3885 14.1191 14.1944 14.5487 13.8716 14.8716C13.5487 15.1944 13.1192 15.3885 12.6634 15.4175C9.56907 15.6097 6.43094 15.6097 3.33657 15.4175C2.88086 15.3885 2.45134 15.1944 2.12845 14.8716C1.80557 14.5487 1.61147 14.1191 1.58251 13.6634C1.43601 11.2785 1.40296 8.88803 1.48344 6.5H14.5169C14.5956 8.8875 14.5653 11.2884 14.4175 13.6634ZM4.87501 4C5.04077 4 5.19974 3.93415 5.31695 3.81694C5.43416 3.69973 5.50001 3.54076 5.50001 3.375V2.75H10.5V3.375C10.5 3.54076 10.5659 3.69973 10.6831 3.81694C10.8003 3.93415 10.9592 4 11.125 4C11.2908 4 11.4497 3.93415 11.5669 3.81694C11.6842 3.69973 11.75 3.54076 11.75 3.375V2.75H12.5541C13.5456 2.75 14.3688 3.52031 14.4278 4.50344C14.4425 4.75156 14.4488 5.00125 14.4609 5.25H1.53907C1.55157 5.00125 1.55751 4.75156 1.57219 4.50344C1.63126 3.52031 2.45407 2.75 3.44594 2.75H4.25001V3.375C4.25001 3.54076 4.31585 3.69973 4.43306 3.81694C4.55027 3.93415 4.70924 4 4.87501 4Z"
+                                                    class="fill-edpurple" />
+                                                <path
+                                                    d="M4.875 10.25C5.39277 10.25 5.8125 9.83027 5.8125 9.3125C5.8125 8.79473 5.39277 8.375 4.875 8.375C4.35723 8.375 3.9375 8.79473 3.9375 9.3125C3.9375 9.83027 4.35723 10.25 4.875 10.25Z"
+                                                    class="fill-edpurple" />
+                                                <path
+                                                    d="M8 10.25C8.51777 10.25 8.9375 9.83027 8.9375 9.3125C8.9375 8.79473 8.51777 8.375 8 8.375C7.48223 8.375 7.0625 8.79473 7.0625 9.3125C7.0625 9.83027 7.48223 10.25 8 10.25Z"
+                                                    class="fill-edpurple" />
+                                                <path
+                                                    d="M4.875 13.375C5.39277 13.375 5.8125 12.9553 5.8125 12.4375C5.8125 11.9197 5.39277 11.5 4.875 11.5C4.35723 11.5 3.9375 11.9197 3.9375 12.4375C3.9375 12.9553 4.35723 13.375 4.875 13.375Z"
+                                                    class="fill-edpurple" />
+                                                <path
+                                                    d="M11.125 10.25C11.6428 10.25 12.0625 9.83027 12.0625 9.3125C12.0625 8.79473 11.6428 8.375 11.125 8.375C10.6072 8.375 10.1875 8.79473 10.1875 9.3125C10.1875 9.83027 10.6072 10.25 11.125 10.25Z"
+                                                    class="fill-edpurple" />
+                                                <path
+                                                    d="M11.125 13.375C11.6428 13.375 12.0625 12.9553 12.0625 12.4375C12.0625 11.9197 11.6428 11.5 11.125 11.5C10.6072 11.5 10.1875 11.9197 10.1875 12.4375C10.1875 12.9553 10.6072 13.375 11.125 13.375Z"
+                                                    class="fill-edpurple" />
+                                                <path
+                                                    d="M8 13.375C8.51777 13.375 8.9375 12.9553 8.9375 12.4375C8.9375 11.9197 8.51777 11.5 8 11.5C7.48223 11.5 7.0625 11.9197 7.0625 12.4375C7.0625 12.9553 7.48223 13.375 8 13.375Z"
+                                                    class="fill-edpurple" />
+                                            </svg>
+                                        </span>
+                                        <span>18 Dec, 2024</span>
+                                    </span>
+
+                                    <h6 class="font-semibold text-[15px] text-black"><a href="news-details.html"
+                                            class="hover:text-edpurple">Keep Your Business Safe & Endure High
+                                            Availability</a></h6>
+                                </div>
+                            </div>
+
+                            <!-- single post -->
+                            <div class="flex items-center gap-[16px]">
+                                <div class="rounded-[6px] w-[78px] h-[79px] overflow-hidden shrink-0">
+                                    <img src="assets/img/blog-2.png" alt="Post Image" class="object-cover h-full">
+                                </div>
+
+                                <div>
+                                    <span class="date text-[14px] text-edgray flex items-center gap-[12px] mb-[3px]">
+                                        <span class="icon">
+                                            <svg width="16" height="17" viewBox="0 0 16 17" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M15.6756 4.42875C15.5769 2.78656 14.2056 1.5 12.5541 1.5H11.75V0.875C11.75 0.70924 11.6842 0.550268 11.5669 0.433058C11.4497 0.315848 11.2908 0.25 11.125 0.25C10.9592 0.25 10.8003 0.315848 10.6831 0.433058C10.5659 0.550268 10.5 0.70924 10.5 0.875V1.5H5.50001V0.875C5.50001 0.70924 5.43416 0.550268 5.31695 0.433058C5.19974 0.315848 5.04077 0.25 4.87501 0.25C4.70924 0.25 4.55027 0.315848 4.43306 0.433058C4.31585 0.550268 4.25001 0.70924 4.25001 0.875V1.5H3.44594C1.79407 1.5 0.422818 2.78656 0.32438 4.42875C0.139068 7.5175 0.142505 10.6506 0.334693 13.7409C0.432193 15.3103 1.68938 16.5675 3.25875 16.665C4.83157 16.7628 6.41563 16.8116 7.99969 16.8116C9.58344 16.8116 11.1678 16.7628 12.7406 16.665C14.31 16.5675 15.5672 15.3103 15.6647 13.7409C15.8572 10.6522 15.8606 7.51937 15.6756 4.42875ZM14.4175 13.6634C14.3885 14.1191 14.1944 14.5487 13.8716 14.8716C13.5487 15.1944 13.1192 15.3885 12.6634 15.4175C9.56907 15.6097 6.43094 15.6097 3.33657 15.4175C2.88086 15.3885 2.45134 15.1944 2.12845 14.8716C1.80557 14.5487 1.61147 14.1191 1.58251 13.6634C1.43601 11.2785 1.40296 8.88803 1.48344 6.5H14.5169C14.5956 8.8875 14.5653 11.2884 14.4175 13.6634ZM4.87501 4C5.04077 4 5.19974 3.93415 5.31695 3.81694C5.43416 3.69973 5.50001 3.54076 5.50001 3.375V2.75H10.5V3.375C10.5 3.54076 10.5659 3.69973 10.6831 3.81694C10.8003 3.93415 10.9592 4 11.125 4C11.2908 4 11.4497 3.93415 11.5669 3.81694C11.6842 3.69973 11.75 3.54076 11.75 3.375V2.75H12.5541C13.5456 2.75 14.3688 3.52031 14.4278 4.50344C14.4425 4.75156 14.4488 5.00125 14.4609 5.25H1.53907C1.55157 5.00125 1.55751 4.75156 1.57219 4.50344C1.63126 3.52031 2.45407 2.75 3.44594 2.75H4.25001V3.375C4.25001 3.54076 4.31585 3.69973 4.43306 3.81694C4.55027 3.93415 4.70924 4 4.87501 4Z"
+                                                    class="fill-edpurple" />
+                                                <path
+                                                    d="M4.875 10.25C5.39277 10.25 5.8125 9.83027 5.8125 9.3125C5.8125 8.79473 5.39277 8.375 4.875 8.375C4.35723 8.375 3.9375 8.79473 3.9375 9.3125C3.9375 9.83027 4.35723 10.25 4.875 10.25Z"
+                                                    class="fill-edpurple" />
+                                                <path
+                                                    d="M8 10.25C8.51777 10.25 8.9375 9.83027 8.9375 9.3125C8.9375 8.79473 8.51777 8.375 8 8.375C7.48223 8.375 7.0625 8.79473 7.0625 9.3125C7.0625 9.83027 7.48223 10.25 8 10.25Z"
+                                                    class="fill-edpurple" />
+                                                <path
+                                                    d="M4.875 13.375C5.39277 13.375 5.8125 12.9553 5.8125 12.4375C5.8125 11.9197 5.39277 11.5 4.875 11.5C4.35723 11.5 3.9375 11.9197 3.9375 12.4375C3.9375 12.9553 4.35723 13.375 4.875 13.375Z"
+                                                    class="fill-edpurple" />
+                                                <path
+                                                    d="M11.125 10.25C11.6428 10.25 12.0625 9.83027 12.0625 9.3125C12.0625 8.79473 11.6428 8.375 11.125 8.375C10.6072 8.375 10.1875 8.79473 10.1875 9.3125C10.1875 9.83027 10.6072 10.25 11.125 10.25Z"
+                                                    class="fill-edpurple" />
+                                                <path
+                                                    d="M11.125 13.375C11.6428 13.375 12.0625 12.9553 12.0625 12.4375C12.0625 11.9197 11.6428 11.5 11.125 11.5C10.6072 11.5 10.1875 11.9197 10.1875 12.4375C10.1875 12.9553 10.6072 13.375 11.125 13.375Z"
+                                                    class="fill-edpurple" />
+                                                <path
+                                                    d="M8 13.375C8.51777 13.375 8.9375 12.9553 8.9375 12.4375C8.9375 11.9197 8.51777 11.5 8 11.5C7.48223 11.5 7.0625 11.9197 7.0625 12.4375C7.0625 12.9553 7.48223 13.375 8 13.375Z"
+                                                    class="fill-edpurple" />
+                                            </svg>
+                                        </span>
+                                        <span>18 Dec, 2024</span>
+                                    </span>
+
+                                    <h6 class="font-semibold text-[15px] text-black"><a href="news-details.html"
+                                            class="hover:text-edpurple">Make Your Own Expanding Contracting</a></h6>
+                                </div>
+                            </div>
+
+                            <!-- single post -->
+                            <div class="flex items-center gap-[16px]">
+                                <div class="rounded-[6px] w-[78px] h-[79px] overflow-hidden shrink-0">
+                                    <img src="assets/img/blog-3.png" alt="Post Image" class="object-cover h-full">
+                                </div>
+
+                                <div>
+                                    <span class="date text-[14px] text-edgray flex items-center gap-[12px] mb-[3px]">
+                                        <span class="icon">
+                                            <svg width="16" height="17" viewBox="0 0 16 17" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M15.6756 4.42875C15.5769 2.78656 14.2056 1.5 12.5541 1.5H11.75V0.875C11.75 0.70924 11.6842 0.550268 11.5669 0.433058C11.4497 0.315848 11.2908 0.25 11.125 0.25C10.9592 0.25 10.8003 0.315848 10.6831 0.433058C10.5659 0.550268 10.5 0.70924 10.5 0.875V1.5H5.50001V0.875C5.50001 0.70924 5.43416 0.550268 5.31695 0.433058C5.19974 0.315848 5.04077 0.25 4.87501 0.25C4.70924 0.25 4.55027 0.315848 4.43306 0.433058C4.31585 0.550268 4.25001 0.70924 4.25001 0.875V1.5H3.44594C1.79407 1.5 0.422818 2.78656 0.32438 4.42875C0.139068 7.5175 0.142505 10.6506 0.334693 13.7409C0.432193 15.3103 1.68938 16.5675 3.25875 16.665C4.83157 16.7628 6.41563 16.8116 7.99969 16.8116C9.58344 16.8116 11.1678 16.7628 12.7406 16.665C14.31 16.5675 15.5672 15.3103 15.6647 13.7409C15.8572 10.6522 15.8606 7.51937 15.6756 4.42875ZM14.4175 13.6634C14.3885 14.1191 14.1944 14.5487 13.8716 14.8716C13.5487 15.1944 13.1192 15.3885 12.6634 15.4175C9.56907 15.6097 6.43094 15.6097 3.33657 15.4175C2.88086 15.3885 2.45134 15.1944 2.12845 14.8716C1.80557 14.5487 1.61147 14.1191 1.58251 13.6634C1.43601 11.2785 1.40296 8.88803 1.48344 6.5H14.5169C14.5956 8.8875 14.5653 11.2884 14.4175 13.6634ZM4.87501 4C5.04077 4 5.19974 3.93415 5.31695 3.81694C5.43416 3.69973 5.50001 3.54076 5.50001 3.375V2.75H10.5V3.375C10.5 3.54076 10.5659 3.69973 10.6831 3.81694C10.8003 3.93415 10.9592 4 11.125 4C11.2908 4 11.4497 3.93415 11.5669 3.81694C11.6842 3.69973 11.75 3.54076 11.75 3.375V2.75H12.5541C13.5456 2.75 14.3688 3.52031 14.4278 4.50344C14.4425 4.75156 14.4488 5.00125 14.4609 5.25H1.53907C1.55157 5.00125 1.55751 4.75156 1.57219 4.50344C1.63126 3.52031 2.45407 2.75 3.44594 2.75H4.25001V3.375C4.25001 3.54076 4.31585 3.69973 4.43306 3.81694C4.55027 3.93415 4.70924 4 4.87501 4Z"
+                                                    class="fill-edpurple" />
+                                                <path
+                                                    d="M4.875 10.25C5.39277 10.25 5.8125 9.83027 5.8125 9.3125C5.8125 8.79473 5.39277 8.375 4.875 8.375C4.35723 8.375 3.9375 8.79473 3.9375 9.3125C3.9375 9.83027 4.35723 10.25 4.875 10.25Z"
+                                                    class="fill-edpurple" />
+                                                <path
+                                                    d="M8 10.25C8.51777 10.25 8.9375 9.83027 8.9375 9.3125C8.9375 8.79473 8.51777 8.375 8 8.375C7.48223 8.375 7.0625 8.79473 7.0625 9.3125C7.0625 9.83027 7.48223 10.25 8 10.25Z"
+                                                    class="fill-edpurple" />
+                                                <path
+                                                    d="M4.875 13.375C5.39277 13.375 5.8125 12.9553 5.8125 12.4375C5.8125 11.9197 5.39277 11.5 4.875 11.5C4.35723 11.5 3.9375 11.9197 3.9375 12.4375C3.9375 12.9553 4.35723 13.375 4.875 13.375Z"
+                                                    class="fill-edpurple" />
+                                                <path
+                                                    d="M11.125 10.25C11.6428 10.25 12.0625 9.83027 12.0625 9.3125C12.0625 8.79473 11.6428 8.375 11.125 8.375C10.6072 8.375 10.1875 8.79473 10.1875 9.3125C10.1875 9.83027 10.6072 10.25 11.125 10.25Z"
+                                                    class="fill-edpurple" />
+                                                <path
+                                                    d="M11.125 13.375C11.6428 13.375 12.0625 12.9553 12.0625 12.4375C12.0625 11.9197 11.6428 11.5 11.125 11.5C10.6072 11.5 10.1875 11.9197 10.1875 12.4375C10.1875 12.9553 10.6072 13.375 11.125 13.375Z"
+                                                    class="fill-edpurple" />
+                                                <path
+                                                    d="M8 13.375C8.51777 13.375 8.9375 12.9553 8.9375 12.4375C8.9375 11.9197 8.51777 11.5 8 11.5C7.48223 11.5 7.0625 11.9197 7.0625 12.4375C7.0625 12.9553 7.48223 13.375 8 13.375Z"
+                                                    class="fill-edpurple" />
+                                            </svg>
+                                        </span>
+                                        <span>18 Dec, 2024</span>
+                                    </span>
+
+                                    <h6 class="font-semibold text-[15px] text-black"><a href="news-details.html"
+                                            class="hover:text-edpurple">Keep Your Business Safe & Endure High
+                                            Availability</a></h6>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <!-- /.widget -->
-                    <div class="widget !mt-[40px]">
-                        <h4 class="widget-title !mb-3">{{ trans('web/blog.sidebar.tags') }}</h4>
-                        <ul class="pl-0 list-none tag-list">
-                            @foreach (range(1, 3) as $value)
-                                <li class="!mt-0 !mb-[0.45rem] !me-[0.2rem] inline-block">
-                                    <a href="#"
-                                        class="btn btn-soft-ash btn-sm !rounded-[50rem] flex items-center hover:translate-y-[-0.15rem] hover:shadow-[0_0.25rem_0.75rem_rgba(30,34,40,.05)] before:not-italic before:content-['#'] before:font-normal before:!pr-[0.2rem]">Still
-                                        Life
-                                    </a>
-                                </li>
-                            @endforeach
-                        </ul>
+
+                    <!-- Tags widget -->
+                    <div class="bg-edoffwhite rounded-[10px] p-[30px] xxs:px-[20px] pt-[20px] xxs:pt-[10px]">
+                        <h4
+                            class="font-semibold text-[18px] text-black border-b border-[#dddddd] relative pb-[11px] before:content-normal before:absolute before:left-0 before:bottom-0 before:w-[50px] before:h-[2px] before:bg-edpurple">
+                            Tags</h4>
+
+                        <div class="flex flex-wrap gap-[10px] mt-[30px]">
+                            <a href="#"
+                                class="border border-[#e5e5e5] text-[14px] text-[#181818] px-[12px] py-[5px] rounded-[4px] hover:bg-edpurple hover:border-edpurple hover:text-white">Speaker</a>
+                            <a href="#"
+                                class="border border-[#e5e5e5] text-[14px] text-[#181818] px-[12px] py-[5px] rounded-[4px] hover:bg-edpurple hover:border-edpurple hover:text-white">Business</a>
+                            <a href="#"
+                                class="border border-[#e5e5e5] text-[14px] text-[#181818] px-[12px] py-[5px] rounded-[4px] hover:bg-edpurple hover:border-edpurple hover:text-white">Venue</a>
+                            <a href="#"
+                                class="border border-[#e5e5e5] text-[14px] text-[#181818] px-[12px] py-[5px] rounded-[4px] hover:bg-edpurple hover:border-edpurple hover:text-white">Tech</a>
+                            <a href="#"
+                                class="border border-[#e5e5e5] text-[14px] text-[#181818] px-[12px] py-[5px] rounded-[4px] hover:bg-edpurple hover:border-edpurple hover:text-white">Personal</a>
+                            <a href="#"
+                                class="border border-[#e5e5e5] text-[14px] text-[#181818] px-[12px] py-[5px] rounded-[4px] hover:bg-edpurple hover:border-edpurple hover:text-white">Digital</a>
+                            <a href="#"
+                                class="border border-[#e5e5e5] text-[14px] text-[#181818] px-[12px] py-[5px] rounded-[4px] hover:bg-edpurple hover:border-edpurple hover:text-white">Technology</a>
+                        </div>
                     </div>
-                    <!-- /.widget -->
-                </aside>
-                <!-- /column .sidebar -->
+                </div>
             </div>
-            <!-- /.row -->
         </div>
-        <!-- /.container -->
-    </section>
+    </div>
+    <!-- MAIN CONTENT END -->
 </div>

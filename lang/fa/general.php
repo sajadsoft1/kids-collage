@@ -12,13 +12,14 @@ return [
     'cancel'                           => 'لغو',
     'fa'                               => 'فارسی',
     'en'                               => 'انگلیسی',
-    
+    'show_errors'                      => 'نمایش خطاها',
+
     'please_select_an_option'          => 'لطفا گزینه مربوطه را انتخاب کنید',
     'yes'                              => 'بله',
     'no'                               => 'خیر',
     'active'                           => 'فعال',
     'inactive'                         => 'غیر فعال',
-    
+
     'model_has_stored_successfully'    => ':model با موفقیت ثبت شد',
     'model_has_updated_successfully'   => ':model با موفقیت به روز رسانی شد',
     'model_has_deleted_successfully'   => ':model با موفقیت حذف شد',
@@ -28,25 +29,25 @@ return [
     'model_has_retrieved_successfully' => ':model  با موفقیت بازیابی شده است',
     'model_has_Failed_to_store'        => ':model  ذخیره نشد',
     'model_has_not_set'                => 'مدل تعریف نشده است.',
-    
+
     'store_success'                    => 'ثبت :model با موفقیت انجام شد',
     'store_failed'                     => 'ثبت :model با خطا مواجه شد، لطفا مشکل پیش آمده را گزارش نمایید',
-    
+
     'update_success'                   => 'به روز رسانی :model با موفقیت انجام شد',
     'update_failed'                    => 'به روز رسانی :model با خطا مواجه شد، لطفا مشکل پیش آمده را گزارش نمایید',
-    
+
     'delete_success'                   => 'حذف :model با موفقیت انجام شد',
     'delete_failed'                    => 'حذف :model با خطا مواجه شد، لطفا مشکل پیش آمده را گزارش نمایید',
     'delete_can_not'                   => 'شما دسترسی لازم برای حذف :model را ندارید',
-    
+
     'toggle_success'                   => 'تغییر وضعیت :model با موفقیت انجام شد',
     'toggle_failed'                    => 'تغییر وضعیت :model با خطا مواجه شد، لطفا مشکل پیش آمده را گزارش نمایید',
     'toggle_can_not'                   => 'شما دسترسی لازم برای حذف :model را ندارید',
-    
+
     'menu'                             => [
         'index' => ':modelان',
     ],
-    
+
     'page'                             => [
         'index'   => [
             'page_title' => ':model ها',
@@ -82,12 +83,12 @@ return [
             'add' => 'افزودن',
         ],
     ],
-    
+
     'exceptions'                       => [
         'bad_request' => 'درخواست نامعتبر',
         'not_allowed' => 'عملیات مجاز نیست',
     ],
-    
+
     'page_sections'                    => [
         'data'                 => 'اطلاعات',
         'seo_options'          => 'تنظیمات سئو',
@@ -95,7 +96,7 @@ return [
         'publish_config'       => 'تنظیمات انتشار',
         'end_of_work_settings' => 'تنظیمات پایان کار',
     ],
-    
+
     'signs'                            => [
         '='  => 'مساوی',
         '>'  => 'بزرگتر از',
@@ -109,7 +110,7 @@ return [
     'transactions'                     => 'تراکنش ها',
     'activities'                       => 'فعالیت ها',
     'views'                            => 'بازدید ها',
-    
+
     'calendar'                         => [
         'persian'   => 'تقویم شمسی',
         'gregorian' => 'تقویم میلادی',

@@ -8,6 +8,8 @@ use Carbon\Carbon;
 
 trait CrudHelperTrait
 {
+    public bool $showErrors = false;
+
     /**
      * Parse timestamp value (handles both Unix timestamps and date strings)
      *

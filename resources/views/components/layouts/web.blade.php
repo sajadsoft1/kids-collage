@@ -35,37 +35,18 @@
             <!-- cart items -->
             <div>
                 <!-- single cart item -->
-                <div class="flex items-center gap-[20px] py-[30px] px-[25px] border-b border-edgray/20">
-                    <img src="assets/img/cart-item-1.jpg" alt="Cart Item Image" class="rounded-[10px] shrink-0">
-                    <div class="grow">
-                        <h6 class="font-medium text-[18px] text-edblue"><a href="course-details.html"
-                                class="hover:text-edpurple">Web Development</a></h6>
-                        <h6 class="font-medium text-edgray">$15.00</h6>
+                @foreach (range(1, 3) as $index)
+                    <div class="flex items-center gap-[20px] py-[30px] px-[25px] border-b border-edgray/20">
+                        <img src="/assets/web/img/cart-item-{{ $index }}.jpg" alt="Cart Item Image"
+                            class="rounded-[10px] shrink-0">
+                        <div class="grow">
+                            <h6 class="font-medium text-[18px] text-edblue"><a href="#"
+                                    class="hover:text-edpurple">Web Development</a></h6>
+                            <h6 class="font-medium text-edgray">$15.00</h6>
+                        </div>
+                        <button class="text-[20px] text-edgray shrink-0 hover:text-edpurple">x</button>
                     </div>
-                    <button class="text-[20px] text-edgray shrink-0 hover:text-edpurple">x</button>
-                </div>
-
-                <!-- single cart item -->
-                <div class="flex items-center gap-[20px] py-[30px] px-[25px] border-b border-edgray/20">
-                    <img src="assets/img/cart-item-2.jpg" alt="Cart Item Image" class="rounded-[10px] shrink-0">
-                    <div class="grow">
-                        <h6 class="font-medium text-[18px] text-edblue"><a href="course-details.html"
-                                class="hover:text-edpurple">Digital Marketing</a></h6>
-                        <h6 class="font-medium text-edgray">$15.00</h6>
-                    </div>
-                    <button class="text-[20px] text-edgray shrink-0 hover:text-edpurple">x</button>
-                </div>
-
-                <!-- single cart item -->
-                <div class="flex items-center gap-[20px] py-[30px] px-[25px] border-b border-edgray/20">
-                    <img src="assets/img/cart-item-3.jpg" alt="Cart Item Image" class="rounded-[10px] shrink-0">
-                    <div class="grow">
-                        <h6 class="font-medium text-[18px] text-edblue"><a href="course-details.html"
-                                class="hover:text-edpurple">WordPress Development</a></h6>
-                        <h6 class="font-medium text-edgray">$15.00</h6>
-                    </div>
-                    <button class="text-[20px] text-edgray shrink-0 hover:text-edpurple">x</button>
-                </div>
+                @endforeach
             </div>
 
             <!-- cart bottom -->
@@ -89,7 +70,7 @@
         <form action="#"
             class="bg-white fixed z-[100] top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] h-[100px] md:h-[70px] xxs:h-[50px] w-[1224px] max-w-[95%] flex gap-[10px] rounded-full overflow-hidden px-[40px] xxs:px-[20px] pointer-events-none opacity-0 group-[.active]:pointer-events-auto group-[.active]:opacity-100 duration-[400ms]">
             <input type="search" name="ed-search" placeholder="Search Here..."
-                class="bg-transparent w-full focus:outline-none">
+                class="w-full bg-transparent focus:outline-none">
             <button class="text-[25px] md:text-[22px] xxs:text-[20px]"><i
                     class="fa-solid fa-magnifying-glass"></i></button>
         </form>
@@ -101,8 +82,9 @@
             class="translate-x-[100%] transition-transform ease-linear duration-300 fixed right-0 w-full max-w-[25%] xl:max-w-[30%] lg:max-w-[40%] md:max-w-[50%] sm:max-w-[60%] xxs:max-w-full bg-white h-full z-[100] overflow-auto">
             <!-- heading -->
             <div class="ed-sidebar-heading p-[20px] lg:p-[20px] border-b border-edgray/20">
-                <div class="logo flex justify-between items-center">
-                    <a href="index.html"><img src="assets/img/logo.png" alt="logo"></a>
+                <div class="flex items-center justify-between logo">
+                    <a href="{{ localized_route('home-page') }}"><img src="/100_100.png" class="w-10 h-10"
+                            alt="logo"></a>
 
                     <button type="button"
                         class="ed-sidebar-close-btn border border-edgray/20 w-[45px] aspect-square shrink-0 text-black text-[22px] rounded-full hover:text-edpurple"><i
