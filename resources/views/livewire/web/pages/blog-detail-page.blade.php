@@ -91,7 +91,7 @@
                                 placerat eros sed istincidunt augue ac ante rutrum sed the is augue consequat.</p>
 
                             <blockquote
-                                class="bg-edoffwhite italic rounded-[10px] px-[40px] xxs:p-[25px] pr-[120px] xxs:pr-[100px] py-[30px] mt-[32px] mb-[28px] relative text-[16px] font-normal">
+                                class="bg-edoffwhite italic rounded-[10px] px-[40px] xxs:p-[25px] pe-[120px] xxs:pe-[100px] py-[30px] mt-[32px] mb-[28px] relative text-[16px] font-normal">
                                 Pellentesque sollicitudin congue dolor non aliquam. Morbi volutpat, nisi vel ultricies
                                 urnacondimentum, sapien neque lobortis tortor, quis efficitur mi eu metus. Praesent
                                 eleifend orci sit amet est vehicula.
@@ -241,7 +241,7 @@
                             <div>
                                 <button type="submit"
                                     class="bg-edpurple h-[55px] px-[24px] rounded-[8px] text-white text-[16px] hover:bg-black">Post
-                                    Comment <span class="pl-[5px]"><i
+                                    Comment <span class="ps-[5px]"><i
                                             class="fa-solid fa-arrow-right-long"></i></span></button>
                             </div>
                         </form>

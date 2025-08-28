@@ -10,13 +10,21 @@ use App\Livewire\Web\Auth\ConfirmPage;
 use App\Livewire\Web\Auth\ForgetPasswordPage;
 use App\Livewire\Web\Auth\LoginPage;
 use App\Livewire\Web\Auth\RegisterPage;
+use App\Livewire\Web\Pages\AboutUsPage;
 use App\Livewire\Web\Pages\BlogDetailPage;
 use App\Livewire\Web\Pages\BlogPage;
 use App\Livewire\Web\Pages\ContactUsPage;
+use App\Livewire\Web\Pages\CourseDetailPage;
+use App\Livewire\Web\Pages\CoursePage;
+use App\Livewire\Web\Pages\EventDetailPage;
+use App\Livewire\Web\Pages\EventPage;
 use App\Livewire\Web\Pages\FaqPage;
 use App\Livewire\Web\Pages\HomePage;
+use App\Livewire\Web\Pages\NewsDetailPage;
+use App\Livewire\Web\Pages\NewsPage;
 use App\Livewire\Web\Pages\PortfolioDetailPage;
 use App\Livewire\Web\Pages\PortfolioPage;
+use App\Livewire\Web\Pages\SearchPage;
 use App\Livewire\Web\Pages\Services\ApplicationPage;
 use App\Livewire\Web\Pages\Services\SeoPage;
 use App\Livewire\Web\Pages\Services\WebsitePage;
@@ -33,7 +41,7 @@ Route::post('logout', function () {
 })->name('logout');
 
 // Web Authentication Routes (Redirect authenticated users)
-Route::middleware([RedirectIfAuthenticated::class])->group(function () {
+Route::middleware(RedirectIfAuthenticated::class)->group(function () {
     Route::multilingual('login', LoginPage::class)->name('login');
     Route::multilingual('register', RegisterPage::class)->name('register');
     Route::multilingual('forget-password', ForgetPasswordPage::class)->name('password.request');
@@ -47,17 +55,27 @@ Route::middleware([RedirectIfAuthenticated::class])->group(function () {
 // Web Pages
 Route::multilingual('/', HomePage::class)->name('home-page');
 Route::multilingual('blog', BlogPage::class)->name('blog');
-Route::multilingual('blog/detail', BlogDetailPage::class)->name('blog.detail');
-Route::multilingual('portfolio', PortfolioPage::class)->name('portfolio');
+Route::multilingual('blog/{blog:slug}', BlogDetailPage::class)->name('blog.detail');
+
+// search by:text|category|tag|author
+Route::multilingual('search', SearchPage::class)->name('search');
+
+Route::multilingual('news', NewsPage::class)->name('news');
+Route::multilingual('news/{news}', NewsDetailPage::class)->name('news.detail');
+
+Route::multilingual('event', EventPage::class)->name('event');
+Route::multilingual('event/{event}', EventDetailPage::class)->name('event.detail');
+
+Route::multilingual('course', CoursePage::class)->name('course');
+Route::multilingual('course/{course}', CourseDetailPage::class)->name('course.detail');
+
 Route::multilingual('faq', FaqPage::class)->name('faq');
-Route::multilingual('portfolio/detail', PortfolioDetailPage::class)->name('portfolio.detail');
-Route::multilingual('services/website', WebsitePage::class)->name('services.website');
-Route::multilingual('services/seo', SeoPage::class)->name('services.seo');
-Route::multilingual('services/application', ApplicationPage::class)->name('services.application');
-Route::multilingual('contact-us', ContactUsPage::class)->name('contact-us');
+Route::multilingual('contact', ContactUsPage::class)->name('contact');
+Route::multilingual('about', AboutUsPage::class)->name('about');
+
+
 Route::multilingual('sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 Route::multilingual('sitemap-article.xml', [SitemapController::class, 'article'])->name('sitemap-article');
-Route::multilingual('sitemap-portfolio.xml', [SitemapController::class, 'portfolio'])->name('sitemap-portfolio');
 
 // laravel not found route
 //Route::fallback(function () {

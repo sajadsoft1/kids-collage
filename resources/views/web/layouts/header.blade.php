@@ -61,10 +61,10 @@
                             <a href="{{ localized_route('blog') }}">{{ trans('web/general.header.blogs') }}</a>
                         </li>
                         <li>
-                            <a href="#">{{ trans('web/general.header.about_us') }}</a>
+                            <a href="{{localized_route('about')}}">{{ trans('web/general.header.about_us') }}</a>
                         </li>
                         <li><a
-                                href="{{ localized_route('contact-us') }}">{{ trans('web/general.header.contact_us') }}</a>
+                                href="{{ localized_route('contact') }}">{{ trans('web/general.header.contact_us') }}</a>
                         </li>
                     </ul>
                 </div>

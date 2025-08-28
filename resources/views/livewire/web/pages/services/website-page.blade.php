@@ -131,10 +131,10 @@
                         class="flex flex-wrap mx-[-15px] md:mx-[-20px] lg:mx-[-20px] xl:mx-[-35px] !mt-[-50px] xl:!mt-[-70px] lg:!mt-[-70px] md:!mt-[-70px] isotope">
                         <div
                             class="item xl:w-6/12 lg:w-6/12 md:w-6/12 w-full flex-[0_0_auto] xl:!px-[35px] lg:!px-[20px] md:!px-[20px] !px-[15px] max-w-full md:!mt-7 lg:!mt-20 xl:!mt-20 max-md:!mt-[50px]">
-                            <div class="project-details flex justify-center !self-end flex-col !pl-0 !pb-0">
+                            <div class="project-details flex justify-center !self-end flex-col !ps-0 !pb-0">
                                 <div class="post-header">
                                     <h2
-                                        class="!text-[calc(1.305rem_+_0.66vw)] font-bold xl:!text-[1.8rem] !leading-[1.3] !mb-4 xxl:!pr-20">
+                                        class="!text-[calc(1.305rem_+_0.66vw)] font-bold xl:!text-[1.8rem] !leading-[1.3] !mb-4 xxl:!pe-20">
                                         {{ trans('web/service_web.portfolio.title') }}</h2>
                                     <p class="lead text-[1.05rem] !leading-[1.6] font-medium !mb-0">
                                         {{ trans('web/service_web.portfolio.description') }}</p>
@@ -156,7 +156,7 @@
                                     </a>
                                 </figure>
                                 <div
-                                    class="uppercase !tracking-[0.02rem] text-[0.7rem] font-bold text-line relative align-top !pl-[1.4rem] before:content-[''] before:absolute before:inline-block before:translate-y-[-60%] before:w-3 before:h-[0.05rem] before:left-0 before:top-2/4">
+                                    class="uppercase !tracking-[0.02rem] text-[0.7rem] font-bold text-line relative align-top !ps-[1.4rem] before:content-[''] before:absolute before:inline-block before:translate-y-[-60%] before:w-3 before:h-[0.05rem] before:left-0 before:top-2/4">
                                     طراحی سایت
                                 </div>
                                 <h2 class="post-title h3">سایت فروشگاهی مگریکو</h2>
@@ -201,7 +201,7 @@
                         </figure>
                     </div>
                     <div class="xl:w-7/12 lg:w-5/12 w-full flex-[0_0_auto] xl:!px-[35px] lg:!px-[20px] !px-[15px] !mt-[50px] max-w-full">
-                        <h3 class="!text-[calc(1.305rem_+_0.66vw)] font-bold xl:!text-[1.8rem] !leading-[1.3] !mb-6 xxl:!pr-6">
+                        <h3 class="!text-[calc(1.305rem_+_0.66vw)] font-bold xl:!text-[1.8rem] !leading-[1.3] !mb-6 xxl:!pe-6">
                             {{ $row['title'] }}</h3>
                         <p class="text-base text-gray-700 font-bold">
                             {{ $row['description'] }}

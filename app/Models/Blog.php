@@ -104,6 +104,6 @@ class Blog extends Model implements HasMedia
     /** Model Custom Methods -------------------------------------------------------------------------- */
     public function path(): string
     {
-        return localized_route('blog.detail', ['slug' => $this->slug]);
+        return localized_route('blog.detail', ['blog' => $this->slug]);
     }
 }

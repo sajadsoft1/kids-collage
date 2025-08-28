@@ -46,7 +46,7 @@
                 <!-- single feature -->
                 @foreach (trans('web/home.features') as $feature)
                     <div
-                        class="bg-[#FAF9F6] hover:bg-edyellow border-t-[7px] border-edyellow hover:border-edpurple duration-[400ms] p-[30px] sm:p-[25px] group relative z-[1] before:absolute before:-z-[1] before:inset-0 before:bg-[url('../assets/img/faeture-bg.jpg')] before:mix-blend-hard-light before:opacity-0 before:duration-[400ms] hover:before:opacity-15">
+                        class="bg-[#FAF9F6] hover:bg-edyellow border-t-[7px] border-edyellow hover:border-edpurple duration-[400ms] p-[30px] sm:p-[25px] group relative z-[1] before:absolute before:-z-[1] before:inset-0 before:bg-[url('/assets/web/img/faeture-bg.jpg')] before:mix-blend-hard-light before:opacity-0 before:duration-[400ms] hover:before:opacity-15">
                         <span class="icon">
                             <img src="{{ $feature['icon'] }}" alt="feature" class="mb-[11px]">
                         </span>
@@ -183,7 +183,7 @@
             <div class="flex flex-col gap-x-[85px] items-start relative">
                 <!-- heading -->
                 <div
-                    class="relative w-full before:absolute before:bottom-0 before:mb-[8%] before:left-0 before:bg-[url('../../assets/web/img/admission-title-vector.svg')] before:bg-no-repeat before:bg-[length:100%_100%] before:w-[100%] before:h-[88px] before:pointer-events-none lg:before:hidden">
+                    class="relative w-full before:absolute before:bottom-0 before:mb-[8%] before:left-0 before:bg-[url('/assets/web/img/admission-title-vector.svg')] before:bg-no-repeat before:bg-[length:100%_100%] before:w-[100%] before:h-[88px] before:pointer-events-none lg:before:hidden">
                     <div class="shrink-0 max-w-[290px]">
                         <h6 class="ed-section-sub-title">{{ trans('web/home.admission_process.section') }}</h6>
                         <h2 class="ed-section-title !text-[30px] pb-[42px] lg:pb-0 mb-[40px] lg:mb-[20px]">
@@ -195,7 +195,7 @@
 
                 <!-- cards -->
                 <div
-                    class="grid grid-cols-3 sm:grid-cols-2 xxs:grid-cols-1 gap-[24px] -mt-[140px] lg:mt-[25px] w-[66%] ml-auto lg:w-[100%]">
+                    class="grid grid-cols-3 sm:grid-cols-2 xxs:grid-cols-1 gap-[24px] -mt-[140px] lg:mt-[25px] w-[66%] ms-auto lg:w-[100%]">
                     <!-- single process -->
                     @foreach (range(1, 3) as $row)
                         <div class="bg-white rounded-[10px] p-[24px] shadow-[0_4px_50px_rgba(0,0,0,0.09)]">
@@ -244,7 +244,7 @@
                     </div>
 
                     <!-- main content -->
-                    <div class="p-[40px] pr-0 lg:pe-[40px] text-center">
+                    <div class="p-[40px] pe-0 lg:pe-[40px] text-center">
                         <img src="{{ trans('web/home.register_form.form.image') }}" alt="form image"
                             class="mx-auto drop-shadow-[0_4px_30px_rgba(0,0,0,0.1)] mb-[17px]">
                         <h5 class="text-[20px] text-edblue mb-[28px]">
@@ -323,7 +323,7 @@
                 </div>
 
                 <!-- image -->
-                <div class="shrink-0 relative z-[1] pr-[40px] lg:pr-0">
+                <div class="shrink-0 relative z-[1] pe-[40px] lg:pe-0">
                     <img src="{{ asset('assets/web/img/cta-img.png') }}" alt="image">
                     <img src="{{ asset('assets/web/img/cta-img-vector.svg') }}" alt="vector"
                         class="absolute right-[0] lg:right-[-40px] top-[20px] -z-[1] max-w-[460px]">
@@ -375,7 +375,7 @@
                 <div class="space-y-[30px] max-w-[50%] md:max-w-full shrink-0 grow">
                     <!-- single service -->
                     <div
-                        class="flex xxs:flex-col items-center xxs:items-start gap-x-[20px] gap-y-[15px] odd:ml-[86px] lg:odd:ml-[56px] xxs:odd:ml-[26px]">
+                        class="flex xxs:flex-col items-center xxs:items-start gap-x-[20px] gap-y-[15px] odd:ms-[86px] lg:odd:ms-[56px] xxs:odd:ms-[26px]">
                         <!-- icon -->
                         <span
                             class="shrink-0 w-[90px] aspect-square rounded-[8px] bg-[#F39F5F]/20 flex items-center justify-center">
@@ -391,7 +391,7 @@
 
                     <!-- single service -->
                     <div
-                        class="flex xxs:flex-col items-center xxs:items-start gap-x-[20px] gap-y-[15px] odd:ml-[86px] lg:odd:ml-[56px] xxs:odd:ml-[26px]">
+                        class="flex xxs:flex-col items-center xxs:items-start gap-x-[20px] gap-y-[15px] odd:ms-[86px] lg:odd:ms-[56px] xxs:odd:ms-[26px]">
                         <!-- icon -->
                         <span
                             class="shrink-0 w-[90px] aspect-square rounded-[8px] bg-edpurple/15 flex items-center justify-center">
@@ -407,7 +407,7 @@
 
                     <!-- single service -->
                     <div
-                        class="flex xxs:flex-col items-center xxs:items-start gap-x-[20px] gap-y-[15px] odd:ml-[86px] lg:odd:ml-[56px] xxs:odd:ml-[26px]">
+                        class="flex xxs:flex-col items-center xxs:items-start gap-x-[20px] gap-y-[15px] odd:ms-[86px] lg:odd:ms-[56px] xxs:odd:ms-[26px]">
                         <!-- icon -->
                         <span
                             class="shrink-0 w-[90px] aspect-square rounded-[8px] bg-[#70A6B1]/20 flex items-center justify-center">
@@ -479,12 +479,12 @@
                 <div class="max-w-[50%] md:max-w-full">
                     <!-- heading -->
                     <div
-                        class="pb-[40px] sm:pb-[20px] bg-[url('../../assets/web/img/testimonial-heading-vector.svg')] bg-no-repeat bg-left-bottom bg-[length:1000px] mb-[40px]  md:bg-none md:mb-0">
+                        class="pb-[40px] sm:pb-[20px] bg-[url('/assets/web/img/testimonial-heading-vector.svg')] bg-no-repeat bg-left-bottom rtl:bg-right-bottom bg-[length:1000px] mb-[40px]  md:bg-none md:mb-0">
                         <h6 class="ed-section-sub-title">{{ trans('web/home.testimonial.section') }}</h6>
                         <h2 class="ed-section-title !text-[30px]">{{ trans('web/home.testimonial.title') }}</h2>
                     </div>
 
-                    <div class="flex xxs:flex-col gap-[15px] items-center relative pr-[35px]">
+                    <div class="flex xxs:flex-col gap-[15px] items-center relative pe-[35px]">
                         <div class="max-w-full ed-testimonial-slider swiper">
                             <div class="swiper-wrapper">
                                 <!-- single testimony -->
@@ -525,19 +525,19 @@
 
                         <!-- slider dots -->
                         <div
-                            class="flex items-start flex-col xxs:hidden shrink-0 space-y-[40px] relative z-[1] before:absolute before:top-[50%] before:-translate-y-[50%] before:right-[28px] before:w-[138px] before:h-[420px] before:bg-[url('../assets/img/testimonial-img-slider-vector.svg')] before:bg-no-repeat before:bg-center before:bg-[length:100%_100%] before:-z-[1] before:opacity-10 before:pointer-events-none">
+                            class="flex items-start flex-col xxs:hidden shrink-0 space-y-[40px] relative z-[1] before:absolute before:top-[50%] before:-translate-y-[50%] before:right-[28px] before:w-[138px] before:h-[420px] before:bg-[url('/assets/web/img/testimonial-img-slider-vector.svg')] before:bg-no-repeat before:bg-center before:bg-[length:100%_100%] before:-z-[1] before:opacity-10 before:pointer-events-none">
                             <div
-                                class="rounded-full overflow-hidden inline-block border border-edpurple p-[5px] even:ml-[40px]">
+                                class="rounded-full overflow-hidden inline-block border border-edpurple p-[5px] even:ms-[40px]">
                                 <img src="{{ asset('assets/web/img/user-2.png') }}" alt="user"
                                     class="rounded-full w-[90px] aspect-square">
                             </div>
                             <div
-                                class="rounded-full overflow-hidden inline-block border border-edpurple p-[5px] even:ml-[40px]">
+                                class="rounded-full overflow-hidden inline-block border border-edpurple p-[5px] even:ms-[40px]">
                                 <img src="{{ asset('assets/web/img/user-3.png') }}" alt="user"
                                     class="rounded-full w-[90px] aspect-square">
                             </div>
                             <div
-                                class="rounded-full overflow-hidden inline-block border border-edpurple p-[5px] even:ml-[40px]">
+                                class="rounded-full overflow-hidden inline-block border border-edpurple p-[5px] even:ms-[40px]">
                                 <img src="{{ asset('assets/web/img/user-4.png') }}" alt="user"
                                     class="rounded-full w-[90px] aspect-square">
                             </div>
@@ -549,7 +549,7 @@
                 <div>
                     <!-- heading -->
                     <div
-                        class="pb-[40px] sm:pb-[20px] flex justify-end md:justify-start bg-[url('/assets/web/img/testimonial-heading-vector.svg')] bg-no-repeat bg-right-bottom bg-[length:1000px] mb-[40px] md:bg-none md:mb-0">
+                        class="pb-[40px] sm:pb-[20px] flex justify-end md:justify-start bg-[url('/assets/web/img/testimonial-heading-vector.svg')] bg-no-repeat bg-right-bottom rtl:bg-left-bottom bg-[length:1000px] mb-[40px] md:bg-none md:mb-0">
                         <div>
                             <h6 class="ed-section-sub-title">{{ trans('web/home.event.section') }}</h6>
                             <h2 class="ed-section-title !text-[30px]">{{ trans('web/home.event.title') }}</h2>
@@ -602,7 +602,7 @@
 
                 <a href="#"
                     class="ed-btn !bg-transparent border border-edpurple !text-edpurple hover:!bg-edpurple hover:!text-white">مشاهده
-                    همه معلمان <span class="icon pl-[10px]"><i class="fa-solid fa-arrow-right-long"></i></span></a>
+                    همه معلمان <span class="icon ps-[10px]"><i class="fa-solid fa-arrow-right-long"></i></span></a>
             </div>
 
             <div class="grid grid-cols-3 sm:grid-cols-2 xxs:grid-cols-1 gap-[30px] lg:gap-[20px]">

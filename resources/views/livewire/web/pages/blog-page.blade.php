@@ -6,11 +6,11 @@
          lg:pb-[98px] sm:pb-[68px] xs:pb-[48px] text-center bg-no-repeat bg-cover bg-center relative z-[1] overflow-hidden before:absolute before:-z-[1] before:inset-0 before:bg-edblue/70 before:pointer-events-none"
         style="background-image: url('/assets/web/img/breadcrumb-bg.jpg');">
         <div class="mx-[19.71%] xxxl:mx-[14.71%] xxl:mx-[9.71%] xl:mx-[5.71%] md:mx-[12px]">
-            <h1 class="font-semibold text-[clamp(35px,6vw,56px)] text-white">News List</h1>
+            <h1 class="font-semibold text-[clamp(35px,6vw,56px)] text-white">{{ trans('web/blog.title') }}</h1>
             <ul class="flex items-center justify-center gap-[10px] text-white">
-                <li><a href="index.html" class="text-edyellow">Home</a></li>
+                <li><a href="{{ localized_route('home-page') }}" class="text-edyellow">{{trans('web/general.header.home')}}</a></li>
                 <li><span class="text-[12px]"><i class="fa-solid fa-angle-double-right"></i></span></li>
-                <li>News List</li>
+                <li>{{trans('web/general.header.blogs')}}</li>
             </ul>
         </div>
 
@@ -40,10 +40,10 @@
                                 <div
                                     class="bg-[#ECF0F5] rounded-[10px] font-medium text-[14px] text-black inline-block uppercase overflow-hidden text-center absolute top-[20px] left-[20px]">
                                     <span class="bg-edpurple text-white block py-[3px] rounded-[10px]">
-                                        {{ $blog->created_at->format('d') }}
+                                        {{ jdate($blog->created_at)->format('%d') }}
                                     </span>
                                     <span class="px-[11px] py-[2px] block">
-                                        {{ $blog->created_at->format('F') }}
+                                        {{ jdate($blog->created_at)->format('%B') }}
                                     </span>
                                 </div>
                             </div>
@@ -57,16 +57,17 @@
                                         <span class="icon shrink-0"><img class="w-10 h-10 rounded-full"
                                                 src="{{ $blog->user->getFirstMediaUrl('avatar', Constants::RESOLUTION_100_SQUARE) }}"
                                                 alt="icon"></span>
-                                        <span class="text-[14px] text-edgray">by <a
-                                                href="#">{{ $blog->user->full_name }}</a></span>
+                                        <span class="text-[14px] text-edgray">{{trans('web/general.by')}}
+                                            <a href="#">{{ $blog->user->full_name }}</a>
+                                        </span>
                                     </div>
 
                                     <!-- single info -->
                                     <div class="flex gap-[10px] items-center">
-                                        <span class="icon shrink-0"><img src="assets/img/icon/tag.svg"
-                                                alt="icon"></span>
-                                        <span class="text-[14px] text-edgray"><a
-                                                href="#">{{ $blog->category->name }}</a></span>
+                                        <span class="icon shrink-0"><i class="fa fa-layer-group"></i></span>
+                                        <span class="text-[14px] text-edgray">
+                                            <a href="#">{{ $blog->category->title }}</a>
+                                        </span>
                                     </div>
                                 </div>
 
@@ -83,7 +84,7 @@
 
                                 <div class="flex items-center justify-between">
                                     <a href="{{ $blog->path() }}" class="text-edpurple text-[16px] hover:text-edyellow">
-                                        {{ trans('web/general.read_more') }} <span class="pl-[5px]"><i
+                                        {{ trans('web/general.read_more') }} <span class="ps-[5px]"><i
                                                 class="fa-solid fa-arrow-right-long"></i></span></a>
 
                                     <button
