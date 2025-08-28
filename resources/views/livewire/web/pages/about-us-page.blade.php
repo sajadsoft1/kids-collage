@@ -2,7 +2,7 @@
     <!-- BREADCRUMB SECTION START -->
     <section class="pt-[327px] xl:pt-[287px] lg:pt-[237px] sm:pt-[200px] xxs:pt-[180px] pb-[158px]
     xl:pb-[118px] lg:pb-[98px] sm:pb-[68px] xs:pb-[48px] text-center bg-no-repeat bg-cover bg-center relative z-[1] overflow-hidden before:absolute before:-z-[1] before:inset-0 before:bg-edblue/70 before:pointer-events-none"
-    style="background-image: url('/assets/web/img/breadcrumb-bg.jpg')">
+             style="background-image: url('/assets/web/img/breadcrumb-bg.jpg')">
         <div class="mx-[19.71%] xxxl:mx-[14.71%] xxl:mx-[9.71%] xl:mx-[5.71%] md:mx-[12px]">
             <h1 class="font-semibold text-[clamp(35px,6vw,56px)] text-white">About us</h1>
             <ul class="flex items-center justify-center gap-[10px] text-white">
@@ -140,7 +140,8 @@
                         <div>
                                 <span class="inline-flex items-center gap-[8px] px-[12px] py-[6px] border border-[#D4DCFF] rounded-[8px] text-[14px] font-medium text-edpurple mb-[11px]">
                                     <span class="icon"><svg width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M19.3356 4.54352L11.3631 0.648906C10.6758 0.305264 9.50745 0.305264 8.82016 0.648906L0.664376 4.54352C0.0916381 4.81844 0 5.2079 0 5.41408C0 5.62027 0.0916381 5.98682 0.664376 6.28464L1.32875 6.60538V10.2709C0.91638 10.4313 0.618557 10.8436 0.618557 11.3018C0.618557 11.76 0.91638 12.1724 1.30584 12.3328L0.274914 15.6088H3.16151L2.13058 12.3328C2.54296 12.1724 2.81787 11.76 2.81787 11.3018C2.81787 10.8207 2.52005 10.4313 2.10767 10.2709V6.99484L3.32188 7.59049V12.3557C3.32188 12.4244 3.34479 12.4931 3.39061 12.5618C3.50515 12.6993 5.63574 15.6088 9.98854 15.6088C14.3414 15.6088 16.4719 12.6764 16.5636 12.5618C16.6094 12.4931 16.6323 12.4244 16.6323 12.3557V7.6134L19.3356 6.28464C19.9084 6.00973 20 5.62027 20 5.41408C19.9771 5.2079 19.9084 4.81844 19.3356 4.54352ZM15.8992 12.2411C15.5326 12.6993 13.5624 14.8986 9.98854 14.8986C6.41466 14.8986 4.44444 12.6993 4.07789 12.2411V7.91122L8.82016 10.1793C9.1638 10.3396 9.62199 10.4313 10.0802 10.4313C10.5613 10.4313 11.0195 10.3396 11.3631 10.1564L15.8992 7.93413V12.2411ZM19.0149 5.64318L16.2658 6.99484C16.1512 6.99484 16.0596 7.04066 16.0137 7.1323L11.0424 9.53779C10.5613 9.7898 9.62199 9.7898 9.11798 9.53779L3.00115 6.60538L10.0344 5.78064C10.2405 5.75773 10.378 5.57445 10.3551 5.39117C10.3322 5.18499 10.1489 5.04753 9.96564 5.07044L1.80985 6.03264L0.985109 5.64318C0.778923 5.55154 0.733104 5.43699 0.733104 5.43699C0.733104 5.41408 0.778923 5.32245 0.985109 5.23081L9.14089 1.31328C9.3929 1.19873 9.73654 1.13001 10.0802 1.13001C10.4467 1.13001 10.8133 1.19873 11.0424 1.31328L19.0149 5.2079C19.2211 5.29954 19.2669 5.39117 19.2669 5.43699C19.2669 5.43699 19.1982 5.55154 19.0149 5.64318Z" class="fill-edpurple" />
+                                            <path d="M19.3356 4.54352L11.3631 0.648906C10.6758 0.305264 9.50745 0.305264 8.82016 0.648906L0.664376 4.54352C0.0916381 4.81844 0 5.2079 0 5.41408C0 5.62027 0.0916381 5.98682 0.664376 6.28464L1.32875 6.60538V10.2709C0.91638 10.4313 0.618557 10.8436 0.618557 11.3018C0.618557 11.76 0.91638 12.1724 1.30584 12.3328L0.274914 15.6088H3.16151L2.13058 12.3328C2.54296 12.1724 2.81787 11.76 2.81787 11.3018C2.81787 10.8207 2.52005 10.4313 2.10767 10.2709V6.99484L3.32188 7.59049V12.3557C3.32188 12.4244 3.34479 12.4931 3.39061 12.5618C3.50515 12.6993 5.63574 15.6088 9.98854 15.6088C14.3414 15.6088 16.4719 12.6764 16.5636 12.5618C16.6094 12.4931 16.6323 12.4244 16.6323 12.3557V7.6134L19.3356 6.28464C19.9084 6.00973 20 5.62027 20 5.41408C19.9771 5.2079 19.9084 4.81844 19.3356 4.54352ZM15.8992 12.2411C15.5326 12.6993 13.5624 14.8986 9.98854 14.8986C6.41466 14.8986 4.44444 12.6993 4.07789 12.2411V7.91122L8.82016 10.1793C9.1638 10.3396 9.62199 10.4313 10.0802 10.4313C10.5613 10.4313 11.0195 10.3396 11.3631 10.1564L15.8992 7.93413V12.2411ZM19.0149 5.64318L16.2658 6.99484C16.1512 6.99484 16.0596 7.04066 16.0137 7.1323L11.0424 9.53779C10.5613 9.7898 9.62199 9.7898 9.11798 9.53779L3.00115 6.60538L10.0344 5.78064C10.2405 5.75773 10.378 5.57445 10.3551 5.39117C10.3322 5.18499 10.1489 5.04753 9.96564 5.07044L1.80985 6.03264L0.985109 5.64318C0.778923 5.55154 0.733104 5.43699 0.733104 5.43699C0.733104 5.41408 0.778923 5.32245 0.985109 5.23081L9.14089 1.31328C9.3929 1.19873 9.73654 1.13001 10.0802 1.13001C10.4467 1.13001 10.8133 1.19873 11.0424 1.31328L19.0149 5.2079C19.2211 5.29954 19.2669 5.39117 19.2669 5.43699C19.2669 5.43699 19.1982 5.55154 19.0149 5.64318Z"
+                                                  class="fill-edpurple"/>
                                         </svg>
                                     </span>
                                     <span>Business</span>
@@ -164,7 +165,8 @@
                         <div>
                                 <span class="inline-flex items-center gap-[8px] px-[12px] py-[6px] border border-[#D4DCFF] rounded-[8px] text-[14px] font-medium text-edpurple mb-[11px]">
                                     <span class="icon"><svg width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M19.3356 4.54352L11.3631 0.648906C10.6758 0.305264 9.50745 0.305264 8.82016 0.648906L0.664376 4.54352C0.0916381 4.81844 0 5.2079 0 5.41408C0 5.62027 0.0916381 5.98682 0.664376 6.28464L1.32875 6.60538V10.2709C0.91638 10.4313 0.618557 10.8436 0.618557 11.3018C0.618557 11.76 0.91638 12.1724 1.30584 12.3328L0.274914 15.6088H3.16151L2.13058 12.3328C2.54296 12.1724 2.81787 11.76 2.81787 11.3018C2.81787 10.8207 2.52005 10.4313 2.10767 10.2709V6.99484L3.32188 7.59049V12.3557C3.32188 12.4244 3.34479 12.4931 3.39061 12.5618C3.50515 12.6993 5.63574 15.6088 9.98854 15.6088C14.3414 15.6088 16.4719 12.6764 16.5636 12.5618C16.6094 12.4931 16.6323 12.4244 16.6323 12.3557V7.6134L19.3356 6.28464C19.9084 6.00973 20 5.62027 20 5.41408C19.9771 5.2079 19.9084 4.81844 19.3356 4.54352ZM15.8992 12.2411C15.5326 12.6993 13.5624 14.8986 9.98854 14.8986C6.41466 14.8986 4.44444 12.6993 4.07789 12.2411V7.91122L8.82016 10.1793C9.1638 10.3396 9.62199 10.4313 10.0802 10.4313C10.5613 10.4313 11.0195 10.3396 11.3631 10.1564L15.8992 7.93413V12.2411ZM19.0149 5.64318L16.2658 6.99484C16.1512 6.99484 16.0596 7.04066 16.0137 7.1323L11.0424 9.53779C10.5613 9.7898 9.62199 9.7898 9.11798 9.53779L3.00115 6.60538L10.0344 5.78064C10.2405 5.75773 10.378 5.57445 10.3551 5.39117C10.3322 5.18499 10.1489 5.04753 9.96564 5.07044L1.80985 6.03264L0.985109 5.64318C0.778923 5.55154 0.733104 5.43699 0.733104 5.43699C0.733104 5.41408 0.778923 5.32245 0.985109 5.23081L9.14089 1.31328C9.3929 1.19873 9.73654 1.13001 10.0802 1.13001C10.4467 1.13001 10.8133 1.19873 11.0424 1.31328L19.0149 5.2079C19.2211 5.29954 19.2669 5.39117 19.2669 5.43699C19.2669 5.43699 19.1982 5.55154 19.0149 5.64318Z" class="fill-edpurple" />
+                                            <path d="M19.3356 4.54352L11.3631 0.648906C10.6758 0.305264 9.50745 0.305264 8.82016 0.648906L0.664376 4.54352C0.0916381 4.81844 0 5.2079 0 5.41408C0 5.62027 0.0916381 5.98682 0.664376 6.28464L1.32875 6.60538V10.2709C0.91638 10.4313 0.618557 10.8436 0.618557 11.3018C0.618557 11.76 0.91638 12.1724 1.30584 12.3328L0.274914 15.6088H3.16151L2.13058 12.3328C2.54296 12.1724 2.81787 11.76 2.81787 11.3018C2.81787 10.8207 2.52005 10.4313 2.10767 10.2709V6.99484L3.32188 7.59049V12.3557C3.32188 12.4244 3.34479 12.4931 3.39061 12.5618C3.50515 12.6993 5.63574 15.6088 9.98854 15.6088C14.3414 15.6088 16.4719 12.6764 16.5636 12.5618C16.6094 12.4931 16.6323 12.4244 16.6323 12.3557V7.6134L19.3356 6.28464C19.9084 6.00973 20 5.62027 20 5.41408C19.9771 5.2079 19.9084 4.81844 19.3356 4.54352ZM15.8992 12.2411C15.5326 12.6993 13.5624 14.8986 9.98854 14.8986C6.41466 14.8986 4.44444 12.6993 4.07789 12.2411V7.91122L8.82016 10.1793C9.1638 10.3396 9.62199 10.4313 10.0802 10.4313C10.5613 10.4313 11.0195 10.3396 11.3631 10.1564L15.8992 7.93413V12.2411ZM19.0149 5.64318L16.2658 6.99484C16.1512 6.99484 16.0596 7.04066 16.0137 7.1323L11.0424 9.53779C10.5613 9.7898 9.62199 9.7898 9.11798 9.53779L3.00115 6.60538L10.0344 5.78064C10.2405 5.75773 10.378 5.57445 10.3551 5.39117C10.3322 5.18499 10.1489 5.04753 9.96564 5.07044L1.80985 6.03264L0.985109 5.64318C0.778923 5.55154 0.733104 5.43699 0.733104 5.43699C0.733104 5.41408 0.778923 5.32245 0.985109 5.23081L9.14089 1.31328C9.3929 1.19873 9.73654 1.13001 10.0802 1.13001C10.4467 1.13001 10.8133 1.19873 11.0424 1.31328L19.0149 5.2079C19.2211 5.29954 19.2669 5.39117 19.2669 5.43699C19.2669 5.43699 19.1982 5.55154 19.0149 5.64318Z"
+                                                  class="fill-edpurple"/>
                                         </svg>
                                     </span>
                                     <span>Sciences</span>
@@ -188,7 +190,8 @@
                         <div>
                                 <span class="inline-flex items-center gap-[8px] px-[12px] py-[6px] border border-[#D4DCFF] rounded-[8px] text-[14px] font-medium text-edpurple mb-[11px]">
                                     <span class="icon"><svg width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M19.3356 4.54352L11.3631 0.648906C10.6758 0.305264 9.50745 0.305264 8.82016 0.648906L0.664376 4.54352C0.0916381 4.81844 0 5.2079 0 5.41408C0 5.62027 0.0916381 5.98682 0.664376 6.28464L1.32875 6.60538V10.2709C0.91638 10.4313 0.618557 10.8436 0.618557 11.3018C0.618557 11.76 0.91638 12.1724 1.30584 12.3328L0.274914 15.6088H3.16151L2.13058 12.3328C2.54296 12.1724 2.81787 11.76 2.81787 11.3018C2.81787 10.8207 2.52005 10.4313 2.10767 10.2709V6.99484L3.32188 7.59049V12.3557C3.32188 12.4244 3.34479 12.4931 3.39061 12.5618C3.50515 12.6993 5.63574 15.6088 9.98854 15.6088C14.3414 15.6088 16.4719 12.6764 16.5636 12.5618C16.6094 12.4931 16.6323 12.4244 16.6323 12.3557V7.6134L19.3356 6.28464C19.9084 6.00973 20 5.62027 20 5.41408C19.9771 5.2079 19.9084 4.81844 19.3356 4.54352ZM15.8992 12.2411C15.5326 12.6993 13.5624 14.8986 9.98854 14.8986C6.41466 14.8986 4.44444 12.6993 4.07789 12.2411V7.91122L8.82016 10.1793C9.1638 10.3396 9.62199 10.4313 10.0802 10.4313C10.5613 10.4313 11.0195 10.3396 11.3631 10.1564L15.8992 7.93413V12.2411ZM19.0149 5.64318L16.2658 6.99484C16.1512 6.99484 16.0596 7.04066 16.0137 7.1323L11.0424 9.53779C10.5613 9.7898 9.62199 9.7898 9.11798 9.53779L3.00115 6.60538L10.0344 5.78064C10.2405 5.75773 10.378 5.57445 10.3551 5.39117C10.3322 5.18499 10.1489 5.04753 9.96564 5.07044L1.80985 6.03264L0.985109 5.64318C0.778923 5.55154 0.733104 5.43699 0.733104 5.43699C0.733104 5.41408 0.778923 5.32245 0.985109 5.23081L9.14089 1.31328C9.3929 1.19873 9.73654 1.13001 10.0802 1.13001C10.4467 1.13001 10.8133 1.19873 11.0424 1.31328L19.0149 5.2079C19.2211 5.29954 19.2669 5.39117 19.2669 5.43699C19.2669 5.43699 19.1982 5.55154 19.0149 5.64318Z" class="fill-edpurple" />
+                                            <path d="M19.3356 4.54352L11.3631 0.648906C10.6758 0.305264 9.50745 0.305264 8.82016 0.648906L0.664376 4.54352C0.0916381 4.81844 0 5.2079 0 5.41408C0 5.62027 0.0916381 5.98682 0.664376 6.28464L1.32875 6.60538V10.2709C0.91638 10.4313 0.618557 10.8436 0.618557 11.3018C0.618557 11.76 0.91638 12.1724 1.30584 12.3328L0.274914 15.6088H3.16151L2.13058 12.3328C2.54296 12.1724 2.81787 11.76 2.81787 11.3018C2.81787 10.8207 2.52005 10.4313 2.10767 10.2709V6.99484L3.32188 7.59049V12.3557C3.32188 12.4244 3.34479 12.4931 3.39061 12.5618C3.50515 12.6993 5.63574 15.6088 9.98854 15.6088C14.3414 15.6088 16.4719 12.6764 16.5636 12.5618C16.6094 12.4931 16.6323 12.4244 16.6323 12.3557V7.6134L19.3356 6.28464C19.9084 6.00973 20 5.62027 20 5.41408C19.9771 5.2079 19.9084 4.81844 19.3356 4.54352ZM15.8992 12.2411C15.5326 12.6993 13.5624 14.8986 9.98854 14.8986C6.41466 14.8986 4.44444 12.6993 4.07789 12.2411V7.91122L8.82016 10.1793C9.1638 10.3396 9.62199 10.4313 10.0802 10.4313C10.5613 10.4313 11.0195 10.3396 11.3631 10.1564L15.8992 7.93413V12.2411ZM19.0149 5.64318L16.2658 6.99484C16.1512 6.99484 16.0596 7.04066 16.0137 7.1323L11.0424 9.53779C10.5613 9.7898 9.62199 9.7898 9.11798 9.53779L3.00115 6.60538L10.0344 5.78064C10.2405 5.75773 10.378 5.57445 10.3551 5.39117C10.3322 5.18499 10.1489 5.04753 9.96564 5.07044L1.80985 6.03264L0.985109 5.64318C0.778923 5.55154 0.733104 5.43699 0.733104 5.43699C0.733104 5.41408 0.778923 5.32245 0.985109 5.23081L9.14089 1.31328C9.3929 1.19873 9.73654 1.13001 10.0802 1.13001C10.4467 1.13001 10.8133 1.19873 11.0424 1.31328L19.0149 5.2079C19.2211 5.29954 19.2669 5.39117 19.2669 5.43699C19.2669 5.43699 19.1982 5.55154 19.0149 5.64318Z"
+                                                  class="fill-edpurple"/>
                                         </svg>
                                     </span>
                                     <span>Managements</span>
@@ -212,7 +215,8 @@
                         <div>
                                 <span class="inline-flex items-center gap-[8px] px-[12px] py-[6px] border border-[#D4DCFF] rounded-[8px] text-[14px] font-medium text-edpurple mb-[11px]">
                                     <span class="icon"><svg width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M19.3356 4.54352L11.3631 0.648906C10.6758 0.305264 9.50745 0.305264 8.82016 0.648906L0.664376 4.54352C0.0916381 4.81844 0 5.2079 0 5.41408C0 5.62027 0.0916381 5.98682 0.664376 6.28464L1.32875 6.60538V10.2709C0.91638 10.4313 0.618557 10.8436 0.618557 11.3018C0.618557 11.76 0.91638 12.1724 1.30584 12.3328L0.274914 15.6088H3.16151L2.13058 12.3328C2.54296 12.1724 2.81787 11.76 2.81787 11.3018C2.81787 10.8207 2.52005 10.4313 2.10767 10.2709V6.99484L3.32188 7.59049V12.3557C3.32188 12.4244 3.34479 12.4931 3.39061 12.5618C3.50515 12.6993 5.63574 15.6088 9.98854 15.6088C14.3414 15.6088 16.4719 12.6764 16.5636 12.5618C16.6094 12.4931 16.6323 12.4244 16.6323 12.3557V7.6134L19.3356 6.28464C19.9084 6.00973 20 5.62027 20 5.41408C19.9771 5.2079 19.9084 4.81844 19.3356 4.54352ZM15.8992 12.2411C15.5326 12.6993 13.5624 14.8986 9.98854 14.8986C6.41466 14.8986 4.44444 12.6993 4.07789 12.2411V7.91122L8.82016 10.1793C9.1638 10.3396 9.62199 10.4313 10.0802 10.4313C10.5613 10.4313 11.0195 10.3396 11.3631 10.1564L15.8992 7.93413V12.2411ZM19.0149 5.64318L16.2658 6.99484C16.1512 6.99484 16.0596 7.04066 16.0137 7.1323L11.0424 9.53779C10.5613 9.7898 9.62199 9.7898 9.11798 9.53779L3.00115 6.60538L10.0344 5.78064C10.2405 5.75773 10.378 5.57445 10.3551 5.39117C10.3322 5.18499 10.1489 5.04753 9.96564 5.07044L1.80985 6.03264L0.985109 5.64318C0.778923 5.55154 0.733104 5.43699 0.733104 5.43699C0.733104 5.41408 0.778923 5.32245 0.985109 5.23081L9.14089 1.31328C9.3929 1.19873 9.73654 1.13001 10.0802 1.13001C10.4467 1.13001 10.8133 1.19873 11.0424 1.31328L19.0149 5.2079C19.2211 5.29954 19.2669 5.39117 19.2669 5.43699C19.2669 5.43699 19.1982 5.55154 19.0149 5.64318Z" class="fill-edpurple" />
+                                            <path d="M19.3356 4.54352L11.3631 0.648906C10.6758 0.305264 9.50745 0.305264 8.82016 0.648906L0.664376 4.54352C0.0916381 4.81844 0 5.2079 0 5.41408C0 5.62027 0.0916381 5.98682 0.664376 6.28464L1.32875 6.60538V10.2709C0.91638 10.4313 0.618557 10.8436 0.618557 11.3018C0.618557 11.76 0.91638 12.1724 1.30584 12.3328L0.274914 15.6088H3.16151L2.13058 12.3328C2.54296 12.1724 2.81787 11.76 2.81787 11.3018C2.81787 10.8207 2.52005 10.4313 2.10767 10.2709V6.99484L3.32188 7.59049V12.3557C3.32188 12.4244 3.34479 12.4931 3.39061 12.5618C3.50515 12.6993 5.63574 15.6088 9.98854 15.6088C14.3414 15.6088 16.4719 12.6764 16.5636 12.5618C16.6094 12.4931 16.6323 12.4244 16.6323 12.3557V7.6134L19.3356 6.28464C19.9084 6.00973 20 5.62027 20 5.41408C19.9771 5.2079 19.9084 4.81844 19.3356 4.54352ZM15.8992 12.2411C15.5326 12.6993 13.5624 14.8986 9.98854 14.8986C6.41466 14.8986 4.44444 12.6993 4.07789 12.2411V7.91122L8.82016 10.1793C9.1638 10.3396 9.62199 10.4313 10.0802 10.4313C10.5613 10.4313 11.0195 10.3396 11.3631 10.1564L15.8992 7.93413V12.2411ZM19.0149 5.64318L16.2658 6.99484C16.1512 6.99484 16.0596 7.04066 16.0137 7.1323L11.0424 9.53779C10.5613 9.7898 9.62199 9.7898 9.11798 9.53779L3.00115 6.60538L10.0344 5.78064C10.2405 5.75773 10.378 5.57445 10.3551 5.39117C10.3322 5.18499 10.1489 5.04753 9.96564 5.07044L1.80985 6.03264L0.985109 5.64318C0.778923 5.55154 0.733104 5.43699 0.733104 5.43699C0.733104 5.41408 0.778923 5.32245 0.985109 5.23081L9.14089 1.31328C9.3929 1.19873 9.73654 1.13001 10.0802 1.13001C10.4467 1.13001 10.8133 1.19873 11.0424 1.31328L19.0149 5.2079C19.2211 5.29954 19.2669 5.39117 19.2669 5.43699C19.2669 5.43699 19.1982 5.55154 19.0149 5.64318Z"
+                                                  class="fill-edpurple"/>
                                         </svg>
                                     </span>
                                     <span>Business</span>
@@ -269,7 +273,8 @@
                 <!-- testimonial -->
                 <div class="max-w-[50%] md:max-w-full">
                     <!-- heading -->
-                    <div class="pb-[40px] sm:pb-[20px] bg-[url('/assets/web/img/testimonial-heading-vector.svg')] bg-no-repeat bg-left-bottom rtl:bg-right-bottom bg-[length:1000px] mb-[40px]  md:bg-none md:mb-0">
+                    <div class="pb-[40px] sm:pb-[20px] bg-no-repeat bg-left-bottom rtl:bg-right-bottom bg-[length:1000px] mb-[40px]  md:bg-none md:mb-0"
+                    style="background-image: url({{asset('assets/web/img/testimonial-heading-vector.svg')}})">
                         <h6 class="ed-section-sub-title">Testimonials</h6>
                         <h2 class="ed-section-title !text-[30px]">Students Feedback</h2>
                     </div>
@@ -278,85 +283,41 @@
                         <div class="ed-testimonial-slider swiper max-w-full">
                             <div class="swiper-wrapper">
                                 <!-- single testimony -->
-                                <div class="swiper-slide">
-                                    <div>
-                                        <div class="inline-flex gap-[6px] text-[14px] mb-[20px]">
-                                            <span class="text-[#F39F5F]"><i class="fa-solid fa-star"></i></span>
-                                            <span class="text-[#F39F5F]"><i class="fa-solid fa-star"></i></span>
-                                            <span class="text-[#F39F5F]"><i class="fa-solid fa-star"></i></span>
-                                            <span class="text-[#F39F5F]"><i class="fa-solid fa-star"></i></span>
-                                            <span class="text-[#BCBCBC]"><i class="fa-solid fa-star"></i></span>
-                                        </div>
-                                        <p class="text-edgray mb-[24px]">Nullam dignissim ante scelerisque the is euismod fermentum odio sem semper the is erat a feugiat leo urna eget eros. Duis Aenean a imperdiet risus. Aliquam pellentesque.</p>
+                                @foreach(range(1,3) as $row)
+                                    <div class="swiper-slide">
                                         <div>
-                                            <h6 class="font-semibold text-[18px] text-edblue mb-[4px]">Ronald Richards</h6>
-                                            <span class="text-edgray">Co, Founder</span>
+                                            <div class="inline-flex gap-[6px] text-[14px] mb-[20px]">
+                                                <span class="text-[#F39F5F]"><i class="fa-solid fa-star"></i></span>
+                                                <span class="text-[#F39F5F]"><i class="fa-solid fa-star"></i></span>
+                                                <span class="text-[#F39F5F]"><i class="fa-solid fa-star"></i></span>
+                                                <span class="text-[#F39F5F]"><i class="fa-solid fa-star"></i></span>
+                                                <span class="text-[#BCBCBC]"><i class="fa-solid fa-star"></i></span>
+                                            </div>
+                                            <p class="text-edgray mb-[24px]">Nullam dignissim ante scelerisque the is euismod fermentum odio sem semper the is erat a feugiat leo urna eget eros. Duis Aenean a imperdiet risus. Aliquam pellentesque.</p>
+                                            <div>
+                                                <h6 class="font-semibold text-[18px] text-edblue mb-[4px]">Ronald Richards</h6>
+                                                <span class="text-edgray">Co, Founder</span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                @endforeach
 
-                                <!-- single testimony -->
-                                <div class="swiper-slide">
-                                    <div>
-                                        <div class="inline-flex gap-[6px] text-[14px] mb-[20px]">
-                                            <span class="text-[#F39F5F]"><i class="fa-solid fa-star"></i></span>
-                                            <span class="text-[#F39F5F]"><i class="fa-solid fa-star"></i></span>
-                                            <span class="text-[#F39F5F]"><i class="fa-solid fa-star"></i></span>
-                                            <span class="text-[#F39F5F]"><i class="fa-solid fa-star"></i></span>
-                                            <span class="text-[#BCBCBC]"><i class="fa-solid fa-star"></i></span>
-                                        </div>
-                                        <p class="text-edgray mb-[24px]">Nullam dignissim ante scelerisque the is euismod fermentum odio sem semper the is erat a feugiat leo urna eget eros. Duis Aenean a imperdiet risus. Aliquam pellentesque.</p>
-                                        <div>
-                                            <h6 class="font-semibold text-[18px] text-edblue mb-[4px]">Ronald Richards</h6>
-                                            <span class="text-edgray">Co, Founder</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- single testimony -->
-                                <div class="swiper-slide">
-                                    <div>
-                                        <div class="inline-flex gap-[6px] text-[14px] mb-[20px]">
-                                            <span class="text-[#F39F5F]"><i class="fa-solid fa-star"></i></span>
-                                            <span class="text-[#F39F5F]"><i class="fa-solid fa-star"></i></span>
-                                            <span class="text-[#F39F5F]"><i class="fa-solid fa-star"></i></span>
-                                            <span class="text-[#F39F5F]"><i class="fa-solid fa-star"></i></span>
-                                            <span class="text-[#BCBCBC]"><i class="fa-solid fa-star"></i></span>
-                                        </div>
-                                        <p class="text-edgray mb-[24px]">Nullam dignissim ante scelerisque the is euismod fermentum odio sem semper the is erat a feugiat leo urna eget eros. Duis Aenean a imperdiet risus. Aliquam pellentesque.</p>
-                                        <div>
-                                            <h6 class="font-semibold text-[18px] text-edblue mb-[4px]">Ronald Richards</h6>
-                                            <span class="text-edgray">Co, Founder</span>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
-                            <div class="flex gap-[10px] items-center absolute z-[1] bottom-[10px] right-0 ed-testimonial-slider-controls">
+                            <div class="flex gap-[10px] items-center absolute z-[1] bottom-[10px] ltr:right-0 rtl:left-0 ed-testimonial-slider-controls">
                                 <button class="prev hover:text-edpurple"><i class="fa-solid fa-arrow-left-long"></i></button>
                                 <div class="ed-testimonial-slider-pagination font-semibold text-[14px] text-edblue"></div>
                                 <button class="next hover:text-edpurple"><i class="fa-solid fa-arrow-right-long"></i></button>
                             </div>
                         </div>
 
-                        <!-- slider dots -->
-                        <div class="flex items-start flex-col xxs:hidden shrink-0 space-y-[40px] relative z-[1] before:absolute before:top-[50%] before:-translate-y-[50%] before:right-[28px] before:w-[138px] before:h-[420px] before:bg-[url('/assets/web/img/testimonial-img-slider-vector.svg')] before:bg-no-repeat before:bg-center before:bg-[length:100%_100%] before:-z-[1] before:opacity-10 before:pointer-events-none">
-                            <div class="rounded-full overflow-hidden inline-block border border-edpurple p-[5px] even:ms-[40px]">
-                                <img src="/assets/web/img/user-2.png" alt="user" class="rounded-full w-[90px] aspect-square">
-                            </div>
-                            <div class="rounded-full overflow-hidden inline-block border border-edpurple p-[5px] even:ms-[40px]">
-                                <img src="/assets/web/img/user-3.png" alt="user" class="rounded-full w-[90px] aspect-square">
-                            </div>
-                            <div class="rounded-full overflow-hidden inline-block border border-edpurple p-[5px] even:ms-[40px]">
-                                <img src="/assets/web/img/user-4.png" alt="user" class="rounded-full w-[90px] aspect-square">
-                            </div>
-                        </div>
                     </div>
                 </div>
 
                 <!-- upcoming events -->
                 <div>
                     <!-- heading -->
-                    <div class="pb-[40px] sm:pb-[20px] flex justify-end md:justify-start bg-[url('/assets/web/img/testimonial-heading-vector.svg')] bg-no-repeat bg-right-bottom rtl:bg-left-bottom bg-[length:1000px] mb-[40px] md:bg-none md:mb-0">
+                    <div class="pb-[40px] sm:pb-[20px] flex justify-end md:justify-start bg-no-repeat bg-right-bottom rtl:bg-left-bottom bg-[length:1000px] mb-[40px] md:bg-none md:mb-0"
+                         style="background-image: url({{asset('assets/web/img/testimonial-heading-vector.svg')}})">
                         <div>
                             <h6 class="ed-section-sub-title">Event</h6>
                             <h2 class="ed-section-title !text-[30px]">Upcoming Events</h2>
@@ -364,36 +325,24 @@
                     </div>
                     <div class="grow space-y-[30px]">
                         <!-- single upcoming event -->
-                        <div class="bg-white flex lg:flex-col items-start gap-x-[20px] gap-y-[10px] shadow-[0_4px_30px_rgba(0,0,0,0.1)] rounded-[20px] p-[30px] xxs:p-[20px]">
-                            <!-- date -->
-                            <div class="bg-edyellow rounded-[10px] font-medium text-[16px] text-black inline-block uppercase overflow-hidden text-center shrink-0">
-                                <span class="bg-edpurple text-white text-[20px] block py-[7px] px-[30px] rounded-[10px]">2024</span>
-                                <span class="px-[15px] p-[10px] block leading-[1.44] font-semibold">20 <span class="block">Oct</span></span>
+                        @foreach(range(1,2) as $row)
+                            <div class="bg-white flex lg:flex-col items-start gap-x-[20px] gap-y-[10px] shadow-[0_4px_30px_rgba(0,0,0,0.1)] rounded-[20px] p-[30px] xxs:p-[20px]">
+                                <!-- date -->
+                                <div class="bg-edyellow rounded-[10px] font-medium text-[16px] text-black inline-block uppercase overflow-hidden text-center shrink-0">
+                                    <span class="bg-edpurple text-white text-[20px] block py-[7px] px-[30px] rounded-[10px]">2024</span>
+                                    <span class="px-[15px] p-[10px] block leading-[1.44] font-semibold">20 <span class="block">Oct</span></span>
+                                </div>
+
+                                <!-- text -->
+                                <div>
+                                    <h5 class="font-semibold text-[20px] mb-[7px]"><a href="#" class="hover:text-edpurple">SAT Implementation Workshops November 2026</a></h5>
+                                    <h6 class="text-edpurple font-medium">11:00 - 13:30</h6>
+                                    <p class="border-t border-[#002147]/20 pt-[17px] mt-[10px]">There are many variations of passages of Lorem Ipsum available, but the majority</p>
+                                </div>
                             </div>
 
-                            <!-- text -->
-                            <div>
-                                <h5 class="font-semibold text-[20px] mb-[7px]"><a href="#" class="hover:text-edpurple">SAT Implementation Workshops November 2026</a></h5>
-                                <h6 class="text-edpurple font-medium">11:00 - 13:30</h6>
-                                <p class="border-t border-[#002147]/20 pt-[17px] mt-[10px]">There are many variations of passages of Lorem Ipsum available, but the majority</p>
-                            </div>
-                        </div>
+                        @endforeach
 
-                        <!-- single upcoming event -->
-                        <div class="bg-white flex lg:flex-col items-start gap-x-[20px] gap-y-[10px] shadow-[0_4px_30px_rgba(0,0,0,0.1)] rounded-[20px] p-[30px] xxs:p-[20px]">
-                            <!-- date -->
-                            <div class="bg-edyellow rounded-[10px] font-medium text-[16px] text-black inline-block uppercase overflow-hidden text-center shrink-0">
-                                <span class="bg-edpurple text-white text-[20px] block py-[7px] px-[30px] rounded-[10px]">2024</span>
-                                <span class="px-[15px] p-[10px] block leading-[1.44] font-semibold">20 <span class="block">Oct</span></span>
-                            </div>
-
-                            <!-- text -->
-                            <div>
-                                <h5 class="font-semibold text-[20px] mb-[7px]"><a href="#" class="hover:text-edpurple">SAT Implementation Workshops November 2026</a></h5>
-                                <h6 class="text-edpurple font-medium">11:00 - 13:30</h6>
-                                <p class="border-t border-[#002147]/20 pt-[17px] mt-[10px]">There are many variations of passages of Lorem Ipsum available, but the majority</p>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

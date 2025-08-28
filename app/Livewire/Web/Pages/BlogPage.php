@@ -5,11 +5,16 @@ declare(strict_types=1);
 namespace App\Livewire\Web\Pages;
 
 use App\Models\Blog;
+use App\Models\Category;
+use App\Models\Tag;
 use App\Services\SeoBuilder;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class BlogPage extends Component
 {
+    use WithPagination;
+
     public function render()
     {
         SeoBuilder::create()
@@ -25,10 +30,24 @@ class BlogPage extends Component
             ->apply();
 
         return view('livewire.web.pages.blog-page', [
-            'blogs' => Blog::query()
+            'blogs'        => Blog::query()
                 ->where('published', 1)
                 ->orderBy('created_at', 'desc')
                 ->paginate(10),
+            'latest_blogs' => Blog::query()
+                ->where('published', 1)
+                ->orderBy('created_at', 'desc')
+                ->limit(3)
+                ->get(),
+            'categories'   => Category::query()
+                ->where('published', 1)
+                ->orderBy('created_at', 'desc')
+                ->limit(3)
+                ->get(),
+            'tags'         => Tag::query()
+                ->orderBy('created_at', 'desc')
+                ->limit(3)
+                ->get(),
         ])
             ->layout('components.layouts.web');
     }

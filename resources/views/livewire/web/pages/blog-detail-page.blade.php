@@ -1,20 +1,26 @@
+@php
+    use App\Helpers\Constants;
+@endphp
+
 <div class="">
     <!-- BREADCRUMB SECTION START -->
     <section
-        class="pt-[327px] xl:pt-[287px] lg:pt-[237px] sm:pt-[200px] xxs:pt-[180px] pb-[158px] xl:pb-[118px] lg:pb-[98px] sm:pb-[68px] xs:pb-[48px] text-center bg-[url('../assets/img/breadcrumb-bg.jpg')] bg-no-repeat bg-cover bg-center relative z-[1] overflow-hidden before:absolute before:-z-[1] before:inset-0 before:bg-edblue/70 before:pointer-events-none">
+        class="pt-[327px] xl:pt-[287px] lg:pt-[237px] sm:pt-[200px] xxs:pt-[180px] pb-[158px] xl:pb-[118px] lg:pb-[98px] sm:pb-[68px] xs:pb-[48px] text-center bg-no-repeat bg-cover bg-center relative z-[1] overflow-hidden before:absolute before:-z-[1] before:inset-0 before:bg-edblue/70 before:pointer-events-none"
+        style="background-image: url('{{ asset('assets/web/img/breadcrumb-bg.jpg') }}')">
         <div class="mx-[19.71%] xxxl:mx-[14.71%] xxl:mx-[9.71%] xl:mx-[5.71%] md:mx-[12px]">
-            <h1 class="font-semibold text-[clamp(35px,6vw,56px)] text-white">News Details</h1>
+            <h1 class="font-semibold text-[clamp(35px,6vw,56px)] text-white">{{ trans('web/blog.title') }}</h1>
             <ul class="flex items-center justify-center gap-[10px] text-white">
-                <li><a href="index.html" class="text-edyellow">Home</a></li>
+                <li><a href="{{ localized_route('home-page') }}" class="text-edyellow">{{ trans('web/general.home') }}</a>
+                </li>
                 <li><span class="text-[12px]"><i class="fa-solid fa-angle-double-right"></i></span></li>
-                <li>News Details</li>
+                <li>{{ $blog->title }}</li>
             </ul>
         </div>
 
         <div class="vectors">
-            <img src="assets/img/breadcrumb-vector-1.svg" alt="vector"
+            <img src="{{ asset('assets/web/img/breadcrumb-vector-1.svg') }}" alt="vector"
                 class="absolute -z-[1] pointer-events-none bottom-[34px] left-0 xl:left-auto xl:right-[90%]">
-            <img src="assets/img/breadcrumb-vector-2.svg" alt="vector"
+            <img src="{{ asset('assets/web/img/breadcrumb-vector-2.svg') }}" alt="vector"
                 class="absolute -z-[1] pointer-events-none bottom-0 right-0 xl:right-auto xl:left-[60%]">
         </div>
     </section>
@@ -30,13 +36,15 @@
                     <!-- post -->
                     <div>
                         <div class="img overflow-hidden rounded-[8px] mb-[30px] relative">
-                            <img src="assets/img/news-details-img-1.jpg" alt="news-cover"
-                                class="max-h-[380px] max-w-full aspect-[770/380]">
+                            <img src="{{ $blog->getFirstMediaUrl('image', Constants::RESOLUTION_854_480) }}"
+                                alt="news-cover" class="max-h-[380px] max-w-full aspect-[770/380]">
 
                             <div
                                 class="bg-[#ECF0F5] rounded-[10px] font-medium text-[14px] text-black inline-block uppercase overflow-hidden text-center absolute top-[20px] left-[20px]">
-                                <span class="bg-edpurple text-white block py-[3px] rounded-[10px]">10</span>
-                                <span class="px-[11px] py-[2px] block">June</span>
+                                <span
+                                    class="bg-edpurple text-white block py-[3px] rounded-[10px]">{{ jdate($blog->created_at)->format('d') }}</span>
+                                <span
+                                    class="px-[11px] py-[2px] block">{{ jdate($blog->created_at)->format('F') }}</span>
                             </div>
                         </div>
 
@@ -46,73 +54,25 @@
                             <div class="flex items-center gap-[30px] mb-[7px]">
                                 <!-- single info -->
                                 <div class="flex gap-[10px] items-center">
-                                    <span class="icon shrink-0"><img src="assets/img/icon/user.svg"
-                                            alt="icon"></span>
-                                    <span class="text-[14px] text-edgray">by <a href="#">Admin</a></span>
+                                    <span class="icon shrink-0"><i class="fa-solid fa-user"></i></span>
+                                    <span class="text-[14px] text-edgray">{{ trans('web/general.by') }} <a
+                                            href="#">{{ $blog->user->name }}</a></span>
                                 </div>
 
                                 <!-- single info -->
                                 <div class="flex gap-[10px] items-center">
-                                    <span class="icon shrink-0"><img src="assets/img/icon/tag.svg"
-                                            alt="icon"></span>
-                                    <span class="text-[14px] text-edgray"><a href="#">Business</a></span>
+                                    <span class="icon shrink-0"><i class="fa-solid fa-tags"></i></span>
+                                    <span class="text-[14px] text-edgray"><a
+                                            href="{{ localized_route('search', ['category' => $blog->category->slug]) }}">{{ $blog->category->title }}</a></span>
                                 </div>
                             </div>
 
                             <h3
                                 class="text-[30px] lg:text-[27px] sm:text-[24px] xxs:text-[22px] font-semibold text-black mb-[18px]">
-                                <a href="news-details.html" class="hover:text-edpurple">Make Your Expanding Contracting
-                                    Content</a></h3>
+                                {{ $blog->title }}
+                            </h3>
 
-                            <p class="font-normal text-[16px] text-edgray mb-[16px]">Consectetur adipisicing elit, sed
-                                do eiusmod tempor incididunt ut labore et dolore of magna aliqua. Ut enim ad minim
-                                veniam, made of owl the quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                dolor commodo consequat. Duis aute irure and dolor in reprehenderit.</p>
-
-                            <p class="font-normal text-[16px] text-edgray mb-[16px]">The is ipsum dolor sit amet
-                                consectetur adipiscing elit. Fusce eleifend porta arcu In hac habitasse the is platea
-                                augue thelorem turpoi dictumst. In lacus libero faucibus at malesuada sagittis placerat
-                                eros sed istincidunt augue ac ante rutrum sed the is sodales augue consequat.</p>
-
-                            <p class="font-normal text-[16px] text-edgray mb-[16px]">Nulla facilisi. Vestibulum
-                                tristique sem in eros eleifend imperdiet. Donec quis convallis neque. In id lacus
-                                pulvinar lacus, eget vulputate lectus. Ut viverra bibendum lorem, at tempus nibh mattis
-                                in. Sed a massa eget lacus consequat auctor.</p>
-
-                            <!-- img -->
-                            <div class="grid grid-cols-2 xxs:grid-cols-1 gap-[30px] lg:gap-[20px] mt-[32px] mb-[33px]">
-                                <img src="assets/img/news-details-img-2.jpg" alt="Image" class="rounded-[10px]">
-                                <img src="assets/img/news-details-img-3.jpg" alt="Image" class="rounded-[10px]">
-                            </div>
-
-                            <p class="font-normal text-[16px] text-edgray mb-[16px]">The is ipsum dolor sit amet
-                                consectetur adipiscing elit. Fusce eleifend porta arcu In hac sodales habitasse the is
-                                platea augue thelorem turpoi dictumst. In lacus libero faucibus at malesuada sagittis
-                                placerat eros sed istincidunt augue ac ante rutrum sed the is augue consequat.</p>
-
-                            <blockquote
-                                class="bg-edoffwhite italic rounded-[10px] px-[40px] xxs:p-[25px] pe-[120px] xxs:pe-[100px] py-[30px] mt-[32px] mb-[28px] relative text-[16px] font-normal">
-                                Pellentesque sollicitudin congue dolor non aliquam. Morbi volutpat, nisi vel ultricies
-                                urnacondimentum, sapien neque lobortis tortor, quis efficitur mi eu metus. Praesent
-                                eleifend orci sit amet est vehicula.
-
-                                <span class="icon absolute right-[40px] bottom-[35px]">
-                                    <svg width="36" height="26" viewBox="0 0 36 26" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M0 15.3691H7.71428L2.57139 25.5539H10.2857L15.4286 15.3691V0.0917969H0V15.3691Z"
-                                            class="fill-edpurple" />
-                                        <path
-                                            d="M20.5703 0.0917969V15.3691H28.2846L23.1417 25.5539H30.856L35.9989 15.3691V0.0917969H20.5703Z"
-                                            class="fill-edpurple" />
-                                    </svg>
-                                </span>
-                            </blockquote>
-
-                            <p class="font-normal text-[16px] text-edgray mb-[16px]">Consectetur adipisicing elit, sed
-                                do eiusmod tempor incididunt ut labore et dolore of magna aliqua. Ut enim ad minim
-                                veniam, made of owl the quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                dolor commodo consequat. Duis aute irure and dolor in reprehenderit.</p>
+                            {!! $blog->body !!}
                         </div>
                     </div>
 
@@ -121,127 +81,106 @@
                         class="border-y border-[#d9d9d9] py-[24px] flex items-center justify-between xs:flex-col xs:items-start gap-[20px]">
                         <div class="flex gap-[28px] items-center">
                             <!-- tags  -->
-                            <h6 class="font-medium text-[16px] text-black">Tags:</h6>
+                            <h6 class="font-medium text-[16px] text-black">{{ trans('web/general.tags') }}:</h6>
                             <div class="flex flex-wrap gap-[13px]">
-                                <a href="#"
-                                    class="border border-[#e5e5e5] text-[14px] text-[#181818] px-[12px] py-[5px] rounded-[4px] hover:bg-edpurple hover:border-edpurple hover:text-white">Course</a>
-                                <a href="#"
-                                    class="border border-[#e5e5e5] text-[14px] text-[#181818] px-[12px] py-[5px] rounded-[4px] hover:bg-edpurple hover:border-edpurple hover:text-white">Education</a>
+                                @foreach ($blog->tags as $tag)
+                                    <a href="{{ localized_route('search', ['tag' => $tag->slug]) }}"
+                                        class="border border-[#e5e5e5] text-[14px] text-[#181818] px-[12px] py-[5px] rounded-[4px] hover:bg-edpurple hover:border-edpurple hover:text-white">{{ $tag->name }}</a>
+                                @endforeach
                             </div>
                         </div>
 
                         <!-- share options -->
                         <div class="flex gap-[28px] items-center">
-                            <h6 class="font-medium text-[16px] text-black">Share:</h6>
+                            <h6 class="font-medium text-[16px] text-black">{{ trans('web/general.share') }}:</h6>
                             <div class="flex gap-[15px] text-[16px]">
-                                <a href="#" class="text-[#757277] hover:text-edpurple"><i
+                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ $blog->path() }}?utm_source=facebook&utm_medium=social&utm_campaign=share"
+                                    target="_blank" class="text-[#757277] hover:text-edpurple"><i
                                         class="fa-brands fa-facebook-f"></i></a>
-                                <a href="#" class="text-[#757277] hover:text-edpurple"><i
+                                <a href="https://twitter.com/intent/tweet?url={{ $blog->path() }}?utm_source=twitter&utm_medium=social&utm_campaign=share"
+                                    target="_blank" class="text-[#757277] hover:text-edpurple"><i
                                         class="fa-brands fa-twitter"></i></a>
-                                <a href="#" class="text-[#757277] hover:text-edpurple"><i
+                                <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ $blog->path() }}?utm_source=linkedin&utm_medium=social&utm_campaign=share"
+                                    target="_blank" class="text-[#757277] hover:text-edpurple"><i
                                         class="fa-brands fa-linkedin-in"></i></a>
-                                <a href="#" class="text-[#757277] hover:text-edpurple"><i
-                                        class="fa-brands fa-youtube"></i></a>
+                                <a href="https://www.instagram.com/sharer/sharer.php?u={{ $blog->path() }}?utm_source=instagram&utm_medium=social&utm_campaign=share"
+                                    target="_blank" class="text-[#757277] hover:text-edpurple"><i
+                                        class="fa-brands fa-instagram"></i></a>
                             </div>
                         </div>
                     </div>
 
                     <!-- comments -->
                     <div class="!mt-[60px] xxs:!mt-[30px]">
-                        <h5 class="font-medium text-[24px] text-black mb-[32px] xxs:mb-[20px]">02 Comments</h5>
+                        <h5 class="font-medium text-[24px] text-black mb-[32px] xxs:mb-[20px]">
+                            {{ trans('web/general.comments') }}</h5>
 
                         <div class="all-comments space-y-[40px] xxs:space-y-[25px]">
                             <!-- single comment -->
-                            <div
-                                class="ed-event-details-comment flex xxs:flex-col items-start gap-x-[20px] pb-[40px] xxs:pb-[25px] border-b border-[#ECECEC]">
-                                <div class="user-img rounded-full overflow-hidden w-[96px] h-[96px] shrink-0">
-                                    <img src="assets/img/user-2.png" alt="user" class="object-cover w-full h-full">
-                                </div>
-
-                                <div class="pt-[17px]">
-                                    <div class="user-info mb-[19px]">
-                                        <h5 class="user-name font-medium text-[20px] text-black mb-[9px]">Ralph edwards
-                                        </h5>
-                                        <h6 class="font-normal text-[16px] text-edgray">February 10, 2024 at 2:37 pm
-                                        </h6>
-                                    </div>
-                                    <div class="comment">
-                                        <p class="text-[16px] text-edgray2">
-                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit voluptatum
-                                            quaerat nemo eaque delectus ratione maiores expedita pariatur illum facilis
-                                            at repellendus nesciunt veniam animi, omnis corrupti reiciendis explicabo
-                                            itaque id.
-                                        </p>
+                            @forelse ($blog->comments as $comment)
+                                <div
+                                    class="ed-event-details-comment flex xxs:flex-col items-start gap-x-[20px] pb-[40px] xxs:pb-[25px] border-b border-[#ECECEC]">
+                                    <div class="user-img rounded-full overflow-hidden w-[96px] h-[96px] shrink-0">
+                                        <img src="{{ $comment->user->getFirstMediaUrl('avatar', Constants::RESOLUTION_100_SQUARE) }}"
+                                            alt="user" class="object-cover w-full h-full">
                                     </div>
 
-                                    <button
-                                        class="h-[30px] px-[16px] bg-edpurple text-[14px] text-white rounded-[6px] mt-[22px] hover:bg-black">Reply</button>
-                                </div>
-                            </div>
+                                    <div class="pt-[17px]">
+                                        <div class="user-info mb-[19px]">
+                                            <h5 class="user-name font-medium text-[20px] text-black mb-[9px]">
+                                                {{ $comment->user->full_name }}
+                                            </h5>
+                                            <h6 class="font-normal text-[16px] text-edgray">
+                                                {{ jdate($comment->created_at)->format('d F Y') }}
+                                            </h6>
+                                        </div>
+                                        <div class="comment">
+                                            <p class="text-[16px] text-edgray2">
 
-                            <!-- single comment -->
-                            <div
-                                class="ed-event-details-comment flex xxs:flex-col items-start gap-x-[20px] pb-[40px] xxs:pb-[25px] border-b border-[#ECECEC]">
-                                <div class="user-img rounded-full overflow-hidden w-[96px] h-[96px] shrink-0">
-                                    <img src="assets/img/user-4.png" alt="user"
-                                        class="object-cover w-full h-full">
-                                </div>
-
-                                <div class="pt-[17px]">
-                                    <div class="user-info mb-[19px]">
-                                        <h5 class="user-name font-medium text-[20px] text-black mb-[9px]">Esther Howard
-                                        </h5>
-                                        <h6 class="font-normal text-[16px] text-edgray">February 10, 2024 at 2:37 pm
-                                        </h6>
+                                                {{ $comment->comment }}
+                                            </p>
+                                        </div>
                                     </div>
-                                    <div class="comment">
-                                        <p class="text-[16px] text-edgray2">
-                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit voluptatum
-                                            quaerat nemo eaque delectus ratione maiores expedita pariatur illum facilis
-                                            at repellendus nesciunt veniam animi, omnis corrupti reiciendis explicabo
-                                            itaque id.
-                                        </p>
-                                    </div>
-
-                                    <button
-                                        class="h-[30px] px-[16px] bg-edpurple text-[14px] text-white rounded-[6px] mt-[22px] hover:bg-black">Reply</button>
                                 </div>
-                            </div>
+                            @empty
+                                <div class="text-center text-[16px] text-edgray2">
+                                    {{ trans('web/general.no_comments') }}</div>
+                            @endforelse
+
                         </div>
                     </div>
 
                     <!-- comment form -->
                     <div class="!mt-[60px] xxs:!mt-[30px]">
-                        <h5 class="font-medium text-[24px] text-black mb-[32px] xxs:mb-[20px]">Leave a Comment</h5>
+                        <h5 class="font-medium text-[24px] text-black mb-[32px] xxs:mb-[20px]">
+                            {{ trans('web/general.leave_a_comment') }}</h5>
 
                         <form action="#" class="grid grid-cols-2 xxs:grid-cols-1 gap-[30px]">
                             <div>
                                 <label for="ed-comment-form-name"
-                                    class="block mb-[11px] font-medium text-[16px] text-black">Your Name*</label>
-                                <input type="text" name="name" id="ed-comment-form-name"
-                                    placeholder="Your Name"
+                                    class="block mb-[11px] font-medium text-[16px] text-black">{{ trans('web/general.your_name') }}*</label>
+                                <input type="text" name="name" id="ed-comment-form-name" placeholder="Your Name"
                                     class="h-[60px] xxs:h-[50px] text-[16px] px-[20px] xxs:px-[15px] rounded-[4px] border border-[#E5E5E5] w-full focus:outline-none">
                             </div>
 
                             <div>
                                 <label for="ed-comment-form-email"
-                                    class="block mb-[11px] font-medium text-[16px] text-black">Your Email*</label>
-                                <input type="email" name="email" id="ed-comment-form-email"
-                                    placeholder="Your Email"
+                                    class="block mb-[11px] font-medium text-[16px] text-black">{{ trans('web/general.your_email') }}*</label>
+                                <input type="email" name="email" id="ed-comment-form-email" placeholder="Your Email"
                                     class="text-[16px] h-[60px] xxs:h-[50px] px-[20px] xxs:px-[15px] rounded-[4px] border border-[#E5E5E5] w-full focus:outline-none">
                             </div>
 
                             <div class="col-span-2 xxs:col-span-1">
                                 <label for="ed-comment-form-message"
-                                    class="block mb-[11px] font-medium text-[16px] text-black">Your Review*</label>
+                                    class="block mb-[11px] font-medium text-[16px] text-black">{{ trans('web/general.your_review') }}*</label>
                                 <textarea name="message" id="ed-comment-form-message" placeholder="Write Message"
                                     class="h-[200px] text-[16px] py-[18px] px-[20px] xxs:px-[15px] rounded-[4px] border border-[#E5E5E5] w-full focus:outline-none"></textarea>
                             </div>
 
                             <div>
                                 <button type="submit"
-                                    class="bg-edpurple h-[55px] px-[24px] rounded-[8px] text-white text-[16px] hover:bg-black">Post
-                                    Comment <span class="ps-[5px]"><i
+                                    class="bg-edpurple h-[55px] px-[24px] rounded-[8px] text-white text-[16px] hover:bg-black">
+                                    {{ trans('web/general.post_comment') }} <span class="ps-[5px]"><i
                                             class="fa-solid fa-arrow-right-long"></i></span></button>
                             </div>
                         </form>
