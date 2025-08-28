@@ -1,11 +1,6 @@
-<div
-    class="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 p-4">
-    <div class="max-w-md w-full space-y-8">
+    <div class="w-full space-y-2">
         <!-- Header -->
         <div class="text-center">
-            <div class="mx-auto h-12 w-12 bg-info rounded-full flex items-center justify-center">
-                <x-icon name="o-envelope" class="w-6 h-6 text-white" />
-            </div>
             <h2 class="mt-6 text-3xl font-bold text-gray-900 dark:text-white">
                 {{ trans('auth.verify_your_email') }}
             </h2>
@@ -15,7 +10,6 @@
         </div>
 
         <!-- Verification Form -->
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
             @if (!$codeVerified)
                 <form wire:submit="verifyCode" class="space-y-6">
                     <!-- Email Input -->
@@ -77,17 +71,6 @@
                     </p>
                 </div>
             </div>
-        </div>
-
-        <!-- Demo Code Notice -->
-        <div class="bg-yellow-50 dark:bg-yellow-900/20 rounded-lg p-4">
-            <div class="flex items-center">
-                <x-icon name="o-information-circle" class="w-5 h-5 text-yellow-600 dark:text-yellow-400 mr-2" />
-                <p class="text-sm text-yellow-800 dark:text-yellow-200">
-                    {{ trans('auth.demo_code_notice') }}: <strong>123456</strong>
-                </p>
-            </div>
-        </div>
 
         <!-- Footer -->
         <div class="text-center text-sm text-gray-500 dark:text-gray-400">
@@ -97,4 +80,3 @@
             </div>
         </div>
     </div>
-</div>
