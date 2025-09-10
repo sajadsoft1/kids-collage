@@ -1,0 +1,11 @@
+<?php
+
+use App\Http\Controllers\Api\{{model}}Controller;
+use Illuminate\Support\Facades\Route;
+
+Route::group(['prefix' => '{{kmodel}}', 'as' => '{{kmodel}}.'], function () {
+    // Route::post('toggle/{{{cmodel}}}', [{{model}}Controller::class, 'toggle'])->name('toggle');
+    // Route::get('data', [{{model}}Controller::class, 'extraData'])->name('data');
+});
+Route::apiResource('{{kmodel}}', {{model}}Controller::class);
+

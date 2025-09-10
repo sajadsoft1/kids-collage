@@ -32,9 +32,8 @@ class MakeRouteCommand extends Command
         $model = $this->argument('model');
         $model = Str::studly($model);
 
-        //         route admin
-        $route_admin = file_get_contents(__DIR__ . '/stubs/route-admin.php.stub');
-        $route_admin = str_replace(
+        $route_api = file_get_contents(__DIR__ . '/stubs/route-api.php.stub');
+        $route_api = str_replace(
             [
                 '{{model}}',
                 '{{kmodel}}',
@@ -45,14 +44,16 @@ class MakeRouteCommand extends Command
                 Str::kebab($model),
                 Str::camel($model),
             ],
-            $route_admin
+            $route_api
         );
-        $path = base_path('routes/admin');
+        $path = base_path('routes/api');
+
         if ( ! is_dir($path) && ! mkdir($path, 0775) && ! is_dir($path)) {
             throw new RuntimeException(sprintf('Directory "%s" was not created', $path));
         }
+
         if ( ! file_exists($path . '/' . Str::camel($model) . '.php')) {
-            File::put($path . '/' . Str::camel($model) . '.php', $route_admin);
+            File::put($path . '/' . Str::camel($model) . '.php', $route_api);
         }
 
         return Command::SUCCESS;
