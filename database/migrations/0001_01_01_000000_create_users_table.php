@@ -21,6 +21,7 @@ return new class extends Migration {
             $table->timestamp('mobile_verified_at')->nullable();
             $table->string('password');
             $table->boolean('status')->default(BooleanEnum::ENABLE->value);
+            $table->string('gender')->nullable(); /**  @see GenderEnum  */
             $table->rememberToken();
             $table->timestamps();
         });

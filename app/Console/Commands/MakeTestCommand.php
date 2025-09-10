@@ -13,11 +13,6 @@ class MakeTestCommand extends Command
 {
     use StrReplaceTrait;
 
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'app:test
     {model : Namespace test}
     {--type= : types - (Store-Update-Delete-Data-Toggle-Show-Index) - sample = isSu}
@@ -35,38 +30,37 @@ class MakeTestCommand extends Command
     {
         $model  = $this->argument('model');
         $model  = Str::studly($model);
-        $cmodel = Str::camel($model);
 
         if ($this->option('type') === 'Store') {
-            $this->createTest($model, $cmodel, 'Store');
+            $this->createTest($model, 'Store');
         }
 
         if ($this->option('type') === 'Update') {
-            $this->createTest($model, $cmodel, 'Update');
+            $this->createTest($model, 'Update');
         }
 
         if ($this->option('type') === 'Delete') {
-            $this->createTest($model, $cmodel, 'Delete');
+            $this->createTest($model, 'Delete');
         }
 
         if ($this->option('type') === 'Toggle') {
-            $this->createTest($model, $cmodel, 'Toggle');
+            $this->createTest($model, 'Toggle');
         }
 
         if ($this->option('type') === 'Data') {
-            $this->createTest($model, $cmodel, 'Data');
+            $this->createTest($model, 'Data');
         }
 
         if ($this->option('type') === 'Show') {
-            $this->createTest($model, $cmodel, 'Show');
+            $this->createTest($model, 'Show');
         }
 
         if ($this->option('type') === 'Index') {
-            $this->createTest($model, $cmodel, 'Index');
+            $this->createTest($model, 'Index');
         }
     }
 
-    private function createTest($model, $cmodel, $type): void
+    private function createTest($model, $type): void
     {
         $content_repository = file_get_contents(__DIR__ . '/stubs/tests/feature/' . Str::camel($type) . '.php.stub');
         $content_repository = $this->string_model_replace($model, $content_repository);

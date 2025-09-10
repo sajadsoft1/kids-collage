@@ -27,6 +27,14 @@ class Store{{model}}Request extends FormRequest
         return [
             'title'           => ['required', 'string', 'max:255'],
             'description'     => ['nullable', 'string'],
+            'published'       => 'required|boolean',
         ];
+    }
+
+    protected function prepareForValidation(): void
+    {
+        $this->convertOnToBoolean([
+            'published' => request('published', false),
+        ]);
     }
 }

@@ -1,0 +1,22 @@
+<?php
+
+namespace [namespace];
+
+use App\Models\[model];
+use Illuminate\Contracts\View\View;
+use Livewire\Component;
+
+class [class] extends Component
+{
+    public [model] $[cmodel];
+
+    public function mount([model] $[cmodel]): void
+    {
+        $this->[cmodel] = $[cmodel];
+    }
+
+    public function render(): View
+    {
+        return view('[view]');
+    }
+}

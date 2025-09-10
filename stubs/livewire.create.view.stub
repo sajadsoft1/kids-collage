@@ -1,0 +1,22 @@
+<x-admin.layout.default
+    :title="trans('[smodel].page.create.page_title',['model'=>trans('[smodel].model')])"
+    :stack="[trans('[smodel].page.index.page_title',['model'=>trans('[smodel].model')])=>route('admin.[kmodel].index')]">
+
+    <x-slot name="toolbarActions">
+        <a href="{{route('admin.[kmodel].index')}}"
+           class="btn btn-sm fw-bold btn-secondary btn-active-dark">
+            {{trans('general.back')}}
+        </a>
+    </x-slot>
+
+    <x-admin.section.form-card
+        :title="trans('[smodel].page.create.title',['model'=>trans('[smodel].model')])"
+        :desc="trans('[smodel].page.create.desc',['model'=>trans('[smodel].model')])"
+        :form_submit_enable="count($checked_validation)==0"
+        wire:submit.prevent="submit">
+
+
+    </x-admin.section.form-card>
+
+</x-admin.layout.default>
+

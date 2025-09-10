@@ -1,0 +1,57 @@
+<?php
+
+declare(strict_types=1);
+
+use App\Models\{{model}};
+use App\Services\Permissions\Models\{{model}}Permissions;
+use App\Services\Permissions\Models\SharedPermissions;
+use function Pest\Laravel\assertDatabaseHas;
+
+uses()->group('{{cmodel}}');
+
+it('toggle {{cmodel}}', function (array $payload = [], array $expected = []) {
+    {{model}}::factory()->create([
+        'id'        => 1,
+        'published' => false
+    ]);
+
+    $response = login(permissions: Arr::get($payload, 'permissions', [SharedPermissions::Admin]))->getJson('api/{{kmodel}}/toggle/' . Arr::get($payload, 'id', 1));
+    $response->assertStatus(Arr::get($expected, 'status', 200))
+             ->when(Arr::has($expected, 'assertJsonStructure'))
+             ->assertJsonStructure([
+                 'message',
+                 'data' => Arr::get($expected, 'assertJsonStructure', []),
+             ])
+             ->when(Arr::has($expected, 'assertJson'))
+             ->assertJson(Arr::get($expected, 'assertJson'));
+
+    if (Arr::get($expected, 'status') === 200) {
+        assertDatabaseHas('{{pmodel}}', [
+            'id'        => 1,
+            'published' => true
+        ]);
+    } else {
+        assertDatabaseHas('{{pmodel}}', [
+            'id'        => 1,
+            'published' => false
+        ]);
+    }
+
+})->with([
+    'exist item'             => [
+        'payload'  => ['id' => 1],
+        'expected' => ['status' => 200, 'assertJsonStructure' => ['id'], 'assertJson' => ['data' => ['id' => 1]]],
+    ],
+    'not exist item'         => [
+        'payload'  => ['id' => 2],
+        'expected' => ['status' => 404],
+    ],
+    'have permission'        => [
+        'payload'  => ['permissions' => [{{model}}Permissions::Update]],
+        'expected' => ['status' => 200, 'assertJsonStructure' => ['id'], 'assertJson' => ['data' => ['id' => 1]]],
+    ],
+    'doesnt have permission' => [
+        'payload'  => ['permissions' => [], 'assertJsonStructure' => [], 'assertJson' => ['message']],
+        'expected' => ['status' => 403],
+    ]
+])->skip();

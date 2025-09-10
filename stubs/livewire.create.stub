@@ -1,0 +1,46 @@
+<?php
+
+namespace [namespace];
+
+use App\Http\Requests\Store[model]Request;
+use App\Services\User\Store[model]Service;
+use Illuminate\Contracts\View\View;
+use Illuminate\Routing\Redirector;
+use Livewire\Component;
+
+class [class] extends Component
+{
+    public array  $checked_validation = ['not_valid'];
+    private Store[model]Service $service;
+
+    public function boot(Store[model]Service $service): void
+    {
+        $this->service = $service;
+    }
+
+    protected function rules(): array
+    {
+        return (new Store[model]Request())->rules();
+    }
+
+    public function updated($name): void
+    {
+        $this->checked_validation[]=$name;
+        $this->validateOnly($name, $this->rules());
+        $this->checked_validation = array_diff($this->checked_validation,[$name,'not_valid']);
+    }
+
+    public function submit(): Redirector
+    {
+        $this->validate();
+        $this->service->handle([
+
+        ]);
+        return redirect(route('admin.[kmodel].index'))->with('toast_success', trans('[smodel].store_success', ['model' => trans('[smodel].model')]));
+    }
+
+    public function render(): View
+    {
+        return view('[view]');
+    }
+}

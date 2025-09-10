@@ -1,0 +1,19 @@
+<x-admin.layout.default
+    :title="trans('[smodel].page.show.page_title',['model'=>trans('[smodel].model')])"
+    :stack="[trans('[smodel].page.index.page_title',['model'=>trans('[smodel].model')])=>route('admin.[kmodel].index')]">
+
+    <x-slot name="toolbarActions">
+        <a href="{{route('admin.[kmodel].index')}}"
+           class="btn btn-sm fw-bold btn-secondary btn-active-dark">
+            {{trans('general.back')}}
+        </a>
+    </x-slot>
+
+    <x-admin.section.card
+        :title="trans('[smodel].page.show.title',['model'=>trans('[smodel].model'),'name'=>$[cmodel]->name])"
+        :desc="trans('[smodel].page.show.desc',['model'=>trans('[smodel].model'),'name'=>$[cmodel]->name])"
+        card_type="detail">
+
+    </x-admin.section.card>
+
+</x-admin.layout.default>

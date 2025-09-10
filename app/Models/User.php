@@ -9,9 +9,14 @@ use App\Enums\BooleanEnum;
 use App\Enums\GenderEnum;
 use App\Helpers\Constants;
 use App\Traits\CLogsActivity;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
@@ -20,7 +25,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements HasMedia
 {
-    use CLogsActivity, HasFactory, HasRoles, InteractsWithMedia, Notifiable;
+    use HasApiTokens,CLogsActivity, HasFactory, HasRoles, InteractsWithMedia, Notifiable;
 
     protected $fillable = [
         'name',
@@ -68,13 +73,17 @@ class User extends Authenticatable implements HasMedia
     }
 
     /** Get the blogs for the user. */
-    public function blogs()
+    public function profile(): HasOne
+    {
+        return $this->hasOne(Profile::class);
+    }
+    public function blogs(): User|Builder|HasMany
     {
         return $this->hasMany(Blog::class);
     }
 
     /** Get the boards that the user has access to. */
-    public function boards()
+    public function boards(): BelongsToMany
     {
         return $this->belongsToMany(Board::class, 'board_user')
             ->withPivot('role')
@@ -82,7 +91,7 @@ class User extends Authenticatable implements HasMedia
     }
 
     /** Get the cards assigned to the user. */
-    public function assignedCards()
+    public function assignedCards(): BelongsToMany
     {
         return $this->belongsToMany(Card::class, 'card_user')
             ->wherePivot('role', 'assignee')
@@ -90,7 +99,7 @@ class User extends Authenticatable implements HasMedia
     }
 
     /** Get the cards the user is reviewing. */
-    public function reviewingCards()
+    public function reviewingCards(): BelongsToMany
     {
         return $this->belongsToMany(Card::class, 'card_user')
             ->wherePivot('role', 'reviewer')
@@ -98,7 +107,7 @@ class User extends Authenticatable implements HasMedia
     }
 
     /** Get the cards the user is watching. */
-    public function watchingCards()
+    public function watchingCards(): BelongsToMany
     {
         return $this->belongsToMany(Card::class, 'card_user')
             ->wherePivot('role', 'watcher')
@@ -106,7 +115,7 @@ class User extends Authenticatable implements HasMedia
     }
 
     /** Get the card history records created by the user. */
-    public function cardHistory()
+    public function cardHistory(): HasMany
     {
         return $this->hasMany(CardHistory::class);
     }

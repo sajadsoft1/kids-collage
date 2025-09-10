@@ -1,0 +1,27 @@
+<?php
+
+namespace App\Actions\{{model}};
+
+use App\Models\{{model}};
+use App\Repositories\{{model}}\{{model}}RepositoryInterface;
+use Illuminate\Support\Facades\DB;
+use Lorisleiva\Actions\Concerns\AsAction;
+
+class Store{{model}}Action
+{
+    use AsAction;
+
+    public function __construct(private readonly {{model}}RepositoryInterface $repository)
+    {
+    }
+
+    public function handle(array $payload): {{model}}
+    {
+        return DB::transaction(function () use ($payload) {
+            /** @var {{model}} $model */
+            $model =  $this->repository->store($payload);
+
+            return $model->refresh();
+        });
+    }
+}

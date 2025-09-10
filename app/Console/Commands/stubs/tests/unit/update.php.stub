@@ -1,0 +1,33 @@
+<?php
+
+namespace App\Actions\{{model}};
+
+use App\Enums\PermissionEnum;
+use App\Models\{{model}};
+use App\Repositories\{{model}}\{{model}}RepositoryInterface;
+use Illuminate\Support\Facades\DB;
+use Lorisleiva\Actions\Concerns\AsAction;
+
+class Update{{model}}Action
+{
+    use AsAction;
+
+    public function __construct(private readonly {{model}}RepositoryInterface $repository)
+    {
+    }
+
+
+    /**
+     * @param {{model}}                                          ${{cmodel}}
+     * @param array{name:string,mobile:string,email:string} $payload
+     * @return {{model}}
+     */
+    public function handle({{model}} ${{cmodel}}, array $payload): {{model}}
+    {
+        return DB::transaction(function () use (${{cmodel}}, $payload) {
+            $this->repository->update(${{cmodel}}, $payload);
+
+            return ${{cmodel}}->refresh();
+        });
+    }
+}

@@ -1,0 +1,24 @@
+<?php
+
+namespace App\Actions\{{model}};
+
+use App\Models\{{model}};
+use App\Repositories\{{model}}\{{model}}RepositoryInterface;
+use Illuminate\Support\Facades\DB;
+use Lorisleiva\Actions\Concerns\AsAction;
+
+class Delete{{model}}Action
+{
+    use AsAction;
+
+    public function __construct(public readonly {{model}}RepositoryInterface $repository)
+    {
+    }
+
+    public function handle({{model}} ${{cmodel}}): bool
+    {
+        return DB::transaction(function () use (${{cmodel}}) {
+            return $this->repository->delete(${{cmodel}});
+        });
+    }
+}

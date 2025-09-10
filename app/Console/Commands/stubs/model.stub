@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\BooleanEnum;
+use App\Traits\HasPublishedScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\HasTranslationAuto;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * @property string $title
@@ -16,6 +18,8 @@ use App\Traits\HasTranslationAuto;
 class {{model}} extends Model
 {
     use HasFactory;
+    use HasPublishedScope;
+    use LogsActivity;
     use HasTranslationAuto;
 
     protected $fillable = [
@@ -32,28 +36,24 @@ class {{model}} extends Model
         'title','description'
     ];
 
-    /**
-     * Model Configuration --------------------------------------------------------------------------
-     */
+    /** Model Configuration  -------------------------------------------------------------------------- */
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logFillable()
+            ->useLogName('system')
+            ->dontSubmitEmptyLogs();
+    }
+
+    /** Model Relations  -------------------------------------------------------------------------- */
 
 
-    /**
-     * Model Relations --------------------------------------------------------------------------
-     */
+    /** Model Scope  -------------------------------------------------------------------------- */
 
 
-    /**
-     * Model Scope --------------------------------------------------------------------------
-     */
+    /** Model Attributes  -------------------------------------------------------------------------- */
 
 
-    /**
-     * Model Attributes --------------------------------------------------------------------------
-     */
-
-
-    /**
-     * Model Custom Methods --------------------------------------------------------------------------
-     */
+    /** Model Custom Methods  -------------------------------------------------------------------------- */
 
 }

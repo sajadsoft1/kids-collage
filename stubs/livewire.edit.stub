@@ -1,0 +1,53 @@
+<?php
+
+namespace [namespace];
+
+use App\Services\User\Update[model]Service;
+use App\Http\Requests\Update[model]Request;
+use App\Models\[model];
+use Illuminate\Contracts\View\View;
+use Illuminate\Routing\Redirector;
+use Livewire\Component;
+
+class [class] extends Component
+{
+    public array  $checked_validation = ['not_valid'];
+    public [model] $[cmodel];
+    private Update[model]Service $service;
+
+    public function boot(Update[model]Service $service): void
+    {
+        $this->service = $service;
+    }
+
+    public function mount([model] $[cmodel]): void
+    {
+        $this->[cmodel] = $[cmodel];
+    }
+
+    protected function rules(): array
+    {
+        return (new Update[model]Request())->rules();
+    }
+
+    public function updated($name): void
+    {
+        $this->checked_validation[]=$name;
+        $this->validateOnly($name, $this->rules());
+        $this->checked_validation = array_diff($this->checked_validation,[$name,'not_valid']);
+    }
+
+    public function submit(): Redirector
+    {
+        $this->validate();
+        $this->service->handle($this->user,[
+
+        ]);
+        return redirect(route('admin.[kmodel].index'))->with('toast_success', trans('[smodel].update_success', ['model' => trans('[smodel].model')]));
+    }
+
+    public function render(): View
+    {
+        return view('[view]');
+    }
+}

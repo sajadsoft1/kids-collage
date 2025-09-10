@@ -1,0 +1,1812 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Laravel OpenApi Demo Documentation",
+        "description": "L5 Swagger OpenApi description",
+        "contact": {
+            "email": "admin@admin.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "https:///www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://kids-collage.test/api",
+            "description": "Local Host"
+        }
+    ],
+    "paths": {
+        "/auth/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Login user",
+                "description": "Login user",
+                "operationId": "login",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "example message"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "token": {
+                                                    "type": "string",
+                                                    "default": "example token"
+                                                },
+                                                "user": {
+                                                    "$ref": "#/components/schemas/UserResource"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/403"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/500"
+                    }
+                }
+            }
+        },
+        "/auth/me": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "get user data",
+                "operationId": "me",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "example message"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "user": {
+                                                    "$ref": "#/components/schemas/UserResource"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/403"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/500"
+                    }
+                }
+            }
+        },
+        "/auth/logout": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Logout user",
+                "description": "Logout user",
+                "operationId": "logout",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "example message"
+                                        },
+                                        "data": {
+                                            "type": "boolean",
+                                            "default": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/403"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/500"
+                    }
+                }
+            }
+        },
+        "/blog": {
+            "get": {
+                "tags": [
+                    "Blog"
+                ],
+                "summary": "get blogs list",
+                "description": "Returns list of blogs",
+                "operationId": "getBlogs",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/page_limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/search"
+                    },
+                    {
+                        "$ref": "#/components/parameters/advanced_search"
+                    },
+                    {
+                        "$ref": "#/components/parameters/sort"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/BlogResource"
+                                            }
+                                        },
+                                        "links": {
+                                            "properties": {
+                                                "first": {
+                                                    "type": "string",
+                                                    "default": "http://localhost/api/blog?page=1"
+                                                },
+                                                "last": {
+                                                    "type": "string",
+                                                    "default": "http://localhost/api/blog?page=4"
+                                                },
+                                                "prev": {
+                                                    "type": "string",
+                                                    "default": "null",
+                                                    "nullable": true
+                                                },
+                                                "next": {
+                                                    "type": "string",
+                                                    "default": "http://localhost/api/blog?page=2",
+                                                    "nullable": true
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "meta": {
+                                            "$ref": "#/components/schemas/Meta"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        },
+                                        "advance_search_field": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "key": {
+                                                        "type": "string",
+                                                        "default": "id"
+                                                    },
+                                                    "label": {
+                                                        "type": "string",
+                                                        "default": "text"
+                                                    },
+                                                    "type": {
+                                                        "type": "string",
+                                                        "default": "number"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "extra": {
+                                            "properties": {
+                                                "default_sort": {
+                                                    "type": "string",
+                                                    "default": "-id"
+                                                },
+                                                "sorts": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    },
+                                                    "default": [
+                                                        "id",
+                                                        "created_at",
+                                                        "updated_at"
+                                                    ]
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Blog"
+                ],
+                "summary": "Store new blog",
+                "description": "Returns new blog data",
+                "operationId": "storeBlog",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreBlogRequest"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreBlogRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "blog has been stored successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/BlogResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/blog/{blog}": {
+            "get": {
+                "tags": [
+                    "Blog"
+                ],
+                "summary": "Get blog information",
+                "description": "Returns blog data",
+                "operationId": "getBlogByID",
+                "parameters": [
+                    {
+                        "name": "blog",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/BlogDetailResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Blog"
+                ],
+                "summary": "Update existing blog",
+                "description": "Returns updated blog data",
+                "operationId": "updateBlog",
+                "parameters": [
+                    {
+                        "name": "blog",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateBlogRequest"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateBlogRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "blog has been updated successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/BlogResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Blog"
+                ],
+                "summary": "Delete existing blog",
+                "description": "Deletes a record and returns no content",
+                "operationId": "deleteBlog",
+                "parameters": [
+                    {
+                        "name": "blog",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "boolean",
+                                            "default": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "default": "blog has been deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/blog/toggle/{blog}": {
+            "post": {
+                "tags": [
+                    "Blog"
+                ],
+                "summary": "Toggle Blog",
+                "operationId": "toggleBlog",
+                "parameters": [
+                    {
+                        "name": "blog",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "blog has been toggled successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/BlogResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/blog/data": {
+            "get": {
+                "tags": [
+                    "Blog"
+                ],
+                "summary": "Get Blog data",
+                "description": "Returns Blog data",
+                "operationId": "getBlogData",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "user": {
+                                                    "$ref": "#/components/schemas/UserResource"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/splash": {
+            "get": {
+                "tags": [
+                    "Splash"
+                ],
+                "summary": "splash",
+                "description": "Returns splash",
+                "operationId": "splashAdmin",
+                "parameters": [
+                    {
+                        "name": "browser",
+                        "in": "query",
+                        "description": "Browser name",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "chrome",
+                            "enum": [
+                                "chrome",
+                                "firefox",
+                                "safari",
+                                "edge",
+                                "opera",
+                                "ie",
+                                "other"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "example message"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "version": {
+                                                    "type": "string",
+                                                    "default": "1.0.0"
+                                                },
+                                                "supported_locales": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "label": {
+                                                                "type": "string",
+                                                                "default": "English"
+                                                            },
+                                                            "value": {
+                                                                "type": "string",
+                                                                "default": "en"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "user": {
+                                                    "$ref": "#/components/schemas/UserDetailResource"
+                                                },
+                                                "roles": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "default": "Admin"
+                                                    }
+                                                },
+                                                "permissions": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "default": "Shared.Admin"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "get users list",
+                "description": "Returns list of users",
+                "operationId": "getUsers",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/page_limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/search"
+                    },
+                    {
+                        "$ref": "#/components/parameters/advanced_search"
+                    },
+                    {
+                        "$ref": "#/components/parameters/sort"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/UserResource"
+                                            }
+                                        },
+                                        "links": {
+                                            "properties": {
+                                                "first": {
+                                                    "type": "string",
+                                                    "default": "http://localhost/api/user?page=1"
+                                                },
+                                                "last": {
+                                                    "type": "string",
+                                                    "default": "http://localhost/api/user?page=4"
+                                                },
+                                                "prev": {
+                                                    "type": "string",
+                                                    "default": "null",
+                                                    "nullable": true
+                                                },
+                                                "next": {
+                                                    "type": "string",
+                                                    "default": "http://localhost/api/user?page=2",
+                                                    "nullable": true
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "meta": {
+                                            "$ref": "#/components/schemas/Meta"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        },
+                                        "advance_search_field": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "key": {
+                                                        "type": "string",
+                                                        "default": "id"
+                                                    },
+                                                    "label": {
+                                                        "type": "string",
+                                                        "default": "text"
+                                                    },
+                                                    "type": {
+                                                        "type": "string",
+                                                        "default": "number"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "extra": {
+                                            "properties": {
+                                                "default_sort": {
+                                                    "type": "string",
+                                                    "default": "-id"
+                                                },
+                                                "sorts": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    },
+                                                    "default": [
+                                                        "id",
+                                                        "created_at",
+                                                        "updated_at"
+                                                    ]
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Store new user",
+                "description": "Returns new user data",
+                "operationId": "storeUser",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreUserRequest"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreUserRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "user has been stored successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/UserResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user/{user}": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get user information",
+                "description": "Returns user data",
+                "operationId": "getUserByID",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/UserDetailResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Update existing user",
+                "description": "Returns updated user data",
+                "operationId": "updateUser",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateUserRequest"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateUserRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "user has been updated successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/UserResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Delete existing user",
+                "description": "Deletes a record and returns no content",
+                "operationId": "deleteUser",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "boolean",
+                                            "default": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "default": "user has been deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/utility/select/{model}": {
+            "get": {
+                "tags": [
+                    "Utility"
+                ],
+                "summary": "for use in select box",
+                "description": "\n     *     `locker`: available=available= lockers where dosen't have active entry(can assign to new user) | available=unavailable= lockers where have active entry (cannot assign to new user) </br></br>\n     *     `wallet`: type=user= wallets where type is user | type=locker= wallets where type is locker </br></br>",
+                "operationId": "selectByModel",
+                "parameters": [
+                    {
+                        "name": "model",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "user",
+                            "enum": [
+                                "user"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "options",
+                        "in": "query",
+                        "description": "you must send as query param param1=1&param2=2 </br>\n     *      `category`:shop_id:int </br></br>\n     *      `wallet`:type=user|locker|contract|organization,charge:1|0,available=available|unavailable,user_id=int",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": ""
+                        },
+                        "examples": {
+                            "Default": {
+                                "summary": "",
+                                "value": ""
+                            },
+                            "search available locker for enter user": {
+                                "summary": "",
+                                "value": "available=available&locker_group_id=1"
+                            },
+                            "search unavailable locker for exist user": {
+                                "summary": "",
+                                "value": "available=unavailable&locker_group_id=1"
+                            },
+                            "list of categories of a shop": {
+                                "summary": "",
+                                "value": "shop_id=1"
+                            },
+                            "lockers in use with charge": {
+                                "summary": "",
+                                "value": "available=unavailable&charge=1"
+                            },
+                            "wallet with type:user|locker|contract|organization": {
+                                "summary": "",
+                                "value": "type=user"
+                            },
+                            "wallet with type locker can use for product or service payments": {
+                                "summary": "",
+                                "value": "type=locker&available=unavailable"
+                            },
+                            "wallet with type locker for user_id=2": {
+                                "summary": "",
+                                "value": "type=locker&available=unavailable&user_id=2"
+                            }
+                        }
+                    },
+                    {
+                        "$ref": "#/components/parameters/search"
+                    },
+                    {
+                        "parameter": "sort",
+                        "name": "sort",
+                        "in": "query",
+                        "description": "Sort the results by field. Use '-' for descending order. Example:-id",
+                        "required": false
+                    },
+                    {
+                        "$ref": "#/components/parameters/page_limit"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "value": {
+                                                        "type": "string"
+                                                    },
+                                                    "label": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Meta": {
+                "title": "Pagination",
+                "properties": {
+                    "current_page": {
+                        "description": "Current page number",
+                        "type": "integer",
+                        "default": 1
+                    },
+                    "from": {
+                        "description": "First page number",
+                        "type": "integer",
+                        "default": 1
+                    },
+                    "last_page": {
+                        "description": "Last page number",
+                        "type": "integer",
+                        "default": 3
+                    },
+                    "links": {
+                        "description": "Links of pages",
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "url": {
+                                    "description": "Url of page",
+                                    "type": "string",
+                                    "default": "http://localhost:8000/api/shift?page=1"
+                                },
+                                "label": {
+                                    "description": "Label of page",
+                                    "type": "string",
+                                    "default": "1"
+                                },
+                                "active": {
+                                    "description": "this page is active or not",
+                                    "type": "boolean",
+                                    "default": true
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "default": [
+                            {
+                                "url": null,
+                                "label": "&laquo; Previous",
+                                "active": false
+                            },
+                            {
+                                "url": "http://localhost:8000/api/category?page=1",
+                                "label": "1",
+                                "active": true
+                            },
+                            {
+                                "url": "http://localhost:8000/api/category?page=2",
+                                "label": "2",
+                                "active": false
+                            },
+                            {
+                                "url": "http://127.0.0.1:8000/api/category?page=3",
+                                "label": "3",
+                                "active": false
+                            },
+                            {
+                                "url": "http://localhost:8000/api/category?page=2",
+                                "label": "Next &raquo;",
+                                "active": false
+                            }
+                        ]
+                    },
+                    "path": {
+                        "description": "Base url path",
+                        "type": "string",
+                        "default": "http://localhost:8000/api/category"
+                    },
+                    "per_page": {
+                        "description": "Number of items per page",
+                        "type": "integer",
+                        "default": 15
+                    },
+                    "to": {
+                        "description": "Last page number",
+                        "type": "integer",
+                        "default": 10
+                    },
+                    "total": {
+                        "description": "number of records",
+                        "type": "integer",
+                        "default": 50
+                    }
+                },
+                "type": "object"
+            },
+            "Pagination": {
+                "title": "Pagination",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "default": "example message"
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "type": "object"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "LoginRequest": {
+                "title": "LoginRequest",
+                "description": "Login request",
+                "required": [
+                    "mobile",
+                    "password"
+                ],
+                "properties": {
+                    "mobile": {
+                        "description": "Email",
+                        "type": "string",
+                        "default": "09100000000"
+                    },
+                    "password": {
+                        "description": "Password",
+                        "type": "string",
+                        "default": "password"
+                    }
+                },
+                "type": "object"
+            },
+            "StoreBlogRequest": {
+                "title": "Store Blog request",
+                "required": [
+                    "title",
+                    "description",
+                    "published",
+                    "category_id",
+                    "slug",
+                    "seo_title",
+                    "seo_description",
+                    "robots_meta"
+                ],
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "default": "test title"
+                    },
+                    "description": {
+                        "type": "string",
+                        "default": "test description"
+                    },
+                    "body": {
+                        "type": "string",
+                        "default": "test body"
+                    },
+                    "published": {
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "published_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "category_id": {
+                        "type": "integer",
+                        "default": 1
+                    },
+                    "slug": {
+                        "type": "string",
+                        "default": "test-slug"
+                    },
+                    "seo_title": {
+                        "type": "string",
+                        "default": "test seo title"
+                    },
+                    "seo_description": {
+                        "type": "string",
+                        "default": "test seo description"
+                    },
+                    "canonical": {
+                        "type": "string",
+                        "default": "https://example.com"
+                    },
+                    "old_url": {
+                        "type": "string",
+                        "default": "https://example.com/old"
+                    },
+                    "redirect_to": {
+                        "type": "string",
+                        "default": "https://example.com/new"
+                    },
+                    "robots_meta": {
+                        "type": "string",
+                        "default": "index_follow",
+                        "enum": [
+                            "index_follow",
+                            "noindex_nofollow",
+                            "noindex_follow"
+                        ]
+                    },
+                    "tags": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "example": [
+                            "tag1",
+                            "tag2"
+                        ]
+                    },
+                    "image": {
+                        "type": "string",
+                        "format": "binary"
+                    }
+                },
+                "type": "object"
+            },
+            "StoreUserRequest": {
+                "title": "Store User request",
+                "required": [
+                    "title"
+                ],
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "default": "test title"
+                    },
+                    "description": {
+                        "type": "string",
+                        "default": "test description"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateBlogRequest": {
+                "title": "Update Blog request",
+                "required": [
+                    "title",
+                    "description",
+                    "published",
+                    "category_id",
+                    "slug",
+                    "seo_title",
+                    "seo_description",
+                    "robots_meta"
+                ],
+                "type": "object",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/StoreBlogRequest"
+                    },
+                    {
+                        "properties": {
+                            "title": {
+                                "type": "string",
+                                "default": "test title"
+                            },
+                            "description": {
+                                "type": "string",
+                                "default": "test description"
+                            },
+                            "body": {
+                                "type": "string",
+                                "default": "test body"
+                            },
+                            "published": {
+                                "type": "boolean",
+                                "default": true
+                            },
+                            "published_at": {
+                                "type": "string",
+                                "format": "date-time",
+                                "default": "2024-08-19T07:26:07.000000Z"
+                            },
+                            "category_id": {
+                                "type": "integer",
+                                "default": 1
+                            },
+                            "slug": {
+                                "type": "string",
+                                "default": "test-slug"
+                            },
+                            "seo_title": {
+                                "type": "string",
+                                "default": "test seo title"
+                            },
+                            "seo_description": {
+                                "type": "string",
+                                "default": "test seo description"
+                            },
+                            "canonical": {
+                                "type": "string",
+                                "default": "https://example.com"
+                            },
+                            "old_url": {
+                                "type": "string",
+                                "default": "https://example.com/old"
+                            },
+                            "redirect_to": {
+                                "type": "string",
+                                "default": "https://example.com/new"
+                            },
+                            "robots_meta": {
+                                "type": "string",
+                                "default": "index_follow",
+                                "enum": [
+                                    "index_follow",
+                                    "noindex_nofollow",
+                                    "noindex_follow"
+                                ]
+                            },
+                            "tags": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                },
+                                "example": [
+                                    "tag1",
+                                    "tag2"
+                                ]
+                            },
+                            "image": {
+                                "type": "string",
+                                "format": "binary"
+                            }
+                        },
+                        "type": "object"
+                    }
+                ]
+            },
+            "UpdateUserRequest": {
+                "title": "Update User request",
+                "required": [
+                    "title"
+                ],
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "default": "test title updated"
+                    },
+                    "description": {
+                        "type": "string",
+                        "default": "test description updated"
+                    }
+                },
+                "type": "object"
+            },
+            "BlogDetailResource": {
+                "title": "BlogDetailResource",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "title": {
+                        "type": "string",
+                        "default": "Blog Title"
+                    },
+                    "description": {
+                        "type": "string",
+                        "default": "Blog Description"
+                    },
+                    "slug": {
+                        "type": "string",
+                        "default": "blog-title"
+                    },
+                    "published": {
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "user": {
+                        "$ref": "#/components/schemas/SimpleUserResource"
+                    },
+                    "category": {
+                        "type": "object"
+                    },
+                    "view_count": {
+                        "type": "integer",
+                        "default": "100"
+                    },
+                    "comment_count": {
+                        "type": "integer",
+                        "default": "10"
+                    },
+                    "wish_count": {
+                        "type": "integer",
+                        "default": "50"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    }
+                },
+                "type": "object"
+            },
+            "BlogResource": {
+                "title": "BlogResource",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "title": {
+                        "type": "string",
+                        "default": "Blog Title"
+                    },
+                    "description": {
+                        "type": "string",
+                        "default": "Blog Description"
+                    },
+                    "slug": {
+                        "type": "string",
+                        "default": "blog-title"
+                    },
+                    "published": {
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "user": {
+                        "$ref": "#/components/schemas/SimpleUserResource"
+                    },
+                    "category": {
+                        "type": "object"
+                    },
+                    "view_count": {
+                        "type": "integer",
+                        "default": "100"
+                    },
+                    "comment_count": {
+                        "type": "integer",
+                        "default": "10"
+                    },
+                    "wish_count": {
+                        "type": "integer",
+                        "default": "50"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    }
+                },
+                "type": "object"
+            },
+            "SimpleUserResource": {
+                "title": "SimpleUserResource",
+                "properties": {
+                    "id": {
+                        "description": "User id",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "John",
+                        "nullable": true
+                    },
+                    "family": {
+                        "type": "string",
+                        "example": "Doe",
+                        "nullable": true
+                    },
+                    "mobile": {
+                        "type": "string",
+                        "example": "09379151111"
+                    },
+                    "image": {
+                        "type": "string",
+                        "example": "https://example.com/image.jpg"
+                    }
+                },
+                "type": "object"
+            },
+            "UserDetailResource": {
+                "title": "UserDetailResource",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "title": {
+                        "type": "string",
+                        "default": "User Title"
+                    },
+                    "description": {
+                        "type": "string",
+                        "default": "User Description"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    }
+                },
+                "type": "object"
+            },
+            "UserResource": {
+                "title": "UserResource",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "name": {
+                        "type": "string",
+                        "default": "User Name"
+                    },
+                    "family": {
+                        "type": "string",
+                        "default": "User Family"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "responses": {
+            "400": {
+                "description": "Bad Request",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "default": "Bad Request."
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "401": {
+                "description": "Unauthorized",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "default": "Unauthenticated."
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "403": {
+                "description": "Forbidden",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "default": "Forbidden."
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "500": {
+                "description": "Internal Server Error",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "default": "Internal Server Error."
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "parameters": {
+            "advanced_search": {
+                "name": "filter[a_search][]",
+                "in": "query",
+                "description": "Search in events",
+                "required": false,
+                "schema": {
+                    "type": "array",
+                    "items": {
+                        "properties": {
+                            "column": {
+                                "type": "string",
+                                "default": "id"
+                            },
+                            "operator": {
+                                "type": "string",
+                                "default": "=",
+                                "enum": [
+                                    "like",
+                                    "=",
+                                    ">",
+                                    "<",
+                                    ">=",
+                                    "<="
+                                ]
+                            },
+                            "from": {
+                                "type": "string",
+                                "default": "1"
+                            },
+                            "to": {
+                                "type": "string",
+                                "default": "",
+                                "nullable": true
+                            },
+                            "contain": {
+                                "type": "integer",
+                                "default": "1",
+                                "enum": [
+                                    0,
+                                    1
+                                ]
+                            }
+                        },
+                        "type": "object"
+                    }
+                }
+            },
+            "filter": {
+                "name": "filter",
+                "in": "query",
+                "description": "Filter shifts",
+                "required": false,
+                "schema": {
+                    "properties": {
+                        "search": {
+                            "type": "string",
+                            "default": ""
+                        }
+                    },
+                    "type": "object"
+                }
+            },
+            "search": {
+                "name": "filter[search]",
+                "in": "query",
+                "required": false,
+                "schema": {
+                    "type": "string",
+                    "default": ""
+                }
+            },
+            "name": {
+                "name": "filter[name]",
+                "in": "query",
+                "required": false,
+                "schema": {
+                    "type": "string",
+                    "default": ""
+                }
+            },
+            "sort": {
+                "name": "sort",
+                "in": "query",
+                "description": "Sort criteria for shifts (e.g., name, -created_at)",
+                "required": false,
+                "schema": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "default": [
+                        "-id"
+                    ]
+                }
+            },
+            "page": {
+                "name": "page",
+                "in": "query",
+                "description": "page number",
+                "required": false,
+                "schema": {
+                    "type": "integer",
+                    "default": 1
+                }
+            },
+            "page_limit": {
+                "name": "page_limit",
+                "in": "query",
+                "description": "number of items per page",
+                "required": false,
+                "schema": {
+                    "type": "integer",
+                    "default": 15
+                }
+            }
+        },
+        "securitySchemes": {
+            "sanctum": {
+                "type": "apiKey",
+                "description": "Enter token",
+                "name": "Authorization",
+                "in": "header"
+            },
+            "clubId": {
+                "type": "apiKey",
+                "description": "Club ID header",
+                "name": "X-Club-Id",
+                "in": "header"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Auth",
+            "description": "Auth"
+        },
+        {
+            "name": "Blog",
+            "description": "Blog"
+        },
+        {
+            "name": "Splash",
+            "description": "Splash"
+        },
+        {
+            "name": "User",
+            "description": "User"
+        },
+        {
+            "name": "Utility",
+            "description": "Utility"
+        }
+    ],
+    "security": [
+        {
+            "sanctum": [],
+            "clubId": []
+        }
+    ]
+}

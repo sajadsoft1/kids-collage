@@ -1,0 +1,27 @@
+<?php
+
+namespace {{ namespace }};
+
+use Lorisleiva\Actions\Concerns\AsAction;
+
+class {{ class }}
+{
+    use AsAction;
+
+    public function __construct(
+
+    )
+    {
+    }
+
+    /**
+     * {{ class }} ....
+     *
+     * @param  array  $payload
+     * @return void
+     */
+    public function handle(array $payload=[]): void
+    {
+        // ...
+    }
+}
