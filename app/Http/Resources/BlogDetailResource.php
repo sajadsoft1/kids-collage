@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Resources;
 
 use App\Models\Blog;
@@ -27,11 +29,10 @@ use OpenApi\Annotations as OA;
  */
 class BlogDetailResource extends JsonResource
 {
-
     public function toArray(Request $request): array
     {
-        $resource = BlogResource::make($this)->toArray($request);
-        $resource['comments']=$this->whenLoaded('comments',fn()=> $this->comments);
+        $resource            = BlogResource::make($this)->toArray($request);
+        $resource['comments']=$this->whenLoaded('comments', fn () => $this->comments);
 
         return $resource;
     }

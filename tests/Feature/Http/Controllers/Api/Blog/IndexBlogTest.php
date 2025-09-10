@@ -66,7 +66,7 @@ it('index blog', function (array $payload = [], array $expected = []) {
     ]);
 
     $response = login()->getJson('api/blog?' . $query);
-    $result = $response->json();
+    $result   = $response->json();
     $response
         ->assertStatus(Arr::get($expected, 'status', 200))
         ->assertJsonStructure(getCommonJsonStructureIndex([

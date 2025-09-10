@@ -27,7 +27,7 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="canonical", type="string", default="https://example.com"),
  *     @OA\Property(property="old_url", type="string", default="https://example.com/old"),
  *     @OA\Property(property="redirect_to", type="string", default="https://example.com/new"),
- *     @OA\Property(property="robots_meta", type="string", default="index_follow",enum={"index_follow","noindex_nofollow","noindex_follow"}),
+ *     @OA\Property(property="robots_meta", type="string", default="index_follow", enum={"index_follow", "noindex_nofollow", "noindex_follow"}),
  *     @OA\Property(property="tags", type="array", @OA\Items(type="string"), example={"tag1", "tag2"}),
  *     @OA\Property(property="image", type="string", format="binary"),
  * )
@@ -51,7 +51,7 @@ class StoreBlogRequest extends FormRequest
             'canonical'       => 'nullable|url',
             'old_url'         => 'nullable|url',
             'redirect_to'     => 'nullable|url',
-            'robots_meta'     => 'required|in:'.implode(',', SeoRobotsMetaEnum::values()),
+            'robots_meta'     => 'required|in:' . implode(',', SeoRobotsMetaEnum::values()),
             'tags'            => 'nullable|array',
             'image'           => 'nullable|file|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];

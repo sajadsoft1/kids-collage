@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 use App\Models\User;
-use App\Services\Permissions\Models\UserPermissions;
 use App\Services\Permissions\Models\SharedPermissions;
+use App\Services\Permissions\Models\UserPermissions;
 
 uses()->group('user');
 
@@ -16,14 +16,13 @@ it('show user', function (array $payload = [], array $expected = []) {
     $response = login(permissions: Arr::get($payload, 'permissions', [SharedPermissions::Admin]))->getJson('api/user/' . Arr::get($payload, 'id', 1));
 
     $response->assertStatus(Arr::get($expected, 'status', 200))
-             ->when(Arr::has($expected, 'assertJsonStructure'))
-             ->assertJsonStructure([
-                 'message',
-                 'data' => Arr::get($expected, 'assertJsonStructure', []),
-             ])
-             ->when(Arr::has($expected, 'assertJson'))
-             ->assertJson(Arr::get($expected, 'assertJson'));
-
+        ->when(Arr::has($expected, 'assertJsonStructure'))
+        ->assertJsonStructure([
+            'message',
+            'data' => Arr::get($expected, 'assertJsonStructure', []),
+        ])
+        ->when(Arr::has($expected, 'assertJson'))
+        ->assertJson(Arr::get($expected, 'assertJson'));
 })->with([
     'exist item'             => [
         'payload'  => ['id' => 1],
@@ -40,5 +39,5 @@ it('show user', function (array $payload = [], array $expected = []) {
     'doesnt have permission' => [
         'payload'  => ['permissions' => []],
         'expected' => ['status' => 403],
-    ]
+    ],
 ])->skip();

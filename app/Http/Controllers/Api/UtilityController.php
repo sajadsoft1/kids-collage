@@ -4,11 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
-use App\Actions\Utility\ActiveClub;
-use App\Actions\Utility\DownloadUpdateAction;
 use App\Helpers\Constants;
-use App\Helpers\Utils;
-use App\Http\Requests\ActiveRequest;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -55,7 +51,7 @@ class UtilityController
      *
      *     @OA\Parameter(ref="#/components/parameters/search"),
      *     @OA\Parameter(parameter="sort", name="sort", in="query", required=false,
-     *         description="Sort the results by field. Use '-' for descending order. Example:-id"),
+     *     description="Sort the results by field. Use '-' for descending order. Example:-id"),
      *     @OA\Parameter(ref="#/components/parameters/page_limit"),
      *     @OA\Response(response=200,
      *         description="Successful operation",
@@ -117,7 +113,7 @@ class UtilityController
             parse_str($options, $payload);
         }
         $results = Role::query()
-            ->when($search = $request->input('filter.search'), fn ($q) => $q->where('name', 'like', "%$search%"))
+            ->when($search = $request->input('filter.search'), fn ($q) => $q->where('name', 'like', "%{$search}%"))
             ->limit($request->input('page_limit', Constants::DEFAULT_PAGINATE))
             ->get();
 

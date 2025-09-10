@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-use App\Services\Permissions\Models\UserPermissions;
 use App\Services\Permissions\Models\SharedPermissions;
+use App\Services\Permissions\Models\UserPermissions;
+
 use function Pest\Laravel\assertDatabaseHas;
 
 uses()->group('user');
@@ -15,8 +16,8 @@ it('create user', function (array $payload = [], array $expected = []) {
     ], $payload);
 
     $response = login(permissions: Arr::get($payload, 'permissions', [SharedPermissions::Admin]))->postJson('api/user', $data);
-    $result = $response->json();
-    $status = Arr::get($expected, 'status', 201);
+    $result   = $response->json();
+    $status   = Arr::get($expected, 'status', 201);
 
     $response
         ->assertStatus($status)
@@ -27,12 +28,11 @@ it('create user', function (array $payload = [], array $expected = []) {
 
     if ($status === 201) {
         assertDatabaseHas('users', [
-            'id' => $result['data']['id']
+            'id' => $result['data']['id'],
         ]);
 
         // You have to watch the tables change
     }
-
 })->with([
     'default data'                    => [
         'payload'  => [],
@@ -41,29 +41,29 @@ it('create user', function (array $payload = [], array $expected = []) {
             'assertJsonStructure' => ['data' => [
                 'id',
                 'title',
-                'description'
+                'description',
             ]],
             'assertJson'          => ['data' => [
                 'id'          => 1,
                 'title'       => 'test',
                 'description' => 'test',
-            ]
-            ]
-        ]
+            ],
+            ],
+        ],
     ],
     'default data with permission'    => [
         'payload'  => ['permissions' => [UserPermissions::Store]],
-        'expected' => ['status' => 201]
+        'expected' => ['status' => 201],
     ],
     'default data without permission' => [
         'payload'  => ['permissions' => []],
-        'expected' => ['status' => 403]
+        'expected' => ['status' => 403],
     ],
     'validation errors'               => [
         'payload'  => ['title' => '', 'description' => ''],
         'expected' => [
             'status'              => 422,
-            'assertJsonStructure' => ['errors' => ['title', 'description']]
-        ]
+            'assertJsonStructure' => ['errors' => ['title', 'description']],
+        ],
     ],
 ])->skip();

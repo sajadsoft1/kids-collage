@@ -66,7 +66,7 @@ it('index user', function (array $payload = [], array $expected = []) {
     ]);
 
     $response = login()->getJson('api/user?' . $query);
-    $result = $response->json();
+    $result   = $response->json();
     $response
         ->assertStatus(Arr::get($expected, 'status', 200))
         ->assertJsonStructure(getCommonJsonStructureIndex([

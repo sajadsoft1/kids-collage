@@ -15,26 +15,25 @@ use Illuminate\Support\Collection;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
-class UserRepository extends BaseRepository implements UserRepositoryInterface,SelectableContract
+class UserRepository extends BaseRepository implements SelectableContract, UserRepositoryInterface
 {
     public function __construct(User $model)
     {
         parent::__construct($model);
     }
 
-
     public function query(array $payload = []): Builder|QueryBuilder
     {
         return QueryBuilder::for(User::query())
-                           ->with(Arr::get($payload, 'with', []))
-                           ->when(Arr::get($payload, 'limit'), fn ($q) => $q->limit($payload['limit']))
-                           ->when(Arr::get($payload, 'select'), fn ($query) => $query->select($payload['select']))
-                           ->defaultSort(Arr::get($payload, 'sort', '-id'))
-                           ->allowedSorts(['id', 'created_at', 'updated_at'])
-                           ->allowedFilters([
-                               AllowedFilter::custom('search', new FuzzyFilter(['name']))->default(Arr::get($payload, 'filter.search'))->nullable(false),
-                               AllowedFilter::custom('a_search', new AdvanceFilter())->default(Arr::get($payload, 'filter.a_search', []))->nullable(false),
-                           ]);
+            ->with(Arr::get($payload, 'with', []))
+            ->when(Arr::get($payload, 'limit'), fn ($q) => $q->limit($payload['limit']))
+            ->when(Arr::get($payload, 'select'), fn ($query) => $query->select($payload['select']))
+            ->defaultSort(Arr::get($payload, 'sort', '-id'))
+            ->allowedSorts(['id', 'created_at', 'updated_at'])
+            ->allowedFilters([
+                AllowedFilter::custom('search', new FuzzyFilter(['name']))->default(Arr::get($payload, 'filter.search'))->nullable(false),
+                AllowedFilter::custom('a_search', new AdvanceFilter)->default(Arr::get($payload, 'filter.a_search', []))->nullable(false),
+            ]);
     }
 
     public function extra(array $payload = []): array
@@ -55,23 +54,22 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface,S
      */
     public function select(array $payload = []): Collection
     {
-        $payload['select'] = ['id','name','family','mobile'];
-        $results = $this->query($payload)->get();
+        $payload['select'] = ['id', 'name', 'family', 'mobile'];
+        $results           = $this->query($payload)->get();
         if ( ! empty($payload['selected'])) {
             $selected=$payload['selected'];
-            if (is_string($selected)){
-                $selected = explode(',',$selected);
+            if (is_string($selected)) {
+                $selected = explode(',', $selected);
             }
             $selectedQuery = User::whereIn('id', $selected);
-            $results = $results->merge($selectedQuery->get())->unique('id');
+            $results       = $results->merge($selectedQuery->get())->unique('id');
         }
 
         return $results->map(function ($model) {
             return [
                 'value' => $model->id,
-                'label' => $model->name. ' '.$model->family .($model->mobile ? ' (' . $model->mobile . ')' : ''),
+                'label' => $model->name . ' ' . $model->family . ($model->mobile ? ' (' . $model->mobile . ')' : ''),
             ];
         });
     }
-
 }

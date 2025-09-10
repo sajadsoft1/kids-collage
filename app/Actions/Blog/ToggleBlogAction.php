@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Blog;
 
 use App\Models\Blog;
@@ -11,9 +13,7 @@ class ToggleBlogAction
 {
     use AsAction;
 
-    public function __construct(private readonly BlogRepositoryInterface $repository)
-    {
-    }
+    public function __construct(private readonly BlogRepositoryInterface $repository) {}
 
     public function handle(Blog $blog): Blog
     {

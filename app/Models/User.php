@@ -25,7 +25,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements HasMedia
 {
-    use HasApiTokens,CLogsActivity, HasFactory, HasRoles, InteractsWithMedia, Notifiable;
+    use CLogsActivity,HasApiTokens, HasFactory, HasRoles, InteractsWithMedia, Notifiable;
 
     protected $fillable = [
         'name',
@@ -77,6 +77,7 @@ class User extends Authenticatable implements HasMedia
     {
         return $this->hasOne(Profile::class);
     }
+
     public function blogs(): User|Builder|HasMany
     {
         return $this->hasMany(Blog::class);

@@ -1,14 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
-    /**
-     * Register services.
-     */
+    /** Register services. */
     public function register(): void
     {
         $path        = app()->path() . '/Repositories';
@@ -21,11 +21,6 @@ class RepositoryServiceProvider extends ServiceProvider
         }
     }
 
-    /**
-     * Bootstrap services.
-     */
-    public function boot(): void
-    {
-        //
-    }
+    /** Bootstrap services. */
+    public function boot(): void {}
 }

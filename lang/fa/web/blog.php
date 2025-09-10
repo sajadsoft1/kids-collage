@@ -6,13 +6,13 @@ return [
     'title'       => 'وبلاگ',
     'description' => 'آخرین مقالات و اخبار ما را در وبلاگ دنبال کنید',
     'keywords'    => 'وبلاگ, مقالات, اخبار, آموزش, مدرسه, دانش آموزان',
-    'sidebar' => [
+    'sidebar'     => [
         'search'     => 'جستجو',
         'popular'    => 'مقالات مرتبط',
         'categories' => 'دسته بندی ها',
         'tags'       => 'تگ',
     ],
-    'content' => [
+    'content'     => [
         'author'   => [
             'author_btn' => 'تمام مقاله ها',
         ],

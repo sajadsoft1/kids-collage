@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Resources;
 
 use App\Models\User;
@@ -11,7 +13,7 @@ use OpenApi\Annotations as OA;
  * @OA\Schema(
  *     schema="UserDetailResource",
  *     title="UserDetailResource",
- *     @OA\Property( property="id", type="integer", default="1"),
+ *     @OA\Property(property="id", type="integer", default="1"),
  *     @OA\Property(property="title", type="string", default="User Title"),
  *     @OA\Property(property="description", type="string", default="User Description"),
  *
@@ -21,10 +23,9 @@ use OpenApi\Annotations as OA;
  */
 class UserDetailResource extends JsonResource
 {
-
     public function toArray(Request $request): array
     {
-        $resource = UserResource::make($this)->toArray($request);
+        $resource      = UserResource::make($this)->toArray($request);
         $resource['id']=$this->id;
 
         return $resource;

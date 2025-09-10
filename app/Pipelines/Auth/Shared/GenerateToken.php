@@ -5,12 +5,8 @@ declare(strict_types=1);
 namespace App\Pipelines\Auth\Shared;
 
 use App\Helpers\ErrorHelper;
-use App\Helpers\Utils;
-use App\Models\Scopes\BranchScope;
-use App\Models\Shop;
 use App\Pipelines\Auth\AuthDTO;
 use App\Pipelines\Auth\AuthInterface;
-use App\Repositories\User\UserRepositoryInterface;
 use Closure;
 
 readonly class GenerateToken implements AuthInterface

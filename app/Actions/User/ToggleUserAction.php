@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\User;
 
 use App\Models\User;
@@ -11,9 +13,7 @@ class ToggleUserAction
 {
     use AsAction;
 
-    public function __construct(private readonly UserRepositoryInterface $repository)
-    {
-    }
+    public function __construct(private readonly UserRepositoryInterface $repository) {}
 
     public function handle(User $user): User
     {

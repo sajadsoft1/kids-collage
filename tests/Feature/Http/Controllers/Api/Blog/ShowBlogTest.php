@@ -16,14 +16,13 @@ it('show blog', function (array $payload = [], array $expected = []) {
     $response = login(permissions: Arr::get($payload, 'permissions', [SharedPermissions::Admin]))->getJson('api/blog/' . Arr::get($payload, 'id', 1));
 
     $response->assertStatus(Arr::get($expected, 'status', 200))
-             ->when(Arr::has($expected, 'assertJsonStructure'))
-             ->assertJsonStructure([
-                 'message',
-                 'data' => Arr::get($expected, 'assertJsonStructure', []),
-             ])
-             ->when(Arr::has($expected, 'assertJson'))
-             ->assertJson(Arr::get($expected, 'assertJson'));
-
+        ->when(Arr::has($expected, 'assertJsonStructure'))
+        ->assertJsonStructure([
+            'message',
+            'data' => Arr::get($expected, 'assertJsonStructure', []),
+        ])
+        ->when(Arr::has($expected, 'assertJson'))
+        ->assertJson(Arr::get($expected, 'assertJson'));
 })->with([
     'exist item'             => [
         'payload'  => ['id' => 1],
@@ -40,5 +39,5 @@ it('show blog', function (array $payload = [], array $expected = []) {
     'doesnt have permission' => [
         'payload'  => ['permissions' => []],
         'expected' => ['status' => 403],
-    ]
+    ],
 ])->skip();

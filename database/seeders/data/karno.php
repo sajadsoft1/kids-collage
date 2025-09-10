@@ -108,7 +108,7 @@ return [
             'languages'   => [
                 'fa',
             ],
-            'path'          => public_path('images/test/blogs/laravel.jpg'),
+            'path'        => public_path('images/test/blogs/laravel.jpg'),
         ],
     ],
     'slider'       => [
@@ -116,13 +116,13 @@ return [
             'title'       => 'slider test',
             'description' => 'slider description about somethings',
             'published'   => true,
-            'ordering'   => 1,
-            'link'   => 'https://www.google.com',
-            'position'        => \App\Enums\SliderPositionEnum::TOP->value,
+            'ordering'    => 1,
+            'link'        => 'https://www.google.com',
+            'position'    => App\Enums\SliderPositionEnum::TOP->value,
             'languages'   => [
                 'fa',
             ],
-            'path'          => public_path('images/test/blogs/laravel.jpg'),
+            'path'        => public_path('images/test/blogs/laravel.jpg'),
         ],
     ],
     'comment'      => [
@@ -156,8 +156,7 @@ return [
             'languages' => [
                 'fa',
             ],
-            'path'          => public_path('images/test/blogs/laravel.jpg'),
-
+            'path'      => public_path('images/test/blogs/laravel.jpg'),
         ],
     ],
     'teammate'     => [
@@ -169,8 +168,7 @@ return [
             'languages'   => [
                 'fa',
             ],
-            'path'          => public_path('images/test/blogs/laravel.jpg'),
-
+            'path'        => public_path('images/test/blogs/laravel.jpg'),
         ],
     ],
     'contact_us'   => [
@@ -190,8 +188,7 @@ return [
             'languages' => [
                 'fa',
             ],
-            'path'          => public_path('images/test/blogs/laravel.jpg'),
-
+            'path'      => public_path('images/test/blogs/laravel.jpg'),
         ],
     ],
 ];

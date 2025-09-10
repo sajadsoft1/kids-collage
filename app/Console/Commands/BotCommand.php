@@ -35,7 +35,7 @@ class BotCommand extends Command
     {
         $model = $this->argument('model');
         $model = Str::studly($model);
-        $out = new ConsoleOutput;
+        $out   = new ConsoleOutput;
         $out->writeln('Starting Bot...');
 
         Artisan::call('app:model ' . $model);
@@ -43,35 +43,35 @@ class BotCommand extends Command
 
         Artisan::call('app:action ' . $model . ' --type=Store');
         $out->writeln('Action Store Created successfully.');
-//        Artisan::call('app:test ' . $model . ' --type=Store');
+        //        Artisan::call('app:test ' . $model . ' --type=Store');
         $out->writeln('Test for Store Action Created successfully.');
         Artisan::call('app:action ' . $model . ' --type=Update');
         $out->writeln('Action Update Created successfully.');
-//        Artisan::call('app:test ' . $model . ' --type=Update');
+        //        Artisan::call('app:test ' . $model . ' --type=Update');
         $out->writeln('Test for Update Action Created successfully.');
         Artisan::call('app:action ' . $model . ' --type=Delete');
         $out->writeln('Action Delete Created successfully.');
-//        Artisan::call('app:test ' . $model . ' --type=Delete');
+        //        Artisan::call('app:test ' . $model . ' --type=Delete');
         $out->writeln('Test for Delete Action Created successfully.');
 
         Artisan::call('app:permission ' . $model);
         $out->writeln('Permission Created successfully.');
-//        Artisan::call('app:test ' . $model . ' --type=Show');
+        //        Artisan::call('app:test ' . $model . ' --type=Show');
         $out->writeln('Test for Show Action Created successfully.');
-//        Artisan::call('app:test ' . $model . ' --type=Index');
+        //        Artisan::call('app:test ' . $model . ' --type=Index');
         $out->writeln('Test for Index Action Created successfully.');
 
         if ($this->option('toggle')) {
             Artisan::call('app:action ' . $model . ' --type=Toggle');
             $out->writeln('Action Toggle Created successfully.');
-//            Artisan::call('app:test ' . $model . ' --type=Toggle');
+            //            Artisan::call('app:test ' . $model . ' --type=Toggle');
             $out->writeln('Test for Toggle Action Created successfully.');
         }
 
         if ($this->option('data')) {
             Artisan::call('app:action ' . $model . ' --type=Data');
             $out->writeln('Action Data Created successfully.');
-//            Artisan::call('app:test ' . $model . ' --type=Data');
+            //            Artisan::call('app:test ' . $model . ' --type=Data');
             $out->writeln('Test for Data Action Created successfully.');
         }
 

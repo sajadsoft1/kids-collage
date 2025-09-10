@@ -25,16 +25,18 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="canonical", type="string", default="https://example.com"),
  *     @OA\Property(property="old_url", type="string", default="https://example.com/old"),
  *     @OA\Property(property="redirect_to", type="string", default="https://example.com/new"),
- *     @OA\Property(property="robots_meta", type="string", default="index_follow",enum={"index_follow","noindex_nofollow","noindex_follow"}),
+ *     @OA\Property(property="robots_meta", type="string", default="index_follow", enum={"index_follow", "noindex_nofollow", "noindex_follow"}),
  *     @OA\Property(property="tags", type="array", @OA\Items(type="string"), example={"tag1", "tag2"}),
  *     @OA\Property(property="image", type="string", format="binary"),
  * )
  */
-class UpdateBlogRequest extends StoreBlogRequest {
+class UpdateBlogRequest extends StoreBlogRequest
+{
     public function rules(): array
     {
-        $rules =  parent::rules();
-        $rules['slug'] = 'required|unique:blogs,slug,'.$this->route('blog')->id;
+        $rules         =  parent::rules();
+        $rules['slug'] = 'required|unique:blogs,slug,' . $this->route('blog')->id;
+
         return $rules;
     }
 }

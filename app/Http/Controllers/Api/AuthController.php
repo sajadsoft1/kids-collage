@@ -6,7 +6,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Actions\Auth\LoginAction;
 use App\Actions\Auth\LogoutAction;
-use App\Enums\UserPositionEnum;
 use App\Http\Requests\LoginRequest;
 use App\Http\Resources\SimpleUserResource;
 use App\Http\Resources\UserDetailResource;
