@@ -12,10 +12,12 @@ use OpenApi\Annotations as OA;
  *      schema="UpdateContactUsRequest",
  *      title="Update ContactUs request",
  *      type="object",
- *      required={"title"},
+ *      required={"name", "email", "mobile", "comment"},
  *
- *     @OA\Property(property="title", type="string", default="test title updated"),
- *     @OA\Property(property="description", type="string", default="test description updated"),
+ *     @OA\Property(property="name", type="string", default="Jane Doe", description="Contact person name"),
+ *     @OA\Property(property="email", type="string", format="email", default="jane@example.com", description="Contact email address"),
+ *     @OA\Property(property="mobile", type="string", default="09123456789", description="Contact mobile number"),
+ *     @OA\Property(property="comment", type="string", default="Updated message content", description="Contact message/comment"),
  * )
  */
 class UpdateContactUsRequest extends StoreContactUsRequest {}

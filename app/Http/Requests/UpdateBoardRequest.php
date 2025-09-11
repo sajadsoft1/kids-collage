@@ -14,8 +14,8 @@ use OpenApi\Annotations as OA;
  *      type="object",
  *      required={"title"},
  *
- *     @OA\Property(property="title", type="string", default="test title updated"),
- *     @OA\Property(property="description", type="string", default="test description updated"),
+ *     @OA\Property(property="title", type="string", default="Updated board title", description="Board title"),
+ *     @OA\Property(property="description", type="string", default="Updated board description", description="Board description"),
  * )
  */
 class UpdateBoardRequest extends StoreBoardRequest {}

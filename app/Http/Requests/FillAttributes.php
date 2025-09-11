@@ -8,13 +8,35 @@ use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
+/**
+ * Trait FillAttributes
+ *
+ * Provides utility methods for form request handling, including:
+ * - Automatic attribute generation for validation messages
+ * - String to array conversion for multipart/form-data handling
+ * - Boolean conversion for form inputs
+ * - JSON string to object conversion
+ *
+ * @package App\Http\Requests
+ */
+
 trait FillAttributes
 {
+    /**
+     * Get custom attribute names for validation messages
+     *
+     * @return array<string, string>
+     */
     public function attributes(): array
     {
         return $this->generateAttributes();
     }
 
+    /**
+     * Generate custom attribute names for nested validation rules
+     *
+     * @return array<string, string>
+     */
     public function generateAttributes(): array
     {
         return collect($this->rules())->filter(function ($item, $key) {
@@ -27,9 +49,10 @@ trait FillAttributes
     }
 
     /**
-     * When mediaType is multipart/form-data array of string or integer will be converted to string.
+     * Convert comma-separated string values to arrays
+     * Useful when mediaType is multipart/form-data where arrays become strings
      *
-     * @param array $rules like ['categories_id' => '1,2,3']
+     * @param array<string, string> $rules Array with field names as keys and comma-separated values
      */
     public function convertStringToArray(array $rules): void
     {
@@ -40,7 +63,12 @@ trait FillAttributes
         }
     }
 
-    /** When 'mediaType' is 'multipart/form-data' array of an object will be converted to string.*/
+    /**
+     * Convert JSON string arrays to arrays of objects
+     * Handles nested JSON decoding for complex form data
+     *
+     * @param array<string, string> $rules Array with field names as keys and JSON string values
+     */
     public function convertStringToArrayOfObject(array $rules): void
     {
         foreach ($rules as $key => $value) {
@@ -63,6 +91,11 @@ trait FillAttributes
         }
     }
 
+    /**
+     * Convert JSON string to object/array
+     *
+     * @param array<string, string> $rules Array with field names as keys and JSON string values
+     */
     public function convertStringToObject(array $rules): void
     {
         foreach ($rules as $key => $value) {
@@ -77,8 +110,11 @@ trait FillAttributes
         }
     }
 
-    /** Convert multiple string fields to booleans.
-     * @param array<string, mixed> $fields
+    /**
+     * Convert various string representations to boolean values
+     * Handles 'on'/'off', 'true'/'false', '1'/'0' values from forms
+     *
+     * @param array<string, mixed> $fields Array of field names and their values to convert
      */
     protected function convertOnToBoolean(array $fields): void
     {

@@ -6806,16 +6806,44 @@
             "StoreBannerRequest": {
                 "title": "Store Banner request",
                 "required": [
-                    "title"
+                    "title",
+                    "published"
                 ],
                 "properties": {
                     "title": {
+                        "description": "Banner title",
                         "type": "string",
                         "default": "test title"
                     },
                     "description": {
+                        "description": "Banner description",
                         "type": "string",
                         "default": "test description"
+                    },
+                    "published": {
+                        "description": "Publication status",
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "published_at": {
+                        "description": "Publication date",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "size": {
+                        "description": "Banner size",
+                        "type": "string",
+                        "default": "16x9",
+                        "enum": [
+                            "1x1",
+                            "16x9",
+                            "4x3"
+                        ]
+                    },
+                    "image": {
+                        "description": "Banner image file",
+                        "type": "string",
+                        "format": "binary"
                     }
                 },
                 "type": "object"
@@ -6915,10 +6943,12 @@
                 ],
                 "properties": {
                     "title": {
+                        "description": "Board title",
                         "type": "string",
                         "default": "test title"
                     },
                     "description": {
+                        "description": "Board description",
                         "type": "string",
                         "default": "test description"
                     }
@@ -6932,10 +6962,12 @@
                 ],
                 "properties": {
                     "title": {
+                        "description": "CardFlow title",
                         "type": "string",
                         "default": "test title"
                     },
                     "description": {
+                        "description": "CardFlow description",
                         "type": "string",
                         "default": "test description"
                     }
@@ -6949,10 +6981,12 @@
                 ],
                 "properties": {
                     "title": {
+                        "description": "Card title",
                         "type": "string",
                         "default": "test title"
                     },
                     "description": {
+                        "description": "Card description",
                         "type": "string",
                         "default": "test description"
                     }
@@ -6962,16 +6996,108 @@
             "StoreCategoryRequest": {
                 "title": "Store Category request",
                 "required": [
-                    "title"
+                    "title",
+                    "published",
+                    "type",
+                    "seo_title",
+                    "seo_description",
+                    "robots_meta"
                 ],
                 "properties": {
                     "title": {
+                        "description": "Category title",
                         "type": "string",
                         "default": "test title"
                     },
                     "description": {
+                        "description": "Category description",
                         "type": "string",
                         "default": "test description"
+                    },
+                    "body": {
+                        "description": "Category body content",
+                        "type": "string",
+                        "default": "test body"
+                    },
+                    "published": {
+                        "description": "Publication status",
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "parent_id": {
+                        "description": "Parent category ID",
+                        "type": "integer"
+                    },
+                    "type": {
+                        "description": "Category type",
+                        "type": "string",
+                        "default": "blog",
+                        "enum": [
+                            "blog",
+                            "portfolio",
+                            "faq"
+                        ]
+                    },
+                    "ordering": {
+                        "description": "Category order",
+                        "type": "integer",
+                        "default": 0
+                    },
+                    "slug": {
+                        "description": "Category slug",
+                        "type": "string",
+                        "default": "test-slug"
+                    },
+                    "seo_title": {
+                        "description": "SEO title",
+                        "type": "string",
+                        "default": "test seo title"
+                    },
+                    "seo_description": {
+                        "description": "SEO description",
+                        "type": "string",
+                        "default": "test seo description"
+                    },
+                    "canonical": {
+                        "description": "Canonical URL",
+                        "type": "string",
+                        "default": "https://example.com"
+                    },
+                    "old_url": {
+                        "description": "Old URL for redirect",
+                        "type": "string",
+                        "default": "https://example.com/old"
+                    },
+                    "redirect_to": {
+                        "description": "Redirect target URL",
+                        "type": "string",
+                        "default": "https://example.com/new"
+                    },
+                    "robots_meta": {
+                        "description": "Robots meta tag",
+                        "type": "string",
+                        "default": "index_follow",
+                        "enum": [
+                            "index_follow",
+                            "noindex_nofollow",
+                            "noindex_follow"
+                        ]
+                    },
+                    "tags": {
+                        "description": "Category tags",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "example": [
+                            "tag1",
+                            "tag2"
+                        ]
+                    },
+                    "image": {
+                        "description": "Category image file",
+                        "type": "string",
+                        "format": "binary"
                     }
                 },
                 "type": "object"
@@ -6979,16 +7105,34 @@
             "StoreClientRequest": {
                 "title": "Store Client request",
                 "required": [
-                    "title"
+                    "title",
+                    "published"
                 ],
                 "properties": {
                     "title": {
+                        "description": "Client title",
                         "type": "string",
                         "default": "test title"
                     },
                     "description": {
+                        "description": "Client description",
                         "type": "string",
                         "default": "test description"
+                    },
+                    "published": {
+                        "description": "Publication status",
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "link": {
+                        "description": "Client website link",
+                        "type": "string",
+                        "default": "https://example.com"
+                    },
+                    "image": {
+                        "description": "Client logo/image file",
+                        "type": "string",
+                        "format": "binary"
                     }
                 },
                 "type": "object"
@@ -7013,16 +7157,32 @@
             "StoreContactUsRequest": {
                 "title": "Store ContactUs request",
                 "required": [
-                    "title"
+                    "name",
+                    "email",
+                    "mobile",
+                    "comment"
                 ],
                 "properties": {
-                    "title": {
+                    "name": {
+                        "description": "Contact person name",
                         "type": "string",
-                        "default": "test title"
+                        "default": "John Doe"
                     },
-                    "description": {
+                    "email": {
+                        "description": "Contact email address",
                         "type": "string",
-                        "default": "test description"
+                        "format": "email",
+                        "default": "john@example.com"
+                    },
+                    "mobile": {
+                        "description": "Contact mobile number",
+                        "type": "string",
+                        "default": "09123456789"
+                    },
+                    "comment": {
+                        "description": "Contact message/comment",
+                        "type": "string",
+                        "default": "Hello, I need help with..."
                     }
                 },
                 "type": "object"
@@ -7030,16 +7190,46 @@
             "StoreFaqRequest": {
                 "title": "Store Faq request",
                 "required": [
-                    "title"
+                    "title",
+                    "description",
+                    "published",
+                    "category_id"
                 ],
                 "properties": {
                     "title": {
+                        "description": "FAQ title",
                         "type": "string",
-                        "default": "test title"
+                        "default": "Frequently Asked Question"
                     },
                     "description": {
+                        "description": "FAQ answer/description",
                         "type": "string",
-                        "default": "test description"
+                        "default": "This is the answer to the question"
+                    },
+                    "published": {
+                        "description": "Publication status",
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "favorite": {
+                        "description": "Mark as favorite FAQ",
+                        "type": "boolean",
+                        "default": false
+                    },
+                    "ordering": {
+                        "description": "FAQ order",
+                        "type": "integer",
+                        "default": 0
+                    },
+                    "category_id": {
+                        "description": "FAQ category ID",
+                        "type": "integer",
+                        "default": 1
+                    },
+                    "published_at": {
+                        "description": "Publication date",
+                        "type": "string",
+                        "format": "date-time"
                     }
                 },
                 "type": "object"
@@ -7047,16 +7237,45 @@
             "StoreOpinionRequest": {
                 "title": "Store Opinion request",
                 "required": [
-                    "title"
+                    "user_name",
+                    "comment",
+                    "published"
                 ],
                 "properties": {
-                    "title": {
+                    "user_name": {
+                        "description": "Opinion author name",
                         "type": "string",
-                        "default": "test title"
+                        "default": "John Doe"
                     },
-                    "description": {
+                    "comment": {
+                        "description": "Opinion comment/review",
                         "type": "string",
-                        "default": "test description"
+                        "default": "Great service! Highly recommended."
+                    },
+                    "company": {
+                        "description": "Author's company",
+                        "type": "string",
+                        "default": "ABC Company"
+                    },
+                    "published": {
+                        "description": "Publication status",
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "ordering": {
+                        "description": "Opinion order",
+                        "type": "integer",
+                        "default": 0
+                    },
+                    "published_at": {
+                        "description": "Publication date",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "image": {
+                        "description": "Author profile image",
+                        "type": "string",
+                        "format": "binary"
                     }
                 },
                 "type": "object"
@@ -7064,16 +7283,76 @@
             "StorePageRequest": {
                 "title": "Store Page request",
                 "required": [
-                    "title"
+                    "title",
+                    "body",
+                    "type",
+                    "slug",
+                    "seo_title",
+                    "seo_description",
+                    "robots_meta"
                 ],
                 "properties": {
                     "title": {
+                        "description": "Page title",
                         "type": "string",
-                        "default": "test title"
+                        "default": "About Us"
                     },
-                    "description": {
+                    "body": {
+                        "description": "Page content body",
                         "type": "string",
-                        "default": "test description"
+                        "default": "<p>Welcome to our company...</p>"
+                    },
+                    "type": {
+                        "description": "Page type",
+                        "type": "string",
+                        "default": "about-us",
+                        "enum": [
+                            "rules",
+                            "about-us"
+                        ]
+                    },
+                    "slug": {
+                        "description": "Page slug/URL",
+                        "type": "string",
+                        "default": "about-us"
+                    },
+                    "seo_title": {
+                        "description": "SEO title",
+                        "type": "string",
+                        "default": "About Us - Company Name"
+                    },
+                    "seo_description": {
+                        "description": "SEO description",
+                        "type": "string",
+                        "default": "Learn more about our company"
+                    },
+                    "canonical": {
+                        "description": "Canonical URL",
+                        "type": "string",
+                        "default": "https://example.com/about-us"
+                    },
+                    "old_url": {
+                        "description": "Old URL for redirect",
+                        "type": "string"
+                    },
+                    "redirect_to": {
+                        "description": "Redirect target URL",
+                        "type": "string"
+                    },
+                    "robots_meta": {
+                        "description": "Robots meta tag",
+                        "type": "string",
+                        "default": "index_follow",
+                        "enum": [
+                            "index_follow",
+                            "noindex_nofollow",
+                            "noindex_follow"
+                        ]
+                    },
+                    "image": {
+                        "description": "Page featured image",
+                        "type": "string",
+                        "format": "binary"
                     }
                 },
                 "type": "object"
@@ -7081,16 +7360,67 @@
             "StorePortfolioRequest": {
                 "title": "Store Portfolio request",
                 "required": [
-                    "title"
+                    "title",
+                    "published",
+                    "execution_date",
+                    "category_id"
                 ],
                 "properties": {
                     "title": {
+                        "description": "Portfolio title",
                         "type": "string",
-                        "default": "test title"
+                        "default": "Project Name"
                     },
                     "description": {
+                        "description": "Portfolio description",
                         "type": "string",
-                        "default": "test description"
+                        "default": "Project description"
+                    },
+                    "body": {
+                        "description": "Portfolio detailed content",
+                        "type": "string",
+                        "default": "<p>Detailed project information...</p>"
+                    },
+                    "published": {
+                        "description": "Publication status",
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "published_at": {
+                        "description": "Publication date",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "execution_date": {
+                        "description": "Project execution date",
+                        "type": "string",
+                        "format": "date",
+                        "default": "2024-01-01"
+                    },
+                    "category_id": {
+                        "description": "Portfolio category ID",
+                        "type": "integer",
+                        "default": 1
+                    },
+                    "creator_id": {
+                        "description": "Creator user ID (optional, defaults to current user)",
+                        "type": "integer"
+                    },
+                    "tags": {
+                        "description": "Portfolio tags",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "example": [
+                            "web",
+                            "design"
+                        ]
+                    },
+                    "image": {
+                        "description": "Portfolio featured image",
+                        "type": "string",
+                        "format": "binary"
                     }
                 },
                 "type": "object"
@@ -7098,16 +7428,30 @@
             "StoreRoleRequest": {
                 "title": "Store Role request",
                 "required": [
-                    "title"
+                    "name"
                 ],
                 "properties": {
-                    "title": {
+                    "name": {
+                        "description": "Role name (unique identifier)",
                         "type": "string",
-                        "default": "test title"
+                        "default": "admin"
                     },
                     "description": {
+                        "description": "Role description",
                         "type": "string",
-                        "default": "test description"
+                        "default": "Administrator role"
+                    },
+                    "permissions": {
+                        "description": "Permission IDs to assign to role",
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "example": [
+                            1,
+                            2,
+                            3
+                        ]
                     }
                 },
                 "type": "object"
@@ -7115,16 +7459,92 @@
             "StoreSliderRequest": {
                 "title": "Store Slider request",
                 "required": [
-                    "title"
+                    "title",
+                    "published"
                 ],
                 "properties": {
                     "title": {
+                        "description": "Slider title",
                         "type": "string",
-                        "default": "test title"
+                        "default": "Slider Title"
                     },
                     "description": {
+                        "description": "Slider description",
                         "type": "string",
-                        "default": "test description"
+                        "default": "Slider description"
+                    },
+                    "published": {
+                        "description": "Publication status",
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "ordering": {
+                        "description": "Slider order",
+                        "type": "integer",
+                        "default": 0
+                    },
+                    "published_at": {
+                        "description": "Publication date",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "expired_at": {
+                        "description": "Expiration date",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "link": {
+                        "description": "Slider link URL",
+                        "type": "string",
+                        "default": "https://example.com"
+                    },
+                    "position": {
+                        "description": "Slider position",
+                        "type": "string",
+                        "default": "top",
+                        "enum": [
+                            "top",
+                            "middle",
+                            "bottom"
+                        ]
+                    },
+                    "has_timer": {
+                        "description": "Has timer functionality",
+                        "type": "boolean",
+                        "default": false
+                    },
+                    "timer_start": {
+                        "description": "Timer start date",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "image": {
+                        "description": "Slider image",
+                        "type": "string",
+                        "format": "binary"
+                    },
+                    "roles": {
+                        "description": "Roles/permissions for slider visibility",
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "type": {
+                                    "type": "string",
+                                    "example": "App\\\\Models\\\\Role"
+                                },
+                                "value": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "integer"
+                                    },
+                                    "example": [
+                                        1,
+                                        2
+                                    ]
+                                }
+                            },
+                            "type": "object"
+                        }
                     }
                 },
                 "type": "object"
@@ -7132,16 +7552,46 @@
             "StoreSocialMediaRequest": {
                 "title": "Store SocialMedia request",
                 "required": [
-                    "title"
+                    "title",
+                    "link",
+                    "position",
+                    "published"
                 ],
                 "properties": {
                     "title": {
+                        "description": "Social media platform title",
                         "type": "string",
-                        "default": "test title"
+                        "default": "Facebook"
                     },
-                    "description": {
+                    "link": {
+                        "description": "Social media profile URL",
                         "type": "string",
-                        "default": "test description"
+                        "default": "https://facebook.com/username"
+                    },
+                    "ordering": {
+                        "description": "Display order",
+                        "type": "integer",
+                        "default": 0
+                    },
+                    "position": {
+                        "description": "Display position",
+                        "type": "string",
+                        "default": "all",
+                        "enum": [
+                            "all",
+                            "header",
+                            "footer"
+                        ]
+                    },
+                    "published": {
+                        "description": "Publication status",
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "image": {
+                        "description": "Social media icon/image",
+                        "type": "string",
+                        "format": "binary"
                     }
                 },
                 "type": "object"
@@ -7149,16 +7599,76 @@
             "StoreTagRequest": {
                 "title": "Store Tag request",
                 "required": [
-                    "title"
+                    "name",
+                    "seo_title",
+                    "seo_description",
+                    "robots_meta"
                 ],
                 "properties": {
-                    "title": {
+                    "name": {
+                        "description": "Tag name",
                         "type": "string",
-                        "default": "test title"
+                        "default": "web-development"
                     },
                     "description": {
+                        "description": "Tag description",
                         "type": "string",
-                        "default": "test description"
+                        "default": "Web development services"
+                    },
+                    "body": {
+                        "description": "Tag detailed content",
+                        "type": "string",
+                        "default": "<p>Detailed tag content...</p>"
+                    },
+                    "type": {
+                        "description": "Tag type",
+                        "type": "string",
+                        "enum": [
+                            "special"
+                        ]
+                    },
+                    "order_column": {
+                        "description": "Tag order",
+                        "type": "integer",
+                        "default": 1
+                    },
+                    "seo_title": {
+                        "description": "SEO title",
+                        "type": "string",
+                        "default": "Web Development | Company Name"
+                    },
+                    "seo_description": {
+                        "description": "SEO description",
+                        "type": "string",
+                        "default": "Professional web development services"
+                    },
+                    "canonical": {
+                        "description": "Canonical URL",
+                        "type": "string",
+                        "default": "https://example.com/tags/web-development"
+                    },
+                    "old_url": {
+                        "description": "Old URL for redirect",
+                        "type": "string"
+                    },
+                    "redirect_to": {
+                        "description": "Redirect target URL",
+                        "type": "string"
+                    },
+                    "robots_meta": {
+                        "description": "Robots meta tag",
+                        "type": "string",
+                        "default": "index_follow",
+                        "enum": [
+                            "index_follow",
+                            "noindex_nofollow",
+                            "noindex_follow"
+                        ]
+                    },
+                    "image": {
+                        "description": "Tag featured image",
+                        "type": "string",
+                        "format": "binary"
                     }
                 },
                 "type": "object"
@@ -7166,16 +7676,57 @@
             "StoreTeammateRequest": {
                 "title": "Store Teammate request",
                 "required": [
-                    "title"
+                    "title",
+                    "position",
+                    "published"
                 ],
                 "properties": {
                     "title": {
+                        "description": "Teammate name",
                         "type": "string",
-                        "default": "test title"
+                        "default": "John Doe"
                     },
                     "description": {
+                        "description": "Teammate description",
                         "type": "string",
-                        "default": "test description"
+                        "default": "Team member description"
+                    },
+                    "bio": {
+                        "description": "Teammate biography",
+                        "type": "string",
+                        "default": "Team member biography"
+                    },
+                    "position": {
+                        "description": "Teammate position",
+                        "type": "string",
+                        "default": "Developer"
+                    },
+                    "birthday": {
+                        "description": "Teammate birthday",
+                        "type": "string",
+                        "format": "date",
+                        "default": "1990-01-01"
+                    },
+                    "published": {
+                        "description": "Publication status",
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "email": {
+                        "description": "Teammate email",
+                        "type": "string",
+                        "format": "email",
+                        "default": "teammate@example.com"
+                    },
+                    "image": {
+                        "description": "Teammate profile image",
+                        "type": "string",
+                        "format": "binary"
+                    },
+                    "bio_image": {
+                        "description": "Teammate bio image",
+                        "type": "string",
+                        "format": "binary"
                     }
                 },
                 "type": "object"
@@ -7183,16 +7734,30 @@
             "StoreTicketMessageRequest": {
                 "title": "Store TicketMessage request",
                 "required": [
-                    "title"
+                    "ticket_id",
+                    "user_id",
+                    "message"
                 ],
                 "properties": {
-                    "title": {
-                        "type": "string",
-                        "default": "test title"
+                    "ticket_id": {
+                        "description": "Ticket ID",
+                        "type": "integer",
+                        "default": 1
                     },
-                    "description": {
+                    "user_id": {
+                        "description": "User ID who sends the message",
+                        "type": "integer",
+                        "default": 1
+                    },
+                    "message": {
+                        "description": "Message content",
                         "type": "string",
-                        "default": "test description"
+                        "default": "Here is my response..."
+                    },
+                    "file": {
+                        "description": "Attachment file",
+                        "type": "string",
+                        "format": "binary"
                     }
                 },
                 "type": "object"
@@ -7200,16 +7765,53 @@
             "StoreTicketRequest": {
                 "title": "Store Ticket request",
                 "required": [
-                    "title"
+                    "subject",
+                    "body",
+                    "user_id",
+                    "department",
+                    "priority"
                 ],
                 "properties": {
-                    "title": {
+                    "subject": {
+                        "description": "Ticket subject",
                         "type": "string",
-                        "default": "test title"
+                        "default": "Support Request"
                     },
-                    "description": {
+                    "body": {
+                        "description": "Ticket message body",
                         "type": "string",
-                        "default": "test description"
+                        "default": "Please help me with..."
+                    },
+                    "user_id": {
+                        "description": "User ID who creates the ticket",
+                        "type": "integer",
+                        "default": 1
+                    },
+                    "department": {
+                        "description": "Ticket department",
+                        "type": "string",
+                        "default": "technical",
+                        "enum": [
+                            "finance_and_administration",
+                            "Sale",
+                            "technical"
+                        ]
+                    },
+                    "priority": {
+                        "description": "Ticket priority (1=Low, 2=Medium, 3=High, 4=Critical)",
+                        "type": "integer",
+                        "default": 2,
+                        "enum": [
+                            1,
+                            2,
+                            3,
+                            4
+                        ]
+                    },
+                    "image": {
+                        "description": "Attachment image file",
+                        "type": "string",
+                        "format": "binary"
                     }
                 },
                 "type": "object"
@@ -7217,16 +7819,55 @@
             "StoreUserRequest": {
                 "title": "Store User request",
                 "required": [
-                    "title"
+                    "name",
+                    "family",
+                    "email",
+                    "password",
+                    "status"
                 ],
                 "properties": {
-                    "title": {
+                    "name": {
+                        "description": "User first name",
                         "type": "string",
-                        "default": "test title"
+                        "default": "John"
                     },
-                    "description": {
+                    "family": {
+                        "description": "User last name",
                         "type": "string",
-                        "default": "test description"
+                        "default": "Doe"
+                    },
+                    "email": {
+                        "description": "User email address",
+                        "type": "string",
+                        "format": "email",
+                        "default": "john@example.com"
+                    },
+                    "password": {
+                        "description": "User password (minimum 8 characters)",
+                        "type": "string",
+                        "format": "password",
+                        "default": "password"
+                    },
+                    "status": {
+                        "description": "User status (active/inactive)",
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "rules": {
+                        "description": "User roles",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "example": [
+                            "admin",
+                            "user"
+                        ]
+                    },
+                    "avatar": {
+                        "description": "User avatar image file",
+                        "type": "string",
+                        "format": "binary"
                     }
                 },
                 "type": "object"
@@ -7234,7 +7875,8 @@
             "UpdateBannerRequest": {
                 "title": "Update Banner request",
                 "required": [
-                    "title"
+                    "title",
+                    "published"
                 ],
                 "type": "object",
                 "allOf": [
@@ -7244,12 +7886,39 @@
                     {
                         "properties": {
                             "title": {
+                                "description": "Banner title",
                                 "type": "string",
-                                "default": "test title updated"
+                                "default": "Updated banner title"
                             },
                             "description": {
+                                "description": "Banner description",
                                 "type": "string",
-                                "default": "test description updated"
+                                "default": "Updated banner description"
+                            },
+                            "published": {
+                                "description": "Publication status",
+                                "type": "boolean",
+                                "default": true
+                            },
+                            "published_at": {
+                                "description": "Publication date",
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "size": {
+                                "description": "Banner size",
+                                "type": "string",
+                                "default": "16x9",
+                                "enum": [
+                                    "1x1",
+                                    "16x9",
+                                    "4x3"
+                                ]
+                            },
+                            "image": {
+                                "description": "Banner image file",
+                                "type": "string",
+                                "format": "binary"
                             }
                         },
                         "type": "object"
@@ -7276,55 +7945,68 @@
                     {
                         "properties": {
                             "title": {
+                                "description": "Blog title",
                                 "type": "string",
-                                "default": "test title"
+                                "default": "Updated blog title"
                             },
                             "description": {
+                                "description": "Blog description",
                                 "type": "string",
-                                "default": "test description"
+                                "default": "Updated blog description"
                             },
                             "body": {
+                                "description": "Blog body content",
                                 "type": "string",
-                                "default": "test body"
+                                "default": "Updated blog content"
                             },
                             "published": {
+                                "description": "Publication status",
                                 "type": "boolean",
                                 "default": true
                             },
                             "published_at": {
+                                "description": "Publication date",
                                 "type": "string",
                                 "format": "date-time",
                                 "default": "2024-08-19T07:26:07.000000Z"
                             },
                             "category_id": {
+                                "description": "Blog category ID",
                                 "type": "integer",
                                 "default": 1
                             },
                             "slug": {
+                                "description": "Blog slug/URL",
                                 "type": "string",
-                                "default": "test-slug"
+                                "default": "updated-blog-slug"
                             },
                             "seo_title": {
+                                "description": "SEO title",
                                 "type": "string",
-                                "default": "test seo title"
+                                "default": "Updated SEO title"
                             },
                             "seo_description": {
+                                "description": "SEO description",
                                 "type": "string",
-                                "default": "test seo description"
+                                "default": "Updated SEO description"
                             },
                             "canonical": {
+                                "description": "Canonical URL",
                                 "type": "string",
                                 "default": "https://example.com"
                             },
                             "old_url": {
+                                "description": "Old URL for redirect",
                                 "type": "string",
                                 "default": "https://example.com/old"
                             },
                             "redirect_to": {
+                                "description": "Redirect target URL",
                                 "type": "string",
                                 "default": "https://example.com/new"
                             },
                             "robots_meta": {
+                                "description": "Robots meta tag",
                                 "type": "string",
                                 "default": "index_follow",
                                 "enum": [
@@ -7334,16 +8016,18 @@
                                 ]
                             },
                             "tags": {
+                                "description": "Blog tags",
                                 "type": "array",
                                 "items": {
                                     "type": "string"
                                 },
                                 "example": [
-                                    "tag1",
-                                    "tag2"
+                                    "updated-tag1",
+                                    "updated-tag2"
                                 ]
                             },
                             "image": {
+                                "description": "Blog featured image",
                                 "type": "string",
                                 "format": "binary"
                             }
@@ -7365,12 +8049,14 @@
                     {
                         "properties": {
                             "title": {
+                                "description": "Board title",
                                 "type": "string",
-                                "default": "test title updated"
+                                "default": "Updated board title"
                             },
                             "description": {
+                                "description": "Board description",
                                 "type": "string",
-                                "default": "test description updated"
+                                "default": "Updated board description"
                             }
                         },
                         "type": "object"
@@ -7390,12 +8076,14 @@
                     {
                         "properties": {
                             "title": {
+                                "description": "CardFlow title",
                                 "type": "string",
-                                "default": "test title updated"
+                                "default": "Updated cardflow title"
                             },
                             "description": {
+                                "description": "CardFlow description",
                                 "type": "string",
-                                "default": "test description updated"
+                                "default": "Updated cardflow description"
                             }
                         },
                         "type": "object"
@@ -7415,12 +8103,14 @@
                     {
                         "properties": {
                             "title": {
+                                "description": "Card title",
                                 "type": "string",
-                                "default": "test title updated"
+                                "default": "Updated card title"
                             },
                             "description": {
+                                "description": "Card description",
                                 "type": "string",
-                                "default": "test description updated"
+                                "default": "Updated card description"
                             }
                         },
                         "type": "object"
@@ -7430,7 +8120,12 @@
             "UpdateCategoryRequest": {
                 "title": "Update Category request",
                 "required": [
-                    "title"
+                    "title",
+                    "published",
+                    "type",
+                    "seo_title",
+                    "seo_description",
+                    "robots_meta"
                 ],
                 "type": "object",
                 "allOf": [
@@ -7440,12 +8135,99 @@
                     {
                         "properties": {
                             "title": {
+                                "description": "Category title",
                                 "type": "string",
-                                "default": "test title updated"
+                                "default": "Updated category title"
                             },
                             "description": {
+                                "description": "Category description",
                                 "type": "string",
-                                "default": "test description updated"
+                                "default": "Updated category description"
+                            },
+                            "body": {
+                                "description": "Category body content",
+                                "type": "string",
+                                "default": "Updated category body"
+                            },
+                            "published": {
+                                "description": "Publication status",
+                                "type": "boolean",
+                                "default": true
+                            },
+                            "parent_id": {
+                                "description": "Parent category ID",
+                                "type": "integer"
+                            },
+                            "type": {
+                                "description": "Category type",
+                                "type": "string",
+                                "default": "blog",
+                                "enum": [
+                                    "blog",
+                                    "portfolio",
+                                    "faq"
+                                ]
+                            },
+                            "ordering": {
+                                "description": "Category order",
+                                "type": "integer",
+                                "default": 0
+                            },
+                            "slug": {
+                                "description": "Category slug",
+                                "type": "string",
+                                "default": "updated-slug"
+                            },
+                            "seo_title": {
+                                "description": "SEO title",
+                                "type": "string",
+                                "default": "Updated SEO title"
+                            },
+                            "seo_description": {
+                                "description": "SEO description",
+                                "type": "string",
+                                "default": "Updated SEO description"
+                            },
+                            "canonical": {
+                                "description": "Canonical URL",
+                                "type": "string",
+                                "default": "https://example.com"
+                            },
+                            "old_url": {
+                                "description": "Old URL for redirect",
+                                "type": "string",
+                                "default": "https://example.com/old"
+                            },
+                            "redirect_to": {
+                                "description": "Redirect target URL",
+                                "type": "string",
+                                "default": "https://example.com/new"
+                            },
+                            "robots_meta": {
+                                "description": "Robots meta tag",
+                                "type": "string",
+                                "default": "index_follow",
+                                "enum": [
+                                    "index_follow",
+                                    "noindex_nofollow",
+                                    "noindex_follow"
+                                ]
+                            },
+                            "tags": {
+                                "description": "Category tags",
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                },
+                                "example": [
+                                    "tag1",
+                                    "tag2"
+                                ]
+                            },
+                            "image": {
+                                "description": "Category image file",
+                                "type": "string",
+                                "format": "binary"
                             }
                         },
                         "type": "object"
@@ -7455,7 +8237,8 @@
             "UpdateClientRequest": {
                 "title": "Update Client request",
                 "required": [
-                    "title"
+                    "title",
+                    "published"
                 ],
                 "type": "object",
                 "allOf": [
@@ -7465,12 +8248,29 @@
                     {
                         "properties": {
                             "title": {
+                                "description": "Client title",
                                 "type": "string",
-                                "default": "test title updated"
+                                "default": "Updated client title"
                             },
                             "description": {
+                                "description": "Client description",
                                 "type": "string",
-                                "default": "test description updated"
+                                "default": "Updated client description"
+                            },
+                            "published": {
+                                "description": "Publication status",
+                                "type": "boolean",
+                                "default": true
+                            },
+                            "link": {
+                                "description": "Client website link",
+                                "type": "string",
+                                "default": "https://example.com"
+                            },
+                            "image": {
+                                "description": "Client logo/image file",
+                                "type": "string",
+                                "format": "binary"
                             }
                         },
                         "type": "object"
@@ -7480,7 +8280,13 @@
             "UpdateCommentRequest": {
                 "title": "Update Comment request",
                 "required": [
-                    "title"
+                    "title",
+                    "description",
+                    "published",
+                    "user_id",
+                    "comment",
+                    "morphable_type",
+                    "morphable_id"
                 ],
                 "type": "object",
                 "allOf": [
@@ -7490,12 +8296,56 @@
                     {
                         "properties": {
                             "title": {
+                                "description": "Comment title",
                                 "type": "string",
-                                "default": "test title updated"
+                                "default": "Updated comment title"
                             },
                             "description": {
+                                "description": "Comment description",
                                 "type": "string",
-                                "default": "test description updated"
+                                "default": "Updated comment description"
+                            },
+                            "published": {
+                                "description": "Publication status",
+                                "type": "boolean",
+                                "default": true
+                            },
+                            "user_id": {
+                                "description": "User ID who made the comment",
+                                "type": "integer",
+                                "default": 1
+                            },
+                            "admin_id": {
+                                "description": "Admin ID who manages the comment",
+                                "type": "integer"
+                            },
+                            "parent_id": {
+                                "description": "Parent comment ID for replies",
+                                "type": "integer"
+                            },
+                            "comment": {
+                                "description": "Comment content",
+                                "type": "string",
+                                "default": "This is a great post!"
+                            },
+                            "admin_note": {
+                                "description": "Admin note for the comment",
+                                "type": "string"
+                            },
+                            "morphable_type": {
+                                "description": "Type of model being commented on",
+                                "type": "string",
+                                "default": "App\\\\Models\\\\Blog"
+                            },
+                            "morphable_id": {
+                                "description": "ID of model being commented on",
+                                "type": "integer",
+                                "default": 1
+                            },
+                            "published_at": {
+                                "description": "Publication date",
+                                "type": "string",
+                                "format": "date-time"
                             }
                         },
                         "type": "object"
@@ -7505,7 +8355,10 @@
             "UpdateContactUsRequest": {
                 "title": "Update ContactUs request",
                 "required": [
-                    "title"
+                    "name",
+                    "email",
+                    "mobile",
+                    "comment"
                 ],
                 "type": "object",
                 "allOf": [
@@ -7514,13 +8367,26 @@
                     },
                     {
                         "properties": {
-                            "title": {
+                            "name": {
+                                "description": "Contact person name",
                                 "type": "string",
-                                "default": "test title updated"
+                                "default": "Jane Doe"
                             },
-                            "description": {
+                            "email": {
+                                "description": "Contact email address",
                                 "type": "string",
-                                "default": "test description updated"
+                                "format": "email",
+                                "default": "jane@example.com"
+                            },
+                            "mobile": {
+                                "description": "Contact mobile number",
+                                "type": "string",
+                                "default": "09123456789"
+                            },
+                            "comment": {
+                                "description": "Contact message/comment",
+                                "type": "string",
+                                "default": "Updated message content"
                             }
                         },
                         "type": "object"
@@ -7530,7 +8396,10 @@
             "UpdateFaqRequest": {
                 "title": "Update Faq request",
                 "required": [
-                    "title"
+                    "title",
+                    "description",
+                    "published",
+                    "category_id"
                 ],
                 "type": "object",
                 "allOf": [
@@ -7540,12 +8409,39 @@
                     {
                         "properties": {
                             "title": {
+                                "description": "FAQ title",
                                 "type": "string",
-                                "default": "test title updated"
+                                "default": "Updated FAQ Question"
                             },
                             "description": {
+                                "description": "FAQ answer/description",
                                 "type": "string",
-                                "default": "test description updated"
+                                "default": "Updated answer to the question"
+                            },
+                            "published": {
+                                "description": "Publication status",
+                                "type": "boolean",
+                                "default": true
+                            },
+                            "favorite": {
+                                "description": "Mark as favorite FAQ",
+                                "type": "boolean",
+                                "default": false
+                            },
+                            "ordering": {
+                                "description": "FAQ order",
+                                "type": "integer",
+                                "default": 0
+                            },
+                            "category_id": {
+                                "description": "FAQ category ID",
+                                "type": "integer",
+                                "default": 1
+                            },
+                            "published_at": {
+                                "description": "Publication date",
+                                "type": "string",
+                                "format": "date-time"
                             }
                         },
                         "type": "object"
@@ -7555,7 +8451,9 @@
             "UpdateOpinionRequest": {
                 "title": "Update Opinion request",
                 "required": [
-                    "title"
+                    "user_name",
+                    "comment",
+                    "published"
                 ],
                 "type": "object",
                 "allOf": [
@@ -7564,13 +8462,40 @@
                     },
                     {
                         "properties": {
-                            "title": {
+                            "user_name": {
+                                "description": "Opinion author name",
                                 "type": "string",
-                                "default": "test title updated"
+                                "default": "Jane Smith"
                             },
-                            "description": {
+                            "comment": {
+                                "description": "Opinion comment/review",
                                 "type": "string",
-                                "default": "test description updated"
+                                "default": "Outstanding service! Updated review."
+                            },
+                            "company": {
+                                "description": "Author's company",
+                                "type": "string",
+                                "default": "XYZ Corporation"
+                            },
+                            "published": {
+                                "description": "Publication status",
+                                "type": "boolean",
+                                "default": true
+                            },
+                            "ordering": {
+                                "description": "Opinion order",
+                                "type": "integer",
+                                "default": 0
+                            },
+                            "published_at": {
+                                "description": "Publication date",
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "image": {
+                                "description": "Author profile image",
+                                "type": "string",
+                                "format": "binary"
                             }
                         },
                         "type": "object"
@@ -7580,7 +8505,13 @@
             "UpdatePageRequest": {
                 "title": "Update Page request",
                 "required": [
-                    "title"
+                    "title",
+                    "body",
+                    "type",
+                    "slug",
+                    "seo_title",
+                    "seo_description",
+                    "robots_meta"
                 ],
                 "type": "object",
                 "allOf": [
@@ -7590,12 +8521,66 @@
                     {
                         "properties": {
                             "title": {
+                                "description": "Page title",
                                 "type": "string",
-                                "default": "test title updated"
+                                "default": "Updated About Us"
                             },
-                            "description": {
+                            "body": {
+                                "description": "Page content body",
                                 "type": "string",
-                                "default": "test description updated"
+                                "default": "<p>Updated content about our company...</p>"
+                            },
+                            "type": {
+                                "description": "Page type",
+                                "type": "string",
+                                "default": "about-us",
+                                "enum": [
+                                    "rules",
+                                    "about-us"
+                                ]
+                            },
+                            "slug": {
+                                "description": "Page slug/URL",
+                                "type": "string",
+                                "default": "updated-about-us"
+                            },
+                            "seo_title": {
+                                "description": "SEO title",
+                                "type": "string",
+                                "default": "Updated About Us - Company Name"
+                            },
+                            "seo_description": {
+                                "description": "SEO description",
+                                "type": "string",
+                                "default": "Learn more about our updated company info"
+                            },
+                            "canonical": {
+                                "description": "Canonical URL",
+                                "type": "string",
+                                "default": "https://example.com/about-us"
+                            },
+                            "old_url": {
+                                "description": "Old URL for redirect",
+                                "type": "string"
+                            },
+                            "redirect_to": {
+                                "description": "Redirect target URL",
+                                "type": "string"
+                            },
+                            "robots_meta": {
+                                "description": "Robots meta tag",
+                                "type": "string",
+                                "default": "index_follow",
+                                "enum": [
+                                    "index_follow",
+                                    "noindex_nofollow",
+                                    "noindex_follow"
+                                ]
+                            },
+                            "image": {
+                                "description": "Page featured image",
+                                "type": "string",
+                                "format": "binary"
                             }
                         },
                         "type": "object"
@@ -7605,7 +8590,10 @@
             "UpdatePortfolioRequest": {
                 "title": "Update Portfolio request",
                 "required": [
-                    "title"
+                    "title",
+                    "published",
+                    "execution_date",
+                    "category_id"
                 ],
                 "type": "object",
                 "allOf": [
@@ -7615,12 +8603,61 @@
                     {
                         "properties": {
                             "title": {
+                                "description": "Portfolio title",
                                 "type": "string",
-                                "default": "test title updated"
+                                "default": "Updated Project Name"
                             },
                             "description": {
+                                "description": "Portfolio description",
                                 "type": "string",
-                                "default": "test description updated"
+                                "default": "Updated project description"
+                            },
+                            "body": {
+                                "description": "Portfolio detailed content",
+                                "type": "string",
+                                "default": "<p>Updated detailed project information...</p>"
+                            },
+                            "published": {
+                                "description": "Publication status",
+                                "type": "boolean",
+                                "default": true
+                            },
+                            "published_at": {
+                                "description": "Publication date",
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "execution_date": {
+                                "description": "Project execution date",
+                                "type": "string",
+                                "format": "date",
+                                "default": "2024-02-01"
+                            },
+                            "category_id": {
+                                "description": "Portfolio category ID",
+                                "type": "integer",
+                                "default": 1
+                            },
+                            "creator_id": {
+                                "description": "Creator user ID (optional, defaults to current user)",
+                                "type": "integer"
+                            },
+                            "tags": {
+                                "description": "Portfolio tags",
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                },
+                                "example": [
+                                    "web",
+                                    "design",
+                                    "updated"
+                                ]
+                            },
+                            "image": {
+                                "description": "Portfolio featured image",
+                                "type": "string",
+                                "format": "binary"
                             }
                         },
                         "type": "object"
@@ -7630,7 +8667,7 @@
             "UpdateRoleRequest": {
                 "title": "Update Role request",
                 "required": [
-                    "title"
+                    "name"
                 ],
                 "type": "object",
                 "allOf": [
@@ -7639,13 +8676,27 @@
                     },
                     {
                         "properties": {
-                            "title": {
+                            "name": {
+                                "description": "Role name (unique identifier)",
                                 "type": "string",
-                                "default": "test title updated"
+                                "default": "moderator"
                             },
                             "description": {
+                                "description": "Role description",
                                 "type": "string",
-                                "default": "test description updated"
+                                "default": "Updated moderator role"
+                            },
+                            "permissions": {
+                                "description": "Permission IDs to assign to role",
+                                "type": "array",
+                                "items": {
+                                    "type": "integer"
+                                },
+                                "example": [
+                                    1,
+                                    2,
+                                    4
+                                ]
                             }
                         },
                         "type": "object"
@@ -7655,7 +8706,8 @@
             "UpdateSliderRequest": {
                 "title": "Update Slider request",
                 "required": [
-                    "title"
+                    "title",
+                    "published"
                 ],
                 "type": "object",
                 "allOf": [
@@ -7665,12 +8717,87 @@
                     {
                         "properties": {
                             "title": {
+                                "description": "Slider title",
                                 "type": "string",
-                                "default": "test title updated"
+                                "default": "Updated Slider Title"
                             },
                             "description": {
+                                "description": "Slider description",
                                 "type": "string",
-                                "default": "test description updated"
+                                "default": "Updated slider description"
+                            },
+                            "published": {
+                                "description": "Publication status",
+                                "type": "boolean",
+                                "default": true
+                            },
+                            "ordering": {
+                                "description": "Slider order",
+                                "type": "integer",
+                                "default": 0
+                            },
+                            "published_at": {
+                                "description": "Publication date",
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "expired_at": {
+                                "description": "Expiration date",
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "link": {
+                                "description": "Slider link URL",
+                                "type": "string",
+                                "default": "https://example.com"
+                            },
+                            "position": {
+                                "description": "Slider position",
+                                "type": "string",
+                                "default": "top",
+                                "enum": [
+                                    "top",
+                                    "middle",
+                                    "bottom"
+                                ]
+                            },
+                            "has_timer": {
+                                "description": "Has timer functionality",
+                                "type": "boolean",
+                                "default": false
+                            },
+                            "timer_start": {
+                                "description": "Timer start date",
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "image": {
+                                "description": "Slider image",
+                                "type": "string",
+                                "format": "binary"
+                            },
+                            "roles": {
+                                "description": "Roles/permissions for slider visibility",
+                                "type": "array",
+                                "items": {
+                                    "properties": {
+                                        "type": {
+                                            "type": "string",
+                                            "example": "App\\\\Models\\\\Role"
+                                        },
+                                        "value": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "integer"
+                                            },
+                                            "example": [
+                                                1,
+                                                2
+                                            ]
+                                        }
+                                    },
+                                    "type": "object"
+                                }
                             }
                         },
                         "type": "object"
@@ -7680,7 +8807,10 @@
             "UpdateSocialMediaRequest": {
                 "title": "Update SocialMedia request",
                 "required": [
-                    "title"
+                    "title",
+                    "link",
+                    "position",
+                    "published"
                 ],
                 "type": "object",
                 "allOf": [
@@ -7690,12 +8820,39 @@
                     {
                         "properties": {
                             "title": {
+                                "description": "Social media platform title",
                                 "type": "string",
-                                "default": "test title updated"
+                                "default": "Twitter"
                             },
-                            "description": {
+                            "link": {
+                                "description": "Social media profile URL",
                                 "type": "string",
-                                "default": "test description updated"
+                                "default": "https://twitter.com/username"
+                            },
+                            "ordering": {
+                                "description": "Display order",
+                                "type": "integer",
+                                "default": 0
+                            },
+                            "position": {
+                                "description": "Display position",
+                                "type": "string",
+                                "default": "all",
+                                "enum": [
+                                    "all",
+                                    "header",
+                                    "footer"
+                                ]
+                            },
+                            "published": {
+                                "description": "Publication status",
+                                "type": "boolean",
+                                "default": true
+                            },
+                            "image": {
+                                "description": "Social media icon/image",
+                                "type": "string",
+                                "format": "binary"
                             }
                         },
                         "type": "object"
@@ -7705,7 +8862,10 @@
             "UpdateTagRequest": {
                 "title": "Update Tag request",
                 "required": [
-                    "title"
+                    "name",
+                    "seo_title",
+                    "seo_description",
+                    "robots_meta"
                 ],
                 "type": "object",
                 "allOf": [
@@ -7714,13 +8874,70 @@
                     },
                     {
                         "properties": {
-                            "title": {
+                            "name": {
+                                "description": "Tag name",
                                 "type": "string",
-                                "default": "test title updated"
+                                "default": "mobile-development"
                             },
                             "description": {
+                                "description": "Tag description",
                                 "type": "string",
-                                "default": "test description updated"
+                                "default": "Updated mobile development services"
+                            },
+                            "body": {
+                                "description": "Tag detailed content",
+                                "type": "string",
+                                "default": "<p>Updated detailed tag content...</p>"
+                            },
+                            "type": {
+                                "description": "Tag type",
+                                "type": "string",
+                                "enum": [
+                                    "special"
+                                ]
+                            },
+                            "order_column": {
+                                "description": "Tag order",
+                                "type": "integer",
+                                "default": 1
+                            },
+                            "seo_title": {
+                                "description": "SEO title",
+                                "type": "string",
+                                "default": "Mobile Development | Company Name"
+                            },
+                            "seo_description": {
+                                "description": "SEO description",
+                                "type": "string",
+                                "default": "Professional mobile development services"
+                            },
+                            "canonical": {
+                                "description": "Canonical URL",
+                                "type": "string",
+                                "default": "https://example.com/tags/mobile-development"
+                            },
+                            "old_url": {
+                                "description": "Old URL for redirect",
+                                "type": "string"
+                            },
+                            "redirect_to": {
+                                "description": "Redirect target URL",
+                                "type": "string"
+                            },
+                            "robots_meta": {
+                                "description": "Robots meta tag",
+                                "type": "string",
+                                "default": "index_follow",
+                                "enum": [
+                                    "index_follow",
+                                    "noindex_nofollow",
+                                    "noindex_follow"
+                                ]
+                            },
+                            "image": {
+                                "description": "Tag featured image",
+                                "type": "string",
+                                "format": "binary"
                             }
                         },
                         "type": "object"
@@ -7730,7 +8947,9 @@
             "UpdateTeammateRequest": {
                 "title": "Update Teammate request",
                 "required": [
-                    "title"
+                    "title",
+                    "position",
+                    "published"
                 ],
                 "type": "object",
                 "allOf": [
@@ -7740,12 +8959,51 @@
                     {
                         "properties": {
                             "title": {
+                                "description": "Teammate name",
                                 "type": "string",
-                                "default": "test title updated"
+                                "default": "Jane Smith"
                             },
                             "description": {
+                                "description": "Teammate description",
                                 "type": "string",
-                                "default": "test description updated"
+                                "default": "Updated team member description"
+                            },
+                            "bio": {
+                                "description": "Teammate biography",
+                                "type": "string",
+                                "default": "Updated team member biography"
+                            },
+                            "position": {
+                                "description": "Teammate position",
+                                "type": "string",
+                                "default": "Senior Developer"
+                            },
+                            "birthday": {
+                                "description": "Teammate birthday",
+                                "type": "string",
+                                "format": "date",
+                                "default": "1990-01-01"
+                            },
+                            "published": {
+                                "description": "Publication status",
+                                "type": "boolean",
+                                "default": true
+                            },
+                            "email": {
+                                "description": "Teammate email",
+                                "type": "string",
+                                "format": "email",
+                                "default": "jane@example.com"
+                            },
+                            "image": {
+                                "description": "Teammate profile image",
+                                "type": "string",
+                                "format": "binary"
+                            },
+                            "bio_image": {
+                                "description": "Teammate bio image",
+                                "type": "string",
+                                "format": "binary"
                             }
                         },
                         "type": "object"
@@ -7755,7 +9013,9 @@
             "UpdateTicketMessageRequest": {
                 "title": "Update TicketMessage request",
                 "required": [
-                    "title"
+                    "ticket_id",
+                    "user_id",
+                    "message"
                 ],
                 "type": "object",
                 "allOf": [
@@ -7764,13 +9024,25 @@
                     },
                     {
                         "properties": {
-                            "title": {
-                                "type": "string",
-                                "default": "test title updated"
+                            "ticket_id": {
+                                "description": "Ticket ID",
+                                "type": "integer",
+                                "default": 1
                             },
-                            "description": {
+                            "user_id": {
+                                "description": "User ID who sends the message",
+                                "type": "integer",
+                                "default": 1
+                            },
+                            "message": {
+                                "description": "Message content",
                                 "type": "string",
-                                "default": "test description updated"
+                                "default": "Updated response message..."
+                            },
+                            "file": {
+                                "description": "Attachment file",
+                                "type": "string",
+                                "format": "binary"
                             }
                         },
                         "type": "object"
@@ -7780,7 +9052,11 @@
             "UpdateTicketRequest": {
                 "title": "Update Ticket request",
                 "required": [
-                    "title"
+                    "subject",
+                    "body",
+                    "user_id",
+                    "department",
+                    "priority"
                 ],
                 "type": "object",
                 "allOf": [
@@ -7789,13 +9065,46 @@
                     },
                     {
                         "properties": {
-                            "title": {
+                            "subject": {
+                                "description": "Ticket subject",
                                 "type": "string",
-                                "default": "test title updated"
+                                "default": "Updated Support Request"
                             },
-                            "description": {
+                            "body": {
+                                "description": "Ticket message body",
                                 "type": "string",
-                                "default": "test description updated"
+                                "default": "Updated request details..."
+                            },
+                            "user_id": {
+                                "description": "User ID who creates the ticket",
+                                "type": "integer",
+                                "default": 1
+                            },
+                            "department": {
+                                "description": "Ticket department",
+                                "type": "string",
+                                "default": "technical",
+                                "enum": [
+                                    "finance_and_administration",
+                                    "Sale",
+                                    "technical"
+                                ]
+                            },
+                            "priority": {
+                                "description": "Ticket priority (1=Low, 2=Medium, 3=High, 4=Critical)",
+                                "type": "integer",
+                                "default": 2,
+                                "enum": [
+                                    1,
+                                    2,
+                                    3,
+                                    4
+                                ]
+                            },
+                            "image": {
+                                "description": "Attachment image file",
+                                "type": "string",
+                                "format": "binary"
                             }
                         },
                         "type": "object"
@@ -7805,16 +9114,53 @@
             "UpdateUserRequest": {
                 "title": "Update User request",
                 "required": [
-                    "title"
+                    "name",
+                    "family",
+                    "email",
+                    "status"
                 ],
                 "properties": {
-                    "title": {
+                    "name": {
+                        "description": "User first name",
                         "type": "string",
-                        "default": "test title updated"
+                        "default": "Jane"
                     },
-                    "description": {
+                    "family": {
+                        "description": "User last name",
                         "type": "string",
-                        "default": "test description updated"
+                        "default": "Smith"
+                    },
+                    "email": {
+                        "description": "User email address",
+                        "type": "string",
+                        "format": "email",
+                        "default": "jane@example.com"
+                    },
+                    "password": {
+                        "description": "User password (minimum 8 characters, optional for updates)",
+                        "type": "string",
+                        "format": "password"
+                    },
+                    "status": {
+                        "description": "User status (active/inactive)",
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "rules": {
+                        "description": "User roles",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "example": [
+                            "moderator",
+                            "user"
+                        ]
+                    },
+                    "avatar": {
+                        "description": "User avatar image file",
+                        "type": "string",
+                        "format": "binary"
                     }
                 },
                 "type": "object"

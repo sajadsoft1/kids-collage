@@ -12,10 +12,12 @@ use OpenApi\Annotations as OA;
  *      schema="UpdateTicketMessageRequest",
  *      title="Update TicketMessage request",
  *      type="object",
- *      required={"title"},
+ *      required={"ticket_id", "user_id", "message"},
  *
- *     @OA\Property(property="title", type="string", default="test title updated"),
- *     @OA\Property(property="description", type="string", default="test description updated"),
+ *     @OA\Property(property="ticket_id", type="integer", default=1, description="Ticket ID"),
+ *     @OA\Property(property="user_id", type="integer", default=1, description="User ID who sends the message"),
+ *     @OA\Property(property="message", type="string", default="Updated response message...", description="Message content"),
+ *     @OA\Property(property="file", type="string", format="binary", description="Attachment file"),
  * )
  */
 class UpdateTicketMessageRequest extends StoreTicketMessageRequest {}

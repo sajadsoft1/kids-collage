@@ -14,8 +14,8 @@ use OpenApi\Annotations as OA;
  *      type="object",
  *      required={"title"},
  *
- *     @OA\Property(property="title", type="string", default="test title updated"),
- *     @OA\Property(property="description", type="string", default="test description updated"),
+ *     @OA\Property(property="title", type="string", default="Updated cardflow title", description="CardFlow title"),
+ *     @OA\Property(property="description", type="string", default="Updated cardflow description", description="CardFlow description"),
  * )
  */
 class UpdateCardFlowRequest extends StoreCardFlowRequest {}
