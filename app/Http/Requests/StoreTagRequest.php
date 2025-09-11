@@ -11,10 +11,10 @@ use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema(
- *      schema="StoreTagRequest",
- *      title="Store Tag request",
- *      type="object",
- *      required={"name", "seo_title", "seo_description", "robots_meta"},
+ *     schema="StoreTagRequest",
+ *     title="Store Tag request",
+ *     type="object",
+ *     required={"name", "seo_title", "seo_description", "robots_meta"},
  *
  *     @OA\Property(property="name", type="string", default="web-development", description="Tag name"),
  *     @OA\Property(property="description", type="string", default="Web development services", description="Tag description"),

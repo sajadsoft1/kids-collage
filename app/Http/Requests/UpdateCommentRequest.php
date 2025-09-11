@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema(
- *      schema="UpdateCommentRequest",
- *      title="Update Comment request",
- *      type="object",
- *      required={"title", "description", "published", "user_id", "comment", "morphable_type", "morphable_id"},
+ *     schema="UpdateCommentRequest",
+ *     title="Update Comment request",
+ *     type="object",
+ *     required={"title", "description", "published", "user_id", "comment", "morphable_type", "morphable_id"},
  *
  *     @OA\Property(property="title", type="string", default="Updated comment title", description="Comment title"),
  *     @OA\Property(property="description", type="string", default="Updated comment description", description="Comment description"),

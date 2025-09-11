@@ -11,10 +11,10 @@ use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema(
- *      schema="StorePageRequest",
- *      title="Store Page request",
- *      type="object",
- *      required={"title", "body", "type", "slug", "seo_title", "seo_description", "robots_meta"},
+ *     schema="StorePageRequest",
+ *     title="Store Page request",
+ *     type="object",
+ *     required={"title", "body", "type", "slug", "seo_title", "seo_description", "robots_meta"},
  *
  *     @OA\Property(property="title", type="string", default="About Us", description="Page title"),
  *     @OA\Property(property="body", type="string", default="<p>Welcome to our company...</p>", description="Page content body"),

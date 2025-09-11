@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Resources;
 
 use App\Models\Teammate;
@@ -11,7 +13,7 @@ use OpenApi\Annotations as OA;
  * @OA\Schema(
  *     schema="TeammateDetailResource",
  *     title="TeammateDetailResource",
- *     @OA\Property( property="id", type="integer", default="1"),
+ *     @OA\Property(property="id", type="integer", default="1"),
  *     @OA\Property(property="title", type="string", default="Teammate Title"),
  *     @OA\Property(property="description", type="string", default="Teammate Description"),
  *
@@ -21,10 +23,9 @@ use OpenApi\Annotations as OA;
  */
 class TeammateDetailResource extends JsonResource
 {
-
     public function toArray(Request $request): array
     {
-        $resource = TeammateResource::make($this)->toArray($request);
+        $resource      = TeammateResource::make($this)->toArray($request);
         $resource['id']=$this->id;
 
         return $resource;

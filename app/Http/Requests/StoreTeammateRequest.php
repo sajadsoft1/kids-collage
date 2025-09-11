@@ -9,10 +9,10 @@ use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema(
- *      schema="StoreTeammateRequest",
- *      title="Store Teammate request",
- *      type="object",
- *      required={"title", "position", "published"},
+ *     schema="StoreTeammateRequest",
+ *     title="Store Teammate request",
+ *     type="object",
+ *     required={"title", "position", "published"},
  *
  *     @OA\Property(property="title", type="string", default="John Doe", description="Teammate name"),
  *     @OA\Property(property="description", type="string", default="Team member description", description="Teammate description"),
@@ -32,15 +32,15 @@ class StoreTeammateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title'           => ['required', 'string', 'max:255'],
-            'description'     => ['nullable', 'string'],
-            'bio'             => ['nullable', 'string'],
-            'position'        => ['required', 'string', 'max:255'],
-            'birthday'        => ['nullable', 'date'],
-            'published'       => 'required|boolean',
-            'email'           => ['nullable', 'email'],
-            'image'           => 'nullable|file|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'bio_image'       => 'nullable|file|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'title'       => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string'],
+            'bio'         => ['nullable', 'string'],
+            'position'    => ['required', 'string', 'max:255'],
+            'birthday'    => ['nullable', 'date'],
+            'published'   => 'required|boolean',
+            'email'       => ['nullable', 'email'],
+            'image'       => 'nullable|file|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'bio_image'   => 'nullable|file|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }
 

@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema(
- *      schema="UpdatePortfolioRequest",
- *      title="Update Portfolio request",
- *      type="object",
- *      required={"title", "published", "execution_date", "category_id"},
+ *     schema="UpdatePortfolioRequest",
+ *     title="Update Portfolio request",
+ *     type="object",
+ *     required={"title", "published", "execution_date", "category_id"},
  *
  *     @OA\Property(property="title", type="string", default="Updated Project Name", description="Portfolio title"),
  *     @OA\Property(property="description", type="string", default="Updated project description", description="Portfolio description"),

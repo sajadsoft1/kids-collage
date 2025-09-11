@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema(
- *      schema="UpdateOpinionRequest",
- *      title="Update Opinion request",
- *      type="object",
- *      required={"user_name", "comment", "published"},
+ *     schema="UpdateOpinionRequest",
+ *     title="Update Opinion request",
+ *     type="object",
+ *     required={"user_name", "comment", "published"},
  *
  *     @OA\Property(property="user_name", type="string", default="Jane Smith", description="Opinion author name"),
  *     @OA\Property(property="comment", type="string", default="Outstanding service! Updated review.", description="Opinion comment/review"),

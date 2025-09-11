@@ -9,10 +9,10 @@ use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema(
- *      schema="StoreOpinionRequest",
- *      title="Store Opinion request",
- *      type="object",
- *      required={"user_name", "comment", "published"},
+ *     schema="StoreOpinionRequest",
+ *     title="Store Opinion request",
+ *     type="object",
+ *     required={"user_name", "comment", "published"},
  *
  *     @OA\Property(property="user_name", type="string", default="John Doe", description="Opinion author name"),
  *     @OA\Property(property="comment", type="string", default="Great service! Highly recommended.", description="Opinion comment/review"),
@@ -30,13 +30,13 @@ class StoreOpinionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_name'       => ['required', 'string', 'max:255'],
-            'comment'         => ['required', 'string'],
-            'company'         => ['nullable', 'string', 'max:255'],
-            'published'       => 'required|boolean',
-            'ordering'        => 'nullable|integer|min:0',
-            'published_at'    => 'nullable|date',
-            'image'           => 'nullable|file|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'user_name'    => ['required', 'string', 'max:255'],
+            'comment'      => ['required', 'string'],
+            'company'      => ['nullable', 'string', 'max:255'],
+            'published'    => 'required|boolean',
+            'ordering'     => 'nullable|integer|min:0',
+            'published_at' => 'nullable|date',
+            'image'        => 'nullable|file|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }
 

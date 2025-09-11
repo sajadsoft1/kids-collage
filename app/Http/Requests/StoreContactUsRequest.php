@@ -9,10 +9,10 @@ use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema(
- *      schema="StoreContactUsRequest",
- *      title="Store ContactUs request",
- *      type="object",
- *      required={"name", "email", "mobile", "comment"},
+ *     schema="StoreContactUsRequest",
+ *     title="Store ContactUs request",
+ *     type="object",
+ *     required={"name", "email", "mobile", "comment"},
  *
  *     @OA\Property(property="name", type="string", default="John Doe", description="Contact person name"),
  *     @OA\Property(property="email", type="string", format="email", default="john@example.com", description="Contact email address"),
@@ -27,10 +27,10 @@ class StoreContactUsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'            => ['required', 'string', 'max:255'],
-            'email'           => ['required', 'email'],
-            'mobile'          => ['required', 'numeric', 'digits:11'],
-            'comment'         => ['required', 'string'],
+            'name'    => ['required', 'string', 'max:255'],
+            'email'   => ['required', 'email'],
+            'mobile'  => ['required', 'numeric', 'digits:11'],
+            'comment' => ['required', 'string'],
         ];
     }
 

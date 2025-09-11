@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema(
- *      schema="UpdateFaqRequest",
- *      title="Update Faq request",
- *      type="object",
- *      required={"title", "description", "published", "category_id"},
+ *     schema="UpdateFaqRequest",
+ *     title="Update Faq request",
+ *     type="object",
+ *     required={"title", "description", "published", "category_id"},
  *
  *     @OA\Property(property="title", type="string", default="Updated FAQ Question", description="FAQ title"),
  *     @OA\Property(property="description", type="string", default="Updated answer to the question", description="FAQ answer/description"),

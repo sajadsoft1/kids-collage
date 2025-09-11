@@ -9,10 +9,10 @@ use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema(
- *      schema="StoreTicketMessageRequest",
- *      title="Store TicketMessage request",
- *      type="object",
- *      required={"ticket_id", "user_id", "message"},
+ *     schema="StoreTicketMessageRequest",
+ *     title="Store TicketMessage request",
+ *     type="object",
+ *     required={"ticket_id", "user_id", "message"},
  *
  *     @OA\Property(property="ticket_id", type="integer", default=1, description="Ticket ID"),
  *     @OA\Property(property="user_id", type="integer", default=1, description="User ID who sends the message"),
@@ -27,10 +27,10 @@ class StoreTicketMessageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'ticket_id'       => 'required|exists:tickets,id',
-            'user_id'         => 'required|exists:users,id',
-            'message'         => ['required', 'string'],
-            'file'            => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,pdf,doc,docx,txt|max:5120',
+            'ticket_id' => 'required|exists:tickets,id',
+            'user_id'   => 'required|exists:users,id',
+            'message'   => ['required', 'string'],
+            'file'      => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,pdf,doc,docx,txt|max:5120',
         ];
     }
 

@@ -9,10 +9,10 @@ use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema(
- *      schema="StoreCommentRequest",
- *      title="Store Comment request",
- *      type="object",
- *      required={"title"},
+ *     schema="StoreCommentRequest",
+ *     title="Store Comment request",
+ *     type="object",
+ *     required={"title"},
  *
  *     @OA\Property(property="title", type="string", default="test title"),
  *     @OA\Property(property="description", type="string", default="test description"),
@@ -25,9 +25,9 @@ class StoreCommentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title'           => ['required', 'string', 'max:255'],
-            'description'     => ['nullable', 'string'],
-            'published'       => 'required|boolean',
+            'title'       => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string'],
+            'published'   => 'required|boolean',
         ];
     }
 

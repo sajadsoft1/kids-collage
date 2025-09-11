@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Resources;
 
 use App\Models\Role;
@@ -11,7 +13,7 @@ use OpenApi\Annotations as OA;
  * @OA\Schema(
  *     schema="RoleResource",
  *     title="RoleResource",
- *     @OA\Property( property="id", type="integer", default="1"),
+ *     @OA\Property(property="id", type="integer", default="1"),
  *     @OA\Property(property="title", type="string", default="Role Title"),
  *     @OA\Property(property="description", type="string", default="Role Description"),
  *
@@ -21,7 +23,6 @@ use OpenApi\Annotations as OA;
  */
 class RoleResource extends JsonResource
 {
-
     public function toArray(Request $request): array
     {
         return [

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Board;
 
 use App\Models\Board;
@@ -11,9 +13,7 @@ class DeleteBoardAction
 {
     use AsAction;
 
-    /**
-     * @throws Throwable
-     */
+    /** @throws Throwable */
     public function handle(Board $board): bool
     {
         return DB::transaction(function () use ($board) {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Resources;
 
 use App\Models\SocialMedia;
@@ -11,7 +13,7 @@ use OpenApi\Annotations as OA;
  * @OA\Schema(
  *     schema="SocialMediaDetailResource",
  *     title="SocialMediaDetailResource",
- *     @OA\Property( property="id", type="integer", default="1"),
+ *     @OA\Property(property="id", type="integer", default="1"),
  *     @OA\Property(property="title", type="string", default="SocialMedia Title"),
  *     @OA\Property(property="description", type="string", default="SocialMedia Description"),
  *
@@ -21,10 +23,9 @@ use OpenApi\Annotations as OA;
  */
 class SocialMediaDetailResource extends JsonResource
 {
-
     public function toArray(Request $request): array
     {
-        $resource = SocialMediaResource::make($this)->toArray($request);
+        $resource      = SocialMediaResource::make($this)->toArray($request);
         $resource['id']=$this->id;
 
         return $resource;

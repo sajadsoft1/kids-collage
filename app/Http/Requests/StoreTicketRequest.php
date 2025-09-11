@@ -11,10 +11,10 @@ use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema(
- *      schema="StoreTicketRequest",
- *      title="Store Ticket request",
- *      type="object",
- *      required={"subject", "body", "user_id", "department", "priority"},
+ *     schema="StoreTicketRequest",
+ *     title="Store Ticket request",
+ *     type="object",
+ *     required={"subject", "body", "user_id", "department", "priority"},
  *
  *     @OA\Property(property="subject", type="string", default="Support Request", description="Ticket subject"),
  *     @OA\Property(property="body", type="string", default="Please help me with...", description="Ticket message body"),
@@ -31,12 +31,12 @@ class StoreTicketRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'subject'         => ['required', 'string', 'max:255'],
-            'body'            => ['required', 'string'],
-            'user_id'         => 'required|exists:users,id',
-            'department'      => 'required|in:' . implode(',', TicketDepartmentEnum::values()),
-            'priority'        => 'required|in:' . implode(',', TicketPriorityEnum::values()),
-            'image'           => 'nullable|file|image|mimes:jpeg,png,jpg,gif,svg,pdf|max:5120',
+            'subject'    => ['required', 'string', 'max:255'],
+            'body'       => ['required', 'string'],
+            'user_id'    => 'required|exists:users,id',
+            'department' => 'required|in:' . implode(',', TicketDepartmentEnum::values()),
+            'priority'   => 'required|in:' . implode(',', TicketPriorityEnum::values()),
+            'image'      => 'nullable|file|image|mimes:jpeg,png,jpg,gif,svg,pdf|max:5120',
         ];
     }
 

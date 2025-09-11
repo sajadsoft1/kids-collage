@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Resources;
 
 use App\Models\Banner;
@@ -11,7 +13,7 @@ use OpenApi\Annotations as OA;
  * @OA\Schema(
  *     schema="BannerDetailResource",
  *     title="BannerDetailResource",
- *     @OA\Property( property="id", type="integer", default="1"),
+ *     @OA\Property(property="id", type="integer", default="1"),
  *     @OA\Property(property="title", type="string", default="Banner Title"),
  *     @OA\Property(property="description", type="string", default="Banner Description"),
  *
@@ -21,10 +23,9 @@ use OpenApi\Annotations as OA;
  */
 class BannerDetailResource extends JsonResource
 {
-
     public function toArray(Request $request): array
     {
-        $resource = BannerResource::make($this)->toArray($request);
+        $resource      = BannerResource::make($this)->toArray($request);
         $resource['id']=$this->id;
 
         return $resource;

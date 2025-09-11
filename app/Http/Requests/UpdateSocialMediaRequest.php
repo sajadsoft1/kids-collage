@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema(
- *      schema="UpdateSocialMediaRequest",
- *      title="Update SocialMedia request",
- *      type="object",
- *      required={"title", "link", "position", "published"},
+ *     schema="UpdateSocialMediaRequest",
+ *     title="Update SocialMedia request",
+ *     type="object",
+ *     required={"title", "link", "position", "published"},
  *
  *     @OA\Property(property="title", type="string", default="Twitter", description="Social media platform title"),
  *     @OA\Property(property="link", type="string", default="https://twitter.com/username", description="Social media profile URL"),

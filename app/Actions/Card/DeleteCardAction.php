@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Card;
 
 use App\Models\Card;
@@ -11,9 +13,7 @@ class DeleteCardAction
 {
     use AsAction;
 
-    /**
-     * @throws Throwable
-     */
+    /** @throws Throwable */
     public function handle(Card $card): bool
     {
         return DB::transaction(function () use ($card) {

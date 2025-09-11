@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Board;
 
 use App\Actions\Translation\SyncTranslationAction;
@@ -17,14 +19,11 @@ class UpdateBoardAction
         private readonly SyncTranslationAction $syncTranslationAction,
     ) {}
 
-
     /**
-     * @param Board $board
      * @param array{
      *     title:string,
      *     description:string
      * }               $payload
-     * @return Board
      * @throws Throwable
      */
     public function handle(Board $board, array $payload): Board

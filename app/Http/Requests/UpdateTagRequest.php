@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema(
- *      schema="UpdateTagRequest",
- *      title="Update Tag request",
- *      type="object",
- *      required={"name", "seo_title", "seo_description", "robots_meta"},
+ *     schema="UpdateTagRequest",
+ *     title="Update Tag request",
+ *     type="object",
+ *     required={"name", "seo_title", "seo_description", "robots_meta"},
  *
  *     @OA\Property(property="name", type="string", default="mobile-development", description="Tag name"),
  *     @OA\Property(property="description", type="string", default="Updated mobile development services", description="Tag description"),

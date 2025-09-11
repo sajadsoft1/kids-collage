@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Http\Controllers\Api\FaqController;
 use Illuminate\Support\Facades\Route;
 
@@ -8,4 +10,3 @@ Route::group(['prefix' => 'faq', 'as' => 'faq.'], function () {
     // Route::get('data', [FaqController::class, 'extraData'])->name('data');
 });
 Route::apiResource('faq', FaqController::class);
-

@@ -10,7 +10,6 @@ use App\Services\Permissions\PermissionsService;
 
 class TicketMessagePolicy
 {
-
     public function viewAny(User $user): bool
     {
         return $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(TicketMessage::class, 'Index'));

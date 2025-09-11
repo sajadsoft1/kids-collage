@@ -16,10 +16,7 @@ use Illuminate\Support\Str;
  * - String to array conversion for multipart/form-data handling
  * - Boolean conversion for form inputs
  * - JSON string to object conversion
- *
- * @package App\Http\Requests
  */
-
 trait FillAttributes
 {
     /**

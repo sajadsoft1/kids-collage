@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema(
- *      schema="UpdateTicketRequest",
- *      title="Update Ticket request",
- *      type="object",
- *      required={"subject", "body", "user_id", "department", "priority"},
+ *     schema="UpdateTicketRequest",
+ *     title="Update Ticket request",
+ *     type="object",
+ *     required={"subject", "body", "user_id", "department", "priority"},
  *
  *     @OA\Property(property="subject", type="string", default="Updated Support Request", description="Ticket subject"),
  *     @OA\Property(property="body", type="string", default="Updated request details...", description="Ticket message body"),

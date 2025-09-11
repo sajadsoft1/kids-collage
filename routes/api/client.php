@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Http\Controllers\Api\ClientController;
 use Illuminate\Support\Facades\Route;
 
@@ -8,4 +10,3 @@ Route::group(['prefix' => 'client', 'as' => 'client.'], function () {
     // Route::get('data', [ClientController::class, 'extraData'])->name('data');
 });
 Route::apiResource('client', ClientController::class);
-

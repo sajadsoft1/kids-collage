@@ -9,10 +9,10 @@ use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema(
- *      schema="StoreClientRequest",
- *      title="Store Client request",
- *      type="object",
- *      required={"title", "published"},
+ *     schema="StoreClientRequest",
+ *     title="Store Client request",
+ *     type="object",
+ *     required={"title", "published"},
  *
  *     @OA\Property(property="title", type="string", default="test title", description="Client title"),
  *     @OA\Property(property="description", type="string", default="test description", description="Client description"),
@@ -28,11 +28,11 @@ class StoreClientRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title'           => ['required', 'string', 'max:255'],
-            'description'     => ['nullable', 'string'],
-            'published'       => 'required|boolean',
-            'link'            => 'nullable|url',
-            'image'           => 'nullable|file|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'title'       => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string'],
+            'published'   => 'required|boolean',
+            'link'        => 'nullable|url',
+            'image'       => 'nullable|file|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }
 

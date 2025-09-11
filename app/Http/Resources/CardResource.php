@@ -33,20 +33,20 @@ class CardResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'               => $this->id,
-            'title'            => $this->title,
-            'description'      => $this->description,
-            'card_type'        => $this->card_type->value,
-            'priority'         => $this->priority->value,
-            'status'           => $this->status->value,
-            'due_date'         => $this->due_date,
-            'order'            => $this->order,
-            'board'            => $this->whenLoaded('board', fn () => SimpleBoardResource::make($this->board)),
-            'column'           => $this->whenLoaded('column', fn () => $this->column),
-            'assignees_count'  => $this->whenLoaded('assignees', fn () => $this->assignees->count(), 0),
-            'is_overdue'       => $this->isOverdue(),
-            'updated_at'       => $this->updated_at,
-            'created_at'       => $this->created_at,
+            'id'              => $this->id,
+            'title'           => $this->title,
+            'description'     => $this->description,
+            'card_type'       => $this->card_type->value,
+            'priority'        => $this->priority->value,
+            'status'          => $this->status->value,
+            'due_date'        => $this->due_date,
+            'order'           => $this->order,
+            'board'           => $this->whenLoaded('board', fn () => SimpleBoardResource::make($this->board)),
+            'column'          => $this->whenLoaded('column', fn () => $this->column),
+            'assignees_count' => $this->whenLoaded('assignees', fn () => $this->assignees->count(), 0),
+            'is_overdue'      => $this->isOverdue(),
+            'updated_at'      => $this->updated_at,
+            'created_at'      => $this->created_at,
         ];
     }
 }

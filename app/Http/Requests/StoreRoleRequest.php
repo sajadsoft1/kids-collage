@@ -9,10 +9,10 @@ use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema(
- *      schema="StoreRoleRequest",
- *      title="Store Role request",
- *      type="object",
- *      required={"name"},
+ *     schema="StoreRoleRequest",
+ *     title="Store Role request",
+ *     type="object",
+ *     required={"name"},
  *
  *     @OA\Property(property="name", type="string", default="admin", description="Role name (unique identifier)"),
  *     @OA\Property(property="description", type="string", default="Administrator role", description="Role description"),
@@ -26,10 +26,10 @@ class StoreRoleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'            => ['required', 'string', 'max:255', 'unique:roles,name'],
-            'description'     => ['nullable', 'string'],
-            'permissions'     => 'nullable|array',
-            'permissions.*'   => 'exists:permissions,id',
+            'name'          => ['required', 'string', 'max:255', 'unique:roles,name'],
+            'description'   => ['nullable', 'string'],
+            'permissions'   => 'nullable|array',
+            'permissions.*' => 'exists:permissions,id',
         ];
     }
 

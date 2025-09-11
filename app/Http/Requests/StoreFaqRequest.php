@@ -9,10 +9,10 @@ use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema(
- *      schema="StoreFaqRequest",
- *      title="Store Faq request",
- *      type="object",
- *      required={"title", "description", "published", "category_id"},
+ *     schema="StoreFaqRequest",
+ *     title="Store Faq request",
+ *     type="object",
+ *     required={"title", "description", "published", "category_id"},
  *
  *     @OA\Property(property="title", type="string", default="Frequently Asked Question", description="FAQ title"),
  *     @OA\Property(property="description", type="string", default="This is the answer to the question", description="FAQ answer/description"),
@@ -30,13 +30,13 @@ class StoreFaqRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title'           => ['required', 'string', 'max:255'],
-            'description'     => ['required', 'string'],
-            'published'       => 'required|boolean',
-            'favorite'        => 'nullable|boolean',
-            'ordering'        => 'nullable|integer|min:0',
-            'category_id'     => 'required|exists:categories,id',
-            'published_at'    => 'nullable|date',
+            'title'        => ['required', 'string', 'max:255'],
+            'description'  => ['required', 'string'],
+            'published'    => 'required|boolean',
+            'favorite'     => 'nullable|boolean',
+            'ordering'     => 'nullable|integer|min:0',
+            'category_id'  => 'required|exists:categories,id',
+            'published_at' => 'nullable|date',
         ];
     }
 
@@ -44,7 +44,7 @@ class StoreFaqRequest extends FormRequest
     {
         $this->convertOnToBoolean([
             'published' => request('published', false),
-            'favorite' => request('favorite', false),
+            'favorite'  => request('favorite', false),
         ]);
     }
 }

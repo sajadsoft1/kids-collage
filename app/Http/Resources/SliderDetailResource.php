@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Resources;
 
 use App\Models\Slider;
@@ -11,7 +13,7 @@ use OpenApi\Annotations as OA;
  * @OA\Schema(
  *     schema="SliderDetailResource",
  *     title="SliderDetailResource",
- *     @OA\Property( property="id", type="integer", default="1"),
+ *     @OA\Property(property="id", type="integer", default="1"),
  *     @OA\Property(property="title", type="string", default="Slider Title"),
  *     @OA\Property(property="description", type="string", default="Slider Description"),
  *
@@ -21,10 +23,9 @@ use OpenApi\Annotations as OA;
  */
 class SliderDetailResource extends JsonResource
 {
-
     public function toArray(Request $request): array
     {
-        $resource = SliderResource::make($this)->toArray($request);
+        $resource      = SliderResource::make($this)->toArray($request);
         $resource['id']=$this->id;
 
         return $resource;

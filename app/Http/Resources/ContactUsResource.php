@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Resources;
 
 use App\Models\ContactUs;
@@ -11,7 +13,7 @@ use OpenApi\Annotations as OA;
  * @OA\Schema(
  *     schema="ContactUsResource",
  *     title="ContactUsResource",
- *     @OA\Property( property="id", type="integer", default="1"),
+ *     @OA\Property(property="id", type="integer", default="1"),
  *     @OA\Property(property="title", type="string", default="ContactUs Title"),
  *     @OA\Property(property="description", type="string", default="ContactUs Description"),
  *
@@ -21,7 +23,6 @@ use OpenApi\Annotations as OA;
  */
 class ContactUsResource extends JsonResource
 {
-
     public function toArray(Request $request): array
     {
         return [

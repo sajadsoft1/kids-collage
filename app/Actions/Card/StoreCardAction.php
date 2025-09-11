@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Card;
 
 use App\Actions\Translation\SyncTranslationAction;
@@ -22,7 +24,6 @@ class StoreCardAction
      *     title:string,
      *     description:string
      * } $payload
-     * @return Card
      * @throws Throwable
      */
     public function handle(array $payload): Card

@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema(
- *      schema="UpdatePageRequest",
- *      title="Update Page request",
- *      type="object",
- *      required={"title", "body", "type", "slug", "seo_title", "seo_description", "robots_meta"},
+ *     schema="UpdatePageRequest",
+ *     title="Update Page request",
+ *     type="object",
+ *     required={"title", "body", "type", "slug", "seo_title", "seo_description", "robots_meta"},
  *
  *     @OA\Property(property="title", type="string", default="Updated About Us", description="Page title"),
  *     @OA\Property(property="body", type="string", default="<p>Updated content about our company...</p>", description="Page content body"),

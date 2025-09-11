@@ -10,10 +10,10 @@ use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema(
- *      schema="StoreBannerRequest",
- *      title="Store Banner request",
- *      type="object",
- *      required={"title", "published"},
+ *     schema="StoreBannerRequest",
+ *     title="Store Banner request",
+ *     type="object",
+ *     required={"title", "published"},
  *
  *     @OA\Property(property="title", type="string", default="test title", description="Banner title"),
  *     @OA\Property(property="description", type="string", default="test description", description="Banner description"),
@@ -30,12 +30,12 @@ class StoreBannerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title'           => ['required', 'string', 'max:255'],
-            'description'     => ['nullable', 'string'],
-            'published'       => 'required|boolean',
-            'published_at'    => 'nullable|date',
-            'size'            => 'nullable|in:' . implode(',', BannerSizeEnum::values()),
-            'image'           => 'nullable|file|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'title'        => ['required', 'string', 'max:255'],
+            'description'  => ['nullable', 'string'],
+            'published'    => 'required|boolean',
+            'published_at' => 'nullable|date',
+            'size'         => 'nullable|in:' . implode(',', BannerSizeEnum::values()),
+            'image'        => 'nullable|file|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }
 

@@ -10,7 +10,6 @@ use App\Services\Permissions\PermissionsService;
 
 class BoardPolicy
 {
-
     public function viewAny(User $user): bool
     {
         return $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Board::class, 'Index'));

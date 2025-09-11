@@ -9,10 +9,10 @@ use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema(
- *      schema="StorePortfolioRequest",
- *      title="Store Portfolio request",
- *      type="object",
- *      required={"title", "published", "execution_date", "category_id"},
+ *     schema="StorePortfolioRequest",
+ *     title="Store Portfolio request",
+ *     type="object",
+ *     required={"title", "published", "execution_date", "category_id"},
  *
  *     @OA\Property(property="title", type="string", default="Project Name", description="Portfolio title"),
  *     @OA\Property(property="description", type="string", default="Project description", description="Portfolio description"),
@@ -33,16 +33,16 @@ class StorePortfolioRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title'           => ['required', 'string', 'max:255'],
-            'description'     => ['nullable', 'string'],
-            'body'            => ['nullable', 'string'],
-            'published'       => 'required|boolean',
-            'published_at'    => 'nullable|date',
-            'execution_date'  => 'required|date',
-            'category_id'     => 'required|exists:categories,id',
-            'creator_id'      => 'nullable|exists:users,id',
-            'tags'            => 'nullable|array',
-            'image'           => 'nullable|file|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'title'          => ['required', 'string', 'max:255'],
+            'description'    => ['nullable', 'string'],
+            'body'           => ['nullable', 'string'],
+            'published'      => 'required|boolean',
+            'published_at'   => 'nullable|date',
+            'execution_date' => 'required|date',
+            'category_id'    => 'required|exists:categories,id',
+            'creator_id'     => 'nullable|exists:users,id',
+            'tags'           => 'nullable|array',
+            'image'          => 'nullable|file|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }
 

@@ -10,10 +10,10 @@ use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema(
- *      schema="StoreSliderRequest",
- *      title="Store Slider request",
- *      type="object",
- *      required={"title", "published"},
+ *     schema="StoreSliderRequest",
+ *     title="Store Slider request",
+ *     type="object",
+ *     required={"title", "published"},
  *
  *     @OA\Property(property="title", type="string", default="Slider Title", description="Slider title"),
  *     @OA\Property(property="description", type="string", default="Slider description", description="Slider description"),

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Http\Controllers\Api\OpinionController;
 use Illuminate\Support\Facades\Route;
 
@@ -8,4 +10,3 @@ Route::group(['prefix' => 'opinion', 'as' => 'opinion.'], function () {
     // Route::get('data', [OpinionController::class, 'extraData'])->name('data');
 });
 Route::apiResource('opinion', OpinionController::class);
-

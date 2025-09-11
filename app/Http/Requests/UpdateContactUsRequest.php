@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema(
- *      schema="UpdateContactUsRequest",
- *      title="Update ContactUs request",
- *      type="object",
- *      required={"name", "email", "mobile", "comment"},
+ *     schema="UpdateContactUsRequest",
+ *     title="Update ContactUs request",
+ *     type="object",
+ *     required={"name", "email", "mobile", "comment"},
  *
  *     @OA\Property(property="name", type="string", default="Jane Doe", description="Contact person name"),
  *     @OA\Property(property="email", type="string", format="email", default="jane@example.com", description="Contact email address"),
