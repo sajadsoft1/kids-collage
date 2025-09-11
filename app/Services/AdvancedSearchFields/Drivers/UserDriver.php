@@ -12,10 +12,18 @@ class UserDriver extends BaseDriver
     {
         $query = $this->filter($query, $values);
 
-        //        $extra_filters = collect($values)->whereNotIn('column', $this->fillable_columns);
-        //        foreach ($extra_filters as $item) {
-        //
-        //        }
+               $extra_filters = collect($values)->whereNotIn('column', $this->fillable_columns);
+               foreach ($extra_filters as $item) {
+                switch ($item['column']) {
+                    case 'user_type':
+                        if ($item['from'] == 'admin') {
+                            $query->whereHas('roles');
+                        } elseif($item['from'] == 'blogger') {
+                            $query->whereHas('blogs');
+                        }
+                        break;
+                }
+               }
         return $query;
     }
 }
