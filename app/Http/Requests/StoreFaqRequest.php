@@ -12,10 +12,15 @@ use OpenApi\Annotations as OA;
  *      schema="StoreFaqRequest",
  *      title="Store Faq request",
  *      type="object",
- *      required={"title"},
+ *      required={"title", "description", "published", "category_id"},
  *
- *     @OA\Property(property="title", type="string", default="test title"),
- *     @OA\Property(property="description", type="string", default="test description"),
+ *     @OA\Property(property="title", type="string", default="Frequently Asked Question", description="FAQ title"),
+ *     @OA\Property(property="description", type="string", default="This is the answer to the question", description="FAQ answer/description"),
+ *     @OA\Property(property="published", type="boolean", default=true, description="Publication status"),
+ *     @OA\Property(property="favorite", type="boolean", default=false, description="Mark as favorite FAQ"),
+ *     @OA\Property(property="ordering", type="integer", default=0, description="FAQ order"),
+ *     @OA\Property(property="category_id", type="integer", default=1, description="FAQ category ID"),
+ *     @OA\Property(property="published_at", type="string", format="date-time", description="Publication date"),
  * )
  */
 class StoreFaqRequest extends FormRequest
@@ -26,8 +31,12 @@ class StoreFaqRequest extends FormRequest
     {
         return [
             'title'           => ['required', 'string', 'max:255'],
-            'description'     => ['nullable', 'string'],
+            'description'     => ['required', 'string'],
             'published'       => 'required|boolean',
+            'favorite'        => 'nullable|boolean',
+            'ordering'        => 'nullable|integer|min:0',
+            'category_id'     => 'required|exists:categories,id',
+            'published_at'    => 'nullable|date',
         ];
     }
 
@@ -35,6 +44,7 @@ class StoreFaqRequest extends FormRequest
     {
         $this->convertOnToBoolean([
             'published' => request('published', false),
+            'favorite' => request('favorite', false),
         ]);
     }
 }

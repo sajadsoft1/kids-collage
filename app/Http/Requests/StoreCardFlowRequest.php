@@ -14,8 +14,8 @@ use OpenApi\Annotations as OA;
  *      type="object",
  *      required={"title"},
  *
- *     @OA\Property(property="title", type="string", default="test title"),
- *     @OA\Property(property="description", type="string", default="test description"),
+ *     @OA\Property(property="title", type="string", default="test title", description="CardFlow title"),
+ *     @OA\Property(property="description", type="string", default="test description", description="CardFlow description"),
  * )
  */
 class StoreCardFlowRequest extends FormRequest
@@ -27,14 +27,11 @@ class StoreCardFlowRequest extends FormRequest
         return [
             'title'           => ['required', 'string', 'max:255'],
             'description'     => ['nullable', 'string'],
-            'published'       => 'required|boolean',
         ];
     }
 
     protected function prepareForValidation(): void
     {
-        $this->convertOnToBoolean([
-            'published' => request('published', false),
-        ]);
+        // CardFlow doesn't use published field based on action
     }
 }

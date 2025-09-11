@@ -12,10 +12,11 @@ use OpenApi\Annotations as OA;
  *      schema="StoreRoleRequest",
  *      title="Store Role request",
  *      type="object",
- *      required={"title"},
+ *      required={"name"},
  *
- *     @OA\Property(property="title", type="string", default="test title"),
- *     @OA\Property(property="description", type="string", default="test description"),
+ *     @OA\Property(property="name", type="string", default="admin", description="Role name (unique identifier)"),
+ *     @OA\Property(property="description", type="string", default="Administrator role", description="Role description"),
+ *     @OA\Property(property="permissions", type="array", @OA\Items(type="integer"), example={1, 2, 3}, description="Permission IDs to assign to role"),
  * )
  */
 class StoreRoleRequest extends FormRequest
@@ -25,16 +26,17 @@ class StoreRoleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title'           => ['required', 'string', 'max:255'],
+            'name'            => ['required', 'string', 'max:255', 'unique:roles,name'],
             'description'     => ['nullable', 'string'],
-            'published'       => 'required|boolean',
+            'permissions'     => 'nullable|array',
+            'permissions.*'   => 'exists:permissions,id',
         ];
     }
 
     protected function prepareForValidation(): void
     {
-        $this->convertOnToBoolean([
-            'published' => request('published', false),
+        $this->convertStringToArray([
+            'permissions' => request('permissions', []),
         ]);
     }
 }

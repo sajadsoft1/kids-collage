@@ -12,10 +12,12 @@ use OpenApi\Annotations as OA;
  *      schema="StoreContactUsRequest",
  *      title="Store ContactUs request",
  *      type="object",
- *      required={"title"},
+ *      required={"name", "email", "mobile", "comment"},
  *
- *     @OA\Property(property="title", type="string", default="test title"),
- *     @OA\Property(property="description", type="string", default="test description"),
+ *     @OA\Property(property="name", type="string", default="John Doe", description="Contact person name"),
+ *     @OA\Property(property="email", type="string", format="email", default="john@example.com", description="Contact email address"),
+ *     @OA\Property(property="mobile", type="string", default="09123456789", description="Contact mobile number"),
+ *     @OA\Property(property="comment", type="string", default="Hello, I need help with...", description="Contact message/comment"),
  * )
  */
 class StoreContactUsRequest extends FormRequest
@@ -25,16 +27,15 @@ class StoreContactUsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title'           => ['required', 'string', 'max:255'],
-            'description'     => ['nullable', 'string'],
-            'published'       => 'required|boolean',
+            'name'            => ['required', 'string', 'max:255'],
+            'email'           => ['required', 'email'],
+            'mobile'          => ['required', 'numeric', 'digits:11'],
+            'comment'         => ['required', 'string'],
         ];
     }
 
     protected function prepareForValidation(): void
     {
-        $this->convertOnToBoolean([
-            'published' => request('published', false),
-        ]);
+        // ContactUs doesn't use published field based on action
     }
 }

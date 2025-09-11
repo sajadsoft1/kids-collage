@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
+use App\Enums\SocialMediaPositionEnum;
 use Illuminate\Foundation\Http\FormRequest;
 use OpenApi\Annotations as OA;
 
@@ -12,10 +13,14 @@ use OpenApi\Annotations as OA;
  *      schema="StoreSocialMediaRequest",
  *      title="Store SocialMedia request",
  *      type="object",
- *      required={"title"},
+ *      required={"title", "link", "position", "published"},
  *
- *     @OA\Property(property="title", type="string", default="test title"),
- *     @OA\Property(property="description", type="string", default="test description"),
+ *     @OA\Property(property="title", type="string", default="Facebook", description="Social media platform title"),
+ *     @OA\Property(property="link", type="string", default="https://facebook.com/username", description="Social media profile URL"),
+ *     @OA\Property(property="ordering", type="integer", default=0, description="Display order"),
+ *     @OA\Property(property="position", type="string", enum={"all", "header", "footer"}, default="all", description="Display position"),
+ *     @OA\Property(property="published", type="boolean", default=true, description="Publication status"),
+ *     @OA\Property(property="image", type="string", format="binary", description="Social media icon/image"),
  * )
  */
 class StoreSocialMediaRequest extends FormRequest
@@ -26,8 +31,11 @@ class StoreSocialMediaRequest extends FormRequest
     {
         return [
             'title'           => ['required', 'string', 'max:255'],
-            'description'     => ['nullable', 'string'],
+            'link'            => ['required', 'url'],
+            'ordering'        => 'nullable|integer|min:0',
+            'position'        => 'required|in:' . implode(',', SocialMediaPositionEnum::values()),
             'published'       => 'required|boolean',
+            'image'           => 'nullable|file|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }
 

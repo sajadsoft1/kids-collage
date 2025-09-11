@@ -12,10 +12,12 @@ use OpenApi\Annotations as OA;
  *      schema="StoreTicketMessageRequest",
  *      title="Store TicketMessage request",
  *      type="object",
- *      required={"title"},
+ *      required={"ticket_id", "user_id", "message"},
  *
- *     @OA\Property(property="title", type="string", default="test title"),
- *     @OA\Property(property="description", type="string", default="test description"),
+ *     @OA\Property(property="ticket_id", type="integer", default=1, description="Ticket ID"),
+ *     @OA\Property(property="user_id", type="integer", default=1, description="User ID who sends the message"),
+ *     @OA\Property(property="message", type="string", default="Here is my response...", description="Message content"),
+ *     @OA\Property(property="file", type="string", format="binary", description="Attachment file"),
  * )
  */
 class StoreTicketMessageRequest extends FormRequest
@@ -25,16 +27,15 @@ class StoreTicketMessageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title'           => ['required', 'string', 'max:255'],
-            'description'     => ['nullable', 'string'],
-            'published'       => 'required|boolean',
+            'ticket_id'       => 'required|exists:tickets,id',
+            'user_id'         => 'required|exists:users,id',
+            'message'         => ['required', 'string'],
+            'file'            => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,pdf,doc,docx,txt|max:5120',
         ];
     }
 
     protected function prepareForValidation(): void
     {
-        $this->convertOnToBoolean([
-            'published' => request('published', false),
-        ]);
+        // TicketMessage doesn't use published field based on action
     }
 }
