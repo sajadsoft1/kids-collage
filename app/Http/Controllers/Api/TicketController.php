@@ -70,7 +70,7 @@ class TicketController extends Controller
     public function index(TicketRepositoryInterface $repository): JsonResponse
     {
         return Response::dataWithAdditional(
-            TicketResource::collection($repository->paginate()),
+            TicketResource::collection($repository->paginate()), // user is loaded by default in repository
             additional: [
                 'advance_search_field' => AdvancedSearchFieldsService::generate(Ticket::class),
                 'extra'                => $repository->extra(),
@@ -97,6 +97,8 @@ class TicketController extends Controller
      */
     public function show(Ticket $ticket): JsonResponse
     {
+        $ticket->loadMissing(['closeBy', 'messages']); // user loaded by default
+        
         return Response::data(
             TicketDetailResource::make($ticket),
         );

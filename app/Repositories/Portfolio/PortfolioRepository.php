@@ -24,8 +24,12 @@ class PortfolioRepository extends BaseRepository implements PortfolioRepositoryI
 
     public function query(array $payload = []): Builder|QueryBuilder
     {
+        // Default relationships for Portfolio
+        $defaultRelations = ['category', 'creator'];
+        $relations = array_merge($defaultRelations, Arr::get($payload, 'with', []));
+        
         return QueryBuilder::for(Portfolio::query())
-            ->with(Arr::get($payload, 'with', []))
+            ->with($relations)
             ->when(Arr::get($payload, 'limit'), fn ($q) => $q->limit($payload['limit']))
             ->when(Arr::get($payload, 'select'), fn ($query) => $query->select($payload['select']))
             ->defaultSort(Arr::get($payload, 'sort', '-id'))

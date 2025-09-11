@@ -70,7 +70,9 @@ class PortfolioController extends Controller
     public function index(PortfolioRepositoryInterface $repository): JsonResponse
     {
         return Response::dataWithAdditional(
-            PortfolioResource::collection($repository->paginate()),
+            PortfolioResource::collection($repository->paginate(payload: [
+                'with' => ['tags'], // category and creator are loaded by default in repository
+            ])),
             additional: [
                 'advance_search_field' => AdvancedSearchFieldsService::generate(Portfolio::class),
                 'extra'                => $repository->extra(),
@@ -97,6 +99,8 @@ class PortfolioController extends Controller
      */
     public function show(Portfolio $portfolio): JsonResponse
     {
+        $portfolio->loadMissing(['tags', 'seoOption']); // category and creator loaded by default
+        
         return Response::data(
             PortfolioDetailResource::make($portfolio),
         );

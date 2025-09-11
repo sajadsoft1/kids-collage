@@ -70,7 +70,9 @@ class CommentController extends Controller
     public function index(CommentRepositoryInterface $repository): JsonResponse
     {
         return Response::dataWithAdditional(
-            CommentResource::collection($repository->paginate()),
+            CommentResource::collection($repository->paginate(payload: [
+                'with' => ['admin', 'children'], // user is loaded by default in repository
+            ])),
             additional: [
                 'advance_search_field' => AdvancedSearchFieldsService::generate(Comment::class),
                 'extra'                => $repository->extra(),
@@ -97,6 +99,8 @@ class CommentController extends Controller
      */
     public function show(Comment $comment): JsonResponse
     {
+        $comment->loadMissing(['user', 'admin', 'parent', 'children']);
+        
         return Response::data(
             CommentDetailResource::make($comment),
         );

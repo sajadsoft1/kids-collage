@@ -70,7 +70,9 @@ class CategoryController extends Controller
     public function index(CategoryRepositoryInterface $repository): JsonResponse
     {
         return Response::dataWithAdditional(
-            CategoryResource::collection($repository->paginate()),
+            CategoryResource::collection($repository->paginate(payload: [
+                'with' => ['children'], // parent is loaded by default in repository
+            ])),
             additional: [
                 'advance_search_field' => AdvancedSearchFieldsService::generate(Category::class),
                 'extra'                => $repository->extra(),
@@ -97,6 +99,8 @@ class CategoryController extends Controller
      */
     public function show(Category $category): JsonResponse
     {
+        $category->loadMissing(['parent', 'children', 'seoOption']);
+        
         return Response::data(
             CategoryDetailResource::make($category),
         );
