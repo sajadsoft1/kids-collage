@@ -4,6 +4,19 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
+/**
+ * Card Status Enum
+ *
+ * Defines status options for kanban cards.
+ *
+ * @OA\Schema(
+ *     schema="CardStatusEnum",
+ *     @OA\Property(property="value", type="string", enum={"draft", "active", "completed", "archived"}),
+ *     @OA\Property(property="label", type="string"),
+ *     @OA\Property(property="color", type="string"),
+ *     @OA\Property(property="icon", type="string"),
+ * ),
+ */
 enum CardStatusEnum: string
 {
     use EnumToArray;

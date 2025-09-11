@@ -4,11 +4,36 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
+/**
+ * Comment Type Enum
+ *
+ * Defines comment types for the system.
+ *
+ * @OA\Schema(
+ *     schema="CommentTypeEnum",
+ *     @OA\Property(property="value", type="string", enum={"normal", "special"}),
+ *     @OA\Property(property="title", type="string"),
+ * ),
+ */
 enum CommentTypeEnum: string
 {
     use EnumToArray;
     case NORMAL  = 'normal';
     case SPECIAL = 'special';
+
+    public static function options(): array
+    {
+        return [
+            [
+                'label' => trans('comment.enum.type.normal'),
+                'value' => self::NORMAL->value,
+            ],
+            [
+                'label' => trans('comment.enum.type.special'),
+                'value' => self::SPECIAL->value,
+            ],
+        ];
+    }
 
     public function title(): string
     {
@@ -21,8 +46,8 @@ enum CommentTypeEnum: string
     public function toArray(): array
     {
         return [
-            'title' => $this->title(),
             'value' => $this->value,
+            'label' => $this->title(),
         ];
     }
 }

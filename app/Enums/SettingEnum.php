@@ -4,6 +4,19 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
+/**
+ * Setting Enum
+ *
+ * Defines setting categories for application configuration.
+ *
+ * @OA\Schema(
+ *     schema="SettingEnum",
+ *     @OA\Property(property="value", type="string", enum={"product", "general", "integration_sync", "notification", "sale", "security"}),
+ *     @OA\Property(property="label", type="string"),
+ *     @OA\Property(property="help", type="string"),
+ *     @OA\Property(property="hint", type="string"),
+ * ),
+ */
 enum SettingEnum: string
 {
     use EnumToArray;
@@ -14,6 +27,36 @@ enum SettingEnum: string
     case NOTIFICATION     = 'notification';
     case SALE             = 'sale';
     case SECURITY         = 'security';
+
+    public static function options(): array
+    {
+        return [
+            [
+                'label' => trans('setting.configs.product.label'),
+                'value' => self::PRODUCT->value,
+            ],
+            [
+                'label' => trans('setting.configs.general.label'),
+                'value' => self::GENERAL->value,
+            ],
+            [
+                'label' => trans('setting.configs.integration_sync.label'),
+                'value' => self::INTEGRATION_SYNC->value,
+            ],
+            [
+                'label' => trans('setting.configs.notification.label'),
+                'value' => self::NOTIFICATION->value,
+            ],
+            [
+                'label' => trans('setting.configs.sale.label'),
+                'value' => self::SALE->value,
+            ],
+            [
+                'label' => trans('setting.configs.security.label'),
+                'value' => self::SECURITY->value,
+            ],
+        ];
+    }
 
     public static function websiteSettings(): array
     {
@@ -46,5 +89,15 @@ enum SettingEnum: string
     public function hint(): string
     {
         return trans('setting.configs.' . $this->value . '.hint');
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'value' => $this->value,
+            'label' => $this->title(),
+            'help'  => $this->help(),
+            'hint'  => $this->hint(),
+        ];
     }
 }

@@ -4,14 +4,43 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
+/**
+ * Social Media Position Enum
+ *
+ * Defines social media display position options.
+ *
+ * @OA\Schema(
+ *     schema="SocialMediaPositionEnum",
+ *     @OA\Property(property="value", type="string", enum={"all", "header", "footer"}),
+ *     @OA\Property(property="label", type="string"),
+ * ),
+ */
 enum SocialMediaPositionEnum: string
 {
     use EnumToArray;
-    
+
     case ALL    = 'all';
     case HEADER = 'header';
     case FOOTER = 'footer';
-    
+
+    public static function options(): array
+    {
+        return [
+            [
+                'label' => __('socialMedia.enum.position.all'),
+                'value' => self::ALL->value,
+            ],
+            [
+                'label' => __('socialMedia.enum.position.header'),
+                'value' => self::HEADER->value,
+            ],
+            [
+                'label' => __('socialMedia.enum.position.footer'),
+                'value' => self::FOOTER->value,
+            ],
+        ];
+    }
+
     public function title(): string
     {
         return match ($this) {
@@ -20,7 +49,7 @@ enum SocialMediaPositionEnum: string
             self::FOOTER => __('socialMedia.enum.position.footer'),
         };
     }
-    
+
     public function toArray(): array
     {
         return [

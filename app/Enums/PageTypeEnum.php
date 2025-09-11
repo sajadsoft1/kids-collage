@@ -4,12 +4,37 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
+/**
+ * Page Type Enum
+ *
+ * Defines page types for content management.
+ *
+ * @OA\Schema(
+ *     schema="PageTypeEnum",
+ *     @OA\Property(property="value", type="string", enum={"rules", "about-us"}),
+ *     @OA\Property(property="label", type="string"),
+ * ),
+ */
 enum PageTypeEnum: string
 {
     use EnumToArray;
 
     case RULES    = 'rules';
     case ABOUT_US = 'about-us';
+
+    public static function options(): array
+    {
+        return [
+            [
+                'label' => __('page.enum.type.rules'),
+                'value' => self::RULES->value,
+            ],
+            [
+                'label' => __('page.enum.type.about-us'),
+                'value' => self::ABOUT_US->value,
+            ],
+        ];
+    }
 
     public function title(?string $locale = null): string
     {

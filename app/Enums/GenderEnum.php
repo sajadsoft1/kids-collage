@@ -4,11 +4,36 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
+/**
+ * Gender Enum
+ *
+ * Defines gender options for users.
+ *
+ * @OA\Schema(
+ *     schema="GenderEnum",
+ *     @OA\Property(property="value", type="integer", enum={0, 1}),
+ *     @OA\Property(property="label", type="string"),
+ * ),
+ */
 enum GenderEnum: int
 {
     use EnumToArray;
     case MEN   = 1;
     case WOMEN = 0;
+
+    public static function options(): array
+    {
+        return [
+            [
+                'label' => 'مرد',
+                'value' => self::MEN->value,
+            ],
+            [
+                'label' => 'زن',
+                'value' => self::WOMEN->value,
+            ],
+        ];
+    }
 
     public function title()
     {

@@ -4,6 +4,17 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
+/**
+ * Slider Position Enum
+ *
+ * Defines slider position options for content layout.
+ *
+ * @OA\Schema(
+ *     schema="SliderPositionEnum",
+ *     @OA\Property(property="value", type="string", enum={"top", "middle", "bottom"}),
+ *     @OA\Property(property="label", type="string"),
+ * ),
+ */
 enum SliderPositionEnum: string
 {
     use EnumToArray;
@@ -11,6 +22,24 @@ enum SliderPositionEnum: string
     case TOP    = 'top';
     case MIDDLE = 'middle';
     case BOTTOM = 'bottom';
+
+    public static function options(): array
+    {
+        return [
+            [
+                'label' => trans('slider.enum.position.top'),
+                'value' => self::TOP->value,
+            ],
+            [
+                'label' => trans('slider.enum.position.middle'),
+                'value' => self::MIDDLE->value,
+            ],
+            [
+                'label' => trans('slider.enum.position.bottom'),
+                'value' => self::BOTTOM->value,
+            ],
+        ];
+    }
 
     public function title(): string
     {

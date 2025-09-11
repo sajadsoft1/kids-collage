@@ -4,6 +4,19 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
+/**
+ * Card Type Enum
+ *
+ * Defines card types for kanban task management.
+ *
+ * @OA\Schema(
+ *     schema="CardTypeEnum",
+ *     @OA\Property(property="value", type="string", enum={"note", "task", "bug", "feature", "call", "meeting", "email", "other"}),
+ *     @OA\Property(property="label", type="string"),
+ *     @OA\Property(property="color", type="string"),
+ *     @OA\Property(property="icon", type="string"),
+ * ),
+ */
 enum CardTypeEnum: string
 {
     use EnumToArray;
