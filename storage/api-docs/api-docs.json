@@ -14,7 +14,7 @@
     },
     "servers": [
         {
-            "url": "http://kids-collage.test/api",
+            "url": "http://127.0.0.1:8000/api",
             "description": "Local Host"
         }
     ],
@@ -458,6 +458,82 @@
                                         "message": {
                                             "type": "string",
                                             "default": "banner has been deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/banner/toggle/{banner}": {
+            "post": {
+                "tags": [
+                    "Banner"
+                ],
+                "summary": "Toggle Banner",
+                "operationId": "toggleBanner",
+                "parameters": [
+                    {
+                        "name": "banner",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "banner has been toggled successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/BannerResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/banner/data": {
+            "get": {
+                "tags": [
+                    "Banner"
+                ],
+                "summary": "Get Banner data",
+                "description": "Returns Banner data",
+                "operationId": "getBannerData",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "user": {
+                                                    "$ref": "#/components/schemas/UserResource"
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -6671,6 +6747,478 @@
     },
     "components": {
         "schemas": {
+            "CardStatusEnum": {
+                "properties": {
+                    "value": {
+                        "description": "Card Status Enum\n\nDefines status options for kanban cards.",
+                        "type": "string",
+                        "enum": [
+                            "draft",
+                            "active",
+                            "completed",
+                            "archived"
+                        ]
+                    },
+                    "label": {
+                        "type": "string"
+                    },
+                    "color": {
+                        "type": "string"
+                    },
+                    "icon": {
+                        "type": "string"
+                    }
+                },
+                "type": "string",
+                "enum": [
+                    "DRAFT",
+                    "ACTIVE",
+                    "COMPLETED",
+                    "ARCHIVED"
+                ]
+            },
+            "CardTypeEnum": {
+                "properties": {
+                    "value": {
+                        "description": "Card Type Enum\n\nDefines card types for kanban task management.",
+                        "type": "string",
+                        "enum": [
+                            "note",
+                            "task",
+                            "bug",
+                            "feature",
+                            "call",
+                            "meeting",
+                            "email",
+                            "other"
+                        ]
+                    },
+                    "label": {
+                        "type": "string"
+                    },
+                    "color": {
+                        "type": "string"
+                    },
+                    "icon": {
+                        "type": "string"
+                    }
+                },
+                "type": "string",
+                "enum": [
+                    "NOTE",
+                    "TASK",
+                    "BUG",
+                    "FEATURE",
+                    "CALL",
+                    "MEETING",
+                    "EMAIL",
+                    "OTHER"
+                ]
+            },
+            "CategoryTypeEnum": {
+                "properties": {
+                    "value": {
+                        "description": "Category Type Enum\n\nDefines category types for content classification.",
+                        "type": "string",
+                        "enum": [
+                            "blog",
+                            "portfolio",
+                            "faq"
+                        ]
+                    },
+                    "label": {
+                        "type": "string"
+                    }
+                },
+                "type": "string",
+                "enum": [
+                    "BLOG",
+                    "PORTFOLIO",
+                    "FAQ"
+                ]
+            },
+            "CommentTypeEnum": {
+                "properties": {
+                    "value": {
+                        "description": "Comment Type Enum\n\nDefines comment types for the system.",
+                        "type": "string",
+                        "enum": [
+                            "normal",
+                            "special"
+                        ]
+                    },
+                    "title": {
+                        "type": "string"
+                    }
+                },
+                "type": "string",
+                "enum": [
+                    "NORMAL",
+                    "SPECIAL"
+                ]
+            },
+            "BooleanEnum": {
+                "properties": {
+                    "value": {
+                        "type": "boolean",
+                        "default": 1,
+                        "enum": [
+                            1,
+                            0
+                        ]
+                    },
+                    "label": {
+                        "type": "string",
+                        "default": "Enable"
+                    },
+                    "color": {
+                        "type": "string",
+                        "default": "success"
+                    }
+                },
+                "type": "object"
+            },
+            "BannerSizeEnum": {
+                "properties": {
+                    "value": {
+                        "type": "string",
+                        "enum": [
+                            "1x1",
+                            "16x9",
+                            "4x3"
+                        ]
+                    },
+                    "label": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "GenderEnum": {
+                "properties": {
+                    "value": {
+                        "description": "Gender Enum\n\nDefines gender options for users.",
+                        "type": "integer",
+                        "enum": [
+                            0,
+                            1
+                        ]
+                    },
+                    "label": {
+                        "type": "string"
+                    }
+                },
+                "type": "string",
+                "enum": [
+                    "MEN",
+                    "WOMEN"
+                ]
+            },
+            "NoificationTypeEnum": {
+                "properties": {
+                    "value": {
+                        "description": "Notification Type Enum\n\nDefines notification types for authentication events.",
+                        "type": "string",
+                        "enum": [
+                            "auth_register",
+                            "auth_confirm",
+                            "auth_forgot_password",
+                            "auth_welcome"
+                        ]
+                    },
+                    "label": {
+                        "type": "string"
+                    }
+                },
+                "type": "string",
+                "enum": [
+                    "AUTH_REGISTER",
+                    "AUTH_CONFIRM",
+                    "AUTH_FORGOT_PASSWORD",
+                    "AUTH_WELCOME"
+                ]
+            },
+            "PageTypeEnum": {
+                "properties": {
+                    "value": {
+                        "description": "Page Type Enum\n\nDefines page types for content management.",
+                        "type": "string",
+                        "enum": [
+                            "rules",
+                            "about-us"
+                        ]
+                    },
+                    "label": {
+                        "type": "string"
+                    }
+                },
+                "type": "string",
+                "enum": [
+                    "RULES",
+                    "ABOUT_US"
+                ]
+            },
+            "PriorityEnum": {
+                "properties": {
+                    "value": {
+                        "description": "Priority Enum\n\nDefines priority levels for tasks and content.",
+                        "type": "string",
+                        "enum": [
+                            "low",
+                            "medium",
+                            "high",
+                            "urgent"
+                        ]
+                    },
+                    "label": {
+                        "type": "string"
+                    },
+                    "color": {
+                        "type": "string"
+                    },
+                    "icon": {
+                        "type": "string"
+                    }
+                },
+                "type": "string",
+                "enum": [
+                    "LOW",
+                    "MEDIUM",
+                    "HIGH",
+                    "URGENT"
+                ]
+            },
+            "RoleEnum": {
+                "properties": {
+                    "value": {
+                        "description": "Role Enum\n\nDefines user roles for the system.",
+                        "type": "string",
+                        "enum": [
+                            "developer",
+                            "admin"
+                        ]
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "title": {
+                        "type": "string"
+                    }
+                },
+                "type": "string",
+                "enum": [
+                    "DEVELOPER",
+                    "ADMIN"
+                ]
+            },
+            "SeoRobotsMetaEnum": {
+                "properties": {
+                    "value": {
+                        "description": "SEO Robots Meta Enum\n\nDefines SEO robots meta tag options for search engine indexing.",
+                        "type": "string",
+                        "enum": [
+                            "index_follow",
+                            "noindex_nofollow",
+                            "noindex_follow"
+                        ]
+                    },
+                    "label": {
+                        "type": "string"
+                    }
+                },
+                "type": "string",
+                "enum": [
+                    "INDEX_FOLLOW",
+                    "NOINDEX_NOFOLLOW",
+                    "NOINDEX_FOLLOW"
+                ]
+            },
+            "SettingEnum": {
+                "properties": {
+                    "value": {
+                        "description": "Setting Enum\n\nDefines setting categories for application configuration.",
+                        "type": "string",
+                        "enum": [
+                            "product",
+                            "general",
+                            "integration_sync",
+                            "notification",
+                            "sale",
+                            "security"
+                        ]
+                    },
+                    "label": {
+                        "type": "string"
+                    },
+                    "help": {
+                        "type": "string"
+                    },
+                    "hint": {
+                        "type": "string"
+                    }
+                },
+                "type": "string",
+                "enum": [
+                    "PRODUCT",
+                    "GENERAL",
+                    "INTEGRATION_SYNC",
+                    "NOTIFICATION",
+                    "SALE",
+                    "SECURITY"
+                ]
+            },
+            "SliderPositionEnum": {
+                "properties": {
+                    "value": {
+                        "description": "Slider Position Enum\n\nDefines slider position options for content layout.",
+                        "type": "string",
+                        "enum": [
+                            "top",
+                            "middle",
+                            "bottom"
+                        ]
+                    },
+                    "label": {
+                        "type": "string"
+                    }
+                },
+                "type": "string",
+                "enum": [
+                    "TOP",
+                    "MIDDLE",
+                    "BOTTOM"
+                ]
+            },
+            "SocialMediaPositionEnum": {
+                "properties": {
+                    "value": {
+                        "description": "Social Media Position Enum\n\nDefines social media display position options.",
+                        "type": "string",
+                        "enum": [
+                            "all",
+                            "header",
+                            "footer"
+                        ]
+                    },
+                    "label": {
+                        "type": "string"
+                    }
+                },
+                "type": "string",
+                "enum": [
+                    "ALL",
+                    "HEADER",
+                    "FOOTER"
+                ]
+            },
+            "TagTypeEnum": {
+                "properties": {
+                    "value": {
+                        "description": "Tag Type Enum\n\nDefines tag types for content categorization.",
+                        "type": "string",
+                        "enum": [
+                            "special"
+                        ]
+                    },
+                    "label": {
+                        "type": "string"
+                    }
+                },
+                "type": "string",
+                "enum": [
+                    "SPECIAL"
+                ]
+            },
+            "TicketDepartmentEnum": {
+                "properties": {
+                    "value": {
+                        "description": "Ticket Department Enum\n\nDefines department options for ticket routing.",
+                        "type": "string",
+                        "enum": [
+                            "finance_and_administration",
+                            "Sale",
+                            "technical"
+                        ]
+                    },
+                    "label": {
+                        "type": "string"
+                    }
+                },
+                "type": "string",
+                "enum": [
+                    "FINANCE_AND_ADMINISTRATION",
+                    "SALE",
+                    "TECHNICAL"
+                ]
+            },
+            "TicketPriorityEnum": {
+                "properties": {
+                    "value": {
+                        "description": "Ticket Priority Enum\n\nDefines priority levels for support tickets.",
+                        "type": "integer",
+                        "enum": [
+                            1,
+                            2,
+                            3,
+                            4
+                        ]
+                    },
+                    "label": {
+                        "type": "string"
+                    }
+                },
+                "type": "string",
+                "enum": [
+                    "CRITICAL",
+                    "HIGH",
+                    "MEDIUM",
+                    "LOW"
+                ]
+            },
+            "TicketStatusEnum": {
+                "properties": {
+                    "value": {
+                        "description": "Ticket Status Enum\n\nDefines ticket status options for support system.",
+                        "type": "string",
+                        "enum": [
+                            "open",
+                            "close"
+                        ]
+                    },
+                    "label": {
+                        "type": "string"
+                    }
+                },
+                "type": "string",
+                "enum": [
+                    "OPEN",
+                    "CLOSE"
+                ]
+            },
+            "YesNoEnum": {
+                "properties": {
+                    "value": {
+                        "description": "Yes No Enum\n\nDefines yes/no boolean options for general use.",
+                        "type": "boolean",
+                        "default": 1,
+                        "enum": [
+                            1,
+                            0
+                        ]
+                    },
+                    "label": {
+                        "type": "string"
+                    },
+                    "color": {
+                        "type": "string"
+                    }
+                },
+                "type": "string",
+                "enum": [
+                    "YES",
+                    "NO"
+                ]
+            },
             "Meta": {
                 "title": "Pagination",
                 "properties": {
@@ -9180,6 +9728,20 @@
                         "type": "string",
                         "default": "Banner Description"
                     },
+                    "published": {
+                        "$ref": "#/components/schemas/BooleanEnum"
+                    },
+                    "size": {
+                        "$ref": "#/components/schemas/BannerSizeEnum"
+                    },
+                    "click": {
+                        "type": "integer",
+                        "default": 1
+                    },
+                    "published_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
                     "updated_at": {
                         "type": "string",
                         "default": "2024-08-19T07:26:07.000000Z"
@@ -9205,6 +9767,20 @@
                     "description": {
                         "type": "string",
                         "default": "Banner Description"
+                    },
+                    "published": {
+                        "$ref": "#/components/schemas/BooleanEnum"
+                    },
+                    "size": {
+                        "$ref": "#/components/schemas/BannerSizeEnum"
+                    },
+                    "click": {
+                        "type": "integer",
+                        "default": 1
+                    },
+                    "published_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
                     },
                     "updated_at": {
                         "type": "string",
@@ -9232,19 +9808,52 @@
                         "type": "string",
                         "default": "Blog Description"
                     },
+                    "body": {
+                        "type": "string",
+                        "default": "Full blog content..."
+                    },
                     "slug": {
                         "type": "string",
                         "default": "blog-title"
                     },
                     "published": {
-                        "type": "boolean",
-                        "default": true
+                        "type": "string",
+                        "default": "active"
+                    },
+                    "published_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "languages": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
                     },
                     "user": {
                         "$ref": "#/components/schemas/SimpleUserResource"
                     },
                     "category": {
+                        "$ref": "#/components/schemas/SimpleCategoryResource"
+                    },
+                    "tags": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SimpleTagResource"
+                        }
+                    },
+                    "comments": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SimpleCommentResource"
+                        }
+                    },
+                    "seo_option": {
                         "type": "object"
+                    },
+                    "image": {
+                        "type": "string",
+                        "default": "https://example.com/image.jpg"
                     },
                     "view_count": {
                         "type": "integer",
@@ -9289,14 +9898,28 @@
                         "default": "blog-title"
                     },
                     "published": {
-                        "type": "boolean",
-                        "default": true
+                        "type": "string",
+                        "default": "active"
+                    },
+                    "published_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
                     },
                     "user": {
                         "$ref": "#/components/schemas/SimpleUserResource"
                     },
                     "category": {
-                        "type": "object"
+                        "$ref": "#/components/schemas/SimpleCategoryResource"
+                    },
+                    "tags": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SimpleTagResource"
+                        }
+                    },
+                    "image": {
+                        "type": "string",
+                        "default": "https://example.com/image.jpg"
                     },
                     "view_count": {
                         "type": "integer",
@@ -9328,13 +9951,46 @@
                         "type": "integer",
                         "default": "1"
                     },
-                    "title": {
+                    "name": {
                         "type": "string",
-                        "default": "Board Title"
+                        "default": "Project Alpha"
                     },
                     "description": {
                         "type": "string",
-                        "default": "Board Description"
+                        "default": "Main project board"
+                    },
+                    "color": {
+                        "type": "string",
+                        "default": "#FF5733"
+                    },
+                    "is_active": {
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "system_protected": {
+                        "type": "boolean",
+                        "default": false
+                    },
+                    "extra_attributes": {
+                        "type": "object"
+                    },
+                    "users": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SimpleUserResource"
+                        }
+                    },
+                    "columns": {
+                        "type": "array",
+                        "items": {
+                            "type": "object"
+                        }
+                    },
+                    "cards": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SimpleCardResource"
+                        }
                     },
                     "updated_at": {
                         "type": "string",
@@ -9354,13 +10010,33 @@
                         "type": "integer",
                         "default": "1"
                     },
-                    "title": {
+                    "name": {
                         "type": "string",
-                        "default": "Board Title"
+                        "default": "Project Alpha"
                     },
                     "description": {
                         "type": "string",
-                        "default": "Board Description"
+                        "default": "Main project board"
+                    },
+                    "color": {
+                        "type": "string",
+                        "default": "#FF5733"
+                    },
+                    "is_active": {
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "system_protected": {
+                        "type": "boolean",
+                        "default": false
+                    },
+                    "users_count": {
+                        "type": "integer",
+                        "default": "5"
+                    },
+                    "cards_count": {
+                        "type": "integer",
+                        "default": "25"
                     },
                     "updated_at": {
                         "type": "string",
@@ -9460,11 +10136,45 @@
                     },
                     "title": {
                         "type": "string",
-                        "default": "Card Title"
+                        "default": "Fix login bug"
                     },
                     "description": {
                         "type": "string",
-                        "default": "Card Description"
+                        "default": "Bug in login form"
+                    },
+                    "card_type": {
+                        "type": "string",
+                        "default": "task"
+                    },
+                    "priority": {
+                        "type": "string",
+                        "default": "high"
+                    },
+                    "status": {
+                        "type": "string",
+                        "default": "in_progress"
+                    },
+                    "due_date": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "order": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "board": {
+                        "$ref": "#/components/schemas/SimpleBoardResource"
+                    },
+                    "column": {
+                        "type": "object"
+                    },
+                    "assignees_count": {
+                        "type": "integer",
+                        "default": "2"
+                    },
+                    "is_overdue": {
+                        "type": "boolean",
+                        "default": false
                     },
                     "updated_at": {
                         "type": "string",
@@ -9492,6 +10202,52 @@
                         "type": "string",
                         "default": "Category Description"
                     },
+                    "body": {
+                        "type": "string",
+                        "default": "Full category content..."
+                    },
+                    "slug": {
+                        "type": "string",
+                        "default": "category-title"
+                    },
+                    "published": {
+                        "type": "string",
+                        "default": "active"
+                    },
+                    "type": {
+                        "type": "string",
+                        "default": "blog"
+                    },
+                    "ordering": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "languages": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "parent": {
+                        "$ref": "#/components/schemas/SimpleCategoryResource"
+                    },
+                    "children": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SimpleCategoryResource"
+                        }
+                    },
+                    "seo_option": {
+                        "type": "object"
+                    },
+                    "image": {
+                        "type": "string",
+                        "default": "https://example.com/image.jpg"
+                    },
+                    "view_count": {
+                        "type": "integer",
+                        "default": "250"
+                    },
                     "updated_at": {
                         "type": "string",
                         "default": "2024-08-19T07:26:07.000000Z"
@@ -9517,6 +10273,29 @@
                     "description": {
                         "type": "string",
                         "default": "Category Description"
+                    },
+                    "slug": {
+                        "type": "string",
+                        "default": "category-title"
+                    },
+                    "published": {
+                        "type": "string",
+                        "default": "active"
+                    },
+                    "type": {
+                        "type": "string",
+                        "default": "blog"
+                    },
+                    "parent": {
+                        "$ref": "#/components/schemas/SimpleCategoryResource"
+                    },
+                    "children_count": {
+                        "type": "integer",
+                        "default": "5"
+                    },
+                    "image": {
+                        "type": "string",
+                        "default": "https://example.com/image.jpg"
                     },
                     "updated_at": {
                         "type": "string",
@@ -9588,13 +10367,54 @@
                         "type": "integer",
                         "default": "1"
                     },
-                    "title": {
+                    "comment": {
                         "type": "string",
-                        "default": "Comment Title"
+                        "default": "Great article!"
                     },
-                    "description": {
+                    "published": {
                         "type": "string",
-                        "default": "Comment Description"
+                        "default": "active"
+                    },
+                    "rate": {
+                        "type": "integer",
+                        "default": "5"
+                    },
+                    "suggest": {
+                        "type": "string",
+                        "default": "yes"
+                    },
+                    "admin_note": {
+                        "type": "string",
+                        "default": "Good feedback"
+                    },
+                    "morphable_type": {
+                        "type": "string",
+                        "default": "App\\\\Models\\\\Blog"
+                    },
+                    "morphable_id": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "languages": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "user": {
+                        "$ref": "#/components/schemas/SimpleUserResource"
+                    },
+                    "admin": {
+                        "$ref": "#/components/schemas/SimpleUserResource"
+                    },
+                    "parent": {
+                        "$ref": "#/components/schemas/SimpleCommentResource"
+                    },
+                    "children": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SimpleCommentResource"
+                        }
                     },
                     "updated_at": {
                         "type": "string",
@@ -9614,13 +10434,31 @@
                         "type": "integer",
                         "default": "1"
                     },
-                    "title": {
+                    "comment": {
                         "type": "string",
-                        "default": "Comment Title"
+                        "default": "Great article!"
                     },
-                    "description": {
+                    "published": {
                         "type": "string",
-                        "default": "Comment Description"
+                        "default": "active"
+                    },
+                    "rate": {
+                        "type": "integer",
+                        "default": "5"
+                    },
+                    "suggest": {
+                        "type": "string",
+                        "default": "yes"
+                    },
+                    "user": {
+                        "$ref": "#/components/schemas/SimpleUserResource"
+                    },
+                    "admin": {
+                        "$ref": "#/components/schemas/SimpleUserResource"
+                    },
+                    "children_count": {
+                        "type": "integer",
+                        "default": "3"
                     },
                     "updated_at": {
                         "type": "string",
@@ -9850,11 +10688,64 @@
                     },
                     "title": {
                         "type": "string",
-                        "default": "Portfolio Title"
+                        "default": "Website Redesign"
                     },
                     "description": {
                         "type": "string",
-                        "default": "Portfolio Description"
+                        "default": "Modern responsive design"
+                    },
+                    "body": {
+                        "type": "string",
+                        "default": "Full portfolio content..."
+                    },
+                    "published": {
+                        "type": "string",
+                        "default": "active"
+                    },
+                    "published_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "execution_date": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "languages": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "category": {
+                        "$ref": "#/components/schemas/SimpleCategoryResource"
+                    },
+                    "creator": {
+                        "$ref": "#/components/schemas/SimpleUserResource"
+                    },
+                    "tags": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SimpleTagResource"
+                        }
+                    },
+                    "seo_option": {
+                        "type": "object"
+                    },
+                    "image": {
+                        "type": "string",
+                        "default": "https://example.com/image.jpg"
+                    },
+                    "view_count": {
+                        "type": "integer",
+                        "default": "150"
+                    },
+                    "like_count": {
+                        "type": "integer",
+                        "default": "25"
+                    },
+                    "wish_count": {
+                        "type": "integer",
+                        "default": "10"
                     },
                     "updated_at": {
                         "type": "string",
@@ -9876,11 +10767,51 @@
                     },
                     "title": {
                         "type": "string",
-                        "default": "Portfolio Title"
+                        "default": "Website Redesign"
                     },
                     "description": {
                         "type": "string",
-                        "default": "Portfolio Description"
+                        "default": "Modern responsive design"
+                    },
+                    "published": {
+                        "type": "string",
+                        "default": "active"
+                    },
+                    "published_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "execution_date": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "category": {
+                        "$ref": "#/components/schemas/SimpleCategoryResource"
+                    },
+                    "creator": {
+                        "$ref": "#/components/schemas/SimpleUserResource"
+                    },
+                    "tags": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SimpleTagResource"
+                        }
+                    },
+                    "image": {
+                        "type": "string",
+                        "default": "https://example.com/image.jpg"
+                    },
+                    "view_count": {
+                        "type": "integer",
+                        "default": "150"
+                    },
+                    "like_count": {
+                        "type": "integer",
+                        "default": "25"
+                    },
+                    "wish_count": {
+                        "type": "integer",
+                        "default": "10"
                     },
                     "updated_at": {
                         "type": "string",
@@ -9941,6 +10872,203 @@
                     "created_at": {
                         "type": "string",
                         "default": "2024-08-19T07:26:07.000000Z"
+                    }
+                },
+                "type": "object"
+            },
+            "SimpleBoardResource": {
+                "title": "SimpleBoardResource",
+                "properties": {
+                    "id": {
+                        "description": "Board id",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Project Alpha"
+                    },
+                    "color": {
+                        "type": "string",
+                        "example": "#FF5733"
+                    },
+                    "is_active": {
+                        "type": "boolean",
+                        "example": "true"
+                    }
+                },
+                "type": "object"
+            },
+            "SimpleCardResource": {
+                "title": "SimpleCardResource",
+                "properties": {
+                    "id": {
+                        "description": "Card id",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Fix login bug"
+                    },
+                    "card_type": {
+                        "type": "string",
+                        "example": "task"
+                    },
+                    "priority": {
+                        "type": "string",
+                        "example": "high"
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "in_progress"
+                    }
+                },
+                "type": "object"
+            },
+            "SimpleCategoryResource": {
+                "title": "SimpleCategoryResource",
+                "properties": {
+                    "id": {
+                        "description": "Category id",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Technology",
+                        "nullable": true
+                    },
+                    "slug": {
+                        "type": "string",
+                        "example": "technology"
+                    },
+                    "image": {
+                        "type": "string",
+                        "example": "https://example.com/image.jpg"
+                    }
+                },
+                "type": "object"
+            },
+            "SimpleCommentResource": {
+                "title": "SimpleCommentResource",
+                "properties": {
+                    "id": {
+                        "description": "Comment id",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "comment": {
+                        "type": "string",
+                        "example": "Great article!",
+                        "nullable": true
+                    },
+                    "rate": {
+                        "type": "integer",
+                        "example": "5",
+                        "nullable": true
+                    },
+                    "user": {
+                        "$ref": "#/components/schemas/SimpleUserResource"
+                    }
+                },
+                "type": "object"
+            },
+            "SimplePortfolioResource": {
+                "title": "SimplePortfolioResource",
+                "properties": {
+                    "id": {
+                        "description": "Portfolio id",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Website Redesign",
+                        "nullable": true
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Modern responsive design",
+                        "nullable": true
+                    },
+                    "image": {
+                        "type": "string",
+                        "example": "https://example.com/image.jpg"
+                    }
+                },
+                "type": "object"
+            },
+            "SimpleTagResource": {
+                "title": "SimpleTagResource",
+                "properties": {
+                    "id": {
+                        "description": "Tag id",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Laravel"
+                    },
+                    "slug": {
+                        "type": "string",
+                        "example": "laravel"
+                    },
+                    "image": {
+                        "type": "string",
+                        "example": "https://example.com/image.jpg"
+                    }
+                },
+                "type": "object"
+            },
+            "SimpleTeammateResource": {
+                "title": "SimpleTeammateResource",
+                "properties": {
+                    "id": {
+                        "description": "Teammate id",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "John Doe",
+                        "nullable": true
+                    },
+                    "position": {
+                        "type": "string",
+                        "example": "Senior Developer"
+                    },
+                    "image": {
+                        "type": "string",
+                        "example": "https://example.com/image.jpg"
+                    }
+                },
+                "type": "object"
+            },
+            "SimpleTicketResource": {
+                "title": "SimpleTicketResource",
+                "properties": {
+                    "id": {
+                        "description": "Ticket id",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "subject": {
+                        "type": "string",
+                        "example": "Technical Support"
+                    },
+                    "key": {
+                        "type": "string",
+                        "example": "TICKET-123456"
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "open"
+                    },
+                    "priority": {
+                        "type": "string",
+                        "example": "high"
                     }
                 },
                 "type": "object"
@@ -10085,13 +11213,46 @@
                         "type": "integer",
                         "default": "1"
                     },
-                    "title": {
+                    "name": {
                         "type": "string",
-                        "default": "Tag Title"
+                        "default": "Laravel"
+                    },
+                    "slug": {
+                        "type": "string",
+                        "default": "laravel"
                     },
                     "description": {
                         "type": "string",
-                        "default": "Tag Description"
+                        "default": "PHP framework"
+                    },
+                    "body": {
+                        "type": "string",
+                        "default": "Detailed tag content..."
+                    },
+                    "type": {
+                        "type": "string",
+                        "default": "blog"
+                    },
+                    "order_column": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "languages": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "seo_option": {
+                        "type": "object"
+                    },
+                    "image": {
+                        "type": "string",
+                        "default": "https://example.com/image.jpg"
+                    },
+                    "is_in_use": {
+                        "type": "boolean",
+                        "default": true
                     },
                     "updated_at": {
                         "type": "string",
@@ -10111,13 +11272,33 @@
                         "type": "integer",
                         "default": "1"
                     },
-                    "title": {
+                    "name": {
                         "type": "string",
-                        "default": "Tag Title"
+                        "default": "Laravel"
+                    },
+                    "slug": {
+                        "type": "string",
+                        "default": "laravel"
                     },
                     "description": {
                         "type": "string",
-                        "default": "Tag Description"
+                        "default": "PHP framework"
+                    },
+                    "type": {
+                        "type": "string",
+                        "default": "blog"
+                    },
+                    "order_column": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "image": {
+                        "type": "string",
+                        "default": "https://example.com/image.jpg"
+                    },
+                    "is_in_use": {
+                        "type": "boolean",
+                        "default": true
                     },
                     "updated_at": {
                         "type": "string",
@@ -10165,11 +11346,27 @@
                     },
                     "title": {
                         "type": "string",
-                        "default": "Teammate Title"
+                        "default": "John Doe"
                     },
                     "description": {
                         "type": "string",
-                        "default": "Teammate Description"
+                        "default": "Senior Developer"
+                    },
+                    "position": {
+                        "type": "string",
+                        "default": "Senior Developer"
+                    },
+                    "published": {
+                        "type": "string",
+                        "default": "active"
+                    },
+                    "birthday": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "image": {
+                        "type": "string",
+                        "default": "https://example.com/image.jpg"
                     },
                     "updated_at": {
                         "type": "string",
@@ -10189,13 +11386,41 @@
                         "type": "integer",
                         "default": "1"
                     },
-                    "title": {
+                    "subject": {
                         "type": "string",
-                        "default": "Ticket Title"
+                        "default": "Support Request"
                     },
-                    "description": {
+                    "key": {
                         "type": "string",
-                        "default": "Ticket Description"
+                        "default": "TICKET-123456"
+                    },
+                    "status": {
+                        "type": "string",
+                        "default": "open"
+                    },
+                    "priority": {
+                        "type": "string",
+                        "default": "high"
+                    },
+                    "department": {
+                        "type": "string",
+                        "default": "technical"
+                    },
+                    "user": {
+                        "$ref": "#/components/schemas/SimpleUserResource"
+                    },
+                    "close_by": {
+                        "$ref": "#/components/schemas/SimpleUserResource"
+                    },
+                    "messages": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/TicketMessageResource"
+                        }
+                    },
+                    "unread_messages_count": {
+                        "type": "integer",
+                        "default": "2"
                     },
                     "updated_at": {
                         "type": "string",
@@ -10241,13 +11466,23 @@
                         "type": "integer",
                         "default": "1"
                     },
-                    "title": {
+                    "message": {
                         "type": "string",
-                        "default": "TicketMessage Title"
+                        "default": "Issue resolved"
                     },
-                    "description": {
-                        "type": "string",
-                        "default": "TicketMessage Description"
+                    "is_from_admin": {
+                        "type": "boolean",
+                        "default": false
+                    },
+                    "read_by": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "ticket": {
+                        "$ref": "#/components/schemas/SimpleTicketResource"
+                    },
+                    "user": {
+                        "$ref": "#/components/schemas/SimpleUserResource"
                     },
                     "updated_at": {
                         "type": "string",
@@ -10267,13 +11502,32 @@
                         "type": "integer",
                         "default": "1"
                     },
-                    "title": {
+                    "subject": {
                         "type": "string",
-                        "default": "Ticket Title"
+                        "default": "Support Request"
                     },
-                    "description": {
+                    "key": {
                         "type": "string",
-                        "default": "Ticket Description"
+                        "default": "TICKET-123456"
+                    },
+                    "status": {
+                        "type": "string",
+                        "default": "open"
+                    },
+                    "priority": {
+                        "type": "string",
+                        "default": "high"
+                    },
+                    "department": {
+                        "type": "string",
+                        "default": "technical"
+                    },
+                    "user": {
+                        "$ref": "#/components/schemas/SimpleUserResource"
+                    },
+                    "unread_messages_count": {
+                        "type": "integer",
+                        "default": "2"
                     },
                     "updated_at": {
                         "type": "string",
@@ -10293,13 +11547,57 @@
                         "type": "integer",
                         "default": "1"
                     },
-                    "title": {
+                    "name": {
                         "type": "string",
-                        "default": "User Title"
+                        "default": "John"
                     },
-                    "description": {
+                    "family": {
                         "type": "string",
-                        "default": "User Description"
+                        "default": "Doe"
+                    },
+                    "email": {
+                        "type": "string",
+                        "default": "john@example.com"
+                    },
+                    "mobile": {
+                        "type": "string",
+                        "default": "09123456789"
+                    },
+                    "gender": {
+                        "type": "string",
+                        "default": "male"
+                    },
+                    "status": {
+                        "type": "string",
+                        "default": "active"
+                    },
+                    "email_verified_at": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "mobile_verified_at": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "avatar": {
+                        "type": "string",
+                        "default": "https://example.com/avatar.jpg"
+                    },
+                    "roles": {
+                        "type": "array",
+                        "items": {
+                            "type": "object"
+                        }
+                    },
+                    "permissions": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "blogs_count": {
+                        "type": "integer",
+                        "default": "5"
                     },
                     "updated_at": {
                         "type": "string",
@@ -10326,6 +11624,28 @@
                     "family": {
                         "type": "string",
                         "default": "User Family"
+                    },
+                    "mobile": {
+                        "type": "string",
+                        "default": "09123456789"
+                    },
+                    "email": {
+                        "type": "string",
+                        "default": "user@example.com"
+                    },
+                    "status": {
+                        "type": "string",
+                        "default": "active"
+                    },
+                    "avatar": {
+                        "type": "string",
+                        "default": "https://example.com/avatar.jpg"
+                    },
+                    "roles": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
                     },
                     "updated_at": {
                         "type": "string",

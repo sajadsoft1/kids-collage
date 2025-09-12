@@ -4,17 +4,7 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
-/**
- * Tag Type Enum
- *
- * Defines tag types for content categorization.
- *
- * @OA\Schema(
- *     schema="TagTypeEnum",
- *     @OA\Property(property="value", type="string", enum={"special"}),
- *     @OA\Property(property="label", type="string"),
- * ),
- */
+
 enum TagTypeEnum: string
 {
     use EnumToArray;

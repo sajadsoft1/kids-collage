@@ -4,19 +4,6 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
-/**
- * Setting Enum
- *
- * Defines setting categories for application configuration.
- *
- * @OA\Schema(
- *     schema="SettingEnum",
- *     @OA\Property(property="value", type="string", enum={"product", "general", "integration_sync", "notification", "sale", "security"}),
- *     @OA\Property(property="label", type="string"),
- *     @OA\Property(property="help", type="string"),
- *     @OA\Property(property="hint", type="string"),
- * ),
- */
 enum SettingEnum: string
 {
     use EnumToArray;

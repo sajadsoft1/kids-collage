@@ -4,17 +4,7 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
-/**
- * Ticket Department Enum
- *
- * Defines department options for ticket routing.
- *
- * @OA\Schema(
- *     schema="TicketDepartmentEnum",
- *     @OA\Property(property="value", type="string", enum={"finance_and_administration", "Sale", "technical"}),
- *     @OA\Property(property="label", type="string"),
- * ),
- */
+
 enum TicketDepartmentEnum: string
 {
     use EnumToArray;

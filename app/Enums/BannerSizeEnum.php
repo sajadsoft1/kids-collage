@@ -4,17 +4,7 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
-/**
- * Banner Size Enum
- *
- * Defines banner size ratios for advertisements.
- *
- * @OA\Schema(
- *     schema="BannerSizeEnum",
- *     @OA\Property(property="value", type="string", enum={"1x1", "16x9", "4x3"}),
- *     @OA\Property(property="label", type="string"),
- * ),
- */
+
 enum BannerSizeEnum: string
 {
     use EnumToArray;

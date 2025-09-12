@@ -4,17 +4,7 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
-/**
- * Notification Type Enum
- *
- * Defines notification types for authentication events.
- *
- * @OA\Schema(
- *     schema="NoificationTypeEnum",
- *     @OA\Property(property="value", type="string", enum={"auth_register", "auth_confirm", "auth_forgot_password", "auth_welcome"}),
- *     @OA\Property(property="label", type="string"),
- * ),
- */
+
 enum NoificationTypeEnum: string
 {
     use EnumToArray;

@@ -4,17 +4,6 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
-/**
- * Comment Type Enum
- *
- * Defines comment types for the system.
- *
- * @OA\Schema(
- *     schema="CommentTypeEnum",
- *     @OA\Property(property="value", type="string", enum={"normal", "special"}),
- *     @OA\Property(property="title", type="string"),
- * ),
- */
 enum CommentTypeEnum: string
 {
     use EnumToArray;

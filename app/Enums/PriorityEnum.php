@@ -4,19 +4,7 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
-/**
- * Priority Enum
- *
- * Defines priority levels for tasks and content.
- *
- * @OA\Schema(
- *     schema="PriorityEnum",
- *     @OA\Property(property="value", type="string", enum={"low", "medium", "high", "urgent"}),
- *     @OA\Property(property="label", type="string"),
- *     @OA\Property(property="color", type="string"),
- *     @OA\Property(property="icon", type="string"),
- * ),
- */
+
 enum PriorityEnum: string
 {
     use EnumToArray;

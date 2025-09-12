@@ -4,17 +4,7 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
-/**
- * Slider Position Enum
- *
- * Defines slider position options for content layout.
- *
- * @OA\Schema(
- *     schema="SliderPositionEnum",
- *     @OA\Property(property="value", type="string", enum={"top", "middle", "bottom"}),
- *     @OA\Property(property="label", type="string"),
- * ),
- */
+
 enum SliderPositionEnum: string
 {
     use EnumToArray;

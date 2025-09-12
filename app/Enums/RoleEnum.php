@@ -4,18 +4,7 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
-/**
- * Role Enum
- *
- * Defines user roles for the system.
- *
- * @OA\Schema(
- *     schema="RoleEnum",
- *     @OA\Property(property="value", type="string", enum={"developer", "admin"}),
- *     @OA\Property(property="name", type="string"),
- *     @OA\Property(property="title", type="string"),
- * ),
- */
+
 enum RoleEnum: string
 {
     use EnumToArray;

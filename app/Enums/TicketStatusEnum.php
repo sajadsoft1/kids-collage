@@ -4,17 +4,7 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
-/**
- * Ticket Status Enum
- *
- * Defines ticket status options for support system.
- *
- * @OA\Schema(
- *     schema="TicketStatusEnum",
- *     @OA\Property(property="value", type="string", enum={"open", "close"}),
- *     @OA\Property(property="label", type="string"),
- * ),
- */
+
 enum TicketStatusEnum: string
 {
     use EnumToArray;

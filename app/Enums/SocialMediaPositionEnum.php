@@ -4,17 +4,7 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
-/**
- * Social Media Position Enum
- *
- * Defines social media display position options.
- *
- * @OA\Schema(
- *     schema="SocialMediaPositionEnum",
- *     @OA\Property(property="value", type="string", enum={"all", "header", "footer"}),
- *     @OA\Property(property="label", type="string"),
- * ),
- */
+
 enum SocialMediaPositionEnum: string
 {
     use EnumToArray;

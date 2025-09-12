@@ -4,17 +4,6 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
-/**
- * Gender Enum
- *
- * Defines gender options for users.
- *
- * @OA\Schema(
- *     schema="GenderEnum",
- *     @OA\Property(property="value", type="integer", enum={0, 1}),
- *     @OA\Property(property="label", type="string"),
- * ),
- */
 enum GenderEnum: int
 {
     use EnumToArray;

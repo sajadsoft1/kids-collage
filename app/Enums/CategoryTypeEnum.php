@@ -4,17 +4,6 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
-/**
- * Category Type Enum
- *
- * Defines category types for content classification.
- *
- * @OA\Schema(
- *     schema="CategoryTypeEnum",
- *     @OA\Property(property="value", type="string", enum={"blog", "portfolio", "faq"}),
- *     @OA\Property(property="label", type="string"),
- * ),
- */
 enum CategoryTypeEnum: string
 {
     use EnumToArray;

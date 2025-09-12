@@ -4,17 +4,7 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
-/**
- * Ticket Priority Enum
- *
- * Defines priority levels for support tickets.
- *
- * @OA\Schema(
- *     schema="TicketPriorityEnum",
- *     @OA\Property(property="value", type="integer", enum={1, 2, 3, 4}),
- *     @OA\Property(property="label", type="string"),
- * ),
- */
+
 enum TicketPriorityEnum: int
 {
     use EnumToArray;

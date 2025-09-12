@@ -4,17 +4,6 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
-/**
- * SEO Robots Meta Enum
- *
- * Defines SEO robots meta tag options for search engine indexing.
- *
- * @OA\Schema(
- *     schema="SeoRobotsMetaEnum",
- *     @OA\Property(property="value", type="string", enum={"index_follow", "noindex_nofollow", "noindex_follow"}),
- *     @OA\Property(property="label", type="string"),
- * ),
- */
 enum SeoRobotsMetaEnum: string
 {
     use EnumToArray;

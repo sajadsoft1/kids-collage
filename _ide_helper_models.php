@@ -13,7 +13,7 @@
 
 namespace App\Models{
 /**
- * 
+ *
  *
  * @property string $title
  * @property string $description
@@ -34,7 +34,7 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translationsPure
  * @property-read int|null $translations_pure_count
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner draft()
- * @method static \Database\Factories\BannerFactory factory($count = null, $state = [])
+ * @met.envhod static \Database\Factories\BannerFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner publishedScheduled()
@@ -56,7 +56,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
+ *
  *
  * @property string $title
  * @property string $description
@@ -309,7 +309,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
+ *
  *
  * @property string $title
  * @property string $body
@@ -380,7 +380,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
+ *
  *
  * @property string $title
  * @property string $description
@@ -458,7 +458,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
+ *
  *
  * @property string $title
  * @property string $description
@@ -518,7 +518,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
+ *
  *
  * @property string $title
  * @property string $description
@@ -550,7 +550,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
+ *
  *
  * @property string $title
  * @property string $description
@@ -598,7 +598,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
+ *
  *
  * @property string $title
  * @property string $description
@@ -652,7 +652,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
+ *
  *
  * @property string $title
  * @property string $description
@@ -697,7 +697,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
+ *
  *
  * @property string $title
  * @property string $description
@@ -760,7 +760,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
+ *
  *
  * @property string $title
  * @property string $description
@@ -797,7 +797,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
+ *
  *
  * @property string $title
  * @property int $id
@@ -833,7 +833,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
+ *
  *
  * @property mixed $extra_attributes
  * @property int $id
@@ -864,7 +864,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
+ *
  *
  * @property string $title
  * @property string $description
@@ -923,7 +923,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
+ *
  *
  * @property int $slider_id
  * @property string $morphable_type
@@ -944,7 +944,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
+ *
  *
  * @property string $title
  * @property string $description
@@ -983,7 +983,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
+ *
  *
  * @property string $body
  * @property string $description
@@ -1034,7 +1034,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
+ *
  *
  * @property string $title
  * @property string $description
@@ -1072,7 +1072,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $subject
@@ -1111,7 +1111,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $ticket_id
@@ -1145,7 +1145,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $translatable_type
@@ -1169,7 +1169,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $name
@@ -1234,7 +1234,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
+ *
  *
  * @property int $id
  * @property int|null $user_id
@@ -1265,7 +1265,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $user_id
@@ -1294,7 +1294,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
+ *
  *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|c newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|c newQuery()

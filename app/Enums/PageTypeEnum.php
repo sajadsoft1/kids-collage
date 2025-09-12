@@ -4,17 +4,6 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
-/**
- * Page Type Enum
- *
- * Defines page types for content management.
- *
- * @OA\Schema(
- *     schema="PageTypeEnum",
- *     @OA\Property(property="value", type="string", enum={"rules", "about-us"}),
- *     @OA\Property(property="label", type="string"),
- * ),
- */
 enum PageTypeEnum: string
 {
     use EnumToArray;

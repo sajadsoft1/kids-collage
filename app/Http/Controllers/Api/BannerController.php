@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
+use App\Actions\Banner\DataBannerAction;
 use App\Actions\Banner\DeleteBannerAction;
 use App\Actions\Banner\StoreBannerAction;
+use App\Actions\Banner\ToggleBannerAction;
 use App\Actions\Banner\UpdateBannerAction;
 use App\Http\Requests\StoreBannerRequest;
 use App\Http\Requests\UpdateBannerRequest;
@@ -15,6 +17,7 @@ use App\Models\Banner;
 use App\Repositories\Banner\BannerRepositoryInterface;
 use App\Services\AdvancedSearchFields\AdvancedSearchFieldsService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use OpenApi\Annotations as OA;
 
@@ -73,7 +76,7 @@ class BannerController extends Controller
             BannerResource::collection($repository->paginate()),
             additional: [
                 'advance_search_field' => AdvancedSearchFieldsService::generate(Banner::class),
-                'extra'                => $repository->extra(),
+                'extra' => $repository->extra(),
             ]
         );
     }
@@ -193,59 +196,57 @@ class BannerController extends Controller
         );
     }
 
-    //    /**
-    //     * @OA\Post(
-    //     *     path="/banner/toggle/{banner}",
-    //     *     operationId="toggleBanner",
-    //     *     tags={"Banner"},
-    //     *     summary="Toggle Banner",
-    //     *     @OA\Parameter(name="banner", required=true, in="path", @OA\Schema(type="integer")),
-    //     *     @OA\Response(response=200,
-    //     *         description="Successful operation",
-    //     *         @OA\JsonContent(type="object",
-    //     *             @OA\Property(property="message", type="string", default="banner has been toggled successfully"),
-    //     *             @OA\Property(property="data", type="object", ref="#/components/schemas/BannerResource")
-    //     *         )
-    //     *     )
-    //     * )
-    //     */
-    //    public function toggle(Banner $banner): JsonResponse
-    //    {
-    //        $this->authorize('update', $banner);
-    //        $banner = ToggleBannerAction::run($banner);
-    //
-    //        return Response::data(
-    //            BannerResource::make($banner),
-    //            trans('general.model_has_toggled_successfully', ['model' => trans('banner.model')]),
-    //            Response::HTTP_OK
-    //        );
-    //    }
-    //
-    //    /**
-    //     * @OA\Get(
-    //     *     path="/banner/data",
-    //     *     operationId="getBannerData",
-    //     *     tags={"Banner"},
-    //     *     summary="Get Banner data",
-    //     *     description="Returns Banner data",
-    //     *     @OA\Response(response=200,
-    //     *         description="Successful operation",
-    //     *         @OA\JsonContent(type="object",
-    //     *             @OA\Property(property="message", type="string", default="No message"),
-    //     *             @OA\Property(property="data", type="object",
-    //     *                 @OA\Property(property="user", ref="#/components/schemas/UserResource")
-    //     *             )
-    //     *         )
-    //     *     )
-    //     * )
-    //     */
-    //    public function extraData(Request $request): JsonResponse
-    //    {
-    //        $this->authorize('create', Banner::class);
-    //        return Response::data(
-    //            [
-    //                'user'  => $request->user()
-    //            ]
-    //        );
-    //    }
+    /**
+     * @OA\Post(
+     *     path="/banner/toggle/{banner}",
+     *     operationId="toggleBanner",
+     *     tags={"Banner"},
+     *     summary="Toggle Banner",
+     *     @OA\Parameter(name="banner", required=true, in="path", @OA\Schema(type="integer")),
+     *     @OA\Response(response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(type="object",
+     *             @OA\Property(property="message", type="string", default="banner has been toggled successfully"),
+     *             @OA\Property(property="data", type="object", ref="#/components/schemas/BannerResource")
+     *         )
+     *     )
+     * )
+     */
+    public function toggle(Banner $banner): JsonResponse
+    {
+        $this->authorize('update', $banner);
+        $banner = ToggleBannerAction::run($banner);
+
+        return Response::data(
+            BannerResource::make($banner),
+            trans('general.model_has_toggled_successfully', ['model' => trans('banner.model')]),
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/banner/data",
+     *     operationId="getBannerData",
+     *     tags={"Banner"},
+     *     summary="Get Banner data",
+     *     description="Returns Banner data",
+     *     @OA\Response(response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(type="object",
+     *             @OA\Property(property="message", type="string", default="No message"),
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="user", ref="#/components/schemas/UserResource")
+     *             )
+     *         )
+     *     )
+     * )
+     */
+    public function extraData(Request $request): JsonResponse
+    {
+        $this->authorize('create', Banner::class);
+        return Response::data(
+           DataBannerAction::run($request->all())
+        );
+    }
 }
