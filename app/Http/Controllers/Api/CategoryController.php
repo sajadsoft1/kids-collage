@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
+use App\Actions\Category\DataCategoryAction;
 use App\Actions\Category\DeleteCategoryAction;
 use App\Actions\Category\StoreCategoryAction;
+use App\Actions\Category\ToggleCategoryAction;
 use App\Actions\Category\UpdateCategoryAction;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
@@ -15,6 +17,7 @@ use App\Models\Category;
 use App\Repositories\Category\CategoryRepositoryInterface;
 use App\Services\AdvancedSearchFields\AdvancedSearchFieldsService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use OpenApi\Annotations as OA;
 
@@ -75,7 +78,7 @@ class CategoryController extends Controller
             ])),
             additional: [
                 'advance_search_field' => AdvancedSearchFieldsService::generate(Category::class),
-                'extra'                => $repository->extra(),
+                'extra' => $repository->extra(),
             ]
         );
     }
@@ -100,7 +103,7 @@ class CategoryController extends Controller
     public function show(Category $category): JsonResponse
     {
         $category->loadMissing(['parent', 'children', 'seoOption']);
-        
+
         return Response::data(
             CategoryDetailResource::make($category),
         );
@@ -197,59 +200,57 @@ class CategoryController extends Controller
         );
     }
 
-    //    /**
-    //     * @OA\Post(
-    //     *     path="/category/toggle/{category}",
-    //     *     operationId="toggleCategory",
-    //     *     tags={"Category"},
-    //     *     summary="Toggle Category",
-    //     *     @OA\Parameter(name="category", required=true, in="path", @OA\Schema(type="integer")),
-    //     *     @OA\Response(response=200,
-    //     *         description="Successful operation",
-    //     *         @OA\JsonContent(type="object",
-    //     *             @OA\Property(property="message", type="string", default="category has been toggled successfully"),
-    //     *             @OA\Property(property="data", type="object", ref="#/components/schemas/CategoryResource")
-    //     *         )
-    //     *     )
-    //     * )
-    //     */
-    //    public function toggle(Category $category): JsonResponse
-    //    {
-    //        $this->authorize('update', $category);
-    //        $category = ToggleCategoryAction::run($category);
-    //
-    //        return Response::data(
-    //            CategoryResource::make($category),
-    //            trans('general.model_has_toggled_successfully', ['model' => trans('category.model')]),
-    //            Response::HTTP_OK
-    //        );
-    //    }
-    //
-    //    /**
-    //     * @OA\Get(
-    //     *     path="/category/data",
-    //     *     operationId="getCategoryData",
-    //     *     tags={"Category"},
-    //     *     summary="Get Category data",
-    //     *     description="Returns Category data",
-    //     *     @OA\Response(response=200,
-    //     *         description="Successful operation",
-    //     *         @OA\JsonContent(type="object",
-    //     *             @OA\Property(property="message", type="string", default="No message"),
-    //     *             @OA\Property(property="data", type="object",
-    //     *                 @OA\Property(property="user", ref="#/components/schemas/UserResource")
-    //     *             )
-    //     *         )
-    //     *     )
-    //     * )
-    //     */
-    //    public function extraData(Request $request): JsonResponse
-    //    {
-    //        $this->authorize('create', Category::class);
-    //        return Response::data(
-    //            [
-    //                'user'  => $request->user()
-    //            ]
-    //        );
-    //    }
+    /**
+     * @OA\Post(
+     *     path="/category/toggle/{category}",
+     *     operationId="toggleCategory",
+     *     tags={"Category"},
+     *     summary="Toggle Category",
+     *     @OA\Parameter(name="category", required=true, in="path", @OA\Schema(type="integer")),
+     *     @OA\Response(response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(type="object",
+     *             @OA\Property(property="message", type="string", default="category has been toggled successfully"),
+     *             @OA\Property(property="data", type="object", ref="#/components/schemas/CategoryResource")
+     *         )
+     *     )
+     * )
+     */
+    public function toggle(Category $category): JsonResponse
+    {
+        $this->authorize('update', $category);
+        $category = ToggleCategoryAction::run($category);
+
+        return Response::data(
+            CategoryResource::make($category),
+            trans('general.model_has_toggled_successfully', ['model' => trans('category.model')]),
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/category/data",
+     *     operationId="getCategoryData",
+     *     tags={"Category"},
+     *     summary="Get Category data",
+     *     description="Returns Category data",
+     *     @OA\Response(response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(type="object",
+     *             @OA\Property(property="message", type="string", default="No message"),
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="user", ref="#/components/schemas/UserResource")
+     *             )
+     *         )
+     *     )
+     * )
+     */
+    public function extraData(Request $request): JsonResponse
+    {
+        $this->authorize('create', Category::class);
+        return Response::data(
+           DataCategoryAction::run($request->all())
+        );
+    }
 }
