@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Actions\Client\DeleteClientAction;
 use App\Actions\Client\StoreClientAction;
+use App\Actions\Client\ToggleClientAction;
 use App\Actions\Client\UpdateClientAction;
 use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
@@ -193,33 +194,33 @@ class ClientController extends Controller
         );
     }
 
-    //    /**
-    //     * @OA\Post(
-    //     *     path="/client/toggle/{client}",
-    //     *     operationId="toggleClient",
-    //     *     tags={"Client"},
-    //     *     summary="Toggle Client",
-    //     *     @OA\Parameter(name="client", required=true, in="path", @OA\Schema(type="integer")),
-    //     *     @OA\Response(response=200,
-    //     *         description="Successful operation",
-    //     *         @OA\JsonContent(type="object",
-    //     *             @OA\Property(property="message", type="string", default="client has been toggled successfully"),
-    //     *             @OA\Property(property="data", type="object", ref="#/components/schemas/ClientResource")
-    //     *         )
-    //     *     )
-    //     * )
-    //     */
-    //    public function toggle(Client $client): JsonResponse
-    //    {
-    //        $this->authorize('update', $client);
-    //        $client = ToggleClientAction::run($client);
-    //
-    //        return Response::data(
-    //            ClientResource::make($client),
-    //            trans('general.model_has_toggled_successfully', ['model' => trans('client.model')]),
-    //            Response::HTTP_OK
-    //        );
-    //    }
+        /**
+         * @OA\Post(
+         *     path="/client/toggle/{client}",
+         *     operationId="toggleClient",
+         *     tags={"Client"},
+         *     summary="Toggle Client",
+         *     @OA\Parameter(name="client", required=true, in="path", @OA\Schema(type="integer")),
+         *     @OA\Response(response=200,
+         *         description="Successful operation",
+         *         @OA\JsonContent(type="object",
+         *             @OA\Property(property="message", type="string", default="client has been toggled successfully"),
+         *             @OA\Property(property="data", type="object", ref="#/components/schemas/ClientResource")
+         *         )
+         *     )
+         * )
+         */
+        public function toggle(Client $client): JsonResponse
+        {
+            $this->authorize('update', $client);
+            $client = ToggleClientAction::run($client);
+
+            return Response::data(
+                ClientResource::make($client),
+                trans('general.model_has_toggled_successfully', ['model' => trans('client.model')]),
+                Response::HTTP_OK
+            );
+        }
     //
     //    /**
     //     * @OA\Get(

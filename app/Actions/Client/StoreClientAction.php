@@ -33,8 +33,8 @@ class StoreClientAction
     public function handle(array $payload): Client
     {
         return DB::transaction(function () use ($payload) {
-            $model =  Client::create(Arr::except($payload, ['title', 'image']));
-            $this->syncTranslationAction->handle($model, Arr::only($payload, ['title']));
+            $model =  Client::create(Arr::except($payload, ['title', 'description','image']));
+            $this->syncTranslationAction->handle($model, Arr::only($payload, ['title','description']));
             $this->fileService->addMedia($model, Arr::get($payload, 'image'));
 
             return $model->refresh();

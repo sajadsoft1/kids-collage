@@ -24,7 +24,7 @@ class Client extends Model implements HasMedia
     use InteractsWithMedia;
 
     public array $translatable = [
-        'title',
+        'title','description',
     ];
 
     protected $fillable = [
