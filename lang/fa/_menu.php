@@ -34,4 +34,7 @@ return [
     'page_management'         => 'صفحات',
     'contact_us_management'   => 'تماس با ما',
     'social_media_management' => 'شبکه های اجتماعی',
+
+
+
 ];
