@@ -17,6 +17,7 @@ use OpenApi\Annotations as OA;
  *     required={"name", "seo_title", "seo_description", "robots_meta"},
  *
  *     @OA\Property(property="name", type="string", default="web-development", description="Tag name"),
+ *     @OA\Property(property="slug", type="string", default="test-slug"),
  *     @OA\Property(property="description", type="string", default="Web development services", description="Tag description"),
  *     @OA\Property(property="body", type="string", default="<p>Detailed tag content...</p>", description="Tag detailed content"),
  *     @OA\Property(property="type", type="string", enum={"special"}, description="Tag type"),
@@ -38,6 +39,7 @@ class StoreTagRequest extends FormRequest
     {
         return [
             'name'            => ['required', 'string', 'max:255'],
+            'slug'            => 'required|unique:tags,slug',
             'description'     => ['nullable', 'string'],
             'body'            => ['nullable', 'string'],
             'type'            => 'nullable|in:' . implode(',', TagTypeEnum::values()),

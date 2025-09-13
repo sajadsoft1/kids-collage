@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
+use App\Actions\Tag\DataTagAction;
 use App\Actions\Tag\DeleteTagAction;
 use App\Actions\Tag\StoreTagAction;
 use App\Actions\Tag\UpdateTagAction;
@@ -14,6 +15,7 @@ use App\Http\Resources\TagResource;
 use App\Models\Tag;
 use App\Repositories\Tag\TagRepositoryInterface;
 use App\Services\AdvancedSearchFields\AdvancedSearchFieldsService;
+use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use OpenApi\Annotations as OA;
@@ -73,7 +75,7 @@ class TagController extends Controller
             TagResource::collection($repository->paginate()),
             additional: [
                 'advance_search_field' => AdvancedSearchFieldsService::generate(Tag::class),
-                'extra'                => $repository->extra(),
+                'extra' => $repository->extra(),
             ]
         );
     }
@@ -221,31 +223,29 @@ class TagController extends Controller
     //        );
     //    }
     //
-    //    /**
-    //     * @OA\Get(
-    //     *     path="/tag/data",
-    //     *     operationId="getTagData",
-    //     *     tags={"Tag"},
-    //     *     summary="Get Tag data",
-    //     *     description="Returns Tag data",
-    //     *     @OA\Response(response=200,
-    //     *         description="Successful operation",
-    //     *         @OA\JsonContent(type="object",
-    //     *             @OA\Property(property="message", type="string", default="No message"),
-    //     *             @OA\Property(property="data", type="object",
-    //     *                 @OA\Property(property="user", ref="#/components/schemas/UserResource")
-    //     *             )
-    //     *         )
-    //     *     )
-    //     * )
-    //     */
-    //    public function extraData(Request $request): JsonResponse
-    //    {
-    //        $this->authorize('create', Tag::class);
-    //        return Response::data(
-    //            [
-    //                'user'  => $request->user()
-    //            ]
-    //        );
-    //    }
+    /**
+     * @OA\Get(
+     *     path="/tag/data",
+     *     operationId="getTagData",
+     *     tags={"Tag"},
+     *     summary="Get Tag data",
+     *     description="Returns Tag data",
+     *     @OA\Response(response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(type="object",
+     *             @OA\Property(property="message", type="string", default="No message"),
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="user", ref="#/components/schemas/UserResource")
+     *             )
+     *         )
+     *     )
+     * )
+     */
+    public function extraData(Request $request): JsonResponse
+    {
+        $this->authorize('create', Tag::class);
+        return Response::data(
+            DataTagAction::run($request->all())
+        );
+    }
 }
