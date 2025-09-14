@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
+use App\Enums\TagTypeEnum;
 use App\Helpers\Constants;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -17,7 +18,7 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="name", type="string", default="Laravel"),
  *     @OA\Property(property="slug", type="string", default="laravel"),
  *     @OA\Property(property="description", type="string", default="PHP framework"),
- *     @OA\Property(property="type", type="string", default="blog"),
+ *     @OA\Property(property="type", ref="#/components/schemas/TagTypeEnum"),
  *     @OA\Property(property="order_column", type="integer", default="1"),
  *     @OA\Property(property="image", type="string", default="https://example.com/image.jpg"),
  *     @OA\Property(property="is_in_use", type="boolean", default=true),

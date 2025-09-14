@@ -15,7 +15,7 @@ use OpenApi\Annotations as OA;
  *     schema="OpinionResource",
  *     title="OpinionResource",
  *     @OA\Property(property="id", type="integer", default="1"),
- *     @OA\Property(property="published", type="boolean", default="true"),
+ *     @OA\Property(property="published", ref="#/components/schemas/BooleanEnum"),
  *     @OA\Property(property="published_at", type="string", default="2024-08-19T07:26:07.000000Z"),
  *     @OA\Property(property="ordering", type="integer", default=1),
  *     @OA\Property(property="view_count", type="integer", default=1),
@@ -23,6 +23,7 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="user_name", type="string", default="User Name"),
  *     @OA\Property(property="updated_at", type="string", default="2024-08-19T07:26:07.000000Z"),
  *     @OA\Property(property="created_at", type="string", default="2024-08-19T07:26:07.000000Z"),
+ *     @OA\Property(property="image", type="string", default="https://example.com/image.jpg"),
  * )
  */
 class OpinionResource extends JsonResource
@@ -31,7 +32,7 @@ class OpinionResource extends JsonResource
     {
         return [
             'id'          => $this->id,
-            'published'       => $this->published,
+            'published'       => $this->published->toArray(),
             'published_at'       => $this->published_at,
             'ordering'       => $this->ordering,
             'view_count'       => $this->view_count,

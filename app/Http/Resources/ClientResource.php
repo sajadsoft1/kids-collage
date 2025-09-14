@@ -18,6 +18,7 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="title", type="string", default="Client Title"),
  *     @OA\Property(property="description", type="string", default="Client Description"),
  *     @OA\Property(property="link", type="string", default="https://example.com"),
+ *     @OA\Property(property="published", ref="#/components/schemas/BooleanEnum"),
  *     @OA\Property(property="published_at", type="string", default="2024-08-19T07:26:07.000000Z"),
  *     @OA\Property(property="updated_at", type="string", default="2024-08-19T07:26:07.000000Z"),
  *     @OA\Property(property="created_at", type="string", default="2024-08-19T07:26:07.000000Z"),
@@ -33,10 +34,10 @@ class ClientResource extends JsonResource
             'title'       => $this->title,
             'description' => $this->description,
             'link'        => $this->link,
-            'published'   => $this->published->value,
+            'published'   => $this->published->toArray(),
             'updated_at'  => $this->updated_at,
             'created_at'  => $this->created_at,
-            'image'       => $this->getFirstMediaUrl('image',Constants::RESOLUTION_100_SQUARE),
+            'image'       => $this->getFirstMediaUrl('image', Constants::RESOLUTION_100_SQUARE),
         ];
     }
 }
