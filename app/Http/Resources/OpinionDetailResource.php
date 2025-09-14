@@ -27,6 +27,7 @@ class OpinionDetailResource extends JsonResource
     {
         $resource      = OpinionResource::make($this)->toArray($request);
         $resource['id']=$this->id;
+        $resource['comment']=$this->comment;
 
         return $resource;
     }
