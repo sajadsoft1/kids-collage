@@ -25,9 +25,6 @@ class FaqDetailResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
-        $resource      = FaqResource::make($this)->toArray($request);
-        $resource['id']=$this->id;
-
-        return $resource;
+        return FaqResource::make($this)->toArray($request);
     }
 }

@@ -17,6 +17,8 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="published", type="string", default="active"),
  *     @OA\Property(property="rate", type="integer", default="5"),
  *     @OA\Property(property="suggest", type="string", default="yes"),
+ *     @OA\Property(property="morphable_type", type="string", default="App\\Models\\Blog"),
+ *     @OA\Property(property="morphable_id", type="integer", default="1"),
  *     @OA\Property(property="user", ref="#/components/schemas/SimpleUserResource"),
  *     @OA\Property(property="admin", ref="#/components/schemas/SimpleUserResource"),
  *     @OA\Property(property="children_count", type="integer", default="3"),
@@ -30,6 +32,8 @@ class CommentResource extends JsonResource
     {
         return [
             'id'             => $this->id,
+            'morphable_type' => $this->morphable_type,
+            'morphable_id'   => $this->morphable_id,
             'comment'        => $this->comment,
             'published'      => $this->published->value,
             'rate'           => $this->rate,

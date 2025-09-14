@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
+use App\Actions\SocialMedia\DataSocialMediaAction;
 use App\Actions\SocialMedia\DeleteSocialMediaAction;
 use App\Actions\SocialMedia\StoreSocialMediaAction;
+use App\Actions\SocialMedia\ToggleSocialMediaAction;
 use App\Actions\SocialMedia\UpdateSocialMediaAction;
 use App\Http\Requests\StoreSocialMediaRequest;
 use App\Http\Requests\UpdateSocialMediaRequest;
@@ -15,6 +17,7 @@ use App\Models\SocialMedia;
 use App\Repositories\SocialMedia\SocialMediaRepositoryInterface;
 use App\Services\AdvancedSearchFields\AdvancedSearchFieldsService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use OpenApi\Annotations as OA;
 
@@ -193,59 +196,57 @@ class SocialMediaController extends Controller
         );
     }
 
-    //    /**
-    //     * @OA\Post(
-    //     *     path="/social-media/toggle/{socialMedia}",
-    //     *     operationId="toggleSocialMedia",
-    //     *     tags={"SocialMedia"},
-    //     *     summary="Toggle SocialMedia",
-    //     *     @OA\Parameter(name="socialMedia", required=true, in="path", @OA\Schema(type="integer")),
-    //     *     @OA\Response(response=200,
-    //     *         description="Successful operation",
-    //     *         @OA\JsonContent(type="object",
-    //     *             @OA\Property(property="message", type="string", default="social-media has been toggled successfully"),
-    //     *             @OA\Property(property="data", type="object", ref="#/components/schemas/SocialMediaResource")
-    //     *         )
-    //     *     )
-    //     * )
-    //     */
-    //    public function toggle(SocialMedia $socialMedia): JsonResponse
-    //    {
-    //        $this->authorize('update', $socialMedia);
-    //        $socialMedia = ToggleSocialMediaAction::run($socialMedia);
-    //
-    //        return Response::data(
-    //            SocialMediaResource::make($socialMedia),
-    //            trans('general.model_has_toggled_successfully', ['model' => trans('socialMedia.model')]),
-    //            Response::HTTP_OK
-    //        );
-    //    }
-    //
-    //    /**
-    //     * @OA\Get(
-    //     *     path="/social-media/data",
-    //     *     operationId="getSocialMediaData",
-    //     *     tags={"SocialMedia"},
-    //     *     summary="Get SocialMedia data",
-    //     *     description="Returns SocialMedia data",
-    //     *     @OA\Response(response=200,
-    //     *         description="Successful operation",
-    //     *         @OA\JsonContent(type="object",
-    //     *             @OA\Property(property="message", type="string", default="No message"),
-    //     *             @OA\Property(property="data", type="object",
-    //     *                 @OA\Property(property="user", ref="#/components/schemas/UserResource")
-    //     *             )
-    //     *         )
-    //     *     )
-    //     * )
-    //     */
-    //    public function extraData(Request $request): JsonResponse
-    //    {
-    //        $this->authorize('create', SocialMedia::class);
-    //        return Response::data(
-    //            [
-    //                'user'  => $request->user()
-    //            ]
-    //        );
-    //    }
+        /**
+         * @OA\Post(
+         *     path="/social-media/toggle/{socialMedia}",
+         *     operationId="toggleSocialMedia",
+         *     tags={"SocialMedia"},
+         *     summary="Toggle SocialMedia",
+         *     @OA\Parameter(name="socialMedia", required=true, in="path", @OA\Schema(type="integer")),
+         *     @OA\Response(response=200,
+         *         description="Successful operation",
+         *         @OA\JsonContent(type="object",
+         *             @OA\Property(property="message", type="string", default="social-media has been toggled successfully"),
+         *             @OA\Property(property="data", type="object", ref="#/components/schemas/SocialMediaResource")
+         *         )
+         *     )
+         * )
+         */
+        public function toggle(SocialMedia $socialMedia): JsonResponse
+        {
+            $this->authorize('update', $socialMedia);
+            $socialMedia = ToggleSocialMediaAction::run($socialMedia);
+
+            return Response::data(
+                SocialMediaResource::make($socialMedia),
+                trans('general.model_has_toggled_successfully', ['model' => trans('socialMedia.model')]),
+                Response::HTTP_OK
+            );
+        }
+
+        /**
+         * @OA\Get(
+         *     path="/social-media/data",
+         *     operationId="getSocialMediaData",
+         *     tags={"SocialMedia"},
+         *     summary="Get SocialMedia data",
+         *     description="Returns SocialMedia data",
+         *     @OA\Response(response=200,
+         *         description="Successful operation",
+         *         @OA\JsonContent(type="object",
+         *             @OA\Property(property="message", type="string", default="No message"),
+         *             @OA\Property(property="data", type="object",
+         *                 @OA\Property(property="user", ref="#/components/schemas/UserResource")
+         *             )
+         *         )
+         *     )
+         * )
+         */
+        public function extraData(Request $request): JsonResponse
+        {
+            $this->authorize('create', SocialMedia::class);
+            return Response::data(
+                DataSocialMediaAction::run($request->all())
+            );
+        }
 }

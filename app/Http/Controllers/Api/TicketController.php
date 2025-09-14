@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
+use App\Actions\Ticket\DataTicketAction;
 use App\Actions\Ticket\DeleteTicketAction;
 use App\Actions\Ticket\StoreTicketAction;
+use App\Actions\Ticket\ToggleTicketStatusAction;
 use App\Actions\Ticket\UpdateTicketAction;
 use App\Http\Requests\StoreTicketRequest;
 use App\Http\Requests\UpdateTicketRequest;
@@ -15,6 +17,7 @@ use App\Models\Ticket;
 use App\Repositories\Ticket\TicketRepositoryInterface;
 use App\Services\AdvancedSearchFields\AdvancedSearchFieldsService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use OpenApi\Annotations as OA;
 
@@ -98,7 +101,7 @@ class TicketController extends Controller
     public function show(Ticket $ticket): JsonResponse
     {
         $ticket->loadMissing(['closeBy', 'messages']); // user loaded by default
-        
+
         return Response::data(
             TicketDetailResource::make($ticket),
         );
@@ -195,59 +198,57 @@ class TicketController extends Controller
         );
     }
 
-    //    /**
-    //     * @OA\Post(
-    //     *     path="/ticket/toggle/{ticket}",
-    //     *     operationId="toggleTicket",
-    //     *     tags={"Ticket"},
-    //     *     summary="Toggle Ticket",
-    //     *     @OA\Parameter(name="ticket", required=true, in="path", @OA\Schema(type="integer")),
-    //     *     @OA\Response(response=200,
-    //     *         description="Successful operation",
-    //     *         @OA\JsonContent(type="object",
-    //     *             @OA\Property(property="message", type="string", default="ticket has been toggled successfully"),
-    //     *             @OA\Property(property="data", type="object", ref="#/components/schemas/TicketResource")
-    //     *         )
-    //     *     )
-    //     * )
-    //     */
-    //    public function toggle(Ticket $ticket): JsonResponse
-    //    {
-    //        $this->authorize('update', $ticket);
-    //        $ticket = ToggleTicketAction::run($ticket);
-    //
-    //        return Response::data(
-    //            TicketResource::make($ticket),
-    //            trans('general.model_has_toggled_successfully', ['model' => trans('ticket.model')]),
-    //            Response::HTTP_OK
-    //        );
-    //    }
-    //
-    //    /**
-    //     * @OA\Get(
-    //     *     path="/ticket/data",
-    //     *     operationId="getTicketData",
-    //     *     tags={"Ticket"},
-    //     *     summary="Get Ticket data",
-    //     *     description="Returns Ticket data",
-    //     *     @OA\Response(response=200,
-    //     *         description="Successful operation",
-    //     *         @OA\JsonContent(type="object",
-    //     *             @OA\Property(property="message", type="string", default="No message"),
-    //     *             @OA\Property(property="data", type="object",
-    //     *                 @OA\Property(property="user", ref="#/components/schemas/UserResource")
-    //     *             )
-    //     *         )
-    //     *     )
-    //     * )
-    //     */
-    //    public function extraData(Request $request): JsonResponse
-    //    {
-    //        $this->authorize('create', Ticket::class);
-    //        return Response::data(
-    //            [
-    //                'user'  => $request->user()
-    //            ]
-    //        );
-    //    }
+        /**
+         * @OA\Post(
+         *     path="/ticket/toggle/{ticket}",
+         *     operationId="toggleTicket",
+         *     tags={"Ticket"},
+         *     summary="Toggle Ticket",
+         *     @OA\Parameter(name="ticket", required=true, in="path", @OA\Schema(type="integer")),
+         *     @OA\Response(response=200,
+         *         description="Successful operation",
+         *         @OA\JsonContent(type="object",
+         *             @OA\Property(property="message", type="string", default="ticket has been toggled successfully"),
+         *             @OA\Property(property="data", type="object", ref="#/components/schemas/TicketResource")
+         *         )
+         *     )
+         * )
+         */
+        public function toggle(Ticket $ticket): JsonResponse
+        {
+            $this->authorize('update', $ticket);
+            $ticket = ToggleTicketStatusAction::run($ticket);
+
+            return Response::data(
+                TicketResource::make($ticket),
+                trans('general.model_has_toggled_successfully', ['model' => trans('ticket.model')]),
+                Response::HTTP_OK
+            );
+        }
+
+        /**
+         * @OA\Get(
+         *     path="/ticket/data",
+         *     operationId="getTicketData",
+         *     tags={"Ticket"},
+         *     summary="Get Ticket data",
+         *     description="Returns Ticket data",
+         *     @OA\Response(response=200,
+         *         description="Successful operation",
+         *         @OA\JsonContent(type="object",
+         *             @OA\Property(property="message", type="string", default="No message"),
+         *             @OA\Property(property="data", type="object",
+         *                 @OA\Property(property="user", ref="#/components/schemas/UserResource")
+         *             )
+         *         )
+         *     )
+         * )
+         */
+        public function extraData(Request $request): JsonResponse
+        {
+            $this->authorize('create', Ticket::class);
+            return Response::data(
+             DataTicketAction::run($request->all())
+            );
+        }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
+use App\Helpers\Constants;
 use App\Models\Banner;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -22,6 +23,7 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="published_at", type="string", default="2024-08-19T07:26:07.000000Z"),
  *     @OA\Property(property="updated_at", type="string", default="2024-08-19T07:26:07.000000Z"),
  *     @OA\Property(property="created_at", type="string", default="2024-08-19T07:26:07.000000Z"),
+ *     @OA\Property(property="image", type="string", format="url", example="/media/1/conversions/100_square.jpg"),
  * )
  */
 class BannerDetailResource extends JsonResource
@@ -30,6 +32,7 @@ class BannerDetailResource extends JsonResource
     {
         $resource      = BannerResource::make($this)->toArray($request);
         $resource['id']=$this->id;
+        $resource['image']=  $this->resource->getFirstMediaUrl('image',$this->resource->getPrimaryResolution());
 
         return $resource;
     }

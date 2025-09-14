@@ -17,18 +17,18 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Activitylog\LogOptions;
 
-/**
- * @property string $title
- * @property string $description
- */
+///**
+// * @property string $title
+// * @property string $description
+// */
 class Comment extends Model
 {
     use CLogsActivity,HasStatusBoolean,HasTranslationAuto,HasUser, MorphAttributesTrait;
     use HasFactory;
 
-    public array $translatable = [
-        'title', 'description',
-    ];
+//    public array $translatable = [
+//        'title', 'description',
+//    ];
 
     protected $fillable = [
         'user_id',

@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Actions\Opinion\DeleteOpinionAction;
 use App\Actions\Opinion\StoreOpinionAction;
+use App\Actions\Opinion\ToggleOpinionAction;
 use App\Actions\Opinion\UpdateOpinionAction;
 use App\Http\Requests\StoreOpinionRequest;
 use App\Http\Requests\UpdateOpinionRequest;
@@ -193,33 +194,33 @@ class OpinionController extends Controller
         );
     }
 
-    //    /**
-    //     * @OA\Post(
-    //     *     path="/opinion/toggle/{opinion}",
-    //     *     operationId="toggleOpinion",
-    //     *     tags={"Opinion"},
-    //     *     summary="Toggle Opinion",
-    //     *     @OA\Parameter(name="opinion", required=true, in="path", @OA\Schema(type="integer")),
-    //     *     @OA\Response(response=200,
-    //     *         description="Successful operation",
-    //     *         @OA\JsonContent(type="object",
-    //     *             @OA\Property(property="message", type="string", default="opinion has been toggled successfully"),
-    //     *             @OA\Property(property="data", type="object", ref="#/components/schemas/OpinionResource")
-    //     *         )
-    //     *     )
-    //     * )
-    //     */
-    //    public function toggle(Opinion $opinion): JsonResponse
-    //    {
-    //        $this->authorize('update', $opinion);
-    //        $opinion = ToggleOpinionAction::run($opinion);
-    //
-    //        return Response::data(
-    //            OpinionResource::make($opinion),
-    //            trans('general.model_has_toggled_successfully', ['model' => trans('opinion.model')]),
-    //            Response::HTTP_OK
-    //        );
-    //    }
+    /**
+     * @OA\Post(
+     *     path="/opinion/toggle/{opinion}",
+     *     operationId="toggleOpinion",
+     *     tags={"Opinion"},
+     *     summary="Toggle Opinion",
+     *     @OA\Parameter(name="opinion", required=true, in="path", @OA\Schema(type="integer")),
+     *     @OA\Response(response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(type="object",
+     *             @OA\Property(property="message", type="string", default="opinion has been toggled successfully"),
+     *             @OA\Property(property="data", type="object", ref="#/components/schemas/OpinionResource")
+     *         )
+     *     )
+     * )
+     */
+    public function toggle(Opinion $opinion): JsonResponse
+    {
+        $this->authorize('update', $opinion);
+        $opinion = ToggleOpinionAction::run($opinion);
+
+        return Response::data(
+            OpinionResource::make($opinion),
+            trans('general.model_has_toggled_successfully', ['model' => trans('opinion.model')]),
+            Response::HTTP_OK
+        );
+    }
     //
     //    /**
     //     * @OA\Get(

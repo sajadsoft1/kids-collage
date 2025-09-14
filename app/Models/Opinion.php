@@ -27,9 +27,9 @@ class Opinion extends Model implements HasMedia
     use HasFactory;
     use HasScheduledPublishing;
     use HasTranslationAuto;
-    public array $translatable = [
-        'title', 'description',
-    ];
+//    public array $translatable = [
+//        'title', 'description',
+//    ];
     protected $fillable = [
         'published',
         'published_at',
