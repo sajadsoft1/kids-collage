@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
+use App\Helpers\Constants;
 use App\Models\Opinion;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -38,6 +39,7 @@ class OpinionResource extends JsonResource
             'user_name' => $this->user_name,
             'updated_at'  => $this->updated_at,
             'created_at'  => $this->created_at,
+            'image' => $this->resource->getFirstMediaUrl('image', Constants::RESOLUTION_100_SQUARE),
         ];
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
+use App\Helpers\Constants;
 use App\Models\Opinion;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -28,6 +29,7 @@ class OpinionDetailResource extends JsonResource
         $resource      = OpinionResource::make($this)->toArray($request);
         $resource['id']=$this->id;
         $resource['comment']=$this->comment;
+        $resource['image']= $this->resource->getFirstMediaUrl('image', Constants::RESOLUTION_1280_400);
 
         return $resource;
     }

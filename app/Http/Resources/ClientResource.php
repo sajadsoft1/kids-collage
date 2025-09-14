@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
+use App\Helpers\Constants;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -20,6 +21,7 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="published_at", type="string", default="2024-08-19T07:26:07.000000Z"),
  *     @OA\Property(property="updated_at", type="string", default="2024-08-19T07:26:07.000000Z"),
  *     @OA\Property(property="created_at", type="string", default="2024-08-19T07:26:07.000000Z"),
+ *     @OA\Property(property="image", type="string", default="https://example.com/storage/clients/image.jpg"),
  * )
  */
 class ClientResource extends JsonResource
@@ -34,6 +36,7 @@ class ClientResource extends JsonResource
             'published'   => $this->published->value,
             'updated_at'  => $this->updated_at,
             'created_at'  => $this->created_at,
+            'image'       => $this->getFirstMediaUrl('image',Constants::RESOLUTION_100_SQUARE),
         ];
     }
 }

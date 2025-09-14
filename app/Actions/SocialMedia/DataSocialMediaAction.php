@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Actions\Category;
+namespace App\Actions\SocialMedia;
 
-use App\Enums\CategoryTypeEnum;
+use App\Enums\SocialMediaPositionEnum;
 use Lorisleiva\Actions\Concerns\AsAction;
 
-class DataCategoryAction
+class DataSocialMediaAction
 {
     use AsAction;
 
     public function handle(array $payload = []): array
     {
         return [
-            'type' => CategoryTypeEnum::options(),
+            'position'=>SocialMediaPositionEnum::options()
         ];
     }
 }
