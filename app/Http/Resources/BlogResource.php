@@ -39,7 +39,7 @@ class BlogResource extends JsonResource
             'title'         => $this->title,
             'description'   => $this->description,
             'slug'          => $this->slug,
-            'published'     => $this->published->value,
+            'published'     => $this->published->toArray(),
             'published_at'  => $this->published_at,
             'user'          => $this->whenLoaded('user', fn () => SimpleUserResource::make($this->user)),
             'category'      => $this->whenLoaded('category', fn () => SimpleCategoryResource::make($this->category)),
