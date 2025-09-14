@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Actions\Teammate\DeleteTeammateAction;
 use App\Actions\Teammate\StoreTeammateAction;
+use App\Actions\Teammate\ToggleTeammateAction;
 use App\Actions\Teammate\UpdateTeammateAction;
 use App\Http\Requests\StoreTeammateRequest;
 use App\Http\Requests\UpdateTeammateRequest;
@@ -193,33 +194,33 @@ class TeammateController extends Controller
         );
     }
 
-    //    /**
-    //     * @OA\Post(
-    //     *     path="/teammate/toggle/{teammate}",
-    //     *     operationId="toggleTeammate",
-    //     *     tags={"Teammate"},
-    //     *     summary="Toggle Teammate",
-    //     *     @OA\Parameter(name="teammate", required=true, in="path", @OA\Schema(type="integer")),
-    //     *     @OA\Response(response=200,
-    //     *         description="Successful operation",
-    //     *         @OA\JsonContent(type="object",
-    //     *             @OA\Property(property="message", type="string", default="teammate has been toggled successfully"),
-    //     *             @OA\Property(property="data", type="object", ref="#/components/schemas/TeammateResource")
-    //     *         )
-    //     *     )
-    //     * )
-    //     */
-    //    public function toggle(Teammate $teammate): JsonResponse
-    //    {
-    //        $this->authorize('update', $teammate);
-    //        $teammate = ToggleTeammateAction::run($teammate);
-    //
-    //        return Response::data(
-    //            TeammateResource::make($teammate),
-    //            trans('general.model_has_toggled_successfully', ['model' => trans('teammate.model')]),
-    //            Response::HTTP_OK
-    //        );
-    //    }
+        /**
+         * @OA\Post(
+         *     path="/teammate/toggle/{teammate}",
+         *     operationId="toggleTeammate",
+         *     tags={"Teammate"},
+         *     summary="Toggle Teammate",
+         *     @OA\Parameter(name="teammate", required=true, in="path", @OA\Schema(type="integer")),
+         *     @OA\Response(response=200,
+         *         description="Successful operation",
+         *         @OA\JsonContent(type="object",
+         *             @OA\Property(property="message", type="string", default="teammate has been toggled successfully"),
+         *             @OA\Property(property="data", type="object", ref="#/components/schemas/TeammateResource")
+         *         )
+         *     )
+         * )
+         */
+        public function toggle(Teammate $teammate): JsonResponse
+        {
+            $this->authorize('update', $teammate);
+            $teammate = ToggleTeammateAction::run($teammate);
+
+            return Response::data(
+                TeammateResource::make($teammate),
+                trans('general.model_has_toggled_successfully', ['model' => trans('teammate.model')]),
+                Response::HTTP_OK
+            );
+        }
     //
     //    /**
     //     * @OA\Get(
