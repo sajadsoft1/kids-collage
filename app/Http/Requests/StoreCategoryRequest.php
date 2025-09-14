@@ -14,7 +14,7 @@ use OpenApi\Annotations as OA;
  *     schema="StoreCategoryRequest",
  *     title="Store Category request",
  *     type="object",
- *     required={"title", "published", "type", "seo_title", "seo_description", "robots_meta"},
+ *     required={"title", "published","slug" ,"type", "seo_title", "seo_description", "robots_meta"},
  *
  *     @OA\Property(property="title", type="string", default="test title", description="Category title"),
  *     @OA\Property(property="description", type="string", default="test description", description="Category description"),

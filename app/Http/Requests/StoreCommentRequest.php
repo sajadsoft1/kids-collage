@@ -12,10 +12,10 @@ use OpenApi\Annotations as OA;
  *     schema="StoreCommentRequest",
  *     title="Store Comment request",
  *     type="object",
- *     required={"title"},
- *
- *     @OA\Property(property="title", type="string", default="test title"),
- *     @OA\Property(property="description", type="string", default="test description"),
+ *     required={"comment","published"},
+ *     @OA\Property(property="published", type="boolean", default=true),
+ *     @OA\Property(property="parent_id", type="integer", nullable=true, default=null),
+ *     @OA\Property(property="comment", type="string", default="This is a comment"),
  * )
  */
 class StoreCommentRequest extends FormRequest
@@ -26,6 +26,8 @@ class StoreCommentRequest extends FormRequest
     {
         return [
             'published'   => 'required|boolean',
+            'parent_id'   => 'nullable|exists:comments,id',
+            'comment'     => 'required|string|max:65535',
 
         ];
     }

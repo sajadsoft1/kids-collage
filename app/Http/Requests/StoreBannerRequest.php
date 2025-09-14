@@ -13,13 +13,13 @@ use OpenApi\Annotations as OA;
  *     schema="StoreBannerRequest",
  *     title="Store Banner request",
  *     type="object",
- *     required={"title", "published"},
+ *     required={"title", "published","size",'image'},
  *
  *     @OA\Property(property="title", type="string", default="test title", description="Banner title"),
  *     @OA\Property(property="description", type="string", default="test description", description="Banner description"),
  *     @OA\Property(property="published", type="boolean", default=true, description="Publication status"),
  *     @OA\Property(property="published_at", type="string", format="date-time", description="Publication date"),
- *     @OA\Property(property="size", type="string", enum={"1x1", "16x9", "4x3"}, default="16x9", description="Banner size"),
+ *     @OA\Property(property="size", ref="#/components/schemas/BannerSizeEnum"),
  *     @OA\Property(property="image", type="string", format="binary", description="Banner image file"),
  * )
  */
@@ -35,7 +35,7 @@ class StoreBannerRequest extends FormRequest
             'published'    => 'required|boolean',
             'published_at' => 'nullable|date',
             'size'         => 'nullable|in:' . implode(',', BannerSizeEnum::values()),
-            'image'        => 'nullable|file|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image'        => 'required|file|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }
 

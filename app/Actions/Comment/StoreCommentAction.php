@@ -39,8 +39,6 @@ class StoreCommentAction
     {
         return DB::transaction(function () use ($payload) {
             $model =  Comment::create(Arr::except($payload, ['title', 'description']));
-            $this->syncTranslationAction->handle($model, Arr::only($payload, ['title', 'description']));
-
             return $model->refresh();
         });
     }

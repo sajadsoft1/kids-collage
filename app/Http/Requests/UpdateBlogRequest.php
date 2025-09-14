@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
+use Illuminate\Foundation\Http\FormRequest;
 use OpenApi\Annotations as OA;
 
 /**
@@ -30,13 +31,22 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="image", type="string", format="binary", description="Blog featured image"),
  * )
  */
-class UpdateBlogRequest extends StoreBlogRequest
+class UpdateBlogRequest extends FormRequest
 {
+    use FillAttributes;
+
     public function rules(): array
     {
-        $rules         =  parent::rules();
+        $rules         =  (new StoreBannerRequest())->rules();
         $rules['slug'] = 'required|unique:blogs,slug,' . $this->route('blog')->id;
 
         return $rules;
+    }
+
+    protected function prepareForValidation()
+    {
+        $this->convertOnToBoolean([
+            'published' => request('published', false),
+        ]);
     }
 }

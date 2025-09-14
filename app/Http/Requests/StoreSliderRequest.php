@@ -13,7 +13,7 @@ use OpenApi\Annotations as OA;
  *     schema="StoreSliderRequest",
  *     title="Store Slider request",
  *     type="object",
- *     required={"title", "published"},
+ *     required={"title", "published"," position", "has_timer"," image"},
  *
  *     @OA\Property(property="title", type="string", default="Slider Title", description="Slider title"),
  *     @OA\Property(property="description", type="string", default="Slider description", description="Slider description"),
@@ -26,11 +26,6 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="has_timer", type="boolean", default=false, description="Has timer functionality"),
  *     @OA\Property(property="timer_start", type="string", format="date-time", description="Timer start date"),
  *     @OA\Property(property="image", type="string", format="binary", description="Slider image"),
- *     @OA\Property(property="roles", type="array", @OA\Items(
- *         type="object",
- *         @OA\Property(property="type", type="string", example="App\\Models\\Role"),
- *         @OA\Property(property="value", type="array", @OA\Items(type="integer"), example={1, 2})
- *     ), description="Roles/permissions for slider visibility"),
  * )
  */
 class StoreSliderRequest extends FormRequest
@@ -43,18 +38,15 @@ class StoreSliderRequest extends FormRequest
             'title'           => ['required', 'string', 'max:255'],
             'description'     => ['nullable', 'string'],
             'published'       => 'required|boolean',
-            'ordering'        => 'nullable|integer|min:0',
+            'ordering'        => 'required|integer|min:0',
             'published_at'    => 'nullable|date',
             'expired_at'      => 'nullable|date|after:published_at',
             'link'            => 'nullable|url',
-            'position'        => 'nullable|in:' . implode(',', SliderPositionEnum::values()),
-            'has_timer'       => 'nullable|boolean',
+            'position'        => 'required|in:' . implode(',', SliderPositionEnum::values()),
+            'has_timer'       => 'required|boolean',
             'timer_start'     => 'nullable|date',
-            'image'           => 'nullable|file|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'roles'           => 'nullable|array',
-            'roles.*.type'    => 'required_with:roles|string',
-            'roles.*.value'   => 'required_with:roles|array',
-            'roles.*.value.*' => 'integer',
+            'image'           => 'required|file|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+
         ];
     }
 

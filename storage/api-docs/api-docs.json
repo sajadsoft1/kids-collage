@@ -2100,6 +2100,82 @@
                 }
             }
         },
+        "/category/toggle/{category}": {
+            "post": {
+                "tags": [
+                    "Category"
+                ],
+                "summary": "Toggle Category",
+                "operationId": "toggleCategory",
+                "parameters": [
+                    {
+                        "name": "category",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "category has been toggled successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/CategoryResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/category/data": {
+            "get": {
+                "tags": [
+                    "Category"
+                ],
+                "summary": "Get Category data",
+                "description": "Returns Category data",
+                "operationId": "getCategoryData",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "user": {
+                                                    "$ref": "#/components/schemas/UserResource"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/client": {
             "get": {
                 "tags": [
@@ -2386,6 +2462,46 @@
                                         "message": {
                                             "type": "string",
                                             "default": "client has been deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/client/toggle/{client}": {
+            "post": {
+                "tags": [
+                    "Client"
+                ],
+                "summary": "Toggle Client",
+                "operationId": "toggleClient",
+                "parameters": [
+                    {
+                        "name": "client",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "client has been toggled successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/ClientResource"
                                         }
                                     },
                                     "type": "object"
@@ -3284,6 +3400,46 @@
                 }
             }
         },
+        "/faq/toggle/{faq}": {
+            "post": {
+                "tags": [
+                    "Faq"
+                ],
+                "summary": "Toggle Faq",
+                "operationId": "toggleFaq",
+                "parameters": [
+                    {
+                        "name": "faq",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "faq has been toggled successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/FaqResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/opinion": {
             "get": {
                 "tags": [
@@ -3570,6 +3726,46 @@
                                         "message": {
                                             "type": "string",
                                             "default": "opinion has been deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/opinion/toggle/{opinion}": {
+            "post": {
+                "tags": [
+                    "Opinion"
+                ],
+                "summary": "Toggle Opinion",
+                "operationId": "toggleOpinion",
+                "parameters": [
+                    {
+                        "name": "opinion",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "opinion has been toggled successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/OpinionResource"
                                         }
                                     },
                                     "type": "object"
@@ -5060,6 +5256,82 @@
                 }
             }
         },
+        "/social-media/toggle/{socialMedia}": {
+            "post": {
+                "tags": [
+                    "SocialMedia"
+                ],
+                "summary": "Toggle SocialMedia",
+                "operationId": "toggleSocialMedia",
+                "parameters": [
+                    {
+                        "name": "socialMedia",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "social-media has been toggled successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/SocialMediaResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/social-media/data": {
+            "get": {
+                "tags": [
+                    "SocialMedia"
+                ],
+                "summary": "Get SocialMedia data",
+                "description": "Returns SocialMedia data",
+                "operationId": "getSocialMediaData",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "user": {
+                                                    "$ref": "#/components/schemas/UserResource"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/splash": {
             "get": {
                 "tags": [
@@ -5447,6 +5719,42 @@
                 }
             }
         },
+        "/tag/data": {
+            "get": {
+                "tags": [
+                    "Tag"
+                ],
+                "summary": "Get Tag data",
+                "description": "Returns Tag data",
+                "operationId": "getTagData",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "user": {
+                                                    "$ref": "#/components/schemas/UserResource"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/teammate": {
             "get": {
                 "tags": [
@@ -5743,6 +6051,46 @@
                 }
             }
         },
+        "/teammate/toggle/{teammate}": {
+            "post": {
+                "tags": [
+                    "Teammate"
+                ],
+                "summary": "Toggle Teammate",
+                "operationId": "toggleTeammate",
+                "parameters": [
+                    {
+                        "name": "teammate",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "teammate has been toggled successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/TeammateResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/ticket": {
             "get": {
                 "tags": [
@@ -6029,6 +6377,82 @@
                                         "message": {
                                             "type": "string",
                                             "default": "ticket has been deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ticket/toggle/{ticket}": {
+            "post": {
+                "tags": [
+                    "Ticket"
+                ],
+                "summary": "Toggle Ticket",
+                "operationId": "toggleTicket",
+                "parameters": [
+                    {
+                        "name": "ticket",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "ticket has been toggled successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/TicketResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ticket/data": {
+            "get": {
+                "tags": [
+                    "Ticket"
+                ],
+                "summary": "Get Ticket data",
+                "description": "Returns Ticket data",
+                "operationId": "getTicketData",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "user": {
+                                                    "$ref": "#/components/schemas/UserResource"
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -6747,116 +7171,6 @@
     },
     "components": {
         "schemas": {
-            "CardStatusEnum": {
-                "properties": {
-                    "value": {
-                        "description": "Card Status Enum\n\nDefines status options for kanban cards.",
-                        "type": "string",
-                        "enum": [
-                            "draft",
-                            "active",
-                            "completed",
-                            "archived"
-                        ]
-                    },
-                    "label": {
-                        "type": "string"
-                    },
-                    "color": {
-                        "type": "string"
-                    },
-                    "icon": {
-                        "type": "string"
-                    }
-                },
-                "type": "string",
-                "enum": [
-                    "DRAFT",
-                    "ACTIVE",
-                    "COMPLETED",
-                    "ARCHIVED"
-                ]
-            },
-            "CardTypeEnum": {
-                "properties": {
-                    "value": {
-                        "description": "Card Type Enum\n\nDefines card types for kanban task management.",
-                        "type": "string",
-                        "enum": [
-                            "note",
-                            "task",
-                            "bug",
-                            "feature",
-                            "call",
-                            "meeting",
-                            "email",
-                            "other"
-                        ]
-                    },
-                    "label": {
-                        "type": "string"
-                    },
-                    "color": {
-                        "type": "string"
-                    },
-                    "icon": {
-                        "type": "string"
-                    }
-                },
-                "type": "string",
-                "enum": [
-                    "NOTE",
-                    "TASK",
-                    "BUG",
-                    "FEATURE",
-                    "CALL",
-                    "MEETING",
-                    "EMAIL",
-                    "OTHER"
-                ]
-            },
-            "CategoryTypeEnum": {
-                "properties": {
-                    "value": {
-                        "description": "Category Type Enum\n\nDefines category types for content classification.",
-                        "type": "string",
-                        "enum": [
-                            "blog",
-                            "portfolio",
-                            "faq"
-                        ]
-                    },
-                    "label": {
-                        "type": "string"
-                    }
-                },
-                "type": "string",
-                "enum": [
-                    "BLOG",
-                    "PORTFOLIO",
-                    "FAQ"
-                ]
-            },
-            "CommentTypeEnum": {
-                "properties": {
-                    "value": {
-                        "description": "Comment Type Enum\n\nDefines comment types for the system.",
-                        "type": "string",
-                        "enum": [
-                            "normal",
-                            "special"
-                        ]
-                    },
-                    "title": {
-                        "type": "string"
-                    }
-                },
-                "type": "string",
-                "enum": [
-                    "NORMAL",
-                    "SPECIAL"
-                ]
-            },
             "BooleanEnum": {
                 "properties": {
                     "value": {
@@ -6894,10 +7208,90 @@
                 },
                 "type": "object"
             },
+            "CardStatusEnum": {
+                "properties": {
+                    "value": {
+                        "type": "string",
+                        "enum": [
+                            "draft",
+                            "active",
+                            "completed",
+                            "archived"
+                        ]
+                    },
+                    "label": {
+                        "type": "string"
+                    },
+                    "color": {
+                        "type": "string"
+                    },
+                    "icon": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "CardTypeEnum": {
+                "properties": {
+                    "value": {
+                        "type": "string",
+                        "enum": [
+                            "note",
+                            "task",
+                            "bug",
+                            "feature",
+                            "call",
+                            "meeting",
+                            "email",
+                            "other"
+                        ]
+                    },
+                    "label": {
+                        "type": "string"
+                    },
+                    "color": {
+                        "type": "string"
+                    },
+                    "icon": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "CategoryTypeEnum": {
+                "properties": {
+                    "value": {
+                        "type": "string",
+                        "enum": [
+                            "blog",
+                            "portfolio",
+                            "faq"
+                        ]
+                    },
+                    "label": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "CommentTypeEnum": {
+                "properties": {
+                    "value": {
+                        "type": "string",
+                        "enum": [
+                            "normal",
+                            "special"
+                        ]
+                    },
+                    "title": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
             "GenderEnum": {
                 "properties": {
                     "value": {
-                        "description": "Gender Enum\n\nDefines gender options for users.",
                         "type": "integer",
                         "enum": [
                             0,
@@ -6908,16 +7302,11 @@
                         "type": "string"
                     }
                 },
-                "type": "string",
-                "enum": [
-                    "MEN",
-                    "WOMEN"
-                ]
+                "type": "object"
             },
             "NoificationTypeEnum": {
                 "properties": {
                     "value": {
-                        "description": "Notification Type Enum\n\nDefines notification types for authentication events.",
                         "type": "string",
                         "enum": [
                             "auth_register",
@@ -6930,18 +7319,11 @@
                         "type": "string"
                     }
                 },
-                "type": "string",
-                "enum": [
-                    "AUTH_REGISTER",
-                    "AUTH_CONFIRM",
-                    "AUTH_FORGOT_PASSWORD",
-                    "AUTH_WELCOME"
-                ]
+                "type": "object"
             },
             "PageTypeEnum": {
                 "properties": {
                     "value": {
-                        "description": "Page Type Enum\n\nDefines page types for content management.",
                         "type": "string",
                         "enum": [
                             "rules",
@@ -6952,16 +7334,11 @@
                         "type": "string"
                     }
                 },
-                "type": "string",
-                "enum": [
-                    "RULES",
-                    "ABOUT_US"
-                ]
+                "type": "object"
             },
             "PriorityEnum": {
                 "properties": {
                     "value": {
-                        "description": "Priority Enum\n\nDefines priority levels for tasks and content.",
                         "type": "string",
                         "enum": [
                             "low",
@@ -6980,18 +7357,11 @@
                         "type": "string"
                     }
                 },
-                "type": "string",
-                "enum": [
-                    "LOW",
-                    "MEDIUM",
-                    "HIGH",
-                    "URGENT"
-                ]
+                "type": "object"
             },
             "RoleEnum": {
                 "properties": {
                     "value": {
-                        "description": "Role Enum\n\nDefines user roles for the system.",
                         "type": "string",
                         "enum": [
                             "developer",
@@ -7005,16 +7375,11 @@
                         "type": "string"
                     }
                 },
-                "type": "string",
-                "enum": [
-                    "DEVELOPER",
-                    "ADMIN"
-                ]
+                "type": "object"
             },
             "SeoRobotsMetaEnum": {
                 "properties": {
                     "value": {
-                        "description": "SEO Robots Meta Enum\n\nDefines SEO robots meta tag options for search engine indexing.",
                         "type": "string",
                         "enum": [
                             "index_follow",
@@ -7026,17 +7391,11 @@
                         "type": "string"
                     }
                 },
-                "type": "string",
-                "enum": [
-                    "INDEX_FOLLOW",
-                    "NOINDEX_NOFOLLOW",
-                    "NOINDEX_FOLLOW"
-                ]
+                "type": "object"
             },
             "SettingEnum": {
                 "properties": {
                     "value": {
-                        "description": "Setting Enum\n\nDefines setting categories for application configuration.",
                         "type": "string",
                         "enum": [
                             "product",
@@ -7057,20 +7416,11 @@
                         "type": "string"
                     }
                 },
-                "type": "string",
-                "enum": [
-                    "PRODUCT",
-                    "GENERAL",
-                    "INTEGRATION_SYNC",
-                    "NOTIFICATION",
-                    "SALE",
-                    "SECURITY"
-                ]
+                "type": "object"
             },
             "SliderPositionEnum": {
                 "properties": {
                     "value": {
-                        "description": "Slider Position Enum\n\nDefines slider position options for content layout.",
                         "type": "string",
                         "enum": [
                             "top",
@@ -7082,17 +7432,11 @@
                         "type": "string"
                     }
                 },
-                "type": "string",
-                "enum": [
-                    "TOP",
-                    "MIDDLE",
-                    "BOTTOM"
-                ]
+                "type": "object"
             },
             "SocialMediaPositionEnum": {
                 "properties": {
                     "value": {
-                        "description": "Social Media Position Enum\n\nDefines social media display position options.",
                         "type": "string",
                         "enum": [
                             "all",
@@ -7104,17 +7448,11 @@
                         "type": "string"
                     }
                 },
-                "type": "string",
-                "enum": [
-                    "ALL",
-                    "HEADER",
-                    "FOOTER"
-                ]
+                "type": "object"
             },
             "TagTypeEnum": {
                 "properties": {
                     "value": {
-                        "description": "Tag Type Enum\n\nDefines tag types for content categorization.",
                         "type": "string",
                         "enum": [
                             "special"
@@ -7124,15 +7462,11 @@
                         "type": "string"
                     }
                 },
-                "type": "string",
-                "enum": [
-                    "SPECIAL"
-                ]
+                "type": "object"
             },
             "TicketDepartmentEnum": {
                 "properties": {
                     "value": {
-                        "description": "Ticket Department Enum\n\nDefines department options for ticket routing.",
                         "type": "string",
                         "enum": [
                             "finance_and_administration",
@@ -7144,17 +7478,11 @@
                         "type": "string"
                     }
                 },
-                "type": "string",
-                "enum": [
-                    "FINANCE_AND_ADMINISTRATION",
-                    "SALE",
-                    "TECHNICAL"
-                ]
+                "type": "object"
             },
             "TicketPriorityEnum": {
                 "properties": {
                     "value": {
-                        "description": "Ticket Priority Enum\n\nDefines priority levels for support tickets.",
                         "type": "integer",
                         "enum": [
                             1,
@@ -7167,18 +7495,11 @@
                         "type": "string"
                     }
                 },
-                "type": "string",
-                "enum": [
-                    "CRITICAL",
-                    "HIGH",
-                    "MEDIUM",
-                    "LOW"
-                ]
+                "type": "object"
             },
             "TicketStatusEnum": {
                 "properties": {
                     "value": {
-                        "description": "Ticket Status Enum\n\nDefines ticket status options for support system.",
                         "type": "string",
                         "enum": [
                             "open",
@@ -7189,16 +7510,11 @@
                         "type": "string"
                     }
                 },
-                "type": "string",
-                "enum": [
-                    "OPEN",
-                    "CLOSE"
-                ]
+                "type": "object"
             },
             "YesNoEnum": {
                 "properties": {
                     "value": {
-                        "description": "Yes No Enum\n\nDefines yes/no boolean options for general use.",
                         "type": "boolean",
                         "default": 1,
                         "enum": [
@@ -7213,11 +7529,7 @@
                         "type": "string"
                     }
                 },
-                "type": "string",
-                "enum": [
-                    "YES",
-                    "NO"
-                ]
+                "type": "object"
             },
             "Meta": {
                 "title": "Pagination",
@@ -8157,6 +8469,10 @@
                         "description": "Tag name",
                         "type": "string",
                         "default": "web-development"
+                    },
+                    "slug": {
+                        "type": "string",
+                        "default": "test-slug"
                     },
                     "description": {
                         "description": "Tag description",
@@ -9749,6 +10065,11 @@
                     "created_at": {
                         "type": "string",
                         "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "image": {
+                        "type": "string",
+                        "format": "url",
+                        "example": "/media/1/conversions/100_square.jpg"
                     }
                 },
                 "type": "object"
@@ -9817,8 +10138,7 @@
                         "default": "blog-title"
                     },
                     "published": {
-                        "type": "string",
-                        "default": "active"
+                        "$ref": "#/components/schemas/BooleanEnum"
                     },
                     "published_at": {
                         "type": "string",
@@ -10211,12 +10531,10 @@
                         "default": "category-title"
                     },
                     "published": {
-                        "type": "string",
-                        "default": "active"
+                        "$ref": "#/components/schemas/BooleanEnum"
                     },
                     "type": {
-                        "type": "string",
-                        "default": "blog"
+                        "$ref": "#/components/schemas/CategoryTypeEnum"
                     },
                     "ordering": {
                         "type": "integer",
@@ -10279,12 +10597,10 @@
                         "default": "category-title"
                     },
                     "published": {
-                        "type": "string",
-                        "default": "active"
+                        "$ref": "#/components/schemas/BooleanEnum"
                     },
                     "type": {
-                        "type": "string",
-                        "default": "blog"
+                        "$ref": "#/components/schemas/CategoryTypeEnum"
                     },
                     "parent": {
                         "$ref": "#/components/schemas/SimpleCategoryResource"
@@ -10323,6 +10639,17 @@
                         "type": "string",
                         "default": "Client Description"
                     },
+                    "link": {
+                        "type": "string",
+                        "default": "https://example.com"
+                    },
+                    "published": {
+                        "$ref": "#/components/schemas/BooleanEnum"
+                    },
+                    "published_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
                     "updated_at": {
                         "type": "string",
                         "default": "2024-08-19T07:26:07.000000Z"
@@ -10330,6 +10657,10 @@
                     "created_at": {
                         "type": "string",
                         "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "image": {
+                        "type": "string",
+                        "default": "https://example.com/storage/clients/image.jpg"
                     }
                 },
                 "type": "object"
@@ -10349,6 +10680,17 @@
                         "type": "string",
                         "default": "Client Description"
                     },
+                    "link": {
+                        "type": "string",
+                        "default": "https://example.com"
+                    },
+                    "published": {
+                        "$ref": "#/components/schemas/BooleanEnum"
+                    },
+                    "published_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
                     "updated_at": {
                         "type": "string",
                         "default": "2024-08-19T07:26:07.000000Z"
@@ -10356,6 +10698,10 @@
                     "created_at": {
                         "type": "string",
                         "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "image": {
+                        "type": "string",
+                        "default": "https://example.com/storage/clients/image.jpg"
                     }
                 },
                 "type": "object"
@@ -10386,14 +10732,6 @@
                     "admin_note": {
                         "type": "string",
                         "default": "Good feedback"
-                    },
-                    "morphable_type": {
-                        "type": "string",
-                        "default": "App\\\\Models\\\\Blog"
-                    },
-                    "morphable_id": {
-                        "type": "integer",
-                        "default": "1"
                     },
                     "languages": {
                         "type": "array",
@@ -10450,6 +10788,14 @@
                         "type": "string",
                         "default": "yes"
                     },
+                    "morphable_type": {
+                        "type": "string",
+                        "default": "App\\\\Models\\\\Blog"
+                    },
+                    "morphable_id": {
+                        "type": "integer",
+                        "default": "1"
+                    },
                     "user": {
                         "$ref": "#/components/schemas/SimpleUserResource"
                     },
@@ -10478,13 +10824,28 @@
                         "type": "integer",
                         "default": "1"
                     },
-                    "title": {
+                    "name": {
                         "type": "string",
-                        "default": "ContactUs Title"
+                        "default": "John Doe"
                     },
-                    "description": {
+                    "email": {
                         "type": "string",
-                        "default": "ContactUs Description"
+                        "default": "info@example.com"
+                    },
+                    "mobile": {
+                        "type": "string",
+                        "default": "+1234567890"
+                    },
+                    "comment": {
+                        "type": "string",
+                        "default": "This is a comment."
+                    },
+                    "admin_note": {
+                        "type": "string",
+                        "default": "This is an admin note."
+                    },
+                    "follow_up": {
+                        "$ref": "#/components/schemas/YesNoEnum"
                     },
                     "updated_at": {
                         "type": "string",
@@ -10504,13 +10865,28 @@
                         "type": "integer",
                         "default": "1"
                     },
-                    "title": {
+                    "name": {
                         "type": "string",
-                        "default": "ContactUs Title"
+                        "default": "John Doe"
                     },
-                    "description": {
+                    "email": {
                         "type": "string",
-                        "default": "ContactUs Description"
+                        "default": "info@example.com"
+                    },
+                    "mobile": {
+                        "type": "string",
+                        "default": "+1234567890"
+                    },
+                    "comment": {
+                        "type": "string",
+                        "default": "This is a comment."
+                    },
+                    "admin_note": {
+                        "type": "string",
+                        "default": "This is an admin note."
+                    },
+                    "follow_up": {
+                        "$ref": "#/components/schemas/YesNoEnum"
                     },
                     "updated_at": {
                         "type": "string",
@@ -10538,6 +10914,20 @@
                         "type": "string",
                         "default": "Faq Description"
                     },
+                    "category": {
+                        "$ref": "#/components/schemas/SimpleCategoryResource"
+                    },
+                    "favorite": {
+                        "type": "string",
+                        "default": "yes"
+                    },
+                    "ordering": {
+                        "type": "integer",
+                        "default": 1
+                    },
+                    "published": {
+                        "$ref": "#/components/schemas/BooleanEnum"
+                    },
                     "updated_at": {
                         "type": "string",
                         "default": "2024-08-19T07:26:07.000000Z"
@@ -10564,6 +10954,20 @@
                         "type": "string",
                         "default": "Faq Description"
                     },
+                    "category": {
+                        "$ref": "#/components/schemas/SimpleCategoryResource"
+                    },
+                    "favorite": {
+                        "type": "string",
+                        "default": "yes"
+                    },
+                    "ordering": {
+                        "type": "integer",
+                        "default": 1
+                    },
+                    "published": {
+                        "$ref": "#/components/schemas/BooleanEnum"
+                    },
                     "updated_at": {
                         "type": "string",
                         "default": "2024-08-19T07:26:07.000000Z"
@@ -10582,13 +10986,28 @@
                         "type": "integer",
                         "default": "1"
                     },
-                    "title": {
-                        "type": "string",
-                        "default": "Opinion Title"
+                    "published": {
+                        "$ref": "#/components/schemas/BooleanEnum"
                     },
-                    "description": {
+                    "published_at": {
                         "type": "string",
-                        "default": "Opinion Description"
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "ordering": {
+                        "type": "integer",
+                        "default": 1
+                    },
+                    "view_count": {
+                        "type": "integer",
+                        "default": 1
+                    },
+                    "company": {
+                        "type": "string",
+                        "default": "Company"
+                    },
+                    "user_name": {
+                        "type": "string",
+                        "default": "User Name"
                     },
                     "updated_at": {
                         "type": "string",
@@ -10597,6 +11016,14 @@
                     "created_at": {
                         "type": "string",
                         "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "image": {
+                        "type": "string",
+                        "default": "https://example.com/image.jpg"
+                    },
+                    "comment": {
+                        "type": "string",
+                        "default": "Full opinion comment..."
                     }
                 },
                 "type": "object"
@@ -10608,13 +11035,28 @@
                         "type": "integer",
                         "default": "1"
                     },
-                    "title": {
-                        "type": "string",
-                        "default": "Opinion Title"
+                    "published": {
+                        "$ref": "#/components/schemas/BooleanEnum"
                     },
-                    "description": {
+                    "published_at": {
                         "type": "string",
-                        "default": "Opinion Description"
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "ordering": {
+                        "type": "integer",
+                        "default": 1
+                    },
+                    "view_count": {
+                        "type": "integer",
+                        "default": 1
+                    },
+                    "company": {
+                        "type": "string",
+                        "default": "Company"
+                    },
+                    "user_name": {
+                        "type": "string",
+                        "default": "User Name"
                     },
                     "updated_at": {
                         "type": "string",
@@ -10623,6 +11065,10 @@
                     "created_at": {
                         "type": "string",
                         "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "image": {
+                        "type": "string",
+                        "default": "https://example.com/image.jpg"
                     }
                 },
                 "type": "object"
@@ -10831,13 +11277,17 @@
                         "type": "integer",
                         "default": "1"
                     },
-                    "title": {
+                    "name": {
                         "type": "string",
-                        "default": "Role Title"
+                        "default": "Role name"
                     },
                     "description": {
                         "type": "string",
                         "default": "Role Description"
+                    },
+                    "guard_name": {
+                        "type": "string",
+                        "default": "web"
                     },
                     "updated_at": {
                         "type": "string",
@@ -10857,13 +11307,17 @@
                         "type": "integer",
                         "default": "1"
                     },
-                    "title": {
+                    "name": {
                         "type": "string",
-                        "default": "Role Title"
+                        "default": "Role name"
                     },
                     "description": {
                         "type": "string",
                         "default": "Role Description"
+                    },
+                    "guard_name": {
+                        "type": "string",
+                        "default": "web"
                     },
                     "updated_at": {
                         "type": "string",
@@ -11117,6 +11571,35 @@
                         "type": "string",
                         "default": "Slider Description"
                     },
+                    "published": {
+                        "$ref": "#/components/schemas/BooleanEnum"
+                    },
+                    "extra_attributes": {
+                        "type": "object",
+                        "default": []
+                    },
+                    "ordering": {
+                        "type": "integer",
+                        "default": 1
+                    },
+                    "published_at": {
+                        "type": "string",
+                        "default": "2024-08-19"
+                    },
+                    "expired_at": {
+                        "type": "string",
+                        "default": "2024-08-19"
+                    },
+                    "link": {
+                        "type": "string",
+                        "default": "https://example.com"
+                    },
+                    "position": {
+                        "$ref": "#/components/schemas/SliderPositionEnum"
+                    },
+                    "has_timer": {
+                        "$ref": "#/components/schemas/YesNoEnum"
+                    },
                     "updated_at": {
                         "type": "string",
                         "default": "2024-08-19T07:26:07.000000Z"
@@ -11142,6 +11625,35 @@
                     "description": {
                         "type": "string",
                         "default": "Slider Description"
+                    },
+                    "published": {
+                        "$ref": "#/components/schemas/BooleanEnum"
+                    },
+                    "extra_attributes": {
+                        "type": "object",
+                        "default": []
+                    },
+                    "ordering": {
+                        "type": "integer",
+                        "default": 1
+                    },
+                    "published_at": {
+                        "type": "string",
+                        "default": "2024-08-19"
+                    },
+                    "expired_at": {
+                        "type": "string",
+                        "default": "2024-08-19"
+                    },
+                    "link": {
+                        "type": "string",
+                        "default": "https://example.com"
+                    },
+                    "position": {
+                        "$ref": "#/components/schemas/SliderPositionEnum"
+                    },
+                    "has_timer": {
+                        "$ref": "#/components/schemas/YesNoEnum"
                     },
                     "updated_at": {
                         "type": "string",
@@ -11191,9 +11703,19 @@
                         "type": "string",
                         "default": "SocialMedia Title"
                     },
-                    "description": {
+                    "link": {
                         "type": "string",
-                        "default": "SocialMedia Description"
+                        "default": "https://www.example.com"
+                    },
+                    "ordering": {
+                        "type": "integer",
+                        "default": 1
+                    },
+                    "position": {
+                        "$ref": "#/components/schemas/SocialMediaPositionEnum"
+                    },
+                    "published": {
+                        "$ref": "#/components/schemas/BooleanEnum"
                     },
                     "updated_at": {
                         "type": "string",
@@ -11202,6 +11724,11 @@
                     "created_at": {
                         "type": "string",
                         "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "image": {
+                        "type": "string",
+                        "format": "url",
+                        "default": "https://www.example.com/storage/media/1/conversions/image-100x100.jpg"
                     }
                 },
                 "type": "object"
@@ -11285,8 +11812,7 @@
                         "default": "PHP framework"
                     },
                     "type": {
-                        "type": "string",
-                        "default": "blog"
+                        "$ref": "#/components/schemas/TagTypeEnum"
                     },
                     "order_column": {
                         "type": "integer",
@@ -11320,11 +11846,26 @@
                     },
                     "title": {
                         "type": "string",
-                        "default": "Teammate Title"
+                        "default": "John Doe"
                     },
                     "description": {
                         "type": "string",
-                        "default": "Teammate Description"
+                        "default": "Senior Developer"
+                    },
+                    "position": {
+                        "type": "string",
+                        "default": "Senior Developer"
+                    },
+                    "published": {
+                        "$ref": "#/components/schemas/BooleanEnum"
+                    },
+                    "birthday": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "image": {
+                        "type": "string",
+                        "default": "https://example.com/image.jpg"
                     },
                     "updated_at": {
                         "type": "string",
@@ -11357,8 +11898,7 @@
                         "default": "Senior Developer"
                     },
                     "published": {
-                        "type": "string",
-                        "default": "active"
+                        "$ref": "#/components/schemas/BooleanEnum"
                     },
                     "birthday": {
                         "type": "string",
@@ -11395,28 +11935,16 @@
                         "default": "TICKET-123456"
                     },
                     "status": {
-                        "type": "string",
-                        "default": "open"
+                        "$ref": "#/components/schemas/TicketStatusEnum"
                     },
                     "priority": {
-                        "type": "string",
-                        "default": "high"
+                        "$ref": "#/components/schemas/TicketPriorityEnum"
                     },
                     "department": {
-                        "type": "string",
-                        "default": "technical"
+                        "$ref": "#/components/schemas/TicketDepartmentEnum"
                     },
                     "user": {
                         "$ref": "#/components/schemas/SimpleUserResource"
-                    },
-                    "close_by": {
-                        "$ref": "#/components/schemas/SimpleUserResource"
-                    },
-                    "messages": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/TicketMessageResource"
-                        }
                     },
                     "unread_messages_count": {
                         "type": "integer",
@@ -11429,6 +11957,15 @@
                     "created_at": {
                         "type": "string",
                         "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "close_by": {
+                        "$ref": "#/components/schemas/SimpleUserResource"
+                    },
+                    "messages": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/TicketMessageResource"
+                        }
                     }
                 },
                 "type": "object"
@@ -11440,13 +11977,23 @@
                         "type": "integer",
                         "default": "1"
                     },
-                    "title": {
+                    "message": {
                         "type": "string",
-                        "default": "TicketMessage Title"
+                        "default": "Issue resolved"
                     },
-                    "description": {
-                        "type": "string",
-                        "default": "TicketMessage Description"
+                    "is_from_admin": {
+                        "type": "boolean",
+                        "default": false
+                    },
+                    "read_by": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "ticket": {
+                        "$ref": "#/components/schemas/SimpleTicketResource"
+                    },
+                    "user": {
+                        "$ref": "#/components/schemas/SimpleUserResource"
                     },
                     "updated_at": {
                         "type": "string",
@@ -11511,16 +12058,13 @@
                         "default": "TICKET-123456"
                     },
                     "status": {
-                        "type": "string",
-                        "default": "open"
+                        "$ref": "#/components/schemas/TicketStatusEnum"
                     },
                     "priority": {
-                        "type": "string",
-                        "default": "high"
+                        "$ref": "#/components/schemas/TicketPriorityEnum"
                     },
                     "department": {
-                        "type": "string",
-                        "default": "technical"
+                        "$ref": "#/components/schemas/TicketDepartmentEnum"
                     },
                     "user": {
                         "$ref": "#/components/schemas/SimpleUserResource"
