@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Actions\Faq\DeleteFaqAction;
 use App\Actions\Faq\StoreFaqAction;
+use App\Actions\Faq\ToggleFaqAction;
 use App\Actions\Faq\UpdateFaqAction;
 use App\Http\Requests\StoreFaqRequest;
 use App\Http\Requests\UpdateFaqRequest;
@@ -193,33 +194,33 @@ class FaqController extends Controller
         );
     }
 
-    //    /**
-    //     * @OA\Post(
-    //     *     path="/faq/toggle/{faq}",
-    //     *     operationId="toggleFaq",
-    //     *     tags={"Faq"},
-    //     *     summary="Toggle Faq",
-    //     *     @OA\Parameter(name="faq", required=true, in="path", @OA\Schema(type="integer")),
-    //     *     @OA\Response(response=200,
-    //     *         description="Successful operation",
-    //     *         @OA\JsonContent(type="object",
-    //     *             @OA\Property(property="message", type="string", default="faq has been toggled successfully"),
-    //     *             @OA\Property(property="data", type="object", ref="#/components/schemas/FaqResource")
-    //     *         )
-    //     *     )
-    //     * )
-    //     */
-    //    public function toggle(Faq $faq): JsonResponse
-    //    {
-    //        $this->authorize('update', $faq);
-    //        $faq = ToggleFaqAction::run($faq);
-    //
-    //        return Response::data(
-    //            FaqResource::make($faq),
-    //            trans('general.model_has_toggled_successfully', ['model' => trans('faq.model')]),
-    //            Response::HTTP_OK
-    //        );
-    //    }
+    /**
+     * @OA\Post(
+     *     path="/faq/toggle/{faq}",
+     *     operationId="toggleFaq",
+     *     tags={"Faq"},
+     *     summary="Toggle Faq",
+     *     @OA\Parameter(name="faq", required=true, in="path", @OA\Schema(type="integer")),
+     *     @OA\Response(response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(type="object",
+     *             @OA\Property(property="message", type="string", default="faq has been toggled successfully"),
+     *             @OA\Property(property="data", type="object", ref="#/components/schemas/FaqResource")
+     *         )
+     *     )
+     * )
+     */
+    public function toggle(Faq $faq): JsonResponse
+    {
+        $this->authorize('update', $faq);
+        $faq = ToggleFaqAction::run($faq);
+
+        return Response::data(
+            FaqResource::make($faq),
+            trans('general.model_has_toggled_successfully', ['model' => trans('faq.model')]),
+            Response::HTTP_OK
+        );
+    }
     //
     //    /**
     //     * @OA\Get(

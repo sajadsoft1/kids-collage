@@ -16,7 +16,10 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="id", type="integer", default="1"),
  *     @OA\Property(property="title", type="string", default="Faq Title"),
  *     @OA\Property(property="description", type="string", default="Faq Description"),
- *
+ *     @OA\Property(property="category", ref="#/components/schemas/SimpleCategoryResource"),
+ *     @OA\Property(property="favorite", type="string", default="yes"),
+ *     @OA\Property(property="ordering", type="integer", default=1),
+ *     @OA\Property(property="published", ref="#/components/schemas/BooleanEnum"),
  *     @OA\Property(property="updated_at", type="string", default="2024-08-19T07:26:07.000000Z"),
  *     @OA\Property(property="created_at", type="string", default="2024-08-19T07:26:07.000000Z"),
  * )
@@ -29,6 +32,10 @@ class FaqResource extends JsonResource
             'id'          => $this->id,
             'title'       => $this->title,
             'description' => $this->description,
+            'category'      => $this->whenLoaded('category', fn () => SimpleCategoryResource::make($this->category)),
+            'published' => $this->published->toArray(),
+            'favorite'  => $this->favorite->value,
+            'ordering'  => $this->ordering,
             'updated_at'  => $this->updated_at,
             'created_at'  => $this->created_at,
         ];

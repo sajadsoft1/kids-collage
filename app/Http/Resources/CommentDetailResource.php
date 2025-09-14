@@ -18,8 +18,6 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="rate", type="integer", default="5"),
  *     @OA\Property(property="suggest", type="string", default="yes"),
  *     @OA\Property(property="admin_note", type="string", default="Good feedback"),
- *     @OA\Property(property="morphable_type", type="string", default="App\\Models\\Blog"),
- *     @OA\Property(property="morphable_id", type="integer", default="1"),
  *     @OA\Property(property="languages", type="array", @OA\Items(type="string")),
  *     @OA\Property(property="user", ref="#/components/schemas/SimpleUserResource"),
  *     @OA\Property(property="admin", ref="#/components/schemas/SimpleUserResource"),
@@ -37,8 +35,6 @@ class CommentDetailResource extends JsonResource
 
         return array_merge($resource, [
             'admin_note'     => $this->admin_note,
-            'morphable_type' => $this->morphable_type,
-            'morphable_id'   => $this->morphable_id,
             'languages'      => $this->languages,
             'parent'         => $this->whenLoaded('parent', fn () => SimpleCommentResource::make($this->parent)),
             'children'       => $this->whenLoaded('children', fn () => SimpleCommentResource::collection($this->children)),
