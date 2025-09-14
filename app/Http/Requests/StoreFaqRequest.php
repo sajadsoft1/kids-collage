@@ -12,7 +12,7 @@ use OpenApi\Annotations as OA;
  *     schema="StoreFaqRequest",
  *     title="Store Faq request",
  *     type="object",
- *     required={"title", "description", "published", "category_id"},
+ *     required={"title", "description", "published", "category_id","favorite"},
  *
  *     @OA\Property(property="title", type="string", default="Frequently Asked Question", description="FAQ title"),
  *     @OA\Property(property="description", type="string", default="This is the answer to the question", description="FAQ answer/description"),
@@ -33,7 +33,7 @@ class StoreFaqRequest extends FormRequest
             'title'        => ['required', 'string', 'max:255'],
             'description'  => ['required', 'string'],
             'published'    => 'required|boolean',
-            'favorite'     => 'nullable|boolean',
+            'favorite'     => 'required|boolean',
             'ordering'     => 'nullable|integer|min:0',
             'category_id'  => 'required|exists:categories,id',
             'published_at' => 'nullable|date',
@@ -43,7 +43,7 @@ class StoreFaqRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         $this->convertOnToBoolean([
-            'published' => request('published', false),
+            'published' => request('published', true),
             'favorite'  => request('favorite', false),
         ]);
     }

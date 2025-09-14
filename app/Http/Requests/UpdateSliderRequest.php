@@ -24,11 +24,6 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="has_timer", type="boolean", default=false, description="Has timer functionality"),
  *     @OA\Property(property="timer_start", type="string", format="date-time", description="Timer start date"),
  *     @OA\Property(property="image", type="string", format="binary", description="Slider image"),
- *     @OA\Property(property="roles", type="array", @OA\Items(
- *         type="object",
- *         @OA\Property(property="type", type="string", example="App\\Models\\Role"),
- *         @OA\Property(property="value", type="array", @OA\Items(type="integer"), example={1, 2})
- *     ), description="Roles/permissions for slider visibility"),
  * )
  */
 class UpdateSliderRequest extends StoreSliderRequest {}

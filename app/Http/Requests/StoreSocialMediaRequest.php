@@ -13,7 +13,7 @@ use OpenApi\Annotations as OA;
  *     schema="StoreSocialMediaRequest",
  *     title="Store SocialMedia request",
  *     type="object",
- *     required={"title", "link", "position", "published"},
+ *     required={"title", "link", "position", "published","ordering"},
  *
  *     @OA\Property(property="title", type="string", default="Facebook", description="Social media platform title"),
  *     @OA\Property(property="link", type="string", default="https://facebook.com/username", description="Social media profile URL"),
@@ -32,7 +32,7 @@ class StoreSocialMediaRequest extends FormRequest
         return [
             'title'     => ['required', 'string', 'max:255'],
             'link'      => ['required', 'url'],
-            'ordering'  => 'nullable|integer|min:0',
+            'ordering'  => 'required|integer|min:0',
             'position'  => 'required|in:' . implode(',', SocialMediaPositionEnum::values()),
             'published' => 'required|boolean',
             'image'     => 'nullable|file|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
