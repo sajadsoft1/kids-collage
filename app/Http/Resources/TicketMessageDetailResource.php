@@ -14,9 +14,11 @@ use OpenApi\Annotations as OA;
  *     schema="TicketMessageDetailResource",
  *     title="TicketMessageDetailResource",
  *     @OA\Property(property="id", type="integer", default="1"),
- *     @OA\Property(property="title", type="string", default="TicketMessage Title"),
- *     @OA\Property(property="description", type="string", default="TicketMessage Description"),
- *
+ *     @OA\Property(property="message", type="string", default="Issue resolved"),
+ *     @OA\Property(property="is_from_admin", type="boolean", default=false),
+ *     @OA\Property(property="read_by", type="integer", nullable=true),
+ *     @OA\Property(property="ticket", ref="#/components/schemas/SimpleTicketResource"),
+ *     @OA\Property(property="user", ref="#/components/schemas/SimpleUserResource"),
  *     @OA\Property(property="updated_at", type="string", default="2024-08-19T07:26:07.000000Z"),
  *     @OA\Property(property="created_at", type="string", default="2024-08-19T07:26:07.000000Z"),
  * )
