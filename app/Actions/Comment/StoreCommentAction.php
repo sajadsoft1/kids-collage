@@ -38,6 +38,7 @@ class StoreCommentAction
     public function handle(array $payload): Comment
     {
         return DB::transaction(function () use ($payload) {
+            $payload['user_id']=auth()->user()->id;
             $model =  Comment::create(Arr::except($payload, ['title', 'description']));
             return $model->refresh();
         });

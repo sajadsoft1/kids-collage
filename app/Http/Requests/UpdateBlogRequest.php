@@ -37,7 +37,7 @@ class UpdateBlogRequest extends FormRequest
 
     public function rules(): array
     {
-        $rules         =  (new StoreBannerRequest())->rules();
+        $rules         =  (new StoreBlogRequest())->rules();
         $rules['slug'] = 'required|unique:blogs,slug,' . $this->route('blog')->id;
 
         return $rules;
