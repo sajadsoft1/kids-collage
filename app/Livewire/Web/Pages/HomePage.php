@@ -6,8 +6,10 @@ namespace App\Livewire\Web\Pages;
 
 use App\Models\Blog;
 use App\Models\Faq;
+use App\Models\Opinion;
 use App\Models\PortFolio;
 use App\Models\Slider;
+use App\Models\User;
 use App\Services\SeoBuilder;
 use Illuminate\View\View;
 use Livewire\Component;
@@ -19,35 +21,42 @@ class HomePage extends Component
     public function render(): View
     {
         SeoBuilder::create()
-            ->title(trans('web/home.hero_section.title'))
-            ->description(trans('web/home.hero_section.description'))
-            ->keywords(trans('web/home.hero_section.keywords'))
-            ->images([asset('favicon.ico')])
-            ->canonical(url('/'))
-            ->hreflangs([
-                ['lang' => 'en', 'url' => url('/')],
-                ['lang' => 'fa', 'url' => url('/fa')],
-            ])
-            ->apply();
+                  ->title(trans('web/home.hero_section.title'))
+                  ->description(trans('web/home.hero_section.description'))
+                  ->keywords(trans('web/home.hero_section.keywords'))
+                  ->images([asset('favicon.ico')])
+                  ->canonical(url('/'))
+                  ->hreflangs([
+                      ['lang' => 'en', 'url' => url('/')],
+                      ['lang' => 'fa', 'url' => url('/fa')],
+                  ])
+                  ->apply();
 
         return view('livewire.web.pages.home-page', [
-            'sliders'    => Slider::where('published', true)
-                ->orderByDesc('id')
-                ->get(),
+            'sliders' => Slider::where('published', true)
+                               ->orderByDesc('id')
+                               ->get(),
 
-            'faqs'       => Faq::where('published', true)
-                ->where('favorite', true)
-                ->orderByDesc('ordering')
-                ->get(),
+            'faqs' => Faq::where('published', true)
+                         ->where('favorite', true)
+                         ->orderByDesc('ordering')
+                         ->get(),
 
             'portfolios' => PortFolio::where('published', true)
-                ->limit(3)
-                ->get(),
+                                     ->limit(3)
+                                     ->get(),
 
-            'blogs'      => Blog::where('published', true)
-                ->orderByDesc('published_at')
-                ->limit(10)
-                ->get(),
+            'blogs'    => Blog::where('published', true)
+                              ->orderByDesc('published_at')
+                              ->limit(10)
+                              ->get(),
+
+            'opinions' => Opinion::where('published', true)
+                                 ->orderByDesc('created_at')
+                                 ->limit(3)
+                                 ->get(),
+
+            'teachers'=> User::limit(3)->get(),
         ])
             ->layout('components.layouts.web');
     }

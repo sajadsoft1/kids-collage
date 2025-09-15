@@ -4,11 +4,11 @@
     xl:pb-[118px] lg:pb-[98px] sm:pb-[68px] xs:pb-[48px] text-center bg-no-repeat bg-cover bg-center relative z-[1] overflow-hidden before:absolute before:-z-[1] before:inset-0 before:bg-edblue/70 before:pointer-events-none"
              style="background-image: url('/assets/web/img/breadcrumb-bg.jpg')">
         <div class="mx-[19.71%] xxxl:mx-[14.71%] xxl:mx-[9.71%] xl:mx-[5.71%] md:mx-[12px]">
-            <h1 class="font-semibold text-[clamp(35px,6vw,56px)] text-white">About us</h1>
+            <h1 class="font-semibold text-[clamp(35px,6vw,56px)] text-white">{{trans('web/about_us.breadcrumb.title')}}</h1>
             <ul class="flex items-center justify-center gap-[10px] text-white">
                 <li><a href="index.html" class="text-edyellow">Home</a></li>
                 <li><span class="text-[12px]"><i class="fa-solid fa-angle-double-right"></i></span></li>
-                <li>About us</li>
+                <li>{{trans('web/about_us.breadcrumb.current_page')}}</li>
             </ul>
         </div>
 
