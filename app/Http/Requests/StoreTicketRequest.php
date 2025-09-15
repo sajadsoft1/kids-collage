@@ -20,7 +20,7 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="body", type="string", default="Please help me with...", description="Ticket message body"),
  *     @OA\Property(property="user_id", type="integer", default=1, description="User ID who creates the ticket"),
  *     @OA\Property(property="department", ref="#/components/schemas/TicketDepartmentEnum"),
- *     @OA\Property(property="priority", tref="#/components/schemas/TicketPriorityEnum"),
+ *     @OA\Property(property="priority", ref="#/components/schemas/TicketPriorityEnum"),
  *     @OA\Property(property="image", type="string", format="binary", description="Attachment image file"),
  * )
  */

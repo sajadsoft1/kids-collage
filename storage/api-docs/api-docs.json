@@ -8430,11 +8430,7 @@
                         "default": "<p>Detailed tag content...</p>"
                     },
                     "type": {
-                        "description": "Tag type",
-                        "type": "string",
-                        "enum": [
-                            "special"
-                        ]
+                        "$ref": "#/components/schemas/TagTypeEnum"
                     },
                     "order_column": {
                         "description": "Tag order",
@@ -8595,25 +8591,10 @@
                         "default": 1
                     },
                     "department": {
-                        "description": "Ticket department",
-                        "type": "string",
-                        "default": "technical",
-                        "enum": [
-                            "finance_and_administration",
-                            "Sale",
-                            "technical"
-                        ]
+                        "$ref": "#/components/schemas/TicketDepartmentEnum"
                     },
                     "priority": {
-                        "description": "Ticket priority (1=Low, 2=Medium, 3=High, 4=Critical)",
-                        "type": "integer",
-                        "default": 2,
-                        "enum": [
-                            1,
-                            2,
-                            3,
-                            4
-                        ]
+                        "$ref": "#/components/schemas/TicketPriorityEnum"
                     },
                     "image": {
                         "description": "Attachment image file",

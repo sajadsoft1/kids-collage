@@ -14,9 +14,9 @@ use OpenApi\Annotations as OA;
  *     type="object",
  *     required={"title", "published"},
  *
- *     @OA\Property(property="title", type="string", default="Updated client title", description="Client title"),
- *     @OA\Property(property="description", type="string", default="Updated client description", description="Client description"),
- *     @OA\Property(property="published", type="boolean", default=true, description="Publication status"),
+ *     @OA\Property(property="title", type="string", default="test title", description="Client title"),
+ *     @OA\Property(property="description", type="string", default="test description", description="Client description"),
+ *     @OA\Property(property="published", ref="#/components/schemas/BooleanEnum"),
  *     @OA\Property(property="link", type="string", default="https://example.com", description="Client website link"),
  *     @OA\Property(property="image", type="string", format="binary", description="Client logo/image file"),
  * )
