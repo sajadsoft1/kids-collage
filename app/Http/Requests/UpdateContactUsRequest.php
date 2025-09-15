@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
+use App\Enums\YesNoEnum;
 use Illuminate\Foundation\Http\FormRequest;
 use OpenApi\Annotations as OA;
 
@@ -19,6 +20,7 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="mobile", type="string", default="09123456789", description="Contact mobile number"),
  *     @OA\Property(property="comment", type="string", default="Updated message content", description="Contact message/comment"),
  *     @OA\Property(property="admin_note", type="string", default="Updated message content", description="Contact admin message/comment"),
+ *     @OA\Property(property="follow_up", ref="#/components/schemas/YesNoEnum"),
  * )
  */
 class UpdateContactUsRequest extends FormRequest

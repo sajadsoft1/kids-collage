@@ -12,7 +12,7 @@ use OpenApi\Annotations as OA;
  *     schema="UpdateBannerRequest",
  *     title="Update Banner request",
  *     type="object",
- *     required={"title", "published","size",'image'},
+ *     required={"title", "published","size","image"},
  *
  *     @OA\Property(property="title", type="string", default="Updated banner title", description="Banner title"),
  *     @OA\Property(property="description", type="string", default="Updated banner description", description="Banner description"),
