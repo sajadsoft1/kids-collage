@@ -20,7 +20,7 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="slug", type="string", default="test-slug"),
  *     @OA\Property(property="description", type="string", default="Web development services", description="Tag description"),
  *     @OA\Property(property="body", type="string", default="<p>Detailed tag content...</p>", description="Tag detailed content"),
- *     @OA\Property(property="type", type="string", enum={"special"}, description="Tag type"),
+ *     @OA\Property(property="type", ref="#/components/schemas/TagTypeEnum"),
  *     @OA\Property(property="order_column", type="integer", default=1, description="Tag order"),
  *     @OA\Property(property="seo_title", type="string", default="Web Development | Company Name", description="SEO title"),
  *     @OA\Property(property="seo_description", type="string", default="Professional web development services", description="SEO description"),

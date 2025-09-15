@@ -18,7 +18,7 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="title", type="string", default="test title"),
  *     @OA\Property(property="description", type="string", default="test description"),
  *     @OA\Property(property="body", type="string", default="test body"),
- *     @OA\Property(property="published", type="boolean", default=true),
+ *     @OA\Property(property="published", ref="#/components/schemas/BooleanEnum"),
  *     @OA\Property(property="published_at", type="string", format="date-time", default="2024-08-19T07:26:07.000000Z"),
  *     @OA\Property(property="category_id", type="integer", default=1),
  *     @OA\Property(property="slug", type="string", default="test-slug"),

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
+use Illuminate\Foundation\Http\FormRequest;
 use OpenApi\Annotations as OA;
 
 /**
@@ -11,7 +12,7 @@ use OpenApi\Annotations as OA;
  *     schema="UpdateCategoryRequest",
  *     title="Update Category request",
  *     type="object",
- *     required={"title", "published", "type", "seo_title", "seo_description", "robots_meta"},
+ *    required={"title", "published","slug" ,"type", "seo_title", "seo_description", "robots_meta"},
  *
  *     @OA\Property(property="title", type="string", default="Updated category title", description="Category title"),
  *     @OA\Property(property="description", type="string", default="Updated category description", description="Category description"),
@@ -31,4 +32,18 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="image", type="string", format="binary", description="Category image file"),
  * )
  */
-class UpdateCategoryRequest extends StoreCategoryRequest {}
+class UpdateCategoryRequest extends FormRequest
+{
+    use FillAttributes;
+    public function rules(): array
+    {
+        return (new StoreCategoryRequest())->rules();
+    }
+    protected function prepareForValidation()
+    {
+        $this->convertOnToBoolean([
+            'published' => request('published', false),
+        ]);
+    }
+
+}

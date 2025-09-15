@@ -7667,7 +7667,9 @@
                 "title": "Store Banner request",
                 "required": [
                     "title",
-                    "published"
+                    "published",
+                    "size",
+                    "image"
                 ],
                 "properties": {
                     "title": {
@@ -7680,25 +7682,16 @@
                         "type": "string",
                         "default": "test description"
                     },
+                    "size": {
+                        "$ref": "#/components/schemas/BannerSizeEnum"
+                    },
                     "published": {
-                        "description": "Publication status",
-                        "type": "boolean",
-                        "default": true
+                        "$ref": "#/components/schemas/BooleanEnum"
                     },
                     "published_at": {
                         "description": "Publication date",
                         "type": "string",
                         "format": "date-time"
-                    },
-                    "size": {
-                        "description": "Banner size",
-                        "type": "string",
-                        "default": "16x9",
-                        "enum": [
-                            "1x1",
-                            "16x9",
-                            "4x3"
-                        ]
                     },
                     "image": {
                         "description": "Banner image file",
@@ -7734,8 +7727,7 @@
                         "default": "test body"
                     },
                     "published": {
-                        "type": "boolean",
-                        "default": true
+                        "$ref": "#/components/schemas/BooleanEnum"
                     },
                     "published_at": {
                         "type": "string",
@@ -7858,6 +7850,7 @@
                 "required": [
                     "title",
                     "published",
+                    "slug",
                     "type",
                     "seo_title",
                     "seo_description",
@@ -7880,23 +7873,14 @@
                         "default": "test body"
                     },
                     "published": {
-                        "description": "Publication status",
-                        "type": "boolean",
-                        "default": true
+                        "$ref": "#/components/schemas/BooleanEnum"
                     },
                     "parent_id": {
                         "description": "Parent category ID",
                         "type": "integer"
                     },
                     "type": {
-                        "description": "Category type",
-                        "type": "string",
-                        "default": "blog",
-                        "enum": [
-                            "blog",
-                            "portfolio",
-                            "faq"
-                        ]
+                        "$ref": "#/components/schemas/CategoryTypeEnum"
                     },
                     "ordering": {
                         "description": "Category order",
@@ -7980,9 +7964,7 @@
                         "default": "test description"
                     },
                     "published": {
-                        "description": "Publication status",
-                        "type": "boolean",
-                        "default": true
+                        "$ref": "#/components/schemas/BooleanEnum"
                     },
                     "link": {
                         "description": "Client website link",
@@ -8000,16 +7982,21 @@
             "StoreCommentRequest": {
                 "title": "Store Comment request",
                 "required": [
-                    "title"
+                    "comment",
+                    "published"
                 ],
                 "properties": {
-                    "title": {
-                        "type": "string",
-                        "default": "test title"
+                    "published": {
+                        "$ref": "#/components/schemas/BooleanEnum"
                     },
-                    "description": {
+                    "parent_id": {
+                        "type": "integer",
+                        "default": null,
+                        "nullable": true
+                    },
+                    "comment": {
                         "type": "string",
-                        "default": "test description"
+                        "default": "This is a comment"
                     }
                 },
                 "type": "object"
@@ -8053,7 +8040,8 @@
                     "title",
                     "description",
                     "published",
-                    "category_id"
+                    "category_id",
+                    "favorite"
                 ],
                 "properties": {
                     "title": {
@@ -8067,14 +8055,10 @@
                         "default": "This is the answer to the question"
                     },
                     "published": {
-                        "description": "Publication status",
-                        "type": "boolean",
-                        "default": true
+                        "$ref": "#/components/schemas/BooleanEnum"
                     },
                     "favorite": {
-                        "description": "Mark as favorite FAQ",
-                        "type": "boolean",
-                        "default": false
+                        "$ref": "#/components/schemas/YesNoEnum"
                     },
                     "ordering": {
                         "description": "FAQ order",
@@ -8099,7 +8083,8 @@
                 "required": [
                     "user_name",
                     "comment",
-                    "published"
+                    "published",
+                    "ordering"
                 ],
                 "properties": {
                     "user_name": {
@@ -8118,9 +8103,7 @@
                         "default": "ABC Company"
                     },
                     "published": {
-                        "description": "Publication status",
-                        "type": "boolean",
-                        "default": true
+                        "$ref": "#/components/schemas/BooleanEnum"
                     },
                     "ordering": {
                         "description": "Opinion order",
@@ -8320,7 +8303,10 @@
                 "title": "Store Slider request",
                 "required": [
                     "title",
-                    "published"
+                    "published",
+                    " position",
+                    "has_timer",
+                    " image"
                 ],
                 "properties": {
                     "title": {
@@ -8334,9 +8320,7 @@
                         "default": "Slider description"
                     },
                     "published": {
-                        "description": "Publication status",
-                        "type": "boolean",
-                        "default": true
+                        "$ref": "#/components/schemas/BooleanEnum"
                     },
                     "ordering": {
                         "description": "Slider order",
@@ -8359,19 +8343,10 @@
                         "default": "https://example.com"
                     },
                     "position": {
-                        "description": "Slider position",
-                        "type": "string",
-                        "default": "top",
-                        "enum": [
-                            "top",
-                            "middle",
-                            "bottom"
-                        ]
+                        "$ref": "#/components/schemas/SliderPositionEnum"
                     },
                     "has_timer": {
-                        "description": "Has timer functionality",
-                        "type": "boolean",
-                        "default": false
+                        "$ref": "#/components/schemas/YesNoEnum"
                     },
                     "timer_start": {
                         "description": "Timer start date",
@@ -8382,29 +8357,6 @@
                         "description": "Slider image",
                         "type": "string",
                         "format": "binary"
-                    },
-                    "roles": {
-                        "description": "Roles/permissions for slider visibility",
-                        "type": "array",
-                        "items": {
-                            "properties": {
-                                "type": {
-                                    "type": "string",
-                                    "example": "App\\\\Models\\\\Role"
-                                },
-                                "value": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "integer"
-                                    },
-                                    "example": [
-                                        1,
-                                        2
-                                    ]
-                                }
-                            },
-                            "type": "object"
-                        }
                     }
                 },
                 "type": "object"
@@ -8415,7 +8367,8 @@
                     "title",
                     "link",
                     "position",
-                    "published"
+                    "published",
+                    "ordering"
                 ],
                 "properties": {
                     "title": {
@@ -8434,19 +8387,10 @@
                         "default": 0
                     },
                     "position": {
-                        "description": "Display position",
-                        "type": "string",
-                        "default": "all",
-                        "enum": [
-                            "all",
-                            "header",
-                            "footer"
-                        ]
+                        "$ref": "#/components/schemas/SocialMediaPositionEnum"
                     },
                     "published": {
-                        "description": "Publication status",
-                        "type": "boolean",
-                        "default": true
+                        "$ref": "#/components/schemas/BooleanEnum"
                     },
                     "image": {
                         "description": "Social media icon/image",
@@ -8462,7 +8406,8 @@
                     "name",
                     "seo_title",
                     "seo_description",
-                    "robots_meta"
+                    "robots_meta",
+                    "slug"
                 ],
                 "properties": {
                     "name": {
@@ -8572,9 +8517,7 @@
                         "default": "1990-01-01"
                     },
                     "published": {
-                        "description": "Publication status",
-                        "type": "boolean",
-                        "default": true
+                        "$ref": "#/components/schemas/BooleanEnum"
                     },
                     "email": {
                         "description": "Teammate email",
@@ -8740,54 +8683,41 @@
                 "title": "Update Banner request",
                 "required": [
                     "title",
-                    "published"
+                    "published",
+                    "size",
+                    "image"
                 ],
-                "type": "object",
-                "allOf": [
-                    {
-                        "$ref": "#/components/schemas/StoreBannerRequest"
+                "properties": {
+                    "title": {
+                        "description": "Banner title",
+                        "type": "string",
+                        "default": "Updated banner title"
                     },
-                    {
-                        "properties": {
-                            "title": {
-                                "description": "Banner title",
-                                "type": "string",
-                                "default": "Updated banner title"
-                            },
-                            "description": {
-                                "description": "Banner description",
-                                "type": "string",
-                                "default": "Updated banner description"
-                            },
-                            "published": {
-                                "description": "Publication status",
-                                "type": "boolean",
-                                "default": true
-                            },
-                            "published_at": {
-                                "description": "Publication date",
-                                "type": "string",
-                                "format": "date-time"
-                            },
-                            "size": {
-                                "description": "Banner size",
-                                "type": "string",
-                                "default": "16x9",
-                                "enum": [
-                                    "1x1",
-                                    "16x9",
-                                    "4x3"
-                                ]
-                            },
-                            "image": {
-                                "description": "Banner image file",
-                                "type": "string",
-                                "format": "binary"
-                            }
-                        },
-                        "type": "object"
+                    "description": {
+                        "description": "Banner description",
+                        "type": "string",
+                        "default": "Updated banner description"
+                    },
+                    "published": {
+                        "description": "Publication status",
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "published_at": {
+                        "description": "Publication date",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "size": {
+                        "$ref": "#/components/schemas/BannerSizeEnum"
+                    },
+                    "image": {
+                        "description": "Banner image file",
+                        "type": "string",
+                        "format": "binary"
                     }
-                ]
+                },
+                "type": "object"
             },
             "UpdateBlogRequest": {
                 "title": "Update Blog request",
@@ -8801,104 +8731,96 @@
                     "seo_description",
                     "robots_meta"
                 ],
-                "type": "object",
-                "allOf": [
-                    {
-                        "$ref": "#/components/schemas/StoreBlogRequest"
+                "properties": {
+                    "title": {
+                        "description": "Blog title",
+                        "type": "string",
+                        "default": "Updated blog title"
                     },
-                    {
-                        "properties": {
-                            "title": {
-                                "description": "Blog title",
-                                "type": "string",
-                                "default": "Updated blog title"
-                            },
-                            "description": {
-                                "description": "Blog description",
-                                "type": "string",
-                                "default": "Updated blog description"
-                            },
-                            "body": {
-                                "description": "Blog body content",
-                                "type": "string",
-                                "default": "Updated blog content"
-                            },
-                            "published": {
-                                "description": "Publication status",
-                                "type": "boolean",
-                                "default": true
-                            },
-                            "published_at": {
-                                "description": "Publication date",
-                                "type": "string",
-                                "format": "date-time",
-                                "default": "2024-08-19T07:26:07.000000Z"
-                            },
-                            "category_id": {
-                                "description": "Blog category ID",
-                                "type": "integer",
-                                "default": 1
-                            },
-                            "slug": {
-                                "description": "Blog slug/URL",
-                                "type": "string",
-                                "default": "updated-blog-slug"
-                            },
-                            "seo_title": {
-                                "description": "SEO title",
-                                "type": "string",
-                                "default": "Updated SEO title"
-                            },
-                            "seo_description": {
-                                "description": "SEO description",
-                                "type": "string",
-                                "default": "Updated SEO description"
-                            },
-                            "canonical": {
-                                "description": "Canonical URL",
-                                "type": "string",
-                                "default": "https://example.com"
-                            },
-                            "old_url": {
-                                "description": "Old URL for redirect",
-                                "type": "string",
-                                "default": "https://example.com/old"
-                            },
-                            "redirect_to": {
-                                "description": "Redirect target URL",
-                                "type": "string",
-                                "default": "https://example.com/new"
-                            },
-                            "robots_meta": {
-                                "description": "Robots meta tag",
-                                "type": "string",
-                                "default": "index_follow",
-                                "enum": [
-                                    "index_follow",
-                                    "noindex_nofollow",
-                                    "noindex_follow"
-                                ]
-                            },
-                            "tags": {
-                                "description": "Blog tags",
-                                "type": "array",
-                                "items": {
-                                    "type": "string"
-                                },
-                                "example": [
-                                    "updated-tag1",
-                                    "updated-tag2"
-                                ]
-                            },
-                            "image": {
-                                "description": "Blog featured image",
-                                "type": "string",
-                                "format": "binary"
-                            }
+                    "description": {
+                        "description": "Blog description",
+                        "type": "string",
+                        "default": "Updated blog description"
+                    },
+                    "body": {
+                        "description": "Blog body content",
+                        "type": "string",
+                        "default": "Updated blog content"
+                    },
+                    "published": {
+                        "description": "Publication status",
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "published_at": {
+                        "description": "Publication date",
+                        "type": "string",
+                        "format": "date-time",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "category_id": {
+                        "description": "Blog category ID",
+                        "type": "integer",
+                        "default": 1
+                    },
+                    "slug": {
+                        "description": "Blog slug/URL",
+                        "type": "string",
+                        "default": "updated-blog-slug"
+                    },
+                    "seo_title": {
+                        "description": "SEO title",
+                        "type": "string",
+                        "default": "Updated SEO title"
+                    },
+                    "seo_description": {
+                        "description": "SEO description",
+                        "type": "string",
+                        "default": "Updated SEO description"
+                    },
+                    "canonical": {
+                        "description": "Canonical URL",
+                        "type": "string",
+                        "default": "https://example.com"
+                    },
+                    "old_url": {
+                        "description": "Old URL for redirect",
+                        "type": "string",
+                        "default": "https://example.com/old"
+                    },
+                    "redirect_to": {
+                        "description": "Redirect target URL",
+                        "type": "string",
+                        "default": "https://example.com/new"
+                    },
+                    "robots_meta": {
+                        "description": "Robots meta tag",
+                        "type": "string",
+                        "default": "index_follow",
+                        "enum": [
+                            "index_follow",
+                            "noindex_nofollow",
+                            "noindex_follow"
+                        ]
+                    },
+                    "tags": {
+                        "description": "Blog tags",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
                         },
-                        "type": "object"
+                        "example": [
+                            "updated-tag1",
+                            "updated-tag2"
+                        ]
+                    },
+                    "image": {
+                        "description": "Blog featured image",
+                        "type": "string",
+                        "format": "binary"
                     }
-                ]
+                },
+                "type": "object"
             },
             "UpdateBoardRequest": {
                 "title": "Update Board request",
@@ -8986,117 +8908,110 @@
                 "required": [
                     "title",
                     "published",
+                    "slug",
                     "type",
                     "seo_title",
                     "seo_description",
                     "robots_meta"
                 ],
-                "type": "object",
-                "allOf": [
-                    {
-                        "$ref": "#/components/schemas/StoreCategoryRequest"
+                "properties": {
+                    "title": {
+                        "description": "Category title",
+                        "type": "string",
+                        "default": "Updated category title"
                     },
-                    {
-                        "properties": {
-                            "title": {
-                                "description": "Category title",
-                                "type": "string",
-                                "default": "Updated category title"
-                            },
-                            "description": {
-                                "description": "Category description",
-                                "type": "string",
-                                "default": "Updated category description"
-                            },
-                            "body": {
-                                "description": "Category body content",
-                                "type": "string",
-                                "default": "Updated category body"
-                            },
-                            "published": {
-                                "description": "Publication status",
-                                "type": "boolean",
-                                "default": true
-                            },
-                            "parent_id": {
-                                "description": "Parent category ID",
-                                "type": "integer"
-                            },
-                            "type": {
-                                "description": "Category type",
-                                "type": "string",
-                                "default": "blog",
-                                "enum": [
-                                    "blog",
-                                    "portfolio",
-                                    "faq"
-                                ]
-                            },
-                            "ordering": {
-                                "description": "Category order",
-                                "type": "integer",
-                                "default": 0
-                            },
-                            "slug": {
-                                "description": "Category slug",
-                                "type": "string",
-                                "default": "updated-slug"
-                            },
-                            "seo_title": {
-                                "description": "SEO title",
-                                "type": "string",
-                                "default": "Updated SEO title"
-                            },
-                            "seo_description": {
-                                "description": "SEO description",
-                                "type": "string",
-                                "default": "Updated SEO description"
-                            },
-                            "canonical": {
-                                "description": "Canonical URL",
-                                "type": "string",
-                                "default": "https://example.com"
-                            },
-                            "old_url": {
-                                "description": "Old URL for redirect",
-                                "type": "string",
-                                "default": "https://example.com/old"
-                            },
-                            "redirect_to": {
-                                "description": "Redirect target URL",
-                                "type": "string",
-                                "default": "https://example.com/new"
-                            },
-                            "robots_meta": {
-                                "description": "Robots meta tag",
-                                "type": "string",
-                                "default": "index_follow",
-                                "enum": [
-                                    "index_follow",
-                                    "noindex_nofollow",
-                                    "noindex_follow"
-                                ]
-                            },
-                            "tags": {
-                                "description": "Category tags",
-                                "type": "array",
-                                "items": {
-                                    "type": "string"
-                                },
-                                "example": [
-                                    "tag1",
-                                    "tag2"
-                                ]
-                            },
-                            "image": {
-                                "description": "Category image file",
-                                "type": "string",
-                                "format": "binary"
-                            }
+                    "description": {
+                        "description": "Category description",
+                        "type": "string",
+                        "default": "Updated category description"
+                    },
+                    "body": {
+                        "description": "Category body content",
+                        "type": "string",
+                        "default": "Updated category body"
+                    },
+                    "published": {
+                        "description": "Publication status",
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "parent_id": {
+                        "description": "Parent category ID",
+                        "type": "integer"
+                    },
+                    "type": {
+                        "description": "Category type",
+                        "type": "string",
+                        "default": "blog",
+                        "enum": [
+                            "blog",
+                            "portfolio",
+                            "faq"
+                        ]
+                    },
+                    "ordering": {
+                        "description": "Category order",
+                        "type": "integer",
+                        "default": 0
+                    },
+                    "slug": {
+                        "description": "Category slug",
+                        "type": "string",
+                        "default": "updated-slug"
+                    },
+                    "seo_title": {
+                        "description": "SEO title",
+                        "type": "string",
+                        "default": "Updated SEO title"
+                    },
+                    "seo_description": {
+                        "description": "SEO description",
+                        "type": "string",
+                        "default": "Updated SEO description"
+                    },
+                    "canonical": {
+                        "description": "Canonical URL",
+                        "type": "string",
+                        "default": "https://example.com"
+                    },
+                    "old_url": {
+                        "description": "Old URL for redirect",
+                        "type": "string",
+                        "default": "https://example.com/old"
+                    },
+                    "redirect_to": {
+                        "description": "Redirect target URL",
+                        "type": "string",
+                        "default": "https://example.com/new"
+                    },
+                    "robots_meta": {
+                        "description": "Robots meta tag",
+                        "type": "string",
+                        "default": "index_follow",
+                        "enum": [
+                            "index_follow",
+                            "noindex_nofollow",
+                            "noindex_follow"
+                        ]
+                    },
+                    "tags": {
+                        "description": "Category tags",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
                         },
-                        "type": "object"
+                        "example": [
+                            "tag1",
+                            "tag2"
+                        ]
+                    },
+                    "image": {
+                        "description": "Category image file",
+                        "type": "string",
+                        "format": "binary"
                     }
-                ]
+                },
+                "type": "object"
             },
             "UpdateClientRequest": {
                 "title": "Update Client request",
@@ -9104,117 +9019,61 @@
                     "title",
                     "published"
                 ],
-                "type": "object",
-                "allOf": [
-                    {
-                        "$ref": "#/components/schemas/StoreClientRequest"
+                "properties": {
+                    "title": {
+                        "description": "Client title",
+                        "type": "string",
+                        "default": "Updated client title"
                     },
-                    {
-                        "properties": {
-                            "title": {
-                                "description": "Client title",
-                                "type": "string",
-                                "default": "Updated client title"
-                            },
-                            "description": {
-                                "description": "Client description",
-                                "type": "string",
-                                "default": "Updated client description"
-                            },
-                            "published": {
-                                "description": "Publication status",
-                                "type": "boolean",
-                                "default": true
-                            },
-                            "link": {
-                                "description": "Client website link",
-                                "type": "string",
-                                "default": "https://example.com"
-                            },
-                            "image": {
-                                "description": "Client logo/image file",
-                                "type": "string",
-                                "format": "binary"
-                            }
-                        },
-                        "type": "object"
+                    "description": {
+                        "description": "Client description",
+                        "type": "string",
+                        "default": "Updated client description"
+                    },
+                    "published": {
+                        "description": "Publication status",
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "link": {
+                        "description": "Client website link",
+                        "type": "string",
+                        "default": "https://example.com"
+                    },
+                    "image": {
+                        "description": "Client logo/image file",
+                        "type": "string",
+                        "format": "binary"
                     }
-                ]
+                },
+                "type": "object"
             },
             "UpdateCommentRequest": {
                 "title": "Update Comment request",
                 "required": [
-                    "title",
-                    "description",
-                    "published",
-                    "user_id",
                     "comment",
-                    "morphable_type",
-                    "morphable_id"
+                    "published"
                 ],
-                "type": "object",
-                "allOf": [
-                    {
-                        "$ref": "#/components/schemas/StoreCommentRequest"
+                "properties": {
+                    "published": {
+                        "type": "boolean",
+                        "default": true
                     },
-                    {
-                        "properties": {
-                            "title": {
-                                "description": "Comment title",
-                                "type": "string",
-                                "default": "Updated comment title"
-                            },
-                            "description": {
-                                "description": "Comment description",
-                                "type": "string",
-                                "default": "Updated comment description"
-                            },
-                            "published": {
-                                "description": "Publication status",
-                                "type": "boolean",
-                                "default": true
-                            },
-                            "user_id": {
-                                "description": "User ID who made the comment",
-                                "type": "integer",
-                                "default": 1
-                            },
-                            "admin_id": {
-                                "description": "Admin ID who manages the comment",
-                                "type": "integer"
-                            },
-                            "parent_id": {
-                                "description": "Parent comment ID for replies",
-                                "type": "integer"
-                            },
-                            "comment": {
-                                "description": "Comment content",
-                                "type": "string",
-                                "default": "This is a great post!"
-                            },
-                            "admin_note": {
-                                "description": "Admin note for the comment",
-                                "type": "string"
-                            },
-                            "morphable_type": {
-                                "description": "Type of model being commented on",
-                                "type": "string",
-                                "default": "App\\\\Models\\\\Blog"
-                            },
-                            "morphable_id": {
-                                "description": "ID of model being commented on",
-                                "type": "integer",
-                                "default": 1
-                            },
-                            "published_at": {
-                                "description": "Publication date",
-                                "type": "string",
-                                "format": "date-time"
-                            }
-                        },
-                        "type": "object"
+                    "parent_id": {
+                        "type": "integer",
+                        "default": null,
+                        "nullable": true
+                    },
+                    "comment": {
+                        "type": "string",
+                        "default": "This is a comment"
+                    },
+                    "admin_note": {
+                        "type": "string",
+                        "default": "This is aadmin comment "
                     }
-                ]
+                },
+                "type": "object"
             },
             "UpdateContactUsRequest": {
                 "title": "Update ContactUs request",
@@ -9224,38 +9083,38 @@
                     "mobile",
                     "comment"
                 ],
-                "type": "object",
-                "allOf": [
-                    {
-                        "$ref": "#/components/schemas/StoreContactUsRequest"
+                "properties": {
+                    "name": {
+                        "description": "Contact person name",
+                        "type": "string",
+                        "default": "Jane Doe"
                     },
-                    {
-                        "properties": {
-                            "name": {
-                                "description": "Contact person name",
-                                "type": "string",
-                                "default": "Jane Doe"
-                            },
-                            "email": {
-                                "description": "Contact email address",
-                                "type": "string",
-                                "format": "email",
-                                "default": "jane@example.com"
-                            },
-                            "mobile": {
-                                "description": "Contact mobile number",
-                                "type": "string",
-                                "default": "09123456789"
-                            },
-                            "comment": {
-                                "description": "Contact message/comment",
-                                "type": "string",
-                                "default": "Updated message content"
-                            }
-                        },
-                        "type": "object"
+                    "email": {
+                        "description": "Contact email address",
+                        "type": "string",
+                        "format": "email",
+                        "default": "jane@example.com"
+                    },
+                    "mobile": {
+                        "description": "Contact mobile number",
+                        "type": "string",
+                        "default": "09123456789"
+                    },
+                    "comment": {
+                        "description": "Contact message/comment",
+                        "type": "string",
+                        "default": "Updated message content"
+                    },
+                    "admin_note": {
+                        "description": "Contact admin message/comment",
+                        "type": "string",
+                        "default": "Updated message content"
+                    },
+                    "follow_up": {
+                        "$ref": "#/components/schemas/YesNoEnum"
                     }
-                ]
+                },
+                "type": "object"
             },
             "UpdateFaqRequest": {
                 "title": "Update Faq request",
@@ -9639,29 +9498,6 @@
                                 "description": "Slider image",
                                 "type": "string",
                                 "format": "binary"
-                            },
-                            "roles": {
-                                "description": "Roles/permissions for slider visibility",
-                                "type": "array",
-                                "items": {
-                                    "properties": {
-                                        "type": {
-                                            "type": "string",
-                                            "example": "App\\\\Models\\\\Role"
-                                        },
-                                        "value": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "integer"
-                                            },
-                                            "example": [
-                                                1,
-                                                2
-                                            ]
-                                        }
-                                    },
-                                    "type": "object"
-                                }
                             }
                         },
                         "type": "object"

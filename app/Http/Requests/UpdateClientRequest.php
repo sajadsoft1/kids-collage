@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
+use Illuminate\Foundation\Http\FormRequest;
 use OpenApi\Annotations as OA;
 
 /**
@@ -20,4 +21,19 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="image", type="string", format="binary", description="Client logo/image file"),
  * )
  */
-class UpdateClientRequest extends StoreClientRequest {}
+class UpdateClientRequest extends FormRequest
+{
+    use FillAttributes;
+
+    public function rules(): array
+    {
+        return (new StoreClientRequest())->rules();
+    }
+
+    protected function prepareForValidation()
+    {
+        $this->convertOnToBoolean([
+            'published' => request('published', false),
+        ]);
+    }
+}
