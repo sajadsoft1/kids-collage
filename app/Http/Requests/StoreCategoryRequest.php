@@ -38,6 +38,7 @@ class StoreCategoryRequest extends FormRequest
 {
     use FillAttributes;
 
+
     public function rules(): array
     {
         return [
