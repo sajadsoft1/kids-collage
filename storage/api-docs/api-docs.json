@@ -8672,25 +8672,23 @@
                     "title": {
                         "description": "Banner title",
                         "type": "string",
-                        "default": "Updated banner title"
+                        "default": "test title"
                     },
                     "description": {
                         "description": "Banner description",
                         "type": "string",
-                        "default": "Updated banner description"
+                        "default": "test description"
+                    },
+                    "size": {
+                        "$ref": "#/components/schemas/BannerSizeEnum"
                     },
                     "published": {
-                        "description": "Publication status",
-                        "type": "boolean",
-                        "default": true
+                        "$ref": "#/components/schemas/BooleanEnum"
                     },
                     "published_at": {
                         "description": "Publication date",
                         "type": "string",
                         "format": "date-time"
-                    },
-                    "size": {
-                        "$ref": "#/components/schemas/BannerSizeEnum"
                     },
                     "image": {
                         "description": "Banner image file",
@@ -8714,68 +8712,54 @@
                 ],
                 "properties": {
                     "title": {
-                        "description": "Blog title",
                         "type": "string",
-                        "default": "Updated blog title"
+                        "default": "test title"
                     },
                     "description": {
-                        "description": "Blog description",
                         "type": "string",
-                        "default": "Updated blog description"
+                        "default": "test description"
                     },
                     "body": {
-                        "description": "Blog body content",
                         "type": "string",
-                        "default": "Updated blog content"
+                        "default": "test body"
                     },
                     "published": {
-                        "description": "Publication status",
-                        "type": "boolean",
-                        "default": true
+                        "$ref": "#/components/schemas/BooleanEnum"
                     },
                     "published_at": {
-                        "description": "Publication date",
                         "type": "string",
                         "format": "date-time",
                         "default": "2024-08-19T07:26:07.000000Z"
                     },
                     "category_id": {
-                        "description": "Blog category ID",
                         "type": "integer",
                         "default": 1
                     },
                     "slug": {
-                        "description": "Blog slug/URL",
                         "type": "string",
-                        "default": "updated-blog-slug"
+                        "default": "test-slug"
                     },
                     "seo_title": {
-                        "description": "SEO title",
                         "type": "string",
-                        "default": "Updated SEO title"
+                        "default": "test seo title"
                     },
                     "seo_description": {
-                        "description": "SEO description",
                         "type": "string",
-                        "default": "Updated SEO description"
+                        "default": "test seo description"
                     },
                     "canonical": {
-                        "description": "Canonical URL",
                         "type": "string",
                         "default": "https://example.com"
                     },
                     "old_url": {
-                        "description": "Old URL for redirect",
                         "type": "string",
                         "default": "https://example.com/old"
                     },
                     "redirect_to": {
-                        "description": "Redirect target URL",
                         "type": "string",
                         "default": "https://example.com/new"
                     },
                     "robots_meta": {
-                        "description": "Robots meta tag",
                         "type": "string",
                         "default": "index_follow",
                         "enum": [
@@ -8785,18 +8769,16 @@
                         ]
                     },
                     "tags": {
-                        "description": "Blog tags",
                         "type": "array",
                         "items": {
                             "type": "string"
                         },
                         "example": [
-                            "updated-tag1",
-                            "updated-tag2"
+                            "tag1",
+                            "tag2"
                         ]
                     },
                     "image": {
-                        "description": "Blog featured image",
                         "type": "string",
                         "format": "binary"
                     }
@@ -8899,36 +8881,27 @@
                     "title": {
                         "description": "Category title",
                         "type": "string",
-                        "default": "Updated category title"
+                        "default": "test title"
                     },
                     "description": {
                         "description": "Category description",
                         "type": "string",
-                        "default": "Updated category description"
+                        "default": "test description"
                     },
                     "body": {
                         "description": "Category body content",
                         "type": "string",
-                        "default": "Updated category body"
+                        "default": "test body"
                     },
                     "published": {
-                        "description": "Publication status",
-                        "type": "boolean",
-                        "default": true
+                        "$ref": "#/components/schemas/BooleanEnum"
                     },
                     "parent_id": {
                         "description": "Parent category ID",
                         "type": "integer"
                     },
                     "type": {
-                        "description": "Category type",
-                        "type": "string",
-                        "default": "blog",
-                        "enum": [
-                            "blog",
-                            "portfolio",
-                            "faq"
-                        ]
+                        "$ref": "#/components/schemas/CategoryTypeEnum"
                     },
                     "ordering": {
                         "description": "Category order",
@@ -8938,17 +8911,17 @@
                     "slug": {
                         "description": "Category slug",
                         "type": "string",
-                        "default": "updated-slug"
+                        "default": "test-slug"
                     },
                     "seo_title": {
                         "description": "SEO title",
                         "type": "string",
-                        "default": "Updated SEO title"
+                        "default": "test seo title"
                     },
                     "seo_description": {
                         "description": "SEO description",
                         "type": "string",
-                        "default": "Updated SEO description"
+                        "default": "test seo description"
                     },
                     "canonical": {
                         "description": "Canonical URL",
@@ -9004,17 +8977,15 @@
                     "title": {
                         "description": "Client title",
                         "type": "string",
-                        "default": "Updated client title"
+                        "default": "test title"
                     },
                     "description": {
                         "description": "Client description",
                         "type": "string",
-                        "default": "Updated client description"
+                        "default": "test description"
                     },
                     "published": {
-                        "description": "Publication status",
-                        "type": "boolean",
-                        "default": true
+                        "$ref": "#/components/schemas/BooleanEnum"
                     },
                     "link": {
                         "description": "Client website link",
@@ -9103,108 +9074,88 @@
                     "title",
                     "description",
                     "published",
-                    "category_id"
+                    "category_id",
+                    "favorite"
                 ],
-                "type": "object",
-                "allOf": [
-                    {
-                        "$ref": "#/components/schemas/StoreFaqRequest"
+                "properties": {
+                    "title": {
+                        "description": "FAQ title",
+                        "type": "string",
+                        "default": "Frequently Asked Question"
                     },
-                    {
-                        "properties": {
-                            "title": {
-                                "description": "FAQ title",
-                                "type": "string",
-                                "default": "Updated FAQ Question"
-                            },
-                            "description": {
-                                "description": "FAQ answer/description",
-                                "type": "string",
-                                "default": "Updated answer to the question"
-                            },
-                            "published": {
-                                "description": "Publication status",
-                                "type": "boolean",
-                                "default": true
-                            },
-                            "favorite": {
-                                "description": "Mark as favorite FAQ",
-                                "type": "boolean",
-                                "default": false
-                            },
-                            "ordering": {
-                                "description": "FAQ order",
-                                "type": "integer",
-                                "default": 0
-                            },
-                            "category_id": {
-                                "description": "FAQ category ID",
-                                "type": "integer",
-                                "default": 1
-                            },
-                            "published_at": {
-                                "description": "Publication date",
-                                "type": "string",
-                                "format": "date-time"
-                            }
-                        },
-                        "type": "object"
+                    "description": {
+                        "description": "FAQ answer/description",
+                        "type": "string",
+                        "default": "This is the answer to the question"
+                    },
+                    "published": {
+                        "$ref": "#/components/schemas/BooleanEnum"
+                    },
+                    "favorite": {
+                        "$ref": "#/components/schemas/YesNoEnum"
+                    },
+                    "ordering": {
+                        "description": "FAQ order",
+                        "type": "integer",
+                        "default": 0
+                    },
+                    "category_id": {
+                        "description": "FAQ category ID",
+                        "type": "integer",
+                        "default": 1
+                    },
+                    "published_at": {
+                        "description": "Publication date",
+                        "type": "string",
+                        "format": "date-time"
                     }
-                ]
+                },
+                "type": "object"
             },
             "UpdateOpinionRequest": {
                 "title": "Update Opinion request",
                 "required": [
                     "user_name",
                     "comment",
-                    "published"
+                    "published",
+                    "ordering"
                 ],
-                "type": "object",
-                "allOf": [
-                    {
-                        "$ref": "#/components/schemas/StoreOpinionRequest"
+                "properties": {
+                    "user_name": {
+                        "description": "Opinion author name",
+                        "type": "string",
+                        "default": "John Doe"
                     },
-                    {
-                        "properties": {
-                            "user_name": {
-                                "description": "Opinion author name",
-                                "type": "string",
-                                "default": "Jane Smith"
-                            },
-                            "comment": {
-                                "description": "Opinion comment/review",
-                                "type": "string",
-                                "default": "Outstanding service! Updated review."
-                            },
-                            "company": {
-                                "description": "Author's company",
-                                "type": "string",
-                                "default": "XYZ Corporation"
-                            },
-                            "published": {
-                                "description": "Publication status",
-                                "type": "boolean",
-                                "default": true
-                            },
-                            "ordering": {
-                                "description": "Opinion order",
-                                "type": "integer",
-                                "default": 0
-                            },
-                            "published_at": {
-                                "description": "Publication date",
-                                "type": "string",
-                                "format": "date-time"
-                            },
-                            "image": {
-                                "description": "Author profile image",
-                                "type": "string",
-                                "format": "binary"
-                            }
-                        },
-                        "type": "object"
+                    "comment": {
+                        "description": "Opinion comment/review",
+                        "type": "string",
+                        "default": "Great service! Highly recommended."
+                    },
+                    "company": {
+                        "description": "Author's company",
+                        "type": "string",
+                        "default": "ABC Company"
+                    },
+                    "published": {
+                        "$ref": "#/components/schemas/BooleanEnum"
+                    },
+                    "ordering": {
+                        "description": "Opinion order",
+                        "type": "integer",
+                        "default": 0
+                    },
+                    "published_at": {
+                        "description": "Publication date",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "image": {
+                        "description": "Author profile image",
+                        "type": "string",
+                        "format": "binary"
                     }
-                ]
+                },
+                "type": "object"
             },
             "UpdatePageRequest": {
                 "title": "Update Page request",
@@ -9491,54 +9442,38 @@
                     "title",
                     "link",
                     "position",
-                    "published"
+                    "published",
+                    "ordering"
                 ],
-                "type": "object",
-                "allOf": [
-                    {
-                        "$ref": "#/components/schemas/StoreSocialMediaRequest"
+                "properties": {
+                    "title": {
+                        "description": "Social media platform title",
+                        "type": "string",
+                        "default": "Facebook"
                     },
-                    {
-                        "properties": {
-                            "title": {
-                                "description": "Social media platform title",
-                                "type": "string",
-                                "default": "Twitter"
-                            },
-                            "link": {
-                                "description": "Social media profile URL",
-                                "type": "string",
-                                "default": "https://twitter.com/username"
-                            },
-                            "ordering": {
-                                "description": "Display order",
-                                "type": "integer",
-                                "default": 0
-                            },
-                            "position": {
-                                "description": "Display position",
-                                "type": "string",
-                                "default": "all",
-                                "enum": [
-                                    "all",
-                                    "header",
-                                    "footer"
-                                ]
-                            },
-                            "published": {
-                                "description": "Publication status",
-                                "type": "boolean",
-                                "default": true
-                            },
-                            "image": {
-                                "description": "Social media icon/image",
-                                "type": "string",
-                                "format": "binary"
-                            }
-                        },
-                        "type": "object"
+                    "link": {
+                        "description": "Social media profile URL",
+                        "type": "string",
+                        "default": "https://facebook.com/username"
+                    },
+                    "ordering": {
+                        "description": "Display order",
+                        "type": "integer",
+                        "default": 0
+                    },
+                    "position": {
+                        "$ref": "#/components/schemas/SocialMediaPositionEnum"
+                    },
+                    "published": {
+                        "$ref": "#/components/schemas/BooleanEnum"
+                    },
+                    "image": {
+                        "description": "Social media icon/image",
+                        "type": "string",
+                        "format": "binary"
                     }
-                ]
+                },
+                "type": "object"
             },
             "UpdateTagRequest": {
                 "title": "Update Tag request",
@@ -9546,84 +9481,77 @@
                     "name",
                     "seo_title",
                     "seo_description",
-                    "robots_meta"
+                    "robots_meta",
+                    "slug"
                 ],
-                "type": "object",
-                "allOf": [
-                    {
-                        "$ref": "#/components/schemas/StoreTagRequest"
+                "properties": {
+                    "name": {
+                        "description": "Tag name",
+                        "type": "string",
+                        "default": "web-development"
                     },
-                    {
-                        "properties": {
-                            "name": {
-                                "description": "Tag name",
-                                "type": "string",
-                                "default": "mobile-development"
-                            },
-                            "description": {
-                                "description": "Tag description",
-                                "type": "string",
-                                "default": "Updated mobile development services"
-                            },
-                            "body": {
-                                "description": "Tag detailed content",
-                                "type": "string",
-                                "default": "<p>Updated detailed tag content...</p>"
-                            },
-                            "type": {
-                                "description": "Tag type",
-                                "type": "string",
-                                "enum": [
-                                    "special"
-                                ]
-                            },
-                            "order_column": {
-                                "description": "Tag order",
-                                "type": "integer",
-                                "default": 1
-                            },
-                            "seo_title": {
-                                "description": "SEO title",
-                                "type": "string",
-                                "default": "Mobile Development | Company Name"
-                            },
-                            "seo_description": {
-                                "description": "SEO description",
-                                "type": "string",
-                                "default": "Professional mobile development services"
-                            },
-                            "canonical": {
-                                "description": "Canonical URL",
-                                "type": "string",
-                                "default": "https://example.com/tags/mobile-development"
-                            },
-                            "old_url": {
-                                "description": "Old URL for redirect",
-                                "type": "string"
-                            },
-                            "redirect_to": {
-                                "description": "Redirect target URL",
-                                "type": "string"
-                            },
-                            "robots_meta": {
-                                "description": "Robots meta tag",
-                                "type": "string",
-                                "default": "index_follow",
-                                "enum": [
-                                    "index_follow",
-                                    "noindex_nofollow",
-                                    "noindex_follow"
-                                ]
-                            },
-                            "image": {
-                                "description": "Tag featured image",
-                                "type": "string",
-                                "format": "binary"
-                            }
-                        },
-                        "type": "object"
+                    "slug": {
+                        "type": "string",
+                        "default": "test-slug"
+                    },
+                    "description": {
+                        "description": "Tag description",
+                        "type": "string",
+                        "default": "Web development services"
+                    },
+                    "body": {
+                        "description": "Tag detailed content",
+                        "type": "string",
+                        "default": "<p>Detailed tag content...</p>"
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/TagTypeEnum"
+                    },
+                    "order_column": {
+                        "description": "Tag order",
+                        "type": "integer",
+                        "default": 1
+                    },
+                    "seo_title": {
+                        "description": "SEO title",
+                        "type": "string",
+                        "default": "Web Development | Company Name"
+                    },
+                    "seo_description": {
+                        "description": "SEO description",
+                        "type": "string",
+                        "default": "Professional web development services"
+                    },
+                    "canonical": {
+                        "description": "Canonical URL",
+                        "type": "string",
+                        "default": "https://example.com/tags/web-development"
+                    },
+                    "old_url": {
+                        "description": "Old URL for redirect",
+                        "type": "string"
+                    },
+                    "redirect_to": {
+                        "description": "Redirect target URL",
+                        "type": "string"
+                    },
+                    "robots_meta": {
+                        "description": "Robots meta tag",
+                        "type": "string",
+                        "default": "index_follow",
+                        "enum": [
+                            "index_follow",
+                            "noindex_nofollow",
+                            "noindex_follow"
+                        ]
+                    },
+                    "image": {
+                        "description": "Tag featured image",
+                        "type": "string",
+                        "format": "binary"
                     }
-                ]
+                },
+                "type": "object"
             },
             "UpdateTeammateRequest": {
                 "title": "Update Teammate request",
@@ -9632,64 +9560,54 @@
                     "position",
                     "published"
                 ],
-                "type": "object",
-                "allOf": [
-                    {
-                        "$ref": "#/components/schemas/StoreTeammateRequest"
+                "properties": {
+                    "title": {
+                        "description": "Teammate name",
+                        "type": "string",
+                        "default": "John Doe"
                     },
-                    {
-                        "properties": {
-                            "title": {
-                                "description": "Teammate name",
-                                "type": "string",
-                                "default": "Jane Smith"
-                            },
-                            "description": {
-                                "description": "Teammate description",
-                                "type": "string",
-                                "default": "Updated team member description"
-                            },
-                            "bio": {
-                                "description": "Teammate biography",
-                                "type": "string",
-                                "default": "Updated team member biography"
-                            },
-                            "position": {
-                                "description": "Teammate position",
-                                "type": "string",
-                                "default": "Senior Developer"
-                            },
-                            "birthday": {
-                                "description": "Teammate birthday",
-                                "type": "string",
-                                "format": "date",
-                                "default": "1990-01-01"
-                            },
-                            "published": {
-                                "description": "Publication status",
-                                "type": "boolean",
-                                "default": true
-                            },
-                            "email": {
-                                "description": "Teammate email",
-                                "type": "string",
-                                "format": "email",
-                                "default": "jane@example.com"
-                            },
-                            "image": {
-                                "description": "Teammate profile image",
-                                "type": "string",
-                                "format": "binary"
-                            },
-                            "bio_image": {
-                                "description": "Teammate bio image",
-                                "type": "string",
-                                "format": "binary"
-                            }
-                        },
-                        "type": "object"
+                    "description": {
+                        "description": "Teammate description",
+                        "type": "string",
+                        "default": "Team member description"
+                    },
+                    "bio": {
+                        "description": "Teammate biography",
+                        "type": "string",
+                        "default": "Team member biography"
+                    },
+                    "position": {
+                        "description": "Teammate position",
+                        "type": "string",
+                        "default": "Developer"
+                    },
+                    "birthday": {
+                        "description": "Teammate birthday",
+                        "type": "string",
+                        "format": "date",
+                        "default": "1990-01-01"
+                    },
+                    "published": {
+                        "$ref": "#/components/schemas/BooleanEnum"
+                    },
+                    "email": {
+                        "description": "Teammate email",
+                        "type": "string",
+                        "format": "email",
+                        "default": "teammate@example.com"
+                    },
+                    "image": {
+                        "description": "Teammate profile image",
+                        "type": "string",
+                        "format": "binary"
+                    },
+                    "bio_image": {
+                        "description": "Teammate bio image",
+                        "type": "string",
+                        "format": "binary"
                     }
-                ]
+                },
+                "type": "object"
             },
             "UpdateTicketMessageRequest": {
                 "title": "Update TicketMessage request",
@@ -9698,37 +9616,29 @@
                     "user_id",
                     "message"
                 ],
-                "type": "object",
-                "allOf": [
-                    {
-                        "$ref": "#/components/schemas/StoreTicketMessageRequest"
+                "properties": {
+                    "ticket_id": {
+                        "description": "Ticket ID",
+                        "type": "integer",
+                        "default": 1
                     },
-                    {
-                        "properties": {
-                            "ticket_id": {
-                                "description": "Ticket ID",
-                                "type": "integer",
-                                "default": 1
-                            },
-                            "user_id": {
-                                "description": "User ID who sends the message",
-                                "type": "integer",
-                                "default": 1
-                            },
-                            "message": {
-                                "description": "Message content",
-                                "type": "string",
-                                "default": "Updated response message..."
-                            },
-                            "file": {
-                                "description": "Attachment file",
-                                "type": "string",
-                                "format": "binary"
-                            }
-                        },
-                        "type": "object"
+                    "user_id": {
+                        "description": "User ID who sends the message",
+                        "type": "integer",
+                        "default": 1
+                    },
+                    "message": {
+                        "description": "Message content",
+                        "type": "string",
+                        "default": "Here is my response..."
+                    },
+                    "file": {
+                        "description": "Attachment file",
+                        "type": "string",
+                        "format": "binary"
                     }
-                ]
+                },
+                "type": "object"
             },
             "UpdateTicketRequest": {
                 "title": "Update Ticket request",
@@ -9739,58 +9649,35 @@
                     "department",
                     "priority"
                 ],
-                "type": "object",
-                "allOf": [
-                    {
-                        "$ref": "#/components/schemas/StoreTicketRequest"
+                "properties": {
+                    "subject": {
+                        "description": "Ticket subject",
+                        "type": "string",
+                        "default": "Support Request"
                     },
-                    {
-                        "properties": {
-                            "subject": {
-                                "description": "Ticket subject",
-                                "type": "string",
-                                "default": "Updated Support Request"
-                            },
-                            "body": {
-                                "description": "Ticket message body",
-                                "type": "string",
-                                "default": "Updated request details..."
-                            },
-                            "user_id": {
-                                "description": "User ID who creates the ticket",
-                                "type": "integer",
-                                "default": 1
-                            },
-                            "department": {
-                                "description": "Ticket department",
-                                "type": "string",
-                                "default": "technical",
-                                "enum": [
-                                    "finance_and_administration",
-                                    "Sale",
-                                    "technical"
-                                ]
-                            },
-                            "priority": {
-                                "description": "Ticket priority (1=Low, 2=Medium, 3=High, 4=Critical)",
-                                "type": "integer",
-                                "default": 2,
-                                "enum": [
-                                    1,
-                                    2,
-                                    3,
-                                    4
-                                ]
-                            },
-                            "image": {
-                                "description": "Attachment image file",
-                                "type": "string",
-                                "format": "binary"
-                            }
-                        },
-                        "type": "object"
+                    "body": {
+                        "description": "Ticket message body",
+                        "type": "string",
+                        "default": "Please help me with..."
+                    },
+                    "user_id": {
+                        "description": "User ID who creates the ticket",
+                        "type": "integer",
+                        "default": 1
+                    },
+                    "department": {
+                        "$ref": "#/components/schemas/TicketDepartmentEnum"
+                    },
+                    "priority": {
+                        "$ref": "#/components/schemas/TicketPriorityEnum"
+                    },
+                    "image": {
+                        "description": "Attachment image file",
+                        "type": "string",
+                        "format": "binary"
                     }
-                ]
+                },
+                "type": "object"
             },
             "UpdateUserRequest": {
                 "title": "Update User request",
