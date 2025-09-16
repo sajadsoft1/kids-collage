@@ -7683,10 +7683,19 @@
                         "default": "test description"
                     },
                     "size": {
-                        "$ref": "#/components/schemas/BannerSizeEnum"
+                        "description": "Banner size",
+                        "type": "string",
+                        "default": "1x1",
+                        "enum": [
+                            "1x1",
+                            "16x9",
+                            "4x3"
+                        ]
                     },
                     "published": {
-                        "$ref": "#/components/schemas/BooleanEnum"
+                        "description": "Publication status",
+                        "type": "boolean",
+                        "default": true
                     },
                     "published_at": {
                         "description": "Publication date",
@@ -7727,7 +7736,9 @@
                         "default": "test body"
                     },
                     "published": {
-                        "$ref": "#/components/schemas/BooleanEnum"
+                        "description": "Publication status",
+                        "type": "boolean",
+                        "default": true
                     },
                     "published_at": {
                         "type": "string",
@@ -7873,14 +7884,23 @@
                         "default": "test body"
                     },
                     "published": {
-                        "$ref": "#/components/schemas/BooleanEnum"
+                        "description": "Publication status",
+                        "type": "boolean",
+                        "default": true
                     },
                     "parent_id": {
                         "description": "Parent category ID",
                         "type": "integer"
                     },
                     "type": {
-                        "$ref": "#/components/schemas/CategoryTypeEnum"
+                        "description": "Category type",
+                        "type": "string",
+                        "default": "blog",
+                        "enum": [
+                            "blog",
+                            "portfolio",
+                            "faq"
+                        ]
                     },
                     "ordering": {
                         "description": "Category order",
@@ -7964,7 +7984,9 @@
                         "default": "test description"
                     },
                     "published": {
-                        "$ref": "#/components/schemas/BooleanEnum"
+                        "description": "Publication status",
+                        "type": "boolean",
+                        "default": true
                     },
                     "link": {
                         "description": "Client website link",
@@ -7987,7 +8009,9 @@
                 ],
                 "properties": {
                     "published": {
-                        "$ref": "#/components/schemas/BooleanEnum"
+                        "description": "Publication status",
+                        "type": "boolean",
+                        "default": true
                     },
                     "parent_id": {
                         "type": "integer",
@@ -8055,10 +8079,14 @@
                         "default": "This is the answer to the question"
                     },
                     "published": {
-                        "$ref": "#/components/schemas/BooleanEnum"
+                        "description": "Publication status",
+                        "type": "boolean",
+                        "default": true
                     },
                     "favorite": {
-                        "$ref": "#/components/schemas/YesNoEnum"
+                        "description": "Is favorite FAQ",
+                        "type": "boolean",
+                        "default": false
                     },
                     "ordering": {
                         "description": "FAQ order",
@@ -8103,7 +8131,9 @@
                         "default": "ABC Company"
                     },
                     "published": {
-                        "$ref": "#/components/schemas/BooleanEnum"
+                        "description": "Publication status",
+                        "type": "boolean",
+                        "default": true
                     },
                     "ordering": {
                         "description": "Opinion order",
@@ -8320,7 +8350,9 @@
                         "default": "Slider description"
                     },
                     "published": {
-                        "$ref": "#/components/schemas/BooleanEnum"
+                        "description": "Publication status",
+                        "type": "boolean",
+                        "default": true
                     },
                     "ordering": {
                         "description": "Slider order",
@@ -8343,10 +8375,19 @@
                         "default": "https://example.com"
                     },
                     "position": {
-                        "$ref": "#/components/schemas/SliderPositionEnum"
+                        "description": "Slider position",
+                        "type": "string",
+                        "default": "top",
+                        "enum": [
+                            "top",
+                            "middle",
+                            "bottom"
+                        ]
                     },
                     "has_timer": {
-                        "$ref": "#/components/schemas/YesNoEnum"
+                        "description": "Whether the slider has a timer",
+                        "type": "boolean",
+                        "default": false
                     },
                     "timer_start": {
                         "description": "Timer start date",
@@ -8387,10 +8428,19 @@
                         "default": 0
                     },
                     "position": {
-                        "$ref": "#/components/schemas/SocialMediaPositionEnum"
+                        "description": "Position on the website",
+                        "type": "string",
+                        "default": "header",
+                        "enum": [
+                            "header",
+                            "footer",
+                            "all"
+                        ]
                     },
                     "published": {
-                        "$ref": "#/components/schemas/BooleanEnum"
+                        "description": "Publication status",
+                        "type": "boolean",
+                        "default": true
                     },
                     "image": {
                         "description": "Social media icon/image",
@@ -8407,7 +8457,8 @@
                     "seo_title",
                     "seo_description",
                     "robots_meta",
-                    "slug"
+                    "slug",
+                    "type"
                 ],
                 "properties": {
                     "name": {
@@ -8430,7 +8481,12 @@
                         "default": "<p>Detailed tag content...</p>"
                     },
                     "type": {
-                        "$ref": "#/components/schemas/TagTypeEnum"
+                        "description": "Tag type",
+                        "type": "string",
+                        "default": "special",
+                        "enum": [
+                            "special"
+                        ]
                     },
                     "order_column": {
                         "description": "Tag order",
@@ -8454,11 +8510,13 @@
                     },
                     "old_url": {
                         "description": "Old URL for redirect",
-                        "type": "string"
+                        "type": "string",
+                        "default": ""
                     },
                     "redirect_to": {
                         "description": "Redirect target URL",
-                        "type": "string"
+                        "type": "string",
+                        "default": ""
                     },
                     "robots_meta": {
                         "description": "Robots meta tag",
@@ -8513,7 +8571,9 @@
                         "default": "1990-01-01"
                     },
                     "published": {
-                        "$ref": "#/components/schemas/BooleanEnum"
+                        "description": "Publication status",
+                        "type": "boolean",
+                        "default": true
                     },
                     "email": {
                         "description": "Teammate email",
@@ -8591,10 +8651,23 @@
                         "default": 1
                     },
                     "department": {
-                        "$ref": "#/components/schemas/TicketDepartmentEnum"
+                        "description": "Ticket department",
+                        "type": "string",
+                        "enum": [
+                            "support",
+                            "sales",
+                            "billing"
+                        ]
                     },
                     "priority": {
-                        "$ref": "#/components/schemas/TicketPriorityEnum"
+                        "description": "Ticket priority level",
+                        "type": "integer",
+                        "enum": [
+                            1,
+                            2,
+                            3,
+                            4
+                        ]
                     },
                     "image": {
                         "description": "Attachment image file",
@@ -8683,7 +8756,9 @@
                         "$ref": "#/components/schemas/BannerSizeEnum"
                     },
                     "published": {
-                        "$ref": "#/components/schemas/BooleanEnum"
+                        "description": "Publication status",
+                        "type": "boolean",
+                        "default": true
                     },
                     "published_at": {
                         "description": "Publication date",
@@ -8724,7 +8799,9 @@
                         "default": "test body"
                     },
                     "published": {
-                        "$ref": "#/components/schemas/BooleanEnum"
+                        "description": "Publication status",
+                        "type": "boolean",
+                        "default": true
                     },
                     "published_at": {
                         "type": "string",
@@ -8894,14 +8971,23 @@
                         "default": "test body"
                     },
                     "published": {
-                        "$ref": "#/components/schemas/BooleanEnum"
+                        "description": "Publication status",
+                        "type": "boolean",
+                        "default": true
                     },
                     "parent_id": {
                         "description": "Parent category ID",
                         "type": "integer"
                     },
                     "type": {
-                        "$ref": "#/components/schemas/CategoryTypeEnum"
+                        "description": "Category type",
+                        "type": "string",
+                        "default": "blog",
+                        "enum": [
+                            "blog",
+                            "portfolio",
+                            "faq"
+                        ]
                     },
                     "ordering": {
                         "description": "Category order",
@@ -8985,7 +9071,9 @@
                         "default": "test description"
                     },
                     "published": {
-                        "$ref": "#/components/schemas/BooleanEnum"
+                        "description": "Publication status",
+                        "type": "boolean",
+                        "default": true
                     },
                     "link": {
                         "description": "Client website link",
@@ -9089,10 +9177,14 @@
                         "default": "This is the answer to the question"
                     },
                     "published": {
-                        "$ref": "#/components/schemas/BooleanEnum"
+                        "description": "Publication status",
+                        "type": "boolean",
+                        "default": true
                     },
                     "favorite": {
-                        "$ref": "#/components/schemas/YesNoEnum"
+                        "description": "Is favorite FAQ",
+                        "type": "boolean",
+                        "default": false
                     },
                     "ordering": {
                         "description": "FAQ order",
@@ -9137,7 +9229,9 @@
                         "default": "ABC Company"
                     },
                     "published": {
-                        "$ref": "#/components/schemas/BooleanEnum"
+                        "description": "Publication status",
+                        "type": "boolean",
+                        "default": true
                     },
                     "ordering": {
                         "description": "Opinion order",
@@ -9462,10 +9556,19 @@
                         "default": 0
                     },
                     "position": {
-                        "$ref": "#/components/schemas/SocialMediaPositionEnum"
+                        "description": "Position on the website",
+                        "type": "string",
+                        "default": "header",
+                        "enum": [
+                            "header",
+                            "footer",
+                            "all"
+                        ]
                     },
                     "published": {
-                        "$ref": "#/components/schemas/BooleanEnum"
+                        "description": "Publication status",
+                        "type": "boolean",
+                        "default": true
                     },
                     "image": {
                         "description": "Social media icon/image",
@@ -9505,7 +9608,12 @@
                         "default": "<p>Detailed tag content...</p>"
                     },
                     "type": {
-                        "$ref": "#/components/schemas/TagTypeEnum"
+                        "description": "Tag type",
+                        "type": "string",
+                        "default": "special",
+                        "enum": [
+                            "special"
+                        ]
                     },
                     "order_column": {
                         "description": "Tag order",
@@ -9588,7 +9696,9 @@
                         "default": "1990-01-01"
                     },
                     "published": {
-                        "$ref": "#/components/schemas/BooleanEnum"
+                        "description": "Publication status",
+                        "type": "boolean",
+                        "default": true
                     },
                     "email": {
                         "description": "Teammate email",
@@ -9666,10 +9776,23 @@
                         "default": 1
                     },
                     "department": {
-                        "$ref": "#/components/schemas/TicketDepartmentEnum"
+                        "description": "Ticket department",
+                        "type": "string",
+                        "enum": [
+                            "support",
+                            "sales",
+                            "billing"
+                        ]
                     },
                     "priority": {
-                        "$ref": "#/components/schemas/TicketPriorityEnum"
+                        "description": "Ticket priority level",
+                        "type": "integer",
+                        "enum": [
+                            1,
+                            2,
+                            3,
+                            4
+                        ]
                     },
                     "image": {
                         "description": "Attachment image file",
@@ -9749,7 +9872,9 @@
                         "default": "Banner Description"
                     },
                     "published": {
-                        "$ref": "#/components/schemas/BooleanEnum"
+                        "description": "Publication status",
+                        "type": "boolean",
+                        "default": true
                     },
                     "size": {
                         "$ref": "#/components/schemas/BannerSizeEnum"

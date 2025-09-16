@@ -17,8 +17,8 @@ use OpenApi\Annotations as OA;
  *      @OA\Property(property="title", type="string", default="Facebook", description="Social media platform title"),
  *      @OA\Property(property="link", type="string", default="https://facebook.com/username", description="Social media profile URL"),
  *      @OA\Property(property="ordering", type="integer", default=0, description="Display order"),
- *      @OA\Property(property="position", ref="#/components/schemas/SocialMediaPositionEnum"),
- *      @OA\Property(property="published", ref="#/components/schemas/BooleanEnum"),
+ *      @OA\Property(property="position", type="string", enum={"header", "footer", "all"}, default="header", description="Position on the website"),
+ *      @OA\Property(property="published", type="boolean", default=true, description="Publication status"),
  *      @OA\Property(property="image", type="string", format="binary", description="Social media icon/image"),
  * )
  */
