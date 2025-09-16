@@ -8753,7 +8753,14 @@
                         "default": "test description"
                     },
                     "size": {
-                        "$ref": "#/components/schemas/BannerSizeEnum"
+                        "description": "Banner size",
+                        "type": "string",
+                        "default": "1x1",
+                        "enum": [
+                            "1x1",
+                            "16x9",
+                            "4x3"
+                        ]
                     },
                     "published": {
                         "description": "Publication status",
