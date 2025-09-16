@@ -5,19 +5,19 @@ declare(strict_types=1);
 namespace App\Services\AdvancedSearchFields\Handlers;
 use App\Enums\BooleanEnum;
 use App\Models\Category;
-use App\Models\Users;
+use App\Models\User;
 
 class BlogHandler extends BaseHandler
 {
     public function handle(): array
     {
         $users = [];
-        foreach (Users::whereHas('blog') as $user) {
+        foreach (User::whereHas('blogs')->get() as $user) {
             $users[] = $this->option((string) $user->id, $user->full_name);
         }
 
         $categories = [];
-        foreach (Category::whereHas('blog') as $category) {
+        foreach (Category::whereHas('blogs')->get() as $category) {
             $categories[] = $this->option((string) $category->id, $category->title);
         }
 
