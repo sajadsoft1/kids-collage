@@ -35,7 +35,7 @@ class TagResource extends JsonResource
             'name'         => $this->name,
             'slug'         => $this->slug,
             'description'  => $this->description,
-            'type'         => $this->type->toArray(),
+            'type'         => $this->type?->toArray(),
             'order_column' => $this->order_column,
             'image'        => $this->resource->getFirstMediaUrl('image', Constants::RESOLUTION_720_SQUARE),
             'is_in_use'    => $this->isInUse(),

@@ -13,7 +13,7 @@ use OpenApi\Annotations as OA;
  *     title="Store Comment request",
  *     type="object",
  *     required={"comment","published"},
- *     @OA\Property(property="published", ref="#/components/schemas/BooleanEnum"),
+ *     @OA\Property(property="published", type="boolean", default=true, description="Publication status"),
  *     @OA\Property(property="parent_id", type="integer", nullable=true, default=null),
  *     @OA\Property(property="comment", type="string", default="This is a comment"),
  * )

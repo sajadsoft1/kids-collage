@@ -88,3 +88,26 @@ if ( ! function_exists('isRtl')) {
         return in_array(app()->getLocale(), ['fa', 'ar'], true);
     }
 }
+
+if ( ! function_exists('_dd')) {
+    function _dd(...$args)
+    {
+        header('Access-Control-Allow-Origin: *');
+        header('Access-Control-Allow-Headers: *');
+        call_user_func_array('dd', $args);
+    }
+}
+
+if ( ! function_exists('_dds')) {
+    /**
+     * @throws JsonException
+     */
+    function _dds($args): void
+    {
+        header('Access-Control-Allow-Origin: *');
+        header('Access-Control-Allow-Headers: *');
+        header('Access-Control-Allow-Methods: *');
+        header('Content-Type: application/json');
+        exit(json_encode($args, JSON_THROW_ON_ERROR));
+    }
+}

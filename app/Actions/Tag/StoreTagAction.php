@@ -44,7 +44,7 @@ class StoreTagAction
     {
         return DB::transaction(function () use ($payload) {
             $defaultLanguage = app()->getLocale();
-            $tag             = Tag::findOrCreate(Arr::get($payload, 'name'), locale: $defaultLanguage);
+            $tag             = Tag::findOrCreate(Arr::get($payload, 'name'),type:Arr::get($payload, 'type'),  locale: $defaultLanguage);
             $tag->update(['order_column' => Arr::get($payload, 'order_column', 1)]);
             $this->seoOptionService->create($tag, Arr::only($payload, ['seo_title', 'seo_description', 'canonical', 'old_url', 'redirect_to', 'robots_meta']));
             $this->syncTagTranslationAction->handle($tag, Arr::only($payload, ['description', 'body']));
