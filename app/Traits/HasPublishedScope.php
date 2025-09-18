@@ -7,7 +7,7 @@ namespace App\Traits;
 use App\Enums\BooleanEnum;
 use Illuminate\Database\Eloquent\Builder;
 
-trait HasStatusBoolean
+trait HasPublishedScope
 {
     public function scopePublished(Builder $query): Builder
     {

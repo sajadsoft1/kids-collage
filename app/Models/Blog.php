@@ -12,7 +12,7 @@ use App\Traits\HasComment;
 use App\Traits\HasScheduledPublishing;
 use App\Traits\HasSeoOption;
 use App\Traits\HasSlugFromTranslation;
-use App\Traits\HasStatusBoolean;
+use App\Traits\HasPublishedScope;
 use App\Traits\HasTranslationAuto;
 use App\Traits\HasUser;
 use App\Traits\HasView;
@@ -38,7 +38,7 @@ class Blog extends Model implements HasMedia
     use HasScheduledPublishing;
     use HasSeoOption;
     use HasSlugFromTranslation;
-    use HasStatusBoolean;
+    use HasPublishedScope;
     use HasTags;
     use HasTranslationAuto;
     use HasUser;

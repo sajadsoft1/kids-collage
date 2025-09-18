@@ -18,4 +18,16 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="description", type="string", default="test description updated"),
  * )
  */
-class Update{{model}}Request extends Store{{model}}Request {}
+class Update{{model}}Request extends FormRequest{
+ use FillAttributes;
+public function rules(): array
+    {
+        return (new Store{{model}}Request)->rules();
+    }
+     protected function prepareForValidation(): void
+     {
+         $this->convertOnToBoolean([
+             'published' => request('published', false),
+         ]);
+     }
+}
