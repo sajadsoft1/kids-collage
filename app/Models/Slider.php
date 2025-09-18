@@ -11,7 +11,7 @@ use App\Helpers\Constants;
 use App\Traits\CLogsActivity;
 use App\Traits\HasScheduledPublishing;
 use App\Traits\HasSchemalessAttributes;
-use App\Traits\HasStatusBoolean;
+use App\Traits\HasPublishedScope;
 use App\Traits\HasTranslationAuto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -28,7 +28,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  */
 class Slider extends Model implements HasMedia
 {
-    use CLogsActivity, HasScheduledPublishing, HasSchemalessAttributes, HasStatusBoolean, InteractsWithMedia;
+    use CLogsActivity, HasScheduledPublishing, HasSchemalessAttributes, HasPublishedScope, InteractsWithMedia;
     use HasFactory;
     use HasTranslationAuto;
 

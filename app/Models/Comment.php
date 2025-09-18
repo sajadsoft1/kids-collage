@@ -7,7 +7,7 @@ namespace App\Models;
 use App\Enums\BooleanEnum;
 use App\Enums\YesNoEnum;
 use App\Traits\CLogsActivity;
-use App\Traits\HasStatusBoolean;
+use App\Traits\HasPublishedScope;
 use App\Traits\HasTranslationAuto;
 use App\Traits\HasUser;
 use App\Traits\MorphAttributesTrait;
@@ -23,7 +23,7 @@ use Spatie\Activitylog\LogOptions;
 // */
 class Comment extends Model
 {
-    use CLogsActivity,HasStatusBoolean,HasTranslationAuto,HasUser, MorphAttributesTrait;
+    use CLogsActivity,HasPublishedScope,HasTranslationAuto,HasUser, MorphAttributesTrait;
     use HasFactory;
 
 //    public array $translatable = [
