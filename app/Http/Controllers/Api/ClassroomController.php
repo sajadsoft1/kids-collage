@@ -73,7 +73,7 @@ class ClassroomController extends Controller
     {
         return Response::dataWithAdditional(
             ClassroomResource::collection($repository->paginate(payload: [
-                'with' => ['branch'], // parent is loaded by default in repository
+                'with' => [],
             ])),
             additional: [
                 'advance_search_field' => AdvancedSearchFieldsService::generate(Classroom::class),
@@ -102,7 +102,7 @@ class ClassroomController extends Controller
     public function show(Classroom $classroom): JsonResponse
     {
         return Response::data(
-            ClassroomDetailResource::make($classroom),
+            ClassroomDetailResource::make($classroom->load('category', 'user')),
         );
     }
 
