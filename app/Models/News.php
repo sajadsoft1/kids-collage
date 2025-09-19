@@ -6,13 +6,11 @@ namespace App\Models;
 
 use App\Enums\BooleanEnum;
 use App\Helpers\Constants;
-use App\Traits\CLogsActivity;
-use App\Traits\HasCategory;
 use App\Traits\HasComment;
+use App\Traits\HasPublishedScope;
 use App\Traits\HasScheduledPublishing;
 use App\Traits\HasSeoOption;
 use App\Traits\HasSlugFromTranslation;
-use App\Traits\HasPublishedScope;
 use App\Traits\HasTranslationAuto;
 use App\Traits\HasUser;
 use App\Traits\HasView;
@@ -21,6 +19,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -30,22 +29,21 @@ use Spatie\Tags\HasTags;
  * @property string $title
  * @property string $description
  */
-class Blog extends Model implements HasMedia
+class News extends Model implements HasMedia
 {
-    use CLogsActivity;
-    use HasCategory;
     use HasComment;
     use HasFactory;
+    use HasPublishedScope;
     use HasScheduledPublishing;
     use HasSeoOption;
     use HasSlugFromTranslation;
-    use HasPublishedScope;
     use HasTags;
     use HasTranslationAuto;
     use HasUser;
     use HasView;
     use HasWishList;
     use InteractsWithMedia;
+    use LogsActivity;
 
     public array $translatable = [
         'title', 'description', 'body',
@@ -59,6 +57,8 @@ class Blog extends Model implements HasMedia
         'category_id',
         'view_count',
         'comment_count',
+        'source',
+        'link',
         'wish_count',
         'languages',
     ];
@@ -69,7 +69,7 @@ class Blog extends Model implements HasMedia
         'languages'    => 'array',
     ];
 
-    /** Model Configuration -------------------------------------------------------------------------- */
+    /** Model Configuration  -------------------------------------------------------------------------- */
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('image')
@@ -86,28 +86,24 @@ class Blog extends Model implements HasMedia
     {
         return LogOptions::defaults()
             ->logFillable()
-            ->logOnlyDirty()
+            ->useLogName('system')
             ->dontSubmitEmptyLogs();
     }
 
-    /**
-     * Model Relations --------------------------------------------------------------------------
-     */
+    /** Model Relations  -------------------------------------------------------------------------- */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
+
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
     }
-    /**
-     * Model Scope --------------------------------------------------------------------------
-     */
 
-    /**
-     * Model Attributes --------------------------------------------------------------------------
-     */
+    /** Model Scope  -------------------------------------------------------------------------- */
 
-    /** Model Custom Methods -------------------------------------------------------------------------- */
+    /** Model Attributes  -------------------------------------------------------------------------- */
+
+    /** Model Custom Methods  -------------------------------------------------------------------------- */
 }

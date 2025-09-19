@@ -46,6 +46,7 @@ class UpdateBlogAction
     public function handle(Blog $blog, array $payload): Blog
     {
         return DB::transaction(function () use ($blog, $payload) {
+            $payload['user_id'] = auth()->user()->id();
             $blog->update(Arr::only($payload, ['slug', 'published', 'published_at', 'category_id']));
             $this->syncTranslationAction->handle($blog, Arr::only($payload, ['title', 'description', 'body']));
             $this->fileService->addMedia($blog, Arr::get($payload, 'image'));
