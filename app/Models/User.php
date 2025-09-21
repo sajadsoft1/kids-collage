@@ -12,6 +12,7 @@ use App\Traits\CLogsActivity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
@@ -20,7 +21,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements HasMedia
 {
-    use CLogsActivity, HasFactory, HasRoles, InteractsWithMedia, Notifiable;
+    use CLogsActivity, HasFactory, HasRoles, InteractsWithMedia, Notifiable,HasApiTokens;
 
     protected $fillable = [
         'name',

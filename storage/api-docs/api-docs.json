@@ -1,0 +1,1742 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Laravel OpenApi Demo Documentation",
+        "description": "L5 Swagger OpenApi description",
+        "contact": {
+            "email": "admin@admin.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "https:///www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://kids-collage.test/api",
+            "description": "Local Host"
+        }
+    ],
+    "paths": {
+        "/auth/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Login user",
+                "description": "Login user",
+                "operationId": "login",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "example message"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "token": {
+                                                    "type": "string",
+                                                    "default": "example token"
+                                                },
+                                                "user": {
+                                                    "$ref": "#/components/schemas/UserResource"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/403"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/500"
+                    }
+                }
+            }
+        },
+        "/auth/me": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "get user data",
+                "operationId": "me",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "example message"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "user": {
+                                                    "$ref": "#/components/schemas/UserResource"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/403"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/500"
+                    }
+                }
+            }
+        },
+        "/auth/logout": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Logout user",
+                "description": "Logout user",
+                "operationId": "logout",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "example message"
+                                        },
+                                        "data": {
+                                            "type": "boolean",
+                                            "default": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/403"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/500"
+                    }
+                }
+            }
+        },
+        "/blog": {
+            "get": {
+                "tags": [
+                    "Blog"
+                ],
+                "summary": "get blogs list",
+                "description": "Returns list of blogs",
+                "operationId": "getBlogs",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/page_limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/search"
+                    },
+                    {
+                        "$ref": "#/components/parameters/advanced_search"
+                    },
+                    {
+                        "$ref": "#/components/parameters/sort"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/BlogResource"
+                                            }
+                                        },
+                                        "links": {
+                                            "properties": {
+                                                "first": {
+                                                    "type": "string",
+                                                    "default": "http://localhost/api/blog?page=1"
+                                                },
+                                                "last": {
+                                                    "type": "string",
+                                                    "default": "http://localhost/api/blog?page=4"
+                                                },
+                                                "prev": {
+                                                    "type": "string",
+                                                    "default": "null",
+                                                    "nullable": true
+                                                },
+                                                "next": {
+                                                    "type": "string",
+                                                    "default": "http://localhost/api/blog?page=2",
+                                                    "nullable": true
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "meta": {
+                                            "$ref": "#/components/schemas/Meta"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        },
+                                        "advance_search_field": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "key": {
+                                                        "type": "string",
+                                                        "default": "id"
+                                                    },
+                                                    "label": {
+                                                        "type": "string",
+                                                        "default": "text"
+                                                    },
+                                                    "type": {
+                                                        "type": "string",
+                                                        "default": "number"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "extra": {
+                                            "properties": {
+                                                "default_sort": {
+                                                    "type": "string",
+                                                    "default": "-id"
+                                                },
+                                                "sorts": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    },
+                                                    "default": [
+                                                        "id",
+                                                        "created_at",
+                                                        "updated_at"
+                                                    ]
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/blog/{blog}": {
+            "get": {
+                "tags": [
+                    "Blog"
+                ],
+                "summary": "Get blog information",
+                "description": "Returns blog data",
+                "operationId": "getBlogByID",
+                "parameters": [
+                    {
+                        "name": "blog",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/BlogDetailResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "BooleanEnum": {
+                "properties": {
+                    "value": {
+                        "type": "boolean",
+                        "default": 1,
+                        "enum": [
+                            1,
+                            0
+                        ]
+                    },
+                    "label": {
+                        "type": "string",
+                        "default": "Enable"
+                    },
+                    "color": {
+                        "type": "string",
+                        "default": "success"
+                    }
+                },
+                "type": "object"
+            },
+            "BannerSizeEnum": {
+                "properties": {
+                    "value": {
+                        "type": "string",
+                        "enum": [
+                            "1x1",
+                            "16x9",
+                            "4x3"
+                        ]
+                    },
+                    "label": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "CardStatusEnum": {
+                "properties": {
+                    "value": {
+                        "type": "string",
+                        "enum": [
+                            "draft",
+                            "active",
+                            "completed",
+                            "archived"
+                        ]
+                    },
+                    "label": {
+                        "type": "string"
+                    },
+                    "color": {
+                        "type": "string"
+                    },
+                    "icon": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "CardTypeEnum": {
+                "properties": {
+                    "value": {
+                        "type": "string",
+                        "enum": [
+                            "note",
+                            "task",
+                            "bug",
+                            "feature",
+                            "call",
+                            "meeting",
+                            "email",
+                            "other"
+                        ]
+                    },
+                    "label": {
+                        "type": "string"
+                    },
+                    "color": {
+                        "type": "string"
+                    },
+                    "icon": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "CategoryTypeEnum": {
+                "properties": {
+                    "value": {
+                        "type": "string",
+                        "enum": [
+                            "blog",
+                            "portfolio",
+                            "faq"
+                        ]
+                    },
+                    "label": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "CommentTypeEnum": {
+                "properties": {
+                    "value": {
+                        "type": "string",
+                        "enum": [
+                            "normal",
+                            "special"
+                        ]
+                    },
+                    "title": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "GenderEnum": {
+                "properties": {
+                    "value": {
+                        "type": "integer",
+                        "enum": [
+                            0,
+                            1
+                        ]
+                    },
+                    "label": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "NoificationTypeEnum": {
+                "properties": {
+                    "value": {
+                        "type": "string",
+                        "enum": [
+                            "auth_register",
+                            "auth_confirm",
+                            "auth_forgot_password",
+                            "auth_welcome"
+                        ]
+                    },
+                    "label": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "PageTypeEnum": {
+                "properties": {
+                    "value": {
+                        "type": "string",
+                        "enum": [
+                            "rules",
+                            "about-us"
+                        ]
+                    },
+                    "label": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "PriorityEnum": {
+                "properties": {
+                    "value": {
+                        "type": "string",
+                        "enum": [
+                            "low",
+                            "medium",
+                            "high",
+                            "urgent"
+                        ]
+                    },
+                    "label": {
+                        "type": "string"
+                    },
+                    "color": {
+                        "type": "string"
+                    },
+                    "icon": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "RoleEnum": {
+                "properties": {
+                    "value": {
+                        "type": "string",
+                        "enum": [
+                            "developer",
+                            "admin"
+                        ]
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "title": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "SeoRobotsMetaEnum": {
+                "properties": {
+                    "value": {
+                        "type": "string",
+                        "enum": [
+                            "index_follow",
+                            "noindex_nofollow",
+                            "noindex_follow"
+                        ]
+                    },
+                    "label": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "SettingEnum": {
+                "properties": {
+                    "value": {
+                        "type": "string",
+                        "enum": [
+                            "product",
+                            "general",
+                            "integration_sync",
+                            "notification",
+                            "sale",
+                            "security"
+                        ]
+                    },
+                    "label": {
+                        "type": "string"
+                    },
+                    "help": {
+                        "type": "string"
+                    },
+                    "hint": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "SliderPositionEnum": {
+                "properties": {
+                    "value": {
+                        "type": "string",
+                        "enum": [
+                            "top",
+                            "middle",
+                            "bottom"
+                        ]
+                    },
+                    "label": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "SocialMediaPositionEnum": {
+                "properties": {
+                    "value": {
+                        "type": "string",
+                        "enum": [
+                            "all",
+                            "header",
+                            "footer"
+                        ]
+                    },
+                    "label": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "TagTypeEnum": {
+                "properties": {
+                    "value": {
+                        "type": "string",
+                        "enum": [
+                            "special"
+                        ]
+                    },
+                    "label": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "TicketDepartmentEnum": {
+                "properties": {
+                    "value": {
+                        "type": "string",
+                        "enum": [
+                            "finance_and_administration",
+                            "Sale",
+                            "technical"
+                        ]
+                    },
+                    "label": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "TicketPriorityEnum": {
+                "properties": {
+                    "value": {
+                        "type": "integer",
+                        "enum": [
+                            1,
+                            2,
+                            3,
+                            4
+                        ]
+                    },
+                    "label": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "TicketStatusEnum": {
+                "properties": {
+                    "value": {
+                        "type": "string",
+                        "enum": [
+                            "open",
+                            "close"
+                        ]
+                    },
+                    "label": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "YesNoEnum": {
+                "properties": {
+                    "value": {
+                        "type": "boolean",
+                        "default": 1,
+                        "enum": [
+                            1,
+                            0
+                        ]
+                    },
+                    "label": {
+                        "type": "string"
+                    },
+                    "color": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "Meta": {
+                "title": "Pagination",
+                "properties": {
+                    "current_page": {
+                        "description": "Current page number",
+                        "type": "integer",
+                        "default": 1
+                    },
+                    "from": {
+                        "description": "First page number",
+                        "type": "integer",
+                        "default": 1
+                    },
+                    "last_page": {
+                        "description": "Last page number",
+                        "type": "integer",
+                        "default": 3
+                    },
+                    "links": {
+                        "description": "Links of pages",
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "url": {
+                                    "description": "Url of page",
+                                    "type": "string",
+                                    "default": "http://localhost:8000/api/shift?page=1"
+                                },
+                                "label": {
+                                    "description": "Label of page",
+                                    "type": "string",
+                                    "default": "1"
+                                },
+                                "active": {
+                                    "description": "this page is active or not",
+                                    "type": "boolean",
+                                    "default": true
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "default": [
+                            {
+                                "url": null,
+                                "label": "&laquo; Previous",
+                                "active": false
+                            },
+                            {
+                                "url": "http://localhost:8000/api/category?page=1",
+                                "label": "1",
+                                "active": true
+                            },
+                            {
+                                "url": "http://localhost:8000/api/category?page=2",
+                                "label": "2",
+                                "active": false
+                            },
+                            {
+                                "url": "http://127.0.0.1:8000/api/category?page=3",
+                                "label": "3",
+                                "active": false
+                            },
+                            {
+                                "url": "http://localhost:8000/api/category?page=2",
+                                "label": "Next &raquo;",
+                                "active": false
+                            }
+                        ]
+                    },
+                    "path": {
+                        "description": "Base url path",
+                        "type": "string",
+                        "default": "http://localhost:8000/api/category"
+                    },
+                    "per_page": {
+                        "description": "Number of items per page",
+                        "type": "integer",
+                        "default": 15
+                    },
+                    "to": {
+                        "description": "Last page number",
+                        "type": "integer",
+                        "default": 10
+                    },
+                    "total": {
+                        "description": "number of records",
+                        "type": "integer",
+                        "default": 50
+                    }
+                },
+                "type": "object"
+            },
+            "Pagination": {
+                "title": "Pagination",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "default": "example message"
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "type": "object"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "LoginRequest": {
+                "title": "LoginRequest",
+                "description": "Login request",
+                "required": [
+                    "mobile",
+                    "password"
+                ],
+                "properties": {
+                    "mobile": {
+                        "description": "Email",
+                        "type": "string",
+                        "default": "09100000000"
+                    },
+                    "password": {
+                        "description": "Password",
+                        "type": "string",
+                        "default": "password"
+                    }
+                },
+                "type": "object"
+            },
+            "BlogDetailResource": {
+                "title": "BlogDetailResource",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "title": {
+                        "type": "string",
+                        "default": "Blog Title"
+                    },
+                    "description": {
+                        "type": "string",
+                        "default": "Blog Description"
+                    },
+                    "body": {
+                        "type": "string",
+                        "default": "Full blog content..."
+                    },
+                    "slug": {
+                        "type": "string",
+                        "default": "blog-title"
+                    },
+                    "published": {
+                        "$ref": "#/components/schemas/BooleanEnum"
+                    },
+                    "published_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "languages": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "user": {
+                        "$ref": "#/components/schemas/SimpleUserResource"
+                    },
+                    "category": {
+                        "$ref": "#/components/schemas/SimpleCategoryResource"
+                    },
+                    "tags": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SimpleTagResource"
+                        }
+                    },
+                    "comments": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SimpleCommentResource"
+                        }
+                    },
+                    "seo_option": {
+                        "type": "object"
+                    },
+                    "image": {
+                        "type": "string",
+                        "default": "https://example.com/image.jpg"
+                    },
+                    "view_count": {
+                        "type": "integer",
+                        "default": "100"
+                    },
+                    "comment_count": {
+                        "type": "integer",
+                        "default": "10"
+                    },
+                    "wish_count": {
+                        "type": "integer",
+                        "default": "50"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    }
+                },
+                "type": "object"
+            },
+            "BlogResource": {
+                "title": "BlogResource",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "title": {
+                        "type": "string",
+                        "default": "Blog Title"
+                    },
+                    "description": {
+                        "type": "string",
+                        "default": "Blog Description"
+                    },
+                    "slug": {
+                        "type": "string",
+                        "default": "blog-title"
+                    },
+                    "published": {
+                        "$ref": "#/components/schemas/BooleanEnum"
+                    },
+                    "published_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "user": {
+                        "$ref": "#/components/schemas/SimpleUserResource"
+                    },
+                    "category": {
+                        "$ref": "#/components/schemas/SimpleCategoryResource"
+                    },
+                    "tags": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SimpleTagResource"
+                        }
+                    },
+                    "image": {
+                        "type": "string",
+                        "default": "https://example.com/image.jpg"
+                    },
+                    "view_count": {
+                        "type": "integer",
+                        "default": "100"
+                    },
+                    "comment_count": {
+                        "type": "integer",
+                        "default": "10"
+                    },
+                    "wish_count": {
+                        "type": "integer",
+                        "default": "50"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    }
+                },
+                "type": "object"
+            },
+            "CategoryDetailResource": {
+                "title": "CategoryDetailResource",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "title": {
+                        "type": "string",
+                        "default": "Category Title"
+                    },
+                    "description": {
+                        "type": "string",
+                        "default": "Category Description"
+                    },
+                    "body": {
+                        "type": "string",
+                        "default": "Full category content..."
+                    },
+                    "slug": {
+                        "type": "string",
+                        "default": "category-title"
+                    },
+                    "published": {
+                        "$ref": "#/components/schemas/BooleanEnum"
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/CategoryTypeEnum"
+                    },
+                    "ordering": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "languages": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "parent": {
+                        "$ref": "#/components/schemas/SimpleCategoryResource"
+                    },
+                    "children": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SimpleCategoryResource"
+                        }
+                    },
+                    "seo_option": {
+                        "type": "object"
+                    },
+                    "image": {
+                        "type": "string",
+                        "default": "https://example.com/image.jpg"
+                    },
+                    "view_count": {
+                        "type": "integer",
+                        "default": "250"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    }
+                },
+                "type": "object"
+            },
+            "CategoryResource": {
+                "title": "CategoryResource",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "title": {
+                        "type": "string",
+                        "default": "Category Title"
+                    },
+                    "description": {
+                        "type": "string",
+                        "default": "Category Description"
+                    },
+                    "slug": {
+                        "type": "string",
+                        "default": "category-title"
+                    },
+                    "published": {
+                        "$ref": "#/components/schemas/BooleanEnum"
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/CategoryTypeEnum"
+                    },
+                    "parent": {
+                        "$ref": "#/components/schemas/SimpleCategoryResource"
+                    },
+                    "children_count": {
+                        "type": "integer",
+                        "default": "5"
+                    },
+                    "image": {
+                        "type": "string",
+                        "default": "https://example.com/image.jpg"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    }
+                },
+                "type": "object"
+            },
+            "CommentDetailResource": {
+                "title": "CommentDetailResource",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "comment": {
+                        "type": "string",
+                        "default": "Great article!"
+                    },
+                    "published": {
+                        "type": "string",
+                        "default": "active"
+                    },
+                    "rate": {
+                        "type": "integer",
+                        "default": "5"
+                    },
+                    "suggest": {
+                        "type": "string",
+                        "default": "yes"
+                    },
+                    "admin_note": {
+                        "type": "string",
+                        "default": "Good feedback"
+                    },
+                    "languages": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "user": {
+                        "$ref": "#/components/schemas/SimpleUserResource"
+                    },
+                    "admin": {
+                        "$ref": "#/components/schemas/SimpleUserResource"
+                    },
+                    "parent": {
+                        "$ref": "#/components/schemas/SimpleCommentResource"
+                    },
+                    "children": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SimpleCommentResource"
+                        }
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    }
+                },
+                "type": "object"
+            },
+            "CommentResource": {
+                "title": "CommentResource",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "comment": {
+                        "type": "string",
+                        "default": "Great article!"
+                    },
+                    "published": {
+                        "type": "string",
+                        "default": "active"
+                    },
+                    "rate": {
+                        "type": "integer",
+                        "default": "5"
+                    },
+                    "suggest": {
+                        "type": "string",
+                        "default": "yes"
+                    },
+                    "morphable_type": {
+                        "type": "string",
+                        "default": "App\\\\Models\\\\Blog"
+                    },
+                    "morphable_id": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "user": {
+                        "$ref": "#/components/schemas/SimpleUserResource"
+                    },
+                    "admin": {
+                        "$ref": "#/components/schemas/SimpleUserResource"
+                    },
+                    "children_count": {
+                        "type": "integer",
+                        "default": "3"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    }
+                },
+                "type": "object"
+            },
+            "SimpleCategoryResource": {
+                "title": "SimpleCategoryResource",
+                "properties": {
+                    "id": {
+                        "description": "Category id",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Technology",
+                        "nullable": true
+                    },
+                    "slug": {
+                        "type": "string",
+                        "example": "technology"
+                    },
+                    "image": {
+                        "type": "string",
+                        "example": "https://example.com/image.jpg"
+                    }
+                },
+                "type": "object"
+            },
+            "SimpleCommentResource": {
+                "title": "SimpleCommentResource",
+                "properties": {
+                    "id": {
+                        "description": "Comment id",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "comment": {
+                        "type": "string",
+                        "example": "Great article!",
+                        "nullable": true
+                    },
+                    "rate": {
+                        "type": "integer",
+                        "example": "5",
+                        "nullable": true
+                    },
+                    "user": {
+                        "$ref": "#/components/schemas/SimpleUserResource"
+                    }
+                },
+                "type": "object"
+            },
+            "SimpleTagResource": {
+                "title": "SimpleTagResource",
+                "properties": {
+                    "id": {
+                        "description": "Tag id",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Laravel"
+                    },
+                    "slug": {
+                        "type": "string",
+                        "example": "laravel"
+                    },
+                    "image": {
+                        "type": "string",
+                        "example": "https://example.com/image.jpg"
+                    }
+                },
+                "type": "object"
+            },
+            "SimpleUserResource": {
+                "title": "SimpleUserResource",
+                "properties": {
+                    "id": {
+                        "description": "User id",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "John",
+                        "nullable": true
+                    },
+                    "family": {
+                        "type": "string",
+                        "example": "Doe",
+                        "nullable": true
+                    },
+                    "mobile": {
+                        "type": "string",
+                        "example": "09379151111"
+                    },
+                    "image": {
+                        "type": "string",
+                        "example": "https://example.com/image.jpg"
+                    }
+                },
+                "type": "object"
+            },
+            "TagDetailResource": {
+                "title": "TagDetailResource",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "name": {
+                        "type": "string",
+                        "default": "Laravel"
+                    },
+                    "slug": {
+                        "type": "string",
+                        "default": "laravel"
+                    },
+                    "description": {
+                        "type": "string",
+                        "default": "PHP framework"
+                    },
+                    "body": {
+                        "type": "string",
+                        "default": "Detailed tag content..."
+                    },
+                    "type": {
+                        "type": "string",
+                        "default": "blog"
+                    },
+                    "order_column": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "languages": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "seo_option": {
+                        "type": "object"
+                    },
+                    "image": {
+                        "type": "string",
+                        "default": "https://example.com/image.jpg"
+                    },
+                    "is_in_use": {
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    }
+                },
+                "type": "object"
+            },
+            "TagResource": {
+                "title": "TagResource",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "name": {
+                        "type": "string",
+                        "default": "Laravel"
+                    },
+                    "slug": {
+                        "type": "string",
+                        "default": "laravel"
+                    },
+                    "description": {
+                        "type": "string",
+                        "default": "PHP framework"
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/TagTypeEnum"
+                    },
+                    "order_column": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "image": {
+                        "type": "string",
+                        "default": "https://example.com/image.jpg"
+                    },
+                    "is_in_use": {
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    }
+                },
+                "type": "object"
+            },
+            "UserDetailResource": {
+                "title": "UserDetailResource",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "name": {
+                        "type": "string",
+                        "default": "John"
+                    },
+                    "family": {
+                        "type": "string",
+                        "default": "Doe"
+                    },
+                    "email": {
+                        "type": "string",
+                        "default": "john@example.com"
+                    },
+                    "mobile": {
+                        "type": "string",
+                        "default": "09123456789"
+                    },
+                    "gender": {
+                        "type": "string",
+                        "default": "male"
+                    },
+                    "status": {
+                        "type": "string",
+                        "default": "active"
+                    },
+                    "email_verified_at": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "mobile_verified_at": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "avatar": {
+                        "type": "string",
+                        "default": "https://example.com/avatar.jpg"
+                    },
+                    "roles": {
+                        "type": "array",
+                        "items": {
+                            "type": "object"
+                        }
+                    },
+                    "permissions": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "blogs_count": {
+                        "type": "integer",
+                        "default": "5"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    }
+                },
+                "type": "object"
+            },
+            "UserResource": {
+                "title": "UserResource",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "name": {
+                        "type": "string",
+                        "default": "User Name"
+                    },
+                    "family": {
+                        "type": "string",
+                        "default": "User Family"
+                    },
+                    "mobile": {
+                        "type": "string",
+                        "default": "09123456789"
+                    },
+                    "email": {
+                        "type": "string",
+                        "default": "user@example.com"
+                    },
+                    "status": {
+                        "type": "string",
+                        "default": "active"
+                    },
+                    "avatar": {
+                        "type": "string",
+                        "default": "https://example.com/avatar.jpg"
+                    },
+                    "roles": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "responses": {
+            "400": {
+                "description": "Bad Request",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "default": "Bad Request."
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "401": {
+                "description": "Unauthorized",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "default": "Unauthenticated."
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "403": {
+                "description": "Forbidden",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "default": "Forbidden."
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "500": {
+                "description": "Internal Server Error",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "default": "Internal Server Error."
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "parameters": {
+            "advanced_search": {
+                "name": "filter[a_search][]",
+                "in": "query",
+                "description": "Search in events",
+                "required": false,
+                "schema": {
+                    "type": "array",
+                    "items": {
+                        "properties": {
+                            "column": {
+                                "type": "string",
+                                "default": "id"
+                            },
+                            "operator": {
+                                "type": "string",
+                                "default": "=",
+                                "enum": [
+                                    "like",
+                                    "=",
+                                    ">",
+                                    "<",
+                                    ">=",
+                                    "<="
+                                ]
+                            },
+                            "from": {
+                                "type": "string",
+                                "default": "1"
+                            },
+                            "to": {
+                                "type": "string",
+                                "default": "",
+                                "nullable": true
+                            },
+                            "contain": {
+                                "type": "integer",
+                                "default": "1",
+                                "enum": [
+                                    0,
+                                    1
+                                ]
+                            }
+                        },
+                        "type": "object"
+                    }
+                }
+            },
+            "filter": {
+                "name": "filter",
+                "in": "query",
+                "description": "Filter shifts",
+                "required": false,
+                "schema": {
+                    "properties": {
+                        "search": {
+                            "type": "string",
+                            "default": ""
+                        }
+                    },
+                    "type": "object"
+                }
+            },
+            "search": {
+                "name": "filter[search]",
+                "in": "query",
+                "required": false,
+                "schema": {
+                    "type": "string",
+                    "default": ""
+                }
+            },
+            "name": {
+                "name": "filter[name]",
+                "in": "query",
+                "required": false,
+                "schema": {
+                    "type": "string",
+                    "default": ""
+                }
+            },
+            "sort": {
+                "name": "sort",
+                "in": "query",
+                "description": "Sort criteria for shifts (e.g., name, -created_at)",
+                "required": false,
+                "schema": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "default": [
+                        "-id"
+                    ]
+                }
+            },
+            "page": {
+                "name": "page",
+                "in": "query",
+                "description": "page number",
+                "required": false,
+                "schema": {
+                    "type": "integer",
+                    "default": 1
+                }
+            },
+            "page_limit": {
+                "name": "page_limit",
+                "in": "query",
+                "description": "number of items per page",
+                "required": false,
+                "schema": {
+                    "type": "integer",
+                    "default": 15
+                }
+            }
+        },
+        "securitySchemes": {
+            "sanctum": {
+                "type": "apiKey",
+                "description": "Enter token",
+                "name": "Authorization",
+                "in": "header"
+            },
+            "clubId": {
+                "type": "apiKey",
+                "description": "Club ID header",
+                "name": "X-Club-Id",
+                "in": "header"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Auth",
+            "description": "Auth"
+        },
+        {
+            "name": "Blog",
+            "description": "Blog"
+        }
+    ],
+    "security": [
+        {
+            "sanctum": [],
+            "clubId": []
+        }
+    ]
+}

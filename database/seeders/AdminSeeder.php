@@ -20,7 +20,7 @@ class AdminSeeder extends Seeder
         ], [
             'name'     => 'super',
             'family'   => 'admin',
-            'mobile'   => '9100000000',
+            'mobile'   => '09100000000',
             'password' => Hash::make('password'),
         ]);
         $admin->assignRole(Role::where('name', RoleEnum::ADMIN->value)->first());
