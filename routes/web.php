@@ -22,12 +22,7 @@ use App\Livewire\Web\Pages\FaqPage;
 use App\Livewire\Web\Pages\HomePage;
 use App\Livewire\Web\Pages\NewsDetailPage;
 use App\Livewire\Web\Pages\NewsPage;
-use App\Livewire\Web\Pages\PortfolioDetailPage;
-use App\Livewire\Web\Pages\PortfolioPage;
 use App\Livewire\Web\Pages\SearchPage;
-use App\Livewire\Web\Pages\Services\ApplicationPage;
-use App\Livewire\Web\Pages\Services\SeoPage;
-use App\Livewire\Web\Pages\Services\WebsitePage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -73,11 +68,10 @@ Route::multilingual('faq', FaqPage::class)->name('faq');
 Route::multilingual('contact', ContactUsPage::class)->name('contact');
 Route::multilingual('about', AboutUsPage::class)->name('about');
 
-
 Route::multilingual('sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 Route::multilingual('sitemap-article.xml', [SitemapController::class, 'article'])->name('sitemap-article');
 
 // laravel not found route
-//Route::fallback(function () {
+// Route::fallback(function () {
 //    return redirect(localized_route('home-page'));
-//});
+// });

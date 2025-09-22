@@ -47,7 +47,6 @@ return Application::configure(basePath: dirname(__DIR__))
             'locale'       => LanguageMiddleware::class,
             'locale.admin' => AdminLanguageMiddleware::class,
         ]);
-
     })
     ->withExceptions(function (Exceptions $exceptions) {})
     ->withSchedule(function (Schedule $schedule) {

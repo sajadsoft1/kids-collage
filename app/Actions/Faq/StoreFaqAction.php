@@ -23,8 +23,8 @@ class StoreFaqAction
      * @param array{
      *     title:string,
      *     description:string,
-     *      published:boolean,
-     *      favorite:boolean,
+     *      published:bool,
+     *      favorite:bool,
      *      ordering:int,
      *      category_id:int,
      *      published_at:string

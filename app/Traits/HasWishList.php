@@ -21,6 +21,7 @@ trait HasWishList
         if (auth()->check()) {
             return $this->wishes()->where('user_id', auth()->id())->exists();
         }
+
         return false;
     }
 }

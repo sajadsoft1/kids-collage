@@ -28,7 +28,7 @@ class StoreBlogAction
      *     title:string,
      *     description:string,
      *     body:string,
-     *     published:boolean,
+     *     published:bool,
      *     published_at:string,
      *     category_id:int,
      *     slug:string,

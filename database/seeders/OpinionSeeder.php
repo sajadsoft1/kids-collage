@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace Database\Seeders;
 
 use App\Actions\Opinion\StoreOpinionAction;
-use Illuminate\Database\Seeder;
 use Exception;
-
+use Illuminate\Database\Seeder;
 
 class OpinionSeeder extends Seeder
 {

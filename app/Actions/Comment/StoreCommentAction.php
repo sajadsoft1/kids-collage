@@ -23,7 +23,7 @@ class StoreCommentAction
      * @param array{
      *     title:string,
      *     description:string,
-     *     published:boolean,
+     *     published:bool,
      *     user_id:int,
      *     admin_id:int,
      *     parent_id:int,

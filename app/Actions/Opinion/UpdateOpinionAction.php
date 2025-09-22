@@ -26,7 +26,7 @@ class UpdateOpinionAction
      *     user_name:string,
      *     comment:string,
      *     company:string,
-     *     published:boolean,
+     *     published:bool,
      *     ordering:int,
      *     published_at:string,
      *     image:string,

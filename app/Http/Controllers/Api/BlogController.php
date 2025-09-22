@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
-use App\Filters\FuzzyFilter;
 use App\Filters\DateFilter;
+use App\Filters\FuzzyFilter;
 use App\Http\Resources\BlogDetailResource;
 use App\Http\Resources\BlogResource;
 use App\Models\Blog;
@@ -29,13 +29,13 @@ class BlogController extends Controller
 {
     public function __construct()
     {
-//        $this->middleware('auth:sanctum');
+        //        $this->middleware('auth:sanctum');
     }
 
     private function query(array $payload = []): QueryBuilder
     {
         return QueryBuilder::for(Blog::query())
-            ->with(['user', 'category','media'])
+            ->with(['user', 'category', 'media'])
             ->when($limit = Arr::get($payload, 'limit'), fn ($q) => $q->limit($limit))
             ->when($categoryId = Arr::get($payload, 'category_id'), fn ($q) => $q->where('category_id', $categoryId))
             ->when($tagId = Arr::get($payload, 'tag_id'), fn ($q) => $q->withAnyTags([$tagId], 'tags'))
@@ -50,7 +50,7 @@ class BlogController extends Controller
             ])
             ->allowedFilters([
                 AllowedFilter::custom('search', new FuzzyFilter(['translations' => ['title', 'description']])),
-                AllowedFilter::custom('date', new DateFilter()),
+                AllowedFilter::custom('date', new DateFilter),
             ]);
     }
 
@@ -65,7 +65,7 @@ class BlogController extends Controller
      *     @OA\Parameter(ref="#/components/parameters/page_limit"),
      *     @OA\Parameter(ref="#/components/parameters/search"),
      *     @OA\Parameter(ref="#/components/parameters/sort"),
-     *     @OA\Parameter(name="filter[date]", required=false, in="query", @OA\Schema(type="string",enum={"today","this_week","this_month","this_year"}), description="Filter by date"),
+     *     @OA\Parameter(name="filter[date]", required=false, in="query", @OA\Schema(type="string", enum={"today", "this_week", "this_month", "this_year"}), description="Filter by date"),
      *     @OA\Response(response=200,
      *         description="Successful operation",
      *         @OA\JsonContent(type="object",
@@ -103,17 +103,17 @@ class BlogController extends Controller
                 'limit' => $request->input('limit', 1),
             ])->paginate($request->input('page_limit', 1))->toResourceCollection(BlogResource::class),
             [
-                'sort' => [
-                    ['label'=>'','value'=>'id'],
-                    ['label'=>'Most View','value'=>'view'],
-                    ['label'=>'Most Comment','value'=>'comment'],
-                    ['label'=>'Most Wish','value'=>'wish'],
+                'sort'   => [
+                    ['label' => '', 'value' => 'id'],
+                    ['label' => 'Most View', 'value' => 'view'],
+                    ['label' => 'Most Comment', 'value' => 'comment'],
+                    ['label' => 'Most Wish', 'value' => 'wish'],
                 ],
                 'filter' => [
-                    'date'=>[
-                        ['label'=>'Last Week','value'=>'last_week'],
-                        ['label'=>'Last Month','value'=>'last_month'],
-                        ['label'=>'Last Year','value'=>'last_year']
+                    'date' => [
+                        ['label' => 'Last Week', 'value' => 'last_week'],
+                        ['label' => 'Last Month', 'value' => 'last_month'],
+                        ['label' => 'Last Year', 'value' => 'last_year'],
                     ],
                 ],
             ]
@@ -162,11 +162,11 @@ class BlogController extends Controller
      * )
      * @throws Throwable
      */
-    public function indexByCategory(Request $request,Category $category): JsonResponse
+    public function indexByCategory(Request $request, Category $category): JsonResponse
     {
         return Response::dataWithAdditional(
             $this->query([
-                'limit' => $request->input('limit', 1),
+                'limit'       => $request->input('limit', 1),
                 'category_id' => $category->id,
             ])->paginate($request->input('page_limit', 1))->toResourceCollection(BlogResource::class),
             [
@@ -217,7 +217,7 @@ class BlogController extends Controller
      * )
      * @throws Throwable
      */
-    public function indexByTag(Request $request,Tag $tag): JsonResponse
+    public function indexByTag(Request $request, Tag $tag): JsonResponse
     {
         return Response::dataWithAdditional(
             $this->query([
@@ -271,7 +271,7 @@ class BlogController extends Controller
      * )
      * @throws Throwable
      */
-    public function indexByUser(Request $request,User $user): JsonResponse
+    public function indexByUser(Request $request, User $user): JsonResponse
     {
         return Response::dataWithAdditional(
             $this->query([
@@ -304,7 +304,7 @@ class BlogController extends Controller
     {
         return Response::data(
             [
-                'blog' => BlogDetailResource::make($blog->load(['user', 'category','media'])),
+                'blog' => BlogDetailResource::make($blog->load(['user', 'category', 'media'])),
             ]
         );
     }

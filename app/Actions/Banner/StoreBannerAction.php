@@ -25,7 +25,7 @@ class StoreBannerAction
      * @param array{
      *     title:string,
      *     description:string,
-     *     published:boolean,
+     *     published:bool,
      *     published_at:string,
      *     size:string,
      *     image:string,

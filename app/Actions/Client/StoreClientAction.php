@@ -25,7 +25,7 @@ class StoreClientAction
      * @param array{
      *     title:string,
      *     description:string,
-     *     published:boolean,
+     *     published:bool,
      *     link:string,
      * } $payload
      * @throws Throwable

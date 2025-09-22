@@ -22,7 +22,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements HasMedia
 {
-    use CLogsActivity, HasFactory, HasRoles, InteractsWithMedia, Notifiable,HasApiTokens;
+    use CLogsActivity, HasApiTokens, HasFactory, HasRoles, InteractsWithMedia,Notifiable;
 
     protected $fillable = [
         'profile_id',
