@@ -102,7 +102,7 @@ if ( ! function_exists('_dds')) {
     /**
      * @throws JsonException
      */
-    function _dds($args): void
+    function _dds(...$args): void
     {
         header('Access-Control-Allow-Origin: *');
         header('Access-Control-Allow-Headers: *');

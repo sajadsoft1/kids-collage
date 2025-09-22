@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use App\Filters\FuzzyFilter;
+use App\Filters\DateFilter;
 use App\Http\Resources\BlogDetailResource;
 use App\Http\Resources\BlogResource;
 use App\Models\Blog;
@@ -42,13 +43,14 @@ class BlogController extends Controller
             ->where('published', true)
             ->defaultSort('-id')
             ->allowedSorts([
-                'id', 'created_at', 'updated_at',
+                'id',
                 AllowedSort::custom('view', new MostCommentSort)->defaultDirection(SortDirection::DESCENDING),
                 AllowedSort::custom('comment', new MostCommentSort)->defaultDirection(SortDirection::DESCENDING),
                 AllowedSort::custom('wish', new MostWishSort)->defaultDirection(SortDirection::DESCENDING),
             ])
             ->allowedFilters([
                 AllowedFilter::custom('search', new FuzzyFilter(['translations' => ['title', 'description']])),
+                AllowedFilter::custom('date', new DateFilter()),
             ]);
     }
 
@@ -63,6 +65,7 @@ class BlogController extends Controller
      *     @OA\Parameter(ref="#/components/parameters/page_limit"),
      *     @OA\Parameter(ref="#/components/parameters/search"),
      *     @OA\Parameter(ref="#/components/parameters/sort"),
+     *     @OA\Parameter(name="filter[date]", required=false, in="query", @OA\Schema(type="string",enum={"today","this_week","this_month","this_year"}), description="Filter by date"),
      *     @OA\Response(response=200,
      *         description="Successful operation",
      *         @OA\JsonContent(type="object",
@@ -95,13 +98,24 @@ class BlogController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-//        _dds(auth('api')->user());
         return Response::dataWithAdditional(
             $this->query([
                 'limit' => $request->input('limit', 1),
             ])->paginate($request->input('page_limit', 1))->toResourceCollection(BlogResource::class),
             [
-                'aaa' => 'bbbb',
+                'sort' => [
+                    ['label'=>'','value'=>'id'],
+                    ['label'=>'Most View','value'=>'view'],
+                    ['label'=>'Most Comment','value'=>'comment'],
+                    ['label'=>'Most Wish','value'=>'wish'],
+                ],
+                'filter' => [
+                    'date'=>[
+                        ['label'=>'Last Week','value'=>'last_week'],
+                        ['label'=>'Last Month','value'=>'last_month'],
+                        ['label'=>'Last Year','value'=>'last_year']
+                    ],
+                ],
             ]
         );
     }

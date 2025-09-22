@@ -192,6 +192,21 @@
                     },
                     {
                         "$ref": "#/components/parameters/sort"
+                    },
+                    {
+                        "name": "filter[date]",
+                        "in": "query",
+                        "description": "Filter by date",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "today",
+                                "this_week",
+                                "this_month",
+                                "this_year"
+                            ]
+                        }
                     }
                 ],
                 "responses": {
