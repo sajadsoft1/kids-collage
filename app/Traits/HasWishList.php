@@ -19,9 +19,8 @@ trait HasWishList
     public function isWished(): bool
     {
         if (auth()->check()) {
-            return $this->morphable('user_wishlists')->exists();
+            return $this->wishes()->where('user_id', auth()->id())->exists();
         }
-
         return false;
     }
 }

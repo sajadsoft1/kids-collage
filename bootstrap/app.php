@@ -62,5 +62,7 @@ return Application::configure(basePath: dirname(__DIR__))
             ->onFailure(function () {
                 Log::error('Content publishing schedule failed');
             });
+
+        $schedule->command('telescope:prune --hours=48')->daily();
     })
     ->create();

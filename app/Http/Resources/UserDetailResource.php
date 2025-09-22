@@ -41,7 +41,6 @@ class UserDetailResource extends JsonResource
             'gender'             => $this->gender?->value,
             'email_verified_at'  => $this->email_verified_at,
             'mobile_verified_at' => $this->mobile_verified_at,
-            'avatar'             => $this->resource->getFirstMediaUrl('avatar', Constants::RESOLUTION_512_SQUARE),
             'permissions'        => $this->whenLoaded('permissions', fn () => $this->getAllPermissions()->pluck('name')),
             'blogs_count'        => $this->whenLoaded('blogs', fn () => $this->blogs->count(), 0),
         ]);

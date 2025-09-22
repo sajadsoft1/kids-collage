@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\View\Composers\NavbarComposer;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
@@ -14,7 +16,12 @@ use PowerComponents\LivewirePowerGrid\Button;
 
 class AppServiceProvider extends ServiceProvider
 {
-    public function register(): void {}
+    public function register(): void {
+        if ($this->app->environment('local') && class_exists(\Laravel\Telescope\TelescopeServiceProvider::class)) {
+            $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
+            $this->app->register(TelescopeServiceProvider::class);
+        }
+    }
 
     /** Bootstrap any application services. */
     public function boot(): void
@@ -27,7 +34,7 @@ class AppServiceProvider extends ServiceProvider
             return response()->json(compact('message'), $status);
         });
 
-        Response::macro('dataWithAdditional', function (AnonymousResourceCollection $data, array $additional = [], string $message = '', int $status = 200) {
+        Response::macro('dataWithAdditional', function (AnonymousResourceCollection|Collection|ResourceCollection $data, array $additional = [], string $message = '', int $status = 200) {
             return $data->additional(array_merge(compact('message'), $additional))->response()->setStatusCode($status);
         });
 

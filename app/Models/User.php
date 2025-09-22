@@ -10,6 +10,7 @@ use App\Enums\GenderEnum;
 use App\Helpers\Constants;
 use App\Traits\CLogsActivity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -24,6 +25,7 @@ class User extends Authenticatable implements HasMedia
     use CLogsActivity, HasFactory, HasRoles, InteractsWithMedia, Notifiable,HasApiTokens;
 
     protected $fillable = [
+        'profile_id',
         'name',
         'family',
         'email',
@@ -61,6 +63,11 @@ class User extends Authenticatable implements HasMedia
             ->logAll()
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs();
+    }
+
+    public function profile(): BelongsTo
+    {
+        return $this->belongsTo(Profile::class);
     }
 
     public function getFullNameAttribute(): string
