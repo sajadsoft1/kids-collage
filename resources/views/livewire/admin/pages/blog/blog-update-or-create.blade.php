@@ -15,22 +15,20 @@
                     <x-tags :label="trans('validation.attributes.tags')" wire:model="tags" icon="o-tag" clearable />
                 </div>
             </x-card>
-
-            <x-card :title="trans('general.page_sections.seo_options')" shadow separator progress-indicator="submit">
-                <x-admin.shared.seo-options class="lg:grid-cols-1" />
-            </x-card>
         </div>
 
         <div class="col-span-1">
             <div class="sticky top-16">
                 <x-card :title="trans('general.page_sections.upload_image')" shadow separator progress-indicator="submit" class="">
                     <x-admin.shared.single-file-upload
-                        default_image="{{ $model->getFirstMediaUrl('image', Constants::RESOLUTION_100_SQUARE) }}" />
+                            :ratio="1280/720"
+                            :hint="croperHint(Constants::RESOLUTION_1280_720)"
+                        :default_image="$model->getFirstMediaUrl('image', Constants::RESOLUTION_1280_720)" />
                 </x-card>
 
                 <x-card :title="trans('general.page_sections.publish_config')" shadow separator progress-indicator="submit" class="mt-5">
                     <div class="grid grid-cols-1 gap-4">
-                        <x-admin.shared.published-config :has-published-at="$this->getHasPublishedAtProperty()" :default-date="$published_at" />
+                        <x-admin.shared.published-config :has-published-at="true" :default-date="$published_at" />
                     </div>
                 </x-card>
             </div>

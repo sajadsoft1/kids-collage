@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Livewire\Admin\Auth\LoginPage;
 use App\Livewire\Admin\Pages\Dashboard\DashboardIndex;
 use App\Livewire\Admin\Pages\Setting\SettingList;
+use App\Livewire\Admin\Shared\DynamicSeo;
 use App\Livewire\Admin\Shared\DynamicTranslate;
 use Illuminate\Support\Facades\Route;
 
@@ -23,7 +24,7 @@ Route::group(['middleware' => ['admin.panel']], function () {
     Route::get('admin/setting', SettingList::class)->name('admin.setting');
 
     Route::get('utilitys/translate/{class}/{id}', DynamicTranslate::class)->name('admin.dynamic-translate');
-
+    Route::get('utility/seo/{class}/{id}', DynamicSeo::class)->name('admin.dynamic-seo');
     $files = array_diff(scandir(__DIR__ . '/admin', SCANDIR_SORT_ASCENDING), ['.', '..']);
     foreach ($files as $file_name) {
         require_once sprintf('admin/%s', $file_name);

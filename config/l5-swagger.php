@@ -172,23 +172,23 @@ return [
         */
         'securityDefinitions'   => [
             'securitySchemes' => [
-                'sanctum' => [
+                'sanctum'  => [
                     'type'        => 'apiKey',
                     'description' => 'Enter token',
                     'name'        => 'Authorization',
                     'in'          => 'header',
                 ],
-                'clubId'  => [
+                'branchId' => [
                     'type'        => 'apiKey',
-                    'description' => 'Club ID header',
-                    'name'        => 'X-Club-Id',
+                    'description' => 'Branch ID header',
+                    'name'        => 'X-Branch-Id',
                     'in'          => 'header',
                 ],
             ],
             'security'        => [
                 [
-                    'sanctum' => [],
-                    'clubId'  => [],
+                    'sanctum'  => [],
+                    'branchId' => [],
                 ],
             ],
         ],
@@ -234,7 +234,7 @@ return [
          */
         'ui'                    => [
             'display'       => [
-                'dark_mode'     => env('L5_SWAGGER_UI_DARK_MODE', false),
+                'dark_mode'     => env('L5_SWAGGER_UI_DARK_MODE', true),
                 /*
                  * Controls the default expansion setting for the operations and tags. It can be :
                  * 'list' (expands only the tags),

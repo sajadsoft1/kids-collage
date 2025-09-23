@@ -7,9 +7,10 @@ namespace App\Enums;
 enum BooleanEnum: int
 {
     use EnumToArray;
+
     case DISABLE = 0;
-    case ENABLE  = 1;
-    
+    case ENABLE = 1;
+
     public static function options(): array
     {
         return [
@@ -35,12 +36,20 @@ enum BooleanEnum: int
     public function toArray(): array
     {
         return [
-            'value' => (bool) $this->value,
+            'value' => (bool)$this->value,
             'label' => $this->title(),
             'color' => match ($this) {
                 self::DISABLE => 'error',
                 self::ENABLE  => 'success',
             },
         ];
+    }
+
+    public function asBoolean(): bool
+    {
+        return match ($this) {
+            self::DISABLE => false,
+            self::ENABLE  => true,
+        };
     }
 }

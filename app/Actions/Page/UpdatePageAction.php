@@ -28,13 +28,6 @@ class UpdatePageAction
      *     title:string,
      *     body:string,
      *     type:string,
-     *     slug:string,
-     *     seo_title:string,
-     *     seo_description:string,
-     *     canonical?:string,
-     *     old_url?:string,
-     *     redirect_to?:string,
-     *     robots_meta:string,
      *     image?:string,
      * }           $payload
      * @throws Throwable
@@ -45,7 +38,6 @@ class UpdatePageAction
             $page->update($payload);
             $this->syncTranslationAction->handle($page, Arr::only($payload, ['title', 'description']));
             $this->fileService->addMedia($page, Arr::get($payload, 'image'));
-            $this->seoOptionService->update($page, Arr::only($payload, ['seo_title', 'seo_description', 'canonical', 'old_url', 'redirect_to', 'robots_meta']));
 
             return $page->refresh();
         });

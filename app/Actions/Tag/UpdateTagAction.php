@@ -26,17 +26,10 @@ class UpdateTagAction
     /**
      * @param array{
      *     name: string,
-     *     slug: string,
      *     description?:string,
      *     body?:string,
      *     type?: string,
      *     order_column?: int,
-     *     seo_title:string,
-     *     seo_description:string,
-     *     canonical:string,
-     *     old_url:string,
-     *     redirect_to:string,
-     *     robots_meta:string,
      *     image?: string,
      * }          $payload
      * @throws Throwable
@@ -47,7 +40,6 @@ class UpdateTagAction
             $defaultLanguage = app()->getLocale();
             $tag->setTranslation('name', $defaultLanguage, Arr::get($payload, 'name'));
             $tag->update(Arr::only($payload, ['slug', 'type', 'order_column']));
-            $this->seoOptionService->update($tag, Arr::only($payload, ['seo_title', 'seo_description', 'canonical', 'old_url', 'redirect_to', 'robots_meta']));
             $this->syncTagTranslationAction->handle($tag, Arr::only($payload, ['description', 'body']));
             $this->fileService->addMedia($tag, Arr::get($payload, 'image'));
 

@@ -121,4 +121,5 @@ return [
     'reset'                            => 'ریست',
     'are_you_shure_to_delete_record'   => 'آیا از حذف این رکورد مطمئن هستید؟',
     'roles'                            => 'نقش ها',
+    'croper_image_hint' => 'بیشترین رزولوشن :resolution است'
 ];

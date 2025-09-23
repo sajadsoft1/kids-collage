@@ -62,6 +62,7 @@ return [
     'position'                => 'سمت',
     'birth_date'              => 'تاریخ تولد',
     'buttons'                 => [
+        'seo'         => 'سئو',
         'translate'   => 'ترجمه',
         'edit'        => 'ویرایش',
         'delete'      => 'حذف',

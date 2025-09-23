@@ -7,6 +7,7 @@ namespace App\Livewire\Admin\Pages\Blog;
 use App\Enums\BooleanEnum;
 use App\Enums\CategoryTypeEnum;
 use App\Enums\RoleEnum;
+use App\Helpers\Constants;
 use App\Helpers\PowerGridHelper;
 use App\Models\Blog;
 use App\Models\Category;
@@ -98,12 +99,12 @@ final class BlogTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('id')
-            ->add('image', fn ($row) => PowerGridHelper::fieldImage($row))
+            ->add('image', fn ($row) => PowerGridHelper::fieldImage($row,'image',Constants::RESOLUTION_854_480,11,6))
             ->add('title', fn ($row) => PowerGridHelper::fieldTitle($row))
             ->add('category_formatted', fn ($row) => $row->category?->title ?? '---')
             ->add('author', fn ($row) => $row->user->name)
             ->add('published_formated', fn ($row) => PowerGridHelper::fieldPublishedAtFormated($row))
-            ->add('view_count_formated', fn ($row) => "<strong style='color: " . ($row->view_count === 0 ? 'blue' : 'red') . "'>{$row->view_count}</strong>")
+            ->add('view_count_formated', fn ($row) => "<strong style='color: " . ($row->view_count === 0 ? 'blue' : 'red') . "'>$row->view_count</strong>")
             ->add('created_at_formatted', fn ($row) => PowerGridHelper::fieldCreatedAtFormated($row))
             ->add('updated_at_formatted', fn ($row) => PowerGridHelper::fieldUpdatedAtFormated($row));
     }
@@ -157,6 +158,7 @@ final class BlogTable extends PowerGridComponent
     public function actions(Blog $row): array
     {
         return [
+            PowerGridHelper::btnSeo($row),
             PowerGridHelper::btnTranslate($row),
             PowerGridHelper::btnToggle($row),
             PowerGridHelper::btnEdit($row),

@@ -45,7 +45,7 @@ class StoreCategoryAction
         return DB::transaction(function () use ($payload) {
             $model = Category::create(Arr::only($payload, ['slug', 'published', 'parent_id', 'type', 'ordering']));
             $this->syncTranslationAction->handle($model, Arr::only($payload, ['title', 'description', 'body']));
-            $this->seoOptionService->create($model, Arr::only($payload, ['seo_title', 'seo_description', 'canonical', 'old_url', 'redirect_to', 'robots_meta']));
+            $this->seoOptionService->create($model, Arr::only($payload, ['title', 'description']));
             $this->fileService->addMedia($model, Arr::get($payload, 'image'));
 
             return $model->refresh();

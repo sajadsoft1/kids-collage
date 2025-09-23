@@ -89,6 +89,16 @@ if ( ! function_exists('isRtl')) {
     }
 }
 
+if ( ! function_exists('croperHint')) {
+    /**
+     * @throws JsonException
+     */
+    function croperHint(string $maxResolotion): string
+    {
+        return trans('general.croper_image_hint', ['resolution' => $maxResolotion]);
+    }
+}
+
 if ( ! function_exists('_dd')) {
     function _dd(...$args)
     {

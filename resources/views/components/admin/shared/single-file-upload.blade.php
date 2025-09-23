@@ -1,6 +1,16 @@
-@props(['default_image'=>'/assets/images/default/user-avatar.png','wire_model'=>'image','accept'=>'image/image','crop_after_change'=>true,'ratio'=>1])
+@props([
+    'label'=>null,
+    'hint'=>null,
+    'default_image'=>'/assets/images/default/user-avatar.png',
+    'wire_model'=>'image',
+    'accept'=>'image/image',
+    'crop_after_change'=>true,
+    'ratio'=>1
+    ])
 
 <x-file
+        :label="$label"
+        :hint="$hint"
         :wire:model="$wire_model"
         :accept="$accept"
         :crop-after-change="$crop_after_change"

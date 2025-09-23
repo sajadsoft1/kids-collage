@@ -8,7 +8,7 @@ use App\Actions\Blog\StoreBlogAction;
 use App\Actions\Blog\UpdateBlogAction;
 use App\Enums\BooleanEnum;
 use App\Enums\CategoryTypeEnum;
-use App\Livewire\Traits\SeoOptionTrait;
+use App\Helpers\StringHelper;
 use App\Models\Blog;
 use App\Models\Category;
 use App\Traits\CrudHelperTrait;
@@ -19,14 +19,14 @@ use Mary\Traits\Toast;
 
 class BlogUpdateOrCreate extends Component
 {
-    use CrudHelperTrait, SeoOptionTrait, Toast, WithFileUploads;
+    use Toast, WithFileUploads;
 
     public Blog $model;
     public ?string $title           = '';
     public ?string $description     = '';
     public ?string $body            = '';
     public bool $published          = false;
-    public ?string $published_at    = '';
+    public $published_at    = '';
     public array $categories        = [];
     public array $tags              = [];
     public int $category_id         = 1;
@@ -40,51 +40,35 @@ class BlogUpdateOrCreate extends Component
             ->get()
             ->map(fn ($item) => ['name' => $item->title, 'id' => $item->id])->toArray();
 
+        $this->published_at = now()->format('Y-m-d');
         if ($this->model->id) {
-            $this->mountStaticFields();
             $this->title        = $this->model->title;
             $this->description  = $this->model->description;
             $this->body         = $this->model->body;
-            $this->published    = (bool) $this->model->published->value;
-            $this->published    = (bool) $this->model->published->value;
-            $this->published_at = $this->setPublishedAt($this->model->published_at);
+            $this->published    = $this->model->published->asBoolean();
+            $this->published_at = $this->model->published_at;
             $this->category_id  = $this->model->category_id;
             $this->tags         = $this->model->tags()->pluck('name')->toArray();
-        } else {
-            // For new blogs, ensure published is properly initialized
-            $this->published = false;
         }
     }
 
     protected function rules(): array
     {
-        return array_merge($this->seoOptionRules(), [
-            'slug'         => 'required|string|unique:blogs,slug,' . $this->model->id,
+        return [
             'title'        => 'required|string|max:255|min:2',
             'description'  => 'required|string|max:255',
-            'body'         => 'nullable|string',
+            'body'         => 'required|string',
             'published'    => 'required|boolean',
-            'published_at' => [
-                'nullable',
-                'date',
-                function ($attribute, $value, $fail) {
-                    if ($value) {
-                        $carbon = $this->parseTimestamp($value);
-                        if ($carbon && $carbon->addMinutes(2)->isBefore(now())) {
-                            $fail(trans('slider.exceptions.published_at_after_now'));
-                        }
-                    }
-                },
-            ],
+            'published_at' => 'nullable|date',
             'category_id'  => 'required|exists:categories,id,type,blog',
             'image'        => 'nullable|file|mimes:png,jpg,jpeg|max:4096',
             'tags'         => 'nullable|array',
-        ]);
+        ];
     }
 
     public function submit(): void
     {
-        $payload = $this->normalizePublishedAt($this->validate());
+        $payload = $this->validate();
         if ($this->model->id) {
             UpdateBlogAction::run($this->model, $payload);
             $this->success(
@@ -92,6 +76,7 @@ class BlogUpdateOrCreate extends Component
                 redirectTo: route('admin.blog.index')
             );
         } else {
+            $payload['slug'] = StringHelper::slug($this->title);
             StoreBlogAction::run($payload);
             $this->success(
                 title: trans('general.model_has_stored_successfully', ['model' => trans('blog.model')]),

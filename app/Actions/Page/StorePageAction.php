@@ -45,7 +45,7 @@ class StorePageAction
             $model = Page::create(Arr::only($payload, ['type', 'slug']));
             $this->syncTranslationAction->handle($model, Arr::only($payload, ['title', 'body']));
             $this->fileService->addMedia($model, Arr::get($payload, 'image'));
-            $this->seoOptionService->create($model, Arr::only($payload, ['seo_title', 'seo_description', 'canonical', 'old_url', 'redirect_to', 'robots_meta']));
+            $this->seoOptionService->create($model, Arr::only($payload, ['title', 'description']));
 
             return $model->refresh();
         });
