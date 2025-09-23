@@ -14,7 +14,7 @@
     },
     "servers": [
         {
-            "url": "http://kids-collage.test/api",
+            "url": "http://127.0.0.1:8000/api",
             "description": "Local Host"
         }
     ],
@@ -698,6 +698,280 @@
                                         },
                                         "data": {
                                             "$ref": "#/components/schemas/BlogDetailResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/faq": {
+            "get": {
+                "tags": [
+                    "Faq"
+                ],
+                "summary": "get faqs list",
+                "description": "Returns list of faqs",
+                "operationId": "getFaqs",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/page_limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/search"
+                    },
+                    {
+                        "$ref": "#/components/parameters/sort"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/FaqResource"
+                                            }
+                                        },
+                                        "links": {
+                                            "properties": {
+                                                "first": {
+                                                    "type": "string",
+                                                    "default": "http://localhost/api/faq?page=1"
+                                                },
+                                                "last": {
+                                                    "type": "string",
+                                                    "default": "http://localhost/api/faq?page=4"
+                                                },
+                                                "prev": {
+                                                    "type": "string",
+                                                    "default": "null",
+                                                    "nullable": true
+                                                },
+                                                "next": {
+                                                    "type": "string",
+                                                    "default": "http://localhost/api/faq?page=2",
+                                                    "nullable": true
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "meta": {
+                                            "$ref": "#/components/schemas/Meta"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        },
+                                        "advance_search_field": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "key": {
+                                                        "type": "string",
+                                                        "default": "id"
+                                                    },
+                                                    "label": {
+                                                        "type": "string",
+                                                        "default": "text"
+                                                    },
+                                                    "type": {
+                                                        "type": "string",
+                                                        "default": "number"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "extra": {
+                                            "properties": {
+                                                "default_sort": {
+                                                    "type": "string",
+                                                    "default": "-id"
+                                                },
+                                                "sorts": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    },
+                                                    "default": [
+                                                        "id",
+                                                        "created_at",
+                                                        "updated_at"
+                                                    ]
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/faq/category/{category}": {
+            "get": {
+                "tags": [
+                    "Faq"
+                ],
+                "summary": "get faqs list",
+                "description": "Returns list of faqs",
+                "operationId": "getFaqsByCategory",
+                "parameters": [
+                    {
+                        "name": "category",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "$ref": "#/components/parameters/page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/page_limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/search"
+                    },
+                    {
+                        "$ref": "#/components/parameters/sort"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/FaqResource"
+                                            }
+                                        },
+                                        "links": {
+                                            "properties": {
+                                                "first": {
+                                                    "type": "string",
+                                                    "default": "http://localhost/api/faq?page=1"
+                                                },
+                                                "last": {
+                                                    "type": "string",
+                                                    "default": "http://localhost/api/faq?page=4"
+                                                },
+                                                "prev": {
+                                                    "type": "string",
+                                                    "default": "null",
+                                                    "nullable": true
+                                                },
+                                                "next": {
+                                                    "type": "string",
+                                                    "default": "http://localhost/api/faq?page=2",
+                                                    "nullable": true
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "meta": {
+                                            "$ref": "#/components/schemas/Meta"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        },
+                                        "advance_search_field": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "key": {
+                                                        "type": "string",
+                                                        "default": "id"
+                                                    },
+                                                    "label": {
+                                                        "type": "string",
+                                                        "default": "text"
+                                                    },
+                                                    "type": {
+                                                        "type": "string",
+                                                        "default": "number"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "extra": {
+                                            "properties": {
+                                                "default_sort": {
+                                                    "type": "string",
+                                                    "default": "-id"
+                                                },
+                                                "sorts": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    },
+                                                    "default": [
+                                                        "id",
+                                                        "created_at",
+                                                        "updated_at"
+                                                    ]
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/faq/{faq}": {
+            "get": {
+                "tags": [
+                    "Faq"
+                ],
+                "summary": "Get faq information",
+                "description": "Returns faq data",
+                "operationId": "getFaqByID",
+                "parameters": [
+                    {
+                        "name": "faq",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
                                         }
                                     },
                                     "type": "object"
@@ -1580,6 +1854,120 @@
                 },
                 "type": "object"
             },
+            "FaqDetailResource": {
+                "title": "FaqDetailResource",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "title": {
+                        "type": "string",
+                        "default": "Faq Title"
+                    },
+                    "description": {
+                        "type": "string",
+                        "default": "Faq Description"
+                    },
+                    "category": {
+                        "$ref": "#/components/schemas/CategoryResource"
+                    },
+                    "favorite": {
+                        "$ref": "#/components/schemas/YesNoEnum"
+                    },
+                    "ordering": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "languages": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "default": [
+                            "en",
+                            "fa"
+                        ]
+                    },
+                    "like_count": {
+                        "type": "integer",
+                        "default": "10"
+                    },
+                    "view_count": {
+                        "type": "integer",
+                        "default": "100"
+                    },
+                    "published": {
+                        "$ref": "#/components/schemas/YesNoEnum"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    }
+                },
+                "type": "object"
+            },
+            "FaqResource": {
+                "title": "FaqResource",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "title": {
+                        "type": "string",
+                        "default": "Faq Title"
+                    },
+                    "description": {
+                        "type": "string",
+                        "default": "Faq Description"
+                    },
+                    "category": {
+                        "$ref": "#/components/schemas/CategoryResource"
+                    },
+                    "favorite": {
+                        "$ref": "#/components/schemas/YesNoEnum"
+                    },
+                    "ordering": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "languages": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "default": [
+                            "en",
+                            "fa"
+                        ]
+                    },
+                    "like_count": {
+                        "type": "integer",
+                        "default": "10"
+                    },
+                    "view_count": {
+                        "type": "integer",
+                        "default": "100"
+                    },
+                    "published": {
+                        "$ref": "#/components/schemas/YesNoEnum"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    }
+                },
+                "type": "object"
+            },
             "SimpleCategoryResource": {
                 "title": "SimpleCategoryResource",
                 "properties": {
@@ -2109,6 +2497,10 @@
         {
             "name": "Blog",
             "description": "Blog"
+        },
+        {
+            "name": "Faq",
+            "description": "Faq"
         }
     ],
     "security": [

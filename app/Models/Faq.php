@@ -9,6 +9,7 @@ use App\Enums\YesNoEnum;
 use App\Traits\CLogsActivity;
 use App\Traits\HasScheduledPublishing;
 use App\Traits\HasTranslationAuto;
+use App\Traits\HasView;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -24,6 +25,7 @@ class Faq extends Model
     use HasFactory;
     use HasScheduledPublishing;
     use HasTranslationAuto;
+    use HasView;
     public array $translatable = [
         'title', 'description',
     ];
