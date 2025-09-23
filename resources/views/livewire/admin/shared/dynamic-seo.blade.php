@@ -1,3 +1,4 @@
+@php use App\Models\Comment; @endphp
 @script
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 @endscript
@@ -11,11 +12,11 @@
     >
         <x-tab name="config-tab" :label="trans('seo.config')">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="my-6 p-4 border rounded-lg bg-white shadow-sm">
+                <div class="my-6 p-4 border rounded-lg bg-base-100 shadow-sm">
                     <p class="text-sm text-gray-500 mb-2">پیش‌نمایش در نتایج گوگل</p>
 
                     {{-- Title --}}
-                    <h2 class="text-[#1a0dab] text-xl font-normal truncate">
+                    <h2 class="text-[#1a0dab] dark:text-base-content text-xl font-normal truncate">
                         {{ Str::limit($seo_title,60) ?: 'عنوان صفحه شما اینجا نمایش داده می‌شود - نام سایت' }}
                     </h2>
 
@@ -84,22 +85,17 @@
             <div class="grid grid-cols-4 gap-2">
                 <x-stat
                         :title="trans('seo.stats.views')"
-                        :value="$viewsCount"
+                        :value="$viewsCount['all']"
                         icon="lucide.view"/>
 
                 <x-stat
-                        :title="trans('seo.stats.likes')"
-                        :value="$likesCount"
-                        icon="lucide.heart"/>
-
-                <x-stat
                         :title="trans('seo.stats.comments')"
-                        :value="$commentsCount"
+                        :value="$commentsCount['all']"
                         icon="lucide.message-circle"/>
 
                 <x-stat
                         :title="trans('seo.stats.wishes')"
-                        :value="$wishesCount"
+                        :value="$wishesCount['all']"
                         icon="lucide.save"/>
             </div>
             <div class="grid grid-cols-2 gap-4 mt-5">
@@ -124,13 +120,13 @@
                 </x-card>
 
                 <x-card
-                        :title="trans('seo.charts.likes')"
-                        :subtitle="trans('seo.from_date_to_date', ['from' => array_first($likesChart['data']['labels']), 'to' => array_last($likesChart['data']['labels'])])"
+                        :title="trans('seo.charts.wishes')"
+                        :subtitle="trans('seo.from_date_to_date', ['from' => array_first($wishesChart['data']['labels']), 'to' => array_last($wishesChart['data']['labels'])])"
                 >
                     <x-slot:menu>
-                        <x-select :options="$dates" option-value="value" option-label="label" wire:model.live="likesChartSelectedMonth"/>
+                        <x-select :options="$dates" option-value="value" option-label="label" wire:model.live="wishesChartSelectedMonth"/>
                     </x-slot:menu>
-                    <x-chart wire:model="likesChart" id="likesChartId" wire:key="likesChartKey"/>
+                    <x-chart wire:model="wishesChart" id="wishesChartId" wire:key="wishesChartKey"/>
                 </x-card>
 
             </div>
@@ -141,26 +137,24 @@
             <div class="grid md:grid-cols-2 gap-4">
                 <div class="grid grid-cols-2 gap-4">
                     <x-stat
-                            :title="trans('seo.stats.views')"
-                            :value="$viewsCount"
-                            icon="lucide.view"/>
+                            :title="trans('seo.stats_report.1')"
+                            :value="$viewsCount[1]"
+                            :icon="$viewsCount[3] > $viewsCount[1] ? 'o-arrow-trending-up':'o-arrow-trending-down'"/>
                     <x-stat
-                            title="test"
-                            :value="0"
-                            icon="lucide.view"/>
+                            :title="trans('seo.stats_report.3')"
+                            :value="$viewsCount[3]"
+                            :icon="$viewsCount[6] > $viewsCount[3] ? 'o-arrow-trending-up':'o-arrow-trending-down'"/>
                     <x-stat
-                            title="test"
-                            :value="0"
-                            icon="lucide.view"/>
+                            :title="trans('seo.stats_report.6')"
+                            :value="$viewsCount[6]"
+                            :icon="$viewsCount[12] > $viewsCount[6] ? 'o-arrow-trending-up':'o-arrow-trending-down'"/>
                     <x-stat
-                            title="test"
-                            :value="0"
-                            icon="lucide.view"/>
+                            :title="trans('seo.stats_report.12')"
+                            :value="$viewsCount[12]"
+                            :icon="$viewsCount[12] > 0 ? 'o-arrow-trending-up':'o-arrow-trending-down'"/>
                 </div>
-                <x-card
-                        :title="trans('seo.charts.views')"
-                        :subtitle="trans('seo.from_date_to_date', ['from' => array_first($viewsChart['data']['labels']), 'to' => array_last($viewsChart['data']['labels'])])"
-                >
+                <x-card :title="trans('seo.charts.views')"
+                        :subtitle="trans('seo.from_date_to_date', ['from' => array_first($viewsChart['data']['labels']), 'to' => array_last($viewsChart['data']['labels'])])">
                     <x-slot:menu>
                         <x-select :options="$dates" option-value="value" option-label="label" wire:model.live="viewsChartSelectedMonth"/>
                     </x-slot:menu>
@@ -172,42 +166,137 @@
             <x-card title="Views" class="flex-1 mt-5">
                 <x-table
                         :headers="[
-                    ['key' => 'id', 'label' => '#', 'class' => 'w-1'],
-                    ['key' => 'user.full_name', 'label' => 'User', ],
-                    ['key' => 'created_at', 'label' => 'Date','format' => ['date', 'Y/m/d H:i']],
-                    ['key' => 'ip', 'label' => 'IP'],
-                ]"
+                            ['key' => 'id', 'label' => '#', 'class' => 'w-1'],
+                            ['key' => 'user.full_name', 'label' => trans('datatable.user_name'), ],
+                            ['key' => 'created_at', 'label' => trans('datatable.created_at'),'format' => ['date', 'Y/m/d H:i']],
+                            ['key' => 'ip', 'label' => trans('validation.attributes.ip_address')],
+                        ]"
                         :rows="$views"
+                        show-empty-text
+                        :empty-text="trans('seo.charts.empty')"
                         with-pagination
                 />
             </x-card>
         </x-tab>
 
-        <x-tab name="like-tab" :label="trans('seo.likes')">
-            <x-card title="Likes" class="flex-1">
+        <x-tab name="wish-tab" :label="trans('seo.wished')">
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <x-stat
+                            :title="trans('seo.stats_report.1')"
+                            :value="$wishesCount[1]"
+                            :icon="$wishesCount[3] > $wishesCount[1] ? 'o-arrow-trending-up':'o-arrow-trending-down'"/>
+                    <x-stat
+                            :title="trans('seo.stats_report.3')"
+                            :value="$wishesCount[3]"
+                            :icon="$wishesCount[6] > $wishesCount[3] ? 'o-arrow-trending-up':'o-arrow-trending-down'"/>
+                    <x-stat
+                            :title="trans('seo.stats_report.6')"
+                            :value="$wishesCount[6]"
+                            :icon="$wishesCount[12] > $wishesCount[6] ? 'o-arrow-trending-up':'o-arrow-trending-down'"/>
+                    <x-stat
+                            :title="trans('seo.stats_report.12')"
+                            :value="$wishesCount[12]"
+                            :icon="$wishesCount[12] > 0 ? 'o-arrow-trending-up':'o-arrow-trending-down'"/>
+                </div>
+                <x-card :title="trans('seo.charts.wishes')"
+                        :subtitle="trans('seo.from_date_to_date', ['from' => array_first($wishesChart['data']['labels']), 'to' => array_last($wishesChart['data']['labels'])])">
+                    <x-slot:menu>
+                        <x-select :options="$dates" option-value="value" option-label="label" wire:model.live="wishesChartSelectedMonth"/>
+                    </x-slot:menu>
+                    <x-chart wire:model="wishesChart" id="wishesChartId" wire:key="wishesChartKey"/>
+                </x-card>
+            </div>
+
+
+            <x-card title="Wished" class="flex-1 mt-5">
                 <x-table
                         :headers="[
-                    ['key' => 'id', 'label' => '#', 'class' => 'w-1'],
-                    ['key' => 'user.name', 'label' => 'User', 'class' => 'w-1'],
-                    ['key' => 'comment', 'label' => 'Comments'],
-                ]"
-                        :rows="$comments"
+                            ['key' => 'id', 'label' => '#', 'class' => 'w-1'],
+                            ['key' => 'user.full_name', 'label' => trans('datatable.user_name') ],
+                            ['key' => 'created_at', 'label' => trans('datatable.created_at'),'format' => ['date', 'Y/m/d H:i']],
+                        ]"
+                        :rows="$wishes"
+                        show-empty-text
+                        :empty-text="trans('seo.charts.empty')"
                         with-pagination
                 />
             </x-card>
         </x-tab>
         <x-tab name="comments-tab" :label="trans('seo.comments')">
-            <x-card title="Comments" class="flex-1">
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <x-stat
+                            :title="trans('seo.stats_report.1')"
+                            :description="trans('seo.from_date_to_date', ['from' => $dates[0]['start']->format('Y'), 'to' => $dates[0]['start']->format('Y')])"
+                            :value="$commentsCount[1]"
+                            :color="$commentsCount[3] > $commentsCount[1] ? 'text-success':'text-secondary'"
+                            :icon="$commentsCount[3] > $commentsCount[1] ? 'o-arrow-trending-up':'o-arrow-trending-down'"/>
+                    <x-stat
+                            :title="trans('seo.stats_report.3')"
+                            :description="trans('seo.from_date_to_date', ['from' => $dates[0]['start']->format('Y'), 'to' => $dates[0]['start']->format('Y')])"
+                            :value="$commentsCount[3]"
+                            :color="$commentsCount[6] > $commentsCount[3] ? 'text-success':'text-secondary'"
+                            :icon="$commentsCount[6] > $commentsCount[3] ? 'o-arrow-trending-up':'o-arrow-trending-down'"/>
+                    <x-stat
+                            :title="trans('seo.stats_report.6')"
+                            :description="trans('seo.from_date_to_date', ['from' => $dates[0]['start']->format('Y'), 'to' => $dates[0]['start']->format('Y')])"
+                            :value="$commentsCount[6]"
+                            :color="$commentsCount[12] > $commentsCount[6] ? 'text-success':'text-secondary'"
+                            :icon="$commentsCount[12] > $commentsCount[6] ? 'o-arrow-trending-up':'o-arrow-trending-down'"/>
+                    <x-stat
+                            :title="trans('seo.stats_report.12')"
+                            :description="trans('seo.from_date_to_date', ['from' => $dates[0]['start']->format('Y'), 'to' => $dates[0]['start']->format('Y')])"
+                            :value="$commentsCount[12]"
+                            :color="$commentsCount[12] > 0 ? 'text-success':'text-secondary'"
+                            :icon="$commentsCount[12] > 0 ? 'o-arrow-trending-up':'o-arrow-trending-down'"/>
+                    <div class=""></div>
+                    <div class=""></div>
+                </div>
+                <x-card  :title="trans('seo.charts.comments')"
+                        :subtitle="trans('seo.from_date_to_date', ['from' => array_first($commentsChart['data']['labels']), 'to' => array_last($commentsChart['data']['labels'])])">
+                    <x-slot:menu>
+                        <x-select :options="$dates" option-value="value" option-label="label" wire:model.live="viewsChartSelectedMonth"/>
+                    </x-slot:menu>
+                    <x-chart wire:model="commentsChart" id="commentsChartId" wire:key="commentsChartKey"/>
+                </x-card>
+            </div>
+
+
+            <x-card title="Comments" class="flex-1 mt-5">
                 <x-table
                         :headers="[
-                    ['key' => 'id', 'label' => '#', 'class' => 'w-1'],
-                    ['key' => 'user.name', 'label' => 'User', 'class' => 'w-1'],
-                    ['key' => 'comment', 'label' => 'Comments'],
-                ]"
+                            ['key' => 'id', 'label' => '#', 'class' => 'w-1'],
+                            ['key' => 'user.full_name', 'label' => trans('datatable.user_name')],
+                            ['key' => 'comment', 'label' => trans('validation.attributes.comment')],
+                            ['key' => 'admin_note', 'label' => trans('validation.attributes.admin_note')],
+                            ['key' => 'published', 'label' => trans('validation.attributes.published'),'format' => fn($row, $field) => $field ? trans('core.published') : trans('core.un_published')],
+                            ['key' => 'suggest', 'label' => trans('validation.attributes.suggest')],
+                            ['key' => 'rate', 'label' => trans('validation.attributes.rate')],
+                        ]"
                         :rows="$comments"
+                        :cell-decoration="[
+                            'published' => [
+                                'bg-warning underline' => fn(Comment $comment) => $comment->published === 0,
+                                'bg-success' => fn(Comment $comment) => $comment->published === 1,
+                            ],
+                        ]"
+                        show-empty-text
+                        :empty-text="trans('seo.charts.empty')"
+                        expandable
+                        wire:model="expandedComments"
                         with-pagination
-                />
+                >
+                    @scope('expansion', $row)
+                    <div class="bg-base-200 p-8 font-bold">
+                        <strong>{{trans('validation.attributes.answer')}}:</strong>
+                        <br>
+                        {{ $row->admin_note?? trans('comment.no_admin_answer') }}
+                    </div>
+                    @endscope
+                </x-table>
             </x-card>
+
         </x-tab>
     </x-tabs>
 

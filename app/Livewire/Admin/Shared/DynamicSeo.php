@@ -20,7 +20,7 @@ class DynamicSeo extends Component
 {
     use WithPagination;
 
-    public string $tabSelected = 'view-tab';
+    public string $tabSelected = 'config-tab';
     public mixed $model;
     public string $class;
     public string $back_route  = '';
@@ -36,8 +36,9 @@ class DynamicSeo extends Component
     public ?string $robots_meta     = SeoRobotsMetaEnum::INDEX_FOLLOW->value;
 
     // charts
-    public array $viewsChart              = [];
-    public $viewsChartSelectedMonth       = 6;
+    public array $viewsChart                    = [];
+    public array $expandedComments              = [];
+    public $viewsChartSelectedMonth             = 6;
 
     public array $commentsChart              = [];
     public $commentsChartSelectedMonth       = 6;
@@ -45,11 +46,9 @@ class DynamicSeo extends Component
     public array $wishesChart              = [];
     public $wishesChartSelectedMonth       = 6;
 
-    public array $likesChart              = [];
-    public $likesChartSelectedMonth       = 6;
-
     public function mount(string $class, int $id): void
     {
+        abort_if(!config('custom-modules.seo'),403);
         $this->class           = $class;
         $this->back_route      = 'admin.' . Str::kebab($class) . '.index';
         $this->model           = Utils::getEloquent($class)::find($id);
@@ -63,13 +62,13 @@ class DynamicSeo extends Component
 
         $this->loadViewsChartData();
         $this->loadCommentsChartData();
-        $this->loadLikesChartData();
+        $this->loadWishesChartData();
 
         $this->dates = [
-            ['value' => 1, 'label' => trans('seo.months.month_1')],
-            ['value' => 3, 'label' => trans('seo.months.month_3')],
-            ['value' => 6, 'label' => trans('seo.months.month_6')],
-            ['value' => 12, 'label' => trans('seo.months.month_12')],
+            ['value' => 1, 'label' => trans('seo.months.month_1'), 'end' => now(), 'start' => now()->subMonths()->startOfMonth()],
+            ['value' => 3, 'label' => trans('seo.months.month_3'), 'end' => now(), 'start' => now()->subMonths(3)->startOfMonth()],
+            ['value' => 6, 'label' => trans('seo.months.month_6'), 'end' => now(), 'start' => now()->subMonths(6)->startOfMonth()],
+            ['value' => 12, 'label' => trans('seo.months.month_12'), 'end' => now(), 'start' => now()->subMonths(12)->startOfMonth()],
         ];
     }
 
@@ -109,47 +108,29 @@ class DynamicSeo extends Component
         $this->loadWishesChartData((int) $value);
     }
 
-    public function updatedLikesChartSelectedMonth($value): void
-    {
-        $this->loadLikesChartData((int) $value);
-    }
-
     private function loadViewsChartData(int $month = 3): void
     {
-        $startDate = now()->subMonths($month)->startOfMonth();
-        $views     = $this->baseViewsQuery()
-            ->where('created_at', '>=', $startDate)
-            ->selectRaw('DATE_FORMAT(created_at, "%Y-%m") as month, COUNT(*) as count')
-            ->groupBy('month')
-            ->orderBy('month')
-            ->get();
-
-        $labels = [];
-        $data   = [];
-        foreach (CarbonPeriod::create($startDate, '1 month', now()->startOfMonth()) as $date) {
-            $month    = $date->format('Y-m');
-            $labels[] = $month;
-            $data[]   = $views->firstWhere('month', $month)?->count ?? 0;
-        }
-
-        $this->viewsChart = [
-            'type' => 'bar',
-            'data' => [
-                'labels'   => $labels,
-                'datasets' => [
-                    [
-                        'label' => '# of Views',
-                        'data'  => $data,
-                    ],
-                ],
-            ],
-        ];
+        $this->viewsChart = $this->chartGenerator($this->baseViewsQuery(), 'bar', $month);
     }
 
     private function loadCommentsChartData(int $month = 3): void
     {
+        $this->commentsChart = $this->chartGenerator($this->baseCommentsQuery(), 'bar', $month);
+    }
+
+    private function loadWishesChartData(int $month = 3): void
+    {
+        $this->wishesChart = $this->chartGenerator($this->baseWishesQuery(), 'bar', $month);
+    }
+
+    /**
+     * @param string $chartType like bar|pie
+     * @param int    $month     default 3
+     */
+    private function chartGenerator(Builder $baseQuery, string $chartType = 'bar', int $month = 3): array
+    {
         $startDate = now()->subMonths($month)->startOfMonth();
-        $comments  = $this->baseCommentsQuery()
+        $wishes    = $baseQuery
             ->where('created_at', '>=', $startDate)
             ->selectRaw('DATE_FORMAT(created_at, "%Y-%m") as month, COUNT(*) as count')
             ->groupBy('month')
@@ -161,16 +142,16 @@ class DynamicSeo extends Component
         foreach (CarbonPeriod::create($startDate, '1 month', now()->startOfMonth()) as $date) {
             $monthLabel = $date->format('Y-m');
             $labels[]   = $monthLabel;
-            $data[]     = $comments->firstWhere('month', $monthLabel)?->count ?? 0;
+            $data[]     = $wishes->firstWhere('month', $monthLabel)?->count ?? 0;
         }
 
-        $this->commentsChart = [
-            'type' => 'bar',
+        return [
+            'type' => $chartType,
             'data' => [
                 'labels'   => $labels,
                 'datasets' => [
                     [
-                        'label' => '# of Comments',
+                        'label' => '# of Items',
                         'data'  => $data,
                     ],
                 ],
@@ -178,38 +159,18 @@ class DynamicSeo extends Component
         ];
     }
 
-    private function loadWishesChartData(int $month = 3): void {}
-
-    private function loadLikesChartData(int $month = 3): void
+    private function countGenerator(Builder $baseQuery): array
     {
-        $startDate = now()->subMonths($month)->startOfMonth();
-        $views     = $this->baseWishesQuery()
-            ->where('created_at', '>=', $startDate)
-            ->selectRaw('DATE_FORMAT(created_at, "%Y-%m") as month, COUNT(*) as count')
-            ->groupBy('month')
-            ->orderBy('month')
-            ->get();
-
-        $labels = [];
-        $data   = [];
-        foreach (CarbonPeriod::create($startDate, '1 month', now()->startOfMonth()) as $date) {
-            $month    = $date->format('Y-m');
-            $labels[] = $month;
-            $data[]   = $views->firstWhere('month', $month)?->count ?? 0;
+        $result = [];
+        foreach ($this->dates as $date) {
+            $result[$date['value']] = $baseQuery->clone()
+                ->whereBetween('created_at', [$date['start'], $date['end']])
+                ->count();
         }
 
-        $this->likesChart = [
-            'type' => 'bar',
-            'data' => [
-                'labels'   => $labels,
-                'datasets' => [
-                    [
-                        'label' => '# of Likes',
-                        'data'  => $data,
-                    ],
-                ],
-            ],
-        ];
+        $result['all'] = $baseQuery->clone()->count();
+
+        return $result;
     }
 
     protected function rules(): array
@@ -227,21 +188,20 @@ class DynamicSeo extends Component
 
     public function onSubmit(): void
     {
-       $payload =  $this->validate();
+        $payload =  $this->validate();
 
-      $this->model->seoOption->update([
-          'title'       => $payload['seo_title'],
-          'description' => $payload['seo_description'],
-          'canonical'   => $payload['canonical'],
-          'old_url'     => $payload['old_url'],
-          'redirect_to' => $payload['redirect_to'],
-          'robots_meta' => SeoRobotsMetaEnum::from($payload['robots_meta']),
-      ]);
+        $this->model->seoOption->update([
+            'title'       => $payload['seo_title'],
+            'description' => $payload['seo_description'],
+            'canonical'   => $payload['canonical'],
+            'old_url'     => $payload['old_url'],
+            'redirect_to' => $payload['redirect_to'],
+            'robots_meta' => SeoRobotsMetaEnum::from($payload['robots_meta']),
+        ]);
 
-      $this->model->update([
-          'slug' => $payload['slug'],
-      ]);
-
+        $this->model->update([
+            'slug' => $payload['slug'],
+        ]);
     }
 
     public function render(): View
@@ -255,14 +215,13 @@ class DynamicSeo extends Component
             'breadcrumbsActions' => [
                 ['link' => route('admin.' . $this->class . '.index'), 'icon' => 's-arrow-left'],
             ],
-            'viewsCount'         => $this->baseViewsQuery()->count(),
-            'commentsCount'      => $this->baseCommentsQuery()->count(),
-            'likesCount'         => $this->baseWishesQuery()->count(),
-            'wishesCount'        => 0,
+            'viewsCount'         => $this->countGenerator($this->baseViewsQuery()),
+            'commentsCount'      => $this->countGenerator($this->baseCommentsQuery()),
+            'wishesCount'        => $this->countGenerator($this->baseWishesQuery()),
 
             'comments'           => $this->baseCommentsQuery()->paginate(15),
             'views'              => $this->baseViewsQuery()->paginate(15),
-            'likes'              => $this->baseWishesQuery()->paginate(15),
+            'wishes'             => $this->baseWishesQuery()->paginate(15),
         ]);
     }
 }

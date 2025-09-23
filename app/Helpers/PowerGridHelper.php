@@ -93,7 +93,7 @@ class PowerGridHelper
                      ->attributes([
                          'class' => 'btn btn-square md:btn-sm btn-xs',
                      ])
-                     ->can(auth()->user()->hasAnyPermission(PermissionsService::generatePermissionsByModel($row::class, 'Update')))
+                     ->can(config('custom-modules.seo') && auth()->user()->hasAnyPermission(PermissionsService::generatePermissionsByModel($row::class, 'Update')))
                      ->route('admin.dynamic-seo', ['class' => Str::camel(StringHelper::basename($row::class)), 'id' => $row->id], '_self')
                      ->navigate()
                      ->tooltip(trans('datatable.buttons.seo'));
@@ -108,7 +108,7 @@ class PowerGridHelper
                      ->attributes([
                          'class' => 'btn btn-square md:btn-sm btn-xs',
                      ])
-                     ->can(auth()->user()->hasAnyPermission(PermissionsService::generatePermissionsByModel($row::class, 'Update')))
+                     ->can(config('custom-modules.translation') && auth()->user()->hasAnyPermission(PermissionsService::generatePermissionsByModel($row::class, 'Update')))
                      ->route('admin.dynamic-translate', ['class' => Str::camel(StringHelper::basename($row::class)), 'id' => $row->id], '_self')
                      ->navigate()
                      ->tooltip(trans('datatable.buttons.translate'));

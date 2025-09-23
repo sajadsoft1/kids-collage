@@ -3,7 +3,7 @@
     <!-- Sidebar component, swap this element with another sidebar if you like -->
     <div class="flex grow flex-col gap-y-5 overflow-y-auto px-6 pb-4">
         <div class="flex h-16 shrink-0 items-center">
-            <img class="h-8 w-auto" src="https://tailwindui.com/plus-assets/img/logos/mark.svg?color=indigo&amp;shade=500"
+            <img class="h-8 w-auto" src="{{asset('logo_with_text_light.png')}}"
                 alt="Your Company">
         </div>
         <x-menu activate-by-route active-bg-color="bg-gray-800 dark:bg-gray-800 text-white hover:text-white"

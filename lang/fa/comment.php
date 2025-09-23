@@ -20,4 +20,5 @@ return [
     ],
     'page'          => [
     ],
+    'no_admin_answer'  => 'بدون پاسخ مدیریت'
 ];
