@@ -40,34 +40,41 @@
 
                     <div class="grid grid-cols-1 gap-4">
                         <x-input :label="trans('validation.attributes.slug')"
-                                 wire:model.live="slug"
+                                 wire:model.live.debounce="slug"
+                                 icon="c-link"
                         />
                         <x-input :label="trans('validation.attributes.seo_title')"
-                                 wire:model.live="seo_title"
+                                 wire:model.live.debounce="seo_title"
                                  class="w-full"
                         />
                         <x-textarea :label="trans('validation.attributes.seo_description')"
-                                    wire:model.live="seo_description"
+                                    wire:model.live.debounce="seo_description"
                         />
                         <x-input :label="trans('validation.attributes.canonical')"
                                  wire:model="canonical"
+                                 icon-right="o-link"
                                  type="url"
                         />
                         <x-input :label="trans('validation.attributes.old_url')"
                                  wire:model="old_url"
+                                 icon-right="o-link"
                                  type="url"
                         />
                         <x-input :label="trans('validation.attributes.redirect_to')"
                                  wire:model="redirect_to"
+                                 icon-right="o-link"
                                  type="url"
                         />
 
-                        <x-select :label="trans('validation.attributes.robots_meta')"
-                                  wire:model="robots_meta"
-                                  :options="App\Enums\SeoRobotsMetaEnum::formatedCases()"
-                                  option-label="label"
-                                  option-value="value"
-                                  required
+                        <x-radio
+                                inline
+                                :label="trans('validation.attributes.robots_meta')"
+                                :options="App\Enums\SeoRobotsMetaEnum::formatedCases()"
+                                wire:model="robots_meta"
+                                option-value="value"
+                                option-label="label"
+                                option-hint="hint"
+                                required
                         />
                     </div>
                 </x-card>
@@ -99,7 +106,7 @@
                 <x-card
                         :title="trans('seo.charts.views')"
                         :subtitle="trans('seo.from_date_to_date', ['from' => array_first($viewsChart['data']['labels']), 'to' => array_last($viewsChart['data']['labels'])])"
-                        >
+                >
                     <x-slot:menu>
                         <x-select :options="$dates" option-value="value" option-label="label" wire:model.live="viewsChartSelectedMonth"/>
                     </x-slot:menu>
@@ -109,7 +116,7 @@
                 <x-card
                         :title="trans('seo.charts.comments')"
                         :subtitle="trans('seo.from_date_to_date', ['from' => array_first($commentsChart['data']['labels']), 'to' => array_last($commentsChart['data']['labels'])])"
-                        >
+                >
                     <x-slot:menu>
                         <x-select :options="$dates" option-value="value" option-label="label" wire:model.live="commentsChartSelectedMonth"/>
                     </x-slot:menu>
@@ -130,6 +137,65 @@
 
         </x-tab>
 
+        <x-tab name="view-tab" :label="trans('seo.views')">
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <x-stat
+                            :title="trans('seo.stats.views')"
+                            :value="$viewsCount"
+                            icon="lucide.view"/>
+                    <x-stat
+                            title="test"
+                            :value="0"
+                            icon="lucide.view"/>
+                    <x-stat
+                            title="test"
+                            :value="0"
+                            icon="lucide.view"/>
+                    <x-stat
+                            title="test"
+                            :value="0"
+                            icon="lucide.view"/>
+                </div>
+                <x-card
+                        :title="trans('seo.charts.views')"
+                        :subtitle="trans('seo.from_date_to_date', ['from' => array_first($viewsChart['data']['labels']), 'to' => array_last($viewsChart['data']['labels'])])"
+                >
+                    <x-slot:menu>
+                        <x-select :options="$dates" option-value="value" option-label="label" wire:model.live="viewsChartSelectedMonth"/>
+                    </x-slot:menu>
+                    <x-chart wire:model="viewsChart" id="viewsChartId" wire:key="viewsChartKey"/>
+                </x-card>
+            </div>
+
+
+            <x-card title="Views" class="flex-1 mt-5">
+                <x-table
+                        :headers="[
+                    ['key' => 'id', 'label' => '#', 'class' => 'w-1'],
+                    ['key' => 'user.full_name', 'label' => 'User', ],
+                    ['key' => 'created_at', 'label' => 'Date','format' => ['date', 'Y/m/d H:i']],
+                    ['key' => 'ip', 'label' => 'IP'],
+                ]"
+                        :rows="$views"
+                        with-pagination
+                />
+            </x-card>
+        </x-tab>
+
+        <x-tab name="like-tab" :label="trans('seo.likes')">
+            <x-card title="Likes" class="flex-1">
+                <x-table
+                        :headers="[
+                    ['key' => 'id', 'label' => '#', 'class' => 'w-1'],
+                    ['key' => 'user.name', 'label' => 'User', 'class' => 'w-1'],
+                    ['key' => 'comment', 'label' => 'Comments'],
+                ]"
+                        :rows="$comments"
+                        with-pagination
+                />
+            </x-card>
+        </x-tab>
         <x-tab name="comments-tab" :label="trans('seo.comments')">
             <x-card title="Comments" class="flex-1">
                 <x-table

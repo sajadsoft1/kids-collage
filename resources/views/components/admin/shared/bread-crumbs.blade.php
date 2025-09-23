@@ -1,4 +1,4 @@
-<div class="sticky md:top-0 top-12 z-30 bg-base-300 h-14 mb-2">
+<div class="bg-base-300 h-14 mb-2">
     <div class="flex items-center justify-between py-3">
         <div class="min-w-0 flex-1">
             <x-breadcrumbs :items="$breadcrumbs ?? $this->breadcrumbs" />

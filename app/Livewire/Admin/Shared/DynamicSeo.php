@@ -20,7 +20,7 @@ class DynamicSeo extends Component
 {
     use WithPagination;
 
-    public string $tabSelected = 'config-tab';
+    public string $tabSelected = 'view-tab';
     public mixed $model;
     public string $class;
     public string $back_route  = '';
@@ -227,7 +227,21 @@ class DynamicSeo extends Component
 
     public function onSubmit(): void
     {
-        $this->validate();
+       $payload =  $this->validate();
+
+      $this->model->seoOption->update([
+          'title'       => $payload['seo_title'],
+          'description' => $payload['seo_description'],
+          'canonical'   => $payload['canonical'],
+          'old_url'     => $payload['old_url'],
+          'redirect_to' => $payload['redirect_to'],
+          'robots_meta' => SeoRobotsMetaEnum::from($payload['robots_meta']),
+      ]);
+
+      $this->model->update([
+          'slug' => $payload['slug'],
+      ]);
+
     }
 
     public function render(): View
@@ -247,6 +261,8 @@ class DynamicSeo extends Component
             'wishesCount'        => 0,
 
             'comments'           => $this->baseCommentsQuery()->paginate(15),
+            'views'              => $this->baseViewsQuery()->paginate(15),
+            'likes'              => $this->baseWishesQuery()->paginate(15),
         ]);
     }
 }

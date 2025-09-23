@@ -1,5 +1,5 @@
 <div
-    class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 bg-white dark:bg-base-100 border-b border-gray-200 dark:border-b-gray-700  px-4 shadow-xs sm:gap-x-6 sm:px-6 lg:px-8">
+    class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 bg-white dark:bg-base-300 border-b border-gray-200 dark:border-none  px-4 shadow-xs sm:gap-x-6 sm:px-6 lg:px-8">
     <button type="button" class="-m-2.5 p-2.5 text-gray-700" @click="open = !open">
         <span class="sr-only">Toggle sidebar</span>
         <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true"
