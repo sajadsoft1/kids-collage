@@ -4,25 +4,26 @@ namespace {{ namespace }};
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * @OA\Schema(
+ *      schema="{{ class }}",
+ *      title="{{ class }}",
+ *      type="object",
+ *      required={"title"},
+ *
+ *     @OA\Property(property="title", type="string", default="test title"),
+ *     @OA\Property(property="description", type="string", default="test description"),
+ * )
+ */
 class {{ class }} extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
-    public function authorize(): bool
-    {
-        return false;
-    }
+    use FillAttributes;
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
-            //
+            'title'           => ['required', 'string', 'max:255'],
+            'description'     => ['nullable', 'string'],
         ];
     }
 }

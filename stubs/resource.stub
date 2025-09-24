@@ -1,19 +1,37 @@
 <?php
 
+declare(strict_types=1);
+
 namespace {{ namespace }};
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use OpenApi\Annotations as OA;
 
+
+/**
+ * @OA\Schema(
+ *     schema="{{ class }}",
+ *     title="{{ class }}",
+ *     @OA\Property( property="id", type="integer", default="1"),
+ *     @OA\Property(property="title", type="string", default="Title"),
+ *     @OA\Property(property="description", type="string", default="Description"),
+ *
+ *     @OA\Property(property="updated_at", type="string", default="2024-08-19T07:26:07.000000Z"),
+ *     @OA\Property(property="created_at", type="string", default="2024-08-19T07:26:07.000000Z"),
+ * )
+ */
 class {{ class }} extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @return array<string, mixed>
-     */
+
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id'          => $this->id,
+            'title'       => $this->title,
+            'description' => $this->description,
+            'updated_at'  => $this->updated_at,
+            'created_at'  => $this->created_at,
+        ];
     }
 }
