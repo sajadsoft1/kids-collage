@@ -23,10 +23,7 @@ use Throwable;
 
 class FaqController extends Controller
 {
-    public function __construct()
-    {
-        //        $this->middleware('auth:sanctum');
-    }
+    public function __construct() {}
 
     private function query(array $payload = []): QueryBuilder
     {
@@ -78,8 +75,12 @@ class FaqController extends Controller
      *                 ),
      *             ),
      *             @OA\Property(property="extra", type="object",
-     *                 @OA\Property(property="default_sort", type="string", default="-id"),
-     *                 @OA\Property(property="sorts", type="array", @OA\Items(type="string"), default={"id", "created_at", "updated_at"}),
+     *                 @OA\Property(property="sorts", type="array", @OA\Items(type="object"),
+     *                     @OA\Property(property="label", type="string", default="ID"),
+     *                     @OA\Property(property="value", type="string", default="id"),
+     *                     @OA\Property(property="selected", type="boolean", default=true),
+     *                     @OA\Property(property="default", type="boolean", default=true),
+     *                 ),
      *             ),
      *         )
      *     )
@@ -94,8 +95,8 @@ class FaqController extends Controller
             ])->paginate($request->input('page_limit', 1))->toResourceCollection(FaqResource::class),
             [
                 'sort' => [
-                    ['label' => '', 'value' => 'id'],
-                    ['label' => 'Most View', 'value' => 'view'],
+                    ['label' => '', 'value' => 'id', 'selected' => true, 'default' => true],
+                    ['label' => 'Most View', 'value' => 'view', 'selected' => true, 'default' => false],
                 ],
             ]
         );
