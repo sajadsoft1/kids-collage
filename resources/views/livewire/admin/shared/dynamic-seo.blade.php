@@ -136,19 +136,19 @@
         <x-tab name="view-tab" :label="trans('seo.views')">
             <div class="grid md:grid-cols-2 gap-4">
                 <div class="grid grid-cols-2 gap-4">
-                    <x-stat
+                    <x-admin.shared.stat
                             :title="trans('seo.stats_report.1')"
                             :value="$viewsCount[1]"
                             :icon="$viewsCount[3] > $viewsCount[1] ? 'o-arrow-trending-up':'o-arrow-trending-down'"/>
-                    <x-stat
+                    <x-admin.shared.stat
                             :title="trans('seo.stats_report.3')"
                             :value="$viewsCount[3]"
                             :icon="$viewsCount[6] > $viewsCount[3] ? 'o-arrow-trending-up':'o-arrow-trending-down'"/>
-                    <x-stat
+                    <x-admin.shared.stat
                             :title="trans('seo.stats_report.6')"
                             :value="$viewsCount[6]"
                             :icon="$viewsCount[12] > $viewsCount[6] ? 'o-arrow-trending-up':'o-arrow-trending-down'"/>
-                    <x-stat
+                    <x-admin.shared.stat
                             :title="trans('seo.stats_report.12')"
                             :value="$viewsCount[12]"
                             :icon="$viewsCount[12] > 0 ? 'o-arrow-trending-up':'o-arrow-trending-down'"/>
@@ -253,7 +253,7 @@
                     <div class=""></div>
                     <div class=""></div>
                 </div>
-                <x-card  :title="trans('seo.charts.comments')"
+                <x-card :title="trans('seo.charts.comments')"
                         :subtitle="trans('seo.from_date_to_date', ['from' => array_first($commentsChart['data']['labels']), 'to' => array_last($commentsChart['data']['labels'])])">
                     <x-slot:menu>
                         <x-select :options="$dates" option-value="value" option-label="label" wire:model.live="viewsChartSelectedMonth"/>

@@ -27,7 +27,7 @@ class MakeControllerCommand extends Command
     protected $description = 'Command description';
 
     /** Execute the console command. */
-    public function handle()
+    public function handle(): void
     {
         $model = $this->argument('model');
         $model = Str::studly($model);
