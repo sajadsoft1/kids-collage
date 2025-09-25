@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use App\Filters\FuzzyFilter;
-use App\Http\Resources\{{models}}DetailResource;
-use App\Http\Resources\{{models}}Resource;
+use App\Http\Resources\{{model}}DetailResource;
+use App\Http\Resources\{{model}}Resource;
 use App\Models\Category;
-use App\Models\{{models}};
+use App\Models\{{model}};
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -18,7 +18,7 @@ use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 use Throwable;
 
-class {{models}}Controller extends Controller
+class {{model}}Controller extends Controller
 {
     public function __construct()
     {
@@ -26,7 +26,7 @@ class {{models}}Controller extends Controller
 
     private function query(array $payload = []): QueryBuilder
     {
-        return QueryBuilder::for({{models}}::query())
+        return QueryBuilder::for({{model}}::query())
             ->with([])
             ->when($limit = Arr::get($payload, 'limit'), fn ($q) => $q->limit($limit))
             ->where('published', true)
@@ -41,11 +41,11 @@ class {{models}}Controller extends Controller
 
     /**
      * @OA\Get(
-     *     path="/{{kmodels}}",
-     *     operationId="get{{models}}s",
-     *     tags={"{{models}}"},
-     *     summary="get {{cmodels}} list",
-     *     description="Returns list of {{cmodels}}",
+     *     path="/{{kmodel}}",
+     *     operationId="get{{model}}s",
+     *     tags={"{{model}}"},
+     *     summary="get {{cmodel}} list",
+     *     description="Returns list of {{cmodel}}",
      *     @OA\Parameter(ref="#/components/parameters/page"),
      *     @OA\Parameter(ref="#/components/parameters/page_limit"),
      *     @OA\Parameter(ref="#/components/parameters/search"),
@@ -53,12 +53,12 @@ class {{models}}Controller extends Controller
      *     @OA\Response(response=200,
      *         description="Successful operation",
      *         @OA\JsonContent(type="object",
-     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/{{models}}Resource")),
+     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/{{model}}Resource")),
      *             @OA\Property(property="links", type="object",
-     *                 @OA\Property(property="first", type="string", default="http://localhost/api/{{kmodels}}?page=1"),
-     *                 @OA\Property(property="last", type="string", default="http://localhost/api/{{kmodels}}?page=4"),
+     *                 @OA\Property(property="first", type="string", default="http://localhost/api/{{kmodel}}?page=1"),
+     *                 @OA\Property(property="last", type="string", default="http://localhost/api/{{kmodel}}?page=4"),
      *                 @OA\Property(property="prev", type="string", default="null", nullable=true),
-     *                 @OA\Property(property="next", type="string", default="http://localhost/api/{{kmodels}}?page=2", nullable=true),
+     *                 @OA\Property(property="next", type="string", default="http://localhost/api/{{kmodel}}?page=2", nullable=true),
      *             ),
      *             @OA\Property(property="meta", ref="#/components/schemas/Meta"),
      *             @OA\Property(property="message", type="string", default="No message"),
@@ -81,7 +81,7 @@ class {{models}}Controller extends Controller
         return Response::dataWithAdditional(
             $this->query([
                 'limit' => $request->input('limit'),
-            ])->paginate($request->input('page_limit', 15))->toResourceCollection({{models}}Resource::class),
+            ])->paginate($request->input('page_limit', 15))->toResourceCollection({{model}}Resource::class),
             [
                 'sort' => [
                     ['label' => '', 'value' => 'id', 'selected' => true, 'default' => true],
@@ -92,12 +92,12 @@ class {{models}}Controller extends Controller
 
     /**
      * @OA\Get(
-     *     path="/{{kmodels}}/{{{cmodels}}}",
-     *     operationId="get{{models}}ByID",
-     *     tags={"{{models}}"},
-     *     summary="Get {{cmodels}} information",
-     *     description="Returns {{cmodels}} data",
-     *     @OA\Parameter(name="{{cmodels}}", required=true, in="path", @OA\Schema(type="string")),
+     *     path="/{{kmodel}}/{{{cmodel}}}",
+     *     operationId="get{{model}}ByID",
+     *     tags={"{{model}}"},
+     *     summary="Get {{cmodel}} information",
+     *     description="Returns {{cmodel}} data",
+     *     @OA\Parameter(name="{{cmodel}}", required=true, in="path", @OA\Schema(type="string")),
      *     @OA\Response(response=200,
      *         description="Successful operation",
      *         @OA\JsonContent(type="object",
@@ -106,11 +106,11 @@ class {{models}}Controller extends Controller
      *     )
      * )
      */
-    public function show({{models}} ${{cmodels}}): JsonResponse
+    public function show({{model}} ${{cmodel}}): JsonResponse
     {
         return Response::data(
             [
-                '{{cmodels}}' => {{models}}DetailResource::make(${{cmodels}}),
+                '{{cmodel}}' => {{model}}DetailResource::make(${{cmodel}}),
             ]
         );
     }

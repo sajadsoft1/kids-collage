@@ -21,15 +21,23 @@ class SettingList extends Component
 
     public Collection $settings;
 
-    public $detail = [];
-
+    public $detail     = [];
     public array $data = [];
     private SettingService $settingService;
 
     public function boot(SettingService $settingService): void
     {
         $this->settingService = $settingService;
-        $this->settings       = Setting::get();
+
+        $customOrder = ['integration_sync', 'notification', 'sale'];
+        $cases       = collect($customOrder)
+            ->map(fn ($key, $i) => "WHEN `key` = ? THEN {$i}")
+            ->implode(' ');
+        $orderByRaw = "CASE {$cases} ELSE " . count($customOrder) . ' END';
+
+        $this->settings = Setting::orderByRaw($orderByRaw, $customOrder)
+            ->orderBy('key')
+            ->get();
     }
 
     public function mount(): void
@@ -123,6 +131,14 @@ class SettingList extends Component
                 ['label' => trans('datatable.setting')],
             ],
             'breadcrumbsActions' => [
+            ],
+            'iconMap'            => [
+                'general'          => 'lucide.sidebar',
+                'product'          => 'lucide.box',
+                'security'         => 'lucide.lock',
+                'integration_sync' => 'lucide.folder-sync',
+                'notification'     => 'lucide.message-square-share',
+                'sale'             => 'lucide.shopping-cart',
             ],
         ]);
     }
