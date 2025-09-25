@@ -172,6 +172,181 @@
                 }
             }
         },
+        "/banner": {
+            "get": {
+                "tags": [
+                    "Banner"
+                ],
+                "summary": "get banners list",
+                "description": "Returns list of banners",
+                "operationId": "getBanners",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/page_limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/search"
+                    },
+                    {
+                        "$ref": "#/components/parameters/sort"
+                    },
+                    {
+                        "name": "filter[size]",
+                        "in": "query",
+                        "description": "Filter by size",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "1x1",
+                                "6x9",
+                                "4x3"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/BannerResource"
+                                            }
+                                        },
+                                        "links": {
+                                            "properties": {
+                                                "first": {
+                                                    "type": "string",
+                                                    "default": "http://localhost/api/banner?page=1"
+                                                },
+                                                "last": {
+                                                    "type": "string",
+                                                    "default": "http://localhost/api/banner?page=4"
+                                                },
+                                                "prev": {
+                                                    "type": "string",
+                                                    "default": "null",
+                                                    "nullable": true
+                                                },
+                                                "next": {
+                                                    "type": "string",
+                                                    "default": "http://localhost/api/banner?page=2",
+                                                    "nullable": true
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "meta": {
+                                            "$ref": "#/components/schemas/Meta"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        },
+                                        "advance_search_field": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "key": {
+                                                        "type": "string",
+                                                        "default": "id"
+                                                    },
+                                                    "label": {
+                                                        "type": "string",
+                                                        "default": "text"
+                                                    },
+                                                    "type": {
+                                                        "type": "string",
+                                                        "default": "number"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "extra": {
+                                            "properties": {
+                                                "sorts": {
+                                                    "properties": {
+                                                        "label": {
+                                                            "type": "string",
+                                                            "default": "ID"
+                                                        },
+                                                        "value": {
+                                                            "type": "string",
+                                                            "default": "id"
+                                                        },
+                                                        "selected": {
+                                                            "type": "boolean",
+                                                            "default": true
+                                                        },
+                                                        "default": {
+                                                            "type": "boolean",
+                                                            "default": true
+                                                        }
+                                                    },
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/banner/{banner}": {
+            "get": {
+                "tags": [
+                    "Banner"
+                ],
+                "summary": "Get banner information",
+                "description": "Returns banner data",
+                "operationId": "getBannerByID",
+                "parameters": [
+                    {
+                        "name": "banner",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/blog": {
             "get": {
                 "tags": [
@@ -708,6 +883,167 @@
                 }
             }
         },
+        "/client": {
+            "get": {
+                "tags": [
+                    "Client"
+                ],
+                "summary": "get clients list",
+                "description": "Returns list of clients",
+                "operationId": "getClient",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/page_limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/search"
+                    },
+                    {
+                        "$ref": "#/components/parameters/sort"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/ClientResource"
+                                            }
+                                        },
+                                        "links": {
+                                            "properties": {
+                                                "first": {
+                                                    "type": "string",
+                                                    "default": "http://localhost/api/client?page=1"
+                                                },
+                                                "last": {
+                                                    "type": "string",
+                                                    "default": "http://localhost/api/client?page=4"
+                                                },
+                                                "prev": {
+                                                    "type": "string",
+                                                    "default": "null",
+                                                    "nullable": true
+                                                },
+                                                "next": {
+                                                    "type": "string",
+                                                    "default": "http://localhost/api/client?page=2",
+                                                    "nullable": true
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "meta": {
+                                            "$ref": "#/components/schemas/Meta"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        },
+                                        "advance_search_field": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "key": {
+                                                        "type": "string",
+                                                        "default": "id"
+                                                    },
+                                                    "label": {
+                                                        "type": "string",
+                                                        "default": "text"
+                                                    },
+                                                    "type": {
+                                                        "type": "string",
+                                                        "default": "number"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "extra": {
+                                            "properties": {
+                                                "sorts": {
+                                                    "properties": {
+                                                        "label": {
+                                                            "type": "string",
+                                                            "default": "ID"
+                                                        },
+                                                        "value": {
+                                                            "type": "string",
+                                                            "default": "id"
+                                                        },
+                                                        "selected": {
+                                                            "type": "boolean",
+                                                            "default": true
+                                                        },
+                                                        "default": {
+                                                            "type": "boolean",
+                                                            "default": true
+                                                        }
+                                                    },
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/client/{client}": {
+            "get": {
+                "tags": [
+                    "Client"
+                ],
+                "summary": "Get client information",
+                "description": "Returns client data",
+                "operationId": "getClientByID",
+                "parameters": [
+                    {
+                        "name": "client",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/faq": {
             "get": {
                 "tags": [
@@ -795,20 +1131,29 @@
                                         },
                                         "extra": {
                                             "properties": {
-                                                "default_sort": {
-                                                    "type": "string",
-                                                    "default": "-id"
-                                                },
                                                 "sorts": {
+                                                    "properties": {
+                                                        "label": {
+                                                            "type": "string",
+                                                            "default": "ID"
+                                                        },
+                                                        "value": {
+                                                            "type": "string",
+                                                            "default": "id"
+                                                        },
+                                                        "selected": {
+                                                            "type": "boolean",
+                                                            "default": true
+                                                        },
+                                                        "default": {
+                                                            "type": "boolean",
+                                                            "default": true
+                                                        }
+                                                    },
                                                     "type": "array",
                                                     "items": {
-                                                        "type": "string"
-                                                    },
-                                                    "default": [
-                                                        "id",
-                                                        "created_at",
-                                                        "updated_at"
-                                                    ]
+                                                        "type": "object"
+                                                    }
                                                 }
                                             },
                                             "type": "object"
@@ -1477,6 +1822,98 @@
                 },
                 "type": "object"
             },
+            "BannerDetailResource": {
+                "title": "BannerDetailResource",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "title": {
+                        "type": "string",
+                        "default": "Title"
+                    },
+                    "description": {
+                        "type": "string",
+                        "default": "Description"
+                    },
+                    "link": {
+                        "type": "string",
+                        "default": "https://google.com"
+                    },
+                    "published": {
+                        "$ref": "#/components/schemas/YesNoEnum"
+                    },
+                    "size": {
+                        "$ref": "#/components/schemas/BannerSizeEnum"
+                    },
+                    "click": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "image": {
+                        "type": "string",
+                        "default": "https://example.com/image.jpg"
+                    },
+                    "published_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    }
+                },
+                "type": "object"
+            },
+            "BannerResource": {
+                "title": "BannerResource",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "title": {
+                        "type": "string",
+                        "default": "Title"
+                    },
+                    "description": {
+                        "type": "string",
+                        "default": "Description"
+                    },
+                    "link": {
+                        "type": "string",
+                        "default": "https://google.com"
+                    },
+                    "published": {
+                        "$ref": "#/components/schemas/YesNoEnum"
+                    },
+                    "size": {
+                        "$ref": "#/components/schemas/BannerSizeEnum"
+                    },
+                    "click": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "published_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    }
+                },
+                "type": "object"
+            },
             "BlogDetailResource": {
                 "title": "BlogDetailResource",
                 "properties": {
@@ -1731,6 +2168,64 @@
                     "image": {
                         "type": "string",
                         "default": "https://example.com/image.jpg"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    }
+                },
+                "type": "object"
+            },
+            "ClientDetailResource": {
+                "title": "ClientDetailResource",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "title": {
+                        "type": "string",
+                        "default": "Title"
+                    },
+                    "link": {
+                        "type": "string",
+                        "default": "https://www.google.com"
+                    },
+                    "published": {
+                        "$ref": "#/components/schemas/YesNoEnum"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    }
+                },
+                "type": "object"
+            },
+            "ClientResource": {
+                "title": "ClientResource",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "title": {
+                        "type": "string",
+                        "default": "Title"
+                    },
+                    "link": {
+                        "type": "string",
+                        "default": "https://www.google.com"
+                    },
+                    "published": {
+                        "$ref": "#/components/schemas/YesNoEnum"
                     },
                     "updated_at": {
                         "type": "string",
@@ -2481,10 +2976,10 @@
                 "name": "Authorization",
                 "in": "header"
             },
-            "clubId": {
+            "branchId": {
                 "type": "apiKey",
-                "description": "Club ID header",
-                "name": "X-Club-Id",
+                "description": "Branch ID header",
+                "name": "X-Branch-Id",
                 "in": "header"
             }
         }
@@ -2495,8 +2990,16 @@
             "description": "Auth"
         },
         {
+            "name": "Banner",
+            "description": "Banner"
+        },
+        {
             "name": "Blog",
             "description": "Blog"
+        },
+        {
+            "name": "Client",
+            "description": "Client"
         },
         {
             "name": "Faq",
@@ -2506,7 +3009,7 @@
     "security": [
         {
             "sanctum": [],
-            "clubId": []
+            "branchId": []
         }
     ]
 }

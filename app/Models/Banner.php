@@ -32,6 +32,7 @@ class Banner extends Model implements HasMedia
         'published',
         'size',
         'click',
+        'link',
         'published_at',
         'languages',
     ];
@@ -39,7 +40,6 @@ class Banner extends Model implements HasMedia
     protected $casts = [
         'published'    => BooleanEnum::class,
         'size'         => BannerSizeEnum::class,
-        'buttons'      => 'array',
         'published_at' => 'date',
         'languages'    => 'array',
     ];
