@@ -14,6 +14,7 @@ return new class extends Migration {
         Schema::create('banners', function (Blueprint $table) {
             $table->id();
             $table->string('size')->default(BannerSizeEnum::S1X1->value);
+            $table->string('link')->nullable();
             $table->boolean('published')->default(BooleanEnum::ENABLE->value);
             $table->unsignedBigInteger('click')->default(0);
             $table->timestamp('published_at')->nullable();
