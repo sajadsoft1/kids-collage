@@ -121,3 +121,27 @@ if ( ! function_exists('_dds')) {
         exit(json_encode($args, JSON_THROW_ON_ERROR));
     }
 }
+
+if ( ! function_exists('hex2rgba')) {
+    function hex2rgba($color, $alpha = 1): string
+    {
+        $color = str_replace('#', '', $color);
+        if (strlen($color) === 6) {
+            [$r, $g, $b] = [
+                hexdec(substr($color, 0, 2)),
+                hexdec(substr($color, 2, 2)),
+                hexdec(substr($color, 4, 2)),
+            ];
+        } elseif (strlen($color) === 3) {
+            [$r, $g, $b] = [
+                hexdec(str_repeat($color[0], 2)),
+                hexdec(str_repeat($color[1], 2)),
+                hexdec(str_repeat($color[2], 2)),
+            ];
+        } else {
+            return 'rgba(0,0,0,' . $alpha . ')';
+        }
+
+        return "rgba({$r}, {$g}, {$b}, {$alpha})";
+    }
+}

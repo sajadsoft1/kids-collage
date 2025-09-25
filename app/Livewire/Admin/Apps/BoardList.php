@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace App\Livewire\Admin\Apps;
 
+use App\Enums\CardStatusEnum;
 use App\Models\Board;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Throwable;
 
 /**
  * Class BoardList
@@ -52,9 +55,8 @@ class BoardList extends Component
 
     public function mount(): void
     {
-        // Check if user has any boards, if not, show create modal
-        $user = Auth::user();
-        if ($user->boards()->count() === 0) {
+        // Check if user has any boards, if not, show create modal.
+        if (Auth::user()?->boards()->count() === 0) {
             $this->showBoardModal = true;
         }
     }
@@ -62,11 +64,13 @@ class BoardList extends Component
     /** Get boards for the current user with search and filters. */
     public function getBoardsProperty()
     {
-        $user = Auth::user();
-
-        $query = $user->boards()
-            ->with(['users', 'columns', 'cards'])
-            ->withCount(['columns', 'cards']);
+        $query = Auth::user()?->boards()
+                     ->with(['users', 'columns', 'cards'])
+                     ->withCount(['columns', 'cards as completed_cards' => function ($q) {
+                         $q->where('status', CardStatusEnum::COMPLETED->value);
+                     },'cards as pending_cards' => function ($q) {
+                         $q->whereNot('status', CardStatusEnum::COMPLETED->value);
+                     }]);
 
         // Apply search filter
         if ( ! empty($this->search)) {
@@ -86,7 +90,9 @@ class BoardList extends Component
         return $query->orderBy('created_at', 'desc')->paginate(12);
     }
 
-    /** Create a new board. */
+    /** Create a new board.
+     * @throws Throwable
+     */
     public function createBoard(): void
     {
         $this->validate([
@@ -164,7 +170,7 @@ class BoardList extends Component
     }
 
     /** View a board in the Kanban interface. */
-    public function viewBoard(Board $board)
+    public function viewBoard(Board $board): RedirectResponse
     {
         // Redirect to KanbanApp with the selected board
         return redirect()->route('admin.app.kanban', ['board' => $board->id]);
@@ -197,13 +203,15 @@ class BoardList extends Component
         $this->selectedBoard = null;
     }
 
-    /** Get user's role on a board. */
+    /** Get a user's role on a board. */
     public function getUserRole(Board $board): ?string
     {
-        return $board->getUserRole(Auth::user());
+        /** @var User $user */
+        $user = Auth::user();
+        return $board->getUserRole($user);
     }
 
-    /** Check if user can edit a board. */
+    /** Check if a user can edit a board. */
     public function canEdit(Board $board): bool
     {
         $role = $this->getUserRole($board);
@@ -211,7 +219,7 @@ class BoardList extends Component
         return in_array($role, ['owner', 'admin']);
     }
 
-    /** Check if user can delete a board. */
+    /** Check if a user can delete a board. */
     public function canDelete(Board $board): bool
     {
         $role = $this->getUserRole($board);
