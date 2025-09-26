@@ -17,6 +17,7 @@ return [
             'blog'      => 'Blog',
             'portfolio' => 'Portfolio',
             'faq'       => 'FAQ',
+            'bulletin'  => 'Bulletin',
         ],
     ],
     'notifications' => [

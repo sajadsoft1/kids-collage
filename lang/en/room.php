@@ -1,7 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 return [
-    'model'         => 'Model',
+    'model'         => 'Room',
     'permissions'   => [
     ],
     'exceptions'    => [

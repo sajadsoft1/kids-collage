@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\License;
 
 use App\Actions\Translation\SyncTranslationAction;
@@ -17,20 +19,21 @@ class UpdateLicenseAction
         private readonly SyncTranslationAction $syncTranslationAction,
     ) {}
 
-
     /**
-     * @param License $license
      * @param array{
      *     title:string,
-     *     description:string
+     *     description:string,
+     *     languages:array
      * }               $payload
-     * @return License
      * @throws Throwable
      */
     public function handle(License $license, array $payload): License
     {
         return DB::transaction(function () use ($license, $payload) {
-            $license->update($payload);
+            $license->update(Arr::only($payload, [
+                'view_count',
+                'languages',
+            ]));
             $this->syncTranslationAction->handle($license, Arr::only($payload, ['title', 'description']));
 
             return $license->refresh();

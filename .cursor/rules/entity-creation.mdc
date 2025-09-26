@@ -1,0 +1,716 @@
+---
+alwaysApply: false
+---
+
+# Entity Creation Rule
+
+This rule provides a comprehensive guide for creating new entities in the Laravel application, following the established patterns from the Blog and Bulletin models.
+
+## Required Components for New Entity
+
+### 1. Model Requirements
+- **Location**: `app/Models/{Entity}.php`
+- **Must implement**: `HasMedia` interface for image support
+- **Required traits**:
+  - `CLogsActivity` - Activity logging
+  - `HasCategory` - Category support
+  - `HasComment` - Comment system
+  - `HasScheduledPublishing` - Scheduled publishing
+  - `HasSeoOption` - SEO support
+  - `HasSlugFromTranslation` - SEO-friendly URLs
+  - `HasStatusBoolean` - Status management
+  - `HasTags` - Tagging system
+  - `HasTranslationAuto` - Multi-language support
+  - `HasUser` - Author/writer relationship
+  - `HasView` - View tracking
+  - `HasWishList` - Wish list functionality
+  - `InteractsWithMedia` - Media handling
+
+### 2. Required Fillable Fields
+```php
+protected $fillable = [
+    'slug',           // SEO-friendly URL
+    'published',      // Publication status
+    'published_at',   // Scheduled publishing
+    'user_id',        // Author/writer
+    'category_id',    // Category
+    'view_count',     // View tracking
+    'comment_count',  // Comment count
+    'wish_count',     // Wish list count
+    'languages',      // Multi-language support
+];
+```
+
+### 3. Required Translatable Fields
+```php
+public array $translatable = [
+    'title', 'description', 'body',
+];
+```
+
+### 4. Required Casts
+```php
+protected $casts = [
+    'published'    => BooleanEnum::class,
+    'published_at' => 'datetime',
+    'languages'    => 'array',
+];
+```
+
+### 5. Media Collections
+```php
+public function registerMediaCollections(): void
+{
+    $this->addMediaCollection('image')
+        ->singleFile()
+        ->useFallbackUrl('/assets/images/default/user-avatar.png')
+        ->registerMediaConversions(function () {
+            $this->addMediaConversion(Constants::RESOLUTION_100_SQUARE)->fit(Fit::Crop, 100, 100);
+            $this->addMediaConversion(Constants::RESOLUTION_854_480)->fit(Fit::Crop, 854, 480);
+            $this->addMediaConversion(Constants::RESOLUTION_1280_720)->fit(Fit::Crop, 1280, 720);
+        });
+}
+```
+
+### 6. Path Method
+```php
+public function path(): string
+{
+    return localized_route('{entity}.detail', ['{entity}' => $this->slug]);
+}
+```
+
+## Table Component Requirements
+
+### 1. Location
+- **File**: `app/Livewire/Admin/Pages/{Entity}/{Entity}Table.php`
+- **Namespace**: `App\Livewire\Admin\Pages\{Entity}`
+
+### 2. Required Imports
+```php
+use App\Enums\BooleanEnum;
+use App\Enums\CategoryTypeEnum;
+use App\Enums\RoleEnum;
+use App\Helpers\Constants;
+use App\Helpers\PowerGridHelper;
+use App\Models\{Entity};
+use App\Models\Category;
+use App\Models\User;
+use App\Services\Permissions\PermissionsService;
+use App\Traits\PowerGridHelperTrait;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\View\View;
+use Livewire\Attributes\Computed;
+use Jenssegers\Agent\Agent;
+use PowerComponents\LivewirePowerGrid\Column;
+use PowerComponents\LivewirePowerGrid\Facades\Filter;
+use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
+use PowerComponents\LivewirePowerGrid\PowerGridComponent;
+use PowerComponents\LivewirePowerGrid\PowerGridFields;
+```
+
+### 3. Required Methods
+- `setUp()` - PowerGrid configuration
+- `breadcrumbs()` - Navigation breadcrumbs
+- `breadcrumbsActions()` - Action buttons with permissions
+- `datasource()` - Data source with relationships
+- `relationSearch()` - Search configuration
+- `fields()` - Field definitions with image, title, category, author, etc.
+- `columns()` - Column definitions
+- `filters()` - Filter configuration
+- `actions()` - Action buttons (SEO, translate, toggle, edit, delete)
+- `noDataLabel()` - Empty state
+
+## UpdateOrCreate Component Requirements
+
+### 1. Location
+- **File**: `app/Livewire/Admin/Pages/{Entity}/{Entity}UpdateOrCreate.php`
+- **Namespace**: `App\Livewire\Admin\Pages\{Entity}`
+
+### 2. Required Imports
+```php
+use App\Actions\{Entity}\Store{Entity}Action;
+use App\Actions\{Entity}\Update{Entity}Action;
+use App\Enums\BooleanEnum;
+use App\Enums\CategoryTypeEnum;
+use App\Helpers\StringHelper;
+use App\Models\{Entity};
+use App\Models\Category;
+use App\Traits\CrudHelperTrait;
+use Illuminate\View\View;
+use Livewire\Component;
+use Livewire\WithFileUploads;
+use Mary\Traits\Toast;
+```
+
+### 3. Required Properties
+```php
+public {Entity} $model;
+public ?string $title = '';
+public ?string $description = '';
+public ?string $body = '';
+public bool $published = false;
+public $published_at = '';
+public array $categories = [];
+public array $tags = [];
+public int $category_id = 1;
+public $image;
+```
+
+### 4. Required Methods
+- `mount()` - Initialize with categories and existing data
+- `rules()` - Validation rules
+- `submit()` - Handle form submission with slug generation
+- `render()` - Render view with breadcrumbs
+
+## Action Requirements
+
+### 1. Store Action
+- **File**: `app/Actions/{Entity}/Store{Entity}Action.php`
+- **Namespace**: `App\Actions\{Entity}`
+- **Required fields**: slug, published, published_at, user_id, category_id, view_count, comment_count, wish_count, languages
+- **Translation fields**: title, description, body
+
+### 2. Update Action
+- **File**: `app/Actions/{Entity}/Update{Entity}Action.php`
+- **Namespace**: `App\Actions\{Entity}`
+- **Required fields**: published, published_at, user_id, category_id, view_count, comment_count, wish_count, languages
+- **Translation fields**: title, description, body
+
+## Language Files Requirements
+
+### 1. Persian Language File
+- **File**: `lang/fa/{entity}.php`
+- **Content**:
+```php
+<?php
+
+declare(strict_types=1);
+
+return [
+    'model'         => '{Persian Model Name}',
+    'permissions'   => [],
+    'exceptions'    => [],
+    'validations'   => [],
+    'enum'          => [],
+    'notifications' => [],
+    'page'          => [],
+];
+```
+
+### 2. English Language File
+- **File**: `lang/en/{entity}.php`
+- **Content**:
+```php
+<?php
+
+declare(strict_types=1);
+
+return [
+    'model'         => '{English Model Name}',
+    'permissions'   => [],
+    'exceptions'    => [],
+    'validations'   => [],
+    'enum'          => [],
+    'notifications' => [],
+    'page'          => [],
+];
+```
+
+### 3. Menu Translations
+- **Add to**: `lang/fa/_menu.php` and `lang/en/_menu.php`
+- **Add**: `'{entity}_management' => '{Translation}'`
+
+### 4. Datatable Translations
+- **Add to**: `lang/fa/datatable.php` and `lang/en/datatable.php`
+- **Add missing translations for**: enrollment, session, present, arrival_time, leave_time, teacher, category, price, end_date, capacity, start_time, end_time, meeting_link, session_number, room, total_amount, due_date, method, transaction_id
+
+## Blade View Requirements
+
+### 1. UpdateOrCreate View
+- **File**: `resources/views/livewire/admin/pages/{entity}/{entity}-update-or-create.blade.php`
+- **Template Structure**:
+```php
+@php
+    use App\Enums\BooleanEnum;
+    use App\Helpers\Constants;
+@endphp
+<form wire:submit="submit">
+    <x-admin.shared.bread-crumbs :breadcrumbs="$breadcrumbs" :breadcrumbs-actions="$breadcrumbsActions" />
+    <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
+        <div class="grid grid-cols-1 col-span-2 gap-4">
+            <x-card :title="trans('general.page_sections.data')" shadow separator progress-indicator="submit">
+                <div class="grid grid-cols-1 gap-4">
+                    <x-input :label="trans('validation.attributes.title')" wire:model.blur="title" required />
+                    <x-input :label="trans('validation.attributes.description')" wire:model.blur="description" required />
+                    <x-admin.shared.tinymce wire:model.blur="body" />
+                    <x-select :label="trans('validation.attributes.category')" wire:model="category_id" :options="$categories" required />
+                    <x-tags :label="trans('validation.attributes.tags')" wire:model="tags" icon="o-tag" clearable />
+                </div>
+            </x-card>
+        </div>
+
+        <div class="col-span-1">
+            <div class="sticky top-16">
+                <x-card :title="trans('general.page_sections.upload_image')" shadow separator progress-indicator="submit" class="">
+                    <x-admin.shared.single-file-upload :ratio="1280 / 720" :hint="croperHint(Constants::RESOLUTION_1280_720)" :default_image="$model->getFirstMediaUrl('image', Constants::RESOLUTION_1280_720)" />
+                </x-card>
+
+                <x-card :title="trans('general.page_sections.publish_config')" shadow separator progress-indicator="submit" class="mt-5">
+                    <div class="grid grid-cols-1 gap-4">
+                        <x-admin.shared.published-config :has-published-at="true" :default-date="$published_at" />
+                    </div>
+                </x-card>
+            </div>
+        </div>
+    </div>
+
+    <x-admin.shared.form-actions />
+</form>
+```
+
+### 2. Required Components
+- **Layout**: 3-column grid (2 main + 1 sidebar)
+- **Main Content**: Form fields in single card
+- **Sidebar**: Sticky positioning with image upload and publishing config
+- **Form Fields**:
+  - Title input (required, wire:model.blur)
+  - Description input (required, wire:model.blur)
+  - Body TinyMCE editor (wire:model.blur)
+  - Category select (required, wire:model)
+  - Tags component (wire:model, icon, clearable)
+- **Image Upload**: Single file upload with cropping (1280/720 ratio)
+- **Publishing**: Published config component with date picker
+- **Actions**: Form actions component
+
+## Migration Requirements
+
+### 1. Required Fields
+```php
+Schema::create('{entities}', function (Blueprint $table) {
+    $table->id();
+    $table->string('slug')->unique()->index();
+    $table->boolean('published')->index()->default(BooleanEnum::ENABLE->value);
+    $table->timestamp('published_at')->nullable();
+    $table->foreignId('user_id')->constrained()->onDelete('cascade');
+    $table->foreignId('category_id')->index()->constrained()->onDelete('cascade');
+    $table->unsignedBigInteger('view_count')->default(0);
+    $table->unsignedBigInteger('comment_count')->default(0);
+    $table->unsignedBigInteger('wish_count')->default(0);
+    $table->text('languages')->nullable();
+    $table->timestamps();
+});
+```
+
+## Factory Requirements
+
+### 1. Location
+- **File**: `database/factories/{Entity}Factory.php`
+- **Must include**: All fillable fields with realistic fake data
+- **Must include**: Translation support for title, description, body
+- **Must include**: Proper relationships (User, Category)
+
+## Seeder Requirements
+
+### 1. Location
+- **File**: `database/seeders/{Entity}Seeder.php`
+- **Must include**: All required fields including slug
+- **Must include**: Image handling
+- **Must include**: Fallback values for missing data
+
+## Navigation Requirements
+
+### 1. NavbarComposer
+- **Add to**: `app/View/Composers/NavbarComposer.php`
+- **Add imports**: All required model imports
+- **Add menu items**: With proper permissions and translations
+
+## Validation Requirements
+
+### 1. Validation Attributes
+- **Add to**: `lang/fa/validation.php` and `lang/en/validation.php`
+- **Add**: All entity-specific field translations
+
+## Checklist for New Entity
+
+- [ ] Model with all required traits and fields
+- [ ] Table component with proper relationships and filters
+- [ ] UpdateOrCreate component with all form fields
+- [ ] Store and Update actions with proper field handling
+- [ ] Language files (fa/en) with model names
+- [ ] Menu translations added
+- [ ] Datatable translations added
+- [ ] Blade view with complete form
+- [ ] Migration with all required fields
+- [ ] Factory with realistic data
+- [ ] Seeder with slug generation
+- [ ] Navigation menu items added
+- [ ] Validation attributes added
+- [ ] Category type enum updated if needed
+- [ ] Routes defined
+- [ ] Permissions created
+
+## Notes
+
+- Always follow the Blog model pattern for consistency
+- Ensure all components have proper error handling
+- Use proper type hints and strict typing
+- Follow Laravel naming conventions
+- Test all functionality before deployment
+- Update documentation as needed
+# Entity Creation Rule
+
+This rule provides a comprehensive guide for creating new entities in the Laravel application, following the established patterns from the Blog and Bulletin models.
+
+## Required Components for New Entity
+
+### 1. Model Requirements
+- **Location**: `app/Models/{Entity}.php`
+- **Must implement**: `HasMedia` interface for image support
+- **Required traits**:
+  - `CLogsActivity` - Activity logging
+  - `HasCategory` - Category support
+  - `HasComment` - Comment system
+  - `HasScheduledPublishing` - Scheduled publishing
+  - `HasSeoOption` - SEO support
+  - `HasSlugFromTranslation` - SEO-friendly URLs
+  - `HasStatusBoolean` - Status management
+  - `HasTags` - Tagging system
+  - `HasTranslationAuto` - Multi-language support
+  - `HasUser` - Author/writer relationship
+  - `HasView` - View tracking
+  - `HasWishList` - Wish list functionality
+  - `InteractsWithMedia` - Media handling
+
+### 2. Required Fillable Fields
+```php
+protected $fillable = [
+    'slug',           // SEO-friendly URL
+    'published',      // Publication status
+    'published_at',   // Scheduled publishing
+    'user_id',        // Author/writer
+    'category_id',    // Category
+    'view_count',     // View tracking
+    'comment_count',  // Comment count
+    'wish_count',     // Wish list count
+    'languages',      // Multi-language support
+];
+```
+
+### 3. Required Translatable Fields
+```php
+public array $translatable = [
+    'title', 'description', 'body',
+];
+```
+
+### 4. Required Casts
+```php
+protected $casts = [
+    'published'    => BooleanEnum::class,
+    'published_at' => 'datetime',
+    'languages'    => 'array',
+];
+```
+
+### 5. Media Collections
+```php
+public function registerMediaCollections(): void
+{
+    $this->addMediaCollection('image')
+        ->singleFile()
+        ->useFallbackUrl('/assets/images/default/user-avatar.png')
+        ->registerMediaConversions(function () {
+            $this->addMediaConversion(Constants::RESOLUTION_100_SQUARE)->fit(Fit::Crop, 100, 100);
+            $this->addMediaConversion(Constants::RESOLUTION_854_480)->fit(Fit::Crop, 854, 480);
+            $this->addMediaConversion(Constants::RESOLUTION_1280_720)->fit(Fit::Crop, 1280, 720);
+        });
+}
+```
+
+### 6. Path Method
+```php
+public function path(): string
+{
+    return localized_route('{entity}.detail', ['{entity}' => $this->slug]);
+}
+```
+
+## Table Component Requirements
+
+### 1. Location
+- **File**: `app/Livewire/Admin/Pages/{Entity}/{Entity}Table.php`
+- **Namespace**: `App\Livewire\Admin\Pages\{Entity}`
+
+### 2. Required Imports
+```php
+use App\Enums\BooleanEnum;
+use App\Enums\CategoryTypeEnum;
+use App\Enums\RoleEnum;
+use App\Helpers\Constants;
+use App\Helpers\PowerGridHelper;
+use App\Models\{Entity};
+use App\Models\Category;
+use App\Models\User;
+use App\Services\Permissions\PermissionsService;
+use App\Traits\PowerGridHelperTrait;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\View\View;
+use Livewire\Attributes\Computed;
+use Jenssegers\Agent\Agent;
+use PowerComponents\LivewirePowerGrid\Column;
+use PowerComponents\LivewirePowerGrid\Facades\Filter;
+use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
+use PowerComponents\LivewirePowerGrid\PowerGridComponent;
+use PowerComponents\LivewirePowerGrid\PowerGridFields;
+```
+
+### 3. Required Methods
+- `setUp()` - PowerGrid configuration
+- `breadcrumbs()` - Navigation breadcrumbs
+- `breadcrumbsActions()` - Action buttons with permissions
+- `datasource()` - Data source with relationships
+- `relationSearch()` - Search configuration
+- `fields()` - Field definitions with image, title, category, author, etc.
+- `columns()` - Column definitions
+- `filters()` - Filter configuration
+- `actions()` - Action buttons (SEO, translate, toggle, edit, delete)
+- `noDataLabel()` - Empty state
+
+## UpdateOrCreate Component Requirements
+
+### 1. Location
+- **File**: `app/Livewire/Admin/Pages/{Entity}/{Entity}UpdateOrCreate.php`
+- **Namespace**: `App\Livewire\Admin\Pages\{Entity}`
+
+### 2. Required Imports
+```php
+use App\Actions\{Entity}\Store{Entity}Action;
+use App\Actions\{Entity}\Update{Entity}Action;
+use App\Enums\BooleanEnum;
+use App\Enums\CategoryTypeEnum;
+use App\Helpers\StringHelper;
+use App\Models\{Entity};
+use App\Models\Category;
+use App\Traits\CrudHelperTrait;
+use Illuminate\View\View;
+use Livewire\Component;
+use Livewire\WithFileUploads;
+use Mary\Traits\Toast;
+```
+
+### 3. Required Properties
+```php
+public {Entity} $model;
+public ?string $title = '';
+public ?string $description = '';
+public ?string $body = '';
+public bool $published = false;
+public $published_at = '';
+public array $categories = [];
+public array $tags = [];
+public int $category_id = 1;
+public $image;
+```
+
+### 4. Required Methods
+- `mount()` - Initialize with categories and existing data
+- `rules()` - Validation rules
+- `submit()` - Handle form submission with slug generation
+- `render()` - Render view with breadcrumbs
+
+## Action Requirements
+
+### 1. Store Action
+- **File**: `app/Actions/{Entity}/Store{Entity}Action.php`
+- **Namespace**: `App\Actions\{Entity}`
+- **Required fields**: slug, published, published_at, user_id, category_id, view_count, comment_count, wish_count, languages
+- **Translation fields**: title, description, body
+
+### 2. Update Action
+- **File**: `app/Actions/{Entity}/Update{Entity}Action.php`
+- **Namespace**: `App\Actions\{Entity}`
+- **Required fields**: published, published_at, user_id, category_id, view_count, comment_count, wish_count, languages
+- **Translation fields**: title, description, body
+
+## Language Files Requirements
+
+### 1. Persian Language File
+- **File**: `lang/fa/{entity}.php`
+- **Content**:
+```php
+<?php
+
+declare(strict_types=1);
+
+return [
+    'model'         => '{Persian Model Name}',
+    'permissions'   => [],
+    'exceptions'    => [],
+    'validations'   => [],
+    'enum'          => [],
+    'notifications' => [],
+    'page'          => [],
+];
+```
+
+### 2. English Language File
+- **File**: `lang/en/{entity}.php`
+- **Content**:
+```php
+<?php
+
+declare(strict_types=1);
+
+return [
+    'model'         => '{English Model Name}',
+    'permissions'   => [],
+    'exceptions'    => [],
+    'validations'   => [],
+    'enum'          => [],
+    'notifications' => [],
+    'page'          => [],
+];
+```
+
+### 3. Menu Translations
+- **Add to**: `lang/fa/_menu.php` and `lang/en/_menu.php`
+- **Add**: `'{entity}_management' => '{Translation}'`
+
+### 4. Datatable Translations
+- **Add to**: `lang/fa/datatable.php` and `lang/en/datatable.php`
+- **Add missing translations for**: enrollment, session, present, arrival_time, leave_time, teacher, category, price, end_date, capacity, start_time, end_time, meeting_link, session_number, room, total_amount, due_date, method, transaction_id
+
+## Blade View Requirements
+
+### 1. UpdateOrCreate View
+- **File**: `resources/views/livewire/admin/pages/{entity}/{entity}-update-or-create.blade.php`
+- **Template Structure**:
+```php
+@php
+    use App\Enums\BooleanEnum;
+    use App\Helpers\Constants;
+@endphp
+<form wire:submit="submit">
+    <x-admin.shared.bread-crumbs :breadcrumbs="$breadcrumbs" :breadcrumbs-actions="$breadcrumbsActions" />
+    <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
+        <div class="grid grid-cols-1 col-span-2 gap-4">
+            <x-card :title="trans('general.page_sections.data')" shadow separator progress-indicator="submit">
+                <div class="grid grid-cols-1 gap-4">
+                    <x-input :label="trans('validation.attributes.title')" wire:model.blur="title" required />
+                    <x-input :label="trans('validation.attributes.description')" wire:model.blur="description" required />
+                    <x-admin.shared.tinymce wire:model.blur="body" />
+                    <x-select :label="trans('validation.attributes.category')" wire:model="category_id" :options="$categories" required />
+                    <x-tags :label="trans('validation.attributes.tags')" wire:model="tags" icon="o-tag" clearable />
+                </div>
+            </x-card>
+        </div>
+
+        <div class="col-span-1">
+            <div class="sticky top-16">
+                <x-card :title="trans('general.page_sections.upload_image')" shadow separator progress-indicator="submit" class="">
+                    <x-admin.shared.single-file-upload :ratio="1280 / 720" :hint="croperHint(Constants::RESOLUTION_1280_720)" :default_image="$model->getFirstMediaUrl('image', Constants::RESOLUTION_1280_720)" />
+                </x-card>
+
+                <x-card :title="trans('general.page_sections.publish_config')" shadow separator progress-indicator="submit" class="mt-5">
+                    <div class="grid grid-cols-1 gap-4">
+                        <x-admin.shared.published-config :has-published-at="true" :default-date="$published_at" />
+                    </div>
+                </x-card>
+            </div>
+        </div>
+    </div>
+
+    <x-admin.shared.form-actions />
+</form>
+```
+
+### 2. Required Components
+- **Layout**: 3-column grid (2 main + 1 sidebar)
+- **Main Content**: Form fields in single card
+- **Sidebar**: Sticky positioning with image upload and publishing config
+- **Form Fields**:
+  - Title input (required, wire:model.blur)
+  - Description input (required, wire:model.blur)
+  - Body TinyMCE editor (wire:model.blur)
+  - Category select (required, wire:model)
+  - Tags component (wire:model, icon, clearable)
+- **Image Upload**: Single file upload with cropping (1280/720 ratio)
+- **Publishing**: Published config component with date picker
+- **Actions**: Form actions component
+
+## Migration Requirements
+
+### 1. Required Fields
+```php
+Schema::create('{entities}', function (Blueprint $table) {
+    $table->id();
+    $table->string('slug')->unique()->index();
+    $table->boolean('published')->index()->default(BooleanEnum::ENABLE->value);
+    $table->timestamp('published_at')->nullable();
+    $table->foreignId('user_id')->constrained()->onDelete('cascade');
+    $table->foreignId('category_id')->index()->constrained()->onDelete('cascade');
+    $table->unsignedBigInteger('view_count')->default(0);
+    $table->unsignedBigInteger('comment_count')->default(0);
+    $table->unsignedBigInteger('wish_count')->default(0);
+    $table->text('languages')->nullable();
+    $table->timestamps();
+});
+```
+
+## Factory Requirements
+
+### 1. Location
+- **File**: `database/factories/{Entity}Factory.php`
+- **Must include**: All fillable fields with realistic fake data
+- **Must include**: Translation support for title, description, body
+- **Must include**: Proper relationships (User, Category)
+
+## Seeder Requirements
+
+### 1. Location
+- **File**: `database/seeders/{Entity}Seeder.php`
+- **Must include**: All required fields including slug
+- **Must include**: Image handling
+- **Must include**: Fallback values for missing data
+
+## Navigation Requirements
+
+### 1. NavbarComposer
+- **Add to**: `app/View/Composers/NavbarComposer.php`
+- **Add imports**: All required model imports
+- **Add menu items**: With proper permissions and translations
+
+## Validation Requirements
+
+### 1. Validation Attributes
+- **Add to**: `lang/fa/validation.php` and `lang/en/validation.php`
+- **Add**: All entity-specific field translations
+
+## Checklist for New Entity
+
+- [ ] Model with all required traits and fields
+- [ ] Table component with proper relationships and filters
+- [ ] UpdateOrCreate component with all form fields
+- [ ] Store and Update actions with proper field handling
+- [ ] Language files (fa/en) with model names
+- [ ] Menu translations added
+- [ ] Datatable translations added
+- [ ] Blade view with complete form
+- [ ] Migration with all required fields
+- [ ] Factory with realistic data
+- [ ] Seeder with slug generation
+- [ ] Navigation menu items added
+- [ ] Validation attributes added
+- [ ] Category type enum updated if needed
+- [ ] Routes defined
+- [ ] Permissions created
+
+## Notes
+
+- Always follow the Blog model pattern for consistency
+- Ensure all components have proper error handling
+- Use proper type hints and strict typing
+- Follow Laravel naming conventions
+- Test all functionality before deployment
+- Update documentation as needed

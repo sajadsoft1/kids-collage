@@ -17,6 +17,7 @@ return [
             'blog'      => 'مقاله',
             'portfolio' => 'نمونه کار',
             'faq'       => 'سوال پرتکرار',
+            'bulletin'  => 'اطلاعیه',
         ],
     ],
     'notifications' => [

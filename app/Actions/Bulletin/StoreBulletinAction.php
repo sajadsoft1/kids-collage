@@ -23,16 +23,34 @@ class StoreBulletinAction
      * @param array{
      *     title:string,
      *     description:string,
+     *     body:string,
      *     published:bool,
-     *     languages:array
+     *     published_at:?string,
+     *     user_id:int,
+     *     category_id:int,
+     *     view_count:int,
+     *     comment_count:int,
+     *     wish_count:int,
+     *     languages:array,
+     *     slug:string
      * } $payload
      * @throws Throwable
      */
     public function handle(array $payload): Bulletin
     {
         return DB::transaction(function () use ($payload) {
-            $model = Bulletin::create(Arr::only($payload, ['published', 'languages']));
-            $this->syncTranslationAction->handle($model, Arr::only($payload, ['title', 'description']));
+            $model = Bulletin::create(Arr::only($payload, [
+                'slug',
+                'published',
+                'published_at',
+                'user_id',
+                'category_id',
+                'view_count',
+                'comment_count',
+                'wish_count',
+                'languages',
+            ]));
+            $this->syncTranslationAction->handle($model, Arr::only($payload, ['title', 'description', 'body']));
 
             return $model->refresh();
         });

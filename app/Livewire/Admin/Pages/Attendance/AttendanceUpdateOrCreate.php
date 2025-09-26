@@ -1,10 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Admin\Pages\Attendance;
 
 use App\Actions\Attendance\StoreAttendanceAction;
 use App\Actions\Attendance\UpdateAttendanceAction;
 use App\Models\Attendance;
+use App\Models\Enrollment;
+use App\Models\Session;
 use Illuminate\View\View;
 use Livewire\Component;
 use Mary\Traits\Toast;
@@ -13,33 +17,49 @@ class AttendanceUpdateOrCreate extends Component
 {
     use Toast;
 
-    public Attendance   $model;
-    public string $title       = '';
-    public string $description = '';
-    public bool   $published   = false;
+    public Attendance $model;
+    public int $enrollment_id = 0;
+    public int $session_id    = 0;
+    public bool $present      = false;
+    public $arrival_time      = '';
+    public $leave_time        = '';
 
     public function mount(Attendance $attendance): void
     {
         $this->model = $attendance;
+
         if ($this->model->id) {
-            $this->title = $this->model->title;
-            $this->description = $this->model->description;
-            $this->published = $this->model->published->value;
+            $this->enrollment_id = $this->model->enrollment_id;
+            $this->session_id    = $this->model->session_id;
+            $this->present       = $this->model->present;
+            $this->arrival_time  = $this->model->arrival_time?->format('Y-m-d\TH:i');
+            $this->leave_time    = $this->model->leave_time?->format('Y-m-d\TH:i');
         }
     }
 
     protected function rules(): array
     {
         return [
-            'title'       => 'required|string',
-            'description' => 'required|string',
-            'published'   => 'required'
+            'enrollment_id' => 'required|exists:enrollments,id',
+            'session_id'    => 'required|exists:course_sessions,id',
+            'present'       => 'required|boolean',
+            'arrival_time'  => 'nullable|date',
+            'leave_time'    => 'nullable|date|after:arrival_time',
         ];
     }
 
     public function submit(): void
     {
         $payload = $this->validate();
+
+        // Convert datetime strings to proper format
+        if ($payload['arrival_time']) {
+            $payload['arrival_time'] = \Carbon\Carbon::parse($payload['arrival_time']);
+        }
+        if ($payload['leave_time']) {
+            $payload['leave_time'] = \Carbon\Carbon::parse($payload['leave_time']);
+        }
+
         if ($this->model->id) {
             UpdateAttendanceAction::run($this->model, $payload);
             $this->success(
@@ -59,13 +79,15 @@ class AttendanceUpdateOrCreate extends Component
     {
         return view('livewire.admin.pages.attendance.attendance-update-or-create', [
             'edit_mode'          => $this->model->id,
+            'enrollments'        => Enrollment::with('user')->get()->map(fn ($item) => ['name' => $item->user->name, 'id' => $item->id])->toArray(),
+            'sessions'           => Session::with('course')->get()->map(fn ($item) => ['name' => $item->course->title, 'id' => $item->id])->toArray(),
             'breadcrumbs'        => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link' => route('admin.attendance.index'), 'label' => trans('general.page.index.title', ['model' => trans('attendance.model')])],
+                ['link'  => route('admin.attendance.index'), 'label' => trans('general.page.index.title', ['model' => trans('attendance.model')])],
                 ['label' => trans('general.page.create.title', ['model' => trans('attendance.model')])],
             ],
             'breadcrumbsActions' => [
-                ['link' => route('admin.attendance.index'), 'icon' => 's-arrow-left']
+                ['link' => route('admin.attendance.index'), 'icon' => 's-arrow-left'],
             ],
         ]);
     }

@@ -1,9 +1,14 @@
 <?php
 
-namespace Database\Factories;
-use App\Models\Bulletin;
+declare(strict_types=1);
 
+namespace Database\Factories;
+
+use App\Models\Bulletin;
+use App\Models\Category;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class BulletinFactory extends Factory
 {
@@ -11,9 +16,18 @@ class BulletinFactory extends Factory
 
     public function definition(): array
     {
+        $title = $this->faker->sentence(3);
+
         return [
-            'published' => true,
-            'languages'  => [app()->getLocale()]
+            'slug'          => Str::slug($title),
+            'published'     => $this->faker->boolean(80),
+            'published_at'  => $this->faker->dateTimeBetween('-1 year', '+1 month'),
+            'user_id'       => User::factory(),
+            'category_id'   => Category::where('type', 'bulletin')->inRandomOrder()->first()?->id ?? Category::factory(),
+            'view_count'    => $this->faker->numberBetween(0, 1000),
+            'comment_count' => $this->faker->numberBetween(0, 50),
+            'wish_count'    => $this->faker->numberBetween(0, 100),
+            'languages'     => [app()->getLocale()],
         ];
     }
 
@@ -24,12 +38,17 @@ class BulletinFactory extends Factory
                 [
                     'locale' => app()->getLocale(),
                     'key'    => 'title',
-                    'value'  => $this->faker->word(),
+                    'value'  => $this->faker->sentence(3),
                 ],
                 [
                     'locale' => app()->getLocale(),
                     'key'    => 'description',
-                    'value'  => $this->faker->realText,
+                    'value'  => $this->faker->paragraph(2),
+                ],
+                [
+                    'locale' => app()->getLocale(),
+                    'key'    => 'body',
+                    'value'  => $this->faker->paragraphs(5, true),
                 ],
             ]);
         });

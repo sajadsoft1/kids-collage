@@ -23,15 +23,19 @@ class StoreLicenseAction
      * @param array{
      *     title:string,
      *     description:string,
-     *     published:bool,
-     *     languages:array
+     *     languages:array,
+     *     slug:string
      * } $payload
      * @throws Throwable
      */
     public function handle(array $payload): License
     {
         return DB::transaction(function () use ($payload) {
-            $model = License::create(Arr::only($payload, ['published', 'languages']));
+            $model = License::create(Arr::only($payload, [
+                'slug',
+                'view_count',
+                'languages',
+            ]));
             $this->syncTranslationAction->handle($model, Arr::only($payload, ['title', 'description']));
 
             return $model->refresh();

@@ -18,14 +18,17 @@ class LicenseSeeder extends Seeder
             $model = StoreLicenseAction::run([
                 'title'       => $row['title'],
                 'description' => $row['description'],
-                'published'   => $row['published'],
+                'view_count'  => $row['view_count'] ?? 0,
                 'languages'   => $row['languages'],
+                'slug'        => $row['slug'] ?? \Illuminate\Support\Str::slug($row['title']),
             ]);
 
             try {
-                $model->addMedia($row['path'])
-                    ->preservingOriginal()
-                    ->toMediaCollection('image');
+                if (isset($row['path'])) {
+                    $model->addMedia($row['path'])
+                        ->preservingOriginal()
+                        ->toMediaCollection('image');
+                }
             } catch (Exception) {
                 // do nothing
             }

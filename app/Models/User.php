@@ -137,7 +137,7 @@ class User extends Authenticatable implements HasMedia
     protected function fullName(): Attribute
     {
         return Attribute::make(
-            get: fn (string $value) => $this->name . ' ' . $this->family,
+            get: fn () => trim(($this->name ?? '') . ' ' . ($this->family ?? '')),
         );
     }
     /**
