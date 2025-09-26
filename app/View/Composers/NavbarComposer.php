@@ -38,6 +38,13 @@ class NavbarComposer
                 'title'      => trans('_menu.dashboard'),
                 'route_name' => 'admin.dashboard',
             ],
+            [
+                'icon'       => 's-home',
+                'params'     => [],
+                'exact'      => true,
+                'title'      => trans('_menu.profile'),
+                'route_name' => 'admin.app.profile',
+            ],
 
             [
                 'icon'       => 'm-rectangle-stack',
