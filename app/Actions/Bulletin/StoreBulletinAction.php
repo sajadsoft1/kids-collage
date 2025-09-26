@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Bulletin;
 
 use App\Actions\Translation\SyncTranslationAction;
@@ -20,15 +22,16 @@ class StoreBulletinAction
     /**
      * @param array{
      *     title:string,
-     *     description:string
+     *     description:string,
+     *     published:bool,
+     *     languages:array
      * } $payload
-     * @return Bulletin
      * @throws Throwable
      */
     public function handle(array $payload): Bulletin
     {
         return DB::transaction(function () use ($payload) {
-            $model =  Bulletin::create($payload);
+            $model = Bulletin::create(Arr::only($payload, ['published', 'languages']));
             $this->syncTranslationAction->handle($model, Arr::only($payload, ['title', 'description']));
 
             return $model->refresh();

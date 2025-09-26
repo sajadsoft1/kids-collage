@@ -19,8 +19,10 @@ class Session extends Model
     use HasTranslationAuto;
 
     public array $translatable = [
-        'title', 'description','body'
+        'title', 'description', 'body',
     ];
+
+    protected $table = 'course_sessions';
 
     protected $fillable = [
         'course_id',
@@ -44,9 +46,7 @@ class Session extends Model
      * Model Configuration --------------------------------------------------------------------------
      */
 
-    /**
-     * Model Relations --------------------------------------------------------------------------
-     */
+    /** Model Relations -------------------------------------------------------------------------- */
     public function teacher(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class, 'teacher_id');

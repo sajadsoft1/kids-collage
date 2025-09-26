@@ -13,12 +13,9 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('order_id')->index()->constrained('orders')->cascadeOnDelete();
             $table->morphs('itemable');
-            $table->unsignedInteger('quantity')->default(1);
-            $table->unsignedDecimal('price', 10, 2);
+            $table->integer('quantity')->default(1);
+            $table->decimal('price', 10, 2);
             $table->timestamps();
-
-            // Composite index for polymorphic relationship queries
-            $table->index(['itemable_type', 'itemable_id']);
         });
     }
 

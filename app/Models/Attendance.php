@@ -4,18 +4,12 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Traits\HasTranslationAuto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * @property string $title
- * @property string $description
- */
 class Attendance extends Model
 {
     use HasFactory;
-    use HasTranslationAuto;
 
     protected $fillable = [
         'enrollment_id',

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('sessions', function (Blueprint $table) {
+        Schema::create('course_sessions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('course_id')->index()->constrained('courses')->cascadeOnDelete();
             $table->foreignId('teacher_id')->index()->constrained('users')->cascadeOnDelete();
@@ -25,12 +25,12 @@ return new class extends Migration {
             $table->index(['course_id', 'session_number']);
 
             // Data integrity constraints
-            $table->check('start_time < end_time'); // Session start time must be before end time
+            // Note: Check constraints are not supported in Laravel migrations by default
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('sessions');
+        Schema::dropIfExists('course_sessions');
     }
 };

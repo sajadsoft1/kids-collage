@@ -15,10 +15,6 @@ class Enrollment extends Model
     use HasFactory;
     use HasUser;
 
-    public array $translatable = [
-        'title', 'description',
-    ];
-
     protected $fillable = [
         'user_id',
         'course_id',

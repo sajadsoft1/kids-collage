@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\License;
 
 use App\Actions\Translation\SyncTranslationAction;
@@ -20,15 +22,16 @@ class StoreLicenseAction
     /**
      * @param array{
      *     title:string,
-     *     description:string
+     *     description:string,
+     *     published:bool,
+     *     languages:array
      * } $payload
-     * @return License
      * @throws Throwable
      */
     public function handle(array $payload): License
     {
         return DB::transaction(function () use ($payload) {
-            $model =  License::create($payload);
+            $model = License::create(Arr::only($payload, ['published', 'languages']));
             $this->syncTranslationAction->handle($model, Arr::only($payload, ['title', 'description']));
 
             return $model->refresh();

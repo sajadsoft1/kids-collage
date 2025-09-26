@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('user_id')->index()->constrained('users')->cascadeOnDelete();
             $table->foreignId('order_id')->index()->constrained('orders')->cascadeOnDelete();
-            $table->unsignedDecimal('amount', 10, 2);
+            $table->decimal('amount', 10, 2);
             $table->string('type')->index()->default(PaymentTypeEnum::FULL_ONLINE->value);
             $table->string('status')->index()->default(PaymentStatusEnum::PENDING->value);
             $table->string('transaction_id')->nullable()->index();

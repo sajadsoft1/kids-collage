@@ -13,8 +13,18 @@
 
 namespace App\Models{
 /**
- * 
- *
+ * @property-read \App\Models\Enrollment|null $enrollment
+ * @property-read \App\Models\Session|null $session
+ * @method static \Database\Factories\AttendanceFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Attendance newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Attendance newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Attendance query()
+ */
+	class Attendance extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * @property string $title
  * @property string $description
  * @property int $id
@@ -56,8 +66,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
  * @property string $title
  * @property string $description
  * @property int $id
@@ -144,7 +152,8 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection|Column[] $columns
  * @property-read \Illuminate\Database\Eloquent\Collection|Card[] $cards
  * @property-read \Illuminate\Database\Eloquent\Collection|CardFlow[] $cardFlows
- * @property \Spatie\SchemalessAttributes\SchemalessAttributes $extra_attributes
+ * @property bool $system_protected
+ * @property \Spatie\SchemalessAttributes\SchemalessAttributes|null $extra_attributes
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
  * @property-read int|null $activities_count
  * @property-read int|null $card_flows_count
@@ -159,15 +168,35 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Board whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Board whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Board whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Board whereExtraAttributes($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Board whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Board whereIsActive($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Board whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Board whereSystemProtected($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Board whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Board withExtraAttributes()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Board withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Board withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Board withoutTrashed()
  */
 	class Board extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * @property string $title
+ * @property string $description
+ * @property \App\Enums\BooleanEnum $published
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translations
+ * @property-read int|null $translations_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translationsPure
+ * @property-read int|null $translations_pure_count
+ * @method static \Database\Factories\BulletinFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Bulletin newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Bulletin newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Bulletin query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Bulletin search($keyword)
+ */
+	class Bulletin extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -222,7 +251,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Card whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Card whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Card withExtraAttributes()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Card withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Card withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Card withoutTrashed()
  */
 	class Card extends \Eloquent {}
@@ -246,7 +275,7 @@ namespace App\Models{
  * @property-read Board $board
  * @property-read Column $fromColumn
  * @property-read Column $toColumn
- * @property \Spatie\SchemalessAttributes\SchemalessAttributes $extra_attributes
+ * @property \Spatie\SchemalessAttributes\SchemalessAttributes|null $extra_attributes
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
  * @property-read int|null $activities_count
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CardFlow newModelQuery()
@@ -254,10 +283,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CardFlow onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CardFlow query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CardFlow whereBoardId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CardFlow whereConditionJson($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CardFlow whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CardFlow whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CardFlow whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CardFlow whereExtraAttributes($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CardFlow whereFromColumnId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CardFlow whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CardFlow whereIsActive($value)
@@ -265,7 +294,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CardFlow whereToColumnId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CardFlow whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CardFlow withExtraAttributes()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CardFlow withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CardFlow withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CardFlow withoutTrashed()
  */
 	class CardFlow extends \Eloquent {}
@@ -309,8 +338,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
  * @property string $title
  * @property string $body
  * @property int $id
@@ -331,6 +358,8 @@ namespace App\Models{
  * @property-read int|null $blogs_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Category> $children
  * @property-read int|null $children_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Course> $courses
+ * @property-read int|null $courses_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Faq> $faqs
  * @property-read int|null $faqs_count
  * @property-read mixed $seo_canonical
@@ -372,7 +401,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Category whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Category whereViewCount($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Category withExtraAttributes()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Category withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Category withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Category withoutTrashed()
  */
 	class Category extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
@@ -380,8 +409,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
  * @property string $title
  * @property string $description
  * @property int $id
@@ -450,7 +477,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Column whereOrder($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Column whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Column whereWipLimit($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Column withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Column withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Column withoutTrashed()
  */
 	class Column extends \Eloquent {}
@@ -458,8 +485,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
  * @property string $title
  * @property string $description
  * @property int $id
@@ -518,8 +543,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
  * @property string $title
  * @property string $description
  * @property int $id
@@ -550,8 +573,48 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
+ * @property string $title
+ * @property string $description
+ * @property string $body
+ * @property \App\Enums\CourseTypeEnum $type
+ * @property-read \App\Models\Category|null $category
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Enrollment> $enrollments
+ * @property-read int|null $enrollments_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\OrderItem> $orderItems
+ * @property-read int|null $order_items_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Session> $sessions
+ * @property-read int|null $sessions_count
+ * @property-read \App\Models\User|null $teacher
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translations
+ * @property-read int|null $translations_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translationsPure
+ * @property-read int|null $translations_pure_count
+ * @method static \Database\Factories\CourseFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Course newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Course newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Course query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Course search($keyword)
+ */
+	class Course extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * @property \App\Enums\EnrollmentStatusEnum $status
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Attendance> $attendances
+ * @property-read int|null $attendances_count
+ * @property-read \App\Models\Course|null $course
+ * @property-read \App\Models\User|null $user
+ * @method static \Database\Factories\EnrollmentFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment query()
+ */
+	class Enrollment extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * @property string $title
  * @property string $description
  * @property int $id
@@ -572,6 +635,8 @@ namespace App\Models{
  * @property-read int|null $translations_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translationsPure
  * @property-read int|null $translations_pure_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\UserView> $views
+ * @property-read int|null $views_count
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Faq draft()
  * @method static \Database\Factories\FaqFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Faq newModelQuery()
@@ -598,8 +663,46 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
+ * @property \App\Enums\InstallmentMethodEnum $method
+ * @property \App\Enums\InstallmentStatusEnum $status
+ * @property-read \App\Models\Payment|null $payment
+ * @method static \Database\Factories\InstallmentFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Installment newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Installment newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Installment query()
+ */
+	class Installment extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * @property string $title
+ * @property string $description
+ * @property int $id
+ * @property \App\Enums\BooleanEnum $published
+ * @property array<array-key, mixed>|null $languages
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translations
+ * @property-read int|null $translations_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translationsPure
+ * @property-read int|null $translations_pure_count
+ * @method static \Database\Factories\LicenseFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|License newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|License newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|License query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|License search($keyword)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|License whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|License whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|License whereLanguages($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|License wherePublished($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|License whereUpdatedAt($value)
+ */
+	class License extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * @property string $title
  * @property string $description
  * @property int $id
@@ -644,7 +747,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Opinion whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Opinion whereUserName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Opinion whereViewCount($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Opinion withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Opinion withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Opinion withoutTrashed()
  */
 	class Opinion extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
@@ -652,8 +755,33 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
+ * @property \App\Enums\OrderStatusEnum $status
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\OrderItem> $items
+ * @property-read int|null $items_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Payment> $payments
+ * @property-read int|null $payments_count
+ * @property-read \App\Models\User|null $user
+ * @method static \Database\Factories\OrderFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order query()
+ */
+	class Order extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $itemable
+ * @property-read \App\Models\Order|null $order
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem query()
+ */
+	class OrderItem extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * @property string $title
  * @property string $description
  * @property int $id
@@ -697,8 +825,22 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
+ * @property \App\Enums\PaymentTypeEnum $type
+ * @property \App\Enums\PaymentStatusEnum $status
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Installment> $installment
+ * @property-read int|null $installment_count
+ * @property-read \App\Models\Order|null $order
+ * @property-read \App\Models\User|null $user
+ * @method static \Database\Factories\PaymentFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment query()
+ */
+	class Payment extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * @property string $title
  * @property string $description
  * @property int $id
@@ -760,8 +902,28 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
+ * @property int $id
+ * @property int $user_id
+ * @property string|null $national_code
+ * @property string|null $birth_date
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereBirthDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereNationalCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereUserId($value)
+ */
+	class Profile extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * @property string $title
  * @property string $description
  * @property int $id
@@ -797,8 +959,36 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
+ * @property string $title
+ * @property string $description
+ * @property int $id
+ * @property int $capacity
+ * @property array<array-key, mixed>|null $languages
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \App\Enums\BooleanEnum $published
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Session> $sessions
+ * @property-read int|null $sessions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translations
+ * @property-read int|null $translations_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translationsPure
+ * @property-read int|null $translations_pure_count
+ * @method static \Database\Factories\RoomFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Room newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Room newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Room query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Room search($keyword)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Room whereCapacity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Room whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Room whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Room whereLanguages($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Room whereUpdatedAt($value)
+ */
+	class Room extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * @property string $title
  * @property int $id
  * @property string $morphable_type
@@ -833,8 +1023,29 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
+ * @property string $title
+ * @property string $description
+ * @property string $body
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Attendance> $attendances
+ * @property-read int|null $attendances_count
+ * @property-read \App\Models\Course|null $course
+ * @property-read \App\Models\Room|null $room
+ * @property-read \App\Models\User|null $teacher
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translations
+ * @property-read int|null $translations_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translationsPure
+ * @property-read int|null $translations_pure_count
+ * @method static \Database\Factories\SessionFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Session newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Session newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Session query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Session search($keyword)
+ */
+	class Session extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * @property mixed $extra_attributes
  * @property int $id
  * @property string $key
@@ -864,8 +1075,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
  * @property string $title
  * @property string $description
  * @property int $id
@@ -923,8 +1132,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
  * @property int $slider_id
  * @property string $morphable_type
  * @property int $morphable_id
@@ -944,8 +1151,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
  * @property string $title
  * @property string $description
  * @property int $id
@@ -983,8 +1188,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
  * @property string $body
  * @property string $description
  * @property int $id
@@ -1034,8 +1237,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
  * @property string $title
  * @property string $description
  * @property int $id
@@ -1072,8 +1273,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
  * @property int $id
  * @property string $subject
  * @property \App\Enums\TicketDepartmentEnum $department
@@ -1111,8 +1310,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
  * @property int $id
  * @property int $ticket_id
  * @property int $user_id
@@ -1145,8 +1342,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
  * @property int $id
  * @property string $translatable_type
  * @property int $translatable_id
@@ -1169,8 +1364,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
  * @property int $id
  * @property string $name
  * @property string $family
@@ -1194,17 +1387,24 @@ namespace App\Models{
  * @property-read int|null $boards_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\CardHistory> $cardHistory
  * @property-read int|null $card_history_count
- * @property-read string $full_name
+ * @property-read mixed $full_name
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
  * @property-read int|null $media_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Order> $orders
+ * @property-read int|null $orders_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Permission> $permissions
  * @property-read int|null $permissions_count
+ * @property-read \App\Models\Profile|null $profile
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Card> $reviewingCards
  * @property-read int|null $reviewing_cards_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Role> $roles
  * @property-read int|null $roles_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Session> $taughtClasses
+ * @property-read int|null $taught_classes_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
+ * @property-read int|null $tokens_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Card> $watchingCards
  * @property-read int|null $watching_cards_count
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
@@ -1234,15 +1434,13 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
  * @property int $id
  * @property int|null $user_id
  * @property string $morphable_type
  * @property int $morphable_id
  * @property string|null $ip
  * @property string|null $collection
- * @property string|null $visitor
+ * @property \App\Models\User|null $visitor
  * @property \Illuminate\Support\Carbon $created_at
  * @property-read \Illuminate\Http\Resources\Json\JsonResource|null $morph_resource
  * @property-read string $morph_type
@@ -1265,8 +1463,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
  * @property int $id
  * @property int $user_id
  * @property string $morphable_type
@@ -1294,8 +1490,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|c newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|c newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|c query()

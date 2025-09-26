@@ -9,10 +9,6 @@ use App\Enums\InstallmentStatusEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * @property string $title
- * @property string $description
- */
 class Installment extends Model
 {
     use HasFactory;

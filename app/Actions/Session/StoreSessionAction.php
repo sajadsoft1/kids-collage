@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Session;
 
 use App\Actions\Translation\SyncTranslationAction;
@@ -20,16 +22,24 @@ class StoreSessionAction
     /**
      * @param array{
      *     title:string,
-     *     description:string
+     *     description:string,
+     *     body:string,
+     *     course_id:int,
+     *     teacher_id:int,
+     *     start_time:string,
+     *     end_time:string,
+     *     room_id:int|null,
+     *     meeting_link:string|null,
+     *     session_number:int,
+     *     languages:array
      * } $payload
-     * @return Session
      * @throws Throwable
      */
     public function handle(array $payload): Session
     {
         return DB::transaction(function () use ($payload) {
-            $model =  Session::create($payload);
-            $this->syncTranslationAction->handle($model, Arr::only($payload, ['title', 'description']));
+            $model = Session::create(Arr::only($payload, ['course_id', 'teacher_id', 'start_time', 'end_time', 'room_id', 'meeting_link', 'session_number', 'languages']));
+            $this->syncTranslationAction->handle($model, Arr::only($payload, ['title', 'description', 'body']));
 
             return $model->refresh();
         });

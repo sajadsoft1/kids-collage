@@ -12,7 +12,7 @@ return new class extends Migration {
         Schema::create('attendances', function (Blueprint $table) {
             $table->id();
             $table->foreignId('enrollment_id')->index()->constrained('enrollments')->cascadeOnDelete();
-            $table->foreignId('session_id')->index()->constrained('sessions')->cascadeOnDelete();
+            $table->foreignId('session_id')->index()->constrained('course_sessions')->cascadeOnDelete();
             $table->boolean('present')->index()->default(false);
             $table->timestamp('arrival_time')->nullable()->index();
             $table->timestamp('leave_time')->nullable()->index();
@@ -22,7 +22,7 @@ return new class extends Migration {
             $table->unique(['enrollment_id', 'session_id']);
 
             // Data integrity constraints
-            $table->check('leave_time IS NULL OR arrival_time IS NULL OR arrival_time <= leave_time'); // Leave time must be after or equal to arrival time
+            // Note: Check constraints are not supported in Laravel migrations by default
         });
     }
 

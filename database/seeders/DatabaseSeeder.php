@@ -16,6 +16,16 @@ class DatabaseSeeder extends Seeder
             NecessarySeeder::class,
             FakeSeeder::class,
             KanbanSeeder::class,
+            BulletinSeeder::class,
+            LicenseSeeder::class,
+            RoomSeeder::class,
+            CourseSeeder::class,
+            SessionSeeder::class,
+            OrderSeeder::class,
+            PaymentSeeder::class,
+            InstallmentSeeder::class,
+            EnrollmentSeeder::class,
+            AttendanceSeeder::class,
         ]);
 
         Artisan::call('optimize:clear');

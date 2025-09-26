@@ -14,7 +14,7 @@ return new class extends Migration {
         Schema::create('installments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('payment_id')->index()->constrained('payments')->cascadeOnDelete();
-            $table->unsignedDecimal('amount', 10, 2);
+            $table->decimal('amount', 10, 2);
             $table->date('due_date')->index();
             $table->string('method')->index()->default(InstallmentMethodEnum::ONLINE->value);
             $table->string('status')->index()->default(InstallmentStatusEnum::PENDING->value);

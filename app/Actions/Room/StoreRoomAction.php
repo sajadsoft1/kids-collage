@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Room;
 
 use App\Actions\Translation\SyncTranslationAction;
@@ -20,15 +22,16 @@ class StoreRoomAction
     /**
      * @param array{
      *     title:string,
-     *     description:string
+     *     description:string,
+     *     capacity:int,
+     *     languages:array
      * } $payload
-     * @return Room
      * @throws Throwable
      */
     public function handle(array $payload): Room
     {
         return DB::transaction(function () use ($payload) {
-            $model =  Room::create($payload);
+            $model = Room::create(Arr::only($payload, ['capacity', 'languages']));
             $this->syncTranslationAction->handle($model, Arr::only($payload, ['title', 'description']));
 
             return $model->refresh();

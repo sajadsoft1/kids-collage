@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('teacher_id')->index()->constrained('users')->cascadeOnDelete();
             $table->foreignId('category_id')->index()->constrained()->cascadeOnDelete();
-            $table->unsignedDecimal('price', 10, 2)->default(0);
+            $table->decimal('price', 10, 2)->default(0);
             $table->string('type')->index()->default(CourseTypeEnum::INPERSON->value); // @see CourseTypeEnum
             $table->date('start_date')->index();
             $table->date('end_date')->index();
@@ -25,7 +25,7 @@ return new class extends Migration {
             $table->index(['start_date', 'end_date']);
 
             // Data integrity constraints
-            $table->check('start_date < end_date'); // Course start date must be before end date
+            // Note: Check constraints are not supported in Laravel migrations by default
         });
     }
 
