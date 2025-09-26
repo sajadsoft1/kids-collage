@@ -113,6 +113,11 @@ class Category extends Model implements HasMedia
         return $this->hasMany(Portfolio::class, 'category_id');
     }
 
+    public function courses(): HasMany
+    {
+        return $this->hasMany(Course::class, 'category_id');
+    }
+
     /**
      * | Model Scope ------------------------------------------------------------------------------
      * |--------------------------------------------------------------------------

@@ -53,5 +53,7 @@ class BotCommand extends Command
 
         Artisan::call('app:datatable ' . $model);
         Artisan::call('app:make-livewire-views ' . $model);
+
+        return Command::SUCCESS;
     }
 }
