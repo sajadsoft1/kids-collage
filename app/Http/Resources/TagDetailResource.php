@@ -36,7 +36,7 @@ class TagDetailResource extends JsonResource
         return array_merge($resource, [
             'body'       => $this->body,
             'languages'  => $this->languages,
-            'seo_option' => $this->whenLoaded('seoOption', fn () => $this->seoOption),
+            'seo_option' =>  $this->seoOption,
         ]);
     }
 }

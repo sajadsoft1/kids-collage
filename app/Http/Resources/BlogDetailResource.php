@@ -43,8 +43,8 @@ class BlogDetailResource extends JsonResource
         return array_merge($resource, [
             'body'       => $this->body,
             'languages'  => $this->languages,
-            'comments'   => $this->whenLoaded('comments', fn () => SimpleCommentResource::collection($this->comments)),
-            'seo_option' => $this->whenLoaded('seoOption', fn () => $this->seoOption),
+            'comments'   => $this->whenLoaded('comments', fn () => CommentResource::collection($this->comments)),
+            'seo_option' =>  $this->seoOption,
             'image'      => $this->resource->getFirstMediaUrl('image', Constants::RESOLUTION_1280_720),
             'liked'      => $this->resource->isWished(),
         ]);

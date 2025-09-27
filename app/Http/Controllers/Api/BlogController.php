@@ -304,7 +304,7 @@ class BlogController extends Controller
     {
         return Response::data(
             [
-                'blog' => BlogDetailResource::make($blog->load(['user', 'category', 'media'])),
+                'blog' => BlogDetailResource::make($blog->load(['user', 'category', 'media','seoOption'])),
             ]
         );
     }

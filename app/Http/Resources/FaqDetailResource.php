@@ -31,5 +31,6 @@ class FaqDetailResource extends JsonResource
     public function toArray(Request $request): array
     {
         return FaqResource::make($this)->toArray($request);
+
     }
 }
