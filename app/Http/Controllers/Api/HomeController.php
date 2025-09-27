@@ -9,6 +9,7 @@ use App\Http\Resources\BannerResource;
 use App\Http\Resources\BlogResource;
 use App\Http\Resources\BulletinResource;
 use App\Http\Resources\ClientResource;
+use App\Http\Resources\FaqResource;
 use App\Http\Resources\OpinionResource;
 use App\Http\Resources\SliderResource;
 use App\Http\Resources\UserResource;
@@ -16,6 +17,7 @@ use App\Models\Banner;
 use App\Models\Blog;
 use App\Models\Bulletin;
 use App\Models\Client;
+use App\Models\Faq;
 use App\Models\Home;
 use App\Models\Opinion;
 use App\Models\Slider;
@@ -66,7 +68,7 @@ class HomeController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $data = Cache::remember('home_page_data', 5000, function () {
+        $data = Cache::remember('home_page_data', 1, function () {
             return [
                 'sliders'   => SliderResource::collection(
                     Slider::where('published', true)->limit(10)->get()
@@ -88,6 +90,7 @@ class HomeController extends Controller
                     Client::where('published', true)->get()
                 ),
                 'events'     => [],
+                'faqs'       => FaqResource::collection(Faq::where('published', true)->orderByDesc('id')->limit(6)->get()),
             ];
         });
 

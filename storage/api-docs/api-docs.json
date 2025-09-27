@@ -2040,15 +2040,15 @@
                         "default": "2024-08-19T07:26:07.000000Z"
                     },
                     "user": {
-                        "$ref": "#/components/schemas/SimpleUserResource"
+                        "$ref": "#/components/schemas/UserResource"
                     },
                     "category": {
-                        "$ref": "#/components/schemas/SimpleCategoryResource"
+                        "$ref": "#/components/schemas/CategoryResource"
                     },
                     "tags": {
                         "type": "array",
                         "items": {
-                            "$ref": "#/components/schemas/SimpleTagResource"
+                            "$ref": "#/components/schemas/TagResource"
                         }
                     },
                     "image": {
@@ -2087,11 +2087,56 @@
                     },
                     "title": {
                         "type": "string",
-                        "default": "Title"
+                        "default": "bulletin Title"
                     },
                     "description": {
                         "type": "string",
-                        "default": "Description"
+                        "default": "bulletin Description"
+                    },
+                    "slug": {
+                        "type": "string",
+                        "default": "bulletin-title"
+                    },
+                    "published": {
+                        "$ref": "#/components/schemas/BooleanEnum"
+                    },
+                    "published_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "comments": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CommentResource"
+                        }
+                    },
+                    "user": {
+                        "$ref": "#/components/schemas/UserResource"
+                    },
+                    "category": {
+                        "$ref": "#/components/schemas/CategoryResource"
+                    },
+                    "tags": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/TagResource"
+                        }
+                    },
+                    "image": {
+                        "type": "string",
+                        "default": "https://example.com/image.jpg"
+                    },
+                    "view_count": {
+                        "type": "integer",
+                        "default": "100"
+                    },
+                    "comment_count": {
+                        "type": "integer",
+                        "default": "10"
+                    },
+                    "wish_count": {
+                        "type": "integer",
+                        "default": "50"
                     },
                     "updated_at": {
                         "type": "string",
@@ -2100,6 +2145,9 @@
                     "created_at": {
                         "type": "string",
                         "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "seo_option": {
+                        "type": "object"
                     }
                 },
                 "type": "object"
@@ -2202,7 +2250,7 @@
                     "children": {
                         "type": "array",
                         "items": {
-                            "$ref": "#/components/schemas/SimpleCategoryResource"
+                            "$ref": "#/components/schemas/CategoryResource"
                         }
                     },
                     "seo_option": {
@@ -2299,6 +2347,9 @@
                     "created_at": {
                         "type": "string",
                         "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "seo_option": {
+                        "type": "object"
                     }
                 },
                 "type": "object"
