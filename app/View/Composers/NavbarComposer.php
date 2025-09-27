@@ -42,6 +42,13 @@ class NavbarComposer
                 'icon'       => 's-home',
                 'params'     => [],
                 'exact'      => true,
+                'title'      => trans('_menu.notifications'),
+                'route_name' => 'admin.notification.index',
+            ],
+            [
+                'icon'       => 's-home',
+                'params'     => [],
+                'exact'      => true,
                 'title'      => trans('_menu.profile'),
                 'route_name' => 'admin.app.profile',
             ],
