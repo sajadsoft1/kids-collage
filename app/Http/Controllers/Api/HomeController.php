@@ -11,6 +11,7 @@ use App\Http\Resources\BulletinResource;
 use App\Http\Resources\ClientResource;
 use App\Http\Resources\OpinionResource;
 use App\Http\Resources\SliderResource;
+use App\Http\Resources\UserResource;
 use App\Models\Banner;
 use App\Models\Blog;
 use App\Models\Bulletin;
@@ -18,6 +19,7 @@ use App\Models\Client;
 use App\Models\Home;
 use App\Models\Opinion;
 use App\Models\Slider;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -72,7 +74,7 @@ class HomeController extends Controller
                 'banners'   => BannerResource::collection(
                     Banner::where('published', true)->limit(10)->get()
                 ),
-                'teachers'  => [],
+                'teachers'  => UserResource::collection(User::query()->limit(5)->get()),
                 'bulletins' => BulletinResource::collection(
                     Bulletin::where('published', true)->orderByDesc('id')->limit(12)->get()
                 ),
