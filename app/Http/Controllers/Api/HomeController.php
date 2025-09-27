@@ -22,6 +22,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Cache;
 use OpenApi\Annotations as OA;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -63,17 +64,31 @@ class HomeController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        return Response::data(
-            [
-                'sliders'   => SliderResource::collection(Slider::where('published', true)->limit(10)->get()),
-                'banners'   => BannerResource::collection(Banner::where('published', true)->limit(10)->get()),
+        $data = Cache::remember('home_page_data', 5000, function () {
+            return [
+                'sliders'   => SliderResource::collection(
+                    Slider::where('published', true)->limit(10)->get()
+                ),
+                'banners'   => BannerResource::collection(
+                    Banner::where('published', true)->limit(10)->get()
+                ),
                 'teachers'  => [],
-                'bulletins' => BulletinResource::collection(Bulletin::where('published', true)->orderByDesc('id')->limit(12)->get()),
-                'blogs'     => BlogResource::collection(Blog::where('published', true)->orderByDesc('id')->limit(12)->get()),
-                'opinion'   => OpinionResource::collection(Opinion::where('published', true)->get()),
-                'client'    => ClientResource::collection(Client::where('published', true)->get()),
-                'event'=>[]
-            ]
-        );
+                'bulletins' => BulletinResource::collection(
+                    Bulletin::where('published', true)->orderByDesc('id')->limit(12)->get()
+                ),
+                'blogs'     => BlogResource::collection(
+                    Blog::where('published', true)->orderByDesc('id')->limit(12)->get()
+                ),
+                'opinions'   => OpinionResource::collection(
+                    Opinion::where('published', true)->get()
+                ),
+                'clients'    => ClientResource::collection(
+                    Client::where('published', true)->get()
+                ),
+                'events'     => [],
+            ];
+        });
+
+        return Response::data($data);
     }
 }
