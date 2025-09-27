@@ -42,8 +42,8 @@ class FaqResource extends JsonResource
             'like_count'  => $this->like_count,
             'view_count'  => $this->view_count,
             'published'   => $this->published->toArray(),
-            'created_at'  => $this->created_at?->toDateTimeString(),
-            'updated_at'  => $this->updated_at?->toDateTimeString(),
+            'created_at'  => $this->created_at,
+            'updated_at'  => $this->updated_at,
         ];
     }
 }
