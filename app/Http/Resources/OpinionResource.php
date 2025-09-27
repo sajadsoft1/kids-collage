@@ -20,7 +20,7 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="comment", type="string", default="comment somethin ....."),
  *     @OA\Property(property="user_name", type="string", default="ahmad dehestani"),
  *     @OA\Property(property="company", type="string", default="karno web"),
- *     @OA\Property(property="company", type="integer", default=1),
+ *     @OA\Property(property="ordering", type="integer", default=1),
  *     @OA\Property(property="published_at", type="string", default="2024-08-19T07:26:07.000000Z"),
  *     @OA\Property(property="updated_at", type="string", default="2024-08-19T07:26:07.000000Z"),
  *     @OA\Property(property="created_at", type="string", default="2024-08-19T07:26:07.000000Z"),

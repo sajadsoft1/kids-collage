@@ -2078,6 +2078,85 @@
                 },
                 "type": "object"
             },
+            "BulletinDetailResource": {
+                "title": "BulletinDetailResource",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "title": {
+                        "type": "string",
+                        "default": "Title"
+                    },
+                    "description": {
+                        "type": "string",
+                        "default": "Description"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    }
+                },
+                "type": "object"
+            },
+            "BulletinResource": {
+                "title": "BulletinResource",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "title": {
+                        "type": "string",
+                        "default": "bulletin Title"
+                    },
+                    "description": {
+                        "type": "string",
+                        "default": "bulletin Description"
+                    },
+                    "slug": {
+                        "type": "string",
+                        "default": "bulletin-title"
+                    },
+                    "published": {
+                        "$ref": "#/components/schemas/BooleanEnum"
+                    },
+                    "published_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "image": {
+                        "type": "string",
+                        "default": "https://example.com/image.jpg"
+                    },
+                    "view_count": {
+                        "type": "integer",
+                        "default": "100"
+                    },
+                    "comment_count": {
+                        "type": "integer",
+                        "default": "10"
+                    },
+                    "wish_count": {
+                        "type": "integer",
+                        "default": "50"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    }
+                },
+                "type": "object"
+            },
             "CategoryDetailResource": {
                 "title": "CategoryDetailResource",
                 "properties": {
@@ -2249,6 +2328,10 @@
                     "created_at": {
                         "type": "string",
                         "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "image": {
+                        "type": "string",
+                        "default": "https://example.com/image.jpg"
                     }
                 },
                 "type": "object"
@@ -2493,6 +2576,106 @@
                         "type": "string",
                         "default": "Description"
                     },
+                    "comment": {
+                        "type": "string",
+                        "default": "comment somethin ....."
+                    },
+                    "user_name": {
+                        "type": "string",
+                        "default": "ahmad dehestani"
+                    },
+                    "company": {
+                        "type": "string",
+                        "default": "karno web"
+                    },
+                    "ordering": {
+                        "type": "integer",
+                        "default": 1
+                    },
+                    "published_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "image": {
+                        "type": "string",
+                        "default": "https://example.com/image.jpg"
+                    }
+                },
+                "type": "object"
+            },
+            "OpinionResource": {
+                "title": "OpinionResource",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "title": {
+                        "type": "string",
+                        "default": "Title"
+                    },
+                    "description": {
+                        "type": "string",
+                        "default": "Description"
+                    },
+                    "comment": {
+                        "type": "string",
+                        "default": "comment somethin ....."
+                    },
+                    "user_name": {
+                        "type": "string",
+                        "default": "ahmad dehestani"
+                    },
+                    "company": {
+                        "type": "string",
+                        "default": "karno web"
+                    },
+                    "ordering": {
+                        "type": "integer",
+                        "default": 1
+                    },
+                    "published_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "image": {
+                        "type": "string",
+                        "default": "https://example.com/image.jpg"
+                    }
+                },
+                "type": "object"
+            },
+            "ReferenceDetailResource": {
+                "title": "ReferenceDetailResource",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "title": {
+                        "type": "string",
+                        "default": "Title"
+                    },
+                    "description": {
+                        "type": "string",
+                        "default": "Description"
+                    },
                     "updated_at": {
                         "type": "string",
                         "default": "2024-08-19T07:26:07.000000Z"
@@ -2504,8 +2687,8 @@
                 },
                 "type": "object"
             },
-            "OpinionResource": {
-                "title": "OpinionResource",
+            "ReferenceResource": {
+                "title": "ReferenceResource",
                 "properties": {
                     "id": {
                         "type": "integer",
@@ -2626,6 +2809,115 @@
                     "image": {
                         "type": "string",
                         "example": "https://example.com/image.jpg"
+                    }
+                },
+                "type": "object"
+            },
+            "SliderDetailResource": {
+                "title": "SliderDetailResource",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "title": {
+                        "type": "string",
+                        "default": "Title"
+                    },
+                    "description": {
+                        "type": "string",
+                        "default": "Description"
+                    },
+                    "link": {
+                        "type": "string",
+                        "default": "https://google.com"
+                    },
+                    "published": {
+                        "$ref": "#/components/schemas/BooleanEnum"
+                    },
+                    "position": {
+                        "$ref": "#/components/schemas/SliderPositionEnum"
+                    },
+                    "has_timer": {
+                        "$ref": "#/components/schemas/YesNoEnum"
+                    },
+                    "published_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "ordering": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "expired_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "references": {
+                        "$ref": "#/components/schemas/ReferenceResource"
+                    }
+                },
+                "type": "object"
+            },
+            "SliderResource": {
+                "title": "SliderResource",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "title": {
+                        "type": "string",
+                        "default": "Title"
+                    },
+                    "description": {
+                        "type": "string",
+                        "default": "Description"
+                    },
+                    "link": {
+                        "type": "string",
+                        "default": "https://google.com"
+                    },
+                    "published": {
+                        "$ref": "#/components/schemas/BooleanEnum"
+                    },
+                    "position": {
+                        "$ref": "#/components/schemas/SliderPositionEnum"
+                    },
+                    "has_timer": {
+                        "$ref": "#/components/schemas/YesNoEnum"
+                    },
+                    "published_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "ordering": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "expired_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "image": {
+                        "type": "string",
+                        "default": "https://example.com/image.jpg"
                     }
                 },
                 "type": "object"
