@@ -1326,6 +1326,21 @@
                     }
                 }
             }
+        },
+        "/home": {
+            "get": {
+                "tags": [
+                    "Home"
+                ],
+                "summary": "get home list",
+                "description": "Returns list of home",
+                "operationId": "getHomes",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -2463,6 +2478,58 @@
                 },
                 "type": "object"
             },
+            "OpinionDetailResource": {
+                "title": "OpinionDetailResource",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "title": {
+                        "type": "string",
+                        "default": "Title"
+                    },
+                    "description": {
+                        "type": "string",
+                        "default": "Description"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    }
+                },
+                "type": "object"
+            },
+            "OpinionResource": {
+                "title": "OpinionResource",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "title": {
+                        "type": "string",
+                        "default": "Title"
+                    },
+                    "description": {
+                        "type": "string",
+                        "default": "Description"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    }
+                },
+                "type": "object"
+            },
             "SimpleCategoryResource": {
                 "title": "SimpleCategoryResource",
                 "properties": {
@@ -3004,6 +3071,10 @@
         {
             "name": "Faq",
             "description": "Faq"
+        },
+        {
+            "name": "Home",
+            "description": "Home"
         }
     ],
     "security": [
