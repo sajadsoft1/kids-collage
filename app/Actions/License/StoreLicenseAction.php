@@ -6,6 +6,8 @@ namespace App\Actions\License;
 
 use App\Actions\Translation\SyncTranslationAction;
 use App\Models\License;
+use App\Services\File\FileService;
+use App\Services\SeoOption\SeoOptionService;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Lorisleiva\Actions\Concerns\AsAction;
@@ -17,6 +19,8 @@ class StoreLicenseAction
 
     public function __construct(
         private readonly SyncTranslationAction $syncTranslationAction,
+        private readonly SeoOptionService $seoOptionService,
+        private readonly FileService $fileService,
     ) {}
 
     /**
@@ -24,7 +28,8 @@ class StoreLicenseAction
      *     title:string,
      *     description:string,
      *     languages:array,
-     *     slug:string
+     *     slug:string,
+     *     image:string,
      * } $payload
      * @throws Throwable
      */
@@ -37,6 +42,8 @@ class StoreLicenseAction
                 'languages',
             ]));
             $this->syncTranslationAction->handle($model, Arr::only($payload, ['title', 'description']));
+            $this->seoOptionService->create($model, Arr::only($payload, ['title', 'description']));
+            $this->fileService->addMedia($model, Arr::get($payload, 'image'));
 
             return $model->refresh();
         });

@@ -1,6 +1,6 @@
-<div class="bg-base-300 h-14 mb-2">
-    <div class="flex items-center justify-between py-3">
-        <div class="min-w-0 flex-1">
+<div class="mb-2 h-14">
+    <div class="flex justify-between items-center py-3">
+        <div class="flex-1 min-w-0">
             <x-breadcrumbs :items="$breadcrumbs ?? $this->breadcrumbs" />
         </div>
         <div class="flex ms-4 join">

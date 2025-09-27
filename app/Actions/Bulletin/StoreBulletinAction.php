@@ -6,6 +6,8 @@ namespace App\Actions\Bulletin;
 
 use App\Actions\Translation\SyncTranslationAction;
 use App\Models\Bulletin;
+use App\Services\File\FileService;
+use App\Services\SeoOption\SeoOptionService;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Lorisleiva\Actions\Concerns\AsAction;
@@ -17,6 +19,8 @@ class StoreBulletinAction
 
     public function __construct(
         private readonly SyncTranslationAction $syncTranslationAction,
+        private readonly SeoOptionService $seoOptionService,
+        private readonly FileService $fileService,
     ) {}
 
     /**
@@ -51,6 +55,11 @@ class StoreBulletinAction
                 'languages',
             ]));
             $this->syncTranslationAction->handle($model, Arr::only($payload, ['title', 'description', 'body']));
+            $this->seoOptionService->create($model, Arr::only($payload, ['title', 'description']));
+            $this->fileService->addMedia($model, Arr::get($payload, 'image'));
+            if ($tags = Arr::get($payload, 'tags')) {
+                $model->syncTags($tags);
+            }
 
             return $model->refresh();
         });

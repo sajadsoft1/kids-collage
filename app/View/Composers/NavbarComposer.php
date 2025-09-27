@@ -133,14 +133,6 @@ class NavbarComposer
                         'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Course::class, 'Index')),
                     ],
                     [
-                        'icon'       => 's-calendar-days',
-                        'params'     => [],
-                        'exact'      => true,
-                        'title'      => trans('_menu.session_management'),
-                        'route_name' => 'admin.session.index',
-                        'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Session::class, 'Index')),
-                    ],
-                    [
                         'icon'       => 's-building-office-2',
                         'params'     => [],
                         'exact'      => true,

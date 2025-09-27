@@ -24,14 +24,13 @@ class StoreRoomAction
      *     title:string,
      *     description:string,
      *     capacity:int,
-     *     languages:array
      * } $payload
      * @throws Throwable
      */
     public function handle(array $payload): Room
     {
         return DB::transaction(function () use ($payload) {
-            $model = Room::create(Arr::only($payload, ['capacity', 'languages']));
+            $model = Room::create(Arr::only($payload, ['capacity']));
             $this->syncTranslationAction->handle($model, Arr::only($payload, ['title', 'description']));
 
             return $model->refresh();

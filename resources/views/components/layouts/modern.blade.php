@@ -18,26 +18,21 @@
     @livewireStyles
 </head>
 
-<body class="bg-gradient-to-br from-base-200 via-base-100 to-base-300 min-h-screen" x-data>
-    {{-- Background Decorations --}}
-    <div class="fixed left-0 right-0 top-0 bottom-0 overflow-hidden pointer-events-none">
-        <div class="absolute -top-40 -right-40 w-80 h-80 bg-primary/10 rounded-full blur-3xl"></div>
-        <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-secondary/10 rounded-full blur-3xl"></div>
-    </div>
+<body class="min-h-screen bg-base-300" x-data>
 
     {{-- Mobile Navigation --}}
-    <x-nav sticky class="lg:hidden h-16 bg-base-100/80 backdrop-blur-md border-b border-base-content/10 shadow-lg">
+    <x-nav sticky class="h-16 border-b shadow-lg backdrop-blur-md lg:hidden bg-base-100/80 border-base-content/10">
         <x-slot:brand>
-            <div class="flex items-center gap-3">
+            <div class="flex gap-3 items-center">
                 <div
-                    class="w-8 h-8 bg-gradient-to-r from-primary to-secondary rounded-lg flex items-center justify-center">
+                    class="flex justify-center items-center w-8 h-8 bg-gradient-to-r rounded-lg from-primary to-secondary">
                     <x-icon name="o-cube" class="w-5 h-5 text-white" />
                 </div>
                 <span class="text-lg font-bold">Karnoweb</span>
             </div>
         </x-slot:brand>
         <x-slot:actions>
-            <div class="flex items-center gap-2">
+            <div class="flex gap-2 items-center">
                 <x-theme-toggle />
                 <label for="main-drawer" class="lg:hidden">
                     <x-icon name="o-bars-3" class="w-6 h-6 cursor-pointer" />
@@ -50,47 +45,48 @@
 
         {{-- Modern Sidebar --}}
         <x-slot:sidebar drawer="main-drawer" collapsible
-            class="no-scrollbar bg-base-100/80 backdrop-blur-md border-e border-base-content/10 shadow-xl">
+            class="shadow-xl backdrop-blur-md no-scrollbar bg-base-100/80 border-e border-base-content/10">
 
             {{-- Brand Header with Gradient --}}
             <div
-                class="sticky top-0 bg-gradient-to-r from-primary/10 to-secondary/10 p-6 z-10 border-b border-base-content/10">
-                <div class="hidden-when-collapsed">
-                    <div class="flex items-center gap-3 mb-3">
+                class="sticky top-0 z-10 bg-gradient-to-r border-b from-primary/10 to-secondary/10 border-base-content/10 h-[64px]">
+                <div class="p-2 hidden-when-collapsed">
+                    <div class="flex gap-3 items-center">
                         <div
-                            class="w-10 h-10 bg-gradient-to-r from-primary to-secondary rounded-xl flex items-center justify-center">
+                            class="flex justify-center items-center w-10 h-10 bg-gradient-to-r rounded-xl from-primary to-secondary">
                             <x-icon name="o-cube" class="w-6 h-6 text-white" />
                         </div>
                         <div>
                             <h1
-                                class="text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                                class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
                                 Karnoweb</h1>
                             <p class="text-sm text-base-content/70">Admin Dashboard</p>
                         </div>
                     </div>
                 </div>
-                <div class="display-when-collapsed hidden text-center">
-                    <div
-                        class="w-10 h-10 bg-gradient-to-r from-primary to-secondary rounded-xl flex items-center justify-center mx-auto">
-                        <x-icon name="o-cube" class="w-6 h-6 text-white" />
+                <div class="hidden w-full h-full display-when-collapsed">
+                    <div class="flex items-center w-full h-full">
+                        <div
+                            class="flex justify-center items-center mx-auto w-10 h-10 bg-gradient-to-r rounded-xl from-primary to-secondary">
+                            <x-icon name="o-cube" class="w-6 h-6 text-white" />
+                        </div>
                     </div>
                 </div>
             </div>
 
             {{-- Navigation Menu with Modern Styling --}}
             <x-menu activate-by-route class="!p-0 flex flex-col">
-                <div class="flex-1 overflow-y-auto p-4 space-y-2">
+                <div class="overflow-y-auto flex-1 space-y-2">
                     @foreach ($navbarMenu ?? [] as $menu)
                         @if (Arr::has($menu, 'sub_menu'))
                             @if (Arr::get($menu, 'access', true))
-                                <x-menu-sub :title="Arr::get($menu, 'title')" :icon="Arr::get($menu, 'icon')" class="mb-2">
+                                <x-menu-sub :title="Arr::get($menu, 'title')" :icon="Arr::get($menu, 'icon')">
                                     @foreach (Arr::get($menu, 'sub_menu', []) as $subMenu)
                                         <x-menu-item :exact="Arr::get($subMenu, 'exact', false)" :title="Arr::get($subMenu, 'title')" :icon="Arr::get($subMenu, 'icon')"
                                             :badge="Arr::get($subMenu, 'badge')" :badge-classes="Arr::get($subMenu, 'badge_classes', 'float-left')" :link="route(
                                                 Arr::get($subMenu, 'route_name'),
                                                 Arr::get($subMenu, 'params', []),
-                                            )"
-                                            class="rounded-xl hover:bg-gradient-to-r hover:from-primary/10 hover:to-secondary/10" />
+                                            )" />
                                     @endforeach
                                 </x-menu-sub>
                             @endif
@@ -99,53 +95,26 @@
                         @else
                             @if (Arr::get($menu, 'access', true))
                                 <x-menu-item :exact="Arr::get($menu, 'exact', false)" :title="Arr::get($menu, 'title')" :icon="Arr::get($menu, 'icon')" :badge="Arr::get($menu, 'badge')"
-                                    :badge-classes="Arr::get($menu, 'badge_classes', 'float-left')" :link="route(Arr::get($menu, 'route_name'), Arr::get($menu, 'params', []))"
-                                    class="rounded-xl hover:bg-gradient-to-r hover:from-primary/10 hover:to-secondary/10 mb-1" />
+                                    :badge-classes="Arr::get($menu, 'badge_classes', 'float-left')" :link="route(Arr::get($menu, 'route_name'), Arr::get($menu, 'params', []))" />
                             @endif
                         @endif
                     @endforeach
                 </div>
             </x-menu>
-
-            {{-- User Profile Section with Modern Design --}}
-            <div class="p-4 border-t border-base-content/10">
-                <x-dropdown>
-                    <x-slot:trigger>
-                        <div
-                            class="flex items-center gap-3 p-3 rounded-xl hover:bg-gradient-to-r hover:from-primary/10 hover:to-secondary/10 cursor-pointer transition-all duration-200">
-                            <x-avatar src="{{ auth()->user()->avatar ?? '' }}" class="w-10 h-10 ring-2 ring-primary/20">
-                                <x-icon name="o-user" class="w-6 h-6" />
-                            </x-avatar>
-                            <div class="hidden-when-collapsed">
-                                <div class="text-sm font-medium">{{ auth()->user()->name }}</div>
-                                <div class="text-xs text-base-content/70">{{ auth()->user()->email }}</div>
-                            </div>
-                            <x-icon name="o-chevron-down" class="w-4 h-4 hidden-when-collapsed" />
-                        </div>
-                    </x-slot:trigger>
-                    <x-menu>
-                        <x-menu-item title="Profile" icon="o-user" link="{{ route('admin.app.profile') }}" />
-                        <x-menu-item title="Settings" icon="o-cog-6-tooth" link="{{ route('admin.setting') }}" />
-                        <x-menu-separator />
-                        <x-menu-item title="Logout" icon="o-arrow-right-on-rectangle"
-                            link="{{ route('admin.auth.logout') }}" />
-                    </x-menu>
-                </x-dropdown>
-            </div>
         </x-slot:sidebar>
 
         {{-- Main Content Area --}}
-        <x-slot:content class="!pt-0">
+        <x-slot:content class="!p-0">
             {{-- Modern Header Bar --}}
             <div
-                class="sticky top-0 z-40 bg-base-100/80 backdrop-blur-md border-b border-base-content/10 px-6 py-4 shadow-lg">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-4">
+                class="sticky top-0 z-40 px-6 py-4 border-b backdrop-blur-md bg-base-100/80 border-base-content/10 h-[64px]">
+                <div class="flex justify-between items-center">
+                    <div class="flex gap-4 items-center">
                         <h2
-                            class="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                            class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
                             {{ $title ?? 'Dashboard' }}</h2>
                         @if (isset($breadcrumbs))
-                            <div class="flex items-center gap-2 text-sm text-base-content/70">
+                            <div class="flex gap-2 items-center text-sm text-base-content/70">
                                 @foreach ($breadcrumbs as $breadcrumb)
                                     <span>{{ $breadcrumb }}</span>
                                     @if (!$loop->last)
@@ -155,7 +124,7 @@
                             </div>
                         @endif
                     </div>
-                    <div class="flex items-center gap-3">
+                    <div class="flex gap-3 items-center">
                         {{-- Theme Switcher for Desktop --}}
                         <div class="hidden lg:block">
                             <x-theme-toggle />
@@ -163,8 +132,8 @@
                         {{-- Notifications with Badge --}}
                         <x-dropdown>
                             <x-slot:trigger>
-                                <x-button icon="o-bell" class="btn-circle btn-ghost relative">
-                                    <div class="absolute -top-1 -right-1 w-3 h-3 bg-error rounded-full animate-pulse">
+                                <x-button icon="o-bell" class="relative btn-circle btn-ghost">
+                                    <div class="absolute -top-1 -right-1 w-3 h-3 rounded-full animate-pulse bg-error">
                                     </div>
                                 </x-button>
                             </x-slot:trigger>
@@ -173,15 +142,14 @@
                                 <x-menu-item title="System update available" icon="o-cog" />
                             </x-menu>
                         </x-dropdown>
-                        {{-- Search with Modern Input --}}
-                        <x-input icon="o-magnifying-glass" placeholder="Search..." class="w-64 hidden lg:block" />
+
                     </div>
                 </div>
             </div>
 
             {{-- Page Content with Glass Effect --}}
             <div class="p-6">
-                <div class="bg-base-100/50 backdrop-blur-sm rounded-2xl p-6 shadow-xl border border-base-content/10">
+                <div class="container">
                     {{ $slot }}
                 </div>
             </div>

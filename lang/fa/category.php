@@ -18,6 +18,7 @@ return [
             'portfolio' => 'نمونه کار',
             'faq'       => 'سوال پرتکرار',
             'bulletin'  => 'اطلاعیه',
+            'course'    => 'دوره',
         ],
     ],
     'notifications' => [

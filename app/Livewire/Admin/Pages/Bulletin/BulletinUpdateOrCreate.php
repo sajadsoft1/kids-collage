@@ -59,7 +59,7 @@ class BulletinUpdateOrCreate extends Component
             'body'         => 'required|string',
             'published'    => 'required|boolean',
             'published_at' => 'nullable|date',
-            'category_id'  => 'required|exists:categories,id,type,bulletin',
+            'category_id'  => 'required|exists:categories,id',
             'image'        => 'nullable|file|mimes:png,jpg,jpeg|max:4096',
             'tags'         => 'nullable|array',
         ];
@@ -75,7 +75,8 @@ class BulletinUpdateOrCreate extends Component
                 redirectTo: route('admin.bulletin.index')
             );
         } else {
-            $payload['slug'] = StringHelper::slug($this->title);
+            $payload['user_id'] = auth()->id();
+            $payload['slug']    = StringHelper::slug($this->title);
             StoreBulletinAction::run($payload);
             $this->success(
                 title: trans('general.model_has_stored_successfully', ['model' => trans('bulletin.model')]),

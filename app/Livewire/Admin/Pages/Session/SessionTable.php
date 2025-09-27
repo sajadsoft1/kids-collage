@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Livewire\Admin\Pages\Session;
 
 use App\Helpers\PowerGridHelper;
+use App\Models\Course;
 use App\Models\Session;
 use App\Traits\PowerGridHelperTrait;
 use Illuminate\Database\Eloquent\Builder;
@@ -19,6 +20,7 @@ use PowerComponents\LivewirePowerGrid\PowerGridFields;
 final class SessionTable extends PowerGridComponent
 {
     use PowerGridHelperTrait;
+    public Course $course;
     public string $tableName     = 'index_session_datatable';
     public string $sortDirection = 'desc';
 
@@ -54,13 +56,13 @@ final class SessionTable extends PowerGridComponent
     public function breadcrumbsActions(): array
     {
         return [
-            ['link' => route('admin.session.create'), 'icon' => 's-plus', 'label' => trans('general.page.create.title', ['model' => trans('session.model')])],
+            ['link' => route('admin.session.create', ['course' => $this->course->id]), 'icon' => 's-plus', 'label' => trans('general.page.create.title', ['model' => trans('session.model')])],
         ];
     }
 
     public function datasource(): Builder
     {
-        return Session::query();
+        return Session::query()->where('course_id', $this->course->id);
     }
 
     public function relationSearch(): array
@@ -112,7 +114,7 @@ final class SessionTable extends PowerGridComponent
     public function noDataLabel(): string|View
     {
         return view('admin.datatable-shared.empty-table', [
-            'link' => route('admin.session.create'),
+            'link' => route('admin.session.create', ['course' => $this->course->id]),
         ]);
     }
 }

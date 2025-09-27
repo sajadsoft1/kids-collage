@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Helpers\Constants;
+use App\Traits\HasSeoOption;
 use App\Traits\HasSlugFromTranslation;
 use App\Traits\HasTranslationAuto;
 use App\Traits\HasView;
@@ -21,6 +22,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 class License extends Model implements HasMedia
 {
     use HasFactory;
+    use HasSeoOption;
     use HasSlugFromTranslation;
     use HasTranslationAuto;
     use HasView;

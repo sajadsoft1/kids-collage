@@ -6,6 +6,7 @@ namespace App\Actions\Bulletin;
 
 use App\Actions\Translation\SyncTranslationAction;
 use App\Models\Bulletin;
+use App\Services\File\FileService;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Lorisleiva\Actions\Concerns\AsAction;
@@ -17,6 +18,7 @@ class UpdateBulletinAction
 
     public function __construct(
         private readonly SyncTranslationAction $syncTranslationAction,
+        private readonly FileService $fileService,
     ) {}
 
     /**
@@ -49,6 +51,8 @@ class UpdateBulletinAction
                 'languages',
             ]));
             $this->syncTranslationAction->handle($bulletin, Arr::only($payload, ['title', 'description', 'body']));
+            $this->fileService->addMedia($bulletin, Arr::get($payload, 'image'));
+            $bulletin->syncTags(Arr::get($payload, 'tags', []));
 
             return $bulletin->refresh();
         });

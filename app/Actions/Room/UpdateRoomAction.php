@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Room;
 
 use App\Actions\Translation\SyncTranslationAction;
@@ -17,20 +19,18 @@ class UpdateRoomAction
         private readonly SyncTranslationAction $syncTranslationAction,
     ) {}
 
-
     /**
-     * @param Room $room
      * @param array{
      *     title:string,
-     *     description:string
+     *     description:string,
+     *     capacity:int
      * }               $payload
-     * @return Room
      * @throws Throwable
      */
     public function handle(Room $room, array $payload): Room
     {
         return DB::transaction(function () use ($room, $payload) {
-            $room->update($payload);
+            $room->update(Arr::only($payload, ['capacity']));
             $this->syncTranslationAction->handle($room, Arr::only($payload, ['title', 'description']));
 
             return $room->refresh();

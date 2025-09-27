@@ -647,44 +647,88 @@ namespace App\Models{
  * @property string $description
  * @property string $body
  * @property int $id
+ * @property string $slug
+ * @property \App\Enums\BooleanEnum $published
+ * @property \Illuminate\Support\Carbon|null $published_at
+ * @property int $user_id
  * @property int $teacher_id
  * @property int $category_id
  * @property float $price
  * @property \App\Enums\CourseTypeEnum $type
  * @property \Illuminate\Support\Carbon $start_date
  * @property \Illuminate\Support\Carbon $end_date
+ * @property int $view_count
+ * @property int $comment_count
+ * @property int $wish_count
  * @property array<array-key, mixed>|null $languages
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
+ * @property-read int|null $activities_count
  * @property-read \App\Models\Category $category
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Comment> $comments
+ * @property-read int|null $comments_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Enrollment> $enrollments
  * @property-read int|null $enrollments_count
+ * @property-read mixed $seo_canonical
+ * @property-read mixed $seo_description
+ * @property-read mixed $seo_redirect_to
+ * @property-read mixed $seo_robot_meta
+ * @property-read mixed $seo_title
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
+ * @property-read int|null $media_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\OrderItem> $orderItems
  * @property-read int|null $order_items_count
+ * @property-read \App\Models\SeoOption|null $seoOption
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Session> $sessions
  * @property-read int|null $sessions_count
+ * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\Tag> $tags
+ * @property-read int|null $tags_count
  * @property-read \App\Models\User $teacher
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translations
  * @property-read int|null $translations_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translationsPure
  * @property-read int|null $translations_pure_count
+ * @property-read \App\Models\User $user
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\UserView> $views
+ * @property-read int|null $views_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\WishList> $wishes
+ * @property-read int|null $wishes_count
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Course draft()
  * @method static \Database\Factories\CourseFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Course newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Course newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Course published()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Course publishedScheduled()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Course query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Course scheduledForPublishing()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Course search($keyword)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Course unpublishedScheduled()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Course whereCategoryId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Course whereCommentCount($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Course whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Course whereEndDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Course whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Course whereLanguages($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Course wherePrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Course wherePublished($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Course wherePublishedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Course whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Course whereStartDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Course whereTeacherId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Course whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Course whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Course whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Course whereViewCount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Course whereWishCount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Course withAllTags(\ArrayAccess|\Spatie\Tags\Tag|array|string $tags, ?string $type = null)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Course withAllTagsOfAnyType($tags)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Course withAnyTags(\ArrayAccess|\Spatie\Tags\Tag|array|string $tags, ?string $type = null)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Course withAnyTagsOfAnyType($tags)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Course withAnyTagsOfType(array|string $type)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Course withoutTags(\ArrayAccess|\Spatie\Tags\Tag|array|string $tags, ?string $type = null)
  */
-	class Course extends \Eloquent {}
+	class Course extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
 }
 
 namespace App\Models{
@@ -802,8 +846,14 @@ namespace App\Models{
  * @property array<array-key, mixed>|null $languages
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read mixed $seo_canonical
+ * @property-read mixed $seo_description
+ * @property-read mixed $seo_redirect_to
+ * @property-read mixed $seo_robot_meta
+ * @property-read mixed $seo_title
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
  * @property-read int|null $media_count
+ * @property-read \App\Models\SeoOption|null $seoOption
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translations
  * @property-read int|null $translations_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translationsPure
@@ -1133,7 +1183,6 @@ namespace App\Models{
  * @property array<array-key, mixed>|null $languages
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \App\Enums\BooleanEnum $published
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Session> $sessions
  * @property-read int|null $sessions_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translations

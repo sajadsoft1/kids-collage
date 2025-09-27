@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Enums\BooleanEnum;
 use App\Traits\HasTranslationAuto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -25,13 +24,11 @@ class Room extends Model
 
     protected $fillable = [
         'capacity',
-        'published',
         'languages',
     ];
 
     protected $casts = [
         'capacity'  => 'integer',
-        'published' => BooleanEnum::class,
         'languages' => 'array',
     ];
 

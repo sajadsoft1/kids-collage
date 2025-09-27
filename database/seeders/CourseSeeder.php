@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Database\Seeders;
 
 use App\Actions\Course\StoreCourseAction;
+use App\Helpers\StringHelper;
 use Exception;
 use Illuminate\Database\Seeder;
 
@@ -16,6 +17,8 @@ class CourseSeeder extends Seeder
         $data = require database_path('seeders/data/karno.php');
         foreach ($data['course'] as $row) {
             $model = StoreCourseAction::run([
+                'slug'        => StringHelper::slug($row['title']),
+                'user_id'     => 1,
                 'title'       => $row['title'],
                 'description' => $row['description'],
                 'body'        => $row['body'],

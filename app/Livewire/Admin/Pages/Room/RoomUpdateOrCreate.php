@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Admin\Pages\Room;
 
 use App\Actions\Room\StoreRoomAction;
@@ -13,18 +15,18 @@ class RoomUpdateOrCreate extends Component
 {
     use Toast;
 
-    public Room   $model;
+    public Room $model;
     public string $title       = '';
     public string $description = '';
-    public bool   $published   = false;
+    public int $capacity       = 0;
 
     public function mount(Room $room): void
     {
         $this->model = $room;
         if ($this->model->id) {
-            $this->title = $this->model->title;
+            $this->title       = $this->model->title;
             $this->description = $this->model->description;
-            $this->published = $this->model->published->value;
+            $this->capacity    = $this->model->capacity;
         }
     }
 
@@ -33,7 +35,7 @@ class RoomUpdateOrCreate extends Component
         return [
             'title'       => 'required|string',
             'description' => 'required|string',
-            'published'   => 'required'
+            'capacity'    => 'required|integer|min:1',
         ];
     }
 
@@ -61,11 +63,11 @@ class RoomUpdateOrCreate extends Component
             'edit_mode'          => $this->model->id,
             'breadcrumbs'        => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link' => route('admin.room.index'), 'label' => trans('general.page.index.title', ['model' => trans('room.model')])],
+                ['link'  => route('admin.room.index'), 'label' => trans('general.page.index.title', ['model' => trans('room.model')])],
                 ['label' => trans('general.page.create.title', ['model' => trans('room.model')])],
             ],
             'breadcrumbsActions' => [
-                ['link' => route('admin.room.index'), 'icon' => 's-arrow-left']
+                ['link' => route('admin.room.index'), 'icon' => 's-arrow-left'],
             ],
         ]);
     }
