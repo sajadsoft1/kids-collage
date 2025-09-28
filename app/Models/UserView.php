@@ -24,9 +24,4 @@ class UserView extends Model
         'collection',
         'visitor',
     ];
-
-    public function visitor(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'visitor', 'id');
-    }
 }

@@ -28,8 +28,6 @@ use Throwable;
 
 class BlogController extends Controller
 {
-    use HasViewTracking;
-
     public function __construct()
     {
         //        $this->middleware('auth:sanctum');
@@ -305,7 +303,7 @@ class BlogController extends Controller
      */
     public function show(Blog $blog): JsonResponse
     {
-        $this->recordView($blog);
+        $blog->recordView();
         return Response::data(
             [
                 'blog' => BlogDetailResource::make($blog->load(['user', 'category', 'media','seoOption'])),

@@ -7,12 +7,15 @@ namespace App\Models;
 use App\Enums\BooleanEnum;
 use App\Enums\SliderPositionEnum;
 use App\Enums\YesNoEnum;
+use App\Facades\SmartCache;
 use App\Helpers\Constants;
 use App\Traits\CLogsActivity;
+use App\Traits\HasModelCache;
 use App\Traits\HasScheduledPublishing;
 use App\Traits\HasSchemalessAttributes;
 use App\Traits\HasStatusBoolean;
 use App\Traits\HasTranslationAuto;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -28,8 +31,13 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  */
 class Slider extends Model implements HasMedia
 {
-    use CLogsActivity, HasScheduledPublishing, HasSchemalessAttributes, HasStatusBoolean, InteractsWithMedia;
+    use CLogsActivity,
+        HasScheduledPublishing,
+        HasSchemalessAttributes,
+        HasStatusBoolean,
+        InteractsWithMedia;
     use HasFactory;
+    use HasModelCache;
     use HasTranslationAuto;
 
     public array $translatable = [
@@ -98,7 +106,16 @@ class Slider extends Model implements HasMedia
      * Model Attributes --------------------------------------------------------------------------
      */
 
-    /**
-     * Model Custom Methods --------------------------------------------------------------------------
-     */
+    /** Model Custom Methods -------------------------------------------------------------------------- */
+    public function latestSliders(): Collection
+    {
+        return SmartCache::for(__CLASS__)
+            ->key('latest_sliders')
+            ->remember(function () {
+                return self::where('published', BooleanEnum::ENABLE->value)
+                    ->orderBy('ordering')
+                    ->orderBy('id', 'desc')
+                    ->get();
+            }, now()->addHours(6));
+    }
 }

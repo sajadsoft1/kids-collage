@@ -4,26 +4,30 @@ declare(strict_types=1);
 
 namespace App\Traits;
 
-
-use Illuminate\Http\Request;
+use App\Models\Blog;
 
 trait HasViewTracking
 {
-    public function recordView($model,$collection=null): void
+    public function recordView($model): void
     {
-
+        /** @var Blog $model */
         $exists = $model->views()
-            ->where('ip', request()->ip())
+            ->when(auth()->check(), function ($query) {
+                $query->where('user_id', auth()->id());
+            },function ($query){
+                $query->where('ip', request()->ip());
+            })
+            ->whereDate('created_at', '!=', now()->toDateString())
             ->exists();
 
-        if (! $exists) {
+        if ( ! $exists) {
             $model->views()->create([
-                'user_id'    => auth()->id()??null,
+                'user_id'    => auth()->id(),
                 'ip'         => request()->ip(),
-                'collection'=>$collection
+                'collection' => 'website',
             ]);
             $model->update([
-                'view_count'=>++$model->view_count
+                'view_count' => ++$model->view_count,
             ]);
         }
     }

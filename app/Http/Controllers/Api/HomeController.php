@@ -70,9 +70,7 @@ class HomeController extends Controller
     {
         $data = Cache::remember('home_page_data', 1, function () {
             return [
-                'sliders'   => SliderResource::collection(
-                    Slider::where('published', true)->limit(10)->get()
-                ),
+                'sliders'   => SliderResource::collection(Slider::latestSliders()),
                 'banners'   => BannerResource::collection(
                     Banner::where('published', true)->limit(10)->get()
                 ),
@@ -83,14 +81,14 @@ class HomeController extends Controller
                 'blogs'     => BlogResource::collection(
                     Blog::where('published', true)->orderByDesc('id')->limit(12)->get()
                 ),
-                'opinions'   => OpinionResource::collection(
+                'opinions'  => OpinionResource::collection(
                     Opinion::where('published', true)->get()
                 ),
-                'clients'    => ClientResource::collection(
+                'clients'   => ClientResource::collection(
                     Client::where('published', true)->get()
                 ),
-                'events'     => [],
-                'faqs'       => FaqResource::collection(Faq::where('published', true)->orderByDesc('id')->limit(6)->get()),
+                'events'    => [],
+                'faqs'      => FaqResource::collection(Faq::where('published', true)->orderByDesc('id')->limit(6)->get()),
             ];
         });
 

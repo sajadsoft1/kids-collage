@@ -22,4 +22,27 @@ trait HasView
 
         return $this->views()->where('ip', request()->ip())->exists();
     }
+
+    public function recordView(): void
+    {
+        $exists = $this->views()
+            ->when(auth()->check(), function ($query) {
+                $query->where('user_id', auth()->id());
+            }, function ($query) {
+                $query->where('ip', request()->ip());
+            })
+            ->whereDate('created_at', '!=', now()->toDateString())
+            ->exists();
+
+        if ( ! $exists) {
+            $this->views()->create([
+                'user_id'    => auth()->id(),
+                'ip'         => request()->ip(),
+                'collection' => 'website',
+            ]);
+            $this->update([
+                'view_count' => ++$this->view_count,
+            ]);
+        }
+    }
 }
