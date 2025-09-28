@@ -8,6 +8,7 @@ use App\Filters\FuzzyFilter;
 use App\Http\Resources\BannerDetailResource;
 use App\Http\Resources\BannerResource;
 use App\Models\Banner;
+use App\Traits\HasViewTracking;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -19,6 +20,7 @@ use Throwable;
 
 class BannerController extends Controller
 {
+    use HasViewTracking;
     public function __construct() {}
 
     private function query(array $payload = []): QueryBuilder
@@ -113,6 +115,7 @@ class BannerController extends Controller
      */
     public function show(Banner $banner): JsonResponse
     {
+        $this->recordView($banner);
         return Response::data(
             [
                 'banner' => BannerDetailResource::make($banner),
