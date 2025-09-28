@@ -209,6 +209,8 @@ class CalendarTemplate extends Component
                 'getEventsForDay' => function ($day) use ($events) {
                     return $this->getEventsForDay($day, $events);
                 },
+            ])->layout(config('livewire.layout'), [
+                'fullWidth' => true,
             ]);
     }
 }

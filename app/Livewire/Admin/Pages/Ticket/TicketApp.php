@@ -83,7 +83,7 @@ class TicketApp extends Component
         }
 
         StoreTicketMessageAction::run($data);
-        
+
         $this->reset(['message', 'file']);
     }
 
@@ -144,8 +144,8 @@ class TicketApp extends Component
             ],
             'breadcrumbsActions' => [
             ],
-        ])->layout('components.layouts.app', [
-            'external_class' => 'md:!px-0 sm:!px-0 lg:!px-0',
+        ])->layout(config('livewire.layout'), [
+            'fullWidth' => true,
         ]);
     }
 }
