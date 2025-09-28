@@ -1,0 +1,55 @@
+/* Kanban Sortable Styles */
+.sortable-chosen {
+    @apply opacity-50 scale-105;
+    transition: all 0.2s ease;
+}
+
+.sortable-drag {
+    @apply opacity-75 rotate-2 scale-105;
+    transition: all 0.2s ease;
+    z-index: 1000;
+}
+
+.sortable-ghost {
+    @apply opacity-30;
+}
+
+/* Card hover effects */
+.kanban-card {
+    transition: all 0.2s ease;
+}
+
+.kanban-card:hover {
+    @apply shadow-lg transform scale-105;
+}
+
+/* Loading states */
+.kanban-loading {
+    @apply opacity-50 pointer-events-none;
+}
+
+/* Priority indicators */
+.priority-low {
+    @apply bg-green-500;
+}
+
+.priority-medium {
+    @apply bg-yellow-500;
+}
+
+.priority-high {
+    @apply bg-orange-500;
+}
+
+.priority-urgent {
+    @apply bg-red-500;
+}
+
+/* Overdue cards */
+.card-overdue {
+    @apply border-red-500 bg-red-50;
+}
+
+.card-overdue .card-title {
+    @apply text-red-700;
+}

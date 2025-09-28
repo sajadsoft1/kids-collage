@@ -1,52 +1,77 @@
-<div class="rounded-xl w-80 max-w-full shadow-lg {{ $styles['record'] }}" id="{{ $record['id'] }}"
-    @if ($recordClickEnabled) wire:click="onRecordClick('{{ $record['id'] }}')" @endif>
+<div class="rounded-xl w-80 max-w-full shadow-lg {{ $styles['record'] }} cursor-pointer hover:shadow-xl transition-shadow duration-200"
+    id="{{ $record['id'] }}" @if ($recordClickEnabled) wire:click="onRecordClick('{{ $record['id'] }}')" @endif>
 
-    <!-- Top section with status bar -->
+    <!-- Top section with priority indicator -->
     <div class="flex items-center mb-4">
-        <div class="h-2 w-16 bg-green-500 rounded-full"></div>
+        @php
+            $priorityColors = [
+                'low' => 'bg-green-500',
+                'medium' => 'bg-yellow-500',
+                'high' => 'bg-orange-500',
+                'urgent' => 'bg-red-500',
+            ];
+            $priorityColor = $priorityColors[$record['priority']] ?? 'bg-gray-500';
+        @endphp
+        <div class="h-2 w-16 {{ $priorityColor }} rounded-full"></div>
+        <div class="ml-2 text-xs font-medium text-gray-500 uppercase">{{ $record['priority'] }}</div>
     </div>
 
     <!-- Main content section -->
-    <div class="flex items-center justify-between">
-        <div class="flex items-center space-x-2 space-x-reverse">
-            <span class="text-xl font-medium"> {{ $record['title'] }}</span>
+    <div class="flex justify-between items-start mb-3">
+        <div class="flex-1">
+            <h3 class="mb-2 text-lg font-semibold text-gray-900 line-clamp-2">{{ $record['title'] }}</h3>
+            @if (!empty($record['description']))
+                <p class="text-sm text-gray-600 line-clamp-2">{{ Str::limit($record['description'], 100) }}</p>
+            @endif
         </div>
     </div>
 
-    <!-- Bottom section with status icons and avatar -->
-    <div class="flex justify-between items-center mt-4">
-        <div class="flex items-center space-x-4 space-x-reverse text-gray-400 text-sm">
-            <!-- View icon -->
-            <div class="flex items-center space-x-1 space-x-reverse">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                </svg>
-            </div>
-            <!-- Date icon and text -->
-            <div class="flex items-center space-x-1 space-x-reverse">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <span>Aug 23</span>
-            </div>
-            <!-- Menu icon -->
-            <div class="flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-            </div>
+    <!-- Card type and status badges -->
+    <div class="flex gap-2 items-center mb-3">
+        <span class="inline-flex items-center px-2 py-1 text-xs font-medium text-blue-800 bg-blue-100 rounded-full">
+            {{ ucfirst($record['card_type']) }}
+        </span>
+        <span class="inline-flex items-center px-2 py-1 text-xs font-medium text-gray-800 bg-gray-100 rounded-full">
+            {{ ucfirst($record['status_enum']) }}
+        </span>
+    </div>
+
+    <!-- Bottom section with due date and assignees -->
+    <div class="flex justify-between items-center">
+        <div class="flex items-center space-x-3 text-sm text-gray-500">
+            @if (!empty($record['due_date']))
+                <div class="flex items-center space-x-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    <span class="{{ $record['is_overdue'] ? 'text-red-600 font-medium' : '' }}">
+                        {{ \Carbon\Carbon::parse($record['due_date'])->format('M j') }}
+                    </span>
+                </div>
+            @endif
+
+            @if ($record['is_overdue'])
+                <span class="text-xs font-medium text-red-600">Overdue</span>
+            @endif
         </div>
-        <!-- User avatar -->
-        @if (Arr::get($record, 'userAvatar'))
-            <div class="w-8 h-8 rounded-full overflow-hidden">
-                <img src="{{ $record['userAvatar'] }}" alt="User Avatar" class="w-full h-full object-cover">
+
+        <!-- Assignees avatars -->
+        @if (!empty($record['assignees']))
+            <div class="flex -space-x-2">
+                @foreach (array_slice($record['assignees'], 0, 3) as $assignee)
+                    <div
+                        class="flex justify-center items-center w-6 h-6 text-xs font-medium text-gray-700 bg-gray-300 rounded-full border-2 border-white">
+                        {{ strtoupper(substr($assignee, 0, 1)) }}
+                    </div>
+                @endforeach
+                @if (count($record['assignees']) > 3)
+                    <div
+                        class="flex justify-center items-center w-6 h-6 text-xs font-medium text-white bg-gray-400 rounded-full border-2 border-white">
+                        +{{ count($record['assignees']) - 3 }}
+                    </div>
+                @endif
             </div>
         @endif
     </div>

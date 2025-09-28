@@ -1,4 +1,4 @@
-<div>
+<div class="flex flex-col flex-1">
     <div>
         @includeIf($beforeStatusBoardView)
     </div>

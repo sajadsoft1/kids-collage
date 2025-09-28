@@ -1,118 +1,16 @@
 <div class="">
     <!-- Card Creation Modal -->
-    <x-modal wire:model="showCreateCardModal" max-width="2xl" :title="trans('board.kanban.create_card')">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- Basic Information -->
-            <div class="space-y-4">
-                <x-input wire:model="cardForm.title" label="{{ __('kanban.labels.name') }}"
-                    placeholder="{{ __('kanban.placeholders.card_title') }}" required />
+    <x-kanban.card-form :show="'showCreateCardModal'" :title="trans('board.kanban.create_card')" submit-action="createCard" :submit-button-text="__('kanban.actions.create')"
+        :card-form="$cardForm" :board="$board" :available-users="$this->getAvailableUsers()
+            ->map(fn($user) => ['label' => $user->name, 'value' => $user->id])
+            ->toArray()" :card-type-options="$this->getCardTypeOptions()" :priority-options="$this->getPriorityOptions()" :status-options="$this->getStatusOptions()" />
 
-                <x-textarea wire:model="cardForm.description" label="{{ __('kanban.labels.description') }}"
-                    placeholder="{{ __('kanban.placeholders.card_description') }}" rows="3" />
-
-                <x-select wire:model="cardForm.card_type" label="{{ __('kanban.labels.type') }}" :options="$this->getCardTypeOptions()"
-                    required option-label="label" option-value='value' />
-
-                <x-select wire:model="cardForm.priority" label="{{ __('kanban.labels.priority') }}" :options="$this->getPriorityOptions()"
-                    required option-label="label" option-value='value' />
-
-                <x-select wire:model="cardForm.status" label="{{ __('kanban.labels.status') }}" :options="$this->getStatusOptions()"
-                    required option-label="label" option-value='value' />
-            </div>
-
-            <!-- Additional Information -->
-            <div class="space-y-4">
-                <x-select wire:model="cardForm.column_id" label="{{ __('kanban.labels.column') }}" :options="$board?->columns->map(fn($col) => ['label' => $col->name, 'value' => $col->id])->toArray() ??
-                    []"
-                    required />
-
-                <x-input wire:model="cardForm.due_date" label="{{ __('kanban.labels.due_date') }}" type="date" />
-
-                <x-choices compact wire:model="cardForm.assignees" label="{{ __('kanban.labels.assignees') }}"
-                    :options="$this->getAvailableUsers()
-                        ->map(fn($user) => ['label' => $user->name, 'value' => $user->id])
-                        ->toArray()" option-label="label" option-value='value' />
-
-                <x-choices compact wire:model="cardForm.reviewers" label="{{ __('kanban.labels.reviewers') }}"
-                    :options="$this->getAvailableUsers()
-                        ->map(fn($user) => ['label' => $user->name, 'value' => $user->id])
-                        ->toArray()" option-label="label" option-value='value' />
-
-                <x-choices compact wire:model="cardForm.watchers" label="{{ __('kanban.labels.watchers') }}"
-                    :options="$this->getAvailableUsers()
-                        ->map(fn($user) => ['label' => $user->name, 'value' => $user->id])
-                        ->toArray()" option-label="label" option-value='value' />
-            </div>
-        </div>
-
-        <x-slot:actions separator>
-            <div class="flex justify-end space-x-3">
-                <x-button wire:click="$set('showCreateCardModal', false)" class="btn-neutral">
-                    {{ __('Cancel') }}
-                </x-button>
-                <x-button wire:click="createCard" class="btn-primary" icon="o-check">
-                    {{ __('kanban.actions.create') }}
-                </x-button>
-            </div>
-        </x-slot:actions>
-    </x-modal>
-
-    <x-modal wire:model="showEditCardModal" max-width="2xl" :title="trans('board.kanban.create_card')">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- Basic Information -->
-            <div class="space-y-4">
-                <x-input wire:model="cardForm.title" label="{{ __('kanban.labels.name') }}"
-                    placeholder="{{ __('kanban.placeholders.card_title') }}" required />
-
-                <x-textarea wire:model="cardForm.description" label="{{ __('kanban.labels.description') }}"
-                    placeholder="{{ __('kanban.placeholders.card_description') }}" rows="3" />
-
-                <x-select wire:model="cardForm.card_type" label="{{ __('kanban.labels.type') }}" :options="$this->getCardTypeOptions()"
-                    required option-label="label" option-value='value' />
-
-                <x-select wire:model="cardForm.priority" label="{{ __('kanban.labels.priority') }}" :options="$this->getPriorityOptions()"
-                    required option-label="label" option-value='value' />
-
-                <x-select wire:model="cardForm.status" label="{{ __('kanban.labels.status') }}" :options="$this->getStatusOptions()"
-                    required option-label="label" option-value='value' />
-            </div>
-
-            <!-- Additional Information -->
-            <div class="space-y-4">
-                <x-select wire:model="cardForm.column_id" label="{{ __('kanban.labels.column') }}" :options="$board?->columns->map(fn($col) => ['label' => $col->name, 'value' => $col->id])->toArray() ??
-                    []"
-                    required />
-
-                <x-input wire:model="cardForm.due_date" label="{{ __('kanban.labels.due_date') }}" type="date" />
-
-                <x-choices compact wire:model="cardForm.assignees" label="{{ __('kanban.labels.assignees') }}"
-                    :options="$this->getAvailableUsers()
-                        ->map(fn($user) => ['label' => $user->name, 'value' => $user->id])
-                        ->toArray()" option-label="label" option-value='value' />
-
-                <x-choices compact wire:model="cardForm.reviewers" label="{{ __('kanban.labels.reviewers') }}"
-                    :options="$this->getAvailableUsers()
-                        ->map(fn($user) => ['label' => $user->name, 'value' => $user->id])
-                        ->toArray()" option-label="label" option-value='value' />
-
-                <x-choices compact wire:model="cardForm.watchers" label="{{ __('kanban.labels.watchers') }}"
-                    :options="$this->getAvailableUsers()
-                        ->map(fn($user) => ['label' => $user->name, 'value' => $user->id])
-                        ->toArray()" option-label="label" option-value='value' />
-            </div>
-        </div>
-
-        <x-slot:actions separator>
-            <div class="flex justify-end space-x-3">
-                <x-button wire:click="$set('showEditCardModal', false)" class="btn-neutral">
-                    {{ __('Cancel') }}
-                </x-button>
-                <x-button wire:click="createCard" class="btn-primary" icon="o-check">
-                    {{ __('kanban.actions.create') }}
-                </x-button>
-            </div>
-        </x-slot:actions>
-    </x-modal>
+    <!-- Card Edit Modal -->
+    <x-kanban.card-form :show="'showEditCardModal'" :title="trans('board.kanban.edit_card')" submit-action="updateCard" :submit-button-text="__('kanban.actions.update')"
+        :card-form="$cardForm" :board="$board" :available-users="$this->getAvailableUsers()
+            ->map(fn($user) => ['label' => $user->name, 'value' => $user->id])
+            ->toArray()" :card-type-options="$this->getCardTypeOptions()" :priority-options="$this->getPriorityOptions()"
+        :status-options="$this->getStatusOptions()" />
 
     <!-- Card Details Modal -->
     <x-modal wire:model="showCardModal" max-width="2xl" :title="$selectedCard?->title">
@@ -147,8 +45,7 @@
                 @if ($selectedCard->due_date)
                     <div>
                         <span class="text-sm font-medium text-gray-500">{{ __('kanban.labels.due_date') }}:</span>
-                        <span
-                            class="ml-2 text-sm {{ $selectedCard->isOverdue() ? 'text-red-600' : 'text-gray-900' }}">
+                        <span class="ml-2 text-sm {{ $selectedCard->isOverdue() ? 'text-red-600' : 'text-gray-900' }}">
                             {{ $selectedCard->due_date->format('Y-m-d') }}
                             @if ($selectedCard->isOverdue())
                                 ({{ __('kanban.labels.is_overdue') }})
@@ -160,10 +57,10 @@
                 @if ($selectedCard->assignees->isNotEmpty())
                     <div>
                         <span class="text-sm font-medium text-gray-500">{{ __('kanban.labels.assignees') }}:</span>
-                        <div class="mt-1 flex flex-wrap gap-1">
+                        <div class="flex flex-wrap gap-1 mt-1">
                             @foreach ($selectedCard->assignees as $assignee)
                                 <span
-                                    class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                    class="inline-flex items-center px-2 py-1 text-xs font-medium text-blue-800 bg-blue-100 rounded-full">
                                     {{ $assignee->name }}
                                 </span>
                             @endforeach
