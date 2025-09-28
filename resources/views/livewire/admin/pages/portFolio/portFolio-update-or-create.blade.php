@@ -13,7 +13,7 @@
         <div class="col-span-1">
             <div class="sticky top-20">
                 <x-card :title="trans('general.page_sections.publish_config')" shadow separator progress-indicator="submit">
-                    <x-admin.shared.published-config :has-published-at="$this->getHasPublishedAtProperty()" :default-date="$published_at" />
+                    <x-admin.shared.published-config :has-published-at="true" :default-date="$published_at" />
                 </x-card>
             </div>
         </div>

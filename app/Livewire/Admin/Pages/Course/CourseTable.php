@@ -33,6 +33,7 @@ final class CourseTable extends PowerGridComponent
 
     public function setUp(): array
     {
+        $this->persist(['columns'], prefix: auth()->id ?? '');
         $setup = [
             PowerGrid::header()
                 ->includeViewOnTop('components.admin.shared.bread-crumbs')
@@ -50,6 +51,15 @@ final class CourseTable extends PowerGridComponent
         }
 
         return $setup;
+    }
+
+    protected function queryString(): array
+    {
+        return [
+            'search' => ['except' => ''],
+            'page'   => ['except' => 1],
+            ...$this->powerGridQueryString(),
+        ];
     }
 
     #[Computed(persist: true)]

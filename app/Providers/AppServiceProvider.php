@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Services\SmartCache;
 use App\View\Composers\NavbarComposer;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -22,6 +23,16 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
             $this->app->register(TelescopeServiceProvider::class);
         }
+
+        $this->app->singleton('smartcache', function () {
+            return new class {
+                /** Forward static call to SmartCache::for($class) */
+                public function for(string $class): SmartCache
+                {
+                    return SmartCache::for($class);
+                }
+            };
+        });
     }
 
     /** Bootstrap any application services. */

@@ -90,7 +90,7 @@
             {{-- Page Content with Glass Effect --}}
             <div @class([
                 'flex flex-col flex-1',
-                'px-4 sm:px-6 lg:px-8' => !isset($fullWidth) || !$fullWidth,
+                'mb-4 px-4 sm:px-6 lg:px-8' => !isset($fullWidth) || !$fullWidth,
                 'px-0' => isset($fullWidth) && $fullWidth,
             ])>
                 <div @class([

@@ -38,10 +38,10 @@
                             <!-- row 1 -->
                             @foreach ($roles as $index => $role)
                                 <tr wire:key="role-{{ $index }}">
-                                    <td class="w-1/2 p-1 sm:p-2">
+                                    <td class="p-1 w-1/2 sm:p-2">
                                         <x-select :options="$reference_type" wire:model.live="roles.{{ $index }}.type" />
                                     </td>
-                                    <td class="w-1/2 p-1 sm:p-2">
+                                    <td class="p-1 w-1/2 sm:p-2">
                                         @switch($role['type'])
                                             @case(\App\Models\Category::class)
                                                 <x-choices :options="$categories" wire:key="role-{{ $index }}-value"
@@ -54,7 +54,7 @@
                                             @break
                                         @endswitch
                                     </td>
-                                    <td class="w-0 p-1 sm:p-2">
+                                    <td class="p-1 w-0 sm:p-2">
                                         <x-button type="button" variant="danger" size="sm" icon="s-trash"
                                             wire:click="deleteRole({{ $index }})" />
                                     </td>
@@ -75,7 +75,7 @@
             </x-card>
 
         </div>
-        <div class="col-span-1 ">
+        <div class="col-span-1">
             <div class="sticky top-20">
                 <x-card :title="trans('general.page_sections.upload_image')" shadow separator progress-indicator="submit" class="">
                     <x-admin.shared.single-file-upload wire_model="image" :default_image="$model->getFirstMediaUrl('image', Constants::RESOLUTION_1280_400)" :crop_after_change="true"
@@ -83,10 +83,10 @@
                 </x-card>
 
                 <x-card :title="trans('general.page_sections.publish_config')" shadow separator progress-indicator="submit" class="mt-5">
-                    <x-admin.shared.published-config :has-published-at="$this->getHasPublishedAtProperty()" :default-date="$published_at" />
+                    <x-admin.shared.published-config :has-published-at="true" :default-date="$published_at" />
                 </x-card>
                 <x-card :title="trans('setting.model')" shadow separator progress-indicator="submit" class="mt-5">
-                    <div class="grid gap-4 grid-col-1 ">
+                    <div class="grid gap-4 grid-col-1">
                         <x-toggle :label="trans('validation.attributes.has_timer')" wire:model.live="has_timer" right value="1" />
                         <div wire:show="has_timer">
                             <x-admin.shared.smart-datetime :label="trans('validation.attributes.timer_start')" wire-property-name="timer_start" />

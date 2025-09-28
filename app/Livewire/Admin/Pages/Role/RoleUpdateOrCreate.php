@@ -11,7 +11,6 @@ use App\Services\Permissions\PermissionsService;
 use Illuminate\View\View;
 use Livewire\Attributes\On;
 use Livewire\Component;
-use Log;
 use Mary\Traits\Toast;
 use Spatie\Permission\Models\Permission;
 
@@ -30,7 +29,7 @@ class RoleUpdateOrCreate extends Component
         $this->role        = $role->load('permissions');
         $this->name        = $role->name;
         $this->description = $role->description;
-        $this->permissions = $role->permissions->pluck('id')->toArray();
+        $this->permissions = $role->permissions->pluck('id')->map(fn ($id) => (int) $id)->toArray();
         $this->edit_mode   = $role->id;
     }
 
@@ -90,9 +89,9 @@ class RoleUpdateOrCreate extends Component
         }
     }
 
-    public function updated($field, $value)
+    public function cancel(): void
     {
-        Log::info('aaa:', [$field, $value]);
+        $this->redirect(route('admin.role.index'));
     }
 
     public function render(): View

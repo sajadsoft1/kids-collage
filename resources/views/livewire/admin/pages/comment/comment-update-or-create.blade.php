@@ -2,7 +2,7 @@
     <x-admin.shared.bread-crumbs :breadcrumbs="$breadcrumbs" :breadcrumbs-actions="$breadcrumbsActions" />
     <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
 
-        <div class="col-span-2 grid grid-cols-1 gap-4">
+        <div class="grid grid-cols-1 col-span-2 gap-4">
             <x-card :title="trans('general.page_sections.data')" shadow separator progress-indicator="submit">
                 <div class="grid grid-cols-1 gap-4">
                     <div class="grid grid-cols-2 gap-x-4">
@@ -24,14 +24,14 @@
                 </div>
             </x-card>
         </div>
-        <div class="col-span-1 ">
+        <div class="col-span-1">
             <div class="sticky top-20">
                 <x-card :title="trans('general.page_sections.publish_config')" shadow separator progress-indicator="submit">
-                    <x-admin.shared.published-config :has-published-at="$this->getHasPublishedAtProperty()" :default-date="$published_at" />
+                    <x-admin.shared.published-config :has-published-at="true" :default-date="$published_at" />
                 </x-card>
                 {{--                <x-card :title="trans('setting.model')" shadow separator --}}
                 {{--                        progress-indicator="submit" class="mt-5"> --}}
-                {{--                    <div class="grid grid-col-1 gap-4 "> --}}
+                {{--                    <div class="grid gap-4 grid-col-1"> --}}
                 {{--                        <x-input :label="trans('validation.attributes.ordering')" --}}
                 {{--                                 wire:model="ordering" type="number" --}}
                 {{--                        /> --}}

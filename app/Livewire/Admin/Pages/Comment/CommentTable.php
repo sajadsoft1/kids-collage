@@ -30,6 +30,7 @@ final class CommentTable extends PowerGridComponent
 
     public function setUp(): array
     {
+        $this->persist(['columns'], prefix: auth()->id ?? '');
         $setup = [
             PowerGrid::header()
                 ->includeViewOnTop('components.admin.shared.bread-crumbs')
@@ -46,6 +47,15 @@ final class CommentTable extends PowerGridComponent
         }
 
         return $setup;
+    }
+
+    protected function queryString(): array
+    {
+        return [
+            'search' => ['except' => ''],
+            'page'   => ['except' => 1],
+            ...$this->powerGridQueryString(),
+        ];
     }
 
     #[Computed(persist: true)]

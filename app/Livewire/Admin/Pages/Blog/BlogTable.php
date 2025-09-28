@@ -34,6 +34,7 @@ final class BlogTable extends PowerGridComponent
 
     public function setUp(): array
     {
+        $this->persist(['columns'], prefix: auth()->id ?? '');
         $setup = [
             PowerGrid::header()
                 ->includeViewOnTop('components.admin.shared.bread-crumbs')
@@ -51,6 +52,15 @@ final class BlogTable extends PowerGridComponent
         }
 
         return $setup;
+    }
+
+    protected function queryString(): array
+    {
+        return [
+            'search' => ['except' => ''],
+            'page'   => ['except' => 1],
+            ...$this->powerGridQueryString(),
+        ];
     }
 
     #[Computed(persist: true)]
@@ -99,12 +109,12 @@ final class BlogTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('id')
-            ->add('image', fn ($row) => PowerGridHelper::fieldImage($row,'image',Constants::RESOLUTION_854_480,11,6))
+            ->add('image', fn ($row) => PowerGridHelper::fieldImage($row, 'image', Constants::RESOLUTION_854_480, 11, 6))
             ->add('title', fn ($row) => PowerGridHelper::fieldTitle($row))
             ->add('category_formatted', fn ($row) => $row->category?->title ?? '---')
             ->add('author', fn ($row) => $row->user->name)
             ->add('published_formated', fn ($row) => PowerGridHelper::fieldPublishedAtFormated($row))
-            ->add('view_count_formated', fn ($row) => "<strong style='color: " . ($row->view_count === 0 ? 'blue' : 'red') . "'>$row->view_count</strong>")
+            ->add('view_count_formated', fn ($row) => "<strong style='color: " . ($row->view_count === 0 ? 'blue' : 'red') . "'>{$row->view_count}</strong>")
             ->add('created_at_formatted', fn ($row) => PowerGridHelper::fieldCreatedAtFormated($row))
             ->add('updated_at_formatted', fn ($row) => PowerGridHelper::fieldUpdatedAtFormated($row));
     }

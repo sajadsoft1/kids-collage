@@ -28,6 +28,7 @@ final class ClientTable extends PowerGridComponent
 
     public function setUp(): array
     {
+        $this->persist(['columns'], prefix: auth()->id ?? '');
         $setup = [
             PowerGrid::header()
                 ->includeViewOnTop('components.admin.shared.bread-crumbs')

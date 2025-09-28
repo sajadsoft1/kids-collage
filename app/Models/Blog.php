@@ -9,6 +9,7 @@ use App\Helpers\Constants;
 use App\Traits\CLogsActivity;
 use App\Traits\HasCategory;
 use App\Traits\HasComment;
+use App\Traits\HasModelCache;
 use App\Traits\HasScheduledPublishing;
 use App\Traits\HasSeoOption;
 use App\Traits\HasSlugFromTranslation;
@@ -35,6 +36,7 @@ class Blog extends Model implements HasMedia
     use HasCategory;
     use HasComment;
     use HasFactory;
+    use HasModelCache;
     use HasScheduledPublishing;
     use HasSeoOption;
     use HasSlugFromTranslation;

@@ -43,6 +43,15 @@ final class SessionTable extends PowerGridComponent
         return $setup;
     }
 
+    protected function queryString(): array
+    {
+        return [
+            'search' => ['except' => ''],
+            'page'   => ['except' => 1],
+            ...$this->powerGridQueryString(),
+        ];
+    }
+
     #[Computed(persist: true)]
     public function breadcrumbs(): array
     {

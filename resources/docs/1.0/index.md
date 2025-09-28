@@ -1,2 +1,3 @@
 - ## Get Started
     - [Overview](/{{route}}/{{version}}/overview)
+    - [SmartCache](/{{route}}/{{version}}/smart-cache)
