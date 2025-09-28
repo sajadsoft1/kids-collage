@@ -14,6 +14,7 @@ use App\Models\Tag;
 use App\Models\User;
 use App\Sorts\MostCommentSort;
 use App\Sorts\MostWishSort;
+use App\Traits\HasViewTracking;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -27,6 +28,8 @@ use Throwable;
 
 class BlogController extends Controller
 {
+    use HasViewTracking;
+
     public function __construct()
     {
         //        $this->middleware('auth:sanctum');
@@ -302,6 +305,7 @@ class BlogController extends Controller
      */
     public function show(Blog $blog): JsonResponse
     {
+        $this->recordView($blog);
         return Response::data(
             [
                 'blog' => BlogDetailResource::make($blog->load(['user', 'category', 'media','seoOption'])),
