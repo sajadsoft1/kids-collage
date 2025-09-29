@@ -15,11 +15,11 @@ enum CourseStatus: string
     public function label(): string
     {
         return match ($this) {
-            self::DRAFT     => 'Draft',
-            self::SCHEDULED => 'Scheduled',
-            self::ACTIVE    => 'Active',
-            self::FINISHED  => 'Finished',
-            self::CANCELLED => 'Cancelled',
+            self::DRAFT     => trans('course.enum.status.draft'),
+            self::SCHEDULED => trans('course.enum.status.scheduled'),
+            self::ACTIVE    => trans('course.enum.status.active'),
+            self::FINISHED  => trans('course.enum.status.finished'),
+            self::CANCELLED => trans('course.enum.status.cancelled'),
         };
     }
 

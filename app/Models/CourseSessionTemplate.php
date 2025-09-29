@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Traits\HasTranslationAuto;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,28 +17,29 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * SessionTemplate Model
  *
- * Represents a lesson inside a course template (e.g. Lesson 1: Alphabet).
+ * Represents a lesson inside a course template (e.g., Lesson 1: Alphabet).
  * This defines the structure and content of individual sessions that will
  * be instantiated for specific course runs.
  *
- * @property int                 $id
- * @property int                 $course_template_id
- * @property int                 $order
- * @property string              $title
- * @property string              $description
- * @property string|null         $description
- * @property int                 $duration_minutes
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
- * @property \Carbon\Carbon|null $deleted_at
+ * @property int                                 $id
+ * @property int                                 $course_template_id
+ * @property int                                 $order
+ * @property string                              $title
+ * @property string                              $description
+ * @property int                                 $duration_minutes
+ * @property Carbon|null                         $created_at
+ * @property Carbon|null                         $updated_at
+ * @property Carbon|null                         $deleted_at
  *
- * @property-read CourseTemplate $courseTemplate
- * @property-read \Illuminate\Database\Eloquent\Collection<int, Session> $sessions
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Resource> $resources
+ * @property-read CourseTemplate                 $courseTemplate
+ * @property-read Collection<int, CourseSession> $sessions
+ * @property-read Collection<int, Resource>      $resources
  */
-class SessionTemplate extends Model
+class CourseSessionTemplate extends Model
 {
-    use HasFactory, HasTranslationAuto, SoftDeletes;
+    use HasTranslationAuto, SoftDeletes;
+
+    protected $table = 'course_session_templates';
 
     public array $translatable = [
         'title',
@@ -47,9 +50,11 @@ class SessionTemplate extends Model
         'course_template_id',
         'order',
         'duration_minutes',
+        'languages',
     ];
 
     protected $casts = [
+        'order' => 'integer',
         'duration_minutes' => 'integer',
         'languages'        => 'array',
     ];
@@ -63,7 +68,7 @@ class SessionTemplate extends Model
     /** Get the sessions that are instances of this template. */
     public function sessions(): HasMany
     {
-        return $this->hasMany(Session::class);
+        return $this->hasMany(CourseSession::class);
     }
 
     /** Get the fixed lesson resources for this session template. */
@@ -81,7 +86,7 @@ class SessionTemplate extends Model
     /** Get formatted duration string. */
     public function getFormattedDurationAttribute(): string
     {
-        $hours   = floor($this->duration_minutes / 60);
+        $hours = floor($this->duration_minutes / 60);
         $minutes = $this->duration_minutes % 60;
 
         if ($hours > 0) {
@@ -100,7 +105,7 @@ class SessionTemplate extends Model
     }
 
     /** Get the previous session template in the course. */
-    public function previousSession(): ?SessionTemplate
+    public function previousSession(): ?CourseSessionTemplate
     {
         return $this->courseTemplate
             ->sessionTemplates()
@@ -110,7 +115,7 @@ class SessionTemplate extends Model
     }
 
     /** Get the next session template in the course. */
-    public function nextSession(): ?SessionTemplate
+    public function nextSession(): ?CourseSessionTemplate
     {
         return $this->courseTemplate
             ->sessionTemplates()

@@ -50,27 +50,19 @@ class StoreCourseAction
                 'level'         => Arr::get($payload, 'level'),
                 'prerequisites' => Arr::get($payload, 'prerequisites'),
                 'is_self_paced' => Arr::get($payload, 'is_self_paced'),
+                'type'               => Arr::get($payload, 'type'),
             ]);
 
-            $this->syncTranslationAction->handle($courseTemplate, Arr::only($payload, ['title', 'description']));
+            $this->syncTranslationAction->handle($courseTemplate, Arr::only($payload, ['title', 'description', 'body']));
 
-            $model = Course::create(Arr::only([
+            $model = Course::create([
                 'course_template_id' => $courseTemplate->id,
                 'term_id'            => Arr::get($payload, 'term_id'),
                 'teacher_id'         => Arr::get($payload, 'teacher_id'),
                 'capacity'           => Arr::get($payload, 'capacity'),
                 'price'              => Arr::get($payload, 'price', 0),
-                'type'               => Arr::get($payload, 'type'),
                 'status'             => Arr::get($payload, 'status'),
-                'days_of_week'       => Arr::get($payload, 'days_of_week'),
-                'start_time'         => Arr::get($payload, 'start_time'),
-                'end_time'           => Arr::get($payload, 'end_time'),
-                'room_id'            => Arr::get($payload, 'room_id'),
-                'meeting_link'       => Arr::get($payload, 'meeting_link'),
-            ], [
-                'course_template_id', 'term_id', 'teacher_id', 'capacity', 'price', 'type', 'status',
-                'days_of_week', 'start_time', 'end_time', 'room_id', 'meeting_link',
-            ]));
+            ]);
 
             $this->syncTranslationAction->handle($model, Arr::only($payload, ['title', 'description', 'body']));
 

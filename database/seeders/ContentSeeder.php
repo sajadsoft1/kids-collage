@@ -27,7 +27,6 @@ class ContentSeeder extends Seeder
             FaqSeeder::class,       // Frequently asked questions
             OpinionSeeder::class,   // User opinions and testimonials
             BulletinSeeder::class,  // Announcements and bulletins (depends on categories)
-            KarnoSeeder::class,     // Persian content and components from karno data
         ]);
 
         $this->command->info('✅ Content seeded successfully!');

@@ -21,19 +21,19 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int                 $id
  * @property string              $title
  * @property string              $description
- * @property int|null            $category_id
- * @property string|null         $level
- * @property array|null          $prerequisites
- * @property bool                $is_self_paced
- * @property array|null          $languages
- * @property array|null          $syllabus
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
- * @property \Carbon\Carbon|null $deleted_at
+ * @property int|null                                                                  $category_id
+ * @property string|null                                                               $level
+ * @property array|null                                                                $prerequisites
+ * @property bool                                                                      $is_self_paced
+ * @property array|null                                                                $languages
+ * @property array|null                                                                $syllabus
+ * @property \Carbon\Carbon|null                                                       $created_at
+ * @property \Carbon\Carbon|null                                                       $updated_at
+ * @property \Carbon\Carbon|null                                                       $deleted_at
  *
- * @property-read \Illuminate\Database\Eloquent\Collection<int, SessionTemplate> $sessionTemplates
- * @property-read \Illuminate\Database\Eloquent\Collection<int, Course> $courses
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Resource> $resources
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, CourseSessionTemplate> $sessionTemplates
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Course>                $courses
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Resource>  $resources
  */
 class CourseTemplate extends Model
 {
@@ -46,23 +46,31 @@ class CourseTemplate extends Model
     ];
 
     protected $fillable = [
+        'slug',
         'category_id',
         'level',
         'prerequisites',
         'is_self_paced',
+        'type',
+        'view_count',
+        'comment_count',
+        'wish_count',
+        'languages',
     ];
 
     protected $casts = [
-        'languages'     => 'array',
         'prerequisites' => 'array',
         'is_self_paced' => 'boolean',
-        'syllabus'      => 'array',
+        'view_count' => 'integer',
+        'comment_count' => 'integer',
+        'wish_count' => 'integer',
+        'languages' => 'array',
     ];
 
     /** Get the session templates for this course template. */
     public function sessionTemplates(): HasMany
     {
-        return $this->hasMany(SessionTemplate::class)->orderBy('order');
+        return $this->hasMany(CourseSessionTemplate::class)->orderBy('order');
     }
 
     /** Get the courses that are instances of this template. */

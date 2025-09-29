@@ -28,6 +28,13 @@ return [
             'online'    => 'آنلاین',
             'hybrid'    => 'ترکیبی',
         ],
+        'status' => [
+            'draft'     => 'پیش‌نویس',
+            'scheduled' => 'زمان‌بندی شده',
+            'active'    => 'فعال',
+            'finished'  => 'اتمام یافته',
+            'cancelled' => 'لغو شده',
+        ],
     ],
     'notifications' => [
         'course_created' => 'دوره با موفقیت ایجاد شد',

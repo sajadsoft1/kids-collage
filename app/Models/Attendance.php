@@ -24,8 +24,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  *
- * @property-read Enrollment $enrollment
- * @property-read Session $session
+ * @property-read Enrollment     $enrollment
+ * @property-read CourseSession  $session
  */
 class Attendance extends Model
 {
@@ -55,7 +55,7 @@ class Attendance extends Model
     /** Get the session for this attendance. */
     public function session(): BelongsTo
     {
-        return $this->belongsTo(Session::class);
+        return $this->belongsTo(CourseSession::class);
     }
 
     /** Get the duration of attendance in minutes. */

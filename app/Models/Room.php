@@ -15,16 +15,16 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * Physical location for in-person/hybrid courses.
  * Represents classrooms, labs, or other physical spaces where courses can be held.
  *
- * @property int                 $id
- * @property string              $name
- * @property int                 $capacity
- * @property string|null         $location
- * @property array|null          $languages
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
+ * @property int                                                               $id
+ * @property string                                                            $name
+ * @property int                                                               $capacity
+ * @property string|null                                                       $location
+ * @property array|null                                                        $languages
+ * @property \Carbon\Carbon|null                                               $created_at
+ * @property \Carbon\Carbon|null                                               $updated_at
  *
- * @property-read \Illuminate\Database\Eloquent\Collection<int, Course> $courses
- * @property-read \Illuminate\Database\Eloquent\Collection<int, Session> $sessions
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Course>        $courses
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, CourseSession> $sessions
  */
 class Room extends Model
 {
@@ -51,7 +51,7 @@ class Room extends Model
     /** Get the sessions that are held in this room. */
     public function sessions(): HasMany
     {
-        return $this->hasMany(Session::class);
+        return $this->hasMany(CourseSession::class);
     }
 
     /** Check if this room supports a specific language. */

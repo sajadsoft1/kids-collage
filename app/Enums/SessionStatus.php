@@ -13,9 +13,9 @@ enum SessionStatus: string
     public function label(): string
     {
         return match ($this) {
-            self::PLANNED   => 'Planned',
-            self::DONE      => 'Done',
-            self::CANCELLED => 'Cancelled',
+            self::PLANNED   => trans('session.enum.status.planned'),
+            self::DONE      => trans('session.enum.status.done'),
+            self::CANCELLED => trans('session.enum.status.cancelled'),
         };
     }
 

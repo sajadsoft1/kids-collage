@@ -17,24 +17,24 @@ class CourseSeeder extends Seeder
         $data = require database_path('seeders/data/karno_lms.php');
         foreach ($data['course'] as $row) {
             $model = StoreCourseAction::run([
-                'slug'        => StringHelper::slug($row['title']),
-                'user_id'     => 1,
-                'title'       => $row['title'],
-                'description' => $row['description'],
-                'body'        => $row['body'],
-                'teacher_id'  => $row['teacher_id'],
-                'category_id' => $row['category_id'],
-                'price'       => $row['price'],
-                'type'        => $row['type'],
-                'start_date'  => $row['start_date'],
-                'end_date'    => $row['end_date'],
-                'languages'   => $row['languages'],
+                'slug'          => StringHelper::slug($row['title']),
+                'user_id'       => 1,
+                'title'         => $row['title'],
+                'description'   => $row['description'],
+                'body'          => $row['body'],
+                'teacher_id'    => $row['teacher_id'],
+                'category_id'   => $row['category_id'],
+                'price'         => $row['price'],
+                'type'          => $row['type'],
+                'is_self_paced' => false,
+                'prerequisites' => [],
+                'languages'     => $row['languages'],
             ]);
 
             try {
                 $model->addMedia($row['path'])
-                    ->preservingOriginal()
-                    ->toMediaCollection('image');
+                      ->preservingOriginal()
+                      ->toMediaCollection('image');
             } catch (Exception) {
                 // do nothing
             }

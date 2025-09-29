@@ -25,22 +25,22 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Carbon\Carbon|null $date
  * @property \Carbon\Carbon|null $start_time
  * @property \Carbon\Carbon|null $end_time
- * @property int|null            $room_id
- * @property string|null         $meeting_link
- * @property string|null         $recording_link
- * @property SessionStatus       $status
- * @property SessionType         $session_type
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
- * @property \Carbon\Carbon|null $deleted_at
+ * @property int|null                                                                 $room_id
+ * @property string|null                                                              $meeting_link
+ * @property string|null                                                              $recording_link
+ * @property SessionStatus                                                            $status
+ * @property SessionType                                                              $session_type
+ * @property \Carbon\Carbon|null                                                      $created_at
+ * @property \Carbon\Carbon|null                                                      $updated_at
+ * @property \Carbon\Carbon|null                                                      $deleted_at
  *
- * @property-read Course $course
- * @property-read SessionTemplate $sessionTemplate
- * @property-read Room|null $room
- * @property-read \Illuminate\Database\Eloquent\Collection<int, Attendance> $attendances
+ * @property-read Course                                                              $course
+ * @property-read CourseSessionTemplate                                               $sessionTemplate
+ * @property-read Room|null                                                           $room
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Attendance>           $attendances
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Resource> $resources
  */
-class Session extends Model
+class CourseSession extends Model
 {
     use HasFactory, SoftDeletes;
 
@@ -49,7 +49,7 @@ class Session extends Model
 
     protected $fillable = [
         'course_id',
-        'session_template_id',
+        'course_session_template_id',
         'date',
         'start_time',
         'end_time',
@@ -61,11 +61,12 @@ class Session extends Model
     ];
 
     protected $casts = [
-        'date'         => 'date',
-        'start_time'   => 'datetime:H:i',
-        'end_time'     => 'datetime:H:i',
-        'status'       => SessionStatus::class,
-        'session_type' => SessionType::class,
+        'course_id' => 'integer',
+        'course_session_template_id' => 'integer',
+        'date' => 'date',
+        'start_time' => 'datetime:H:i:s',
+        'end_time' => 'datetime:H:i:s',
+        'room_id' => 'integer',
     ];
 
     /** Get the course that this session belongs to. */
@@ -77,7 +78,7 @@ class Session extends Model
     /** Get the session template that this session is based on. */
     public function sessionTemplate(): BelongsTo
     {
-        return $this->belongsTo(SessionTemplate::class);
+        return $this->belongsTo(CourseSessionTemplate::class);
     }
 
     /** Get the room for this session. */
@@ -262,7 +263,7 @@ class Session extends Model
     }
 
     /** Check if this session conflicts with another session. */
-    public function conflictsWith(Session $other): bool
+    public function conflictsWith(CourseSession $other): bool
     {
         // Can't conflict if no date/time
         if ( ! $this->date || ! $other->date) {

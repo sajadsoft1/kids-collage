@@ -6,7 +6,7 @@ namespace App\Livewire\Admin\Pages\Session;
 
 use App\Helpers\PowerGridHelper;
 use App\Models\Course;
-use App\Models\Session;
+use App\Models\CourseSession;
 use App\Traits\PowerGridHelperTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\View\View;
@@ -71,7 +71,7 @@ final class SessionTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Session::query()->where('course_id', $this->course->id);
+        return CourseSession::query()->where('course_id', $this->course->id);
     }
 
     public function relationSearch(): array
@@ -111,7 +111,7 @@ final class SessionTable extends PowerGridComponent
         ];
     }
 
-    public function actions(Session $row): array
+    public function actions(CourseSession $row): array
     {
         return [
             PowerGridHelper::btnTranslate($row),

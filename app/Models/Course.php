@@ -32,19 +32,19 @@ use Illuminate\Support\Facades\DB;
  * @property array|null          $days_of_week
  * @property \Carbon\Carbon|null $start_time
  * @property \Carbon\Carbon|null $end_time
- * @property int|null            $room_id
- * @property string|null         $meeting_link
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
- * @property \Carbon\Carbon|null $deleted_at
+ * @property int|null                                                          $room_id
+ * @property string|null                                                       $meeting_link
+ * @property \Carbon\Carbon|null                                               $created_at
+ * @property \Carbon\Carbon|null                                               $updated_at
+ * @property \Carbon\Carbon|null                                               $deleted_at
  *
- * @property-read CourseTemplate $template
- * @property-read Term $term
- * @property-read User $teacher
- * @property-read Room|null $room
- * @property-read \Illuminate\Database\Eloquent\Collection<int, Session> $sessions
- * @property-read \Illuminate\Database\Eloquent\Collection<int, Enrollment> $enrollments
- * @property-read OrderItem|null $orderItem
+ * @property-read CourseTemplate                                               $template
+ * @property-read Term                                                         $term
+ * @property-read User                                                         $teacher
+ * @property-read Room|null                                                    $room
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, CourseSession> $sessions
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Enrollment>    $enrollments
+ * @property-read OrderItem|null                                               $orderItem
  */
 class Course extends Model
 {
@@ -60,25 +60,17 @@ class Course extends Model
         'course_template_id',
         'term_id',
         'teacher_id',
-        'capacity',
         'price',
-        'type',
+        'capacity',
         'status',
-        'days_of_week',
-        'start_time',
-        'end_time',
-        'room_id',
-        'meeting_link',
     ];
 
     protected $casts = [
-        'capacity'     => 'integer',
-        'price'        => 'decimal:2',
-        'type'         => CourseType::class,
-        'status'       => CourseStatus::class,
-        'days_of_week' => 'array',
-        'start_time'   => 'datetime:H:i',
-        'end_time'     => 'datetime:H:i',
+        'course_template_id' => 'integer',
+        'term_id' => 'integer',
+        'teacher_id' => 'integer',
+        'price' => 'float',
+        'capacity' => 'integer',
     ];
 
     /** Get the course template that this course is based on. */
@@ -108,7 +100,7 @@ class Course extends Model
     /** Get the sessions for this course. */
     public function sessions(): HasMany
     {
-        return $this->hasMany(Session::class);
+        return $this->hasMany(CourseSession::class);
     }
 
     /** Get the enrollments for this course. */

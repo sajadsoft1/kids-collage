@@ -94,7 +94,7 @@ class ActivityLog extends Model
         return in_array($this->subject_type, [
             Course::class,
             Enrollment::class,
-            Session::class,
+            CourseSession::class,
             Attendance::class,
             Certificate::class,
         ]);
@@ -134,7 +134,7 @@ class ActivityLog extends Model
             return $this->subject->course ?? null;
         }
 
-        if ($this->subject_type === Session::class) {
+        if ($this->subject_type === CourseSession::class) {
             return $this->subject->course ?? null;
         }
 
@@ -168,9 +168,9 @@ class ActivityLog extends Model
     }
 
     /** Get the session associated with this activity. */
-    public function getSessionAttribute(): ?Session
+    public function getSessionAttribute(): ?CourseSession
     {
-        if ($this->subject_type === Session::class) {
+        if ($this->subject_type === CourseSession::class) {
             return $this->subject;
         }
 
@@ -244,7 +244,7 @@ class ActivityLog extends Model
         return $query->whereIn('subject_type', [
             Course::class,
             Enrollment::class,
-            Session::class,
+            CourseSession::class,
             Attendance::class,
             Certificate::class,
         ]);
@@ -317,7 +317,7 @@ class ActivityLog extends Model
             ->where('created_at', '>=', now()->subDays($days))
             ->where(function ($q) use ($courseId) {
                 $q->bySubject(Course::class, $courseId)
-                    ->orWhereHasMorph('subject', [Enrollment::class, Session::class, Attendance::class, Certificate::class], function ($subQ) use ($courseId) {
+                    ->orWhereHasMorph('subject', [Enrollment::class, CourseSession::class, Attendance::class, Certificate::class], function ($subQ) use ($courseId) {
                         $subQ->where('course_id', $courseId);
                     });
             });

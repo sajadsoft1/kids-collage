@@ -14,7 +14,7 @@ return new class extends Migration {
         Schema::create('course_sessions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('course_id')->constrained('courses')->cascadeOnDelete();
-            $table->foreignId('session_template_id')->constrained('session_templates')->cascadeOnDelete();
+            $table->foreignId('course_session_template_id')->constrained('course_session_templates')->cascadeOnDelete();
             $table->date('date')->nullable();
             $table->time('start_time')->nullable();
             $table->time('end_time')->nullable();
@@ -28,7 +28,7 @@ return new class extends Migration {
 
             // Add indexes
             $table->index(['course_id', 'date']);
-            $table->index(['session_template_id']);
+            $table->index(['course_session_template_id']);
             $table->index('status');
             $table->index('session_type');
         });

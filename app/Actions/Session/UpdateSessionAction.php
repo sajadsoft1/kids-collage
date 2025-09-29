@@ -3,7 +3,7 @@
 namespace App\Actions\Session;
 
 use App\Actions\Translation\SyncTranslationAction;
-use App\Models\Session;
+use App\Models\CourseSession;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Lorisleiva\Actions\Concerns\AsAction;
@@ -19,18 +19,33 @@ class UpdateSessionAction
 
 
     /**
-     * @param Session $session
+     * @param CourseSession $session
      * @param array{
-     *     title:string,
-     *     description:string
-     * }               $payload
-     * @return Session
+     *     date:string|null,
+     *     start_time:string|null,
+     *     end_time:string|null,
+     *     room_id:int|null,
+     *     meeting_link:string|null,
+     *     recording_link:string|null,
+     *     status:string,
+     *     session_type:string
+     * } $payload
+     * @return CourseSession
      * @throws Throwable
      */
-    public function handle(Session $session, array $payload): Session
+    public function handle(CourseSession $session, array $payload): CourseSession
     {
         return DB::transaction(function () use ($session, $payload) {
-            $session->update($payload);
+            $session->update(Arr::only($payload, [
+                'date',
+                'start_time',
+                'end_time',
+                'room_id',
+                'meeting_link',
+                'recording_link',
+                'status',
+                'session_type',
+            ]));
             $this->syncTranslationAction->handle($session, Arr::only($payload, ['title', 'description']));
 
             return $session->refresh();

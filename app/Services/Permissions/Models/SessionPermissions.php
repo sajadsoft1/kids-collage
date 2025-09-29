@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Permissions\Models;
 
-use App\Models\Session;
+use App\Models\CourseSession;
 
 class SessionPermissions extends BasePermissions
 {
@@ -17,5 +17,5 @@ class SessionPermissions extends BasePermissions
     public const Delete  = "Session.Delete";
     public const Restore = "Session.Restore";
 
-    protected string $model = Session::class;
+    protected string $model = CourseSession::class;
 }

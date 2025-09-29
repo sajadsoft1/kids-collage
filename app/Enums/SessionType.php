@@ -13,9 +13,9 @@ enum SessionType: string
     public function label(): string
     {
         return match ($this) {
-            self::IN_PERSON => 'In Person',
-            self::ONLINE    => 'Online',
-            self::HYBRID    => 'Hybrid',
+            self::IN_PERSON => trans('session.enum.type.in_person'),
+            self::ONLINE    => trans('session.enum.type.online'),
+            self::HYBRID    => trans('session.enum.type.hybrid'),
         };
     }
 }

@@ -21,14 +21,13 @@ class LmsSeeder extends Seeder
         $this->command->info('🎓 Seeding LMS (Learning Management System)...');
 
         $this->call([
-            RoomSeeder::class,        // Classrooms and learning spaces
-            // Note: CourseSeeder, SessionSeeder, EnrollmentSeeder, AttendanceSeeder,
-            // OrderSeeder, PaymentSeeder, InstallmentSeeder are temporarily skipped
-            // as they target old schema. They can be re-enabled once updated.
+            RoomSeeder::class,
+            CourseSeeder::class,
+//            SessionSeeder::class,
+//            EnrollmentSeeder::class,
+//            AttendanceSeeder::class,
         ]);
 
         $this->command->info('✅ LMS seeded successfully!');
-        $this->command->warn('⚠️  Some LMS seeders are temporarily disabled due to schema changes.');
-        $this->command->info('💡 To enable full LMS seeding, update the legacy seeders to match new schema.');
     }
 }

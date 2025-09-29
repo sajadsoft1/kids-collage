@@ -121,7 +121,7 @@ class User extends Authenticatable implements HasMedia
     // classes taught by the user (if the user is a teacher)
     public function taughtClasses(): HasMany
     {
-        return $this->hasMany(Session::class, 'teacher_id');
+        return $this->hasMany(CourseSession::class, 'teacher_id');
     }
 
     public function orders(): HasMany

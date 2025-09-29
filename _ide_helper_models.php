@@ -37,7 +37,7 @@ namespace App\Models{
  * @property-read \App\Models\Enrollment|null $enrollment
  * @property-read string $formatted_description
  * @property-read string $icon
- * @property-read \App\Models\Session|null $session
+ * @property-read \App\Models\CourseSession|null $session
  * @property-read string $time_ago
  * @property-read \App\Models\User|null $user
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ActivityLog byBatch(string $batchUuid)
@@ -74,7 +74,7 @@ namespace App\Models{
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @property-read Enrollment $enrollment
- * @property-read Session $session
+ * @property-read CourseSession $session
  * @property-read int|null $duration
  * @property-read int $early_departure_minutes
  * @property-read string|null $formatted_duration
@@ -789,14 +789,14 @@ namespace App\Models{
  * @property-read Term $term
  * @property-read User $teacher
  * @property-read Room|null $room
- * @property-read \Illuminate\Database\Eloquent\Collection<int, Session> $sessions
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, CourseSession> $sessions
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Enrollment> $enrollments
  * @property-read OrderItem|null $orderItem
  * @property int $user_id
  * @property int|null $category_id
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Enrollment> $activeEnrollments
  * @property-read int|null $active_enrollments_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Session> $completedSessions
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\CourseSession> $completedSessions
  * @property-read int|null $completed_sessions_count
  * @property-read int|null $enrollments_count
  * @property-read int $available_spots
@@ -868,7 +868,7 @@ namespace App\Models{
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @property \Carbon\Carbon|null $deleted_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, SessionTemplate> $sessionTemplates
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, CourseSessionTemplate> $sessionTemplates
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Course> $courses
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Resource> $resources
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Course> $activeCourses
@@ -1453,7 +1453,7 @@ namespace App\Models{
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Course> $courses
- * @property-read \Illuminate\Database\Eloquent\Collection<int, Session> $sessions
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, CourseSession> $sessions
  * @property-read int|null $courses_count
  * @property-read string $full_location
  * @property-read int|null $sessions_count
@@ -1533,7 +1533,7 @@ namespace App\Models{
  * @property \Carbon\Carbon|null $updated_at
  * @property \Carbon\Carbon|null $deleted_at
  * @property-read Course $course
- * @property-read SessionTemplate $sessionTemplate
+ * @property-read CourseSessionTemplate $sessionTemplate
  * @property-read Room|null $room
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Attendance> $attendances
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Resource> $resources
@@ -1551,39 +1551,39 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Attendance> $presentAttendances
  * @property-read int|null $present_attendances_count
  * @property-read int|null $resources_count
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Session byDateRange(\Carbon\Carbon $startDate, \Carbon\Carbon $endDate)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Session byRoom(int $roomId)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Session byType(\App\Enums\SessionType $type)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Session cancelled()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Session completed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession byDateRange(\Carbon\Carbon $startDate, \Carbon\Carbon $endDate)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession byRoom(int $roomId)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession byType(\App\Enums\SessionType $type)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession cancelled()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession completed()
  * @method static \Database\Factories\SessionFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Session hybrid()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Session inPerson()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Session newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Session newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Session online()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Session onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Session planned()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Session query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Session thisWeek()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Session today()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Session whereCourseId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Session whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Session whereDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Session whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Session whereEndTime($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Session whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Session whereMeetingLink($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Session whereRecordingLink($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Session whereRoomId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Session whereSessionTemplateId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Session whereSessionType($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Session whereStartTime($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Session whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Session whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Session withRecordings()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Session withTrashed(bool $withTrashed = true)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Session withoutTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession hybrid()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession inPerson()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession online()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession planned()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession thisWeek()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession today()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession whereCourseId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession whereDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession whereEndTime($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession whereMeetingLink($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession whereRecordingLink($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession whereRoomId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession whereSessionTemplateId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession whereSessionType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession whereStartTime($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession withRecordings()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession withTrashed(bool $withTrashed = true)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession withoutTrashed()
  */
 	class Session extends \Eloquent {}
 }
@@ -1607,7 +1607,7 @@ namespace App\Models{
  * @property \Carbon\Carbon|null $updated_at
  * @property \Carbon\Carbon|null $deleted_at
  * @property-read CourseTemplate $courseTemplate
- * @property-read \Illuminate\Database\Eloquent\Collection<int, Session> $sessions
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, CourseSession> $sessions
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Resource> $resources
  * @property array<array-key, mixed>|null $languages
  * @property-read float $duration_hours
@@ -1618,24 +1618,24 @@ namespace App\Models{
  * @property-read int|null $translations_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translationsPure
  * @property-read int|null $translations_pure_count
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate byDurationRange(int $minMinutes, int $maxMinutes)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate longerThan(int $minutes)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate ordered()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate search($keyword)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate whereCourseTemplateId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate whereDurationMinutes($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate whereLanguages($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate whereOrder($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate withTrashed(bool $withTrashed = true)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate withoutTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSessionTemplate byDurationRange(int $minMinutes, int $maxMinutes)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSessionTemplate longerThan(int $minutes)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSessionTemplate newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSessionTemplate newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSessionTemplate onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSessionTemplate ordered()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSessionTemplate query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSessionTemplate search($keyword)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSessionTemplate whereCourseTemplateId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSessionTemplate whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSessionTemplate whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSessionTemplate whereDurationMinutes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSessionTemplate whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSessionTemplate whereLanguages($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSessionTemplate whereOrder($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSessionTemplate whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSessionTemplate withTrashed(bool $withTrashed = true)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSessionTemplate withoutTrashed()
  */
 	class SessionTemplate extends \Eloquent {}
 }
@@ -2050,7 +2050,7 @@ namespace App\Models{
  * @property-read int|null $reviewing_cards_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Role> $roles
  * @property-read int|null $roles_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Session> $taughtClasses
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\CourseSession> $taughtClasses
  * @property-read int|null $taught_classes_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count

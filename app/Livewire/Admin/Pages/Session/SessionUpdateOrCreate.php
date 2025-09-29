@@ -7,7 +7,7 @@ namespace App\Livewire\Admin\Pages\Session;
 use App\Actions\Session\StoreSessionAction;
 use App\Actions\Session\UpdateSessionAction;
 use App\Models\Course;
-use App\Models\Session;
+use App\Models\CourseSession;
 use Illuminate\View\View;
 use Livewire\Component;
 use Mary\Traits\Toast;
@@ -16,13 +16,13 @@ class SessionUpdateOrCreate extends Component
 {
     use Toast;
 
-    public Session $model;
-    public Course $course;
+    public CourseSession $model;
+    public Course        $course;
     public string $title       = '';
     public string $description = '';
     public bool $published     = false;
 
-    public function mount(Course $course, Session $session): void
+    public function mount(Course $course, CourseSession $session): void
     {
         $this->model = $session;
         if ($this->model->id) {

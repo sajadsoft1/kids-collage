@@ -9,12 +9,12 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('session_templates', function (Blueprint $table) {
+        Schema::create('course_session_templates', function (Blueprint $table) {
             $table->id();
             $table->foreignId('course_template_id')->constrained('course_templates')->cascadeOnDelete();
             $table->unsignedInteger('order');
-            $table->json('languages')->nullable();
             $table->unsignedInteger('duration_minutes');
+            $table->json('languages')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
@@ -26,6 +26,6 @@ return new class extends Migration {
 
     public function down(): void
     {
-        Schema::dropIfExists('session_templates');
+        Schema::dropIfExists('course_session_templates');
     }
 };

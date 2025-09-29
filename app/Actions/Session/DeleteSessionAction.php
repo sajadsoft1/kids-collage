@@ -2,7 +2,7 @@
 
 namespace App\Actions\Session;
 
-use App\Models\Session;
+use App\Models\CourseSession;
 use Illuminate\Support\Facades\DB;
 use Lorisleiva\Actions\Concerns\AsAction;
 use Throwable;
@@ -14,7 +14,7 @@ class DeleteSessionAction
     /**
      * @throws Throwable
      */
-    public function handle(Session $session): bool
+    public function handle(CourseSession $session): bool
     {
         return DB::transaction(function () use ($session) {
             return $session->delete();

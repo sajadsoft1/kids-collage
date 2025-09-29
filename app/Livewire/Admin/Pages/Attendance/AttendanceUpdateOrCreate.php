@@ -8,7 +8,7 @@ use App\Actions\Attendance\StoreAttendanceAction;
 use App\Actions\Attendance\UpdateAttendanceAction;
 use App\Models\Attendance;
 use App\Models\Enrollment;
-use App\Models\Session;
+use App\Models\CourseSession;
 use Illuminate\View\View;
 use Livewire\Component;
 use Mary\Traits\Toast;
@@ -80,7 +80,7 @@ class AttendanceUpdateOrCreate extends Component
         return view('livewire.admin.pages.attendance.attendance-update-or-create', [
             'edit_mode'          => $this->model->id,
             'enrollments'        => Enrollment::with('user')->get()->map(fn ($item) => ['name' => $item->user->name, 'id' => $item->id])->toArray(),
-            'sessions'           => Session::with('course')->get()->map(fn ($item) => ['name' => $item->course->title, 'id' => $item->id])->toArray(),
+            'sessions'           => CourseSession::with('course')->get()->map(fn ($item) => ['name' => $item->course->title, 'id' => $item->id])->toArray(),
             'breadcrumbs'        => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
                 ['link'  => route('admin.attendance.index'), 'label' => trans('general.page.index.title', ['model' => trans('attendance.model')])],

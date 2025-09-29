@@ -7,7 +7,7 @@ namespace App\Livewire\Admin\Pages\Attendance;
 use App\Helpers\PowerGridHelper;
 use App\Models\Attendance;
 use App\Models\Enrollment;
-use App\Models\Session;
+use App\Models\CourseSession;
 use App\Services\Permissions\PermissionsService;
 use App\Traits\PowerGridHelperTrait;
 use Illuminate\Database\Eloquent\Builder;
@@ -149,7 +149,7 @@ final class AttendanceTable extends PowerGridComponent
                 })->toArray())->optionLabel('label')->optionValue('value'),
 
             Filter::select('session_formatted', 'session_id')
-                ->dataSource(Session::with('course')->get()->map(function ($session) {
+                ->dataSource(CourseSession::with('course')->get()->map(function ($session) {
                     return [
                         'value' => $session->id,
                         'label' => $session->course->title,

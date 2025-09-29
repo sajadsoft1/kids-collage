@@ -13,38 +13,57 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->command->info('🚀 Starting database seeding process...');
-        $this->command->info('');
 
-        // 1. System Defaults - Core system requirements
+        // 1. System Defaults - Core system requirements:
+        // - RolePermissionSeeder,
+        // - AdminSeeder,
+        // - SettingSeeder
         $this->call(SystemDefaultsSeeder::class);
-        $this->command->info('');
 
-        // 2. Website Requirements - Essential website functionality
+        // 2. Website Requirements - Essential website functionality:
+        // - UserSeeder
+        // - BannerSeeder
+        // - SliderSeeder
+        // - ClientSeeder
+        // - TeammateSeeder
+        // - ContactUsSeeder
+        // - SocialMediaSeeder
+        // - TicketSeeder
+        // - LicenseSeeder
         $this->call(WebsiteRequirementsSeeder::class);
-        $this->command->info('');
 
-        // 3. Content - Blog posts, categories, and user-generated content
+        // 3. Content
+        // - CategorySeeder
+        // - BlogSeeder
+        // - CommentSeeder
+        // - FaqSeeder
+        // - OpinionSeeder
+        // - BulletinSeeder
         $this->call(ContentSeeder::class);
-        $this->command->info('');
 
-        // 4. Kanban System - Project management functionality
+        // 4. Kanban System — Project management functionality
+        // - KanbanUserSeeder
+        // - KanbanBoardSeeder
+        // - KanbanColumnSeeder
+        // - KanbanCardSeeder
         $this->call(KanbanSystemSeeder::class);
-        $this->command->info('');
 
         // 5. LMS - Learning Management System
+        // - RoomSeeder
+        // - CourseSeeder
+        // - SessionSeeder
+        // - EnrollmentSeeder
+        // - AttendanceSeeder
         $this->call(LmsSeeder::class);
-        $this->command->info('');
 
-        $this->command->info('🎉 Database seeding completed successfully!');
-        $this->command->info('');
-        $this->command->info('📋 Summary of seeded data:');
-        $this->command->info('   ✅ System defaults (roles, admin user, settings)');
-        $this->command->info('   ✅ Website requirements (users, banners, sliders, etc.)');
-        $this->command->info('   ✅ Content (blogs, categories, comments, FAQs)');
-        $this->command->info('   ✅ Kanban system (project management boards)');
-        $this->command->info('   ✅ LMS infrastructure (rooms, course templates)');
-        $this->command->info('');
-        $this->command->info('🔑 Login credentials: admin@example.com / password');
+        // 6. Financial System — Financial management functionality.
+        // - OrderSeeder
+        // - PaymentSeeder
+        // - InstallmentSeeder
+        $this->call(FinancialSeeder::class);
+
+
+        $this->command->info('🔑 Login credentials: developer@gmail.com / password');
 
         Artisan::call('optimize:clear');
     }
