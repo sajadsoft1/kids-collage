@@ -6,8 +6,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Filters\DateFilter;
 use App\Filters\FuzzyFilter;
+use App\Http\Resources\BannerResource;
 use App\Http\Resources\BlogDetailResource;
 use App\Http\Resources\BlogResource;
+use App\Models\Banner;
 use App\Models\Blog;
 use App\Models\Category;
 use App\Models\Tag;
@@ -309,5 +311,16 @@ class BlogController extends Controller
                 'blog' => BlogDetailResource::make($blog->load(['user', 'category', 'media','seoOption'])),
             ]
         );
+    }
+
+    public function extraData(Blog $blog)
+    {
+
+        $relatedBlogs = $blog->relatedBlogs();
+        $banners = Banner::latestBanner();
+        return Response::data([
+            'banners'      => BannerResource::collection($banners),
+            'relatedBlogs' => BlogResource::collection($relatedBlogs),
+        ]);
     }
 }

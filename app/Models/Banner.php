@@ -6,8 +6,10 @@ namespace App\Models;
 
 use App\Enums\BannerSizeEnum;
 use App\Enums\BooleanEnum;
+use App\Facades\SmartCache;
 use App\Helpers\Constants;
 use App\Traits\CLogsActivity;
+use App\Traits\HasModelCache;
 use App\Traits\HasScheduledPublishing;
 use App\Traits\HasTranslationAuto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -24,7 +26,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 class Banner extends Model implements HasMedia
 {
     use CLogsActivity, HasFactory, HasScheduledPublishing, HasTranslationAuto, InteractsWithMedia;
-
+    use HasModelCache;
     public array $translatable = [
         'title', 'description',
     ];
@@ -96,4 +98,14 @@ class Banner extends Model implements HasMedia
     /**
      * Model Custom Methods --------------------------------------------------------------------------
      */
+    public function latestBanner()
+    {
+        return SmartCache::for(__CLASS__)
+            ->key('latest_banners')
+            ->remember(function ()  {
+                return self::where('published', BooleanEnum::ENABLE->value)
+                    ->orderBy('id', 'desc')
+                    ->get();
+            },3600);
+    }
 }
