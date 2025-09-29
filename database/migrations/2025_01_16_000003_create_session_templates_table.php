@@ -13,8 +13,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('course_template_id')->constrained('course_templates')->cascadeOnDelete();
             $table->unsignedInteger('order');
-            $table->string('title');
-            $table->text('description')->nullable();
+            $table->json('languages')->nullable();
             $table->unsignedInteger('duration_minutes');
             $table->timestamps();
             $table->softDeletes();

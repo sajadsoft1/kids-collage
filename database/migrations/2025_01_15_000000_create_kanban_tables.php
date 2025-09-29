@@ -35,6 +35,7 @@ return new class extends Migration {
             $table->timestamps();
 
             $table->unique(['board_id', 'user_id']);
+            $table->index(['board_id', 'role'], 'board_user_board_role_index');
         });
 
         // Create columns table
@@ -49,6 +50,8 @@ return new class extends Migration {
             $table->boolean('is_active')->default(true);
             $table->timestamps();
             $table->softDeletes();
+
+            $table->index(['board_id', 'is_active', 'order'], 'columns_board_active_order_index');
         });
 
         // Create cards table
@@ -66,6 +69,12 @@ return new class extends Migration {
             $table->schemalessAttributes('extra_attributes'); // For storing type-specific data
             $table->timestamps();
             $table->softDeletes();
+
+            // Performance indexes
+            $table->index(['board_id', 'column_id'], 'cards_board_column_index');
+            $table->index(['column_id', 'order'], 'cards_column_order_index');
+            $table->index(['board_id', 'order'], 'cards_board_order_index');
+            $table->index('due_date', 'cards_due_date_index');
         });
 
         // Create card_user pivot table
@@ -77,6 +86,7 @@ return new class extends Migration {
             $table->timestamps();
 
             $table->unique(['card_id', 'user_id', 'role']);
+            $table->index(['card_id', 'role'], 'card_user_card_role_index');
         });
 
         // Create card_history table

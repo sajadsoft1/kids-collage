@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\TermStatus;
+use App\Traits\HasTranslationAuto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -18,6 +19,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * @property int                 $id
  * @property string              $title
+ * @property string              $description
  * @property \Carbon\Carbon      $start_date
  * @property \Carbon\Carbon      $end_date
  * @property TermStatus          $status
@@ -28,16 +30,21 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class Term extends Model
 {
-    use HasFactory;
+    use HasFactory, HasTranslationAuto;
+
+    public array $translatable = [
+        'title',
+        'description',
+    ];
 
     protected $fillable = [
-        'title',
         'start_date',
         'end_date',
         'status',
     ];
 
     protected $casts = [
+        'languages'  => 'array',
         'start_date' => 'date',
         'end_date'   => 'date',
         'status'     => TermStatus::class,

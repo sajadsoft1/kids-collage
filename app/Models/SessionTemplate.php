@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\HasTranslationAuto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -22,6 +23,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int                 $course_template_id
  * @property int                 $order
  * @property string              $title
+ * @property string              $description
  * @property string|null         $description
  * @property int                 $duration_minutes
  * @property \Carbon\Carbon|null $created_at
@@ -34,18 +36,22 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class SessionTemplate extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, HasTranslationAuto, SoftDeletes;
+
+    public array $translatable = [
+        'title',
+        'description',
+    ];
 
     protected $fillable = [
         'course_template_id',
         'order',
-        'title',
-        'description',
         'duration_minutes',
     ];
 
     protected $casts = [
         'duration_minutes' => 'integer',
+        'languages'        => 'array',
     ];
 
     /** Get the course template that owns this session template. */

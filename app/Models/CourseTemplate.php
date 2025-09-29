@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\HasTranslationAuto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -36,23 +37,25 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class CourseTemplate extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, HasTranslationAuto, SoftDeletes;
 
-    protected $fillable = [
+    public array $translatable = [
         'title',
         'description',
+        'body',
+    ];
+
+    protected $fillable = [
         'category_id',
         'level',
         'prerequisites',
         'is_self_paced',
-        'languages',
-        'syllabus',
     ];
 
     protected $casts = [
+        'languages'     => 'array',
         'prerequisites' => 'array',
         'is_self_paced' => 'boolean',
-        'languages'     => 'array',
         'syllabus'      => 'array',
     ];
 

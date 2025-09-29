@@ -12,11 +12,12 @@ return new class extends Migration {
     {
         Schema::create('terms', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->json('languages')->nullable();
             $table->date('start_date');
             $table->date('end_date');
             $table->string('status')->default(TermStatus::DRAFT->value);
             $table->timestamps();
+            $table->softDeletes();
 
             // Indexes for performance
             $table->index(['start_date', 'end_date']);

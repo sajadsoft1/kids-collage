@@ -15,10 +15,11 @@ class CourseSystemSeeder extends Seeder
     {
         // Create a default course template
         DB::table('course_templates')->insert([
-            'title'         => 'Default Course Template',
-            'description'   => 'Auto-generated template for the system',
             'category_id'   => null,
+            'level'         => 'beginner',
+            'prerequisites' => null,
             'is_self_paced' => false,
+            'languages'     => null,
             'created_at'    => now(),
             'updated_at'    => now(),
         ]);
@@ -27,8 +28,7 @@ class CourseSystemSeeder extends Seeder
         DB::table('session_templates')->insert([
             'course_template_id' => 1,
             'order'              => 1,
-            'title'              => 'Default Session Template',
-            'description'        => 'Auto-generated session template for the system',
+            'languages'          => null,
             'duration_minutes'   => 60,
             'created_at'         => now(),
             'updated_at'         => now(),
@@ -36,7 +36,7 @@ class CourseSystemSeeder extends Seeder
 
         // Create a default term
         DB::table('terms')->insert([
-            'title'      => 'Default Term',
+            'languages'  => null,
             'start_date' => now()->startOfMonth(),
             'end_date'   => now()->addMonth()->endOfMonth(),
             'status'     => TermStatus::ACTIVE->value,

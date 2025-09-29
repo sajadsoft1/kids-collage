@@ -790,7 +790,7 @@ namespace App\Models{
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @property \Carbon\Carbon|null $deleted_at
- * @property-read CourseTemplate $courseTemplate
+ * @property-read CourseTemplate $template
  * @property-read Term $term
  * @property-read User $teacher
  * @property-read Room|null $room
@@ -883,6 +883,10 @@ namespace App\Models{
  * @property-read int $total_duration
  * @property-read int|null $resources_count
  * @property-read int|null $session_templates_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translations
+ * @property-read int|null $translations_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translationsPure
+ * @property-read int|null $translations_pure_count
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate byCategory(int $categoryId)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate byLevel(string $level)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate instructorLed()
@@ -890,6 +894,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate search($keyword)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate selfPaced()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate whereCategoryId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate whereCreatedAt($value)
@@ -1603,6 +1608,7 @@ namespace App\Models{
  * @property int                 $course_template_id
  * @property int                 $order
  * @property string              $title
+ * @property string              $description
  * @property string|null         $description
  * @property int                 $duration_minutes
  * @property \Carbon\Carbon|null $created_at
@@ -1615,6 +1621,10 @@ namespace App\Models{
  * @property-read string $formatted_duration
  * @property-read int|null $resources_count
  * @property-read int|null $sessions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translations
+ * @property-read int|null $translations_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translationsPure
+ * @property-read int|null $translations_pure_count
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate byDurationRange(int $minMinutes, int $maxMinutes)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate longerThan(int $minutes)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate newModelQuery()
@@ -1622,6 +1632,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate ordered()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate search($keyword)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate whereCourseTemplateId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate whereDeletedAt($value)
@@ -1874,6 +1885,7 @@ namespace App\Models{
  *
  * @property int                 $id
  * @property string              $title
+ * @property string              $description
  * @property \Carbon\Carbon      $start_date
  * @property \Carbon\Carbon      $end_date
  * @property TermStatus          $status
@@ -1888,6 +1900,10 @@ namespace App\Models{
  * @property-read int $duration_days
  * @property-read int $duration_weeks
  * @property-read float $progress_percentage
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translations
+ * @property-read int|null $translations_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translationsPure
+ * @property-read int|null $translations_pure_count
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Term active()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Term byAcademicYear(string $academicYear)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Term current()
@@ -1897,6 +1913,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Term newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Term past()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Term query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Term search($keyword)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Term whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Term whereEndDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Term whereId($value)

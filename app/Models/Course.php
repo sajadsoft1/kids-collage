@@ -38,7 +38,7 @@ use Illuminate\Support\Facades\DB;
  * @property \Carbon\Carbon|null $updated_at
  * @property \Carbon\Carbon|null $deleted_at
  *
- * @property-read CourseTemplate $courseTemplate
+ * @property-read CourseTemplate $template
  * @property-read Term $term
  * @property-read User $teacher
  * @property-read Room|null $room
@@ -82,9 +82,9 @@ class Course extends Model
     ];
 
     /** Get the course template that this course is based on. */
-    public function courseTemplate(): BelongsTo
+    public function template(): BelongsTo
     {
-        return $this->belongsTo(CourseTemplate::class);
+        return $this->belongsTo(CourseTemplate::class, 'course_template_id');
     }
 
     /** Get the term that this course belongs to. */
@@ -355,7 +355,7 @@ class Course extends Model
     /** Create virtual sessions for self-paced courses. */
     protected function createVirtualSessions(): void
     {
-        $sessionTemplates = $this->courseTemplate->sessionTemplates;
+        $sessionTemplates = $this->template->sessionTemplates;
 
         foreach ($sessionTemplates as $template) {
             $this->sessions()->create([
@@ -374,7 +374,7 @@ class Course extends Model
     /** Create scheduled sessions based on course schedule. */
     protected function createScheduledSessions(): void
     {
-        $sessionTemplates = $this->courseTemplate->sessionTemplates;
+        $sessionTemplates = $this->template->sessionTemplates;
         $currentDate      = $this->term->start_date->copy();
         $endDate          = $this->term->end_date;
 

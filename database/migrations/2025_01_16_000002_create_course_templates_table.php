@@ -11,14 +11,11 @@ return new class extends Migration {
     {
         Schema::create('course_templates', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->text('description');
-            $table->unsignedBigInteger('category_id')->nullable();
+            $table->unsignedBigInteger('category_id')->nullable()->constrained('categories')->nullOnDelete();
             $table->string('level')->nullable();
             $table->json('prerequisites')->nullable();
             $table->boolean('is_self_paced')->default(false);
             $table->json('languages')->nullable();
-            $table->json('syllabus')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
