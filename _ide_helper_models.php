@@ -695,7 +695,7 @@ namespace App\Models{
  * @property string|null $admin_note
  * @property \App\Enums\YesNoEnum $suggest
  * @property \App\Enums\BooleanEnum $published
- * @property \Illuminate\Support\Carbon|null $published_at
+ * @property string|null $published_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
@@ -707,17 +707,12 @@ namespace App\Models{
  * @property-read string $morph_type
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $morphable
  * @property-read Comment|null $parent
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translations
- * @property-read int|null $translations_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translationsPure
- * @property-read int|null $translations_pure_count
  * @property-read \App\Models\User $user
  * @method static \Database\Factories\CommentFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Comment newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Comment newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Comment published()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Comment query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Comment search($keyword)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Comment whereAdminId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Comment whereAdminNote($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Comment whereComment($value)
@@ -899,14 +894,11 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate whereCategoryId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate whereIsSelfPaced($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate whereLanguages($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate whereLevel($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate wherePrerequisites($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate whereSyllabus($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate withoutTrashed()
@@ -1617,6 +1609,7 @@ namespace App\Models{
  * @property-read CourseTemplate $courseTemplate
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Session> $sessions
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Resource> $resources
+ * @property array<array-key, mixed>|null $languages
  * @property-read float $duration_hours
  * @property-read string $formatted_duration
  * @property-read int|null $resources_count
@@ -1636,11 +1629,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate whereCourseTemplateId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate whereDurationMinutes($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate whereLanguages($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate whereOrder($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate withoutTrashed()
@@ -1892,6 +1884,8 @@ namespace App\Models{
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Course> $courses
+ * @property array<array-key, mixed>|null $languages
+ * @property string|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Course> $activeCourses
  * @property-read int|null $active_courses_count
  * @property-read int|null $courses_count
@@ -1915,11 +1909,12 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Term query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Term search($keyword)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Term whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Term whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Term whereEndDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Term whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Term whereLanguages($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Term whereStartDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Term whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Term whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Term whereUpdatedAt($value)
  */
 	class Term extends \Eloquent {}

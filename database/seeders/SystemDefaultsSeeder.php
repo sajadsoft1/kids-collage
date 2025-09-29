@@ -24,7 +24,6 @@ class SystemDefaultsSeeder extends Seeder
             RolePermissionSeeder::class,  // Core roles and permissions
             AdminSeeder::class,           // Default admin user
             SettingSeeder::class,         // System settings
-            CourseSystemSeeder::class,    // Default course system templates
         ]);
 
         $this->command->info('✅ System Defaults seeded successfully!');

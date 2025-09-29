@@ -33,7 +33,6 @@ class CommentUpdateOrCreate extends Component
     public string $morphable_type=Blog::class;
     public array $object_values  =[];
     public ?int $morphable_id    =1;
-    public ?string $published_at = '';
 
     public function mount(Comment $comment): void
     {
@@ -71,7 +70,6 @@ class CommentUpdateOrCreate extends Component
             $this->admin_note     = $this->model->admin_note;
             $this->morphable_id   = $this->model->morphable_id;
             $this->morphable_type = $this->model->morphable_type;
-            $this->published_at   = $this->setPublishedAt($this->model->published_at);
             $this->object_values  = $this->morphable_type::query()->get()->map(function ($object) {
                 return [
                     'id'    => $object->id,
@@ -95,7 +93,6 @@ class CommentUpdateOrCreate extends Component
             'admin_note'     => ['nullable', 'string'],
             'morphable_type' => ['required'],
             'morphable_id'   => ['required'],
-            'published_at'   => ['nullable', 'date'],
         ];
     }
 
@@ -111,7 +108,7 @@ class CommentUpdateOrCreate extends Component
 
     public function submit(): void
     {
-        $payload = $this->normalizePublishedAt($this->validate());
+        $payload = $this->validate();
         if ($this->model->id) {
             UpdateCommentAction::run($this->model, $payload);
             $this->success(

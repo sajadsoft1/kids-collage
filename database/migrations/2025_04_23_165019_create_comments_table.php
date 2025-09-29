@@ -13,7 +13,6 @@ return new class extends Migration {
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->text('languages')->nullable();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('admin_id')->nullable()->constrained('users')->cascadeOnDelete();
             $table->foreignId('parent_id')->nullable()->constrained('comments')->cascadeOnDelete();
@@ -23,7 +22,6 @@ return new class extends Migration {
             $table->text('admin_note')->nullable();
             $table->boolean('suggest')->default(YesNoEnum::NO->value);
             $table->boolean('published')->default(BooleanEnum::DISABLE->value);
-            $table->timestamp('published_at')->nullable();
             $table->timestamps();
         });
     }

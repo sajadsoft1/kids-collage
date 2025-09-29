@@ -7,7 +7,6 @@ namespace App\Actions\Course;
 use App\Actions\Translation\SyncTranslationAction;
 use App\Models\Course;
 use App\Models\CourseTemplate;
-use App\Models\Term;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Lorisleiva\Actions\Concerns\AsAction;
@@ -46,13 +45,18 @@ class StoreCourseAction
     public function handle(array $payload): Course
     {
         return DB::transaction(function () use ($payload) {
-            // Map legacy payload to new schema
-            $courseTemplateId = Arr::get($payload, 'course_template_id', CourseTemplate::query()->value('id') ?? 1);
-            $termId           = Arr::get($payload, 'term_id', Term::query()->value('id') ?? 1);
+            $courseTemplate = CourseTemplate::create([
+                'category_id'   => Arr::get($payload, 'category_id'),
+                'level'         => Arr::get($payload, 'level'),
+                'prerequisites' => Arr::get($payload, 'prerequisites'),
+                'is_self_paced' => Arr::get($payload, 'is_self_paced'),
+            ]);
+
+            $this->syncTranslationAction->handle($courseTemplate, Arr::only($payload, ['title', 'description']));
 
             $model = Course::create(Arr::only([
-                'course_template_id' => $courseTemplateId,
-                'term_id'            => $termId,
+                'course_template_id' => $courseTemplate->id,
+                'term_id'            => Arr::get($payload, 'term_id'),
                 'teacher_id'         => Arr::get($payload, 'teacher_id'),
                 'capacity'           => Arr::get($payload, 'capacity'),
                 'price'              => Arr::get($payload, 'price', 0),

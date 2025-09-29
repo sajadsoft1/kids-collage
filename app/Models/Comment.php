@@ -8,7 +8,6 @@ use App\Enums\BooleanEnum;
 use App\Enums\YesNoEnum;
 use App\Traits\CLogsActivity;
 use App\Traits\HasStatusBoolean;
-use App\Traits\HasTranslationAuto;
 use App\Traits\HasUser;
 use App\Traits\MorphAttributesTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -23,12 +22,8 @@ use Spatie\Activitylog\LogOptions;
  */
 class Comment extends Model
 {
-    use CLogsActivity,HasStatusBoolean,HasTranslationAuto,HasUser, MorphAttributesTrait;
+    use CLogsActivity,HasStatusBoolean,HasUser, MorphAttributesTrait;
     use HasFactory;
-
-    public array $translatable = [
-        'title', 'description',
-    ];
 
     protected $fillable = [
         'user_id',
@@ -41,15 +36,12 @@ class Comment extends Model
         'admin_note',
         'suggest',
         'rate',
-        'languages',
-        'published_at',
     ];
 
     protected $casts = [
-        'published'    => BooleanEnum::class,
-        'suggest'      => YesNoEnum::class,
-        'rate'         => 'integer',
-        'published_at' => 'date',
+        'published' => BooleanEnum::class,
+        'suggest'   => YesNoEnum::class,
+        'rate'      => 'integer',
     ];
 
     /**
