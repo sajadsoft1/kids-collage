@@ -39,8 +39,8 @@ class UpdateCourseAction
     {
         return DB::transaction(function () use ($course, $payload) {
             $course->update(Arr::only($payload, [
-                'published', 'published_at', 'teacher_id', 'category_id',
-                'price', 'type', 'start_date', 'end_date',
+                'teacher_id', 'capacity', 'price', 'type', 'status',
+                'days_of_week', 'start_time', 'end_time', 'room_id', 'meeting_link',
             ]));
             $this->syncTranslationAction->handle($course, Arr::only($payload, ['title', 'description', 'body']));
 

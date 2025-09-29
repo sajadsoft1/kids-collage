@@ -1,8 +1,13 @@
 <?php
 
-namespace Database\Factories;
-use App\Models\Enrollment;
+declare(strict_types=1);
 
+namespace Database\Factories;
+
+use App\Enums\EnrollmentStatus;
+use App\Models\Course;
+use App\Models\Enrollment;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class EnrollmentFactory extends Factory
@@ -12,26 +17,12 @@ class EnrollmentFactory extends Factory
     public function definition(): array
     {
         return [
-            'published' => true,
-            'languages'  => [app()->getLocale()]
+            'user_id'          => User::factory(),
+            'course_id'        => Course::factory(),
+            'order_item_id'    => null,
+            'status'           => EnrollmentStatus::PENDING->value,
+            'enrolled_at'      => now(),
+            'progress_percent' => 0,
         ];
-    }
-
-    public function configure(): static
-    {
-        return $this->afterCreating(function (Enrollment $model) {
-            $model->translations()->createMany([
-                [
-                    'locale' => app()->getLocale(),
-                    'key'    => 'title',
-                    'value'  => $this->faker->word(),
-                ],
-                [
-                    'locale' => app()->getLocale(),
-                    'key'    => 'description',
-                    'value'  => $this->faker->realText,
-                ],
-            ]);
-        });
     }
 }

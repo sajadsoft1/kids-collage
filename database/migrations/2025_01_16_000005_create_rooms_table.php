@@ -11,8 +11,10 @@ return new class extends Migration {
     {
         Schema::create('rooms', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
             $table->unsignedInteger('capacity')->index();
-            $table->text('languages')->nullable();
+            $table->string('location')->nullable();
+            $table->json('languages')->nullable();
             $table->timestamps();
         });
     }

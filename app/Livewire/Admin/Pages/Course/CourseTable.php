@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Livewire\Admin\Pages\Course;
 
 use App\Enums\BooleanEnum;
-use App\Enums\CourseTypeEnum;
+use App\Enums\CourseType;
 use App\Helpers\Constants;
 use App\Helpers\PowerGridHelper;
 use App\Models\Category;
@@ -14,6 +14,7 @@ use App\Models\User;
 use App\Services\Permissions\PermissionsService;
 use App\Traits\PowerGridHelperTrait;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Jenssegers\Agent\Agent;
 use Livewire\Attributes\Computed;
@@ -30,6 +31,9 @@ final class CourseTable extends PowerGridComponent
 
     public string $tableName     = 'index_course_datatable';
     public string $sortDirection = 'desc';
+
+    /** Livewire events for course lifecycle buttons */
+    protected $listeners = ['course-publish' => 'publishCourse', 'course-start' => 'startCourse', 'course-finish' => 'finishCourse'];
 
     public function setUp(): array
     {
@@ -82,7 +86,7 @@ final class CourseTable extends PowerGridComponent
                     'general.page.create.title',
                     ['model' => trans('course.model')]
                 ),
-                'access' => auth()->user()->hasAnyPermission(PermissionsService::generatePermissionsByModel(Course::class, 'Store')),
+                'access' => Auth::user()?->hasAnyPermission(PermissionsService::generatePermissionsByModel(Course::class, 'Store')) ?? false,
             ],
         ];
     }
@@ -126,7 +130,7 @@ final class CourseTable extends PowerGridComponent
             ->add('start_date_formatted', fn ($row) => $row->start_date?->format('Y-m-d') ?? '---')
             ->add('end_date_formatted', fn ($row) => $row->end_date?->format('Y-m-d') ?? '---')
             ->add('published_formated', fn ($row) => PowerGridHelper::fieldPublishedAtFormated($row))
-            ->add('view_count_formated', fn ($row) => "<strong style='color: " . ($row->view_count === 0 ? 'blue' : 'red') . "'>{$row->view_count}</strong>")
+            ->add('view_count_formated', fn ($row) => "<strong style='color: " . ($row->view_count === 0 ? 'blue' : 'red') . "'>" . $row->view_count . '</strong>')
             ->add('created_at_formatted', fn ($row) => PowerGridHelper::fieldCreatedAtFormated($row))
             ->add('updated_at_formatted', fn ($row) => PowerGridHelper::fieldUpdatedAtFormated($row));
     }
@@ -180,7 +184,7 @@ final class CourseTable extends PowerGridComponent
                 })->toArray())->optionLabel('label')->optionValue('value'),
 
             Filter::enumSelect('type_formatted', 'type')
-                ->datasource(CourseTypeEnum::cases()),
+                ->datasource(CourseType::cases()),
         ];
     }
 
@@ -189,6 +193,21 @@ final class CourseTable extends PowerGridComponent
         return [
             PowerGridHelper::btnSeo($row),
             PowerGridHelper::btnTranslate($row),
+            Button::add('publish')
+                ->slot('<x-mary-icon name="o-rocket-launch" class="w-4 h-4" />')
+                ->class('btn btn-square md:btn-sm btn-xs')
+                ->dispatch('course-publish', ['id' => $row->id])
+                ->can($row->status->value === \App\Enums\CourseStatus::DRAFT->value),
+            Button::add('start')
+                ->slot('<x-mary-icon name="o-play" class="w-4 h-4" />')
+                ->class('btn btn-square md:btn-sm btn-xs')
+                ->dispatch('course-start', ['id' => $row->id])
+                ->can($row->status->value === \App\Enums\CourseStatus::SCHEDULED->value),
+            Button::add('finish')
+                ->slot('<x-mary-icon name="o-flag" class="w-4 h-4" />')
+                ->class('btn btn-square md:btn-sm btn-xs')
+                ->dispatch('course-finish', ['id' => $row->id])
+                ->can($row->status->value === \App\Enums\CourseStatus::ACTIVE->value),
             Button::add('sessions')
                 ->slot(PowerGridHelper::iconShow())
                 ->attributes([
@@ -207,5 +226,26 @@ final class CourseTable extends PowerGridComponent
         return view('admin.datatable-shared.empty-table', [
             'link' => route('admin.course.create'),
         ]);
+    }
+
+    public function publishCourse(int $id): void
+    {
+        $course = Course::findOrFail($id);
+        $course->publish();
+        $this->notification()->success(trans('general.success'), trans('course.published'));
+    }
+
+    public function startCourse(int $id): void
+    {
+        $course = Course::findOrFail($id);
+        $course->start();
+        $this->notification()->success(trans('general.success'), trans('course.started'));
+    }
+
+    public function finishCourse(int $id): void
+    {
+        $course = Course::findOrFail($id);
+        $course->finish();
+        $this->notification()->success(trans('general.success'), trans('course.finished'));
     }
 }

@@ -19,16 +19,22 @@
                     </div>
 
                     <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
-                        <x-input :label="trans('validation.attributes.price')" wire:model.blur="price" type="number" step="0.01" min="0"
-                            required />
-                        <x-select :label="trans('validation.attributes.type')" wire:model="type" :options="collect(CourseTypeEnum::cases())
-                            ->map(fn($case) => ['name' => $case->title(), 'id' => $case->value])
+                        <x-input :label="trans('validation.attributes.price')" wire:model.blur="price" type="number" step="0.01" min="0" required />
+                        <x-input :label="trans('validation.attributes.capacity')" wire:model.blur="capacity" type="number" min="1" />
+                        <x-select :label="trans('validation.attributes.type')" wire:model="type" :options="collect(\\App\\Enums\\CourseType::cases())
+                            ->map(fn($case) => ['name' => $case->label(), 'id' => $case->value])
                             ->toArray()" required />
                     </div>
 
+                    <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
+                        <x-input :label="trans('validation.attributes.start_time')" wire:model.blur="start_time" type="time" />
+                        <x-input :label="trans('validation.attributes.end_time')" wire:model.blur="end_time" type="time" />
+                        <x-select :label="trans('validation.attributes.room')" wire:model="room_id" :options="$rooms" />
+                    </div>
+
                     <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
-                        <x-input :label="trans('validation.attributes.start_date')" wire:model.blur="start_date" type="date" required />
-                        <x-input :label="trans('validation.attributes.end_date')" wire:model.blur="end_date" type="date" required />
+                        <x-select :label="trans('validation.attributes.days_of_week')" wire:model="days_of_week" :options="$daysOptions" multiple />
+                        <x-input :label="trans('validation.attributes.meeting_link')" wire:model.blur="meeting_link" type="text" />
                     </div>
 
                     <x-tags :label="trans('validation.attributes.tags')" wire:model="tags" icon="o-tag" clearable />
@@ -42,11 +48,7 @@
                     <x-admin.shared.single-file-upload :ratio="1280 / 720" :hint="croperHint(Constants::RESOLUTION_1280_720)" :default_image="$model->getFirstMediaUrl('image', Constants::RESOLUTION_1280_720)" />
                 </x-card>
 
-                <x-card :title="trans('general.page_sections.publish_config')" shadow separator progress-indicator="submit" class="mt-5">
-                    <div class="grid grid-cols-1 gap-4">
-                        <x-admin.shared.published-config :has-published-at="true" :default-date="$published_at" />
-                    </div>
-                </x-card>
+                <!-- No published flags on Course entity in new schema -->
             </div>
         </div>
     </div>

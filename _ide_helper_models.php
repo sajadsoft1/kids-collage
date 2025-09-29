@@ -13,28 +13,97 @@
 
 namespace App\Models{
 /**
- * @property int $id
- * @property int $enrollment_id
- * @property int $session_id
- * @property bool $present
- * @property \Illuminate\Support\Carbon|null $arrival_time
- * @property \Illuminate\Support\Carbon|null $leave_time
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\Enrollment $enrollment
- * @property-read \App\Models\Session $session
+ * ActivityLog Model
+ * 
+ * Tracks user activities and events throughout the system.
+ * Used for progress tracking, auditing, and analytics.
+ *
+ * @property int                 $id
+ * @property string|null         $log_name
+ * @property string              $description
+ * @property string|null         $subject_type
+ * @property int|null            $subject_id
+ * @property string|null         $causer_type
+ * @property int|null            $causer_id
+ * @property string|null         $event
+ * @property array|null          $properties
+ * @property string|null         $batch_uuid
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property-read Model|null $subject
+ * @property-read Model|null $causer
+ * @property-read string $color
+ * @property-read \App\Models\Course|null $course
+ * @property-read \App\Models\Enrollment|null $enrollment
+ * @property-read string $formatted_description
+ * @property-read string $icon
+ * @property-read \App\Models\Session|null $session
+ * @property-read string $time_ago
+ * @property-read \App\Models\User|null $user
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ActivityLog byBatch(string $batchUuid)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ActivityLog byCauser(string $causerType, int $causerId)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ActivityLog byDateRange(\Carbon\Carbon $startDate, \Carbon\Carbon $endDate)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ActivityLog byEvent(string $event)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ActivityLog byLogName(string $logName)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ActivityLog bySubject(string $subjectType, int $subjectId)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ActivityLog courseRelated()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ActivityLog enrollmentRelated()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ActivityLog newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ActivityLog newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ActivityLog progressRelated()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ActivityLog query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ActivityLog recent(int $days = 7)
+ */
+	class ActivityLog extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * Attendance Model
+ * 
+ * Tracks student presence in a session (or progress in self-paced).
+ * Records attendance data for both scheduled and self-paced courses.
+ *
+ * @property int                 $id
+ * @property int                 $enrollment_id
+ * @property int                 $session_id
+ * @property bool                $present
+ * @property \Carbon\Carbon|null $arrival_time
+ * @property \Carbon\Carbon|null $leave_time
+ * @property string|null         $excuse_note
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property-read Enrollment $enrollment
+ * @property-read Session $session
+ * @property-read int|null $duration
+ * @property-read int $early_departure_minutes
+ * @property-read string|null $formatted_duration
+ * @property-read int $lateness_minutes
+ * @property-read int $quality_score
+ * @property-read string $status
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Attendance absent()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Attendance byDateRange(\Carbon\Carbon $startDate, \Carbon\Carbon $endDate)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Attendance byEnrollment(int $enrollmentId)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Attendance bySession(int $sessionId)
  * @method static \Database\Factories\AttendanceFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Attendance late()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Attendance newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Attendance newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Attendance present()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Attendance query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Attendance thisWeek()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Attendance today()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Attendance whereArrivalTime($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Attendance whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Attendance whereEnrollmentId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Attendance whereExcuseNote($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Attendance whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Attendance whereLeaveTime($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Attendance wherePresent($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Attendance whereSessionId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Attendance whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Attendance withExcuse()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Attendance withoutExcuse()
  */
 	class Attendance extends \Eloquent {}
 }
@@ -45,6 +114,7 @@ namespace App\Models{
  * @property string $description
  * @property int $id
  * @property \App\Enums\BannerSizeEnum $size
+ * @property string|null $link
  * @property \App\Enums\BooleanEnum $published
  * @property int $click
  * @property \Illuminate\Support\Carbon|null $published_at
@@ -72,6 +142,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner whereLanguages($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner whereLink($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner wherePublished($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner wherePublishedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Banner whereSize($value)
@@ -479,6 +550,61 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * Certificate Model
+ * 
+ * Issued on course completion to certify student achievement.
+ * Includes verification features and grade tracking.
+ *
+ * @property int                 $id
+ * @property int                 $enrollment_id
+ * @property \Carbon\Carbon      $issue_date
+ * @property string              $grade
+ * @property string              $certificate_path
+ * @property string              $signature_hash
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property-read Enrollment $enrollment
+ * @property-read int $age_in_days
+ * @property-read float $attendance_percentage
+ * @property-read string $certificate_number
+ * @property-read mixed $course
+ * @property-read string $course_duration
+ * @property-read string|null $course_level
+ * @property-read mixed $course_template
+ * @property-read string $course_title
+ * @property-read string $download_url
+ * @property-read int|null $file_size
+ * @property-read string|null $formatted_file_size
+ * @property-read string $formatted_issue_date
+ * @property-read string $grade_color
+ * @property-read string $grade_description
+ * @property-read float $progress_percentage
+ * @property-read mixed $student
+ * @property-read string $student_name
+ * @property-read string $verification_url
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Certificate byCourse(int $courseId)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Certificate byEnrollment(int $enrollmentId)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Certificate byGrade(string $grade)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Certificate byStudent(int $userId)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Certificate issuedBetween(\Carbon\Carbon $startDate, \Carbon\Carbon $endDate)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Certificate newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Certificate newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Certificate query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Certificate recent(int $days = 30)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Certificate whereCertificatePath($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Certificate whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Certificate whereEnrollmentId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Certificate whereGrade($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Certificate whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Certificate whereIssueDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Certificate whereSignatureHash($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Certificate whereUpdatedAt($value)
+ */
+	class Certificate extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * @property string $title
  * @property string $description
  * @property int $id
@@ -643,118 +769,200 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * @property string $title
- * @property string $description
- * @property string $body
- * @property int $id
- * @property string $slug
- * @property \App\Enums\BooleanEnum $published
- * @property \Illuminate\Support\Carbon|null $published_at
+ * Course Model
+ * 
+ * A real execution of a CourseTemplate in a Term with a teacher.
+ * This represents an actual course instance that students can enroll in.
+ *
+ * @property int                 $id
+ * @property int                 $course_template_id
+ * @property int                 $term_id
+ * @property int                 $teacher_id
+ * @property int|null            $capacity
+ * @property float               $price
+ * @property CourseType          $type
+ * @property CourseStatus        $status
+ * @property array|null          $days_of_week
+ * @property \Carbon\Carbon|null $start_time
+ * @property \Carbon\Carbon|null $end_time
+ * @property int|null            $room_id
+ * @property string|null         $meeting_link
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
+ * @property-read CourseTemplate $courseTemplate
+ * @property-read Term $term
+ * @property-read User $teacher
+ * @property-read Room|null $room
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Session> $sessions
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Enrollment> $enrollments
+ * @property-read OrderItem|null $orderItem
  * @property int $user_id
- * @property int $teacher_id
- * @property int $category_id
- * @property float $price
- * @property \App\Enums\CourseTypeEnum $type
- * @property \Illuminate\Support\Carbon $start_date
- * @property \Illuminate\Support\Carbon $end_date
- * @property int $view_count
- * @property int $comment_count
- * @property int $wish_count
- * @property array<array-key, mixed>|null $languages
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
- * @property-read int|null $activities_count
- * @property-read \App\Models\Category $category
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Comment> $comments
- * @property-read int|null $comments_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Enrollment> $enrollments
+ * @property int|null $category_id
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Enrollment> $activeEnrollments
+ * @property-read int|null $active_enrollments_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Session> $completedSessions
+ * @property-read int|null $completed_sessions_count
  * @property-read int|null $enrollments_count
- * @property-read mixed $seo_canonical
- * @property-read mixed $seo_description
- * @property-read mixed $seo_redirect_to
- * @property-read mixed $seo_robot_meta
- * @property-read mixed $seo_title
- * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
- * @property-read int|null $media_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\OrderItem> $orderItems
- * @property-read int|null $order_items_count
- * @property-read \App\Models\SeoOption|null $seoOption
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Session> $sessions
+ * @property-read int $available_spots
+ * @property-read string $days_of_week_readable
+ * @property-read int $enrollment_count
+ * @property-read string $formatted_price
+ * @property-read string $formatted_session_duration
+ * @property-read int $session_duration
  * @property-read int|null $sessions_count
- * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\Tag> $tags
- * @property-read int|null $tags_count
- * @property-read \App\Models\User $teacher
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translations
  * @property-read int|null $translations_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translationsPure
  * @property-read int|null $translations_pure_count
- * @property-read \App\Models\User $user
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\UserView> $views
- * @property-read int|null $views_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\WishList> $wishes
- * @property-read int|null $wishes_count
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Course draft()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Course active()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Course byPriceRange(float $minPrice, float $maxPrice)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Course byTeacher(int $teacherId)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Course byTerm(int $termId)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Course byType(\App\Enums\CourseType $type)
  * @method static \Database\Factories\CourseFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Course instructorLed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Course newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Course newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Course published()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Course publishedScheduled()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Course onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Course query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Course scheduledForPublishing()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Course search($keyword)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Course unpublishedScheduled()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Course selfPaced()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Course whereCapacity($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Course whereCategoryId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Course whereCommentCount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Course whereCourseTemplateId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Course whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Course whereEndDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Course whereDaysOfWeek($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Course whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Course whereEndTime($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Course whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Course whereLanguages($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Course whereMeetingLink($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Course wherePrice($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Course wherePublished($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Course wherePublishedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Course whereSlug($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Course whereStartDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Course whereRoomId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Course whereStartTime($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Course whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Course whereTeacherId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Course whereTermId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Course whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Course whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Course whereUserId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Course whereViewCount($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Course whereWishCount($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Course withAllTags(\ArrayAccess|\Spatie\Tags\Tag|array|string $tags, ?string $type = null)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Course withAllTagsOfAnyType($tags)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Course withAnyTags(\ArrayAccess|\Spatie\Tags\Tag|array|string $tags, ?string $type = null)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Course withAnyTagsOfAnyType($tags)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Course withAnyTagsOfType(array|string $type)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Course withoutTags(\ArrayAccess|\Spatie\Tags\Tag|array|string $tags, ?string $type = null)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Course withAvailableSpots()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Course withTrashed(bool $withTrashed = true)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Course withoutTrashed()
  */
-	class Course extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
+	class Course extends \Eloquent {}
 }
 
 namespace App\Models{
 /**
- * @property int $id
- * @property int $user_id
- * @property int $course_id
- * @property \Illuminate\Support\Carbon $enroll_date
- * @property \App\Enums\EnrollmentStatusEnum $status
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Attendance> $attendances
+ * CourseTemplate Model
+ * 
+ * Represents the definition of a course (e.g. English Level 1).
+ * This is the template that defines the structure and content of a course,
+ * which can be instantiated multiple times in different terms.
+ *
+ * @property int                 $id
+ * @property string              $title
+ * @property string              $description
+ * @property int|null            $category_id
+ * @property string|null         $level
+ * @property array|null          $prerequisites
+ * @property bool                $is_self_paced
+ * @property array|null          $languages
+ * @property array|null          $syllabus
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, SessionTemplate> $sessionTemplates
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Course> $courses
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Resource> $resources
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Course> $activeCourses
+ * @property-read int|null $active_courses_count
+ * @property-read int|null $courses_count
+ * @property-read int $session_count
+ * @property-read int $total_duration
+ * @property-read int|null $resources_count
+ * @property-read int|null $session_templates_count
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate byCategory(int $categoryId)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate byLevel(string $level)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate instructorLed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate selfPaced()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate whereCategoryId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate whereIsSelfPaced($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate whereLanguages($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate whereLevel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate wherePrerequisites($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate whereSyllabus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate withTrashed(bool $withTrashed = true)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate withoutTrashed()
+ */
+	class CourseTemplate extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * Enrollment Model
+ * 
+ * Student registration in a course instance.
+ * Tracks student progress, attendance, and completion status.
+ *
+ * @property int                 $id
+ * @property int                 $user_id
+ * @property int                 $course_id
+ * @property int|null            $order_item_id
+ * @property EnrollmentStatus    $status
+ * @property \Carbon\Carbon      $enrolled_at
+ * @property float               $progress_percent
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property-read User $user
+ * @property-read Course $course
+ * @property-read OrderItem|null $orderItem
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Attendance> $attendances
+ * @property-read Certificate|null $certificate
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, ActivityLog> $activityLogs
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Attendance> $absentAttendances
+ * @property-read int|null $absent_attendances_count
+ * @property-read int|null $activity_logs_count
  * @property-read int|null $attendances_count
- * @property-read \App\Models\Course $course
- * @property-read \App\Models\User $user
+ * @property-read float $attendance_percentage
+ * @property-read int $days_since_enrollment
+ * @property-read \Carbon\Carbon|null $estimated_completion_date
+ * @property-read int $present_attendance_count
+ * @property-read int $total_attendance_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Attendance> $presentAttendances
+ * @property-read int|null $present_attendances_count
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment active()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment byCourse(int $courseId)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment byStatus(\App\Enums\EnrollmentStatus $status)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment byUser(int $userId)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment completed()
  * @method static \Database\Factories\EnrollmentFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment recent(int $days = 30)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment whereCourseId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment whereEnrollDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment whereEnrolledAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment whereOrderItemId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment whereProgressPercent($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment withCertificates()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment withMinimumProgress(float $progress)
  */
 	class Enrollment extends \Eloquent {}
 }
@@ -956,16 +1164,34 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * @property int $id
- * @property int $order_id
- * @property string $itemable_type
- * @property int $itemable_id
- * @property int $quantity
- * @property string $price
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $itemable
- * @property-read \App\Models\Order $order
+ * OrderItem Model
+ * 
+ * Payment link for course enrollments and other purchasable items.
+ * Supports polymorphic relationships to link to different types of purchasable entities.
+ *
+ * @property int                 $id
+ * @property int                 $order_id
+ * @property string              $itemable_type
+ * @property int                 $itemable_id
+ * @property float               $price
+ * @property int                 $quantity
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property-read Order $order
+ * @property-read Model $itemable
+ * @property-read \App\Models\Course|null $course
+ * @property-read \App\Models\Enrollment|null $enrollment
+ * @property-read string $formatted_price
+ * @property-read string $formatted_total_price
+ * @property-read string $item_description
+ * @property-read string $item_title
+ * @property-read string $item_type
+ * @property-read string $refund_policy
+ * @property-read float $total_price
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem byOrder(int $orderId)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem byPriceRange(float $minPrice, float $maxPrice)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem courseEnrollments()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem courses()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem query()
@@ -977,6 +1203,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem wherePrice($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem whereQuantity($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem withMinimumQuantity(int $quantity)
  */
 	class OrderItem extends \Eloquent {}
 }
@@ -1141,6 +1368,46 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * Resource Model
+ * 
+ * Educational material (PDF, Video, Image, Link) that can be attached
+ * to any resourceable entity (CourseTemplate, SessionTemplate, Session).
+ *
+ * @property int                 $id
+ * @property string              $resourceable_type
+ * @property int                 $resourceable_id
+ * @property ResourceType        $type
+ * @property string              $path
+ * @property string              $title
+ * @property array|null          $metadata
+ * @property bool                $is_public
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
+ * @property-read Model $resourceable
+ * @property-read int|null $duration
+ * @property-read int|null $file_size
+ * @property-read string|null $formatted_file_size
+ * @property-read string|null $mime_type
+ * @property-read string|null $thumbnail_path
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource byType(\App\Enums\ResourceType $type)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource documents()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource forModel(string $modelType, int $modelId)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource media()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource private()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource public()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource withTrashed(bool $withTrashed = true)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource withoutTrashed()
+ */
+	class Resource extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * @property string $title
  * @property string $description
  * @property int $id
@@ -1176,29 +1443,39 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * @property string $title
- * @property string $description
- * @property int $id
- * @property int $capacity
- * @property array<array-key, mixed>|null $languages
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Session> $sessions
+ * Room Model
+ * 
+ * Physical location for in-person/hybrid courses.
+ * Represents classrooms, labs, or other physical spaces where courses can be held.
+ *
+ * @property int                 $id
+ * @property string              $name
+ * @property int                 $capacity
+ * @property string|null         $location
+ * @property array|null          $languages
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Course> $courses
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Session> $sessions
+ * @property-read int|null $courses_count
+ * @property-read string $full_location
  * @property-read int|null $sessions_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translations
- * @property-read int|null $translations_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translationsPure
- * @property-read int|null $translations_pure_count
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Room byCapacityRange(int $minCapacity, int $maxCapacity)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Room byLocation(string $location)
  * @method static \Database\Factories\RoomFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Room multilingual()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Room newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Room newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Room query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Room search($keyword)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Room supportingLanguage(string $language)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Room whereCapacity($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Room whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Room whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Room whereLanguages($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Room whereLocation($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Room whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Room whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Room withMinimumCapacity(int $capacity)
  */
 	class Room extends \Eloquent {}
 }
@@ -1239,47 +1516,125 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * @property string $title
- * @property string $description
- * @property string $body
- * @property int $id
- * @property int $course_id
- * @property int $teacher_id
- * @property \Illuminate\Support\Carbon $start_time
- * @property \Illuminate\Support\Carbon $end_time
- * @property int|null $room_id
- * @property string|null $meeting_link
- * @property int $session_number
- * @property array<array-key, mixed>|null $languages
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Attendance> $attendances
+ * Session Model
+ * 
+ * A scheduled session for a Course (instance of a SessionTemplate).
+ * This represents an actual class session that students attend.
+ *
+ * @property int                 $id
+ * @property int                 $course_id
+ * @property int                 $session_template_id
+ * @property \Carbon\Carbon|null $date
+ * @property \Carbon\Carbon|null $start_time
+ * @property \Carbon\Carbon|null $end_time
+ * @property int|null            $room_id
+ * @property string|null         $meeting_link
+ * @property string|null         $recording_link
+ * @property SessionStatus       $status
+ * @property SessionType         $session_type
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
+ * @property-read Course $course
+ * @property-read SessionTemplate $sessionTemplate
+ * @property-read Room|null $room
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Attendance> $attendances
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Resource> $resources
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Attendance> $absentAttendances
+ * @property-read int|null $absent_attendances_count
  * @property-read int|null $attendances_count
- * @property-read \App\Models\Course $course
- * @property-read \App\Models\Room|null $room
- * @property-read \App\Models\User $teacher
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translations
- * @property-read int|null $translations_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translationsPure
- * @property-read int|null $translations_pure_count
+ * @property-read int $absent_count
+ * @property-read int $attendance_count
+ * @property-read float $attendance_percentage
+ * @property-read int $duration
+ * @property-read string $formatted_duration
+ * @property-read string $full_title
+ * @property-read string $location
+ * @property-read int $present_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Attendance> $presentAttendances
+ * @property-read int|null $present_attendances_count
+ * @property-read int|null $resources_count
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Session byDateRange(\Carbon\Carbon $startDate, \Carbon\Carbon $endDate)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Session byRoom(int $roomId)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Session byType(\App\Enums\SessionType $type)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Session cancelled()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Session completed()
  * @method static \Database\Factories\SessionFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Session hybrid()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Session inPerson()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Session newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Session newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Session online()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Session onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Session planned()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Session query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Session search($keyword)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Session thisWeek()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Session today()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Session whereCourseId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Session whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Session whereDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Session whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Session whereEndTime($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Session whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Session whereLanguages($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Session whereMeetingLink($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Session whereRecordingLink($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Session whereRoomId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Session whereSessionNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Session whereSessionTemplateId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Session whereSessionType($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Session whereStartTime($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Session whereTeacherId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Session whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Session whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Session withRecordings()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Session withTrashed(bool $withTrashed = true)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Session withoutTrashed()
  */
 	class Session extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * SessionTemplate Model
+ * 
+ * Represents a lesson inside a course template (e.g. Lesson 1: Alphabet).
+ * This defines the structure and content of individual sessions that will
+ * be instantiated for specific course runs.
+ *
+ * @property int                 $id
+ * @property int                 $course_template_id
+ * @property int                 $order
+ * @property string              $title
+ * @property string|null         $description
+ * @property int                 $duration_minutes
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
+ * @property-read CourseTemplate $courseTemplate
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Session> $sessions
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Resource> $resources
+ * @property-read float $duration_hours
+ * @property-read string $formatted_duration
+ * @property-read int|null $resources_count
+ * @property-read int|null $sessions_count
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate byDurationRange(int $minMinutes, int $maxMinutes)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate longerThan(int $minutes)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate ordered()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate whereCourseTemplateId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate whereDurationMinutes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate whereOrder($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate withTrashed(bool $withTrashed = true)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SessionTemplate withoutTrashed()
+ */
+	class SessionTemplate extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -1511,6 +1866,50 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * Term Model
+ * 
+ * Represents an academic period (Fall 2025, Spring 2026, or long-term for self-paced).
+ * Terms define the time boundaries for course runs and help organize
+ * academic scheduling.
+ *
+ * @property int                 $id
+ * @property string              $title
+ * @property \Carbon\Carbon      $start_date
+ * @property \Carbon\Carbon      $end_date
+ * @property TermStatus          $status
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Course> $courses
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Course> $activeCourses
+ * @property-read int|null $active_courses_count
+ * @property-read int|null $courses_count
+ * @property-read string $academic_year
+ * @property-read int $days_remaining
+ * @property-read int $duration_days
+ * @property-read int $duration_weeks
+ * @property-read float $progress_percentage
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Term active()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Term byAcademicYear(string $academicYear)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Term current()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Term future()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Term longTerm()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Term newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Term newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Term past()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Term query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Term whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Term whereEndDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Term whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Term whereStartDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Term whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Term whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Term whereUpdatedAt($value)
+ */
+	class Term extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * @property int $id
  * @property string $subject
  * @property \App\Enums\TicketDepartmentEnum $department
@@ -1678,7 +2077,7 @@ namespace App\Models{
  * @property int $morphable_id
  * @property string|null $ip
  * @property string|null $collection
- * @property \App\Models\User|null $visitor
+ * @property string|null $visitor
  * @property \Illuminate\Support\Carbon $created_at
  * @property-read \Illuminate\Http\Resources\Json\JsonResource|null $morph_resource
  * @property-read string $morph_type

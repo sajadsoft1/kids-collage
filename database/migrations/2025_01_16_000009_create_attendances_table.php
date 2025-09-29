@@ -16,13 +16,11 @@ return new class extends Migration {
             $table->boolean('present')->index()->default(false);
             $table->timestamp('arrival_time')->nullable()->index();
             $table->timestamp('leave_time')->nullable()->index();
+            $table->text('excuse_note')->nullable();
             $table->timestamps();
 
             // Unique constraint to prevent duplicate attendance records
             $table->unique(['enrollment_id', 'session_id']);
-
-            // Data integrity constraints
-            // Note: Check constraints are not supported in Laravel migrations by default
         });
     }
 

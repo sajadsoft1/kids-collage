@@ -12,20 +12,29 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
+        // Seed core required data first
         $this->call([
             NecessarySeeder::class,
+            RolePermissionSeeder::class,
+            AdminSeeder::class,
+            SettingSeeder::class,
+        ]);
+
+        // Kanban and system fixtures; FakeSeeder already includes categories/blog/etc.
+        $this->call([
+            CourseSystemSeeder::class, // creates default course_template, session_template, term
             FakeSeeder::class,
             KanbanSeeder::class,
             BulletinSeeder::class,
             LicenseSeeder::class,
+        ]);
+
+        // Infrastructure for courses
+        $this->call([
             RoomSeeder::class,
-            CourseSeeder::class,
-            SessionSeeder::class,
-            OrderSeeder::class,
-            PaymentSeeder::class,
-            InstallmentSeeder::class,
-            EnrollmentSeeder::class,
-            AttendanceSeeder::class,
+            // Temporarily skip legacy course/session/enrollment/attendance/order/payments
+            // They target old schema (slug/title on courses; sessions on sessions table, etc.)
+            // Add minimal compatible seeds here later if needed.
         ]);
 
         Artisan::call('optimize:clear');

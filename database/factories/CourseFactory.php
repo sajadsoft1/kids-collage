@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
-use App\Enums\CourseTypeEnum;
-use App\Models\Category;
+use App\Enums\CourseStatus;
+use App\Enums\CourseType;
 use App\Models\Course;
+use App\Models\CourseTemplate;
+use App\Models\Term;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -16,47 +18,20 @@ class CourseFactory extends Factory
 
     public function definition(): array
     {
-        $startDate = $this->faker->dateTimeBetween('now', '+1 month');
-        $endDate   = $this->faker->dateTimeBetween($startDate, '+6 months');
-
         return [
-            'slug'          => $this->faker->unique()->slug(),
-            'published'     => $this->faker->boolean(80),
-            'published_at'  => $this->faker->optional(0.8)->dateTimeBetween('-1 month', '+1 month'),
-            'user_id'       => User::factory(),
-            'teacher_id'    => User::factory(),
-            'category_id'   => Category::factory(),
-            'price'         => $this->faker->randomFloat(2, 100, 5000),
-            'type'          => $this->faker->randomElement(CourseTypeEnum::cases()),
-            'start_date'    => $startDate,
-            'end_date'      => $endDate,
-            'view_count'    => $this->faker->numberBetween(0, 1000),
-            'comment_count' => $this->faker->numberBetween(0, 50),
-            'wish_count'    => $this->faker->numberBetween(0, 100),
-            'languages'     => [app()->getLocale()],
+            'course_template_id' => CourseTemplate::factory(),
+            'term_id'            => Term::factory(),
+            'teacher_id'         => User::factory(),
+            'capacity'           => $this->faker->optional()->numberBetween(10, 50),
+            'price'              => $this->faker->randomFloat(2, 100, 5000),
+            'type'               => $this->faker->randomElement(array_map(fn ($c) => $c->value, CourseType::cases())),
+            'status'             => CourseStatus::DRAFT->value,
+            'days_of_week'       => $this->faker->randomElements([0, 1, 2, 3, 4, 5, 6], $this->faker->numberBetween(2, 4)),
+            'start_time'         => '09:00',
+            'end_time'           => '10:30',
+            'room_id'            => null,
+            'meeting_link'       => null,
         ];
     }
-
-    public function configure(): static
-    {
-        return $this->afterCreating(function (Course $model) {
-            $model->translations()->createMany([
-                [
-                    'locale' => app()->getLocale(),
-                    'key'    => 'title',
-                    'value'  => $this->faker->sentence(3),
-                ],
-                [
-                    'locale' => app()->getLocale(),
-                    'key'    => 'description',
-                    'value'  => $this->faker->paragraph(2),
-                ],
-                [
-                    'locale' => app()->getLocale(),
-                    'key'    => 'body',
-                    'value'  => $this->faker->paragraphs(5, true),
-                ],
-            ]);
-        });
-    }
+    // No translations at the course row level in the new schema
 }
