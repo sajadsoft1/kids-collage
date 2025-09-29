@@ -95,7 +95,10 @@ class Blog extends Model implements HasMedia
     /**
      * Model Relations --------------------------------------------------------------------------
      */
-
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+}
     /**
      * Model Scope --------------------------------------------------------------------------
      */
@@ -110,12 +113,10 @@ class Blog extends Model implements HasMedia
         return localized_route('blog.detail', ['blog' => $this->slug]);
     }
 
-    public function relatedBlogs(): Collection
+    public static function relatedBlogs(Blog $blog): Collection
     {
-        return Blog::whereHas('categories', function ($q) {
-            return $q->whereIn('categories.id', $this->categories->pluck('id'));
-        })
-            ->where('id', '!=', $this->id)
+        return Blog::where('category_id', $blog->category_id)
+            ->where('id', '!=', $blog->id)
             ->where('published', BooleanEnum::ENABLE)
             ->orderBy('id', 'desc')
             ->get();

@@ -14,7 +14,7 @@
     },
     "servers": [
         {
-            "url": "http://127.0.0.1:8000/api",
+            "url": "http://192.168.1.163:8000/api",
             "description": "Local Host"
         }
     ],
@@ -875,6 +875,38 @@
                                             "$ref": "#/components/schemas/BlogDetailResource"
                                         }
                                     },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/blog/{blog}/data": {
+            "get": {
+                "tags": [
+                    "Blog"
+                ],
+                "summary": "Get blog Extera information",
+                "description": "Returns extrea data",
+                "operationId": "getExtraData",
+                "parameters": [
+                    {
+                        "name": "blog",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
                                     "type": "object"
                                 }
                             }

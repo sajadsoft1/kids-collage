@@ -98,7 +98,7 @@ class Banner extends Model implements HasMedia
     /**
      * Model Custom Methods --------------------------------------------------------------------------
      */
-    public function latestBanner()
+    public static function latestBanner()
     {
         return SmartCache::for(__CLASS__)
             ->key('latest_banners')

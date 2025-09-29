@@ -312,11 +312,25 @@ class BlogController extends Controller
             ]
         );
     }
-
+    /**
+     * @OA\Get(
+     *     path="/blog/{blog}/data",
+     *     operationId="getExtraData",
+     *     tags={"Blog"},
+     *     summary="Get blog Extera information",
+     *     description="Returns extrea data",
+     *     @OA\Parameter(name="blog", required=true, in="path", @OA\Schema(type="string")),
+     *     @OA\Response(response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(type="object"
+     *         )
+     *     )
+     * )
+     */
     public function extraData(Blog $blog)
     {
 
-        $relatedBlogs = $blog->relatedBlogs();
+        $relatedBlogs = $blog->relatedBlogs($blog);
         $banners = Banner::latestBanner();
         return Response::data([
             'banners'      => BannerResource::collection($banners),
