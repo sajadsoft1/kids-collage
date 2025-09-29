@@ -11,5 +11,5 @@ Route::group(['prefix' => 'blog', 'as' => 'blog.'], function () {
     Route::get('category/{category:slug}', [BlogController::class, 'indexByCategory'])->name('by-category');
     Route::get('tag/{tag:slug}', [BlogController::class, 'indexByTag'])->name('by-tag');
     Route::get('author/{user}', [BlogController::class, 'indexByUser'])->name('by-user');
-    Route::get('extra-data/{blog:slug}', [BlogController::class, 'extraData'])->name('extraData');
+    Route::get('{blog:slug}/data', [BlogController::class, 'extraData'])->name('extra-data');
 });

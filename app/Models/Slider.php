@@ -107,7 +107,7 @@ class Slider extends Model implements HasMedia
      */
 
     /** Model Custom Methods -------------------------------------------------------------------------- */
-    public function latestSliders(): Collection
+    public static function latestSliders(): Collection
     {
         return SmartCache::for(__CLASS__)
             ->key('latest_sliders')
