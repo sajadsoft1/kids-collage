@@ -116,6 +116,6 @@ class Slider extends Model implements HasMedia
                     ->orderBy('ordering')
                     ->orderBy('id', 'desc')
                     ->get();
-            }, now()->addHours(6));
+            }, 3600);
     }
 }

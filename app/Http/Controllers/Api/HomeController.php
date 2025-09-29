@@ -71,9 +71,7 @@ class HomeController extends Controller
         $data = Cache::remember('home_page_data', 1, function () {
             return [
                 'sliders'   => SliderResource::collection(Slider::latestSliders()),
-                'banners'   => BannerResource::collection(
-                    Banner::where('published', true)->limit(10)->get()
-                ),
+                'banners'   => BannerResource::collection(Banner::latestBanner()),
                 'teachers'  => UserResource::collection(User::query()->limit(5)->get()),
                 'bulletins' => BulletinResource::collection(
                     Bulletin::where('published', true)->orderByDesc('id')->limit(12)->get()

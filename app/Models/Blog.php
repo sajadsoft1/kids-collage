@@ -18,6 +18,7 @@ use App\Traits\HasTranslationAuto;
 use App\Traits\HasUser;
 use App\Traits\HasView;
 use App\Traits\HasWishList;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\LogOptions;
@@ -65,9 +66,9 @@ class Blog extends Model implements HasMedia
     ];
 
     protected $casts = [
-        'published'    => BooleanEnum::class,
+        'published' => BooleanEnum::class,
         'published_at' => 'datetime',
-        'languages'    => 'array',
+        'languages' => 'array',
     ];
 
     /** Model Configuration -------------------------------------------------------------------------- */
@@ -107,5 +108,16 @@ class Blog extends Model implements HasMedia
     public function path(): string
     {
         return localized_route('blog.detail', ['blog' => $this->slug]);
+    }
+
+    public function relatedBlogs(): Collection
+    {
+        return Blog::whereHas('categories', function ($q) {
+            return $q->whereIn('categories.id', $this->categories->pluck('id'));
+        })
+            ->where('id', '!=', $this->id)
+            ->where('published', BooleanEnum::ENABLE)
+            ->orderBy('id', 'desc')
+            ->get();
     }
 }
