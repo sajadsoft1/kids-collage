@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
-use App\Enums\EnrollmentStatus;
+use App\Enums\EnrollmentStatusEnum;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\User;
@@ -20,7 +20,7 @@ class EnrollmentFactory extends Factory
             'user_id'          => User::factory(),
             'course_id'        => Course::factory(),
             'order_item_id'    => null,
-            'status'           => EnrollmentStatus::PENDING->value,
+            'status'           => EnrollmentStatusEnum::PENDING->value,
             'enrolled_at'      => now(),
             'progress_percent' => 0,
         ];

@@ -71,24 +71,14 @@ class HomeController extends Controller
         $data = Cache::remember('home_page_data', 1, function () {
             return [
                 'sliders'   => SliderResource::collection(Slider::latestSliders()),
-                'banners'   => BannerResource::collection(
-                    Banner::latestBanner()
-                ),
+                'banners'   => BannerResource::collection(Banner::latestBanner()),
                 'teachers'  => UserResource::collection(User::query()->limit(5)->get()),
-                'bulletins' => BulletinResource::collection(
-                    Bulletin::where('published', true)->orderByDesc('id')->limit(12)->get()
-                ),
-                'blogs'     => BlogResource::collection(
-                    Blog::where('published', true)->orderByDesc('id')->limit(12)->get()
-                ),
-                'opinions'  => OpinionResource::collection(
-                    Opinion::where('published', true)->get()
-                ),
-                'clients'   => ClientResource::collection(
-                    Client::where('published', true)->get()
-                ),
+                'bulletins' => BulletinResource::collection(Bulletin::latestBulletin()),
+                'blogs'     => BlogResource::collection(Blog::latestBlogs()),
+                'opinions'  => OpinionResource::collection(Opinion::homeOpinions()),
+                'clients'   => ClientResource::collection(Client::homeClients()),
                 'events'    => [],
-                'faqs'      => FaqResource::collection(Faq::where('published', true)->orderByDesc('id')->limit(6)->get()),
+                'faqs'      => FaqResource::collection(Faq::homeFaq()),
             ];
         });
 

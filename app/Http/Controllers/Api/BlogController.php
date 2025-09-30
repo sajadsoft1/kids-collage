@@ -312,6 +312,7 @@ class BlogController extends Controller
             ]
         );
     }
+
     /**
      * @OA\Get(
      *     path="/blog/{blog}/data",
@@ -329,7 +330,6 @@ class BlogController extends Controller
      */
     public function extraData(Blog $blog)
     {
-
         $relatedBlogs = $blog->relatedBlogs($blog);
         $banners = Banner::latestBanner();
         return Response::data([

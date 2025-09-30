@@ -93,6 +93,8 @@ final class CourseTemplateTable extends PowerGridComponent
     public function filters(): array
     {
         return [
+
+
             Filter::datepicker('created_at_formatted', 'created_at')
                 ->params([
                     'maxDate' => now(),
@@ -111,8 +113,8 @@ final class CourseTemplateTable extends PowerGridComponent
 
     public function noDataLabel(): string|View
     {
-        return view('admin.datatable-shared.empty-table', [
-            'link' => route('admin.course-template.create'),
+        return view('admin.datatable-shared.empty-table',[
+            'link'=>route('admin.course-template.create')
         ]);
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\BooleanEnum;
+use App\Facades\SmartCache;
 use App\Helpers\Constants;
 use App\Traits\HasTranslationAuto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -64,4 +65,14 @@ class Client extends Model implements HasMedia
     /**
      * Model Custom Methods --------------------------------------------------------------------------
      */
+    public static function homeClients()
+    {
+        return SmartCache::for(__CLASS__)
+            ->key('home_clients')
+            ->remember(function ()  {
+                return self::where('published', BooleanEnum::ENABLE->value)
+                    ->orderBy('ordering', 'asc')
+                    ->get();
+            },3600);
+    }
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Enums\CourseType;
+use App\Enums\CourseTypeEnum;
 use App\Enums\TermStatus;
 
 return [
@@ -29,7 +29,7 @@ return [
             'body'        => 'محتوای کامل قالب دوره برنامه‌نویسی',
             'image'       => public_path('images/test/blogs/laravel.jpg'),
             'category_id' => 1,
-            'type'        => CourseType::IN_PERSON->value,
+            'type'        => CourseTypeEnum::IN_PERSON->value,
             'capacity'    => 25,
             'sessions'    => [
                 [

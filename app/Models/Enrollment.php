@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Enums\EnrollmentStatus;
+use App\Enums\EnrollmentStatusEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -19,21 +19,21 @@ use Illuminate\Support\Facades\DB;
  * Student registration in a course instance.
  * Tracks student progress, attendance, and completion status.
  *
- * @property int                 $id
- * @property int                 $user_id
- * @property int                 $course_id
- * @property int|null            $order_item_id
- * @property EnrollmentStatus    $status
- * @property \Carbon\Carbon      $enrolled_at
- * @property float               $progress_percent
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
+ * @property int                                                            $id
+ * @property int                                                            $user_id
+ * @property int                                                            $course_id
+ * @property int|null                                                       $order_item_id
+ * @property EnrollmentStatusEnum                                           $status
+ * @property \Carbon\Carbon                                                 $enrolled_at
+ * @property float                                                          $progress_percent
+ * @property \Carbon\Carbon|null                                            $created_at
+ * @property \Carbon\Carbon|null                                            $updated_at
  *
- * @property-read User $user
- * @property-read Course $course
- * @property-read OrderItem|null $orderItem
+ * @property-read User                                                      $user
+ * @property-read Course                                                    $course
+ * @property-read OrderItem|null                                            $orderItem
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Attendance> $attendances
- * @property-read Certificate|null $certificate
+ * @property-read Certificate|null                                          $certificate
  * @property-read \Illuminate\Database\Eloquent\Collection<int, ActivityLog> $activityLogs
  */
 class Enrollment extends Model
@@ -50,7 +50,7 @@ class Enrollment extends Model
     ];
 
     protected $casts = [
-        'status'           => EnrollmentStatus::class,
+        'status'           => EnrollmentStatusEnum::class,
         'enrolled_at'      => 'datetime',
         'progress_percent' => 'decimal:2',
     ];
@@ -282,7 +282,7 @@ class Enrollment extends Model
     public function drop(?string $reason = null): bool
     {
         return DB::transaction(function () use ($reason) {
-            $updated = $this->update(['status' => EnrollmentStatus::DROPPED]);
+            $updated = $this->update(['status' => EnrollmentStatusEnum::DROPPED]);
             
             if ($updated) {
                 $this->logActivity('enrollment.dropped', [
@@ -298,7 +298,7 @@ class Enrollment extends Model
     public function reactivate(): bool
     {
         return DB::transaction(function () {
-            $updated = $this->update(['status' => EnrollmentStatus::ACTIVE]);
+            $updated = $this->update(['status' => EnrollmentStatusEnum::ACTIVE]);
             
             if ($updated) {
                 $this->logActivity('enrollment.reactivated');
@@ -311,7 +311,7 @@ class Enrollment extends Model
     /** Scope for active enrollments. */
     public function scopeActive($query)
     {
-        return $query->where('status', EnrollmentStatus::ACTIVE);
+        return $query->where('status', EnrollmentStatusEnum::ACTIVE);
     }
 
     /** Scope for completed enrollments. */
@@ -339,7 +339,7 @@ class Enrollment extends Model
     }
 
     /** Scope for enrollments by status. */
-    public function scopeByStatus($query, EnrollmentStatus $status)
+    public function scopeByStatus($query, EnrollmentStatusEnum $status)
     {
         return $query->where('status', $status);
     }

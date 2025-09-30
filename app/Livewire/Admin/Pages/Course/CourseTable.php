@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Livewire\Admin\Pages\Course;
 
 use App\Enums\BooleanEnum;
-use App\Enums\CourseType;
+use App\Enums\CourseTypeEnum;
 use App\Helpers\Constants;
 use App\Helpers\PowerGridHelper;
 use App\Models\Category;
@@ -184,7 +184,7 @@ final class CourseTable extends PowerGridComponent
                 })->toArray())->optionLabel('label')->optionValue('value'),
 
             Filter::enumSelect('type_formatted', 'type')
-                ->datasource(CourseType::cases()),
+                ->datasource(CourseTypeEnum::cases()),
         ];
     }
 
@@ -197,17 +197,17 @@ final class CourseTable extends PowerGridComponent
                 ->slot('<x-mary-icon name="o-rocket-launch" class="w-4 h-4" />')
                 ->class('btn btn-square md:btn-sm btn-xs')
                 ->dispatch('course-publish', ['id' => $row->id])
-                ->can($row->status->value === \App\Enums\CourseStatus::DRAFT->value),
+                ->can($row->status->value === \App\Enums\CourseStatusEnum::DRAFT->value),
             Button::add('start')
                 ->slot('<x-mary-icon name="o-play" class="w-4 h-4" />')
                 ->class('btn btn-square md:btn-sm btn-xs')
                 ->dispatch('course-start', ['id' => $row->id])
-                ->can($row->status->value === \App\Enums\CourseStatus::SCHEDULED->value),
+                ->can($row->status->value === \App\Enums\CourseStatusEnum::SCHEDULED->value),
             Button::add('finish')
                 ->slot('<x-mary-icon name="o-flag" class="w-4 h-4" />')
                 ->class('btn btn-square md:btn-sm btn-xs')
                 ->dispatch('course-finish', ['id' => $row->id])
-                ->can($row->status->value === \App\Enums\CourseStatus::ACTIVE->value),
+                ->can($row->status->value === \App\Enums\CourseStatusEnum::ACTIVE->value),
             Button::add('sessions')
                 ->slot(PowerGridHelper::iconShow())
                 ->attributes([

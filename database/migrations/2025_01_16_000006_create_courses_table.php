@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use App\Enums\CourseStatus;
-use App\Enums\CourseType;
+use App\Enums\CourseStatusEnum;
+use App\Enums\CourseTypeEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->foreignId('teacher_id')->index()->constrained('users')->cascadeOnDelete();
             $table->decimal('price', 10, 2)->default(0);
             $table->integer('capacity')->nullable();
-            $table->string('status')->default(CourseStatus::DRAFT->value);
+            $table->string('status')->default(CourseStatusEnum::DRAFT->value);
             $table->timestamps();
             $table->softDeletes();
 

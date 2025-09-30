@@ -7,7 +7,7 @@ namespace App\Livewire\Admin\Pages\Course;
 use App\Actions\Course\StoreCourseAction;
 use App\Actions\Course\UpdateCourseAction;
 use App\Enums\BooleanEnum;
-use App\Enums\CourseType;
+use App\Enums\CourseTypeEnum;
 use App\Models\Category;
 use App\Models\Course;
 use App\Models\Room;
@@ -68,7 +68,7 @@ class CourseUpdateOrCreate extends Component
             ['id' => 6, 'name' => 'Saturday'],
         ];
 
-        $this->type = CourseType::IN_PERSON->value;
+        $this->type = CourseTypeEnum::IN_PERSON->value;
 
         if ($this->model->id) {
             $this->title         = $this->model->title;
