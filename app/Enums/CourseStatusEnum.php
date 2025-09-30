@@ -4,13 +4,40 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
-enum CourseStatus: string
+enum CourseStatusEnum: string
 {
     case DRAFT     = 'draft';
     case SCHEDULED = 'scheduled';
     case ACTIVE    = 'active';
     case FINISHED  = 'finished';
     case CANCELLED = 'cancelled';
+
+
+    public static function options(): array
+    {
+        return [
+            [
+                'label' => 'DRAFT',
+                'value' => self::DRAFT->value,
+            ],
+            [
+                'label' => 'SCHEDULED',
+                'value' => self::SCHEDULED->value,
+            ],
+            [
+                'label' => 'ACTIVE',
+                'value' => self::ACTIVE->value,
+            ],
+            [
+                'label' => 'FINISHED',
+                'value' => self::FINISHED->value,
+            ],
+            [
+                'label' => 'CANCELLED',
+                'value' => self::CANCELLED->value,
+            ],
+        ];
+    }
 
     public function label(): string
     {

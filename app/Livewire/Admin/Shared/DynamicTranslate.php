@@ -89,11 +89,11 @@ class DynamicTranslate extends Component
         return view('livewire.admin.shared.dynamic-translate', [
             'breadcrumbs'        => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link'  => route('admin.' . $this->class . '.index'), 'label' => trans('general.page.index.title', ['model' => trans($this->class . '.model')])],
+                ['link'  => route('admin.' . Str::kebab($this->class) . '.index'), 'label' => trans('general.page.index.title', ['model' => trans($this->class . '.model')])],
                 ['label' => $this->model->title],
             ],
             'breadcrumbsActions' => [
-                ['link' => route('admin.' . $this->class . '.index'), 'icon' => 's-arrow-left'],
+                ['link' => route('admin.' . Str::kebab($this->class) . '.index'), 'icon' => 's-arrow-left'],
             ],
         ]);
     }

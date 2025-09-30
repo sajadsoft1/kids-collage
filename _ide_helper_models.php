@@ -814,7 +814,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Course byPriceRange(float $minPrice, float $maxPrice)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Course byTeacher(int $teacherId)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Course byTerm(int $termId)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Course byType(\App\Enums\CourseType $type)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Course byType(\App\Enums\CourseTypeEnum $type)
  * @method static \Database\Factories\CourseFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Course instructorLed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Course newModelQuery()
@@ -941,7 +941,7 @@ namespace App\Models{
  * @property-read int|null $present_attendances_count
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment active()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment byCourse(int $courseId)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment byStatus(\App\Enums\EnrollmentStatus $status)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment byStatus(\App\Enums\EnrollmentStatusEnum $status)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment byUser(int $userId)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment completed()
  * @method static \Database\Factories\EnrollmentFactory factory($count = null, $state = [])

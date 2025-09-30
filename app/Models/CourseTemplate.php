@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\CourseLevelEnum;
+use App\Enums\CourseTypeEnum;
 use App\Helpers\Constants;
 use App\Traits\HasTranslationAuto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -26,15 +28,15 @@ use Spatie\Tags\HasTags;
  * @property int                 $id
  * @property string              $title
  * @property string              $description
- * @property int|null                                                                  $category_id
- * @property string|null                                                               $level
- * @property array|null                                                                $prerequisites
- * @property bool                                                                      $is_self_paced
- * @property array|null                                                                $languages
- * @property array|null                                                                $syllabus
- * @property \Carbon\Carbon|null                                                       $created_at
- * @property \Carbon\Carbon|null                                                       $updated_at
- * @property \Carbon\Carbon|null                                                       $deleted_at
+ * @property int|null            $category_id
+ * @property string|null         $level
+ * @property array|null          $prerequisites
+ * @property bool                $is_self_paced
+ * @property array|null          $languages
+ * @property array|null          $syllabus
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
  *
  * @property-read \Illuminate\Database\Eloquent\Collection<int, CourseSessionTemplate> $sessionTemplates
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Course>                $courses
@@ -42,9 +44,8 @@ use Spatie\Tags\HasTags;
  */
 class CourseTemplate extends Model implements HasMedia
 {
-    use HasFactory, HasTranslationAuto, SoftDeletes,HasTags;
+    use HasFactory, HasTags, HasTranslationAuto,SoftDeletes;
     use InteractsWithMedia;
-
 
     public array $translatable = [
         'title',
@@ -68,23 +69,25 @@ class CourseTemplate extends Model implements HasMedia
     protected $casts = [
         'prerequisites' => 'array',
         'is_self_paced' => 'boolean',
-        'view_count' => 'integer',
+        'view_count'    => 'integer',
         'comment_count' => 'integer',
-        'wish_count' => 'integer',
-        'languages' => 'array',
+        'wish_count'    => 'integer',
+        'languages'     => 'array',
+        'level'         => CourseLevelEnum::class,
+        'type'          => CourseTypeEnum::class,
     ];
 
     /** Model Configuration -------------------------------------------------------------------------- */
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('image')
-             ->singleFile()
-             ->useFallbackUrl('/assets/images/default/user-avatar.png')
-             ->registerMediaConversions(function () {
-                 $this->addMediaConversion(Constants::RESOLUTION_100_SQUARE)->fit(Fit::Crop, 100, 100);
-                 $this->addMediaConversion(Constants::RESOLUTION_854_480)->fit(Fit::Crop, 854, 480);
-                 $this->addMediaConversion(Constants::RESOLUTION_1280_720)->fit(Fit::Crop, 1280, 720);
-             });
+            ->singleFile()
+            ->useFallbackUrl('/assets/images/default/user-avatar.png')
+            ->registerMediaConversions(function () {
+                $this->addMediaConversion(Constants::RESOLUTION_100_SQUARE)->fit(Fit::Crop, 100, 100);
+                $this->addMediaConversion(Constants::RESOLUTION_854_480)->fit(Fit::Crop, 854, 480);
+                $this->addMediaConversion(Constants::RESOLUTION_1280_720)->fit(Fit::Crop, 1280, 720);
+            });
     }
 
     /** Get the session templates for this course template. */

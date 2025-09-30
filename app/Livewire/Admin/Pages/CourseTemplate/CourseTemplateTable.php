@@ -36,7 +36,7 @@ final class CourseTemplateTable extends PowerGridComponent
     public function breadcrumbsActions(): array
     {
         return [
-            ['link' => route('admin.courseTemplate.create'), 'icon' => 's-plus', 'label' => trans('general.page.create.title', ['model' => trans('courseTemplate.model')])],
+            ['link' => route('admin.course-template.create'), 'icon' => 's-plus', 'label' => trans('general.page.create.title', ['model' => trans('courseTemplate.model')])],
         ];
     }
 
@@ -79,7 +79,6 @@ final class CourseTemplateTable extends PowerGridComponent
         return PowerGrid::fields()
             ->add('id')
             ->add('title', fn ($row) => PowerGridHelper::fieldTitle($row))
-            ->add('published_formated', fn ($row) => PowerGridHelper::fieldPublishedAtFormated($row))
             ->add('created_at_formatted', fn ($row) => PowerGridHelper::fieldCreatedAtFormated($row));
     }
 
@@ -88,7 +87,6 @@ final class CourseTemplateTable extends PowerGridComponent
         return [
             PowerGridHelper::columnId(),
             PowerGridHelper::columnTitle(),
-            PowerGridHelper::columnPublished(),
             PowerGridHelper::columnCreatedAT(),
             PowerGridHelper::columnAction(),
         ];
@@ -97,8 +95,7 @@ final class CourseTemplateTable extends PowerGridComponent
     public function filters(): array
     {
         return [
-            Filter::enumSelect('published_formated', 'published')
-                  ->datasource(BooleanEnum::cases()),
+
 
             Filter::datepicker('created_at_formatted', 'created_at')
                   ->params([
@@ -111,7 +108,6 @@ final class CourseTemplateTable extends PowerGridComponent
     {
         return [
             PowerGridHelper::btnTranslate($row),
-            PowerGridHelper::btnToggle($row),
             PowerGridHelper::btnEdit($row),
             PowerGridHelper::btnDelete($row),
         ];
@@ -120,7 +116,7 @@ final class CourseTemplateTable extends PowerGridComponent
     public function noDataLabel(): string|View
     {
         return view('admin.datatable-shared.empty-table',[
-            'link'=>route('admin.courseTemplate.create')
+            'link'=>route('admin.course-template.create')
         ]);
     }
 

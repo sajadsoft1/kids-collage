@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use App\Enums\CourseStatus;
-use App\Enums\CourseType;
+use App\Enums\CourseStatusEnum;
+use App\Enums\CourseTypeEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -19,10 +19,10 @@ return new class extends Migration {
             $table->time('start_time');
             $table->time('end_time');
             $table->foreignId('room_id')->nullable()->constrained('rooms')->nullOnDelete();
-            $table->string('status')->default(CourseStatus::SCHEDULED->value);
+            $table->string('status')->default(CourseStatusEnum::SCHEDULED->value);
             $table->text('meeting_link')->nullable();
             $table->text('recording_link')->nullable();
-            $table->string('session_type')->default(CourseType::ONLINE->value);
+            $table->string('session_type')->default(CourseTypeEnum::ONLINE->value);
             $table->timestamps();
             $table->softDeletes();
         });

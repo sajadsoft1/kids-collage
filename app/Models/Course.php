@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Enums\CourseStatus;
-use App\Enums\CourseType;
+use App\Enums\CourseStatusEnum;
+use App\Enums\CourseTypeEnum;
 use App\Traits\HasTranslationAuto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -27,18 +27,18 @@ use Illuminate\Support\Facades\DB;
  * @property int                 $teacher_id
  * @property int|null            $capacity
  * @property float               $price
- * @property CourseType          $type
- * @property CourseStatus        $status
+ * @property CourseTypeEnum      $type
+ * @property CourseStatusEnum    $status
  * @property array|null          $days_of_week
  * @property \Carbon\Carbon|null $start_time
  * @property \Carbon\Carbon|null $end_time
- * @property int|null                                                          $room_id
- * @property string|null                                                       $meeting_link
- * @property \Carbon\Carbon|null                                               $created_at
- * @property \Carbon\Carbon|null                                               $updated_at
- * @property \Carbon\Carbon|null                                               $deleted_at
+ * @property int|null            $room_id
+ * @property string|null         $meeting_link
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
  *
- * @property-read CourseTemplate                                               $template
+ * @property-read CourseTemplate $template
  * @property-read Term                                                         $term
  * @property-read User                                                         $teacher
  * @property-read Room|null                                                    $room
@@ -168,7 +168,7 @@ class Course extends Model
     /** Check if the course can be published (scheduled). */
     public function canPublish(): bool
     {
-        return $this->status === CourseStatus::DRAFT;
+        return $this->status === CourseStatusEnum::DRAFT;
     }
 
     /** Move course to scheduled state. */
@@ -176,13 +176,13 @@ class Course extends Model
     {
         abort_unless($this->canPublish(), 422, 'Only draft courses can be published');
 
-        return $this->update(['status' => CourseStatus::SCHEDULED]);
+        return $this->update(['status' => CourseStatusEnum::SCHEDULED]);
     }
 
     /** Check if the course can be started. */
     public function canStart(): bool
     {
-        return $this->status === CourseStatus::SCHEDULED;
+        return $this->status === CourseStatusEnum::SCHEDULED;
     }
 
     /** Start the course: clone sessions and set ACTIVE. */
@@ -192,7 +192,7 @@ class Course extends Model
 
         DB::transaction(function () {
             $this->cloneSessions();
-            $this->update(['status' => CourseStatus::ACTIVE]);
+            $this->update(['status' => CourseStatusEnum::ACTIVE]);
         });
 
         return true;
@@ -201,7 +201,7 @@ class Course extends Model
     /** Check if the course can be finished. */
     public function canFinish(): bool
     {
-        return $this->status === CourseStatus::ACTIVE;
+        return $this->status === CourseStatusEnum::ACTIVE;
     }
 
     /** Finish the course. */
@@ -209,21 +209,21 @@ class Course extends Model
     {
         abort_unless($this->canFinish(), 422, 'Only active courses can be finished');
 
-        return $this->update(['status' => CourseStatus::FINISHED]);
+        return $this->update(['status' => CourseStatusEnum::FINISHED]);
     }
 
     /** Cancel the course from any non-finished state. */
     public function cancel(): bool
     {
-        abort_if($this->status === CourseStatus::FINISHED, 422, 'Finished courses cannot be cancelled');
+        abort_if($this->status === CourseStatusEnum::FINISHED, 422, 'Finished courses cannot be cancelled');
 
-        return $this->update(['status' => CourseStatus::CANCELLED]);
+        return $this->update(['status' => CourseStatusEnum::CANCELLED]);
     }
 
     /** Check if this course is self-paced. */
     public function isSelfPaced(): bool
     {
-        return $this->type === CourseType::SELF_PACED;
+        return $this->type === CourseTypeEnum::SELF_PACED;
     }
 
     /** Check if this course requires scheduling. */
@@ -409,11 +409,11 @@ class Course extends Model
     /** Scope for active courses. */
     public function scopeActive($query)
     {
-        return $query->where('status', CourseStatus::ACTIVE);
+        return $query->where('status', CourseStatusEnum::ACTIVE);
     }
 
     /** Scope for courses by type. */
-    public function scopeByType($query, CourseType $type)
+    public function scopeByType($query, CourseTypeEnum $type)
     {
         return $query->where('type', $type);
     }
@@ -421,13 +421,13 @@ class Course extends Model
     /** Scope for self-paced courses. */
     public function scopeSelfPaced($query)
     {
-        return $query->where('type', CourseType::SELF_PACED);
+        return $query->where('type', CourseTypeEnum::SELF_PACED);
     }
 
     /** Scope for instructor-led courses. */
     public function scopeInstructorLed($query)
     {
-        return $query->where('type', '!=', CourseType::SELF_PACED);
+        return $query->where('type', '!=', CourseTypeEnum::SELF_PACED);
     }
 
     /** Scope for courses with available spots. */

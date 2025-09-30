@@ -4,7 +4,7 @@ namespace App\Actions\CourseTemplate;
 
 use App\Actions\CourseSessionTemplate\StoreCourseSessionTemplateAction;
 use App\Actions\Translation\SyncTranslationAction;
-use App\Enums\CourseType;
+use App\Enums\CourseTypeEnum;
 use App\Models\CourseTemplate;
 use App\Services\File\FileService;
 use Illuminate\Support\Arr;
@@ -56,7 +56,7 @@ class StoreCourseTemplateAction
                 'level'         => $payload['level'] ?? null,
                 'prerequisites' => $payload['prerequisites'] ?? [],
                 'is_self_paced' => $payload['is_self_paced'] ?? false,
-                'type'          => $payload['type'] ?? CourseType::IN_PERSON->value,
+                'type'          => $payload['type'] ?? CourseTypeEnum::IN_PERSON->value,
             ]);
             $this->syncTranslationAction->handle($model, Arr::only($payload, ['title', 'description', 'body']));
             $this->fileService->addMedia($model, Arr::get($payload, 'image'));
