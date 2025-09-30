@@ -40,6 +40,7 @@ class FaqSeeder extends Seeder
                 'category_id' => $category->id,
                 'favorite'    => $row['favorite'],
                 'ordering'    => $row['ordering'],
+                'deletable'   => false,
             ]);
         }
     }

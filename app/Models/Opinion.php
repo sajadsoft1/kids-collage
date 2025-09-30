@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\BooleanEnum;
+use App\Facades\SmartCache;
 use App\Helpers\Constants;
 use App\Traits\CLogsActivity;
 use App\Traits\HasScheduledPublishing;
@@ -77,4 +78,15 @@ class Opinion extends Model implements HasMedia
      */
 
     /** Model Attributes -------------------------------------------------------------------------- */
+
+public static function homeOpinions()
+{
+    return SmartCache::for(__CLASS__)
+        ->key('home_opinions')
+        ->remember(function ()  {
+            return self::where('published', BooleanEnum::ENABLE->value)
+                ->orderBy('ordering', 'asc')
+                ->get();
+        },3600);
+}
 }

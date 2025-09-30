@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\BooleanEnum;
+use App\Facades\SmartCache;
 use App\Helpers\Constants;
 use App\Traits\CLogsActivity;
 use App\Traits\HasCategory;
@@ -17,6 +18,7 @@ use App\Traits\HasTranslationAuto;
 use App\Traits\HasUser;
 use App\Traits\HasView;
 use App\Traits\HasWishList;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\LogOptions;
@@ -105,5 +107,25 @@ class Bulletin extends Model implements HasMedia
     public function path(): string
     {
         return localized_route('bulletin.detail', ['bulletin' => $this->slug]);
+    }
+
+    public static function latestBulletin()
+    {
+        return SmartCache::for(__CLASS__)
+            ->key('latest_bulletins')
+            ->remember(function ()  {
+                return self::where('published', BooleanEnum::ENABLE->value)
+                    ->orderBy('id', 'desc')
+                    ->get();
+            },3600);
+
+    }
+    public static function relatedBulletin(Bulletin $bulletin): Collection
+    {
+        return Blog::where('category_id', $bulletin->category_id)
+            ->where('id', '!=', $bulletin->id)
+            ->where('published', BooleanEnum::ENABLE)
+            ->orderBy('id', 'desc')
+            ->get();
     }
 }
