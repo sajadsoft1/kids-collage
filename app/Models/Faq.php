@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Enums\BooleanEnum;
 use App\Enums\YesNoEnum;
+use App\Facades\SmartCache;
 use App\Traits\CLogsActivity;
 use App\Traits\HasScheduledPublishing;
 use App\Traits\HasTranslationAuto;
@@ -39,12 +40,14 @@ class Faq extends Model
         'languages',
         'like_count',
         'view_count',
+        'deletable',
     ];
 
     protected $casts = [
         'published'    => BooleanEnum::class,
         'published_at' => 'date',
         'favorite'     => YesNoEnum::class,
+        'deletable'     => YesNoEnum::class,
         'languages'    => 'array',
         'created_at'   => 'date',
         'updated_at'   => 'date',
@@ -75,4 +78,15 @@ class Faq extends Model
     /**
      * Model Custom Methods --------------------------------------------------------------------------
      */
+    public static function homeFaq()
+    {
+        return SmartCache::for(__CLASS__)
+            ->key('home_faq')
+            ->remember(function ()  {
+                return self::where('published', BooleanEnum::ENABLE->value)
+                    ->where('favorite', YesNoEnum::YES->value)
+                    ->orderBy('id', 'desc')
+                    ->get();
+            },3600);
+    }
 }

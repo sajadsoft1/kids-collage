@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\BooleanEnum;
+use App\Facades\SmartCache;
 use App\Helpers\Constants;
 use App\Traits\CLogsActivity;
 use App\Traits\HasCategory;
@@ -113,6 +114,17 @@ class Blog extends Model implements HasMedia
         return localized_route('blog.detail', ['blog' => $this->slug]);
     }
 
+    public static function latestBlogs()
+    {
+        return SmartCache::for(__CLASS__)
+            ->key('latest_blogs')
+            ->remember(function ()  {
+                return self::where('published', BooleanEnum::ENABLE->value)
+                    ->orderBy('id', 'desc')
+                    ->get();
+            },3600);
+
+    }
     public static function relatedBlogs(Blog $blog): Collection
     {
         return Blog::where('category_id', $blog->category_id)

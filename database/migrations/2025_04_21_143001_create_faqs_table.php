@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('like_count')->default(0);
             $table->unsignedBigInteger('view_count')->default(0);
             $table->boolean('favorite')->default(BooleanEnum::DISABLE->value);
+            $table->boolean('deletable')->default(BooleanEnum::ENABLE->value);
             $table->boolean('published')->default(BooleanEnum::DISABLE->value);
             $table->timestamp('published_at')->nullable();
             $table->timestamps();
