@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Actions\Course;
 
+use App\Actions\CourseSession\StoreCourseSessionAction;
 use App\Actions\Translation\SyncTranslationAction;
 use App\Models\Course;
 use App\Models\CourseTemplate;
@@ -17,54 +18,47 @@ class StoreCourseAction
     use AsAction;
 
     public function __construct(
-        private readonly SyncTranslationAction $syncTranslationAction,
-    ) {}
+        private readonly StoreCourseSessionAction $storeCourseSessionAction,
+    )
+    {
+    }
 
     /**
      * @param array{
-     *     title:string,
-     *     description:string,
-     *     body:string,
-     *     slug:string,
-     *     published:bool,
-     *     published_at:string,
-     *     user_id:int,
+     *     course_template_id:int,
+     *     term_id:int,
      *     teacher_id:int,
-     *     category_id:int,
      *     price:float,
-     *     type:string,
-     *     start_date:string,
-     *     end_date:string,
-     *     view_count:int,
-     *     comment_count:int,
-     *     wish_count:int,
-     *     languages:array
+     *     capacity:float,
+     *     sessions:array{
+     *         course_session_template_id:int,
+     *         date:string,
+     *         start_time:string,
+     *         end_time:string,
+     *         room_id:int|null,
+     *         meeting_link:string|null,
+     *         session_number:int,
+     *     }[],
      * } $payload
      * @throws Throwable
      */
     public function handle(array $payload): Course
     {
         return DB::transaction(function () use ($payload) {
-            $courseTemplate = CourseTemplate::create([
-                'category_id'   => Arr::get($payload, 'category_id'),
-                'level'         => Arr::get($payload, 'level'),
-                'prerequisites' => Arr::get($payload, 'prerequisites'),
-                'is_self_paced' => Arr::get($payload, 'is_self_paced'),
-                'type'               => Arr::get($payload, 'type'),
-            ]);
-
-            $this->syncTranslationAction->handle($courseTemplate, Arr::only($payload, ['title', 'description', 'body']));
 
             $model = Course::create([
-                'course_template_id' => $courseTemplate->id,
+                'course_template_id' => Arr::get($payload, 'course_template_id'),
                 'term_id'            => Arr::get($payload, 'term_id'),
                 'teacher_id'         => Arr::get($payload, 'teacher_id'),
                 'capacity'           => Arr::get($payload, 'capacity'),
                 'price'              => Arr::get($payload, 'price', 0),
-                'status'             => Arr::get($payload, 'status'),
             ]);
 
-            $this->syncTranslationAction->handle($model, Arr::only($payload, ['title', 'description', 'body']));
+            foreach ($payload['sessions'] as $session) {
+                $this->storeCourseSessionAction->handle(array_merge($session, [
+                    'course_id' => $model->id,
+                ]));
+            }
 
             return $model->refresh();
         });

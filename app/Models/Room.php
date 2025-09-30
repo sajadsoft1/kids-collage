@@ -34,12 +34,10 @@ class Room extends Model
         'name',
         'capacity',
         'location',
-        'languages',
     ];
 
     protected $casts = [
         'capacity'  => 'integer',
-        'languages' => 'array',
     ];
 
     /** Get the courses that use this room. */

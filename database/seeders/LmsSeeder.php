@@ -21,6 +21,7 @@ class LmsSeeder extends Seeder
         $this->command->info('🎓 Seeding LMS (Learning Management System)...');
 
         $this->call([
+            TermSeeder::class,
             RoomSeeder::class,
             CourseSeeder::class,
 //            SessionSeeder::class,

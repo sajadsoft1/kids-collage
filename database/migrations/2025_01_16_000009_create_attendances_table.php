@@ -12,7 +12,7 @@ return new class extends Migration {
         Schema::create('attendances', function (Blueprint $table) {
             $table->id();
             $table->foreignId('enrollment_id')->index()->constrained('enrollments')->cascadeOnDelete();
-            $table->foreignId('session_id')->index()->constrained('course_sessions')->cascadeOnDelete();
+            $table->foreignId('course_session_id')->index()->constrained('course_sessions')->cascadeOnDelete();
             $table->boolean('present')->index()->default(false);
             $table->timestamp('arrival_time')->nullable()->index();
             $table->timestamp('leave_time')->nullable()->index();
@@ -20,7 +20,7 @@ return new class extends Migration {
             $table->timestamps();
 
             // Unique constraint to prevent duplicate attendance records
-            $table->unique(['enrollment_id', 'session_id']);
+            $table->unique(['enrollment_id', 'course_session_id']);
         });
     }
 

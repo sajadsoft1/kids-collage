@@ -1,9 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
 return [
-    'model'         => 'Session',
+    'model'         => 'مدل',
     'permissions'   => [
     ],
     'exceptions'    => [

@@ -14,7 +14,6 @@ return new class extends Migration {
             $table->string('name');
             $table->unsignedInteger('capacity')->index();
             $table->string('location')->nullable();
-            $table->json('languages')->nullable();
             $table->timestamps();
         });
     }

@@ -4,12 +4,17 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Helpers\Constants;
 use App\Traits\HasTranslationAuto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Image\Enums\Fit;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\Tags\HasTags;
 
 /**
  * CourseTemplate Model
@@ -35,9 +40,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Course>                $courses
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Resource>  $resources
  */
-class CourseTemplate extends Model
+class CourseTemplate extends Model implements HasMedia
 {
-    use HasFactory, HasTranslationAuto, SoftDeletes;
+    use HasFactory, HasTranslationAuto, SoftDeletes,HasTags;
+    use InteractsWithMedia;
+
 
     public array $translatable = [
         'title',
@@ -66,6 +73,19 @@ class CourseTemplate extends Model
         'wish_count' => 'integer',
         'languages' => 'array',
     ];
+
+    /** Model Configuration -------------------------------------------------------------------------- */
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('image')
+             ->singleFile()
+             ->useFallbackUrl('/assets/images/default/user-avatar.png')
+             ->registerMediaConversions(function () {
+                 $this->addMediaConversion(Constants::RESOLUTION_100_SQUARE)->fit(Fit::Crop, 100, 100);
+                 $this->addMediaConversion(Constants::RESOLUTION_854_480)->fit(Fit::Crop, 854, 480);
+                 $this->addMediaConversion(Constants::RESOLUTION_1280_720)->fit(Fit::Crop, 1280, 720);
+             });
+    }
 
     /** Get the session templates for this course template. */
     public function sessionTemplates(): HasMany

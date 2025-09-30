@@ -2,62 +2,33 @@
 
 declare(strict_types=1);
 
-namespace App\Livewire\Admin\Pages\Session;
+namespace App\Livewire\Admin\Pages\CourseTemplate;
 
+use App\Enums\BooleanEnum;
 use App\Helpers\PowerGridHelper;
-use App\Models\Course;
-use App\Models\CourseSession;
+use App\Models\CourseTemplate;
 use App\Traits\PowerGridHelperTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\View\View;
-use Jenssegers\Agent\Agent;
 use Livewire\Attributes\Computed;
+use Jenssegers\Agent\Agent;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 
-final class SessionTable extends PowerGridComponent
+final class CourseTemplateTable extends PowerGridComponent
 {
     use PowerGridHelperTrait;
-    public Course $course;
-    public string $tableName     = 'index_session_datatable';
+    public string $tableName = 'index_courseTemplate_datatable';
     public string $sortDirection = 'desc';
-
-    public function setUp(): array
-    {
-        $setup = [
-            PowerGrid::header()
-                ->includeViewOnTop('components.admin.shared.bread-crumbs')
-                ->showSearchInput(),
-
-            PowerGrid::footer()
-                ->showPerPage()
-                ->showRecordCount(),
-        ];
-
-        if ((new Agent)->isMobile()) {
-            $setup[] = PowerGrid::responsive()->fixedColumns('id', 'title', 'actions');
-        }
-
-        return $setup;
-    }
-
-    protected function queryString(): array
-    {
-        return [
-            'search' => ['except' => ''],
-            'page'   => ['except' => 1],
-            ...$this->powerGridQueryString(),
-        ];
-    }
 
     #[Computed(persist: true)]
     public function breadcrumbs(): array
     {
         return [
             ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-            ['label' => trans('general.page.index.title', ['model' => trans('session.model')])],
+            ['label' => trans('general.page.index.title', ['model' => trans('courseTemplate.model')])],
         ];
     }
 
@@ -65,13 +36,33 @@ final class SessionTable extends PowerGridComponent
     public function breadcrumbsActions(): array
     {
         return [
-            ['link' => route('admin.session.create', ['course' => $this->course->id]), 'icon' => 's-plus', 'label' => trans('general.page.create.title', ['model' => trans('session.model')])],
+            ['link' => route('admin.courseTemplate.create'), 'icon' => 's-plus', 'label' => trans('general.page.create.title', ['model' => trans('courseTemplate.model')])],
         ];
     }
 
+    public function setUp(): array
+    {
+        $setup = [
+            PowerGrid::header()
+                ->includeViewOnTop("components.admin.shared.bread-crumbs")
+                ->showSearchInput(),
+
+            PowerGrid::footer()
+                ->showPerPage()
+                ->showRecordCount(),
+        ];
+
+        if((new Agent())->isMobile()) {
+            $setup[] = PowerGrid::responsive()->fixedColumns('id', 'title', 'actions');
+        }
+
+        return $setup;
+    }
+
+
     public function datasource(): Builder
     {
-        return CourseSession::query()->where('course_id', $this->course->id);
+        return CourseTemplate::query();
     }
 
     public function relationSearch(): array
@@ -88,6 +79,7 @@ final class SessionTable extends PowerGridComponent
         return PowerGrid::fields()
             ->add('id')
             ->add('title', fn ($row) => PowerGridHelper::fieldTitle($row))
+            ->add('published_formated', fn ($row) => PowerGridHelper::fieldPublishedAtFormated($row))
             ->add('created_at_formatted', fn ($row) => PowerGridHelper::fieldCreatedAtFormated($row));
     }
 
@@ -96,6 +88,7 @@ final class SessionTable extends PowerGridComponent
         return [
             PowerGridHelper::columnId(),
             PowerGridHelper::columnTitle(),
+            PowerGridHelper::columnPublished(),
             PowerGridHelper::columnCreatedAT(),
             PowerGridHelper::columnAction(),
         ];
@@ -104,17 +97,21 @@ final class SessionTable extends PowerGridComponent
     public function filters(): array
     {
         return [
+            Filter::enumSelect('published_formated', 'published')
+                  ->datasource(BooleanEnum::cases()),
+
             Filter::datepicker('created_at_formatted', 'created_at')
-                ->params([
-                    'maxDate' => now(),
-                ]),
+                  ->params([
+                      'maxDate' => now(),
+                  ])
         ];
     }
 
-    public function actions(CourseSession $row): array
+    public function actions(CourseTemplate $row): array
     {
         return [
             PowerGridHelper::btnTranslate($row),
+            PowerGridHelper::btnToggle($row),
             PowerGridHelper::btnEdit($row),
             PowerGridHelper::btnDelete($row),
         ];
@@ -122,8 +119,9 @@ final class SessionTable extends PowerGridComponent
 
     public function noDataLabel(): string|View
     {
-        return view('admin.datatable-shared.empty-table', [
-            'link' => route('admin.session.create', ['course' => $this->course->id]),
+        return view('admin.datatable-shared.empty-table',[
+            'link'=>route('admin.courseTemplate.create')
         ]);
     }
+
 }

@@ -2,55 +2,90 @@
 
 declare(strict_types=1);
 
+use App\Enums\CourseType;
+use App\Enums\TermStatus;
+
 return [
-    'room'        => [
+    'room'            => [
         [
-            'title'       => 'کلاس A',
-            'description' => 'توضیحات کلاس A',
-            'capacity'    => 30,
-            'languages'   => ['fa'],
-            'path'        => public_path('images/test/blogs/laravel.jpg'),
+            'name'     => 'کلاس A',
+            'location' => 'توضیحات کلاس A',
+            'capacity' => 30,
         ],
     ],
-    'course'      => [
+    'term'            => [
         [
-            'title'       => 'دوره لاراول',
-            'description' => 'توضیحات دوره لاراول',
-            'body'        => 'محتوای کامل دوره لاراول',
-            'teacher_id'  => 2,
-            'category_id' => 1,
-            'price'       => 1000000,
-            'type'        => 'in-person',
+            'title'       => 'ترم بهار ۱۴۰۳',
+            'description' => 'توضیحات ترم بهار ۱۴۰۳',
             'start_date'  => '2025-01-01',
-            'end_date'    => '2025-03-01',
-            'languages'   => ['fa'],
-            'path'        => public_path('images/test/blogs/laravel.jpg'),
+            'end_date'    => '2025-06-01',
+            'status'      => TermStatus::ACTIVE->value,
         ],
     ],
-    'session'     => [
+    'course_template' => [
         [
-            'title'          => 'جلسه اول',
-            'description'    => 'توضیحات جلسه اول',
-            'body'           => 'محتوای جلسه اول',
-            'course_id'      => 1,
-            'teacher_id'     => 2,
-            'start_time'     => '2025-01-01 10:00:00',
-            'end_time'       => '2025-01-01 12:00:00',
-            'room_id'        => 1,
-            'meeting_link'   => 'https://meet.example.com',
-            'session_number' => 1,
-            'languages'      => ['fa'],
-            'path'           => public_path('images/test/blogs/laravel.jpg'),
+            'title'       => 'قالب دوره برنامه‌نویسی',
+            'description' => 'توضیحات قالب دوره برنامه‌نویسی',
+            'body'        => 'محتوای کامل قالب دوره برنامه‌نویسی',
+            'image'       => public_path('images/test/blogs/laravel.jpg'),
+            'category_id' => 1,
+            'type'        => CourseType::IN_PERSON->value,
+            'capacity'    => 25,
+            'sessions'    => [
+                [
+                    'title'            => 'جلسه اول',
+                    'description'      => 'توضیحات جلسه اول',
+                    'duration_minutes' => '60', // min
+                    'order'   => 1,
+                    'languages'        => ['fa'],
+                ],
+                [
+                    'title'            => 'جلسه دوم',
+                    'description'      => 'توضیحات جلسه دوم',
+                    'duration_minutes' => '60', // min
+                    'order'   => 2,
+                    'languages'        => ['fa'],
+                ]
+            ]
         ],
     ],
-    'order'       => [
+    'course'          => [
+        [
+            'course_template_id' => 1,
+            'term_id'            => 1,
+            'teacher_id'         => 2,
+            'price'              => 1000000,
+            'capacity'              => 100,
+            'sessions'           => [
+                [
+                    'course_session_template_id' => 1,
+                    'date'                       => '2025-01-01',
+                    'start_time'                 => '10:00:00',
+                    'end_time'                   => '12:00:00',
+                    'room_id'                    => 1,
+                    'meeting_link'               => null,
+                    'session_number'             => 1,
+                ],
+                [
+                    'course_session_template_id' => 2,
+                    'date'                       => '2025-01-08',
+                    'start_time'                 => '10:00:00',
+                    'end_time'                   => '12:00:00',
+                    'room_id'                    => 1,
+                    'meeting_link'               => null,
+                    'session_number'             => 2,
+                ]
+            ],
+        ],
+    ],
+    'order'           => [
         [
             'user_id'      => 2,
             'total_amount' => 1000000,
             'status'       => 'pending',
         ],
     ],
-    'payment'     => [
+    'payment'         => [
         [
             'user_id'        => 2,
             'order_id'       => 1,
@@ -60,7 +95,7 @@ return [
             'transaction_id' => 'TXN123456',
         ],
     ],
-    'installment' => [
+    'installment'     => [
         [
             'payment_id'     => 1,
             'amount'         => 500000,
@@ -70,7 +105,7 @@ return [
             'transaction_id' => null,
         ],
     ],
-    'enrollment'  => [
+    'enrollment'      => [
         [
             'user_id'     => 2,
             'course_id'   => 1,
@@ -78,7 +113,7 @@ return [
             'status'      => 'active',
         ],
     ],
-    'attendance'  => [
+    'attendance'      => [
         [
             'enrollment_id' => 1,
             'session_id'    => 1,
