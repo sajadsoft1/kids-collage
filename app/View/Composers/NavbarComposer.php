@@ -136,7 +136,7 @@ class NavbarComposer
                         'params'     => [],
                         'exact'      => true,
                         'title'      => trans('_menu.course_management'),
-                        'route_name' => 'admin.course.index',
+                        'route_name' => 'admin.course-template.index',
                         'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Course::class, 'Index')),
                     ],
                     [
