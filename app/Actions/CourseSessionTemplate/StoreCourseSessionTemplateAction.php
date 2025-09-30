@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\CourseSessionTemplate;
 
 use App\Actions\Translation\SyncTranslationAction;
@@ -17,22 +19,19 @@ class StoreCourseSessionTemplateAction
     public function __construct(
         private readonly SyncTranslationAction $syncTranslationAction,
         private readonly FileService $fileService,
-
-    )
-    {
-    }
+    ) {}
 
     /**
      * @param array{
      *     course_template_id:int,
      *     order:int,
      *     duration_minutes:int,
+     *     type?:string,
      *     title:string,
      *     description:string,
      *     body:string,
      *     image:string|null,
      * } $payload
-     * @return CourseSessionTemplate
      * @throws Throwable
      */
     public function handle(array $payload): CourseSessionTemplate
@@ -40,11 +39,12 @@ class StoreCourseSessionTemplateAction
         return DB::transaction(function () use ($payload) {
             $model = CourseSessionTemplate::create([
                 'course_template_id' => $payload['course_template_id'],
-                'order'              => $payload['order']??1,
+                'order'              => $payload['order'] ?? 1,
                 'duration_minutes'   => $payload['duration_minutes'],
             ]);
             $this->syncTranslationAction->handle($model, Arr::only($payload, ['title', 'description', 'body']));
             $this->fileService->addMedia($model, Arr::get($payload, 'image'));
+
             return $model->refresh();
         });
     }

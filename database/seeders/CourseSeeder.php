@@ -7,7 +7,6 @@ namespace Database\Seeders;
 use App\Actions\Course\StoreCourseAction;
 use App\Actions\CourseTemplate\StoreCourseTemplateAction;
 use App\Helpers\StringHelper;
-use Exception;
 use Illuminate\Database\Seeder;
 
 class CourseSeeder extends Seeder
@@ -23,6 +22,7 @@ class CourseSeeder extends Seeder
                 'description' => $row['description'],
                 'body'        => $row['body'],
                 'category_id' => $row['category_id'],
+                'level'       => $row['level'],
                 'type'        => $row['type'],
                 'sessions'    => $row['sessions'],
             ]);

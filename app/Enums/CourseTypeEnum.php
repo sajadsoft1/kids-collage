@@ -6,6 +6,8 @@ namespace App\Enums;
 
 enum CourseTypeEnum: string
 {
+    use EnumToArray;
+
     case IN_PERSON  = 'in-person';
     case ONLINE     = 'online';
     case HYBRID     = 'hybrid';

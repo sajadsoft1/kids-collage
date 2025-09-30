@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Enums\CourseLevelEnum;
 use App\Enums\CourseTypeEnum;
 use App\Enums\TermStatus;
 
@@ -24,29 +25,31 @@ return [
     ],
     'course_template' => [
         [
-            'title'       => 'قالب دوره برنامه‌نویسی',
-            'description' => 'توضیحات قالب دوره برنامه‌نویسی',
-            'body'        => 'محتوای کامل قالب دوره برنامه‌نویسی',
-            'image'       => public_path('images/test/blogs/laravel.jpg'),
-            'category_id' => 1,
-            'type'        => CourseTypeEnum::IN_PERSON->value,
-            'capacity'    => 25,
-            'sessions'    => [
+            'title'         => 'قالب دوره برنامه‌نویسی',
+            'description'   => 'توضیحات قالب دوره برنامه‌نویسی',
+            'body'          => 'محتوای کامل قالب دوره برنامه‌نویسی',
+            'image'         => public_path('images/test/blogs/laravel.jpg'),
+            'category_id'   => 1,
+            'level'         => CourseLevelEnum::BIGGINER->value,
+            'type'          => CourseTypeEnum::IN_PERSON->value,
+            'capacity'      => 25,
+            'tags'          => ['programming', 'web development'],
+            'prerequisites' => [],
+            'is_self_paced' => false,
+            'sessions'      => [
                 [
                     'title'            => 'جلسه اول',
                     'description'      => 'توضیحات جلسه اول',
                     'duration_minutes' => '60', // min
-                    'order'   => 1,
-                    'languages'        => ['fa'],
+                    'order'            => 1,
                 ],
                 [
                     'title'            => 'جلسه دوم',
                     'description'      => 'توضیحات جلسه دوم',
                     'duration_minutes' => '60', // min
-                    'order'   => 2,
-                    'languages'        => ['fa'],
-                ]
-            ]
+                    'order'            => 2,
+                ],
+            ],
         ],
     ],
     'course'          => [
@@ -55,7 +58,7 @@ return [
             'term_id'            => 1,
             'teacher_id'         => 2,
             'price'              => 1000000,
-            'capacity'              => 100,
+            'capacity'           => 100,
             'sessions'           => [
                 [
                     'course_session_template_id' => 1,
@@ -74,7 +77,7 @@ return [
                     'room_id'                    => 1,
                     'meeting_link'               => null,
                     'session_number'             => 2,
-                ]
+                ],
             ],
         ],
     ],

@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\CourseTemplate;
 
 use App\Actions\CourseSessionTemplate\StoreCourseSessionTemplateAction;
 use App\Actions\Translation\SyncTranslationAction;
+use App\Enums\CourseLevelEnum;
 use App\Enums\CourseTypeEnum;
 use App\Models\CourseTemplate;
 use App\Services\File\FileService;
@@ -20,9 +23,7 @@ class StoreCourseTemplateAction
         private readonly SyncTranslationAction $syncTranslationAction,
         private readonly StoreCourseSessionTemplateAction $storeCourseSessionTemplateAction,
         private readonly FileService $fileService,
-    )
-    {
-    }
+    ) {}
 
     /**
      * @param array{
@@ -34,17 +35,17 @@ class StoreCourseTemplateAction
      *     type:string|null,
      *     title:string,
      *     description:string,
-     *     body:string,
-     *     tags:array<string>,
-     *     image:string|null,
+     *     body?:string,
+     *     tags?:array<string>,
+     *     image?:string|null,
      *     sessions:array{
      *     order:int,
      *     duration_minutes:int,
+     *     type?:string,
      *     title:string,
      *     description:string,
      * }[],
      * } $payload
-     * @return CourseTemplate
      * @throws Throwable
      */
     public function handle(array $payload): CourseTemplate
@@ -53,10 +54,10 @@ class StoreCourseTemplateAction
             $model = CourseTemplate::create([
                 'slug'          => $payload['slug'],
                 'category_id'   => $payload['category_id'] ?? null,
-                'level'         => $payload['level'] ?? null,
+                'level'         => $payload['level'] ?? CourseLevelEnum::BIGGINER->value,
+                'type'          => $payload['type'] ?? CourseTypeEnum::IN_PERSON->value,
                 'prerequisites' => $payload['prerequisites'] ?? [],
                 'is_self_paced' => $payload['is_self_paced'] ?? false,
-                'type'          => $payload['type'] ?? CourseTypeEnum::IN_PERSON->value,
             ]);
             $this->syncTranslationAction->handle($model, Arr::only($payload, ['title', 'description', 'body']));
             $this->fileService->addMedia($model, Arr::get($payload, 'image'));

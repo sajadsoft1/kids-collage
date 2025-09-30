@@ -8,6 +8,8 @@ use App\Enums\CourseLevelEnum;
 use App\Enums\CourseTypeEnum;
 use App\Helpers\Constants;
 use App\Traits\HasTranslationAuto;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -21,30 +23,30 @@ use Spatie\Tags\HasTags;
 /**
  * CourseTemplate Model
  *
- * Represents the definition of a course (e.g. English Level 1).
+ * Represents the definition of a course (e.g., English Level 1).
  * This is the template that defines the structure and content of a course,
  * which can be instantiated multiple times in different terms.
  *
- * @property int                 $id
- * @property string              $title
- * @property string              $description
- * @property int|null            $category_id
- * @property string|null         $level
- * @property array|null          $prerequisites
- * @property bool                $is_self_paced
- * @property array|null          $languages
- * @property array|null          $syllabus
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
- * @property \Carbon\Carbon|null $deleted_at
+ * @property int         $id
+ * @property string      $title
+ * @property string      $description
+ * @property int|null    $category_id
+ * @property string|null $level
+ * @property array|null  $prerequisites
+ * @property bool        $is_self_paced
+ * @property array|null  $languages
+ * @property array|null  $syllabus
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property Carbon|null $deleted_at
  *
- * @property-read \Illuminate\Database\Eloquent\Collection<int, CourseSessionTemplate> $sessionTemplates
- * @property-read \Illuminate\Database\Eloquent\Collection<int, Course>                $courses
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Resource>  $resources
+ * @property-read Collection<int, CourseSessionTemplate> $sessionTemplates
+ * @property-read Collection<int, Course>                $courses
+ * @property-read Collection<int, resource>              $resources
  */
 class CourseTemplate extends Model implements HasMedia
 {
-    use HasFactory, HasTags, HasTranslationAuto,SoftDeletes;
+    use HasFactory, HasTags, HasTranslationAuto, SoftDeletes;
     use InteractsWithMedia;
 
     public array $translatable = [
@@ -120,7 +122,7 @@ class CourseTemplate extends Model implements HasMedia
         return $this->sessionTemplates()->sum('duration_minutes');
     }
 
-    /** Get the number of sessions in this template. */
+    /** Get the amount sessions in this template. */
     public function getSessionCountAttribute(): int
     {
         return $this->sessionTemplates()->count();
@@ -158,7 +160,7 @@ class CourseTemplate extends Model implements HasMedia
         return $query->where('is_self_paced', false);
     }
 
-    /** Scope for templates by category. */
+    /** Scope for templates by a category. */
     public function scopeByCategory($query, int $categoryId)
     {
         return $query->where('category_id', $categoryId);

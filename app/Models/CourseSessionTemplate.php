@@ -7,7 +7,6 @@ namespace App\Models;
 use App\Traits\HasTranslationAuto;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -21,30 +20,30 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * This defines the structure and content of individual sessions that will
  * be instantiated for specific course runs.
  *
- * @property int                                 $id
- * @property int                                 $course_template_id
- * @property int                                 $order
- * @property string                              $title
- * @property string                              $description
- * @property int                                 $duration_minutes
- * @property Carbon|null                         $created_at
- * @property Carbon|null                         $updated_at
- * @property Carbon|null                         $deleted_at
+ * @property int         $id
+ * @property int         $course_template_id
+ * @property int         $order
+ * @property string      $title
+ * @property string      $description
+ * @property int         $duration_minutes
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property Carbon|null $deleted_at
  *
  * @property-read CourseTemplate                 $courseTemplate
  * @property-read Collection<int, CourseSession> $sessions
- * @property-read Collection<int, Resource>      $resources
+ * @property-read Collection<int, resource>      $resources
  */
 class CourseSessionTemplate extends Model
 {
     use HasTranslationAuto, SoftDeletes;
 
-    protected $table = 'course_session_templates';
-
     public array $translatable = [
         'title',
         'description',
     ];
+
+    protected $table = 'course_session_templates';
 
     protected $fillable = [
         'course_template_id',
@@ -54,7 +53,7 @@ class CourseSessionTemplate extends Model
     ];
 
     protected $casts = [
-        'order' => 'integer',
+        'order'            => 'integer',
         'duration_minutes' => 'integer',
         'languages'        => 'array',
     ];
@@ -80,13 +79,13 @@ class CourseSessionTemplate extends Model
     /** Get the duration in hours. */
     public function getDurationHoursAttribute(): float
     {
-        return round($this->duration_minutes / 60, 2);
+        return floor($this->duration_minutes / 60);
     }
 
     /** Get formatted duration string. */
     public function getFormattedDurationAttribute(): string
     {
-        $hours = floor($this->duration_minutes / 60);
+        $hours   = floor($this->duration_minutes / 60);
         $minutes = $this->duration_minutes % 60;
 
         if ($hours > 0) {
