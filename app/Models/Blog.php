@@ -67,9 +67,9 @@ class Blog extends Model implements HasMedia
     ];
 
     protected $casts = [
-        'published' => BooleanEnum::class,
+        'published'    => BooleanEnum::class,
         'published_at' => 'datetime',
-        'languages' => 'array',
+        'languages'    => 'array',
     ];
 
     /** Model Configuration -------------------------------------------------------------------------- */
@@ -96,10 +96,7 @@ class Blog extends Model implements HasMedia
     /**
      * Model Relations --------------------------------------------------------------------------
      */
-    public function category()
-    {
-        return $this->belongsTo(Category::class);
-}
+
     /**
      * Model Scope --------------------------------------------------------------------------
      */
@@ -118,19 +115,19 @@ class Blog extends Model implements HasMedia
     {
         return SmartCache::for(__CLASS__)
             ->key('latest_blogs')
-            ->remember(function ()  {
+            ->remember(function () {
                 return self::where('published', BooleanEnum::ENABLE->value)
                     ->orderBy('id', 'desc')
                     ->get();
-            },3600);
-
+            }, 3600);
     }
+
     public static function relatedBlogs(Blog $blog): Collection
     {
-        return Blog::where('category_id', $blog->category_id)
-            ->where('id', '!=', $blog->id)
-            ->where('published', BooleanEnum::ENABLE)
-            ->orderBy('id', 'desc')
-            ->get();
+        return self::where('category_id', $blog->category_id)
+                   ->where('id', '!=', $blog->id)
+                   ->where('published', BooleanEnum::ENABLE)
+                   ->orderBy('id', 'desc')
+                   ->get();
     }
 }

@@ -4,13 +4,17 @@ declare(strict_types=1);
 
 namespace App\Livewire\Admin\Pages\CourseTemplate;
 
+use App\Enums\CategoryTypeEnum;
+use App\Helpers\Constants;
 use App\Helpers\PowerGridHelper;
+use App\Models\Category;
 use App\Models\CourseTemplate;
 use App\Traits\PowerGridHelperTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\View\View;
 use Jenssegers\Agent\Agent;
-use Livewire\Attributes\Computed;
+use PowerComponents\LivewirePowerGrid\Button;
+use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
@@ -26,7 +30,6 @@ final class CourseTemplateTable extends PowerGridComponent
     {
         $setup = [
             PowerGrid::header()
-                ->includeViewOnTop('components.admin.shared.bread-crumbs')
                 ->showSearchInput(),
 
             PowerGrid::footer()
@@ -41,20 +44,12 @@ final class CourseTemplateTable extends PowerGridComponent
         return $setup;
     }
 
-    #[Computed(persist: true)]
-    public function breadcrumbs(): array
+    protected function queryString(): array
     {
         return [
-            ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-            ['label' => trans('general.page.index.title', ['model' => trans('courseTemplate.model')])],
-        ];
-    }
-
-    #[Computed(persist: true)]
-    public function breadcrumbsActions(): array
-    {
-        return [
-            ['link' => route('admin.course-template.create'), 'icon' => 's-plus', 'label' => trans('general.page.create.title', ['model' => trans('courseTemplate.model')])],
+            'search' => ['except' => ''],
+            'page'   => ['except' => 1],
+            ...$this->powerGridQueryString(),
         ];
     }
 
@@ -76,7 +71,11 @@ final class CourseTemplateTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('id')
+            ->add('image', fn ($row) => PowerGridHelper::fieldImage($row, 'image', Constants::RESOLUTION_854_480, 11, 6))
             ->add('title', fn ($row) => PowerGridHelper::fieldTitle($row))
+            ->add('category_formatted', fn ($row) => $row->category?->title ?? '---')
+            ->add('view_count_formated', fn ($row) => "<strong style='color: " . ($row->view_count === 0 ? 'blue' : 'red') . "'>{$row->view_count}</strong>")
+            ->add('updated_at_formatted', fn ($row) => PowerGridHelper::fieldUpdatedAtFormated($row))
             ->add('created_at_formatted', fn ($row) => PowerGridHelper::fieldCreatedAtFormated($row));
     }
 
@@ -84,8 +83,11 @@ final class CourseTemplateTable extends PowerGridComponent
     {
         return [
             PowerGridHelper::columnId(),
+            PowerGridHelper::columnImage(),
             PowerGridHelper::columnTitle(),
-            PowerGridHelper::columnCreatedAT(),
+            Column::make(trans('datatable.category_title'), 'category_formatted'),
+            PowerGridHelper::columnViewCount('view_count_formated')->hidden(true, false),
+            PowerGridHelper::columnUpdatedAT(),
             PowerGridHelper::columnAction(),
         ];
     }
@@ -97,15 +99,30 @@ final class CourseTemplateTable extends PowerGridComponent
                 ->params([
                     'maxDate' => now(),
                 ]),
+
+            Filter::select('category_formatted', 'category_id')
+                ->dataSource(Category::where('type', CategoryTypeEnum::COURSE->value)->get()->map(function ($category) {
+                    return [
+                        'value' => $category->id,
+                        'label' => $category->title,
+                    ];
+                })->toArray())->optionLabel('label')->optionValue('value'),
         ];
     }
 
     public function actions(CourseTemplate $row): array
     {
         return [
+            PowerGridHelper::btnSeo($row),
             PowerGridHelper::btnTranslate($row),
             PowerGridHelper::btnEdit($row),
             PowerGridHelper::btnDelete($row),
+            Button::add('run')
+                ->slot("<i class='fa fa-gear'></i>")
+                ->attributes([ 'class' => 'btn btn-square md:btn-sm btn-xs'])
+                ->route('admin.course.run', ['courseTemplate' => $row->id], '_self')
+                ->navigate()
+                ->tooltip('Run The Course'),
         ];
     }
 

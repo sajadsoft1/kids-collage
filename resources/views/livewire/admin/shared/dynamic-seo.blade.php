@@ -22,7 +22,7 @@
 
                     {{-- Url --}}
                     <div class="text-[#006621] text-sm">
-                        {{ urldecode(localized_route($class.'.detail', [$class => $slug])) }}
+                        {{ urldecode(config('app.url').'/'.\Illuminate\Support\Str::kebab($class).'/'.$slug) }}
                     </div>
 
                     {{-- Description --}}

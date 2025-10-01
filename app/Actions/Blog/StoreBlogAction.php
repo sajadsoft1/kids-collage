@@ -40,7 +40,7 @@ class StoreBlogAction
     public function handle(array $payload): Blog
     {
         return DB::transaction(function () use ($payload) {
-            $payload['user_id'] = 2;
+            $payload['user_id'] = auth()->id();
             $model              = Blog::create(Arr::only($payload, ['slug', 'published', 'published_at', 'category_id', 'user_id']));
             $this->syncTranslationAction->handle($model, Arr::only($payload, ['title', 'description', 'body']));
             $this->seoOptionService->create($model, Arr::only($payload, ['title', 'description']));

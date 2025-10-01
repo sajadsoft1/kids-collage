@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\CourseTypeEnum;
 use App\Traits\HasTranslationAuto;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
@@ -49,12 +50,14 @@ class CourseSessionTemplate extends Model
         'course_template_id',
         'order',
         'duration_minutes',
+        'type',
         'languages',
     ];
 
     protected $casts = [
         'order'            => 'integer',
         'duration_minutes' => 'integer',
+        'type'             => CourseTypeEnum::class,
         'languages'        => 'array',
     ];
 

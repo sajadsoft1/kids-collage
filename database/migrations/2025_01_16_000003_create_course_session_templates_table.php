@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Enums\CourseTypeEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,6 +15,7 @@ return new class extends Migration {
             $table->foreignId('course_template_id')->constrained('course_templates')->cascadeOnDelete();
             $table->unsignedInteger('order');
             $table->unsignedInteger('duration_minutes');
+            $table->string('type')->default(CourseTypeEnum::IN_PERSON->value);
             $table->json('languages')->nullable();
             $table->timestamps();
             $table->softDeletes();

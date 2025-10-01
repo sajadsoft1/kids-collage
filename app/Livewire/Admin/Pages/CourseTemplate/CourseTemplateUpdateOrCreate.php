@@ -51,7 +51,7 @@ class CourseTemplateUpdateOrCreate extends Component
             ->get()
             ->map(fn ($item) => ['name' => $item->title, 'id' => $item->id])->toArray();
 
-        $this->prerequisitesList = CourseTemplate::all()->map(fn ($item) => ['name' => $item->title, 'id' => $item->id])->toArray();
+        $this->prerequisitesList = CourseTemplate::whereNot('id',$this->model->id)->get()->map(fn ($item) => ['name' => $item->title, 'id' => $item->id])->toArray();
 
         if ($this->model->id) {
             $this->sessions_count = $this->model->sessionTemplates()->count() ?: 1;

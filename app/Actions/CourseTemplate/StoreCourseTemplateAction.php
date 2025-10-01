@@ -10,6 +10,7 @@ use App\Enums\CourseLevelEnum;
 use App\Enums\CourseTypeEnum;
 use App\Models\CourseTemplate;
 use App\Services\File\FileService;
+use App\Services\SeoOption\SeoOptionService;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Lorisleiva\Actions\Concerns\AsAction;
@@ -23,6 +24,7 @@ class StoreCourseTemplateAction
         private readonly SyncTranslationAction $syncTranslationAction,
         private readonly StoreCourseSessionTemplateAction $storeCourseSessionTemplateAction,
         private readonly FileService $fileService,
+        private readonly SeoOptionService $seoOptionService,
     ) {}
 
     /**
@@ -61,6 +63,7 @@ class StoreCourseTemplateAction
             ]);
             $this->syncTranslationAction->handle($model, Arr::only($payload, ['title', 'description', 'body']));
             $this->fileService->addMedia($model, Arr::get($payload, 'image'));
+            $this->seoOptionService->create($model, Arr::only($payload, ['title', 'description']));
             if ($tags = Arr::get($payload, 'tags')) {
                 $model->syncTags($tags);
             }

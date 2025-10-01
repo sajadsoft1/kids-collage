@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Actions\CourseSessionTemplate;
 
 use App\Actions\Translation\SyncTranslationAction;
+use App\Enums\CourseTypeEnum;
 use App\Models\CourseSessionTemplate;
 use App\Services\File\FileService;
 use Illuminate\Support\Arr;
@@ -38,6 +39,7 @@ class UpdateCourseSessionTemplateAction
         return DB::transaction(function () use ($courseSessionTemplate, $payload) {
             $courseSessionTemplate->update([
                 'order'            => $payload['order'] ?? 1,
+                'type'             => $payload['type'] ?? CourseTypeEnum::IN_PERSON->value,
                 'duration_minutes' => $payload['duration_minutes'],
             ]);
             $this->syncTranslationAction->handle($courseSessionTemplate, Arr::only($payload, ['title', 'description', 'body']));

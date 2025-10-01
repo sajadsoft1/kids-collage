@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
+use App\Enums\CategoryTypeEnum;
 use App\Enums\CourseLevelEnum;
 use App\Enums\CourseTypeEnum;
 use App\Enums\TermStatus;
+use App\Models\Category;
 
 return [
     'room'            => [
@@ -29,7 +31,7 @@ return [
             'description'   => 'توضیحات قالب دوره برنامه‌نویسی',
             'body'          => 'محتوای کامل قالب دوره برنامه‌نویسی',
             'image'         => public_path('images/test/blogs/laravel.jpg'),
-            'category_id'   => 1,
+            'category_id'   => Category::where('type',CategoryTypeEnum::COURSE)->first()->id,
             'level'         => CourseLevelEnum::BIGGINER->value,
             'type'          => CourseTypeEnum::IN_PERSON->value,
             'capacity'      => 25,

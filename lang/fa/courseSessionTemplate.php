@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'model'         => 'مدل',
+    'model'         => 'نمونه جلسه',
     'permissions'   => [
     ],
     'exceptions'    => [

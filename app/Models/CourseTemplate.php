@@ -7,7 +7,15 @@ namespace App\Models;
 use App\Enums\CourseLevelEnum;
 use App\Enums\CourseTypeEnum;
 use App\Helpers\Constants;
+use App\Traits\CLogsActivity;
+use App\Traits\HasCategory;
+use App\Traits\HasComment;
+use App\Traits\HasModelCache;
+use App\Traits\HasSeoOption;
+use App\Traits\HasSlugFromTranslation;
 use App\Traits\HasTranslationAuto;
+use App\Traits\HasView;
+use App\Traits\HasWishList;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,6 +23,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -46,8 +55,19 @@ use Spatie\Tags\HasTags;
  */
 class CourseTemplate extends Model implements HasMedia
 {
-    use HasFactory, HasTags, HasTranslationAuto, SoftDeletes;
+    use CLogsActivity;
+    use HasCategory;
+    use HasComment;
+    use HasFactory;
+    use HasModelCache;
+    use HasSeoOption;
+    use HasSlugFromTranslation;
+    use HasTags;
+    use HasTranslationAuto;
+    use HasView;
+    use HasWishList;
     use InteractsWithMedia;
+    use SoftDeletes;
 
     public array $translatable = [
         'title',
@@ -80,6 +100,14 @@ class CourseTemplate extends Model implements HasMedia
     ];
 
     /** Model Configuration -------------------------------------------------------------------------- */
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+                         ->logFillable()
+                         ->logOnlyDirty()
+                         ->dontSubmitEmptyLogs();
+    }
+
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('image')

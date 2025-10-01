@@ -52,6 +52,10 @@ Route::multilingual('/', HomePage::class)->name('home-page');
 Route::multilingual('blog', BlogPage::class)->name('blog');
 Route::multilingual('blog/{blog:slug}', BlogDetailPage::class)->name('blog.detail');
 
+// Course Pages
+Route::multilingual('course', BlogPage::class)->name('blog');
+Route::multilingual('course/{slug}', BlogDetailPage::class)->name('courseTemplate.detail');
+
 // search by:text|category|tag|author
 Route::multilingual('search', SearchPage::class)->name('search');
 
