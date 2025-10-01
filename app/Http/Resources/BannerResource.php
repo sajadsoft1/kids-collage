@@ -23,6 +23,7 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="published_at", type="string", default="2024-08-19T07:26:07.000000Z"),
  *     @OA\Property(property="updated_at", type="string", default="2024-08-19T07:26:07.000000Z"),
  *     @OA\Property(property="created_at", type="string", default="2024-08-19T07:26:07.000000Z"),
+ *     @OA\Property(property="image", type="string", default="https://example.com/image.jpg"),
  * )
  */
 class BannerResource extends JsonResource
@@ -39,6 +40,7 @@ class BannerResource extends JsonResource
             'published_at' => $this->published_at,
             'updated_at'   => $this->updated_at,
             'created_at'   => $this->created_at,
+            'image' => $this->resource->getFirstMediaUrl('image', $this->resource->getPrimaryResolution()),
         ];
     }
 }
