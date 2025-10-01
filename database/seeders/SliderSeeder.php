@@ -23,14 +23,12 @@ class SliderSeeder extends Seeder
                 'link'        => $row['link'],
                 'position'    => $row['position'],
             ]);
+                $model->addMedia($row['path'])
+                    ->preservingOriginal()
+                    ->toMediaCollection('image');
+
         }
 
-        try {
-            $model->addMedia($row['path'])
-                ->preservingOriginal()
-                ->toMediaCollection('image');
-        } catch (Exception) {
-            // do nothing
-        }
+
     }
 }
