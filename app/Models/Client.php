@@ -71,7 +71,6 @@ class Client extends Model implements HasMedia
             ->key('home_clients')
             ->remember(function ()  {
                 return self::where('published', BooleanEnum::ENABLE->value)
-                    ->orderBy('ordering', 'asc')
                     ->get();
             },3600);
     }

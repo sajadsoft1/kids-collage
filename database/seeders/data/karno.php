@@ -87,8 +87,32 @@ return [
     ],
     'faq'          => [
         [
-            'title'       => 'faqclscls',
-            'description' => 'لاراول (Laravel) یک فریم‌ورک محبوب و قدرتمند برای توسعه وب با زبان PHP است که بر پایه معماری MVC (Model-View-Controller) ساخته شده.',
+            'title'       => 'آیا آموزشگاه شما معتبر؟',
+            'description' => 'بنظرت اگه معتبر هم نباشیم هم میگیم معتبر نیستیم؟ قطعا میگیم معتبریم.',
+            'published'   => true,
+            'favorite'    => true,
+            'ordering'    => 1,
+            'created_at'  => now(),
+            'updated_at'  => now(),
+            'languages'   => [
+                'fa',
+            ],
+        ],
+        [
+            'title'       => 'آیا نیاز است زبان فرا بگیریم؟',
+            'description' => 'قطعا نه. تکنولوژی خودش ترجمه رو بهتر از شما انجام میده. تازه ایلان گفته یه تراشه درست میکنه که با استفاده از اون انگار تموم زیان هارو بلدی',
+            'published'   => true,
+            'favorite'    => true,
+            'ordering'    => 1,
+            'created_at'  => now(),
+            'updated_at'  => now(),
+            'languages'   => [
+                'fa',
+            ],
+        ],
+        [
+            'title'       => 'بهترین سن برای فراگیری زبان چند سالگی هست؟',
+            'description' => 'تمم سنین قبل از آیزایم بهترین سال برای فراگیری زبان. بهپنه نیار شروع کن',
             'published'   => true,
             'favorite'    => true,
             'ordering'    => 1,
