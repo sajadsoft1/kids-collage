@@ -137,8 +137,8 @@ return [
     ],
     'slider'       => [
         [
-            'title'       => 'slider test',
-            'description' => 'slider description about somethings',
+            'title'       => 'فراگیری زبان در ۶ ماه',
+            'description' => 'میخوای ۶ ماه به راحتی انگلیسی صحبت کنی؟؟',
             'published'   => true,
             'ordering'    => 1,
             'link'        => 'https://www.google.com',
@@ -146,7 +146,19 @@ return [
             'languages'   => [
                 'fa',
             ],
-            'path'        => public_path('images/test/blogs/laravel.jpg'),
+            'path'        => public_path('assets/web/img/gallery-img-1.jpg'),
+        ],
+        [
+            'title'       => 'بهترین سنین فراگیری زبان',
+            'description' => 'اگر از کودکی زبان را فرابگیریم بنظرم بهتره',
+            'published'   => true,
+            'ordering'    => 2,
+            'link'        => 'https://www.google.com',
+            'position'    => App\Enums\SliderPositionEnum::TOP->value,
+            'languages'   => [
+                'fa',
+            ],
+            'path'        => public_path('assets/web/img/gallery-img-3.jpg'),
         ],
     ],
     'comment'      => [
