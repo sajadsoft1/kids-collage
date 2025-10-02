@@ -177,13 +177,43 @@ return [
         [
             'published' => true,
             'ordering'  => 1,
-            'company'   => 'my company',
-            'user_name' => 'test user',
+            'company'   => 'ریس آموزش پرورش',
+            'user_name' => 'مهدی خدابنده لو',
+            'comment'   => 'بچه هاتون رو بفرستید زبان یاد بگیرین خوبه واقعا. کچا بهتر از اینجا',
+            'languages' => [
+                'fa',
+            ],
+            'path'      => public_path('assets/web/img/teacher-1.jpg'),
+        ],  [
+            'published' => true,
+            'ordering'  =>2,
+            'company'   => 'کارنووب',
+            'user_name' => 'سجاد اسکندریان',
+            'comment'   => 'چون کد این اموزشگاه رو خودمون زدیم خوبه. اگه تعریف نکنیم پولمون رو نمیدن',
+            'languages' => [
+                'fa',
+            ],
+            'path'      => public_path('assets/web/img/teacher-1.jpg'),
+        ],  [
+            'published' => true,
+            'ordering'  => 3,
+            'company'   => 'کارنووب',
+            'user_name' => 'سجاد خپدابخشی',
+            'comment'   => 'من نمیدونم',
+            'languages' => [
+                'fa',
+            ],
+            'path'      => public_path('assets/web/img/teacher-2.jpg'),
+        ],  [
+            'published' => true,
+            'ordering'  => 4,
+            'company'   => 'کارنووب',
+            'user_name' => 'احمد دهستانی',
             'comment'   => 'this is sample test.',
             'languages' => [
                 'fa',
             ],
-            'path'      => public_path('images/test/categories/laravel-cat.png'),
+            'path'      => public_path('assets/web/img/teacher-3.jpg'),
         ],
     ],
     'client'       => [
