@@ -11,7 +11,29 @@ enum ResourceType: string
     case IMAGE = 'image';
     case LINK  = 'link';
 
-    public function label(): string
+    public static function options(): array
+    {
+        return [
+            [
+                'label' => self::PDF->title(),
+                'value' => self::PDF->value,
+            ],
+            [
+                'label' => self::VIDEO->title(),
+                'value' => self::VIDEO->value,
+            ],
+            [
+                'label' => self::IMAGE->title(),
+                'value' => self::IMAGE->value,
+            ],
+            [
+                'label' => self::LINK->title(),
+                'value' => self::LINK->value,
+            ],
+        ];
+    }
+
+    public function title(): string
     {
         return match ($this) {
             self::PDF   => 'PDF Document',

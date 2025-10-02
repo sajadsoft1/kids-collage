@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Term;
 
 use App\Actions\Translation\SyncTranslationAction;
@@ -21,18 +23,16 @@ class StoreTermAction
      * @param array{
      *     title:string,
      *     description:string,
-     *     capacity?:int,
      *     start_date?:string,
      *     end_date?:string,
-     *     status?:int,
+     *     status?:string,
      * } $payload
-     * @return Term
      * @throws Throwable
      */
     public function handle(array $payload): Term
     {
         return DB::transaction(function () use ($payload) {
-            $model =  Term::create(Arr::only($payload, ['capacity', 'start_date', 'end_date', 'status']));
+            $model =  Term::create(Arr::only($payload, ['start_date', 'end_date', 'status']));
             $this->syncTranslationAction->handle($model, Arr::only($payload, ['title', 'description']));
 
             return $model->refresh();

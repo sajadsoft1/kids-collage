@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace App\Livewire\Admin\Pages\Term;
 
-use App\Enums\BooleanEnum;
+use App\Enums\TermStatus;
 use App\Helpers\PowerGridHelper;
 use App\Models\Term;
 use App\Traits\PowerGridHelperTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\View\View;
-use Livewire\Attributes\Computed;
 use Jenssegers\Agent\Agent;
+use Livewire\Attributes\Computed;
+use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
@@ -20,8 +21,27 @@ use PowerComponents\LivewirePowerGrid\PowerGridFields;
 final class TermTable extends PowerGridComponent
 {
     use PowerGridHelperTrait;
-    public string $tableName = 'index_term_datatable';
+    public string $tableName     = 'index_term_datatable';
     public string $sortDirection = 'desc';
+
+    public function setUp(): array
+    {
+        $setup = [
+            PowerGrid::header()
+                ->includeViewOnTop('components.admin.shared.bread-crumbs')
+                ->showSearchInput(),
+
+            PowerGrid::footer()
+                ->showPerPage()
+                ->showRecordCount(),
+        ];
+
+        if ((new Agent)->isMobile()) {
+            $setup[] = PowerGrid::responsive()->fixedColumns('id', 'title', 'actions');
+        }
+
+        return $setup;
+    }
 
     #[Computed(persist: true)]
     public function breadcrumbs(): array
@@ -39,26 +59,6 @@ final class TermTable extends PowerGridComponent
             ['link' => route('admin.term.create'), 'icon' => 's-plus', 'label' => trans('general.page.create.title', ['model' => trans('term.model')])],
         ];
     }
-
-    public function setUp(): array
-    {
-        $setup = [
-            PowerGrid::header()
-                ->includeViewOnTop("components.admin.shared.bread-crumbs")
-                ->showSearchInput(),
-
-            PowerGrid::footer()
-                ->showPerPage()
-                ->showRecordCount(),
-        ];
-
-        if((new Agent())->isMobile()) {
-            $setup[] = PowerGrid::responsive()->fixedColumns('id', 'title', 'actions');
-        }
-
-        return $setup;
-    }
-
 
     public function datasource(): Builder
     {
@@ -79,7 +79,9 @@ final class TermTable extends PowerGridComponent
         return PowerGrid::fields()
             ->add('id')
             ->add('title', fn ($row) => PowerGridHelper::fieldTitle($row))
-            ->add('published_formated', fn ($row) => PowerGridHelper::fieldPublishedAtFormated($row))
+            ->add('status_formatted', fn ($row) => $row->status->title())
+            ->add('start_date_formatted', fn ($row) => $row->start_date->format('Y-m-d'))
+            ->add('end_date_formatted', fn ($row) => $row->end_date->format('Y-m-d'))
             ->add('created_at_formatted', fn ($row) => PowerGridHelper::fieldCreatedAtFormated($row));
     }
 
@@ -88,7 +90,9 @@ final class TermTable extends PowerGridComponent
         return [
             PowerGridHelper::columnId(),
             PowerGridHelper::columnTitle(),
-            PowerGridHelper::columnPublished(),
+            Column::make(trans('datatable.status'), 'status_formatted'),
+            Column::make(trans('datatable.start_date'), 'start_date_formatted'),
+            Column::make(trans('datatable.end_date'), 'end_date_formatted'),
             PowerGridHelper::columnCreatedAT(),
             PowerGridHelper::columnAction(),
         ];
@@ -97,13 +101,17 @@ final class TermTable extends PowerGridComponent
     public function filters(): array
     {
         return [
-            Filter::enumSelect('published_formated', 'published')
-                  ->datasource(BooleanEnum::cases()),
+            Filter::enumSelect('status_formatted', 'status')
+                ->dataSource(TermStatus::cases()),
 
-            Filter::datepicker('created_at_formatted', 'created_at')
-                  ->params([
-                      'maxDate' => now(),
-                  ])
+            Filter::datepicker('start_date_formatted', 'start_date')
+                ->params([
+                    'maxDate' => now(),
+                ]),
+            Filter::datepicker('end_date_formatted', 'end_date')
+                ->params([
+                    'maxDate' => now(),
+                ]),
         ];
     }
 
@@ -111,7 +119,6 @@ final class TermTable extends PowerGridComponent
     {
         return [
             PowerGridHelper::btnTranslate($row),
-            PowerGridHelper::btnToggle($row),
             PowerGridHelper::btnEdit($row),
             PowerGridHelper::btnDelete($row),
         ];
@@ -119,9 +126,8 @@ final class TermTable extends PowerGridComponent
 
     public function noDataLabel(): string|View
     {
-        return view('admin.datatable-shared.empty-table',[
-            'link'=>route('admin.term.create')
+        return view('admin.datatable-shared.empty-table', [
+            'link' => route('admin.term.create'),
         ]);
     }
-
 }

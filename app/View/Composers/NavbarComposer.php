@@ -19,6 +19,7 @@ use App\Models\Slider;
 use App\Models\SocialMedia;
 use App\Models\Tag;
 use App\Models\Teammate;
+use App\Models\Term;
 use App\Models\Ticket;
 use App\Models\User;
 use App\Services\Permissions\PermissionsService;
@@ -146,6 +147,14 @@ class NavbarComposer
                         'title'      => trans('_menu.room_management'),
                         'route_name' => 'admin.room.index',
                         'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Room::class, 'Index')),
+                    ],
+                    [
+                        'icon'       => 's-building-office-2',
+                        'params'     => [],
+                        'exact'      => true,
+                        'title'      => trans('_menu.term_management'),
+                        'route_name' => 'admin.term.index',
+                        'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Term::class, 'Index')),
                     ],
                     [
                         'icon'       => 's-user-plus',

@@ -10,7 +10,7 @@ enum SessionStatus: string
     case DONE      = 'done';
     case CANCELLED = 'cancelled';
 
-    public function label(): string
+    public function title(): string
     {
         return match ($this) {
             self::PLANNED   => trans('session.enum.status.planned'),

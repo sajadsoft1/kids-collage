@@ -17,19 +17,19 @@ enum CourseTypeEnum: string
     {
         return [
             [
-                'label' => 'IN_PERSON',
+                'label' => trans('course.enum.type.in_person'),
                 'value' => self::IN_PERSON->value,
             ],
             [
-                'label' => 'ONLINE',
+                'label' => trans('course.enum.type.online'),
                 'value' => self::ONLINE->value,
             ],
             [
-                'label' => 'HYBRID',
+                'label' => trans('course.enum.type.hybrid'),
                 'value' => self::HYBRID->value,
             ],
             [
-                'label' => 'SELF_PACED',
+                'label' => trans('course.enum.type.self_paced'),
                 'value' => self::SELF_PACED->value,
             ],
         ];
@@ -38,10 +38,10 @@ enum CourseTypeEnum: string
     public function title(): string
     {
         return match ($this) {
-            self::IN_PERSON  => 'In Person',
-            self::ONLINE     => 'Online',
-            self::HYBRID     => 'Hybrid',
-            self::SELF_PACED => 'Self-Paced',
+            self::IN_PERSON  => trans('course.enum.type.in_person'),
+            self::ONLINE     => trans('course.enum.type.online'),
+            self::HYBRID     => trans('course.enum.type.hybrid'),
+            self::SELF_PACED => trans('course.enum.type.self_paced'),
         };
     }
 

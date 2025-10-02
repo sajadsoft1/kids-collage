@@ -10,7 +10,7 @@ enum SessionType: string
     case ONLINE    = 'online';
     case HYBRID    = 'hybrid';
 
-    public function label(): string
+    public function title(): string
     {
         return match ($this) {
             self::IN_PERSON => trans('session.enum.type.in_person'),

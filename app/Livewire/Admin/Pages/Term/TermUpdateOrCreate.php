@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Admin\Pages\Term;
 
 use App\Actions\Term\StoreTermAction;
 use App\Actions\Term\UpdateTermAction;
+use App\Enums\TermStatus;
 use App\Models\Term;
 use Illuminate\View\View;
 use Livewire\Component;
@@ -13,18 +16,22 @@ class TermUpdateOrCreate extends Component
 {
     use Toast;
 
-    public Term   $model;
+    public Term $model;
     public string $title       = '';
     public string $description = '';
-    public bool   $published   = false;
+    public $start_date         = '';
+    public $end_date           = '';
+    public string $status      = '';
 
     public function mount(Term $term): void
     {
         $this->model = $term;
         if ($this->model->id) {
-            $this->title = $this->model->title;
-            $this->description = $this->model->description;
-            $this->published = $this->model->published->value;
+            $this->title            = $this->model->title;
+            $this->description      = $this->model->description;
+            $this->start_date       = $this->model->start_date;
+            $this->end_date         = $this->model->end_date;
+            $this->status           = $this->model->status->value;
         }
     }
 
@@ -33,7 +40,9 @@ class TermUpdateOrCreate extends Component
         return [
             'title'       => 'required|string',
             'description' => 'required|string',
-            'published'   => 'required'
+            'start_date'  => 'required|date',
+            'end_date'    => 'required|date',
+            'status'      => 'required|string|in:' . implode(',', TermStatus::cases()),
         ];
     }
 
@@ -61,11 +70,11 @@ class TermUpdateOrCreate extends Component
             'edit_mode'          => $this->model->id,
             'breadcrumbs'        => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link' => route('admin.term.index'), 'label' => trans('general.page.index.title', ['model' => trans('term.model')])],
+                ['link'  => route('admin.term.index'), 'label' => trans('general.page.index.title', ['model' => trans('term.model')])],
                 ['label' => trans('general.page.create.title', ['model' => trans('term.model')])],
             ],
             'breadcrumbsActions' => [
-                ['link' => route('admin.term.index'), 'icon' => 's-arrow-left']
+                ['link' => route('admin.term.index'), 'icon' => 's-arrow-left'],
             ],
         ]);
     }

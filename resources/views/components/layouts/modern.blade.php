@@ -31,9 +31,9 @@
             <div
                 class="sticky top-0 z-10 bg-gradient-to-r border-b from-primary/10 to-secondary/10 border-base-content/10 h-[64px]">
                 <div class="p-2 hidden-when-collapsed">
-                    <div class="flex gap-3 items-center">
+                    <div class="flex items-center gap-3">
                         <div
-                            class="flex justify-center items-center w-10 h-10 bg-gradient-to-r rounded-xl from-primary to-secondary">
+                            class="flex items-center justify-center w-10 h-10 bg-gradient-to-r rounded-xl from-primary to-secondary">
                             <x-icon name="o-cube" class="w-6 h-6 text-white" />
                         </div>
                         <div>
@@ -47,7 +47,7 @@
                 <div class="hidden w-full h-full display-when-collapsed">
                     <div class="flex items-center w-full h-full">
                         <div
-                            class="flex justify-center items-center mx-auto w-10 h-10 bg-gradient-to-r rounded-xl from-primary to-secondary">
+                            class="flex items-center justify-center w-10 h-10 mx-auto bg-gradient-to-r rounded-xl from-primary to-secondary">
                             <x-icon name="o-cube" class="w-6 h-6 text-white" />
                         </div>
                     </div>
@@ -56,7 +56,7 @@
 
             {{-- Navigation Menu with Modern Styling --}}
             <x-menu activate-by-route class="!p-0 flex flex-col">
-                <div class="overflow-y-auto flex-1 space-y-2">
+                <div class="flex-1 space-y-2 overflow-y-auto">
                     @foreach ($navbarMenu ?? [] as $menu)
                         @if (Arr::has($menu, 'sub_menu'))
                             @if (Arr::get($menu, 'access', true))
@@ -94,7 +94,7 @@
                 'px-0' => isset($fullWidth) && $fullWidth,
             ])>
                 <div @class([
-                    'flex flex-col flex-1',
+                    'flex flex-col flex-1 mx-auto',
                     'container' => !isset($fullWidth) || !$fullWidth,
                     'container-fluid' => isset($fullWidth) && $fullWidth,
                 ])>

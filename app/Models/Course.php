@@ -6,7 +6,6 @@ namespace App\Models;
 
 use App\Enums\CourseStatusEnum;
 use App\Enums\CourseTypeEnum;
-use App\Traits\HasTranslationAuto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -49,12 +48,6 @@ use Illuminate\Support\Facades\DB;
 class Course extends Model
 {
     use HasFactory, SoftDeletes;
-    use HasTranslationAuto;
-
-    /** Translatable attributes stored in `translations` table */
-    public array $translatable = [
-        'title', 'description', 'body',
-    ];
 
     protected $fillable = [
         'course_template_id',
@@ -67,10 +60,10 @@ class Course extends Model
 
     protected $casts = [
         'course_template_id' => 'integer',
-        'term_id' => 'integer',
-        'teacher_id' => 'integer',
-        'price' => 'float',
-        'capacity' => 'integer',
+        'term_id'            => 'integer',
+        'teacher_id'         => 'integer',
+        'price'              => 'float',
+        'capacity'           => 'integer',
     ];
 
     /** Get the course template that this course is based on. */
