@@ -22,14 +22,9 @@ class OpinionSeeder extends Seeder
                 'user_name' => $row['user_name'],
                 'comment'   => $row['comment'],
             ]);
-
-            try {
                 $model->addMedia($row['path'])
                     ->preservingOriginal()
                     ->toMediaCollection('image');
-            } catch (Exception) {
-                // do nothing
-            }
         }
     }
 }
