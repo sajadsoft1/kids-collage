@@ -20,7 +20,6 @@ use Throwable;
 
 class BannerController extends Controller
 {
-    use HasViewTracking;
     public function __construct() {}
 
     private function query(array $payload = []): QueryBuilder
@@ -115,11 +114,17 @@ class BannerController extends Controller
      */
     public function show(Banner $banner): JsonResponse
     {
-        $this->recordView($banner);
+
         return Response::data(
             [
                 'banner' => BannerDetailResource::make($banner),
             ]
         );
+    }
+
+    public function viewCounter(Banner $banner)
+    {
+        $banner->increment('click');
+        return redirect($banner->link);
     }
 }

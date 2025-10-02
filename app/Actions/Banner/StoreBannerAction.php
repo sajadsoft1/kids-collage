@@ -35,7 +35,7 @@ class StoreBannerAction
     public function handle(array $payload): Banner
     {
         return DB::transaction(function () use ($payload) {
-            $model =  Banner::create(Arr::only($payload, ['published', 'published_at', 'size']));
+            $model =  Banner::create(Arr::only($payload, ['published', 'published_at', 'size','link']));
             $this->syncTranslationAction->handle($model, Arr::only($payload, ['title', 'description']));
             $this->fileService->addMedia($model, Arr::get($payload, 'image'));
 

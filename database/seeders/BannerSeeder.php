@@ -15,20 +15,16 @@ class BannerSeeder extends Seeder
     {
         $data = require database_path('seeders/data/karno.php');
         foreach ($data['banner'] as $row) {
-            $category = StoreBannerAction::run([
-                'title'       => $row['title'],
+            $banner = StoreBannerAction::run([
+                'title' => $row['title'],
                 'description' => $row['description'],
-                'published'   => $row['published'],
-                'size'        => $row['size'],
+                'published' => $row['published'],
+                'size' => $row['size'],
+                'link' => $row['link'],
             ]);
-        }
-
-        try {
-            $category->addMedia($row['path'])
+            $banner->addMedia($row['path'])
                 ->preservingOriginal()
                 ->toMediaCollection('image');
-        } catch (Exception) {
-            // do nothing
         }
     }
 }
