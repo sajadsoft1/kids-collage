@@ -18,14 +18,10 @@ class ClientSeeder extends Seeder
             $model = StoreClientAction::run([
                 'title' => $row['title'],
             ]);
-
-            try {
                 $model->addMedia($row['path'])
                     ->preservingOriginal()
                     ->toMediaCollection('image');
-            } catch (Exception) {
-                // do nothing
-            }
+
         }
     }
 }

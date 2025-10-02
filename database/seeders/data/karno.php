@@ -218,11 +218,35 @@ return [
     ],
     'client'       => [
         [
-            'title'     => 'karnoweb',
+            'title'     => 'اموزش پرورش',
             'languages' => [
                 'fa',
             ],
-            'path'      => public_path('images/test/blogs/laravel.jpg'),
+            'path'      => public_path('assets/web/img/partner-1.png'),
+        ],   [
+            'title'     => 'کارنووب',
+            'languages' => [
+                'fa',
+            ],
+            'path'      => public_path('assets/web/img/partner-2.png'),
+        ],   [
+            'title'     => 'بیمارستان امام رضا',
+            'languages' => [
+                'fa',
+            ],
+            'path'      => public_path('assets/web/img/partner-3.png'),
+        ],   [
+            'title'     => 'یجایی',
+            'languages' => [
+                'fa',
+            ],
+            'path'      => public_path('assets/web/img/partner-4.png'),
+        ],   [
+            'title'     => 'اینجا',
+            'languages' => [
+                'fa',
+            ],
+            'path'      => public_path('assets/web/img/partner-5.png'),
         ],
     ],
     'teammate'     => [
