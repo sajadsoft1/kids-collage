@@ -32,7 +32,7 @@ return [
                 'redirect_to' => null,
                 'robots_meta' => SeoRobotsMetaEnum::NOINDEX_FOLLOW,
             ],
-            'path'          => public_path('images/test/blogs/laravel.jpg'),
+            'path'          => public_path('assets/web/img/blog-1.png')
         ],
         [
             'title'         => 'معماری لاراول: نگاهی عمیق به ساختار داخلی فریم‌ورک',
@@ -57,7 +57,32 @@ return [
                 'redirect_to' => null,
                 'robots_meta' => SeoRobotsMetaEnum::NOINDEX_FOLLOW,
             ],
-            'path'          => public_path('images/test/blogs/design.jpg'),
+            'path'          => public_path('assets/web/img/blog-2.png')
+        ],
+        [
+            'title'         => 'معماری لاراول: نگاهی عمیق به ساختار داخلی فریم‌ورک',
+            'description'   => 'ساختار MVC، سرویس کانتینرها، فَسادها و سایر مفاهیم کلیدی را بررسی می‌کنیم تا درک عمیق‌تری از لاراول پیدا کنید.',
+            'body'          => '',
+            'slug'          => 'معماری-لاراول:-نگاهی-عمیق-یبیبیـ-به-ساختار-داخلی-فریم‌ورک',
+            'published'     => true,
+            'published_at'  => now(),
+            'user_id'       => 3,
+            'category_id'   => 1,
+            'view_count'    => 2,
+            'comment_count' => 1,
+            'wish_count'    => 2,
+            'languages'     => [
+                'fa',
+            ],
+            'seo_options'   => [
+                'title'       => 'معماری لاراول: نگاهی عمیق به ساختار داخلی فریم‌ورک',
+                'description' => 'ساختار MVC، سرویس کانتینرها، فَسادها و سایر مفاهیم کلیدی را بررسی می‌کنیم تا درک عمیق‌تری از لاراول پیدا کنید.',
+                'canonical'   => null,
+                'old_url'     => null,
+                'redirect_to' => null,
+                'robots_meta' => SeoRobotsMetaEnum::NOINDEX_FOLLOW,
+            ],
+            'path'          => public_path('assets/web/img/blog-3.png')
         ],
     ],
     'categories'   => [
