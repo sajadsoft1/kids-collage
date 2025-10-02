@@ -1,4 +1,4 @@
-<div class="flex items-center justify-start mt-6 gap-x-6">
+<div class="flex gap-x-6 justify-start items-center mt-6">
     <x-button :label="trans('general.submit')" type="submit" class="btn-primary btn-wide" spinner="submit" />
     <x-button :label="trans('general.reset')" type="reset" wire:loading.attr="disabled" wire:target="submit" />
     @if (count($errors) > 0)
