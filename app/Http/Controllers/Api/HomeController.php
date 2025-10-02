@@ -68,11 +68,11 @@ class HomeController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $data = Cache::remember('home_page_data', 1, function () {
-            return [
+
+           $data= [
                 'sliders'   => SliderResource::collection(Slider::latestSliders()),
                 'banners'   => BannerResource::collection(Banner::latestBanner()),
-                'teachers'  => UserResource::collection(User::query()->limit(5)->get()),
+                'teachers'  => UserResource::collection(User::teachers()),
                 'bulletins' => BulletinResource::collection(Bulletin::latestBulletin()),
                 'blogs'     => BlogResource::collection(Blog::latestBlogs()),
                 'opinions'  => OpinionResource::collection(Opinion::homeOpinions()),
@@ -80,7 +80,7 @@ class HomeController extends Controller
                 'events'    => [],
                 'faqs'      => FaqResource::collection(Faq::homeFaq()),
             ];
-        });
+
 
         return Response::data($data);
     }

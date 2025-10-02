@@ -1737,6 +1737,24 @@
                 },
                 "type": "object"
             },
+            "UserTypeEnum": {
+                "properties": {
+                    "value": {
+                        "type": "string",
+                        "default": "user",
+                        "enum": [
+                            "teacher",
+                            "parent",
+                            "user",
+                            "employee"
+                        ]
+                    },
+                    "label": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
             "Meta": {
                 "title": "Pagination",
                 "properties": {
@@ -1957,6 +1975,10 @@
                     "created_at": {
                         "type": "string",
                         "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "image": {
+                        "type": "string",
+                        "default": "https://example.com/image.jpg"
                     }
                 },
                 "type": "object"
@@ -3205,6 +3227,9 @@
                     "status": {
                         "type": "string",
                         "default": "active"
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/UserTypeEnum"
                     },
                     "avatar": {
                         "type": "string",

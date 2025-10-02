@@ -118,5 +118,11 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="label", type="string"),
  *     @OA\Property(property="color", type="string"),
  * ),
+ * * @OA\Schema(
+ *     schema="UserTypeEnum",
+ *     @OA\Property(property="value", type="string", default="user", enum={"teacher", "parent","user","employee"}),
+ *     @OA\Property(property="label", type="string"),
+ *
+ * ),
  */
 class ExtraSchema {}

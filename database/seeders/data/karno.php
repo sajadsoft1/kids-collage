@@ -32,7 +32,7 @@ return [
                 'redirect_to' => null,
                 'robots_meta' => SeoRobotsMetaEnum::NOINDEX_FOLLOW,
             ],
-            'path'          => public_path('images/test/blogs/laravel.jpg'),
+            'path'          => public_path('assets/web/img/blog-1.png')
         ],
         [
             'title'         => 'معماری لاراول: نگاهی عمیق به ساختار داخلی فریم‌ورک',
@@ -57,7 +57,32 @@ return [
                 'redirect_to' => null,
                 'robots_meta' => SeoRobotsMetaEnum::NOINDEX_FOLLOW,
             ],
-            'path'          => public_path('images/test/blogs/design.jpg'),
+            'path'          => public_path('assets/web/img/blog-2.png')
+        ],
+        [
+            'title'         => 'معماری لاراول: نگاهی عمیق به ساختار داخلی فریم‌ورک',
+            'description'   => 'ساختار MVC، سرویس کانتینرها، فَسادها و سایر مفاهیم کلیدی را بررسی می‌کنیم تا درک عمیق‌تری از لاراول پیدا کنید.',
+            'body'          => '',
+            'slug'          => 'معماری-لاراول:-نگاهی-عمیق-یبیبیـ-به-ساختار-داخلی-فریم‌ورک',
+            'published'     => true,
+            'published_at'  => now(),
+            'user_id'       => 3,
+            'category_id'   => 1,
+            'view_count'    => 2,
+            'comment_count' => 1,
+            'wish_count'    => 2,
+            'languages'     => [
+                'fa',
+            ],
+            'seo_options'   => [
+                'title'       => 'معماری لاراول: نگاهی عمیق به ساختار داخلی فریم‌ورک',
+                'description' => 'ساختار MVC، سرویس کانتینرها، فَسادها و سایر مفاهیم کلیدی را بررسی می‌کنیم تا درک عمیق‌تری از لاراول پیدا کنید.',
+                'canonical'   => null,
+                'old_url'     => null,
+                'redirect_to' => null,
+                'robots_meta' => SeoRobotsMetaEnum::NOINDEX_FOLLOW,
+            ],
+            'path'          => public_path('assets/web/img/blog-3.png')
         ],
     ],
     'categories'   => [
@@ -177,22 +202,76 @@ return [
         [
             'published' => true,
             'ordering'  => 1,
-            'company'   => 'my company',
-            'user_name' => 'test user',
+            'company'   => 'ریس آموزش پرورش',
+            'user_name' => 'مهدی خدابنده لو',
+            'comment'   => 'بچه هاتون رو بفرستید زبان یاد بگیرین خوبه واقعا. کچا بهتر از اینجا',
+            'languages' => [
+                'fa',
+            ],
+            'path'      => public_path('assets/web/img/teacher-1.jpg'),
+        ],  [
+            'published' => true,
+            'ordering'  =>2,
+            'company'   => 'کارنووب',
+            'user_name' => 'سجاد اسکندریان',
+            'comment'   => 'چون کد این اموزشگاه رو خودمون زدیم خوبه. اگه تعریف نکنیم پولمون رو نمیدن',
+            'languages' => [
+                'fa',
+            ],
+            'path'      => public_path('assets/web/img/teacher-1.jpg'),
+        ],  [
+            'published' => true,
+            'ordering'  => 3,
+            'company'   => 'کارنووب',
+            'user_name' => 'سجاد خپدابخشی',
+            'comment'   => 'من نمیدونم',
+            'languages' => [
+                'fa',
+            ],
+            'path'      => public_path('assets/web/img/teacher-2.jpg'),
+        ],  [
+            'published' => true,
+            'ordering'  => 4,
+            'company'   => 'کارنووب',
+            'user_name' => 'احمد دهستانی',
             'comment'   => 'this is sample test.',
             'languages' => [
                 'fa',
             ],
-            'path'      => public_path('images/test/categories/laravel-cat.png'),
+            'path'      => public_path('assets/web/img/teacher-3.jpg'),
         ],
     ],
     'client'       => [
         [
-            'title'     => 'karnoweb',
+            'title'     => 'اموزش پرورش',
             'languages' => [
                 'fa',
             ],
-            'path'      => public_path('images/test/blogs/laravel.jpg'),
+            'path'      => public_path('assets/web/img/partner-1.png'),
+        ],   [
+            'title'     => 'کارنووب',
+            'languages' => [
+                'fa',
+            ],
+            'path'      => public_path('assets/web/img/partner-2.png'),
+        ],   [
+            'title'     => 'بیمارستان امام رضا',
+            'languages' => [
+                'fa',
+            ],
+            'path'      => public_path('assets/web/img/partner-3.png'),
+        ],   [
+            'title'     => 'یجایی',
+            'languages' => [
+                'fa',
+            ],
+            'path'      => public_path('assets/web/img/partner-4.png'),
+        ],   [
+            'title'     => 'اینجا',
+            'languages' => [
+                'fa',
+            ],
+            'path'      => public_path('assets/web/img/partner-5.png'),
         ],
     ],
     'teammate'     => [

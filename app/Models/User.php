@@ -7,6 +7,9 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Enums\BooleanEnum;
 use App\Enums\GenderEnum;
+use App\Enums\UserTypeEnum;
+use App\Enums\YesNoEnum;
+use App\Facades\SmartCache;
 use App\Helpers\Constants;
 use App\Traits\CLogsActivity;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -36,6 +39,7 @@ class User extends Authenticatable implements HasMedia
         'gender',
         'password',
         'status',
+        'type'
     ];
 
     protected $hidden = [
@@ -47,6 +51,7 @@ class User extends Authenticatable implements HasMedia
         'mobile_verified_at' => 'datetime',
         'gender'             => GenderEnum::class,
         'status'             => BooleanEnum::class,
+        'type'             => UserTypeEnum::class,
     ];
 
     /** Model Configuration -------------------------------------------------------------------------- */
@@ -143,4 +148,15 @@ class User extends Authenticatable implements HasMedia
     /**
      * Model Custom Methods --------------------------------------------------------------------------
      */
+
+    public static function teachers()
+    {
+        return SmartCache::for(__CLASS__)
+            ->key('teachers')
+            ->remember(function ()  {
+                return self::where('status', BooleanEnum::ENABLE->value)
+                    ->where('type', UserTypeEnum::TEACHER->value)
+                    ->get();
+            },3600);
+    }
 }
