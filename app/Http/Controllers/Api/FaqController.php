@@ -28,7 +28,7 @@ class FaqController extends Controller
     private function query(array $payload = []): QueryBuilder
     {
         return QueryBuilder::for(Faq::query())
-            ->with(['category'])
+            ->with('category')
             ->when($limit = Arr::get($payload, 'limit'), fn ($q) => $q->limit($limit))
             ->when($categoryId = Arr::get($payload, 'category_id'), fn ($q) => $q->where('category_id', $categoryId))
             ->where('published', true)
