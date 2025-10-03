@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use OpenApi\Annotations as OA;
 
-
 /**
  * @OA\Schema(
  *     schema="BulletinResource",
@@ -26,11 +25,11 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="wish_count", type="integer", default="50"),
  *     @OA\Property(property="updated_at", type="string", default="2024-08-19T07:26:07.000000Z"),
  *     @OA\Property(property="created_at", type="string", default="2024-08-19T07:26:07.000000Z"),
+ *     @OA\Property(property="category", ref="#/components/schemas/CategoryResource"),
  * )
  */
 class BulletinResource extends JsonResource
 {
-
     public function toArray(Request $request): array
     {
         return [
@@ -40,12 +39,13 @@ class BulletinResource extends JsonResource
             'slug'          => $this->slug,
             'published'     => $this->published->toArray(),
             'published_at'  => $this->published_at,
-            'image'         => $this->resource->getFirstMediaUrl('image', Constants::RESOLUTION_100_SQUARE),
+            'image'         => $this->resource->getFirstMediaUrl('image', Constants::RESOLUTION_854_480),
             'view_count'    => $this->view_count,
             'comment_count' => $this->comment_count,
             'wish_count'    => $this->wish_count,
             'updated_at'    => $this->updated_at,
             'created_at'    => $this->created_at,
+            'category'      => $this->whenLoaded('category', fn () => CategoryResource::make($this->category)),
         ];
     }
 }

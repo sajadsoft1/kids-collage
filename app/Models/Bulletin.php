@@ -122,7 +122,7 @@ class Bulletin extends Model implements HasMedia
     }
     public static function relatedBulletin(Bulletin $bulletin): Collection
     {
-        return Blog::where('category_id', $bulletin->category_id)
+        return Bulletin::where('category_id', $bulletin->category_id)
             ->where('id', '!=', $bulletin->id)
             ->where('published', BooleanEnum::ENABLE)
             ->orderBy('id', 'desc')
