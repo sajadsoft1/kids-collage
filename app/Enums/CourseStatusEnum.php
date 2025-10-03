@@ -12,6 +12,24 @@ enum CourseStatusEnum: string
     case FINISHED  = 'finished';
     case CANCELLED = 'cancelled';
 
+    public static function runerOptions(): array
+    {
+        return [
+            [
+                'label' => trans('course.enum.status.draft'),
+                'value' => self::DRAFT->value,
+            ],
+            [
+                'label' => trans('course.enum.status.scheduled'),
+                'value' => self::SCHEDULED->value,
+            ],
+            [
+                'label' => trans('course.enum.status.active'),
+                'value' => self::ACTIVE->value,
+            ],
+        ];
+    }
+
     public static function options(): array
     {
         return [

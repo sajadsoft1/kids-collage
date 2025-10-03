@@ -1,14 +1,15 @@
 @php
     use App\Helpers\Constants;
     use App\Enums\CourseStatusEnum;
+    use App\Enums\SessionType;
 @endphp
 <div class="h-full">
     <x-admin.shared.bread-crumbs :breadcrumbs="$breadcrumbs" :breadcrumbs-actions="$breadcrumbsActions" />
 
 
     <x-card>
-        <x-steps wire:model="runningStep" stepper-classes="w-full p-5">
-            <x-step step="1" text="اطلاعات دوره">
+        <x-steps wire:model="runningStep" stepper-classes="w-full p-1 md:p-5" steps-color="step-primary">
+            <x-step step="1" text="اطلاعات دوره" class="!px-0">
 
                 <div class="p-6 space-y-6">
                     <!-- Course Header -->
@@ -48,10 +49,8 @@
                                     <span class="text-sm text-slate-600">{{ $prerequisite }}</span>
                                 </div>
                             @empty
-                                <div class="flex items-center space-x-2">
-                                    <x-icon name="o-user" class="w-4 h-4 text-red-500" />
-                                    <span class="text-sm text-slate-600">هیچ پیش‌نیازی تعریف نشده</span>
-                                </div>
+                                <x-alert title="هیچ پیش‌نیازی تعریف نشده" icon="lucide.brain-cog"
+                                    class="alert-warning" />
                             @endforelse
                         </div>
                     </section>
@@ -75,56 +74,41 @@
                 </div>
 
             </x-step>
-            <x-step step="2" text="اطلاعات اجرایی">
+            <x-step step="2" text="اطلاعات اجرایی" class="!px-0">
 
                 <div class="p-6 space-y-6">
 
                     <x-admin.shared.inline-input :label="trans('validation.attributes.capacity')" :info="trans('course.page.runer.capacity_info')">
-                        <x-input class="text-sm text-slate-600 lg:min-w-60" wire:model="capacity" required
-                            min="1" />
+                        <x-input class="text-sm text-slate-600 min-w-20 lg:min-w-40" wire:model="capacity" required
+                            icon="lucide.contact-round" min="1" suffix="نفر" />
                     </x-admin.shared.inline-input>
 
                     <x-admin.shared.inline-input :label="trans('validation.attributes.price')" :info="trans('course.page.runer.price_info')">
-                        <x-input class="text-sm text-slate-600 lg:min-w-60" wire:model="price" required
-                            min="0" />
+                        <x-input class="text-sm text-slate-600 min-w-20 lg:min-w-32" wire:model="price" required
+                            min="0" icon="lucide.hand-coins" suffix="تومان" />
                     </x-admin.shared.inline-input>
 
                     <x-admin.shared.inline-input :label="trans('validation.attributes.status')" :info="trans('course.page.runer.status_info')">
                         <x-select class="text-sm text-slate-600 lg:min-w-60" wire:model="status" required
-                            :options="CourseStatusEnum::options()" option-key="value" option-label="label" />
+                            :options="CourseStatusEnum::runerOptions()" option-value="value" option-label="label" />
                     </x-admin.shared.inline-input>
 
                     <x-admin.shared.inline-input :label="trans('validation.attributes.term_id')" :info="trans('course.page.runer.term_info')">
-                        <x-select class="text-sm text-slate-600 lg:min-w-60" wire:model="term" required
-                            :options="$terms" option-key="value" option-label="label" />
+                        <x-select class="text-sm text-slate-600 lg:min-w-60" wire:model.live="term" required
+                            placeholder="{{ trans('course.validations.select_a_term') }}" placeholder-value="0"
+                            :options="$terms" option-value="value" option-label="label" />
                     </x-admin.shared.inline-input>
-
-                    <x-admin.shared.inline-input :label="trans('validation.attributes.start_date')" :info="trans('course.page.runer.start_date_info')">
-                        <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
-                            <x-input class="text-sm text-slate-600 lg:min-w-60" wire:model="start_date" required
-                                type="date" />
-                            <x-input class="text-sm text-slate-600 lg:min-w-60" wire:model="end_date" required
-                                type="date" />
-                        </div>
-                    </x-admin.shared.inline-input>
-                    <x-admin.shared.inline-input :label="trans('validation.attributes.start_time')" :info="trans('course.page.runer.start_time_info')">
-                        <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
-                            <x-input class="text-sm text-slate-600 lg:min-w-60" wire:model="start_time" required
-                                type="time" />
-                            <x-input class="text-sm text-slate-600 lg:min-w-60" wire:model="end_time" required
-                                type="time" />
-                        </div>
-                    </x-admin.shared.inline-input>
-
 
                     <x-admin.shared.inline-input :label="trans('validation.attributes.week_days')" :info="trans('course.page.runer.week_days_info')">
                         <div class="space-y-3">
                             <!-- Quick action buttons -->
                             <div class="flex gap-2 mb-3">
-                                <x-button label="انتخاب همه" type="button" wire:click="selectAllWeekDays"
-                                    spinner="selectAllWeekDays" class="btn btn-sm btn-outline btn-primary" />
-                                <x-button label="پاک کردن همه" type="button" wire:click="clearWeekDays"
-                                    spinner="clearWeekDays" class="btn btn-sm btn-outline btn-secondary" />
+                                <x-button icon="lucide.check-check" label="انتخاب همه" type="button"
+                                    wire:click="selectAllWeekDays" spinner="selectAllWeekDays"
+                                    class="btn btn-sm btn-outline btn-primary" />
+                                <x-button icon="lucide.trash" label="پاک کردن همه" type="button"
+                                    wire:click="clearWeekDays" spinner="clearWeekDays"
+                                    class="btn btn-sm btn-outline btn-secondary" />
                             </div>
 
                             <!-- Week days button group -->
@@ -161,94 +145,158 @@
 
                             <!-- Show validation error -->
                             @error('week_days')
-                                <div class="text-sm text-red-600">{{ $message }}</div>
+                                <span class="text-xs text-error">{{ $message }}</span>
                             @enderror
+                        </div>
+                    </x-admin.shared.inline-input>
+
+                    <x-admin.shared.inline-input :label="trans('validation.attributes.start_date')" :info="trans('course.page.runer.start_date_info')">
+                        <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
+                            <x-datetime class="lg:min-w-60" wire:model.live.debounce.500ms="start_date" required
+                                type="date" date-format="Y-m-d" inline :label="trans('validation.attributes.start_date')" />
+
+                            <x-datetime class="lg:min-w-60" wire:model.live.debounce.500ms="end_date" required
+                                x-bind:disabled="!$wire.start_date" type="date" date-format="Y-m-d" inline
+                                :label="trans('validation.attributes.end_date')" />
+                        </div>
+                    </x-admin.shared.inline-input>
+                    <x-admin.shared.inline-input :label="trans('validation.attributes.start_time')" :info="trans('course.page.runer.start_time_info')">
+                        <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
+                            <x-datetime class="lg:min-w-60" wire:model="start_time" required type="time" inline
+                                :label="trans('validation.attributes.start_time')" />
+                            <x-datetime class="lg:min-w-60" wire:model="end_time" required type="time" inline
+                                :label="trans('validation.attributes.end_time')" />
                         </div>
                     </x-admin.shared.inline-input>
 
                     <x-admin.shared.inline-input :label="trans('validation.attributes.teacher_id')" :info="trans('course.page.runer.teacher_info')">
                         <x-select class="text-sm text-slate-600 lg:min-w-60" wire:model="teacher" required
-                            :options="$teachers" option-key="value" option-label="label" />
+                            placeholder="{{ trans('course.validations.select_a_teacher') }}" placeholder-value="0"
+                            :options="$teachers" option-value="value" option-label="label" />
                     </x-admin.shared.inline-input>
 
                     <x-admin.shared.inline-input :label="trans('validation.attributes.room_id')" :info="trans('course.page.runer.room_info')">
                         <x-select class="text-sm text-slate-600 lg:min-w-60" wire:model="room" required
-                            :options="$rooms" option-key="value" option-label="label" />
+                            placeholder="{{ trans('course.validations.select_a_room') }}" placeholder-value="0"
+                            :options="$rooms" option-value="value" option-label="label" />
                     </x-admin.shared.inline-input>
+
+                    @if (is_array($this->dates_example))
+                        <div class="divider divider-center p-4 pb-2 text-xs opacity-60 tracking-wide">
+                            {{ trans('course.page.runer.generated_sessions') }}
+                        </div>
+                        <ul class="list">
+
+                            @foreach ($this->dates_example as $index => $date)
+                                <li class="list-row">
+                                    <div class="text-4xl font-thin opacity-30 tabular-nums">
+                                        {{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}
+                                    </div>
+                                    <div class="list-col-grow">
+                                        <div>{{ $date['date'] }}</div>
+                                        <div class="text-xs uppercase font-semibold opacity-60">
+                                            {{ $date['day_name'] }}
+                                        </div>
+                                    </div>
+                                    <div class="text-xs uppercase font-semibold opacity-60">
+                                        <div class="">{{ $date['start_time'] }}</div>
+                                        <div class="">{{ $date['end_time'] }}</div>
+                                    </div>
+                                </li>
+                            @endforeach
+
+                        </ul>
+                    @elseif (is_string($this->dates_example) && !empty($this->dates_example))
+                        <x-alert title="خطا در تولید جلسات" :description="$this->dates_example" icon="lucide.message-square-warning"
+                            class="alert-warning" />
+                    @endif
 
                 </div>
             </x-step>
-            <x-step step="3" text="جلسات دوره">
+            <x-step step="3" text="جلسات دوره" class="!px-0">
 
-                <div class="p-6 space-y-6">
+                <div class="py-6 px-0 md:p-6 space-y-6">
                     <div class="mb-6">
                         <h2 class="mb-2 text-2xl font-bold text-slate-800">جلسات دوره</h2>
                         <p class="text-sm text-slate-600">لیست تمام جلسات این دوره آموزشی</p>
                     </div>
 
-                    @if ($courseTemplate->sessionTemplates && count($courseTemplate->sessionTemplates) > 0)
-                        <div class="space-y-4">
-                            @foreach ($courseTemplate->sessionTemplates as $index => $sessionTemplate)
-                                <div
-                                    class="p-6 transition-shadow bg-white border rounded-lg border-slate-200 hover:shadow-md">
-                                    <div class="flex items-start space-x-4">
-                                        <!-- Session Number -->
-                                        <div
-                                            class="flex items-center justify-center w-12 h-12 text-xl font-bold text-center text-white rounded-full bg-primary">
-                                            {{ $sessionTemplate->order }}
+                    <div class="space-y-4">
+                        @foreach ($sessions as $index => $session)
+                            <div
+                                class="p-3 md:p-6 transition-shadow bg-white border rounded-lg border-slate-200 hover:shadow-md">
+                                <div class="flex items-start space-x-4">
+                                    <!-- Session Number -->
+                                    <div
+                                        class="hidden md:flex items-center justify-center w-12 h-12 text-xl font-bold text-center text-white rounded-full bg-primary">
+                                        {{ $session['order'] }}
+                                    </div>
+
+                                    <!-- Session Content -->
+                                    <div class="flex-1">
+                                        <div class="flex items-start justify-between mb-4">
+                                            <div>
+                                                <h3 class="mb-1 text-lg font-semibold text-slate-800">
+                                                    {{ $session['title'] ?? 'جلسه ' . ($index + 1) }}
+                                                </h3>
+                                                <p class="text-sm text-slate-600">
+                                                    {{ $session['description'] }}
+                                                </p>
+                                            </div>
+
+                                            <!-- Session Status Badge -->
+                                            <div class="flex items-center space-x-2">
+                                                <span
+                                                    class="px-3 py-1 text-xs font-medium text-blue-800 bg-blue-100 rounded-full">
+                                                    some
+                                                </span>
+                                            </div>
                                         </div>
 
-                                        <!-- Session Content -->
-                                        <div class="flex-1">
-                                            <div class="flex items-start justify-between mb-3">
-                                                <div>
-                                                    <h3 class="mb-1 text-lg font-semibold text-slate-800">
-                                                        {{ $sessionTemplate->title ?? 'جلسه ' . ($index + 1) }}
-                                                    </h3>
-                                                    <p class="text-sm text-slate-600">
-                                                        {{ $sessionTemplate->description }}
-                                                    </p>
-                                                </div>
+                                        <div class="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-5">
+                                            <x-input inline :label="trans('validation.attributes.date')" type="date"
+                                                wire:model="sessions.{{ $index }}.date" />
 
-                                                <!-- Session Status Badge -->
-                                                <div class="flex items-center space-x-2">
-                                                    <span
-                                                        class="px-3 py-1 text-xs font-medium text-blue-800 bg-blue-100 rounded-full">
-                                                        {{ $sessionTemplate->type->title() }}
-                                                    </span>
-                                                </div>
-                                            </div>
 
-                                            <!-- Session Details -->
-                                            <div class="flex items-center space-x-6 text-sm text-slate-500">
-                                                <div class="flex items-center space-x-1">
-                                                    <x-icon name="lucide.timer" class="w-4 h-4" />
-                                                    <span>{{ $sessionTemplate->duration_minutes }} دقیقه</span>
-                                                </div>
+                                            <x-input inline :label="trans('validation.attributes.start_time')" type="time"
+                                                wire:model="sessions.{{ $index }}.start_time" />
 
-                                                <div class="flex items-center space-x-1">
-                                                    <x-icon name="lucide.building-2" class="w-4 h-4" />
-                                                    <span>{{ $sessionTemplate->type->title() }}</span>
-                                                </div>
-                                            </div>
+
+                                            <x-input inline :label="trans('validation.attributes.end_time')" type="time"
+                                                wire:model="sessions.{{ $index }}.end_time" />
+
+                                            <x-select inline :label="trans('validation.attributes.type')" :options="SessionType::options()" option-value="value"
+                                                option-label="label"
+                                                wire:model.live="sessions.{{ $index }}.type" />
+
+                                            <!-- Room Selection (for in-person and hybrid) -->
+                                            @if ($session['type'] === 'in-person' || $session['type'] === 'hybrid')
+                                                <x-select inline :label="trans('validation.attributes.room_id')" :options="$rooms"
+                                                    option-value="value" option-label="label"
+                                                    placeholder="{{ trans('course.validations.select_a_room') }}"
+                                                    placeholder-value="0"
+                                                    wire:model.live="sessions.{{ $index }}.room_id" />
+                                            @endif
+
+                                            <!-- Meeting Link (for online and hybrid) -->
+                                            @if ($session['type'] === 'online' || $session['type'] === 'hybrid')
+                                                <x-input inline :label="trans('validation.attributes.link')" type="url"
+                                                    wire:model.live.debounce.500ms="sessions.{{ $index }}.link" />
+                                            @endif
                                         </div>
                                     </div>
+
                                 </div>
-                            @endforeach
-                        </div>
-                    @else
-                        <div class="py-12 text-center">
-                            <x-icon name="o-document-text" class="w-16 h-16 mx-auto mb-4 text-slate-300" />
-                            <h3 class="mb-2 text-lg font-medium text-slate-600">هیچ جلسه‌ای تعریف نشده</h3>
-                            <p class="text-sm text-slate-500">برای این دوره هنوز جلسه‌ای تعریف نشده است.</p>
-                        </div>
-                    @endif
+                            </div>
+                        @endforeach
+                    </div>
+
                 </div>
 
             </x-step>
-            <x-step step="4" text="خلاصه و تکمیل">
+            <x-step step="4" text="خلاصه و تکمیل" class="!px-0">
 
-                <div class="p-6 space-y-6">
+                <div class="py-6 space-y-6">
                     <div class="mb-6">
                         <h2 class="mb-2 text-2xl font-bold text-slate-800">خلاصه دوره</h2>
                         <p class="text-sm text-slate-600">مرور نهایی اطلاعات دوره و آماده‌سازی برای اجرا</p>
@@ -259,31 +307,34 @@
                         <div class="flex items-start space-x-4">
                             @if ($courseTemplate->getFirstMediaUrl('image'))
                                 <img src="{{ $courseTemplate->getFirstMediaUrl('image') }}"
-                                    alt="{{ $courseTemplate->title }}" class="object-cover w-20 h-20 rounded-lg">
+                                    alt="{{ $courseTemplate->title }}"
+                                    class="hidden md:block object-cover w-20 h-20 rounded-lg">
                             @endif
                             <div class="flex-1">
-                                <h3 class="mb-2 text-xl font-bold text-slate-800">{{ $courseTemplate->title }}</h3>
-                                <p class="mb-4 text-sm text-slate-600">{{ $courseTemplate->description }}</p>
+                                <h3 class="hidden md:block mb-2 text-xl font-bold text-slate-800">
+                                    {{ $courseTemplate->title }}</h3>
+                                <p class="hidden md:block mb-4 text-sm text-slate-600">
+                                    {{ $courseTemplate->description }}</p>
 
                                 <!-- Course Stats -->
                                 <div class="grid grid-cols-2 gap-4 md:grid-cols-4">
                                     <div class="text-center">
-                                        <div class="text-2xl font-bold text-primary">
+                                        <div class="text-xl md:text-2xl font-bold text-primary">
                                             {{ $courseTemplate->sessionTemplates->count() }}</div>
                                         <div class="text-xs text-slate-500">جلسه</div>
                                     </div>
                                     <div class="text-center">
-                                        <div class="text-2xl font-bold text-primary">
-                                            {{ $courseTemplate->type->title ?? 'N/A' }}</div>
+                                        <div class="text-xl md:text-2xl font-bold text-primary">
+                                            {{ $courseTemplate->type->title() ?? 'N/A' }}</div>
                                         <div class="text-xs text-slate-500">نوع</div>
                                     </div>
                                     <div class="text-center">
-                                        <div class="text-2xl font-bold text-primary">
-                                            {{ $courseTemplate->level->title ?? 'N/A' }}</div>
+                                        <div class="text-xl md:text-2xl font-bold text-primary">
+                                            {{ $courseTemplate->level->title() ?? 'N/A' }}</div>
                                         <div class="text-xs text-slate-500">سطح</div>
                                     </div>
                                     <div class="text-center">
-                                        <div class="text-2xl font-bold text-primary">
+                                        <div class="text-xl md:text-2xl font-bold text-primary">
                                             {{ $courseTemplate->category->title ?? 'N/A' }}</div>
                                         <div class="text-xs text-slate-500">دسته‌بندی</div>
                                     </div>
@@ -317,24 +368,22 @@
 
                     <!-- Action Buttons -->
                     <div class="flex justify-center pt-6 space-x-4">
-                        <x-button label="شروع دوره" class="btn-primary btn-lg" icon="o-play"
-                            wire:click="startCourse" />
-                        <x-button label="ویرایش دوره" class="btn-outline btn-lg" icon="o-pencil"
-                            wire:click="editCourse" />
-                        <x-button label="پیش‌نمایش" class="btn-outline btn-lg" icon="o-eye"
-                            wire:click="previewCourse" />
+                        <x-button label="شروع دوره" class="btn-success btn-lg" icon="o-play" spinner="startCourse"
+                            wire:loading.attr="disabled" wire:target="startCourse" wire:click="startCourse" />
                     </div>
                 </div>
 
             </x-step>
         </x-steps>
 
-        <x-slot:actions separator>
-            <x-button label="قبلی" class="btn-primary" wire:if="$wire.runningStep > 1" wire:click="previousStep"
-                wire:loading.attr="disabled" wire:target="nextStep, previousStep" spinner="previousStep" />
+        <x-slot:actions separator class="flex w-full !items-center !justify-between">
+            <x-button label="قبلی" class="btn-primary" wire:click="previousStep" wire:loading.attr="disabled"
+                wire:target="nextStep, previousStep" spinner="previousStep" x-bind:disabled="$wire.runningStep <= 1"
+                icon="lucide.arrow-right" />
 
-            <x-button label="بعدی" class="btn-primary" wire:if="$wire.runningStep < 3" wire:click="nextStep"
-                wire:loading.attr="disabled" wire:target="nextStep, previousStep" spinner="nextStep" />
+            <x-button label="بعدی" class="btn-primary" wire:click="nextStep" wire:loading.attr="disabled"
+                wire:target="nextStep, previousStep" spinner="nextStep" x-bind:disabled="$wire.runningStep >= 4"
+                icon-right="lucide.arrow-left" />
 
         </x-slot:actions>
     </x-card>

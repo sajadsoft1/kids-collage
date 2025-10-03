@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Livewire\Admin\Pages\Course;
 
-use App\Enums\BooleanEnum;
 use App\Enums\CourseTypeEnum;
-use App\Helpers\Constants;
 use App\Helpers\PowerGridHelper;
 use App\Models\Category;
 use App\Models\Course;
@@ -94,7 +92,7 @@ final class CourseTable extends PowerGridComponent
     public function datasource(): Builder
     {
         return Course::query()
-            ->with(['teacher', 'category', 'user']);
+            ->with(['teacher', 'template.category', 'term']);
     }
 
     public function relationSearch(): array
@@ -121,16 +119,14 @@ final class CourseTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('id')
-            ->add('image', fn ($row) => PowerGridHelper::fieldImage($row, 'image', Constants::RESOLUTION_854_480, 11, 6))
-            ->add('title', fn ($row) => PowerGridHelper::fieldTitle($row))
-            ->add('teacher_formatted', fn ($row) => $row->teacher?->name ?? '---')
-            ->add('category_formatted', fn ($row) => $row->category?->title ?? '---')
+            ->add('title', fn ($row) => PowerGridHelper::fieldTitle($row->template))
+            ->add('teacher_formatted', fn ($row) => $row->teacher?->full_name ?? '---')
+            ->add('category_formatted', fn ($row) => $row->template->category?->title ?? '---')
             ->add('price_formatted', fn ($row) => number_format($row->price) . ' تومان')
-            ->add('type_formatted', fn ($row) => $row->type->value)
-            ->add('start_date_formatted', fn ($row) => $row->start_date?->format('Y-m-d') ?? '---')
-            ->add('end_date_formatted', fn ($row) => $row->end_date?->format('Y-m-d') ?? '---')
-            ->add('published_formated', fn ($row) => PowerGridHelper::fieldPublishedAtFormated($row))
-            ->add('view_count_formated', fn ($row) => "<strong style='color: " . ($row->view_count === 0 ? 'blue' : 'red') . "'>" . $row->view_count . '</strong>')
+            ->add('type_formatted', fn ($row) => $row->template->type->title())
+            ->add('start_date_formatted', fn ($row) => $row->sessions()->min('date') ?? '---')
+            ->add('end_date_formatted', fn ($row) => $row->sessions()->max('date') ?? '---')
+            ->add('view_count_formated', fn ($row) => "<strong style='color: " . ($row->template->view_count === 0 ? 'blue' : 'red') . "'>" . $row->template->view_count . '</strong>')
             ->add('created_at_formatted', fn ($row) => PowerGridHelper::fieldCreatedAtFormated($row))
             ->add('updated_at_formatted', fn ($row) => PowerGridHelper::fieldUpdatedAtFormated($row));
     }
@@ -139,7 +135,6 @@ final class CourseTable extends PowerGridComponent
     {
         return [
             PowerGridHelper::columnId(),
-            PowerGridHelper::columnImage(),
             PowerGridHelper::columnTitle(),
             Column::make(trans('datatable.teacher'), 'teacher_formatted'),
             Column::make(trans('datatable.category'), 'category_formatted'),
@@ -147,7 +142,6 @@ final class CourseTable extends PowerGridComponent
             Column::make(trans('datatable.type'), 'type_formatted'),
             Column::make(trans('datatable.start_date'), 'start_date_formatted'),
             Column::make(trans('datatable.end_date'), 'end_date_formatted'),
-            PowerGridHelper::columnPublished(),
             PowerGridHelper::columnViewCount('view_count_formated')->hidden(true, false),
             PowerGridHelper::columnUpdatedAT(),
             PowerGridHelper::columnAction(),
@@ -157,9 +151,6 @@ final class CourseTable extends PowerGridComponent
     public function filters(): array
     {
         return [
-            Filter::enumSelect('published_formated', 'published')
-                ->datasource(BooleanEnum::cases()),
-
             Filter::datepicker('created_at_formatted', 'created_at')
                 ->params([
                     'maxDate' => now(),
@@ -171,7 +162,7 @@ final class CourseTable extends PowerGridComponent
                 })->get()->map(function ($user) {
                     return [
                         'value' => $user->id,
-                        'label' => $user->name,
+                        'label' => $user->full_name,
                     ];
                 })->toArray())->optionLabel('label')->optionValue('value'),
 
@@ -191,31 +182,23 @@ final class CourseTable extends PowerGridComponent
     public function actions(Course $row): array
     {
         return [
-            PowerGridHelper::btnSeo($row),
-            PowerGridHelper::btnTranslate($row),
-            Button::add('publish')
-                ->slot('<x-mary-icon name="o-rocket-launch" class="w-4 h-4" />')
-                ->class('btn btn-square md:btn-sm btn-xs')
-                ->dispatch('course-publish', ['id' => $row->id])
-                ->can($row->status->value === \App\Enums\CourseStatusEnum::DRAFT->value),
             Button::add('start')
                 ->slot('<x-mary-icon name="o-play" class="w-4 h-4" />')
                 ->class('btn btn-square md:btn-sm btn-xs')
-                ->dispatch('course-start', ['id' => $row->id])
-                ->can($row->status->value === \App\Enums\CourseStatusEnum::SCHEDULED->value),
+                ->dispatch('course-start', ['id' => $row->id]),
             Button::add('finish')
                 ->slot('<x-mary-icon name="o-flag" class="w-4 h-4" />')
                 ->class('btn btn-square md:btn-sm btn-xs')
-                ->dispatch('course-finish', ['id' => $row->id])
-                ->can($row->status->value === \App\Enums\CourseStatusEnum::ACTIVE->value),
-            Button::add('sessions')
-                ->slot(PowerGridHelper::iconShow())
-                ->attributes([
-                    'class' => 'btn btn-square md:btn-sm btn-xs',
-                ])
-                ->route('admin.session.index', ['course' => $row->id])
-                ->tooltip(trans('datatable.buttons.sessions')),
-            PowerGridHelper::btnToggle($row),
+                ->dispatch('course-finish', ['id' => $row->id]),
+
+            // Button::add('sessions')
+            //     ->slot(PowerGridHelper::iconShow())
+            //     ->attributes([
+            //         'class' => 'btn btn-square md:btn-sm btn-xs',
+            //     ])
+            //     ->route('admin.session.index', ['course' => $row->id])
+            //     ->tooltip(trans('datatable.buttons.sessions')),
+
             PowerGridHelper::btnEdit($row),
             PowerGridHelper::btnDelete($row),
         ];

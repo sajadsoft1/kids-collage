@@ -14,7 +14,7 @@
             <div class="sm:hidden">
                 <x-popover position="top-start" offset="20">
                     <x-slot:trigger>
-                        <x-icon name="o-information-circle" class="w-4 h-4 text-slate-500" />
+                        <x-icon name="o-information-circle" class="me-5 w-4 h-4 text-slate-500" />
                     </x-slot:trigger>
                     <x-slot:content>
                         {{ $info }}

@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Actions\Course;
 
 use App\Actions\CourseSession\StoreCourseSessionAction;
-use App\Actions\Translation\SyncTranslationAction;
+use App\Enums\CourseStatusEnum;
+use App\Enums\SessionStatus;
+use App\Enums\SessionType;
 use App\Models\Course;
 use App\Models\CourseTemplate;
 use Illuminate\Support\Arr;
@@ -19,9 +21,7 @@ class StoreCourseAction
 
     public function __construct(
         private readonly StoreCourseSessionAction $storeCourseSessionAction,
-    )
-    {
-    }
+    ) {}
 
     /**
      * @param array{
@@ -37,20 +37,21 @@ class StoreCourseAction
      *         end_time:string,
      *         room_id:int|null,
      *         meeting_link:string|null,
-     *         session_number:int,
+     *         session_type?:SessionType,
+     *         status?:SessionStatus,
      *     }[],
      * } $payload
      * @throws Throwable
      */
-    public function handle(array $payload): Course
+    public function handle(CourseTemplate $courseTemplate, array $payload): Course
     {
-        return DB::transaction(function () use ($payload) {
-
+        return DB::transaction(function () use ($courseTemplate, $payload) {
             $model = Course::create([
-                'course_template_id' => Arr::get($payload, 'course_template_id'),
+                'course_template_id' => $courseTemplate->id,
                 'term_id'            => Arr::get($payload, 'term_id'),
                 'teacher_id'         => Arr::get($payload, 'teacher_id'),
                 'capacity'           => Arr::get($payload, 'capacity'),
+                'status'             => Arr::get($payload, 'status') ?? CourseStatusEnum::DRAFT->value,
                 'price'              => Arr::get($payload, 'price', 0),
             ]);
 

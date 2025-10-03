@@ -6,8 +6,14 @@ use App\Http\Middleware\SetApiGuard;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['as' => 'api.', 'middleware' => [SetApiGuard::class]], function () {
-    $path = __DIR__ . '/api';
-    foreach (array_diff(scandir($path, SCANDIR_SORT_NONE), ['.', '..']) as $file) {
-        require_once "api/{$file}";
-    }
+    // Include all API route files statically for route caching compatibility
+    require __DIR__ . '/api/auth.php';
+    require __DIR__ . '/api/banner.php';
+    require __DIR__ . '/api/blog.php';
+    require __DIR__ . '/api/client.php';
+    require __DIR__ . '/api/comment.php';
+    require __DIR__ . '/api/faq.php';
+    require __DIR__ . '/api/home.php';
+    require __DIR__ . '/api/news.php';
+    require __DIR__ . '/api/user.php';
 });
