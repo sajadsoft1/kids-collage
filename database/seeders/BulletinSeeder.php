@@ -30,15 +30,12 @@ class BulletinSeeder extends Seeder
                 'slug'          => $row['slug'] ?? \Illuminate\Support\Str::slug($row['title']),
             ]);
 
-            try {
                 if (isset($row['path'])) {
                     $model->addMedia($row['path'])
                         ->preservingOriginal()
                         ->toMediaCollection('image');
-                }
-            } catch (Exception) {
-                // do nothing
-            }
+                    }
+
         }
     }
 }

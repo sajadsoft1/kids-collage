@@ -44,7 +44,7 @@ class BlogResource extends JsonResource
             'user'          => $this->whenLoaded('user', fn () => UserResource::make($this->user)),
             'category'      => $this->whenLoaded('category', fn () => CategoryResource::make($this->category)),
             'tags'          => $this->whenLoaded('tags', fn () => TagResource::collection($this->tags)),
-            'image'         => $this->resource->getFirstMediaUrl('image', Constants::RESOLUTION_100_SQUARE),
+            'image'         => $this->resource->getFirstMediaUrl('image', Constants::RESOLUTION_854_480),
             'view_count'    => $this->view_count,
             'comment_count' => $this->comment_count,
             'wish_count'    => $this->wish_count,

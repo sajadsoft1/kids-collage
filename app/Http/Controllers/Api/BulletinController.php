@@ -7,10 +7,11 @@ namespace App\Http\Controllers\Api;
 use App\Filters\DateFilter;
 use App\Filters\FuzzyFilter;
 use App\Http\Resources\BannerResource;
-use App\Http\Resources\BlogDetailResource;
 use App\Http\Resources\BlogResource;
+use App\Http\Resources\BulletinDetailResource;
+use App\Http\Resources\BulletinResource;
 use App\Models\Banner;
-use App\Models\Blog;
+use App\Models\Bulletin;
 use App\Models\Category;
 use App\Models\Tag;
 use App\Models\User;
@@ -27,17 +28,14 @@ use Spatie\QueryBuilder\Enums\SortDirection;
 use Spatie\QueryBuilder\QueryBuilder;
 use Throwable;
 
-class BlogController extends Controller
+class BulletinController extends Controller
 {
-    public function __construct()
-    {
-        //        $this->middleware('auth:sanctum');
-    }
+    public function __construct() {}
 
     private function query(array $payload = []): QueryBuilder
     {
-        return QueryBuilder::for(Blog::query())
-            ->with(['user', 'category', 'media'])
+        return QueryBuilder::for(Bulletin::query())
+            ->with(['category'])
             ->when($limit = Arr::get($payload, 'limit'), fn ($q) => $q->limit($limit))
             ->when($categoryId = Arr::get($payload, 'category_id'), fn ($q) => $q->where('category_id', $categoryId))
             ->when($tagId = Arr::get($payload, 'tag_id'), fn ($q) => $q->withAnyTags([$tagId], 'tags'))
@@ -58,41 +56,37 @@ class BlogController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/blog",
-     *     operationId="getBlogs",
-     *     tags={"Blog"},
-     *     summary="get blogs list",
-     *     description="Returns list of blogs",
+     *     path="/bulletin",
+     *     operationId="getBulletins",
+     *     tags={"Bulletin"},
+     *     summary="get bulletin list",
+     *     description="Returns list of bulletin",
      *     @OA\Parameter(ref="#/components/parameters/page"),
      *     @OA\Parameter(ref="#/components/parameters/page_limit"),
      *     @OA\Parameter(ref="#/components/parameters/search"),
      *     @OA\Parameter(ref="#/components/parameters/sort"),
-     *     @OA\Parameter(name="filter[date]", required=false, in="query", @OA\Schema(type="string", enum={"today", "this_week", "this_month", "this_year"}), description="Filter by date"),
      *     @OA\Response(response=200,
      *         description="Successful operation",
      *         @OA\JsonContent(type="object",
-     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/BlogResource")),
+     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/BulletinResource")),
      *             @OA\Property(property="links", type="object",
-     *                 @OA\Property(property="first", type="string", default="http://localhost/api/blog?page=1"),
-     *                 @OA\Property(property="last", type="string", default="http://localhost/api/blog?page=4"),
+     *                 @OA\Property(property="first", type="string", default="http://localhost/api/bulletin?page=1"),
+     *                 @OA\Property(property="last", type="string", default="http://localhost/api/bulletin?page=4"),
      *                 @OA\Property(property="prev", type="string", default="null", nullable=true),
-     *                 @OA\Property(property="next", type="string", default="http://localhost/api/blog?page=2", nullable=true),
+     *                 @OA\Property(property="next", type="string", default="http://localhost/api/bulletin?page=2", nullable=true),
      *             ),
      *             @OA\Property(property="meta", ref="#/components/schemas/Meta"),
      *             @OA\Property(property="message", type="string", default="No message"),
-     *             @OA\Property(property="advance_search_field", type="array",
-     *
-     *                 @OA\Items(type="object",
-     *
-     *                     @OA\Property(property="key", type="string", default="id"),
-     *                     @OA\Property(property="label", type="string", default="text"),
-     *                     @OA\Property(property="type", type="string", default="number"),
-     *                 ),
-     *             ),
      *             @OA\Property(property="extra", type="object",
      *                 @OA\Property(property="default_sort", type="string", default="-id"),
-     *                 @OA\Property(property="sorts", type="array", @OA\Items(type="string"), default={"id", "created_at", "updated_at"}),
+     *                 @OA\Property(property="sorts", type="array", @OA\Items(type="object"),
+     *                     @OA\Property(property="label", type="string", default="ID"),
+     *                     @OA\Property(property="value", type="string", default="id"),
+     *                     @OA\Property(property="selected", type="boolean", default=true),
+     *                     @OA\Property(property="default", type="boolean", default=true),
+     *                 ),
      *             ),
+     *
      *         )
      *     )
      * )
@@ -102,8 +96,8 @@ class BlogController extends Controller
     {
         return Response::dataWithAdditional(
             $this->query([
-                'limit' => $request->input('limit', 1),
-            ])->paginate($request->input('page_limit', 1))->toResourceCollection(BlogResource::class),
+                'limit' => $request->input('limit'),
+            ])->paginate($request->input('page_limit', 15))->toResourceCollection(BulletinResource::class),
             [
                 'sort'   => [
                     ['label' => '', 'value' => 'id'],
@@ -124,11 +118,67 @@ class BlogController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/blog/category/{category}",
-     *     operationId="getBlogsByCategory",
-     *     tags={"Blog"},
-     *     summary="get blogs list",
-     *     description="Returns list of blogs",
+     *     path="/bulletin/{bulletin}",
+     *     operationId="getBulletinByID",
+     *     tags={"Bulletin"},
+     *     summary="Get bulletin information",
+     *     description="Returns bulletin data",
+     *     @OA\Parameter(name="bulletin", required=true, in="path", @OA\Schema(type="string")),
+     *     @OA\Response(response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(type="object",
+     *             @OA\Property(property="message", type="string", default="No message"),
+     *         )
+     *     )
+     * )
+     */
+    public function show(Bulletin $bulletin): JsonResponse
+    {
+        return Response::data(
+            [
+                'bulletin' => BulletinDetailResource::make($bulletin->load('category', 'tags', 'user', 'comments')),
+            ]
+        );
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/bulletin/{bulletin}/data",
+     *     operationId="getBulletinBySlug",
+     *     tags={"Bulletin"},
+     *     summary="Get bulletin extra information",
+     *     description="Returns extra data",
+     *     @OA\Parameter(name="bulletin", required=true, in="path", @OA\Schema(type="string")),
+     *     @OA\Response(response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(type="object",
+     *             @OA\Property(property="message", type="string", default="No message"),
+     *             @OA\Property(property="data")
+     *         )
+     *     )
+     * )
+     */
+    public function extraData(Bulletin $bulletin)
+    {
+        $relatedBulletins = $bulletin->relatedBulletin($bulletin);
+        $banners          = Banner::latestBanner();
+
+        return Response::data([
+            'banners'          => BannerResource::collection($banners),
+            'relatedBulletins' => BulletinResource::collection($relatedBulletins),
+        ]);
+    }
+
+
+
+
+    /**
+     * @OA\Get(
+     *     path="/bulletin/category/{category}",
+     *     operationId="getBulletinsByCategory",
+     *     tags={"Bulletin"},
+     *     summary="get Bulletin list",
+     *     description="Returns list of Bulletin",
      *     @OA\Parameter(name="category", required=true, in="path", @OA\Schema(type="string")),
      *     @OA\Parameter(ref="#/components/parameters/page"),
      *     @OA\Parameter(ref="#/components/parameters/page_limit"),
@@ -137,12 +187,12 @@ class BlogController extends Controller
      *     @OA\Response(response=200,
      *         description="Successful operation",
      *         @OA\JsonContent(type="object",
-     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/BlogResource")),
+     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/BulletinResource")),
      *             @OA\Property(property="links", type="object",
-     *                 @OA\Property(property="first", type="string", default="http://localhost/api/blog?page=1"),
-     *                 @OA\Property(property="last", type="string", default="http://localhost/api/blog?page=4"),
+     *                 @OA\Property(property="first", type="string", default="http://localhost/api/bulletin?page=1"),
+     *                 @OA\Property(property="last", type="string", default="http://localhost/api/bulletin?page=4"),
      *                 @OA\Property(property="prev", type="string", default="null", nullable=true),
-     *                 @OA\Property(property="next", type="string", default="http://localhost/api/blog?page=2", nullable=true),
+     *                 @OA\Property(property="next", type="string", default="http://localhost/api/bulletin?page=2", nullable=true),
      *             ),
      *             @OA\Property(property="meta", ref="#/components/schemas/Meta"),
      *             @OA\Property(property="message", type="string", default="No message"),
@@ -170,20 +220,17 @@ class BlogController extends Controller
             $this->query([
                 'limit'       => $request->input('limit', 1),
                 'category_id' => $category->id,
-            ])->paginate($request->input('page_limit', 1))->toResourceCollection(BlogResource::class),
-            [
-                'aaa' => 'bbbb',
-            ]
+            ])->paginate($request->input('page_limit', 1))->toResourceCollection(BulletinResource::class),
         );
     }
 
     /**
      * @OA\Get(
-     *     path="/blog/tag/{tag}",
-     *     operationId="getBlogsByTag",
-     *     tags={"Blog"},
-     *     summary="get blogs list",
-     *     description="Returns list of blogs",
+     *     path="/bulletin/tag/{tag}",
+     *     operationId="getBulletinsByTag",
+     *     tags={"Bulletin"},
+     *     summary="get bulletins list",
+     *     description="Returns list of bulletins",
      *     @OA\Parameter(name="tag", required=true, in="path", @OA\Schema(type="string")),
      *     @OA\Parameter(ref="#/components/parameters/page"),
      *     @OA\Parameter(ref="#/components/parameters/page_limit"),
@@ -192,12 +239,12 @@ class BlogController extends Controller
      *     @OA\Response(response=200,
      *         description="Successful operation",
      *         @OA\JsonContent(type="object",
-     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/BlogResource")),
+     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/BulletinResource")),
      *             @OA\Property(property="links", type="object",
-     *                 @OA\Property(property="first", type="string", default="http://localhost/api/blog?page=1"),
-     *                 @OA\Property(property="last", type="string", default="http://localhost/api/blog?page=4"),
+     *                 @OA\Property(property="first", type="string", default="http://localhost/api/bulletin?page=1"),
+     *                 @OA\Property(property="last", type="string", default="http://localhost/api/bulletin?page=4"),
      *                 @OA\Property(property="prev", type="string", default="null", nullable=true),
-     *                 @OA\Property(property="next", type="string", default="http://localhost/api/blog?page=2", nullable=true),
+     *                 @OA\Property(property="next", type="string", default="http://localhost/api/bulletin?page=2", nullable=true),
      *             ),
      *             @OA\Property(property="meta", ref="#/components/schemas/Meta"),
      *             @OA\Property(property="message", type="string", default="No message"),
@@ -224,20 +271,17 @@ class BlogController extends Controller
         return Response::dataWithAdditional(
             $this->query([
                 'limit' => $request->input('limit', 1),
-            ])->paginate($request->input('page_limit', 1))->toResourceCollection(BlogResource::class),
-            [
-                'aaa' => 'bbbb',
-            ]
+            ])->paginate($request->input('page_limit', 1))->toResourceCollection(BulletinResource::class),
         );
     }
 
     /**
      * @OA\Get(
-     *     path="/blog/author/{user}",
-     *     operationId="getBlogsUser",
-     *     tags={"Blog"},
-     *     summary="get blogs list",
-     *     description="Returns list of blogs",
+     *     path="/bulletin/author/{user}",
+     *     operationId="getBulletinsUser",
+     *     tags={"Bulletin"},
+     *     summary="get bulletins list",
+     *     description="Returns list of bulletins",
      *     @OA\Parameter(name="user", required=true, in="path", @OA\Schema(type="integer")),
      *     @OA\Parameter(ref="#/components/parameters/page"),
      *     @OA\Parameter(ref="#/components/parameters/page_limit"),
@@ -246,12 +290,12 @@ class BlogController extends Controller
      *     @OA\Response(response=200,
      *         description="Successful operation",
      *         @OA\JsonContent(type="object",
-     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/BlogResource")),
+     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/BulletinResource")),
      *             @OA\Property(property="links", type="object",
-     *                 @OA\Property(property="first", type="string", default="http://localhost/api/blog?page=1"),
-     *                 @OA\Property(property="last", type="string", default="http://localhost/api/blog?page=4"),
+     *                 @OA\Property(property="first", type="string", default="http://localhost/api/bulletin?page=1"),
+     *                 @OA\Property(property="last", type="string", default="http://localhost/api/bulletin?page=4"),
      *                 @OA\Property(property="prev", type="string", default="null", nullable=true),
-     *                 @OA\Property(property="next", type="string", default="http://localhost/api/blog?page=2", nullable=true),
+     *                 @OA\Property(property="next", type="string", default="http://localhost/api/bulletin?page=2", nullable=true),
      *             ),
      *             @OA\Property(property="meta", ref="#/components/schemas/Meta"),
      *             @OA\Property(property="message", type="string", default="No message"),
@@ -278,64 +322,8 @@ class BlogController extends Controller
         return Response::dataWithAdditional(
             $this->query([
                 'limit' => $request->input('limit', 1),
-            ])->paginate($request->input('page_limit', 1))->toResourceCollection(BlogResource::class),
-            [
-                'aaa' => 'bbbb',
-            ]
+            ])->paginate($request->input('page_limit', 1))->toResourceCollection(BulletinResource::class),
+
         );
-    }
-
-    /**
-     * @OA\Get(
-     *     path="/blog/{blog}",
-     *     operationId="getBlogByID",
-     *     tags={"Blog"},
-     *     summary="Get blog information",
-     *     description="Returns blog data",
-     *     @OA\Parameter(name="blog", required=true, in="path", @OA\Schema(type="string")),
-     *     @OA\Response(response=200,
-     *         description="Successful operation",
-     *         @OA\JsonContent(type="object",
-     *             @OA\Property(property="message", type="string", default="No message"),
-     *             @OA\Property(property="data", ref="#/components/schemas/BlogDetailResource")
-     *         )
-     *     )
-     * )
-     */
-    public function show(Blog $blog): JsonResponse
-    {
-        $blog->recordView();
-
-        return Response::data(
-            [
-                'blog' => BlogDetailResource::make($blog->load(['user', 'category', 'media', 'seoOption'])),
-            ]
-        );
-    }
-
-    /**
-     * @OA\Get(
-     *     path="/blog/{blog}/data",
-     *     operationId="getExtraData",
-     *     tags={"Blog"},
-     *     summary="Get blog Extera information",
-     *     description="Returns extrea data",
-     *     @OA\Parameter(name="blog", required=true, in="path", @OA\Schema(type="string")),
-     *     @OA\Response(response=200,
-     *         description="Successful operation",
-     *         @OA\JsonContent(type="object"
-     *         )
-     *     )
-     * )
-     */
-    public function extraData(Blog $blog)
-    {
-        $relatedBlogs = $blog->relatedBlogs($blog);
-        $banners      = Banner::latestBanner();
-
-        return Response::data([
-            'banners'      => BannerResource::collection($banners),
-            'relatedBlogs' => BlogResource::collection($relatedBlogs),
-        ]);
     }
 }

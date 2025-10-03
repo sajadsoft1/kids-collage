@@ -70,7 +70,7 @@ class HomeController extends Controller
     {
 
            $data= [
-                'sliders'   => SliderResource::collection(Slider::latestSliders()),
+//                'sliders'   => SliderResource::collection(Slider::latestSliders()),
                 'banners'   => BannerResource::collection(Banner::latestBanner()),
                 'teachers'  => UserResource::collection(User::teachers()),
                 'bulletins' => BulletinResource::collection(Bulletin::latestBulletin()),

@@ -915,6 +915,556 @@
                 }
             }
         },
+        "/bulletin": {
+            "get": {
+                "tags": [
+                    "Bulletin"
+                ],
+                "summary": "get bulletin list",
+                "description": "Returns list of bulletin",
+                "operationId": "getBulletins",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/page_limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/search"
+                    },
+                    {
+                        "$ref": "#/components/parameters/sort"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/BulletinResource"
+                                            }
+                                        },
+                                        "links": {
+                                            "properties": {
+                                                "first": {
+                                                    "type": "string",
+                                                    "default": "http://localhost/api/bulletin?page=1"
+                                                },
+                                                "last": {
+                                                    "type": "string",
+                                                    "default": "http://localhost/api/bulletin?page=4"
+                                                },
+                                                "prev": {
+                                                    "type": "string",
+                                                    "default": "null",
+                                                    "nullable": true
+                                                },
+                                                "next": {
+                                                    "type": "string",
+                                                    "default": "http://localhost/api/bulletin?page=2",
+                                                    "nullable": true
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "meta": {
+                                            "$ref": "#/components/schemas/Meta"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        },
+                                        "extra": {
+                                            "properties": {
+                                                "default_sort": {
+                                                    "type": "string",
+                                                    "default": "-id"
+                                                },
+                                                "sorts": {
+                                                    "properties": {
+                                                        "label": {
+                                                            "type": "string",
+                                                            "default": "ID"
+                                                        },
+                                                        "value": {
+                                                            "type": "string",
+                                                            "default": "id"
+                                                        },
+                                                        "selected": {
+                                                            "type": "boolean",
+                                                            "default": true
+                                                        },
+                                                        "default": {
+                                                            "type": "boolean",
+                                                            "default": true
+                                                        }
+                                                    },
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/bulletin/{bulletin}": {
+            "get": {
+                "tags": [
+                    "Bulletin"
+                ],
+                "summary": "Get bulletin information",
+                "description": "Returns bulletin data",
+                "operationId": "getBulletinByID",
+                "parameters": [
+                    {
+                        "name": "bulletin",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/bulletin/{bulletin}/data": {
+            "get": {
+                "tags": [
+                    "Bulletin"
+                ],
+                "summary": "Get bulletin extra information",
+                "description": "Returns extra data",
+                "operationId": "getBulletinBySlug",
+                "parameters": [
+                    {
+                        "name": "bulletin",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        },
+                                        "data": {}
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/bulletin/category/{category}": {
+            "get": {
+                "tags": [
+                    "Bulletin"
+                ],
+                "summary": "get Bulletin list",
+                "description": "Returns list of Bulletin",
+                "operationId": "getBulletinsByCategory",
+                "parameters": [
+                    {
+                        "name": "category",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "$ref": "#/components/parameters/page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/page_limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/search"
+                    },
+                    {
+                        "$ref": "#/components/parameters/sort"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/BulletinResource"
+                                            }
+                                        },
+                                        "links": {
+                                            "properties": {
+                                                "first": {
+                                                    "type": "string",
+                                                    "default": "http://localhost/api/bulletin?page=1"
+                                                },
+                                                "last": {
+                                                    "type": "string",
+                                                    "default": "http://localhost/api/bulletin?page=4"
+                                                },
+                                                "prev": {
+                                                    "type": "string",
+                                                    "default": "null",
+                                                    "nullable": true
+                                                },
+                                                "next": {
+                                                    "type": "string",
+                                                    "default": "http://localhost/api/bulletin?page=2",
+                                                    "nullable": true
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "meta": {
+                                            "$ref": "#/components/schemas/Meta"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        },
+                                        "advance_search_field": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "key": {
+                                                        "type": "string",
+                                                        "default": "id"
+                                                    },
+                                                    "label": {
+                                                        "type": "string",
+                                                        "default": "text"
+                                                    },
+                                                    "type": {
+                                                        "type": "string",
+                                                        "default": "number"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "extra": {
+                                            "properties": {
+                                                "default_sort": {
+                                                    "type": "string",
+                                                    "default": "-id"
+                                                },
+                                                "sorts": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    },
+                                                    "default": [
+                                                        "id",
+                                                        "created_at",
+                                                        "updated_at"
+                                                    ]
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/bulletin/tag/{tag}": {
+            "get": {
+                "tags": [
+                    "Bulletin"
+                ],
+                "summary": "get bulletins list",
+                "description": "Returns list of bulletins",
+                "operationId": "getBulletinsByTag",
+                "parameters": [
+                    {
+                        "name": "tag",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "$ref": "#/components/parameters/page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/page_limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/search"
+                    },
+                    {
+                        "$ref": "#/components/parameters/sort"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/BulletinResource"
+                                            }
+                                        },
+                                        "links": {
+                                            "properties": {
+                                                "first": {
+                                                    "type": "string",
+                                                    "default": "http://localhost/api/bulletin?page=1"
+                                                },
+                                                "last": {
+                                                    "type": "string",
+                                                    "default": "http://localhost/api/bulletin?page=4"
+                                                },
+                                                "prev": {
+                                                    "type": "string",
+                                                    "default": "null",
+                                                    "nullable": true
+                                                },
+                                                "next": {
+                                                    "type": "string",
+                                                    "default": "http://localhost/api/bulletin?page=2",
+                                                    "nullable": true
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "meta": {
+                                            "$ref": "#/components/schemas/Meta"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        },
+                                        "advance_search_field": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "key": {
+                                                        "type": "string",
+                                                        "default": "id"
+                                                    },
+                                                    "label": {
+                                                        "type": "string",
+                                                        "default": "text"
+                                                    },
+                                                    "type": {
+                                                        "type": "string",
+                                                        "default": "number"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "extra": {
+                                            "properties": {
+                                                "default_sort": {
+                                                    "type": "string",
+                                                    "default": "-id"
+                                                },
+                                                "sorts": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    },
+                                                    "default": [
+                                                        "id",
+                                                        "created_at",
+                                                        "updated_at"
+                                                    ]
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/bulletin/author/{user}": {
+            "get": {
+                "tags": [
+                    "Bulletin"
+                ],
+                "summary": "get bulletins list",
+                "description": "Returns list of bulletins",
+                "operationId": "getBulletinsUser",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "$ref": "#/components/parameters/page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/page_limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/search"
+                    },
+                    {
+                        "$ref": "#/components/parameters/sort"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/BulletinResource"
+                                            }
+                                        },
+                                        "links": {
+                                            "properties": {
+                                                "first": {
+                                                    "type": "string",
+                                                    "default": "http://localhost/api/bulletin?page=1"
+                                                },
+                                                "last": {
+                                                    "type": "string",
+                                                    "default": "http://localhost/api/bulletin?page=4"
+                                                },
+                                                "prev": {
+                                                    "type": "string",
+                                                    "default": "null",
+                                                    "nullable": true
+                                                },
+                                                "next": {
+                                                    "type": "string",
+                                                    "default": "http://localhost/api/bulletin?page=2",
+                                                    "nullable": true
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "meta": {
+                                            "$ref": "#/components/schemas/Meta"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        },
+                                        "advance_search_field": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "key": {
+                                                        "type": "string",
+                                                        "default": "id"
+                                                    },
+                                                    "label": {
+                                                        "type": "string",
+                                                        "default": "text"
+                                                    },
+                                                    "type": {
+                                                        "type": "string",
+                                                        "default": "number"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "extra": {
+                                            "properties": {
+                                                "default_sort": {
+                                                    "type": "string",
+                                                    "default": "-id"
+                                                },
+                                                "sorts": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    },
+                                                    "default": [
+                                                        "id",
+                                                        "created_at",
+                                                        "updated_at"
+                                                    ]
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/client": {
             "get": {
                 "tags": [
@@ -2255,6 +2805,9 @@
                     "created_at": {
                         "type": "string",
                         "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "category": {
+                        "$ref": "#/components/schemas/CategoryResource"
                     }
                 },
                 "type": "object"
@@ -3463,6 +4016,10 @@
         {
             "name": "Blog",
             "description": "Blog"
+        },
+        {
+            "name": "Bulletin",
+            "description": "Bulletin"
         },
         {
             "name": "Client",
