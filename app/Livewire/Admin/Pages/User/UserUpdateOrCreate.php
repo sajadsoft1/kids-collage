@@ -6,8 +6,11 @@ namespace App\Livewire\Admin\Pages\User;
 
 use App\Actions\User\StoreUserAction;
 use App\Actions\User\UpdateUserAction;
+use App\Enums\GenderEnum;
+use App\Enums\ReligionEnum;
 use App\Enums\UserTypeEnum;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -20,12 +23,22 @@ class UserUpdateOrCreate extends Component
 
     public User $user;
     public $avatar;
+    public $national_card;
+    public $birth_certificate;
     public ?string $name                  = '';
     public ?string $family                = '';
     public ?string $email                 = '';
     public ?string $mobile                = '';
-    public ?string $password              = '';
-    public ?string $password_confirmation = '';
+    public ?string $birth_date            = '';
+    public ?string $national_code         = '';
+    public ?string $gender                = GenderEnum::MALE->value;
+    public ?string $address               = '';
+    public ?string $phone                 = '';
+    public ?string $father_name           = '';
+    public ?string $father_phone          = '';
+    public ?string $mother_name           = '';
+    public ?string $mother_phone          = '';
+    public ?string $religion              = ReligionEnum::ISLAM->value;
     public bool $status                   = true;
     public array $rules                   = [];
     public array $selected_rules          = [];
@@ -40,6 +53,16 @@ class UserUpdateOrCreate extends Component
             $this->email          = $this->user->email;
             $this->mobile         = $this->user->mobile;
             $this->status         = (bool) $this->user->status->value;
+            $this->gender         = $this->user->profile->gender->value;
+            $this->birth_date     = $this->user->profile->birth_date;
+            $this->national_code  = $this->user->profile->national_code;
+            $this->address        = $this->user->profile->address;
+            $this->phone          = $this->user->profile->phone;
+            $this->father_name    = $this->user->profile->father_name;
+            $this->father_phone   = $this->user->profile->father_phone;
+            $this->mother_name    = $this->user->profile->mother_name;
+            $this->mother_phone   = $this->user->profile->mother_phone;
+            $this->religion       = $this->user->profile->religion->value;
             $this->selected_rules = $this->user->roles->pluck('id')->toArray();
         }
     }
@@ -78,28 +101,49 @@ class UserUpdateOrCreate extends Component
     protected function rules(): array
     {
         return [
-            'name'             => 'required|string|max:255',
-            'family'           => 'required|string|max:255',
-            'email'            => 'required|email|unique:users,email,' . $this->user->id,
-            'mobile'           => [
+            'name'              => 'required|string|max:255',
+            'family'            => 'required|string|max:255',
+            'email'             => 'required|email|unique:users,email,' . $this->user->id,
+            'mobile'            => [
                 'required',
                 'regex:/^(0|\+98|98)9[0-9]{9}$/',  // ✅ Now includes `/` delimiters
                 'unique:users,mobile,' . $this->user->id,
             ],
-            'status'           => 'required',
-            'password'         => [
+            'status'            => 'required',
+            'birth_date'        => [
                 $this->user->id ? 'nullable' : 'required',
                 'min:8',
                 'confirmed',
             ],
-            'selected_rules'   => 'nullable|array',
-            'selected_rules.*' => 'exists:roles,id',
-            'avatar'           => [
+            'selected_rules'    => 'nullable|array',
+            'selected_rules.*'  => 'exists:roles,id',
+            'avatar'            => [
                 'nullable',
                 'image',
                 'mimes:jpeg,png,jpg,gif,svg',
                 'max:2048', // 2MB Max
             ],
+            'national_card'     => [
+                'nullable',
+                'image',
+                'mimes:jpeg,png,jpg,gif,svg',
+                'max:2048', // 2MB Max
+            ],
+            'birth_certificate' => [
+                'nullable',
+                'image',
+                'mimes:jpeg,png,jpg,gif,svg',
+                'max:2048', // 2MB Max
+            ],
+            'national_code'     => 'nullable|string|max:255',
+            'gender'            => 'nullable|string|in:' . implode(',', GenderEnum::values()),
+            'religion'          => 'nullable|string|in:' . implode(',', ReligionEnum::values()),
+            'address'           => 'nullable|string|max:255',
+            'phone'             => 'nullable|string|max:255',
+            'father_name'       => 'nullable|string|max:255',
+            'father_phone'      => 'nullable|string|max:255',
+            'mother_name'       => 'nullable|string|max:255',
+            'mother_phone'      => 'nullable|string|max:255',
         ];
     }
 
@@ -124,6 +168,8 @@ class UserUpdateOrCreate extends Component
                 redirectTo: route($routePrefix . '.index')
             );
         } else {
+            $payload['profile']['id_number'] = now()->format('Y') . now()->format('m') . rand(10000, 99999);
+            $payload['profile']['password']  = Hash::make($this->mobile);
             StoreUserAction::run($payload);
             $this->success(
                 title: trans('general.model_has_stored_successfully', ['model' => $userTypeLabel]),

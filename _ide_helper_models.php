@@ -928,7 +928,7 @@ namespace App\Models{
  * @property-read CourseTemplate                 $courseTemplate
  * @property-read Collection<int, CourseSession> $sessions
  * @property-read Collection<int, resource>      $resources
- * @property \App\Enums\CourseTypeEnum $type
+ * @property \App\Enums\SessionType $type
  * @property array<array-key, mixed>|null $languages
  * @property-read float $duration_hours
  * @property-read string $formatted_duration
@@ -1500,6 +1500,8 @@ namespace App\Models{
  * @property string|null $birth_date
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \App\Enums\GenderEnum $gender
+ * @property \App\Enums\ReligionEnum $religion
  * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile newQuery()
@@ -2040,11 +2042,12 @@ namespace App\Models{
  * @property string $family
  * @property string|null $email
  * @property string|null $mobile
- * @property \App\Enums\GenderEnum|null $gender
+ * @property int|null $gender
  * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property \Illuminate\Support\Carbon|null $mobile_verified_at
  * @property string $password
  * @property \App\Enums\BooleanEnum $status
+ * @property \App\Enums\UserTypeEnum $type
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -2096,6 +2099,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User withoutPermission($permissions)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User withoutRole($roles, $guard = null)

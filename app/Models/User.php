@@ -6,9 +6,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Enums\BooleanEnum;
-use App\Enums\GenderEnum;
 use App\Enums\UserTypeEnum;
-use App\Enums\YesNoEnum;
 use App\Facades\SmartCache;
 use App\Helpers\Constants;
 use App\Traits\CLogsActivity;
@@ -36,10 +34,9 @@ class User extends Authenticatable implements HasMedia
         'family',
         'email',
         'mobile',
-        'gender',
         'password',
         'status',
-        'type'
+        'type',
     ];
 
     protected $hidden = [
@@ -49,9 +46,8 @@ class User extends Authenticatable implements HasMedia
     protected $casts = [
         'email_verified_at'  => 'datetime',
         'mobile_verified_at' => 'datetime',
-        'gender'             => GenderEnum::class,
         'status'             => BooleanEnum::class,
-        'type'             => UserTypeEnum::class,
+        'type'               => UserTypeEnum::class,
     ];
 
     /** Model Configuration -------------------------------------------------------------------------- */
@@ -61,8 +57,21 @@ class User extends Authenticatable implements HasMedia
             ->singleFile()
             ->useFallbackUrl('/assets/images/default/user-avatar.png')
             ->registerMediaConversions(function () {
-                $this->addMediaConversion(Constants::RESOLUTION_50_SQUARE)->fit(Fit::Crop, 50, 50);
-                $this->addMediaConversion(Constants::RESOLUTION_100_SQUARE)->fit(Fit::Crop, 100, 100);
+                $this->addMediaConversion(Constants::RESOLUTION_512_SQUARE)->fit(Fit::Crop, 512, 512);
+            });
+
+        $this->addMediaCollection('national_card')
+            ->singleFile()
+            ->useFallbackUrl('/assets/images/default/user-avatar.png')
+            ->registerMediaConversions(function () {
+                $this->addMediaConversion(Constants::RESOLUTION_512_SQUARE)->fit(Fit::Crop, 512, 512);
+            });
+
+        $this->addMediaCollection('birth_certificate')
+            ->singleFile()
+            ->useFallbackUrl('/assets/images/default/user-avatar.png')
+            ->registerMediaConversions(function () {
+                $this->addMediaConversion(Constants::RESOLUTION_512_SQUARE)->fit(Fit::Crop, 512, 512);
             });
     }
 
@@ -145,18 +154,16 @@ class User extends Authenticatable implements HasMedia
             get: fn () => trim(($this->name ?? '') . ' ' . ($this->family ?? '')),
         );
     }
-    /**
-     * Model Custom Methods --------------------------------------------------------------------------
-     */
 
+    /** Model Custom Methods -------------------------------------------------------------------------- */
     public static function teachers()
     {
         return SmartCache::for(__CLASS__)
             ->key('teachers')
-            ->remember(function ()  {
+            ->remember(function () {
                 return self::where('status', BooleanEnum::ENABLE->value)
                     ->where('type', UserTypeEnum::TEACHER->value)
                     ->get();
-            },3600);
+            }, 3600);
     }
 }

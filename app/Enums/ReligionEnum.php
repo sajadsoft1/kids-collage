@@ -4,17 +4,19 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
-enum GenderEnum: string
+enum ReligionEnum: string
 {
     use EnumToArray;
-    case MALE   = 'male';
-    case FEMALE = 'female';
+    case ISLAM        = 'islam';
+    case CHRISTIANITY = 'christianity';
+    case OTHER        = 'other';
 
     public function title()
     {
         return match ($this) {
-            self::MALE   => 'مرد',
-            self::FEMALE => 'زن'
+            self::ISLAM        => 'اسلام',
+            self::CHRISTIANITY => 'مسیحیت',
+            self::OTHER        => 'دیگری'
         };
     }
 

@@ -8,22 +8,22 @@ use App\Models\User;
 use App\Services\Permissions\PermissionsService;
 use Livewire\Component;
 
-class EmployeeIndex extends Component
+class TeacherIndex extends Component
 {
     public function render()
     {
-        return view('livewire.admin.pages.user.employee-index', [
+        return view('livewire.admin.pages.user.teacher-index', [
             'breadcrumbs'        => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['label' => trans('general.page.index.title', ['model' => trans('user.employee')])],
+                ['label' => trans('general.page.index.title', ['model' => trans('user.teacher')])],
             ],
             'breadcrumbsActions' => [
                 [
-                    'link'   => route('admin.employee.create'),
+                    'link'   => route('admin.teacher.create'),
                     'icon'   => 's-plus',
                     'label'  => trans(
                         'general.page.create.title',
-                        ['model' => trans('user.employee')]
+                        ['model' => trans('user.teacher')]
                     ),
                     'access' => auth()->user()->hasAnyPermission(PermissionsService::generatePermissionsByModel(User::class, 'Store')),
                 ],

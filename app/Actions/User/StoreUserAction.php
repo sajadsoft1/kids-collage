@@ -26,7 +26,22 @@ class StoreUserAction
      *     family:string,
      *     email:string,
      *     password:string,
-     *     status:bool
+     *     status:bool,
+     *     mobile:string,
+     *     avatar:string,
+     *     type:string,
+     *     gender:string,
+     *     birth_date:string,
+     *     national_code:string,
+     *     address:string,
+     *     phone:string,
+     *     father_name:string,
+     *     father_phone:string,
+     *     mother_name:string,
+     *     mother_phone:string,
+     *     religion:string,
+     *     national_card:string,
+     *     birth_certificate:string,
      *     } $payload
      * @throws Throwable
      */
@@ -36,9 +51,13 @@ class StoreUserAction
             /** @var User $model */
             $payload['password'] = Hash::make($payload['password']);
 
-            $user = User::create($payload);
+            $user = User::create(Arr::only($payload, ['name', 'family', 'email', 'password', 'status', 'mobile', 'type']));
+            $user->profile()->create(Arr::only($payload, ['gender', 'birth_date', 'national_code', 'address', 'phone', 'father_name', 'father_phone', 'mother_name', 'mother_phone', 'religion']));
+           
             $user->syncRoles(Arr::get($payload, 'rules', []));
             $this->fileService->addMedia($user, Arr::get($payload, 'avatar'), 'avatar');
+            $this->fileService->addMedia($user, Arr::get($payload, 'national_card'), 'national_card');
+            $this->fileService->addMedia($user, Arr::get($payload, 'birth_certificate'), 'birth_certificate');
 
             return $user->refresh();
         });

@@ -223,11 +223,19 @@ class NavbarComposer
                         'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(User::class, 'Index')),
                     ],
                     [
-                        'icon'       => 's-users',
+                        'icon'       => 'o-users',
                         'params'     => [],
                         'exact'      => true,
                         'title'      => trans('_menu.employee_management'),
                         'route_name' => 'admin.employee.index',
+                        'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(User::class, 'Index')),
+                    ],
+                    [
+                        'icon'       => 's-sparkles',
+                        'params'     => [],
+                        'exact'      => true,
+                        'title'      => trans('_menu.teacher_management'),
+                        'route_name' => 'admin.teacher.index',
                         'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(User::class, 'Index')),
                     ],
                     [
