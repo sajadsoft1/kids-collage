@@ -121,6 +121,16 @@ class Blog extends Model implements HasMedia
                     ->get();
             }, 3600);
     }
+    public static function popularBlogs()
+    {
+        return SmartCache::for(__CLASS__)
+            ->key('popular_blogs')
+            ->remember(function () {
+                return self::where('published', BooleanEnum::ENABLE->value)
+                    ->orderBy('view_count', 'desc')
+                    ->take(5)->get();
+            }, 3600);
+    }
 
     public static function relatedBlogs(Blog $blog): Collection
     {
