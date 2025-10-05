@@ -25,11 +25,10 @@
 
         {{-- Modern Sidebar --}}
         <x-slot:sidebar drawer="main-drawer" collapsible
-            class="shadow-xl backdrop-blur-md no-scrollbar bg-base-100/80 border-e border-base-content/10">
+            class="shadow-xl backdrop-blur-md no-scrollbar bg-base-300">
 
             {{-- Brand Header with Gradient --}}
-            <div
-                class="sticky top-0 z-10 bg-gradient-to-r border-b from-primary/10 to-secondary/10 border-base-content/10 h-[64px]">
+            <div class="sticky top-0 z-10 h-[64px]">
                 <div class="p-2 hidden-when-collapsed">
                     <div class="flex items-center gap-3">
                         <div
@@ -86,7 +85,7 @@
         {{-- Main Content Area --}}
         <x-slot:content class="!p-0 flex flex-col flex-1 min-h-0">
             {{-- Modern Header Bar --}}
-            <livewire:admin.shared.header />
+            <livewire:admin.shared.header nav_class="!border-none !bg-base-300" />
             {{-- Page Content with Glass Effect --}}
             <div @class([
                 'flex flex-col flex-1',

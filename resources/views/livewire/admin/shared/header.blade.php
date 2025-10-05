@@ -1,13 +1,13 @@
 @php use App\Helpers\Constants; @endphp
-<x-nav sticky full-width>
+<x-nav sticky full-width class="{{ $nav_class }}">
     <x-slot:brand>
         {{-- Drawer toggle for "main-drawer" --}}
-        <label for="main-drawer" class="lg:hidden mr-3">
+        <label for="main-drawer" class="mr-3 lg:hidden">
             <x-icon name="o-bars-3" class="cursor-pointer" />
         </label>
 
         {{-- Brand --}}
-        <div>{{$title??config('app.name')}}</div>
+        <div class="text-lg font-semibold">{{ config('app.name') }}</div>
     </x-slot:brand>
     <x-slot:actions>
         <x-popover>
@@ -37,7 +37,7 @@
         </x-popover>
 
         <x-button class="btn-sm btn-ghost hover-none" icon="o-bell-alert" {{--                    :link="route('admin.notification.index')" --}}
-        wire:click="$toggle('notifications_drawer')" />
+            wire:click="$toggle('notifications_drawer')" />
         <x-theme-toggle />
 
         <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10" aria-hidden="true"></div>
@@ -47,8 +47,8 @@
             <x-slot:trigger>
                 <x-button class="btn-circle">
                     <img class="rounded-full"
-                         src="{{auth()->user()->getFirstMediaUrl('avatar',Constants::RESOLUTION_100_SQUARE)}}"
-                         alt="{{auth()->user()->full_name}}">
+                        src="{{ auth()->user()->getFirstMediaUrl('avatar', Constants::RESOLUTION_100_SQUARE) }}"
+                        alt="{{ auth()->user()->full_name }}">
                 </x-button>
             </x-slot:trigger>
             <x-menu-item :title="trans('_menu.setting')" :link="route('admin.setting')" />
@@ -74,8 +74,8 @@
             </x-list-item>
             @if ($loop->last)
                 <div class="flex gap-4 mt-5">
-                    <x-button class="btn-primary flex-1" spinner :label="trans('notification.read_all')" />
-                    <x-button class="btn-primary flex-1" spinner :label="trans('notification.read_all')" />
+                    <x-button class="flex-1 btn-primary" spinner :label="trans('notification.read_all')" />
+                    <x-button class="flex-1 btn-primary" spinner :label="trans('notification.read_all')" />
                 </div>
             @endif
 

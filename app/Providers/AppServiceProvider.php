@@ -57,6 +57,7 @@ class AppServiceProvider extends ServiceProvider
             'components.layouts.dashboard',
             'components.layouts.compact',
             'components.layouts.modern',
+            'components.layouts.minimal',
             'components.layouts.enterprise',
             'components.layouts.metronic',
         ], NavbarComposer::class);
