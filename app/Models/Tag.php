@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\BooleanEnum;
+use App\Facades\SmartCache;
 use App\Helpers\Constants;
 use App\Traits\HasSeoOption;
 use Illuminate\Database\Eloquent\Builder;
@@ -134,5 +136,15 @@ class Tag extends \Spatie\Tags\Tag implements HasMedia
     public function isInUse(): bool
     {
         return DB::table('taggables')->where('tag_id', $this->id)->exists();
+    }
+
+
+    public function blogTags()
+    {
+        return SmartCache::for(__CLASS__)
+            ->key('blog_tags')
+            ->remember(function () {
+                return self::where('type', 'blog')->get();
+            }, 3600);
     }
 }

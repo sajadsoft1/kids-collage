@@ -9,6 +9,8 @@ use App\Filters\FuzzyFilter;
 use App\Http\Resources\BannerResource;
 use App\Http\Resources\BlogDetailResource;
 use App\Http\Resources\BlogResource;
+use App\Http\Resources\CategoryResource;
+use App\Http\Resources\TagResource;
 use App\Models\Banner;
 use App\Models\Blog;
 use App\Models\Category;
@@ -107,15 +109,15 @@ class BlogController extends Controller
             [
                 'sort'   => [
                     ['label' => '', 'value' => 'id'],
-                    ['label' => 'Most View', 'value' => 'view'],
-                    ['label' => 'Most Comment', 'value' => 'comment'],
-                    ['label' => 'Most Wish', 'value' => 'wish'],
+                    ['label' => trans('blog.sort.most_view'), 'value' => 'view'],
+                    ['label' => trans('blog.sort.most_comment'), 'value' => 'comment'],
+                    ['label' => trans('blog.sort.most_wish'), 'value' => 'wish'],
                 ],
                 'filter' => [
                     'date' => [
-                        ['label' => 'Last Week', 'value' => 'last_week'],
-                        ['label' => 'Last Month', 'value' => 'last_month'],
-                        ['label' => 'Last Year', 'value' => 'last_year'],
+                        ['label' => trans('blog.filter.last_week'), 'value' => 'this_week'],
+                        ['label' => trans('blog.filter.last_month'), 'value' => 'this_month'],
+                        ['label' => trans('blog.filter.last_year'), 'value' => 'this_year'],
                     ],
                 ],
             ]
@@ -336,6 +338,34 @@ class BlogController extends Controller
         return Response::data([
             'banners'      => BannerResource::collection($banners),
             'relatedBlogs' => BlogResource::collection($relatedBlogs),
+        ]);
+    }    /**
+     * @OA\Get(
+     *     path="/blog/data",
+     *     operationId="getExtraData",
+     *     tags={"Blog"},
+     *     summary="Get blog Extera information",
+     *     description="Returns extrea data",
+     *     @OA\Response(response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(type="object"
+     *         )
+     *     )
+     * )
+     */
+    public function data()
+    {
+        $popularBlog = Blog::popularBlogs();
+        $banners      = Banner::latestBanner();
+        $categories=Category::BlogCategories();
+        $tags=Tag::blogTags();
+
+        return Response::data([
+            'banners'      => BannerResource::collection($banners),
+            'popularBlog' => BlogResource::collection($popularBlog),
+            'Categories'=>CategoryResource::collection($categories),
+            'tags'=>TagResource::collection($tags)
+
         ]);
     }
 }
