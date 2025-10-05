@@ -342,10 +342,10 @@ class BlogController extends Controller
     }    /**
      * @OA\Get(
      *     path="/blog/data",
-     *     operationId="getExtraData",
+     *     operationId="getData",
      *     tags={"Blog"},
-     *     summary="Get blog Extera information",
-     *     description="Returns extrea data",
+     *     summary="Get index blog Extera information",
+     *     description="Returns index extrea data",
      *     @OA\Response(response=200,
      *         description="Successful operation",
      *         @OA\JsonContent(type="object"

@@ -915,6 +915,28 @@
                 }
             }
         },
+        "/blog/data": {
+            "get": {
+                "tags": [
+                    "Blog"
+                ],
+                "summary": "Get index blog Extera information",
+                "description": "Returns index extrea data",
+                "operationId": "getData",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/bulletin": {
             "get": {
                 "tags": [
