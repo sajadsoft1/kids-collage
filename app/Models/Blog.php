@@ -128,7 +128,7 @@ class Blog extends Model implements HasMedia
             ->remember(function () {
                 return self::where('published', BooleanEnum::ENABLE->value)
                     ->orderBy('view_count', 'desc')
-                    ->take(5)->get();
+                    ->limit(5)->get();
             }, 3600);
     }
 
