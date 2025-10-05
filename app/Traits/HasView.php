@@ -31,7 +31,6 @@ trait HasView
             }, function ($query) {
                 $query->where('ip', request()->ip());
             })
-            ->whereDate('created_at', '!=', now()->toDateString())
             ->exists();
 
         if ( ! $exists) {
