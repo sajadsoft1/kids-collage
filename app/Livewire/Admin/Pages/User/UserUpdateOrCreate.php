@@ -6,6 +6,7 @@ namespace App\Livewire\Admin\Pages\User;
 
 use App\Actions\User\StoreUserAction;
 use App\Actions\User\UpdateUserAction;
+use App\Enums\UserTypeEnum;
 use App\Models\User;
 use Illuminate\View\View;
 use Livewire\Component;
@@ -43,6 +44,37 @@ class UserUpdateOrCreate extends Component
         }
     }
 
+    /**
+     * Get the current user type based on the route
+     *
+     * Usage examples:
+     * - /admin/parent/edit/1 -> returns UserTypeEnum::PARENT
+     * - /admin/employee/create -> returns UserTypeEnum::EMPLOYEE
+     * - /admin/user/create -> returns null (regular user)
+     */
+    public function getCurrentUserType(): UserTypeEnum
+    {
+        $routeName = request()->route()->getName();
+
+        return match ($routeName) {
+            str_starts_with($routeName, 'admin.parent.')   => UserTypeEnum::PARENT,
+            str_starts_with($routeName, 'admin.employee.') => UserTypeEnum::EMPLOYEE,
+            default                                        => UserTypeEnum::USER, // Regular user or admin.user routes
+        };
+    }
+
+    /** Get the appropriate route name for the current user type */
+    public function getRoutePrefix(): string
+    {
+        $routeName = request()->route()->getName();
+
+        return match ($routeName) {
+            str_starts_with($routeName, 'admin.parent.')   => 'admin.parent',
+            str_starts_with($routeName, 'admin.employee.') => 'admin.employee',
+            default                                        => 'admin.user',
+        };
+    }
+
     protected function rules(): array
     {
         return [
@@ -76,32 +108,48 @@ class UserUpdateOrCreate extends Component
         $payload          = $this->validate();
         $payload['rules'] = $payload['selected_rules'];
 
+        // Set user type based on current route
+        $userType = $this->getCurrentUserType();
+        if ($userType) {
+            $payload['type'] = $userType->value;
+        }
+
+        $routePrefix   = $this->getRoutePrefix();
+        $userTypeLabel = $this->getCurrentUserType()->title();
+
         if ($this->user->id) {
             UpdateUserAction::run($this->user, $payload);
             $this->success(
-                title: trans('general.model_has_updated_successfully', ['model' => trans('user.model')]),
-                redirectTo: route('admin.user.index')
+                title: trans('general.model_has_updated_successfully', ['model' => $userTypeLabel]),
+                redirectTo: route($routePrefix . '.index')
             );
         } else {
             StoreUserAction::run($payload);
             $this->success(
-                title: trans('general.model_has_stored_successfully', ['model' => trans('user.model')]),
-                redirectTo: route('admin.user.index')
+                title: trans('general.model_has_stored_successfully', ['model' => $userTypeLabel]),
+                redirectTo: route($routePrefix . '.index')
             );
         }
     }
 
     public function render(): View
     {
+        $routePrefix   = $this->getRoutePrefix();
+        $userTypeLabel = $this->getCurrentUserType()->title();
+        $isEditMode    = $this->user->id;
+
         return view('livewire.admin.pages.user.user-update-or-create', [
-            'edit_mode'          => $this->user->id,
+            'edit_mode'          => $isEditMode,
             'breadcrumbs'        => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link'  => route('admin.user.index'), 'label' => trans('general.page.index.title', ['model' => trans('user.model')])],
-                ['label' => trans('general.page.create.title', ['model' => trans('user.model')])],
+                ['link' => route($routePrefix . '.index'), 'label' => trans('general.page.index.title', ['model' => $userTypeLabel])],
+                ['label' => $isEditMode
+                    ? trans('general.page.edit.title', ['model' => $userTypeLabel])
+                    : trans('general.page.create.title', ['model' => $userTypeLabel]),
+                ],
             ],
             'breadcrumbsActions' => [
-                ['link' => route('admin.user.index'), 'icon' => 's-arrow-left'],
+                ['link' => route($routePrefix . '.index'), 'icon' => 's-arrow-left'],
             ],
         ]);
     }
