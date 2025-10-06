@@ -10,6 +10,7 @@ use App\Enums\GenderEnum;
 use App\Enums\ReligionEnum;
 use App\Enums\UserTypeEnum;
 use App\Models\User;
+use App\Traits\CrudHelperTrait;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 use Livewire\Component;
@@ -19,29 +20,30 @@ use Spatie\Permission\Models\Role;
 
 class UserUpdateOrCreate extends Component
 {
-    use Toast,WithFileUploads;
+    use CrudHelperTrait,Toast,WithFileUploads;
 
     public User $user;
     public $avatar;
     public $national_card;
     public $birth_certificate;
-    public ?string $name                  = '';
-    public ?string $family                = '';
-    public ?string $email                 = '';
-    public ?string $mobile                = '';
-    public ?string $birth_date            = '';
-    public ?string $national_code         = '';
-    public ?string $gender                = GenderEnum::MALE->value;
-    public ?string $address               = '';
-    public ?string $phone                 = '';
-    public ?string $father_name           = '';
-    public ?string $father_phone          = '';
-    public ?string $mother_name           = '';
-    public ?string $mother_phone          = '';
-    public ?string $religion              = ReligionEnum::ISLAM->value;
-    public bool $status                   = true;
-    public array $rules                   = [];
-    public array $selected_rules          = [];
+    public ?string $name                         = '';
+    public ?string $family                       = '';
+    public ?string $email                        = '';
+    public ?string $mobile                       = '';
+    public ?string $birth_date                   = '';
+    public ?string $national_code                = '';
+    public ?string $gender                       = GenderEnum::MALE->value;
+    public ?string $address                      = '';
+    public ?string $phone                        = '';
+    public ?string $father_name                  = '';
+    public ?string $father_phone                 = '';
+    public ?string $mother_name                  = '';
+    public ?string $mother_phone                 = '';
+    public ?string $religion                     = ReligionEnum::ISLAM->value;
+    public bool $status                          = true;
+    public array $rules                          = [];
+    public array $selected_rules                 = [];
+    public UserTypeEnum $detected_user_type      = UserTypeEnum::USER;
 
     public function mount(User $user): void
     {
@@ -77,13 +79,15 @@ class UserUpdateOrCreate extends Component
      */
     public function getCurrentUserType(): UserTypeEnum
     {
-        $routeName = request()->route()->getName();
-
-        return match ($routeName) {
+        $routeName                = request()->route()->getName();
+        $this->detected_user_type = match ($routeName) {
             str_starts_with($routeName, 'admin.parent.')   => UserTypeEnum::PARENT,
             str_starts_with($routeName, 'admin.employee.') => UserTypeEnum::EMPLOYEE,
+            str_starts_with($routeName, 'admin.teacher.')  => UserTypeEnum::TEACHER,
             default                                        => UserTypeEnum::USER, // Regular user or admin.user routes
         };
+
+        return $this->detected_user_type;
     }
 
     /** Get the appropriate route name for the current user type */
@@ -94,6 +98,7 @@ class UserUpdateOrCreate extends Component
         return match ($routeName) {
             str_starts_with($routeName, 'admin.parent.')   => 'admin.parent',
             str_starts_with($routeName, 'admin.employee.') => 'admin.employee',
+            str_starts_with($routeName, 'admin.teacher.')  => 'admin.teacher',
             default                                        => 'admin.user',
         };
     }
@@ -110,11 +115,7 @@ class UserUpdateOrCreate extends Component
                 'unique:users,mobile,' . $this->user->id,
             ],
             'status'            => 'required',
-            'birth_date'        => [
-                $this->user->id ? 'nullable' : 'required',
-                'min:8',
-                'confirmed',
-            ],
+            'birth_date'        => 'required|date',
             'selected_rules'    => 'nullable|array',
             'selected_rules.*'  => 'exists:roles,id',
             'avatar'            => [
@@ -168,8 +169,8 @@ class UserUpdateOrCreate extends Component
                 redirectTo: route($routePrefix . '.index')
             );
         } else {
-            $payload['profile']['id_number'] = now()->format('Y') . now()->format('m') . rand(10000, 99999);
-            $payload['profile']['password']  = Hash::make($this->mobile);
+            $payload['id_number'] = now()->format('Y') . now()->format('m') . rand(10000, 99999);
+            $payload['password']  = Hash::make($this->mobile);
             StoreUserAction::run($payload);
             $this->success(
                 title: trans('general.model_has_stored_successfully', ['model' => $userTypeLabel]),

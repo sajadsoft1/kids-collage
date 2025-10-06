@@ -20,14 +20,14 @@
             <input type="text" name="datepickerDate" class="dp-return-input hidden"
                 @input="$wire.set('{{ $wirePropertyName }}', (!$event.target.value ? null : $event.target.value) )">
             @if ($label)
-                <label class="block font-medium text-sm text-gray-700">
+                <label class="block font-medium text-sm text-gray-700 py-1 mb-1.5">
                     {!! $label !!} {!! $required ? '<span class="text-red-600 text-xl relative top-1.5 leading-none">*</span>' : '' !!}
                 </label>
             @endif
             <div class="relative flex items-center mt-1">
                 <input @click="showDatepicker = !showDatepicker"
-                    class="auto-go-to-next pdp-input border-gray-300 focus:border-gray-400 focus:ring focus:ring-gray-200 focus:ring-opacity-50 rounded-md shadow-sm block w-full pl-14 text-sm h-11"
-                    type="text" readonly x-model="datepickerValue" @keydown.escape="showDatepicker = false"
+                    class="auto-go-to-next pdp-input input input-bordered input-md w-full pl-14" type="text" readonly
+                    x-model="datepickerValue" @keydown.escape="showDatepicker = false"
                     placeholder="{{ strip_tags($label) }}" {{ $attributes }}>
 
                 <div class="absolute left-0 pl-3" @click="showDatepicker = !showDatepicker">
@@ -94,10 +94,14 @@
                             <div @click="if(date.isActive) { selectDay(date.day); isSelectedDay(date.day,$event.target)}"
                                 x-text="date.day"
                                 class="cursor-pointer w-6 h-6 flex flex-wrap items-center justify-center text-center text-sm rounded-full leading-loose transition ease-in-out duration-100"
-                                :class="{ 'todayItem bg-blue-500 text-white': isToday(date.day) ==
-                                    true, 'text-gray-700 hover:bg-blue-200': isToday(date.day) ==
-                                    false, 'datepickerItemSelected bg-emerald-700 text-white': isSelectedDay(date
-                                        .day) == true }"
+                                :class="{
+                                    'todayItem bg-blue-500 text-white': isToday(date.day) ==
+                                        true,
+                                    'text-gray-700 hover:bg-blue-200': isToday(date.day) ==
+                                        false,
+                                    'datepickerItemSelected bg-emerald-700 text-white': isSelectedDay(date
+                                        .day) == true
+                                }"
                                 x-bind:style="date.isActive === false && { color: '#ccc' }"></div>
                         </div>
                     </template>
@@ -108,8 +112,11 @@
                     <template x-for="(monthItem, monthIndex) in monthRanges" :key="monthIndex">
                         <div @click="monthItem.isActive ? selectMonth(monthItem.month) : null" x-text="monthItem.name"
                             class="cursor-pointer flex flex-wrap w-16 items-center justify-center text-center text-sm leading-loose transition ease-in-out duration-100"
-                            :class="{ 'monthItem bg-blue-500 text-white': isThisMonth(monthItem.month) ==
-                                true, 'text-gray-700 hover:bg-blue-200': isThisMonth(monthItem.month) == false }"
+                            :class="{
+                                'monthItem bg-blue-500 text-white': isThisMonth(monthItem.month) ==
+                                    true,
+                                'text-gray-700 hover:bg-blue-200': isThisMonth(monthItem.month) == false
+                            }"
                             x-bind:style="monthItem.isActive === false && { color: '#ccc' }"></div>
                     </template>
                 </div>
@@ -119,8 +126,11 @@
                     <template x-for="(yearItem, yearIndex) in yearRanges" :key="yearIndex">
                         <div @click="yearItem.isActive ? selectYear(yearItem.year) : null" x-text="yearItem.year"
                             class="cursor-pointer flex flex-wrap w-16 items-center justify-center text-center text-sm leading-loose transition ease-in-out duration-100"
-                            :class="{ 'yearItem bg-blue-500 text-white': isThisYear(yearItem.year) ==
-                                true, 'text-gray-700 hover:bg-blue-200': isThisYear(yearItem.year) == false }"
+                            :class="{
+                                'yearItem bg-blue-500 text-white': isThisYear(yearItem.year) ==
+                                    true,
+                                'text-gray-700 hover:bg-blue-200': isThisYear(yearItem.year) == false
+                            }"
                             x-bind:style="yearItem.isActive === false && { color: '#ccc' }"></div>
                     </template>
                 </div>
@@ -128,7 +138,7 @@
 
             <div class="flex mt-1">
                 <button type="button" @click="goToToday()"
-                    class="inline-flex items-center w-full justify-center px-4 py-2 !bg-sky-500 text-white shadow-md border border-transparent rounded-lg text-xs text-white focus:outline-none disabled:opacity-25 transition">
+                    class="inline-flex items-center w-full justify-center px-4 py-2 !bg-sky-500 text-white shadow-md border border-transparent rounded-lg text-xs focus:outline-none disabled:opacity-25 transition">
                     امروز
                 </button>
             </div>
@@ -137,15 +147,14 @@
             x-show="datepickerValue && withTime" x-transition>
             <div class="w-full relative">
                 <input type="number" min="0" max="23" maxlength="2" x-model="hour"
-                    @input="setTime('hour',$event.target)"
-                    class="number_format block w-full text-center border-gray-300 focus:border-gray-400 focus:ring focus:ring-gray-200 focus:ring-opacity-50 rounded-md shadow-sm h-11" />
+                    @input="setTime('hour',$event.target)" class="input input-bordered input-md w-full text-center" />
                 <span class="absolute top-0.5 right-1 text-xxs text-gray-400">ساعت</span>
             </div>
             <span>:</span>
             <div class="w-full relative">
                 <input type="number" min="0" max="59" maxlength="2" x-model="minute"
                     @input="setTime('minute',$event.target)"
-                    class="number_format block w-full text-center border-gray-300 focus:border-gray-400 focus:ring focus:ring-gray-200 focus:ring-opacity-50 rounded-md shadow-sm h-11" />
+                    class="input input-bordered input-md w-full text-center" />
                 <span class="absolute top-0.5 right-1 text-xxs text-gray-400">دقیقه</span>
             </div>
             @if ($withTimeSeconds)
@@ -153,11 +162,10 @@
                 <div class="w-full relative">
                     <input type="number" min="0" max="59" maxlength="2" x-model="second"
                         @input="setTime('second',$event.target)"
-                        class="number_format block w-full text-center border-gray-300 focus:border-gray-400 focus:ring focus:ring-gray-200 focus:ring-opacity-50 rounded-md shadow-sm h-11" />
+                        class="input input-bordered input-md w-full text-center" />
                     <span class="absolute top-0.5 right-1 text-xxs text-gray-400">ثانیه</span>
                 </div>
             @endif
         </div>
-
     </div>
 </div>

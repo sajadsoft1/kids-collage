@@ -1,3 +1,5 @@
+import { Livewire, Alpine } from '../../vendor/livewire/livewire/dist/livewire.esm';
+import mask from '@alpinejs/mask'
 import './bootstrap';
 import './components.js';
 import './../../vendor/power-components/livewire-powergrid/dist/powergrid';
@@ -17,4 +19,7 @@ window.addEventListener('livewire:navigated', function () {
 //     document.querySelectorAll('.powergrid-id').forEach(element => element.style.width = 0);
 // }
 
+
+Alpine.plugin(mask)
 livewire_hot_reload();
+Livewire.start();

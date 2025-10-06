@@ -42,6 +42,7 @@ class StoreUserAction
      *     religion:string,
      *     national_card:string,
      *     birth_certificate:string,
+     *     roles:array<string>,
      *     } $payload
      * @throws Throwable
      */
@@ -52,9 +53,12 @@ class StoreUserAction
             $payload['password'] = Hash::make($payload['password']);
 
             $user = User::create(Arr::only($payload, ['name', 'family', 'email', 'password', 'status', 'mobile', 'type']));
-            $user->profile()->create(Arr::only($payload, ['gender', 'birth_date', 'national_code', 'address', 'phone', 'father_name', 'father_phone', 'mother_name', 'mother_phone', 'religion']));
-           
-            $user->syncRoles(Arr::get($payload, 'rules', []));
+
+            $profilePayload            = Arr::only($payload, ['gender', 'birth_date', 'national_code', 'address', 'phone', 'father_name', 'father_phone', 'mother_name', 'mother_phone', 'religion']);
+            $profilePayload['user_id'] = $user->id;
+            $user->profile()->create($profilePayload);
+
+            $user->syncRoles(Arr::get($payload, 'roles', []));
             $this->fileService->addMedia($user, Arr::get($payload, 'avatar'), 'avatar');
             $this->fileService->addMedia($user, Arr::get($payload, 'national_card'), 'national_card');
             $this->fileService->addMedia($user, Arr::get($payload, 'birth_certificate'), 'birth_certificate');

@@ -14,8 +14,8 @@
 
 @if (app()->getLocale() == 'fa')
     <x-persian-datepicker wirePropertyName="{{ $wirePropertyName }}" :label="$label" showFormat="{{ $showFormat }}"
-        returnFormat="{{ $returnFormat }}" :required="$required" :defaultDate="$defaultDate" :withTime="$withTime" :setNullInput="$setNullInput"
-        :ignoreWire="$ignoreWire" :withTimeSeconds="$withTimeSeconds" />
+        class="border-2 border-red-500 rounded-md" returnFormat="{{ $returnFormat }}" :required="$required" :defaultDate="$defaultDate"
+        :withTime="$withTime" :setNullInput="$setNullInput" :ignoreWire="$ignoreWire" :withTimeSeconds="$withTimeSeconds" />
     @error($wirePropertyName)
         <span class="text-sm text-red-500">{{ $message }}</span>
     @enderror

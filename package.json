@@ -20,6 +20,7 @@
         "vite": "^6.3.6"
     },
     "dependencies": {
+        "@alpinejs/mask": "^3.15.0",
         "flatpickr": "^4.6.13",
         "sortablejs": "^1.15.6"
     }

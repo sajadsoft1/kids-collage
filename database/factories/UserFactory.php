@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
+use App\Enums\GenderEnum;
+use App\Enums\UserTypeEnum;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -30,7 +33,21 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password'          => static::$password ??= Hash::make('password'),
             'remember_token'    => Str::random(10),
+            'type'              => fake()->randomElement(UserTypeEnum::values()),
+            'status'            => fake()->boolean(),
         ];
+    }
+
+    public function configure(): static
+    {
+        return $this->afterCreating(function (User $model) {
+            $model->profile()->create([
+                'user_id'       => $model->id,
+                'gender'        => fake()->randomElement(GenderEnum::values()),
+                'birth_date'    => fake()->date(),
+                'national_code' => fake()->unique()->numerify('##########'),
+            ]);
+        });
     }
 
     /** Indicate that the model's email address should be unverified. */

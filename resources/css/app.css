@@ -111,12 +111,12 @@
 
 /* Custom theme variables */
 :root {
-    /* --color-base-100: #F1F7FF;
-    --color-base-200: #F1F7F9;
-    --color-base-300: #F1F7B5;
-    --color-primary: #FD8A8A;
-    --color-secondary: #A8D1D1;
-    --color-accent: #9EA1D4; */
+    --color-base-100: #FFFFFF;
+    --color-base-200: #F9F5F0;
+    --color-base-300: #F9F5F0;
+    --color-primary: #F4991A;
+    --color-secondary: #F2EAD3;
+    --color-accent: #344F1F;
     --color-focus-outline: transparent;
 }
 
