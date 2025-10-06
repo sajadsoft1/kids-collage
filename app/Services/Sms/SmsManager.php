@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Services\Sms;
 
+use App\Enums\SmsSendStatusEnum;
+use App\Enums\SmsTemplateEnum;
+use App\Models\Sms as SmsModel;
 use App\Services\Sms\Contracts\SmsDriver;
 use App\Services\Sms\Exceptions\DriverConnectionException;
 use App\Services\Sms\Exceptions\DriverNotAvailableException;
@@ -40,7 +43,21 @@ class SmsManager
                 // Validate configuration and connectivity before attempting send
                 $this->usageHandler->ensureUsable($driverName, $driver);
 
+                // create pending row before actual send
+                $record = SmsModel::create([
+                    'driver'   => $driverName,
+                    'template' => null,
+                    'inputs'   => null,
+                    'phone'    => $phoneNumber,
+                    'message'  => $message,
+                    'status'   => SmsSendStatusEnum::PENDING,
+                ]);
+
                 $driver->send($phoneNumber, $message);
+
+                $record->update([
+                    'status' => SmsSendStatusEnum::SENT,
+                ]);
 
                 return; // success
             } catch (InvalidDriverConfigurationException|DriverConnectionException $e) {
@@ -92,7 +109,7 @@ class SmsManager
     }
 
     /** Failover wrapper for templated single send. */
-    public function sendTemplate(string $phoneNumber, string $template, array $inputs = []): void
+    public function sendTemplate(string $phoneNumber, string|SmsTemplateEnum $template, array $inputs = []): void
     {
         $driverOrder   = $this->getDriverOrder();
         $lastException = null;
@@ -102,12 +119,26 @@ class SmsManager
                 $driver = $this->resolveDriver($driverName);
                 $this->usageHandler->ensureUsable($driverName, $driver);
 
+                $tpl = $template instanceof SmsTemplateEnum ? $template->value : $template;
+
+                $record = SmsModel::create([
+                    'driver'   => $driverName,
+                    'template' => $tpl,
+                    'inputs'   => $inputs,
+                    'phone'    => $phoneNumber,
+                    'message'  => $this->compileTemplate($tpl, $inputs),
+                    'status'   => SmsSendStatusEnum::PENDING,
+                ]);
+
                 if (method_exists($driver, 'sendTemplate')) {
-                    $driver->sendTemplate($phoneNumber, $template, $inputs);
+                    $driver->sendTemplate($phoneNumber, $tpl, $inputs);
                 } else {
-                    $message = $this->compileTemplate($template, $inputs);
-                    $driver->send($phoneNumber, $message);
+                    $driver->send($phoneNumber, $this->compileTemplate($tpl, $inputs));
                 }
+
+                $record->update([
+                    'status' => SmsSendStatusEnum::SENT,
+                ]);
 
                 return;
             } catch (InvalidDriverConfigurationException|DriverConnectionException $e) {
@@ -119,7 +150,7 @@ class SmsManager
     }
 
     /** Failover wrapper for templated group send. */
-    public function sendTemplateToGroup(array $phoneNumbers, string $template, array $inputs = []): void
+    public function sendTemplateToGroup(array $phoneNumbers, string|SmsTemplateEnum $template, array $inputs = []): void
     {
         $driverOrder   = $this->getDriverOrder();
         $lastException = null;
@@ -129,13 +160,27 @@ class SmsManager
                 $driver = $this->resolveDriver($driverName);
                 $this->usageHandler->ensureUsable($driverName, $driver);
 
-                if (method_exists($driver, 'sendTemplateToGroup')) {
-                    $driver->sendTemplateToGroup($phoneNumbers, $template, $inputs);
-                } else {
-                    $message = $this->compileTemplate($template, $inputs);
-                    foreach ($phoneNumbers as $number) {
-                        $driver->send((string) $number, $message);
+                $tpl = $template instanceof SmsTemplateEnum ? $template->value : $template;
+
+                foreach ($phoneNumbers as $phoneNumber) {
+                    $record = SmsModel::create([
+                        'driver'   => $driverName,
+                        'template' => $tpl,
+                        'inputs'   => $inputs,
+                        'phone'    => (string) $phoneNumber,
+                        'message'  => $this->compileTemplate($tpl, $inputs),
+                        'status'   => SmsSendStatusEnum::PENDING,
+                    ]);
+
+                    if (method_exists($driver, 'sendTemplateToGroup')) {
+                        $driver->sendTemplateToGroup([$phoneNumber], $tpl, $inputs);
+                    } else {
+                        $driver->send((string) $phoneNumber, $this->compileTemplate($tpl, $inputs));
                     }
+
+                    $record->update([
+                        'status' => SmsSendStatusEnum::SENT,
+                    ]);
                 }
 
                 return;

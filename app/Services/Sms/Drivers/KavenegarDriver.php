@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Services\Sms\Drivers;
 
+use App\Services\Sms\Contracts\AbstractSmsDriver;
+use App\Services\Sms\Contracts\DeliveryReportFetcher;
 use App\Services\Sms\Contracts\PingableSmsDriver;
 use App\Services\Sms\Contracts\SmsDriver;
 use App\Services\Sms\Exceptions\DriverConnectionException;
 
-class KavenegarDriver implements PingableSmsDriver, SmsDriver
+class KavenegarDriver extends AbstractSmsDriver implements DeliveryReportFetcher, PingableSmsDriver, SmsDriver
 {
     /** @var array{token?:string,sender?:string} */
     public array $config;
@@ -53,25 +55,15 @@ class KavenegarDriver implements PingableSmsDriver, SmsDriver
         $this->sendToGroup($phoneNumbers, $message);
     }
 
-    /** Compile template by replacing {key} placeholders. */
-    protected function compileTemplate(string $template, array $variables = []): string
-    {
-        if (empty($variables)) {
-            return $template;
-        }
-
-        $search  = [];
-        $replace = [];
-        foreach ($variables as $key => $value) {
-            $search[]  = '{' . (string) $key . '}';
-            $replace[] = (string) $value;
-        }
-
-        return str_replace($search, $replace, $template);
-    }
+    // compileTemplate provided by AbstractSmsDriver
 
     public function ping(): bool
     {
         return ! empty($this->config['token']);
+    }
+
+    public function fetchDeliveryReport(string $providerMessageId): array
+    {
+        return ['status' => 'delivered', 'raw' => null];
     }
 }

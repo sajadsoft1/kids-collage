@@ -1772,6 +1772,24 @@ namespace App\Models{
 /**
  * @property string $title
  * @property string $description
+ * @property \App\Enums\BooleanEnum $published
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translations
+ * @property-read int|null $translations_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translationsPure
+ * @property-read int|null $translations_pure_count
+ * @method static \Database\Factories\SmsFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Sms newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Sms newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Sms query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Sms search($keyword)
+ */
+	class Sms extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * @property string $title
+ * @property string $description
  * @property int $id
  * @property string|null $languages
  * @property string $link
