@@ -334,10 +334,15 @@ class BlogController extends Controller
     {
         $relatedBlogs = $blog->relatedBlogs($blog);
         $banners      = Banner::latestBanner();
+        $tags=Tag::blogTags();
+
 
         return Response::data([
             'banners'      => BannerResource::collection($banners),
             'relatedBlogs' => BlogResource::collection($relatedBlogs),
+            'tags'=>TagResource::collection($tags)
+
+
         ]);
     }    /**
      * @OA\Get(
