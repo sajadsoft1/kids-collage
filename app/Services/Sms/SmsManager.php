@@ -6,110 +6,238 @@ namespace App\Services\Sms;
 
 use App\Enums\SmsSendStatusEnum;
 use App\Enums\SmsTemplateEnum;
+use App\Models\NotificationTemplate;
 use App\Models\Sms as SmsModel;
+use App\Models\User;
+use App\Services\Sms\Contracts\DeliveryReportFetcher;
 use App\Services\Sms\Contracts\SmsDriver;
 use App\Services\Sms\Exceptions\DriverConnectionException;
 use App\Services\Sms\Exceptions\DriverNotAvailableException;
 use App\Services\Sms\Exceptions\InvalidDriverConfigurationException;
 use App\Services\Sms\Usage\SmsUsageHandler;
 use Illuminate\Contracts\Container\Container;
+use Throwable;
 
 /**
- * SmsManager is responsible for resolving SMS drivers, validating their configuration,
- * and providing failover when sending messages.
+ * SmsManager - Fluent builder for sending SMS with failover support.
+ *
+ * Usage examples:
+ * - SmsManager::instance()->otp(SmsTemplateEnum::LOGIN_OTP)->input('code', '1234')->number('09120000000')->send()
+ * - SmsManager::instance()->message('Hello')->number('09120000000')->send()
+ * - SmsManager::instance()->template(NotificationTemplate::find(1))->numbers(['09120000000'])->send()
  */
 class SmsManager
 {
+    /** @var array<string> */
+    protected array $toNumbers = [];
+
+    /** @var array<int> */
+    protected array $toUserIds = [];
+
+    protected ?string $messageText = null;
+
+    protected ?string $templateText = null;
+
+    protected array $inputs = [];
+
+    protected ?int $notificationTemplateId = null;
+
     public function __construct(
         protected Container $container,
         protected SmsUsageHandler $usageHandler
     ) {}
 
-    /**
-     * Send an SMS with automatic validation and failover.
-     *
-     * @throws DriverNotAvailableException
-     */
-    public function send(string $phoneNumber, string $message): void
+    /** Create a new fluent instance. */
+    public static function instance(): self
     {
-        $driverOrder = $this->getDriverOrder();
+        return app(self::class);
+    }
 
-        $lastException = null;
+    /** Set OTP template with enum. */
+    public function otp(SmsTemplateEnum $template): self
+    {
+        $this->templateText = $template->value;
 
-        foreach ($driverOrder as $driverName) {
-            try {
-                $driver = $this->resolveDriver($driverName);
+        return $this;
+    }
 
-                // Validate configuration and connectivity before attempting send
-                $this->usageHandler->ensureUsable($driverName, $driver);
+    /** Set simple message text. */
+    public function message(string $message): self
+    {
+        $this->messageText = $message;
 
-                // create pending row before actual send
-                $record = SmsModel::create([
-                    'driver'   => $driverName,
-                    'template' => null,
-                    'inputs'   => null,
-                    'phone'    => $phoneNumber,
-                    'message'  => $message,
-                    'status'   => SmsSendStatusEnum::PENDING,
-                ]);
+        return $this;
+    }
 
-                $driver->send($phoneNumber, $message);
+    /** Set template from NotificationTemplate model. */
+    public function template(NotificationTemplate $template): self
+    {
+        $this->notificationTemplateId = $template->id;
+        $this->templateText           = (string) $template->message_template;
+        $this->inputs                 = array_merge($this->inputs, (array) $template->inputs);
 
-                $record->update([
-                    'status' => SmsSendStatusEnum::SENT,
-                ]);
+        return $this;
+    }
 
-                return; // success
-            } catch (InvalidDriverConfigurationException|DriverConnectionException $e) {
-                $lastException = $e; // try next driver
-            }
+    /** Set template by NotificationTemplate ID. */
+    public function templateId(int $templateId): self
+    {
+        $template = NotificationTemplate::findOrFail($templateId);
+
+        return $this->template($template);
+    }
+
+    /** Add a single input (key-value). */
+    public function input(string $key, string $value): self
+    {
+        $this->inputs[$key] = $value;
+
+        return $this;
+    }
+
+    /** Merge multiple inputs. */
+    public function inputs(array $inputs): self
+    {
+        $this->inputs = array_merge($this->inputs, $inputs);
+
+        return $this;
+    }
+
+    /** Add a single phone number. */
+    public function number(string $phone): self
+    {
+        $this->toNumbers[] = $phone;
+
+        return $this;
+    }
+
+    /** Add multiple phone numbers. */
+    public function numbers(array $phones): self
+    {
+        foreach ($phones as $phone) {
+            $this->toNumbers[] = (string) $phone;
         }
 
-        throw new DriverNotAvailableException(
-            'No SMS drivers are available to send the message.',
-            previous: $lastException
-        );
+        return $this;
     }
 
-    /** Failover wrapper for sendTo (single recipient). */
-    public function sendTo(string $phoneNumber, string $message): void
+    /** Add a single user by ID. */
+    public function user(int $userId): self
     {
-        $this->send($phoneNumber, $message);
+        $this->toUserIds[] = $userId;
+
+        return $this;
     }
 
-    // Removed sendOTP in favor of template-based methods
-
-    /** Failover wrapper for group send. */
-    public function sendToGroup(array $phoneNumbers, string $message): void
+    /** Add multiple users by IDs. */
+    public function users(array $userIds): self
     {
-        $driverOrder = $this->getDriverOrder();
+        foreach ($userIds as $id) {
+            $this->toUserIds[] = (int) $id;
+        }
 
-        $lastException = null;
+        return $this;
+    }
 
-        foreach ($driverOrder as $driverName) {
-            try {
-                $driver = $this->resolveDriver($driverName);
-                $this->usageHandler->ensureUsable($driverName, $driver);
+    /** Send SMS to all configured recipients with failover. */
+    public function send(): void
+    {
+        $targets = $this->resolveTargets();
+        if (empty($targets)) {
+            throw new InvalidDriverConfigurationException('No recipients provided.');
+        }
 
-                if (method_exists($driver, 'sendToGroup')) {
-                    $driver->sendToGroup($phoneNumbers, $message);
-                } else {
-                    foreach ($phoneNumbers as $number) {
-                        $driver->send((string) $number, $message);
+        $message = $this->resolveMessage();
+        if ($message === null) {
+            throw new InvalidDriverConfigurationException('No message or template provided.');
+        }
+
+        $this->sendToTargets($targets, $message);
+        $this->reset();
+    }
+
+    /** Check delivery status for pending SMS records (stub for integration). */
+    public function checkStatus(): array
+    {
+        $targets = $this->resolveTargets();
+        if (empty($targets)) {
+            throw new InvalidDriverConfigurationException('No recipients provided to check status.');
+        }
+
+        $results = [];
+        foreach ($targets as $phone) {
+            // Find pending/sent SMS for this phone
+            $smsRecords = SmsModel::where('phone', $phone)
+                ->whereIn('status', [SmsSendStatusEnum::PENDING->value, SmsSendStatusEnum::SENT->value])
+                ->get();
+
+            foreach ($smsRecords as $record) {
+                if (empty($record->provider_message_id)) {
+                    continue;
+                }
+
+                try {
+                    $driver = $this->resolveDriver((string) $record->driver);
+                    if ($driver instanceof DeliveryReportFetcher) {
+                        $report    = $driver->fetchDeliveryReport((string) $record->provider_message_id);
+                        $results[] = [
+                            'phone'               => $phone,
+                            'provider_message_id' => $record->provider_message_id,
+                            'status'              => $report['status'] ?? 'unknown',
+                        ];
                     }
+                } catch (Throwable $e) {
+                    $results[] = [
+                        'phone'               => $phone,
+                        'provider_message_id' => $record->provider_message_id,
+                        'error'               => $e->getMessage(),
+                    ];
                 }
-
-                return;
-            } catch (InvalidDriverConfigurationException|DriverConnectionException $e) {
-                $lastException = $e;
             }
         }
 
-        throw new DriverNotAvailableException('No SMS drivers are available to send group messages.', previous: $lastException);
+        $this->reset();
+
+        return $results;
     }
 
-    /** Failover wrapper for templated single send. */
-    public function sendTemplate(string $phoneNumber, string|SmsTemplateEnum $template, array $inputs = []): void
+    /**
+     * Resolve all target phone numbers from numbers and user IDs.
+     *
+     * @return array<string>
+     */
+    protected function resolveTargets(): array
+    {
+        $phones = $this->toNumbers;
+
+        if ( ! empty($this->toUserIds)) {
+            $users = User::whereIn('id', $this->toUserIds)->get();
+            foreach ($users as $user) {
+                if ( ! empty($user->phone)) {
+                    $phones[] = (string) $user->phone;
+                }
+            }
+        }
+
+        return array_values(array_unique($phones));
+    }
+
+    /** Resolve the final message text. */
+    protected function resolveMessage(): ?string
+    {
+        if ($this->messageText !== null) {
+            return $this->messageText;
+        }
+
+        if ($this->templateText !== null) {
+            return $this->compileTemplate($this->templateText, $this->inputs);
+        }
+
+        return null;
+    }
+
+    /** Send to all targets with failover and record tracking. */
+    protected function sendToTargets(array $phoneNumbers, string $message): void
     {
         $driverOrder   = $this->getDriverOrder();
         $lastException = null;
@@ -118,65 +246,19 @@ class SmsManager
             try {
                 $driver = $this->resolveDriver($driverName);
                 $this->usageHandler->ensureUsable($driverName, $driver);
-
-                $tpl = $template instanceof SmsTemplateEnum ? $template->value : $template;
-
-                $record = SmsModel::create([
-                    'driver'   => $driverName,
-                    'template' => $tpl,
-                    'inputs'   => $inputs,
-                    'phone'    => $phoneNumber,
-                    'message'  => $this->compileTemplate($tpl, $inputs),
-                    'status'   => SmsSendStatusEnum::PENDING,
-                ]);
-
-                if (method_exists($driver, 'sendTemplate')) {
-                    $driver->sendTemplate($phoneNumber, $tpl, $inputs);
-                } else {
-                    $driver->send($phoneNumber, $this->compileTemplate($tpl, $inputs));
-                }
-
-                $record->update([
-                    'status' => SmsSendStatusEnum::SENT,
-                ]);
-
-                return;
-            } catch (InvalidDriverConfigurationException|DriverConnectionException $e) {
-                $lastException = $e;
-            }
-        }
-
-        throw new DriverNotAvailableException('No SMS drivers are available to send templated message.', previous: $lastException);
-    }
-
-    /** Failover wrapper for templated group send. */
-    public function sendTemplateToGroup(array $phoneNumbers, string|SmsTemplateEnum $template, array $inputs = []): void
-    {
-        $driverOrder   = $this->getDriverOrder();
-        $lastException = null;
-
-        foreach ($driverOrder as $driverName) {
-            try {
-                $driver = $this->resolveDriver($driverName);
-                $this->usageHandler->ensureUsable($driverName, $driver);
-
-                $tpl = $template instanceof SmsTemplateEnum ? $template->value : $template;
 
                 foreach ($phoneNumbers as $phoneNumber) {
                     $record = SmsModel::create([
-                        'driver'   => $driverName,
-                        'template' => $tpl,
-                        'inputs'   => $inputs,
-                        'phone'    => (string) $phoneNumber,
-                        'message'  => $this->compileTemplate($tpl, $inputs),
-                        'status'   => SmsSendStatusEnum::PENDING,
+                        'driver'                   => $driverName,
+                        'template'                 => $this->templateText,
+                        'inputs'                   => $this->inputs,
+                        'phone'                    => $phoneNumber,
+                        'message'                  => $message,
+                        'notification_template_id' => $this->notificationTemplateId,
+                        'status'                   => SmsSendStatusEnum::PENDING,
                     ]);
 
-                    if (method_exists($driver, 'sendTemplateToGroup')) {
-                        $driver->sendTemplateToGroup([$phoneNumber], $tpl, $inputs);
-                    } else {
-                        $driver->send((string) $phoneNumber, $this->compileTemplate($tpl, $inputs));
-                    }
+                    $driver->send($phoneNumber, $message);
 
                     $record->update([
                         'status' => SmsSendStatusEnum::SENT,
@@ -189,18 +271,19 @@ class SmsManager
             }
         }
 
-        throw new DriverNotAvailableException('No SMS drivers are available to send templated group messages.', previous: $lastException);
+        throw new DriverNotAvailableException('No SMS drivers are available to send messages.', previous: $lastException);
     }
 
-    /** Simple placeholder replacement: {key} => value */
-    protected function compileTemplate(string $template, array $variables = []): string
+    /** Compile template by replacing {key} placeholders. */
+    protected function compileTemplate(string $template, array $inputs = []): string
     {
-        if (empty($variables)) {
+        if (empty($inputs)) {
             return $template;
         }
+
         $search  = [];
         $replace = [];
-        foreach ($variables as $key => $value) {
+        foreach ($inputs as $key => $value) {
             $search[]  = '{' . (string) $key . '}';
             $replace[] = (string) $value;
         }
@@ -209,7 +292,7 @@ class SmsManager
     }
 
     /** Resolve a driver instance by name. */
-    public function resolveDriver(string $name): SmsDriver
+    protected function resolveDriver(string $name): SmsDriver
     {
         $driverConfig = (array) config('sms.drivers.' . $name);
 
@@ -243,5 +326,16 @@ class SmsManager
         }
 
         return $order;
+    }
+
+    /** Reset builder state for reuse. */
+    protected function reset(): void
+    {
+        $this->toNumbers              = [];
+        $this->toUserIds              = [];
+        $this->messageText            = null;
+        $this->templateText           = null;
+        $this->inputs                 = [];
+        $this->notificationTemplateId = null;
     }
 }

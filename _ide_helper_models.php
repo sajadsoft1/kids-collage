@@ -1233,6 +1233,17 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * @property \App\Enums\BooleanEnum $published
+ * @method static \Database\Factories\NotificationTemplateFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationTemplate newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationTemplate newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationTemplate query()
+ */
+	class NotificationTemplate extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * @property string $title
  * @property string $description
  * @property int $id
@@ -1773,6 +1784,7 @@ namespace App\Models{
  * @property string $title
  * @property string $description
  * @property \App\Enums\BooleanEnum $published
+ * @property \App\Enums\SmsSendStatusEnum $status
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translations
  * @property-read int|null $translations_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translationsPure
