@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Services\SmartCache;
+use App\Services\Sms\SmsManager;
 use App\View\Composers\NavbarComposer;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -32,6 +33,11 @@ class AppServiceProvider extends ServiceProvider
                     return SmartCache::for($class);
                 }
             };
+        });
+
+        // Bind SmsManager as a singleton for app-wide usage
+        $this->app->singleton(SmsManager::class, function ($app) {
+            return new SmsManager($app, $app->make(\App\Services\Sms\Usage\SmsUsageHandler::class));
         });
     }
 
@@ -63,6 +69,7 @@ class AppServiceProvider extends ServiceProvider
         ], NavbarComposer::class);
 
         Button::macro('navigate', function () {
+            /** @var Button $this */
             $this->attributes([
                 'wire:navigate' => true,
             ]);
