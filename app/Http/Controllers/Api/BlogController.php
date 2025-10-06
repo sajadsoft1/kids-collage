@@ -310,7 +310,7 @@ class BlogController extends Controller
 
         return Response::data(
             [
-                'blog' => BlogDetailResource::make($blog->load(['user', 'category', 'media', 'seoOption'])),
+                'blog' => BlogDetailResource::make($blog->load(['user', 'category', 'media', 'seoOption','tags'])),
             ]
         );
     }
@@ -334,10 +334,15 @@ class BlogController extends Controller
     {
         $relatedBlogs = $blog->relatedBlogs($blog);
         $banners      = Banner::latestBanner();
+        $tags=Tag::blogTags();
+
 
         return Response::data([
             'banners'      => BannerResource::collection($banners),
             'relatedBlogs' => BlogResource::collection($relatedBlogs),
+            'tags'=>TagResource::collection($tags)
+
+
         ]);
     }    /**
      * @OA\Get(

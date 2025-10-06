@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Database\Seeders;
 
 use App\Actions\Blog\StoreBlogAction;
+use App\Enums\UserTypeEnum;
 use App\Models\Blog;
+use App\Models\User;
 use Exception;
 use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
@@ -20,7 +22,12 @@ class BlogSeeder extends Seeder
     public function run(): void
     {
         $data = require database_path('seeders/data/karno.php');
-
+        $user= User::factory()->create([
+            'type'=>UserTypeEnum::EMPLOYEE->value
+        ]);
+        $user->addMedia(public_path('assets/web/img/teacher-1.jpg'))
+            ->preservingOriginal()
+            ->toMediaCollection('avatar');
         foreach ($data['blogs'] as $row) {
             $blog = StoreBlogAction::run([
                 'slug'            => $row['slug'],
@@ -28,7 +35,7 @@ class BlogSeeder extends Seeder
                 'description'     => $row['description'],
                 'body'            => $row['body'],
                 'category_id'     => $row['category_id'],
-                'user_id'         => $row['user_id'],
+                'user_id'         => $user->id??$row['user_id'],
                 'view_count'      => $row['view_count'],
                 'comment_count'   => $row['comment_count'],
                 'wish_count'      => $row['wish_count'],
