@@ -1234,6 +1234,8 @@ namespace App\Models{
 namespace App\Models{
 /**
  * @property \App\Enums\BooleanEnum $published
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
+ * @property-read int|null $activities_count
  * @method static \Database\Factories\NotificationTemplateFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationTemplate newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationTemplate newQuery()

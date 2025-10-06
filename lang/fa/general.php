@@ -121,5 +121,38 @@ return [
     'reset'                            => 'ریست',
     'are_you_shure_to_delete_record'   => 'آیا از حذف این رکورد مطمئن هستید؟',
     'roles'                            => 'نقش ها',
-    'croper_image_hint' => 'بیشترین رزولوشن :resolution است'
+    'croper_image_hint'                => 'بیشترین رزولوشن :resolution است',
+
+    'notification_template'            => 'قالب اعلان',
+
+    'channels'                         => [
+        'sms'          => 'پیامک',
+        'email'        => 'ایمیل',
+        'notification' => 'اعلان درون برنامه',
+    ],
+
+    'languages'                        => [
+        'en' => 'انگلیسی',
+        'fa' => 'فارسی',
+    ],
+
+    'notification_template_hints'      => [
+        'name'             => 'یک نام منحصر به فرد برای شناسایی این قالب',
+        'channel'          => 'کانال ارتباطی برای این قالب را انتخاب کنید',
+        'message_template' => 'پیام خود را با متغیرها در آکولاد بنویسید، مثال: {user_name}',
+        'languages'        => 'زبان‌هایی که این قالب پشتیبانی می‌کند را انتخاب کنید',
+        'inputs'           => 'متغیرهایی که می‌توانند در قالب استفاده شوند را تعریف کنید',
+        'inputs_example'   => 'مثال: user_name, order_id, course_name',
+        'published'        => 'فعال یا غیرفعال کردن این قالب',
+    ],
+
+    'available_variables'              => 'متغیرهای قابل استفاده',
+    'example'                          => 'مثال',
+
+    'variables'                        => [
+        'user_name'   => 'نام کاربر',
+        'user_email'  => 'ایمیل کاربر',
+        'order_id'    => 'شناسه سفارش',
+        'course_name' => 'نام دوره',
+    ],
 ];

@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\NotificationTemplate;
 
 use App\Actions\Translation\SyncTranslationAction;
 use App\Models\NotificationTemplate;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Lorisleiva\Actions\Concerns\AsAction;
 use Throwable;
@@ -18,18 +19,30 @@ class StoreNotificationTemplateAction
     ) {}
 
     /**
+     * Store a new notification template
+     *
      * @param array{
-     *     title:string,
-     *     description:string
+     *     name:string,
+     *     channel:string,
+     *     message_template:string,
+     *     languages:array|null,
+     *     inputs:array|null,
+     *     published:bool
      * } $payload
-     * @return NotificationTemplate
      * @throws Throwable
      */
     public function handle(array $payload): NotificationTemplate
     {
         return DB::transaction(function () use ($payload) {
-            $model =  NotificationTemplate::create($payload);
-            $this->syncTranslationAction->handle($model, Arr::only($payload, ['title', 'description']));
+            // Create the notification template
+            $model = NotificationTemplate::create([
+                'name'             => $payload['name'],
+                'channel'          => $payload['channel'],
+                'message_template' => $payload['message_template'],
+                'languages'        => $payload['languages'] ?? [],
+                'inputs'           => $payload['inputs'] ?? [],
+                'published'        => $payload['published'] ?? false,
+            ]);
 
             return $model->refresh();
         });

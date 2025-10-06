@@ -282,5 +282,9 @@ return [
         'religion'              => 'دین',
         'birth_date'            => 'تاریخ تولد',
         'national_code'         => 'کد ملی',
+        'channel'               => 'کانال ارتباطی',
+        'message_template'      => 'قالب پیام',
+        'languages'             => 'زبان‌ها',
+        'template_inputs'       => 'متغیرهای قالب',
     ],
 ];

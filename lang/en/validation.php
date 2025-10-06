@@ -288,5 +288,9 @@ return [
         'meeting_link'          => 'Meeting Link',
         'session_number'        => 'Session Number',
         'room_id'               => 'Room',
+        'channel'               => 'Channel',
+        'message_template'      => 'Message Template',
+        'languages'             => 'Languages',
+        'template_inputs'       => 'Template Variables',
     ],
 ];

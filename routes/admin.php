@@ -43,6 +43,7 @@ Route::group(['middleware' => ['admin.panel']], function () {
     require_once __DIR__ . '/admin/installment.php';
     require_once __DIR__ . '/admin/license.php';
     require_once __DIR__ . '/admin/notifications.php';
+    require_once __DIR__ . '/admin/notificationTemplate.php';
     require_once __DIR__ . '/admin/opinion.php';
     require_once __DIR__ . '/admin/order.php';
     require_once __DIR__ . '/admin/page.php';
@@ -52,6 +53,7 @@ Route::group(['middleware' => ['admin.panel']], function () {
     require_once __DIR__ . '/admin/room.php';
     require_once __DIR__ . '/admin/seoOption.php';
     require_once __DIR__ . '/admin/slider.php';
+    require_once __DIR__ . '/admin/sms.php';
     require_once __DIR__ . '/admin/socialMedia.php';
     require_once __DIR__ . '/admin/tag.php';
     require_once __DIR__ . '/admin/teammate.php';

@@ -10,13 +10,13 @@ return [
     'back'                             => 'Back',
     'submit'                           => 'Submit',
     'cancel'                           => 'Cancel',
-    
+
     'please_select_an_option'          => 'Please select an option',
     'yes'                              => 'Yes',
     'no'                               => 'No',
     'active'                           => 'Active',
     'inactive'                         => 'Inactive',
-    
+
     'model_has_stored_successfully'    => ':model has been stored successfully',
     'model_has_updated_successfully'   => ':model has been updated successfully',
     'model_has_deleted_successfully'   => ':model has been deleted successfully',
@@ -42,7 +42,7 @@ return [
     'menu'                             => [
         'index' => ':model s',
     ],
-    
+
     'page'                             => [
         'index'   => [
             'page_title' => ':model s',
@@ -78,19 +78,19 @@ return [
             'add' => 'Add',
         ],
     ],
-    
+
     'clients'                          => [
         'SHOP_APPLICATION'       => 'SHOP_APPLICATION',
         'ADMIN_SHOP_APPLICATION' => 'ADMIN_SHOP_APPLICATION',
         'SHOP_WEBSITE'           => 'SHOP_WEBSITE',
         'SHOP_PANEL_ADMIN'       => 'SHOP_PANEL_ADMIN',
     ],
-    
+
     'exceptions'                       => [
         'bad_request' => 'Bad request',
         'not_allowed' => 'Not allowed',
     ],
-    
+
     'page_sections'                    => [
         'data'                 => 'Information',
         'seo_options'          => 'SEO settings',
@@ -98,7 +98,7 @@ return [
         'publish_config'       => 'Publish settings',
         'end_of_work_settings' => 'End of work settings',
     ],
-    
+
     'signs'                            => [
         '='  => 'Equal',
         '>'  => 'Greater than',
@@ -106,10 +106,43 @@ return [
         '>=' => 'Greater than or equal',
         '<=' => 'Less than or equal',
     ],
-    
+
     'calendar'                         => [
         'persian'   => 'Persian Calendar',
         'gregorian' => 'Gregorian Calendar',
         'hijri'     => 'Hijri Calendar',
+    ],
+
+    'notification_template'            => 'Notification Template',
+
+    'channels'                         => [
+        'sms'          => 'SMS',
+        'email'        => 'Email',
+        'notification' => 'In-App Notification',
+    ],
+
+    'languages'                        => [
+        'en' => 'English',
+        'fa' => 'Persian (Farsi)',
+    ],
+
+    'notification_template_hints'      => [
+        'name'             => 'A unique name to identify this template',
+        'channel'          => 'Select the communication channel for this template',
+        'message_template' => 'Write your message with variables in curly braces, e.g., {user_name}',
+        'languages'        => 'Select which languages this template supports',
+        'inputs'           => 'Define variables that can be used in the template',
+        'inputs_example'   => 'Example: user_name, order_id, course_name',
+        'published'        => 'Enable or disable this template',
+    ],
+
+    'available_variables'              => 'Available Variables',
+    'example'                          => 'Example',
+
+    'variables'                        => [
+        'user_name'   => 'User name',
+        'user_email'  => 'User email address',
+        'order_id'    => 'Order ID',
+        'course_name' => 'Course name',
     ],
 ];

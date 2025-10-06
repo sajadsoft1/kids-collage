@@ -61,11 +61,11 @@ class {{model}}UpdateOrCreate extends Component
             'edit_mode'          => $this->model->id,
             'breadcrumbs'        => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link' => route('admin.{{cmodel}}.index'), 'label' => trans('general.page.index.title', ['model' => trans('{{cmodel}}.model')])],
+                ['link' => route('admin.{{kmodel}}.index'), 'label' => trans('general.page.index.title', ['model' => trans('{{cmodel}}.model')])],
                 ['label' => trans('general.page.create.title', ['model' => trans('{{cmodel}}.model')])],
             ],
             'breadcrumbsActions' => [
-                ['link' => route('admin.{{cmodel}}.index'), 'icon' => 's-arrow-left']
+                ['link' => route('admin.{{kmodel}}.index'), 'icon' => 's-arrow-left']
             ],
         ]);
     }

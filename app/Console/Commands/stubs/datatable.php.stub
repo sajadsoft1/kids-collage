@@ -36,7 +36,7 @@ final class {{model}}Table extends PowerGridComponent
     public function breadcrumbsActions(): array
     {
         return [
-            ['link' => route('admin.{{cmodel}}.create'), 'icon' => 's-plus', 'label' => trans('general.page.create.title', ['model' => trans('{{cmodel}}.model')])],
+            ['link' => route('admin.{{kmodel}}.create'), 'icon' => 's-plus', 'label' => trans('general.page.create.title', ['model' => trans('{{cmodel}}.model')])],
         ];
     }
 
@@ -120,7 +120,7 @@ final class {{model}}Table extends PowerGridComponent
     public function noDataLabel(): string|View
     {
         return view('admin.datatable-shared.empty-table',[
-            'link'=>route('admin.{{cmodel}}.create')
+            'link'=>route('admin.{{kmodel}}.create')
         ]);
     }
 
