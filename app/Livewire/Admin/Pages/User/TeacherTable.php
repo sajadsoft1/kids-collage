@@ -8,10 +8,12 @@ use App\Enums\UserTypeEnum;
 use App\Helpers\Constants;
 use App\Helpers\PowerGridHelper;
 use App\Models\User;
+use App\Services\Permissions\PermissionsService;
 use App\Traits\PowerGridHelperTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Jenssegers\Agent\Agent;
 use Livewire\Attributes\Computed;
+use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
@@ -79,17 +81,17 @@ final class TeacherTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('id')
-            ->add('image', fn($row) => PowerGridHelper::fieldImage($row, 'image', Constants::RESOLUTION_854_480, 11, 6))
+            ->add('image', fn ($row) => PowerGridHelper::fieldImage($row, 'image', Constants::RESOLUTION_854_480, 11, 6))
             ->add('name')
             ->add('email')
             ->add('mobile')
-            ->add('status_formated', fn($row) => view('admin.datatable-shared.user-status', [
+            ->add('status_formated', fn ($row) => view('admin.datatable-shared.user-status', [
                 'row' => $row,
             ]))
-            ->add('user_formated', fn($row) => view('admin.datatable-shared.user-info', [
+            ->add('user_formated', fn ($row) => view('admin.datatable-shared.user-info', [
                 'row' => $row,
             ]))
-            ->add('gender_formated', fn($row) => view('admin.datatable-shared.gender', [
+            ->add('gender_formated', fn ($row) => view('admin.datatable-shared.gender', [
                 'gender' => $row->profile?->gender,
             ]))
             ->add('created_at_formatted', fn ($row) => PowerGridHelper::fieldCreatedAtFormated($row));
@@ -102,11 +104,10 @@ final class TeacherTable extends PowerGridComponent
             Column::make(trans('validation.attributes.username'), 'user_formated', 'name'),
 
             Column::make(trans('validation.attributes.status'), 'status_formated', 'status')
-                  ->sortable(),
+                ->sortable(),
 
             Column::make(trans('validation.attributes.gender'), 'gender_formated', 'gender')
-                  ->sortable(),
-
+                ->sortable(),
 
             PowerGridHelper::columnCreatedAT(),
 
@@ -118,17 +119,25 @@ final class TeacherTable extends PowerGridComponent
     {
         return [
             Filter::datepicker('created_at_formatted', 'created_at')
-                  ->params([
-                      'maxDate' => now(),
-                  ]),
+                ->params([
+                    'maxDate' => now(),
+                ]),
         ];
     }
 
     public function actions(User $row): array
     {
         return [
-            PowerGridHelper::btnToggle($row,'status'),
-            PowerGridHelper::btnEdit($row),
+            PowerGridHelper::btnToggle($row, 'status'),
+            Button::add('edit')
+                ->slot("<i class='fa fa-pencil'></i>")
+                ->attributes([
+                    'class' => 'btn btn-square md:btn-sm btn-xs',
+                ])
+                ->can(auth()->user()->hasAnyPermission(PermissionsService::generatePermissionsByModel($row::class, 'Update')))
+                ->route('admin.teacher.edit', ['user' => $row->id], '_self')
+                ->navigate()
+                ->tooltip(trans('datatable.buttons.edit')),
             PowerGridHelper::btnDelete($row),
         ];
     }

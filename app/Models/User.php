@@ -6,13 +6,13 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Enums\BooleanEnum;
+use App\Enums\GenderEnum;
 use App\Enums\UserTypeEnum;
 use App\Facades\SmartCache;
 use App\Helpers\Constants;
 use App\Traits\CLogsActivity;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -30,7 +30,6 @@ class User extends Authenticatable implements HasMedia
     use CLogsActivity, HasApiTokens, HasFactory, HasRoles, InteractsWithMedia,Notifiable;
 
     protected $fillable = [
-        'child_id',
         'profile_id',
         'name',
         'family',
@@ -89,6 +88,18 @@ class User extends Authenticatable implements HasMedia
     public function profile(): HasOne
     {
         return $this->hasOne(Profile::class);
+    }
+
+    /** Get the parent of the user (if the user is a child). */
+    public function parents(): BelongsToMany
+    {
+        return $this->belongsToMany(__CLASS__, ParentChild::class, 'child_id', 'parent_id');
+    }
+
+    /** Get the children of the user (if the user is a parent). */
+    public function children(): BelongsToMany
+    {
+        return $this->belongsToMany(__CLASS__, ParentChild::class, 'parent_id', 'child_id');
     }
 
     public function blogs(): HasMany
@@ -167,5 +178,15 @@ class User extends Authenticatable implements HasMedia
                     ->where('type', UserTypeEnum::TEACHER->value)
                     ->get();
             }, 3600);
+    }
+
+    public function father(): ?User
+    {
+        return $this->parents()->whereHas('profile', fn ($q) => $q->where('gender', GenderEnum::MALE))->first();
+    }
+
+    public function mother(): ?User
+    {
+        return $this->parents()->whereHas('profile', fn ($q) => $q->where('gender', GenderEnum::FEMALE))->first();
     }
 }

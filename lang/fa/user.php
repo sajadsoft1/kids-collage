@@ -3,11 +3,11 @@
 declare(strict_types=1);
 
 return [
-    'model'    => 'دانش آموز',
-    'teacher'  => 'مربی',
-    'employee' => 'کارمند',
-    'parent'   => 'والدین',
-    'user'     => 'دانش آموز',
+    'model'      => 'دانش آموز',
+    'teacher'    => 'مربی',
+    'employee'   => 'کارمند',
+    'parent'     => 'والدین',
+    'user'       => 'دانش آموز',
 
     'validation' => [
         'name_required'   => 'وارد کردن نام الزامی است',
@@ -18,7 +18,7 @@ return [
         'developer_can_not_removed' => 'سوپر ادمین قابل حذف نیست!',
     ],
 
-    'page' => [
+    'page'       => [
         'name_info'                           => 'شما می توانید حداکثر 255 کاراکتر وارد کنید',
         'family_info'                         => 'شما می توانید حداکثر 255 کاراکتر وارد کنید',
         'password_info'                       => 'حداقل 8 کاراکتر',
@@ -38,6 +38,8 @@ return [
             'hint'              => 'تصویر های آپلود شده باید 512x512 باشد',
         ],
         'images_gallery'                      => 'گالری عکس های کاربر',
+        'select_father_placeholder'           => 'یک پدر را انتخاب کنید',
+        'select_mother_placeholder'           => 'یک مادر را انتخاب کنید',
     ],
 
     'messages'   => [

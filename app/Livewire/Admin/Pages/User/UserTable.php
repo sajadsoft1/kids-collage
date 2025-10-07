@@ -11,6 +11,7 @@ use App\Traits\PowerGridHelperTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Jenssegers\Agent\Agent;
 use Livewire\Attributes\Computed;
+use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
@@ -28,11 +29,11 @@ final class UserTable extends PowerGridComponent
     {
         $setup = [
             PowerGrid::header()
-                     ->showSearchInput(),
+                ->showSearchInput(),
 
             PowerGrid::footer()
-                     ->showPerPage()
-                     ->showRecordCount(),
+                ->showPerPage()
+                ->showRecordCount(),
         ];
 
         if ((new Agent)->isMobile()) {
@@ -77,21 +78,21 @@ final class UserTable extends PowerGridComponent
     public function fields(): PowerGridFields
     {
         return PowerGrid::fields()
-                        ->add('id')
-                        ->add('image', fn($row) => PowerGridHelper::fieldImage($row, 'image', Constants::RESOLUTION_854_480, 11, 6))
-                        ->add('name')
-                        ->add('email')
-                        ->add('mobile')
-                        ->add('status_formated', fn($row) => view('admin.datatable-shared.user-status', [
-                            'row' => $row,
-                        ]))
-                        ->add('user_formated', fn($row) => view('admin.datatable-shared.user-info', [
-                            'row' => $row,
-                        ]))
-                        ->add('gender_formated', fn($row) => view('admin.datatable-shared.gender', [
-                            'gender' => $row->profile?->gender,
-                        ]))
-                        ->add('created_at_formatted', fn($row) => PowerGridHelper::fieldCreatedAtFormated($row));
+            ->add('id')
+            ->add('image', fn ($row) => PowerGridHelper::fieldImage($row, 'image', Constants::RESOLUTION_854_480, 11, 6))
+            ->add('name')
+            ->add('email')
+            ->add('mobile')
+            ->add('status_formated', fn ($row) => view('admin.datatable-shared.user-status', [
+                'row' => $row,
+            ]))
+            ->add('user_formated', fn ($row) => view('admin.datatable-shared.user-info', [
+                'row' => $row,
+            ]))
+            ->add('gender_formated', fn ($row) => view('admin.datatable-shared.gender', [
+                'gender' => $row->profile?->gender,
+            ]))
+            ->add('created_at_formatted', fn ($row) => PowerGridHelper::fieldCreatedAtFormated($row));
     }
 
     public function columns(): array
@@ -101,11 +102,10 @@ final class UserTable extends PowerGridComponent
             Column::make(trans('validation.attributes.username'), 'user_formated', 'name'),
 
             Column::make(trans('validation.attributes.status'), 'status_formated', 'status')
-                  ->sortable(),
+                ->sortable(),
 
             Column::make(trans('validation.attributes.gender'), 'gender_formated', 'gender')
-                  ->sortable(),
-
+                ->sortable(),
 
             PowerGridHelper::columnCreatedAT(),
 
@@ -117,16 +117,16 @@ final class UserTable extends PowerGridComponent
     {
         return [
             Filter::datepicker('created_at_formatted', 'created_at')
-                  ->params([
-                      'maxDate' => now(),
-                  ]),
+                ->params([
+                    'maxDate' => now(),
+                ]),
         ];
     }
 
     public function actions(User $row): array
     {
         return [
-            PowerGridHelper::btnToggle($row,'status'),
+            PowerGridHelper::btnToggle($row, 'status'),
             PowerGridHelper::btnEdit($row),
             PowerGridHelper::btnDelete($row),
         ];

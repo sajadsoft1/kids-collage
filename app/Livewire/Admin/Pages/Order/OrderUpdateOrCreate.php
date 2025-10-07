@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Admin\Pages\Order;
 
 use App\Actions\Order\StoreOrderAction;
 use App\Actions\Order\UpdateOrderAction;
+use App\Enums\OrderStatusEnum;
 use App\Models\Order;
 use Illuminate\View\View;
 use Livewire\Component;
@@ -13,27 +16,31 @@ class OrderUpdateOrCreate extends Component
 {
     use Toast;
 
-    public Order   $model;
-    public string $title       = '';
-    public string $description = '';
-    public bool   $published   = false;
+    public Order $model;
+    public int $user_id;
+    public int $course_id;
+    public string $status                       = OrderStatusEnum::PENDING->value;
+    public array $payments                      = [];
 
     public function mount(Order $order): void
     {
         $this->model = $order;
         if ($this->model->id) {
-            $this->title = $this->model->title;
-            $this->description = $this->model->description;
-            $this->published = $this->model->published->value;
+            $this->user_id           = $this->model->user_id;
+            $this->course_id         = $this->model->course_id;
+            $this->status            = $this->model->status->value;
+            $this->payments          = $this->model->payments->toArray();
         }
     }
 
     protected function rules(): array
     {
         return [
-            'title'       => 'required|string',
-            'description' => 'required|string',
-            'published'   => 'required'
+            'user_id'       => ['required', 'exists:users,id'],
+            'course_id'     => ['required', 'exists:courses,id'],
+            'status'        => ['required', 'in:' . implode(',', OrderStatusEnum::values())],
+            'payments'      => ['array'],
+            'payments.*.id' => ['nullable', 'array'],
         ];
     }
 
@@ -61,11 +68,11 @@ class OrderUpdateOrCreate extends Component
             'edit_mode'          => $this->model->id,
             'breadcrumbs'        => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link' => route('admin.order.index'), 'label' => trans('general.page.index.title', ['model' => trans('order.model')])],
+                ['link'  => route('admin.order.index'), 'label' => trans('general.page.index.title', ['model' => trans('order.model')])],
                 ['label' => trans('general.page.create.title', ['model' => trans('order.model')])],
             ],
             'breadcrumbsActions' => [
-                ['link' => route('admin.order.index'), 'icon' => 's-arrow-left']
+                ['link' => route('admin.order.index'), 'icon' => 's-arrow-left'],
             ],
         ]);
     }

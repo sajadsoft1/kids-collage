@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Actions\User;
 
+use App\Enums\UserTypeEnum;
 use App\Models\User;
 use App\Services\File\FileService;
 use Illuminate\Support\Arr;
@@ -18,9 +19,7 @@ readonly class StoreUserAction
 
     public function __construct(
         private FileService $fileService
-    )
-    {
-    }
+    ) {}
 
     /**
      * @param array{
@@ -44,6 +43,9 @@ readonly class StoreUserAction
      *     religion:string,
      *     national_card:string,
      *     birth_certificate:string,
+     *     father_id?:int,
+     *     mother_id?:int,
+     *     children_id?:array<int>,
      *     salary:int,
      *     benefit:int,
      *     cooperation_start_date:string|null,
@@ -83,6 +85,19 @@ readonly class StoreUserAction
             $this->fileService->addMedia($user, Arr::get($payload, 'avatar'), 'avatar');
             $this->fileService->addMedia($user, Arr::get($payload, 'national_card'), 'national_card');
             $this->fileService->addMedia($user, Arr::get($payload, 'birth_certificate'), 'birth_certificate');
+
+            if (Arr::get($payload, 'type') === UserTypeEnum::USER->value) {
+                $parentsId = [];
+                if (Arr::get($payload, 'father_id')) {
+                    $parentsId[] = Arr::get($payload, 'father_id');
+                }
+                if (Arr::get($payload, 'mother_id')) {
+                    $parentsId[] = Arr::get($payload, 'mother_id');
+                }
+                $user->parents()->attach($parentsId);
+            } elseif (Arr::get($payload, 'type') === UserTypeEnum::PARENT->value) {
+                $user->children()->sync(Arr::get($payload, 'children_id', []));
+            }
 
             return $user->refresh();
         });
