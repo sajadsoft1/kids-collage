@@ -1648,6 +1648,46 @@
                 }
             }
         },
+        "/contact-us": {
+            "post": {
+                "tags": [
+                    "ContactUs"
+                ],
+                "summary": "Store contactUs",
+                "description": "Store contactUs",
+                "operationId": "storeContactUs",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreContactUsRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "example": {
+                                                "message": "پیام شما با موفقیت ارسال شد. با تشکر از تماس شما"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/faq": {
             "get": {
                 "tags": [
@@ -2439,6 +2479,35 @@
                         "description": "Password",
                         "type": "string",
                         "default": "password"
+                    }
+                },
+                "type": "object"
+            },
+            "StoreContactUsRequest": {
+                "title": "StoreContactUsRequest",
+                "required": [
+                    "name",
+                    "email",
+                    "mobile",
+                    "comment"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "default": "ahmad dehestani"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "default": "s.ahmad.dehestani@gmail.com"
+                    },
+                    "mobile": {
+                        "type": "string",
+                        "default": 9123456789
+                    },
+                    "comment": {
+                        "type": "string",
+                        "default": "test comment"
                     }
                 },
                 "type": "object"
@@ -4030,6 +4099,10 @@
         {
             "name": "Client",
             "description": "Client"
+        },
+        {
+            "name": "ContactUs",
+            "description": "ContactUs"
         },
         {
             "name": "Faq",
