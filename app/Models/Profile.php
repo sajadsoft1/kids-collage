@@ -8,7 +8,6 @@ use App\Enums\GenderEnum;
 use App\Enums\ReligionEnum;
 use App\Traits\HasUser;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Profile extends Model
 {
@@ -27,16 +26,19 @@ class Profile extends Model
         'mother_name',
         'mother_phone',
         'religion',
+        'salary',
+        'benefit',
+        'cooperation_start_date',
+        'cooperation_end_date',
     ];
 
     protected $casts = [
-        'gender'    => GenderEnum::class,
-        'religion'  => ReligionEnum::class,
-        'id_number' => 'integer',
+        'gender'                 => GenderEnum::class,
+        'religion'               => ReligionEnum::class,
+        'id_number'              => 'integer',
+        'birth_date'             => 'date',
+        'cooperation_start_date' => 'date',
+        'cooperation_end_date'   => 'date',
     ];
 
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
 }

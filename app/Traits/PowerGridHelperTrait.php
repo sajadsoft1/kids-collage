@@ -19,10 +19,10 @@ trait PowerGridHelperTrait
     //    }
 
     #[On('toggle')]
-    public function toggle($rowId): void
+    public function toggle($rowId, $toogleField): void
     {
         $model = $this->datasource()->getModel()::where('id', $rowId)->first();
-        $model->update(['published' => ! $model->published->value]);
+        $model->update([$toogleField => ! $model->{$toogleField}->value]);
     }
 
     #[On('force-delete')]

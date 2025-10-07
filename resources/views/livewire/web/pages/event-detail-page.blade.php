@@ -1,6 +1,6 @@
 <div>
     <!-- BREADCRUMB SECTION START -->
-    <section class="pt-[327px] xl:pt-[287px] lg:pt-[237px] sm:pt-[200px] xxs:pt-[180px] pb-[158px] xl:pb-[118px] lg:pb-[98px] sm:pb-[68px] xs:pb-[48px] text-center bg-[url('../assets/img/breadcrumb-bg.jpg')] bg-no-repeat bg-cover bg-center relative z-[1] overflow-hidden before:absolute before:-z-[1] before:inset-0 before:bg-edblue/70 before:pointer-events-none">
+    <section class="pt-[327px] xl:pt-[287px] lg:pt-[237px] sm:pt-[200px] xxs:pt-[180px] pb-[158px] xl:pb-[118px] lg:pb-[98px] sm:pb-[68px] xs:pb-[48px] text-center bg-[url('/assets/img/breadcrumb-bg.jpg')] bg-no-repeat bg-cover bg-center relative z-[1] overflow-hidden before:absolute before:-z-[1] before:inset-0 before:bg-edblue/70 before:pointer-events-none">
         <div class="mx-[19.71%] xxxl:mx-[14.71%] xxl:mx-[9.71%] xl:mx-[5.71%] md:mx-[12px]">
             <h1 class="font-semibold text-[clamp(35px,6vw,56px)] text-white">Event Details</h1>
             <ul class="flex items-center justify-center gap-[10px] text-white">
@@ -55,7 +55,7 @@
 
                         <p class="font-light text-[16px] text-etGray mb-[21px]">Nulla facilisi. Vestibulum tristique sem in eros eleifend imperdiet. Donec quis convallis neque. In id lacus pulvinar lacus, eget vulputate lectus. Ut viverra bibendum lorem, at tempus nibh mattis in. Sed a massa eget lacus consequat auctor.</p>
 
-                        <ul class="ed-inner-about-list font-medium text-[16px] text-edgray max-w-full grid grid-cols-2 sm:grid-cols-1 gap-x-[30px] xxs:gap-x-[15px] gap-y-[9px] mb-[37px] *:ps-[25px] *:relative *:before:absolute *:before:left-0 *:before:top-[4px] *:before:w-[15px] *:before:aspect-square *:before:bg-[url(../assets/img/icon/checkmark.svg)] *:before:bg-no-repeat *:before:bg-[length:15px_13px] *:before:bg-center">
+                        <ul class="ed-inner-about-list font-medium text-[16px] text-edgray max-w-full grid grid-cols-2 sm:grid-cols-1 gap-x-[30px] xxs:gap-x-[15px] gap-y-[9px] mb-[37px] *:ps-[25px] *:relative *:before:absolute *:before:left-0 *:before:top-[4px] *:before:w-[15px] *:before:aspect-square *:before:bg-[url('/assets/img/icon/checkmark.svg')] *:before:bg-no-repeat *:before:bg-[length:15px_13px] *:before:bg-center">
                             <li>Ut viverra bibendum lorem, at tempus nibh</li>
                             <li>Duis aute irure and dolor in reprehenderit.</li>
                             <li>quis nostrud exercitation ullamco laboris </li>

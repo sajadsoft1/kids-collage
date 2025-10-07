@@ -32,7 +32,7 @@
 
             {{-- Brand Header with Gradient --}}
             <div
-                class="sticky top-0 z-10 bg-gradient-to-r border-b from-primary/10 to-secondary/10 border-base-content/10 h-[64px]">
+                class="sticky top-0 z-10 bg-base-100 dark:bg-gradient-to-r border-b dark:from-primary/10 dark:to-secondary/10 border-base-content/10 h-[64px]">
                 <div class="p-2 hidden-when-collapsed">
                     <div class="flex items-center gap-3">
                         <div
@@ -58,7 +58,7 @@
             </div>
 
             {{-- Navigation Menu with Modern Styling --}}
-            <x-menu activate-by-route class="!p-0 flex flex-col">
+            <x-menu activate-by-route class="flex flex-col">
                 <div class="flex-1 space-y-2 overflow-y-auto">
                     @foreach ($navbarMenu ?? [] as $menu)
                         @if (Arr::has($menu, 'sub_menu'))

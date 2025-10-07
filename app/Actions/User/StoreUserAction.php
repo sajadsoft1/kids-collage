@@ -12,13 +12,15 @@ use Illuminate\Support\Facades\Hash;
 use Lorisleiva\Actions\Concerns\AsAction;
 use Throwable;
 
-class StoreUserAction
+readonly class StoreUserAction
 {
     use AsAction;
 
     public function __construct(
         private FileService $fileService
-    ) {}
+    )
+    {
+    }
 
     /**
      * @param array{
@@ -42,6 +44,10 @@ class StoreUserAction
      *     religion:string,
      *     national_card:string,
      *     birth_certificate:string,
+     *     salary:int,
+     *     benefit:int,
+     *     cooperation_start_date:string|null,
+     *     cooperation_end_date:string|null,
      *     roles:array<string>,
      *     } $payload
      * @throws Throwable
@@ -54,7 +60,22 @@ class StoreUserAction
 
             $user = User::create(Arr::only($payload, ['name', 'family', 'email', 'password', 'status', 'mobile', 'type']));
 
-            $profilePayload            = Arr::only($payload, ['gender', 'birth_date', 'national_code', 'address', 'phone', 'father_name', 'father_phone', 'mother_name', 'mother_phone', 'religion']);
+            $profilePayload = Arr::only($payload, [
+                'gender',
+                'birth_date',
+                'national_code',
+                'address',
+                'phone',
+                'father_name',
+                'father_phone',
+                'mother_name',
+                'mother_phone',
+                'religion',
+                'salary',
+                'benefit',
+                'cooperation_start_date',
+                'cooperation_end_date',
+            ]);
             $profilePayload['user_id'] = $user->id;
             $user->profile()->create($profilePayload);
 

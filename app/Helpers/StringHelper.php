@@ -92,4 +92,12 @@ class StringHelper
         // Get the basename
         return basename($normalizedPath);
     }
+
+    public static function toCurrency(mixed $price): string
+    {
+        if ($price){
+            return number_format((float)$price) . ' ' . systemCurrency();
+        }
+        return '-';
+    }
 }

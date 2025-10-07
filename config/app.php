@@ -66,7 +66,8 @@ return [
     |
     */
 
-    'timezone'          => 'UTC',
+    'timezone'          => 'Asia/Tehran',
+    'currency'          => env('APP_CURRENCY', 'IRT'),
 
     /*
     |--------------------------------------------------------------------------

@@ -264,10 +264,7 @@ return [
         'session_count'         => 'تعداد جلسات',
         'start_date'            => 'تاریخ شروع',
         'end_date'              => 'تاریخ پایان',
-        'start_time'            => 'ساعت شروع',
-        'end_time'              => 'ساعت پایان',
         'term_id'               => 'ترم',
-        'teacher_id'            => 'استاد',
         'room_id'               => 'اتاق',
         'week_days'             => 'روزهای اجرای دوره',
         'date'                  => 'تاریخ',
@@ -286,5 +283,10 @@ return [
         'message_template'      => 'قالب پیام',
         'languages'             => 'زبان‌ها',
         'template_inputs'       => 'متغیرهای قالب',
+        'salary'                => 'حقوق',
+        'benefit'               => 'مزایا',
+        'cooperation_start_date'=> 'تاریخ شروع همکاری',
+        'cooperation_end_date'  => 'تاریخ پایان همکاری',
+
     ],
 ];

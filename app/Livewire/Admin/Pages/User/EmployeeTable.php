@@ -5,12 +5,17 @@ declare(strict_types=1);
 namespace App\Livewire\Admin\Pages\User;
 
 use App\Enums\UserTypeEnum;
+use App\Helpers\Constants;
 use App\Helpers\PowerGridHelper;
+use App\Helpers\StringHelper;
 use App\Models\User;
+use App\Services\Permissions\PermissionsService;
 use App\Traits\PowerGridHelperTrait;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Str;
 use Jenssegers\Agent\Agent;
 use Livewire\Attributes\Computed;
+use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
@@ -28,11 +33,11 @@ final class EmployeeTable extends PowerGridComponent
     {
         $setup = [
             PowerGrid::header()
-                ->showSearchInput(),
+                     ->showSearchInput(),
 
             PowerGrid::footer()
-                ->showPerPage()
-                ->showRecordCount(),
+                     ->showPerPage()
+                     ->showRecordCount(),
         ];
 
         if ((new Agent)->isMobile()) {
@@ -77,28 +82,38 @@ final class EmployeeTable extends PowerGridComponent
     public function fields(): PowerGridFields
     {
         return PowerGrid::fields()
-            ->add('id')
-            ->add('name')
-            ->add('email')
-            ->add('mobile')
-            ->add('created_at_formatted', fn ($row) => PowerGridHelper::fieldCreatedAtFormated($row));
+                        ->add('id')
+                        ->add('image', fn($row) => PowerGridHelper::fieldImage($row, 'image', Constants::RESOLUTION_854_480, 11, 6))
+                        ->add('name')
+                        ->add('email')
+                        ->add('mobile')
+                        ->add('status_formated', fn($row) => view('admin.datatable-shared.user-status', [
+                            'row' => $row,
+                        ]))
+                        ->add('user_formated', fn($row) => view('admin.datatable-shared.user-info', [
+                            'row' => $row,
+                        ]))
+                        ->add('gender_formated', fn($row) => view('admin.datatable-shared.gender', [
+                            'gender' => $row->profile?->gender,
+                        ]))
+                        ->add('salary_formated', fn($row) => StringHelper::toCurrency($row->profile?->salary))
+                        ->add('created_at_formatted', fn($row) => PowerGridHelper::fieldCreatedAtFormated($row));
     }
 
     public function columns(): array
     {
         return [
             PowerGridHelper::columnId(),
-            Column::make('Name', 'name')
-                ->sortable()
-                ->searchable(),
+            Column::make(trans('validation.attributes.username'), 'user_formated', 'name'),
 
-            Column::make('Email', 'email')
-                ->sortable()
-                ->searchable(),
+            Column::make(trans('validation.attributes.status'), 'status_formated', 'status')
+                  ->sortable(),
 
-            Column::make(trans('validation.attributes.mobile'), 'mobile')
-                ->sortable()
-                ->searchable(),
+            Column::make(trans('validation.attributes.gender'), 'gender_formated', 'gender')
+                  ->sortable(),
+            Column::make(trans('validation.attributes.salary'), 'salary_formated', 'salary')
+                  ->sortable(),
+
 
             PowerGridHelper::columnCreatedAT(),
 
@@ -109,14 +124,27 @@ final class EmployeeTable extends PowerGridComponent
     public function filters(): array
     {
         return [
-            Filter::datetimepicker('created_at'),
+            Filter::datepicker('created_at_formatted', 'created_at')
+                  ->params([
+                      'maxDate' => now(),
+                  ]),
         ];
     }
 
     public function actions(User $row): array
     {
         return [
-            PowerGridHelper::btnEdit($row),
+            PowerGridHelper::btnToggle($row, 'status'),
+            Button::add('edit')
+                  ->slot("<i class='fa fa-pencil'></i>")
+                  ->attributes([
+                      'class' => 'btn btn-square md:btn-sm btn-xs',
+                  ])
+                  ->can(auth()->user()->hasAnyPermission(PermissionsService::generatePermissionsByModel($row::class, 'Update')))
+                  ->route("admin.employee.edit", ['user' => $row->id], '_self')
+                  ->navigate()
+                  ->tooltip(trans('datatable.buttons.edit')),
+
             PowerGridHelper::btnDelete($row),
         ];
     }

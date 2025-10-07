@@ -85,7 +85,7 @@
 
                     <x-admin.shared.inline-input :label="trans('validation.attributes.price')" :info="trans('course.page.runer.price_info')">
                         <x-input class="text-sm text-slate-600 min-w-20 lg:min-w-32" wire:model="price" required
-                            min="0" icon="lucide.hand-coins" suffix="تومان" />
+                            min="0" icon="lucide.hand-coins" :suffix="systemCurrency()" />
                     </x-admin.shared.inline-input>
 
                     <x-admin.shared.inline-input :label="trans('validation.attributes.status')" :info="trans('course.page.runer.status_info')">

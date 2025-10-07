@@ -58,45 +58,45 @@ class PowerGridHelper
     }
 
     /** Public Powergrid Buttons -------------------------------------------------------------------------- */
-    public static function btnShow(mixed $row): Button
+    public static function btnShow(mixed $row,?string $param=null): Button
     {
-        $param = Str::kebab(StringHelper::basename($row::class));
+        $param = $param ?:Str::kebab(StringHelper::basename($row::class));
 
         return Button::add('show')
-            ->slot(self::iconShow())
-            ->attributes([
-                'class' => 'btn btn-square md:btn-sm btn-xs',
-            ])
-            ->route("admin.{$param}.show", [Str::camel(StringHelper::basename($row::class)) => $row->id], '_self')
-            ->tooltip(trans('datatable.buttons.show'));
+                     ->slot(self::iconShow())
+                     ->attributes([
+                         'class' => 'btn btn-square md:btn-sm btn-xs',
+                     ])
+                     ->route("admin.{$param}.show", [Str::camel(StringHelper::basename($row::class)) => $row->id], '_self')
+                     ->tooltip(trans('datatable.buttons.show'));
     }
 
-    public static function btnEdit(mixed $row): Button
+    public static function btnEdit(mixed $row, ?string $param=null): Button
     {
-        $param = Str::kebab(StringHelper::basename($row::class));
+        $param = $param?: Str::kebab(StringHelper::basename($row::class));
 
         return Button::add('edit')
-            ->slot(self::iconEdit())
-            ->attributes([
-                'class' => 'btn btn-square md:btn-sm btn-xs',
-            ])
-            ->can(auth()->user()->hasAnyPermission(PermissionsService::generatePermissionsByModel($row::class, 'Update')))
-            ->route("admin.{$param}.edit", [Str::camel($param) => $row->id], '_self')
-            ->navigate()
-            ->tooltip(trans('datatable.buttons.edit'));
+                     ->slot(self::iconEdit())
+                     ->attributes([
+                         'class' => 'btn btn-square md:btn-sm btn-xs',
+                     ])
+                     ->can(auth()->user()->hasAnyPermission(PermissionsService::generatePermissionsByModel($row::class, 'Update')))
+                     ->route("admin.{$param}.edit", [Str::camel($param) => $row->id], '_self')
+                     ->navigate()
+                     ->tooltip(trans('datatable.buttons.edit'));
     }
 
     public static function btnSeo(mixed $row): Button
     {
         return Button::add('seo')
-            ->slot(self::iconSeo())
-            ->attributes([
-                'class' => 'btn btn-square md:btn-sm btn-xs',
-            ])
-            ->can(config('custom-modules.seo') && auth()->user()->hasAnyPermission(PermissionsService::generatePermissionsByModel($row::class, 'Update')))
-            ->route('admin.dynamic-seo', ['class' => Str::camel(StringHelper::basename($row::class)), 'id' => $row->id], '_self')
-            ->navigate()
-            ->tooltip(trans('datatable.buttons.seo'));
+                     ->slot(self::iconSeo())
+                     ->attributes([
+                         'class' => 'btn btn-square md:btn-sm btn-xs',
+                     ])
+                     ->can(config('custom-modules.seo') && auth()->user()->hasAnyPermission(PermissionsService::generatePermissionsByModel($row::class, 'Update')))
+                     ->route('admin.dynamic-seo', ['class' => Str::camel(StringHelper::basename($row::class)), 'id' => $row->id], '_self')
+                     ->navigate()
+                     ->tooltip(trans('datatable.buttons.seo'));
     }
 
     public static function btnTranslate(mixed $row): Button
@@ -104,14 +104,14 @@ class PowerGridHelper
         $param = Str::kebab(StringHelper::basename($row::class));
 
         return Button::add('translate')
-            ->slot(self::iconTranslate())
-            ->attributes([
-                'class' => 'btn btn-square md:btn-sm btn-xs',
-            ])
-            ->can(config('custom-modules.translation') && auth()->user()->hasAnyPermission(PermissionsService::generatePermissionsByModel($row::class, 'Update')))
-            ->route('admin.dynamic-translate', ['class' => Str::camel($param), 'id' => $row->id], '_self')
-            ->navigate()
-            ->tooltip(trans('datatable.buttons.translate'));
+                     ->slot(self::iconTranslate())
+                     ->attributes([
+                         'class' => 'btn btn-square md:btn-sm btn-xs',
+                     ])
+                     ->can(config('custom-modules.translation') && auth()->user()->hasAnyPermission(PermissionsService::generatePermissionsByModel($row::class, 'Update')))
+                     ->route('admin.dynamic-translate', ['class' => Str::camel($param), 'id' => $row->id], '_self')
+                     ->navigate()
+                     ->tooltip(trans('datatable.buttons.translate'));
     }
 
     public static function btnToggle(mixed $row, string $toggleField = 'published'): Button
@@ -121,31 +121,30 @@ class PowerGridHelper
         } else {
             $status = $row->{$toggleField}->value;
         }
-        $param = Str::lower(StringHelper::basename($row::class));
 
         return Button::add('toggle')
-            ->slot(self::iconToggle($status))
-            ->attributes([
-                'class' => 'btn btn-square md:btn-sm btn-xs',
-            ])
-            ->can(auth()->user()->hasAnyPermission(PermissionsService::generatePermissionsByModel($row::class, 'Update')))
-            ->dispatch('toggle', ['rowId' => $row->id])
-            ->tooltip(trans('datatable.buttons.toggle'));
+                     ->slot(self::iconToggle($status))
+                     ->attributes([
+                         'class' => 'btn btn-square md:btn-sm btn-xs',
+                     ])
+                     ->can(auth()->user()->hasAnyPermission(PermissionsService::generatePermissionsByModel($row::class, 'Update')))
+                     ->dispatch('toggle', ['rowId' => $row->id, 'toogleField' => $toggleField])
+                     ->tooltip(trans('datatable.buttons.toggle'));
     }
 
-    public static function btnDelete(mixed $row): Button
+    public static function btnDelete(mixed $row, ?string $param=null): Button
     {
-        $param = Str::kebab(StringHelper::basename($row::class));
+        $param = $param?: Str::kebab(StringHelper::basename($row::class));
 
         return Button::add('delete')
-            ->slot(self::iconDelete())
-            ->attributes([
-                'wire:confirm' => trans('general.are_you_shure_to_delete_record'),
-                'class'        => 'btn btn-square md:btn-sm btn-xs',
-            ])
-            ->can(auth()->user()->hasAnyPermission(PermissionsService::generatePermissionsByModel($row::class, 'Delete')))
-            ->dispatch('force-delete', ['rowId' => $row->id])
-            ->tooltip(trans('datatable.buttons.delete'));
+                     ->slot(self::iconDelete())
+                     ->attributes([
+                         'wire:confirm' => trans('general.are_you_shure_to_delete_record'),
+                         'class'        => 'btn btn-square md:btn-sm btn-xs',
+                     ])
+                     ->can(auth()->user()->hasAnyPermission(PermissionsService::generatePermissionsByModel($row::class, 'Delete')))
+                     ->dispatch('force-delete', ['rowId' => $row->id])
+                     ->tooltip(trans('datatable.buttons.delete'));
     }
 
     /** Public Powergrid Fields -------------------------------------------------------------------------- */
@@ -249,11 +248,11 @@ class PowerGridHelper
     public static function columnId(string $field = 'id', string $dataField = 'id'): Column
     {
         return Column::make(trans('datatable.id'), $field, $dataField)
-            ->sortable()
-            ->headerAttribute(
-                'powergrid-id',
-                'width:0!important'
-            );
+                     ->sortable()
+                     ->headerAttribute(
+                         'powergrid-id',
+                         'width:0!important'
+                     );
     }
 
     public static function columnImage(string $field = 'image', string $dataField = 'image'): Column
@@ -274,11 +273,11 @@ class PowerGridHelper
     public static function columnPublished(string $field = 'published_formated', string $dataField = 'published'): Column
     {
         return Column::make(trans('datatable.status'), $field, $dataField)
-            ->sortable()
-            ->headerAttribute(
-                '',
-                'width:0!important'
-            );
+                     ->sortable()
+                     ->headerAttribute(
+                         '',
+                         'width:0!important'
+                     );
     }
 
     public static function columnClickCount(string $field = 'click', string $dataField = 'click'): Column
@@ -294,13 +293,13 @@ class PowerGridHelper
     public static function columnCreatedAT(string $field = 'created_at_formatted', string $dataField = 'created_at'): Column
     {
         return Column::make(trans('datatable.created_at'), $field, $dataField)
-            ->sortable();
+                     ->sortable();
     }
 
     public static function columnUpdatedAT(string $field = 'updated_at_formatted', string $dataField = 'updated_at'): Column
     {
         return Column::make(trans('datatable.updated_at'), $field, $dataField)
-            ->sortable();
+                     ->sortable();
     }
 
     public static function columnUserName(string $field = 'user_name', string $dataField = 'user.name'): Column

@@ -3,11 +3,11 @@
 declare(strict_types=1);
 
 return [
-    'model'      => 'دانش آموز',
-    'teacher'    => 'مربی',
-    'employee'   => 'کارمند',
-    'parent'     => 'والدین',
-    'user'       => 'دانش آموز',
+    'model'    => 'دانش آموز',
+    'teacher'  => 'مربی',
+    'employee' => 'کارمند',
+    'parent'   => 'والدین',
+    'user'     => 'دانش آموز',
 
     'validation' => [
         'name_required'   => 'وارد کردن نام الزامی است',
@@ -18,7 +18,7 @@ return [
         'developer_can_not_removed' => 'سوپر ادمین قابل حذف نیست!',
     ],
 
-    'page'       => [
+    'page' => [
         'name_info'                           => 'شما می توانید حداکثر 255 کاراکتر وارد کنید',
         'family_info'                         => 'شما می توانید حداکثر 255 کاراکتر وارد کنید',
         'password_info'                       => 'حداقل 8 کاراکتر',
@@ -28,6 +28,7 @@ return [
         'user_group_info'                     => 'از این قسمت مشخص می شود که کاربر به چه گروه کاربری تعلق دارد',
         'password_section'                    => 'از این قسمت می توانید پسورد کاربر را تغییر دهید',
         'parents_info'                        => 'اطلاعات والدین',
+        'salary_info'                         => 'حقوق ماهیانه',
         'images_section'                      => 'عکس های کاربر',
         'generatin_password_is_mobile_number' => 'پسورد جدید با موبایل خود کاربر برابر خواهد بود',
         'image'                               => [

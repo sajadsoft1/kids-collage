@@ -122,7 +122,7 @@ final class CourseTable extends PowerGridComponent
             ->add('title', fn ($row) => PowerGridHelper::fieldTitle($row->template))
             ->add('teacher_formatted', fn ($row) => $row->teacher?->full_name ?? '---')
             ->add('category_formatted', fn ($row) => $row->template->category?->title ?? '---')
-            ->add('price_formatted', fn ($row) => number_format($row->price) . ' تومان')
+            ->add('price_formatted', fn ($row) => number_format($row->price) . systemCurrency())
             ->add('type_formatted', fn ($row) => $row->template->type->title())
             ->add('start_date_formatted', fn ($row) => $row->sessions()->min('date') ?? '---')
             ->add('end_date_formatted', fn ($row) => $row->sessions()->max('date') ?? '---')
