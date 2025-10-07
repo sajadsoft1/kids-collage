@@ -150,4 +150,15 @@ public static function blogCategories()
                 ->get();
         }, 3600);
 }
+public static function faqCategories()
+{
+    return SmartCache::for(__CLASS__)
+        ->key('faq_categories')
+        ->remember(function () {
+            return self::where('type', CategoryTypeEnum::FAQ->value)
+                ->where('published', BooleanEnum::ENABLE->value)
+                ->orderBy('ordering', 'asc')
+                ->get();
+        }, 3600);
+}
 }

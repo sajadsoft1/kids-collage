@@ -344,7 +344,8 @@ class BlogController extends Controller
 
 
         ]);
-    }    /**
+    }
+    /**
      * @OA\Get(
      *     path="/blog/data",
      *     operationId="getData",
