@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 use OpenApi\Annotations as OA;
 
 /**
@@ -10,7 +11,7 @@ use OpenApi\Annotations as OA;
  *      schema="StoreContactUsRequest",
  *      title="StoreContactUsRequest",
  *      type="object",
- *      required={"name","email","mobile","comment"},
+ *      required={"name","comment"},
  *
  *     @OA\Property(property="name", type="string", default="ahmad dehestani"),
  *     @OA\Property(property="email", type="string", format="email", default="s.ahmad.dehestani@gmail.com"),
@@ -26,10 +27,11 @@ class StoreContactUsRequest extends FormRequest
     {
         return [
             'name'           => ['required', 'string', 'max:255','min:3'],
-            'email'           => ['required', 'email', 'max:255'],
-            'mobile'           => ['required', 'numeric' ],
+            'email'           => ['email', 'max:255',Rule::when(isset($this->mobile), ['nullable']), Rule::when(!isset($this->mobile), ['required'])],
+            'mobile'           => [ 'numeric' ,Rule::when(isset($this->email), ['nullable']), Rule::when(!isset($this->email), ['required'])],
             'comment'           => ['required', 'string', 'max:10000'],
 
         ];
     }
 }
+

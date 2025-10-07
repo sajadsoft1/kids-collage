@@ -2487,8 +2487,6 @@
                 "title": "StoreContactUsRequest",
                 "required": [
                     "name",
-                    "email",
-                    "mobile",
                     "comment"
                 ],
                 "properties": {

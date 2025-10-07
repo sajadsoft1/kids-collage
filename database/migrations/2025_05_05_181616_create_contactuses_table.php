@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->boolean('follow_up')->default(YesNoEnum::NO->value);
             $table->string('name');
-            $table->string('email');
+            $table->string('email')->nullable();
             $table->string('mobile')->nullable();
             $table->text('comment');
             $table->text('admin_note')->nullable();
