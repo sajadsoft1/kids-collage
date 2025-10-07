@@ -7,9 +7,11 @@ namespace App\Http\Controllers\Api;
 use App\Filters\FuzzyFilter;
 use App\Http\Resources\AboutUsDetailResource;
 use App\Http\Resources\AboutUsResource;
+use App\Http\Resources\UserResource;
 use App\Models\Category;
 use App\Models\AboutUs;
 use App\Models\Page;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -134,9 +136,11 @@ class AboutUsController extends Controller
      */
     public function getAbout()
     {
+        $teachers=User::teachers();
                 return Response::data(
             [
-                'aboutUs' => AboutUsDetailResource::make(Page::about())
+                'aboutUs' => AboutUsDetailResource::make(Page::about()),
+                'teachers'=>UserResource::collection($teachers)
             ]
         );
 }

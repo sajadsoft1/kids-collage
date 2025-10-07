@@ -28,6 +28,7 @@ class BulletinSeeder extends Seeder
                 'wish_count'    => $row['wish_count'] ?? 0,
                 'languages'     => $row['languages'],
                 'slug'          => $row['slug'] ?? \Illuminate\Support\Str::slug($row['title']),
+                'tags'          => $row['tags'] ?? ['test5','news','old-news'],
             ]);
 
                 if (isset($row['path'])) {
