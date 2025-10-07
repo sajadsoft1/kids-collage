@@ -35,7 +35,7 @@ class BlogSeeder extends Seeder
                 'description'     => $row['description'],
                 'body'            => $row['body'],
                 'category_id'     => $row['category_id'],
-                'user_id'         => $user->id??$row['user_id'],
+                'user_id'         => $user->id,
                 'view_count'      => $row['view_count'],
                 'comment_count'   => $row['comment_count'],
                 'wish_count'      => $row['wish_count'],
