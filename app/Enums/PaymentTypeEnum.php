@@ -8,16 +8,34 @@ enum PaymentTypeEnum: string
 {
     use EnumToArray;
 
-    case FULL_ONLINE        = 'full_online';
-    case PART_IAL_SCHEDULED = 'partial_scheduled';
-    case FULL_SCHEDULED     = 'full_scheduled';
+    case ONLINE = 'online';
+    case CASH = 'cash';
+    case CARD_TO_CARD = 'card_to_card';
+
+    public static function options(): array
+    {
+        return [
+            [
+                'value' => self::ONLINE->value,
+                'label' => self::ONLINE->title(),
+            ],
+            [
+                'value' => self::CASH->value,
+                'label' => self::CASH->title(),
+            ],
+            [
+                'value' => self::CARD_TO_CARD->value,
+                'label' => self::CARD_TO_CARD->title(),
+            ]
+        ];
+    }
 
     public function title(): string
     {
         return match ($this) {
-            self::FULL_ONLINE        => 'FULL_ONLINE',
-            self::PART_IAL_SCHEDULED => 'PART_IAL_SCHEDULED',
-            self::FULL_SCHEDULED     => 'FULL_SCHEDULED',
+            self::ONLINE         => 'ONLINE',
+            self::CASH           => 'CASH',
+            self::CARD_TO_CARD => 'CARD_TO_CARD',
         };
     }
 

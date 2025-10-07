@@ -20,11 +20,11 @@
             <input type="text" name="datepickerDate" class="dp-return-input hidden"
                 @input="$wire.set('{{ $wirePropertyName }}', (!$event.target.value ? null : $event.target.value) )">
             @if ($label)
-                <label class="block font-medium text-sm text-gray-700 py-1 mb-1.5">
+                <label class="block font-medium text-sm text-gray-700 py-1 mb-2.5">
                     {!! $label !!} {!! $required ? '<span class="text-red-600 text-xl relative top-1.5 leading-none">*</span>' : '' !!}
                 </label>
             @endif
-            <div class="relative flex items-center mt-1">
+            <div class="relative flex items-center">
                 <input @click="showDatepicker = !showDatepicker"
                     class="auto-go-to-next pdp-input input input-bordered input-md w-full pl-14" type="text" readonly
                     x-model="datepickerValue" @keydown.escape="showDatepicker = false"

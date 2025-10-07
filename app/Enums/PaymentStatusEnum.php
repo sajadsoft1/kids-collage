@@ -12,6 +12,24 @@ enum PaymentStatusEnum: string
     case PAID     = 'paid';
     case FAILED   = 'failed';
 
+    public static function options(): array
+    {
+        return [
+            [
+                'value' => self::PENDING->value,
+                'label' => self::PENDING->title(),
+            ],
+            [
+                'value' => self::PAID->value,
+                'label' => self::PAID->title(),
+            ],
+            [
+                'value' => self::FAILED->value,
+                'label' => self::FAILED->title(),
+            ]
+        ];
+    }
+
     public function title(): string
     {
         return match ($this) {

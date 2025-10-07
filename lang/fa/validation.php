@@ -178,6 +178,7 @@ return [
         'name'                   => 'نام',
         'family'                 => 'نام خانوادگی',
         'username'               => 'نام کاربری',
+        'user_id'                => 'کاربر',
         'email'                  => 'ایمیل',
         'first_name'             => 'نام',
         'last_name'              => 'نام خانوادگی',
