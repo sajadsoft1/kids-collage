@@ -281,9 +281,7 @@ class BlogController extends Controller
             $this->query([
                 'limit' => $request->input('limit', 1),
             ])->paginate($request->input('page_limit', 1))->toResourceCollection(BlogResource::class),
-            [
-                'aaa' => 'bbbb',
-            ]
+
         );
     }
 
@@ -344,7 +342,8 @@ class BlogController extends Controller
 
 
         ]);
-    }    /**
+    }
+    /**
      * @OA\Get(
      *     path="/blog/data",
      *     operationId="getData",

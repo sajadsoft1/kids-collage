@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Activitylog\LogOptions;
+use Spatie\Tags\HasTags;
 
 /**
  * @property string $title
@@ -27,6 +28,7 @@ class Faq extends Model
     use HasScheduledPublishing;
     use HasTranslationAuto;
     use HasView;
+    use HasTags;
     public array $translatable = [
         'title', 'description',
     ];

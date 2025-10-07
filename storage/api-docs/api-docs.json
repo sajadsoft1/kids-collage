@@ -19,6 +19,40 @@
         }
     ],
     "paths": {
+        "/about-us": {
+            "get": {
+                "tags": [
+                    "AboutUs"
+                ],
+                "summary": "Get about us information",
+                "description": "Returns about us data",
+                "operationId": "getAboutUs",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/AboutUsDetailResource"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        },
+                                        "extra": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/auth/login": {
             "post": {
                 "tags": [
@@ -1648,6 +1682,46 @@
                 }
             }
         },
+        "/contact-us": {
+            "post": {
+                "tags": [
+                    "ContactUs"
+                ],
+                "summary": "Store contactUs",
+                "description": "Store contactUs",
+                "operationId": "storeContactUs",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreContactUsRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "example": {
+                                                "message": "پیام شما با موفقیت ارسال شد. با تشکر از تماس شما"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/faq": {
             "get": {
                 "tags": [
@@ -1893,36 +1967,20 @@
                 }
             }
         },
-        "/faq/{faq}": {
+        "/faq/data": {
             "get": {
                 "tags": [
                     "Faq"
                 ],
-                "summary": "Get faq information",
-                "description": "Returns faq data",
-                "operationId": "getFaqByID",
-                "parameters": [
-                    {
-                        "name": "faq",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
+                "summary": "Get faq Extra information",
+                "description": "Returns faq Extra data",
+                "operationId": "getFaqExtraData",
                 "responses": {
                     "200": {
                         "description": "Successful operation",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "default": "No message"
-                                        }
-                                    },
                                     "type": "object"
                                 }
                             }
@@ -2455,6 +2513,62 @@
                         "description": "Password",
                         "type": "string",
                         "default": "password"
+                    }
+                },
+                "type": "object"
+            },
+            "StoreContactUsRequest": {
+                "title": "StoreContactUsRequest",
+                "required": [
+                    "name",
+                    "comment"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "default": "ahmad dehestani"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "default": "s.ahmad.dehestani@gmail.com"
+                    },
+                    "mobile": {
+                        "type": "string",
+                        "default": 9123456789
+                    },
+                    "comment": {
+                        "type": "string",
+                        "default": "test comment"
+                    }
+                },
+                "type": "object"
+            },
+            "AboutUsDetailResource": {
+                "title": "AboutUsDetailResource",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "title": {
+                        "type": "string",
+                        "default": "Title"
+                    },
+                    "body": {
+                        "type": "string",
+                        "default": "Description"
+                    },
+                    "slug": {
+                        "type": "string",
+                        "default": "title"
+                    },
+                    "seo_option": {
+                        "type": "object"
+                    },
+                    "image": {
+                        "type": "string",
+                        "default": "https://example.com/image.jpg"
                     }
                 },
                 "type": "object"
@@ -4028,6 +4142,10 @@
     },
     "tags": [
         {
+            "name": "AboutUs",
+            "description": "AboutUs"
+        },
+        {
             "name": "Auth",
             "description": "Auth"
         },
@@ -4046,6 +4164,10 @@
         {
             "name": "Client",
             "description": "Client"
+        },
+        {
+            "name": "ContactUs",
+            "description": "ContactUs"
         },
         {
             "name": "Faq",

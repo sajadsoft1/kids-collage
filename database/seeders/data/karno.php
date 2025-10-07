@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Enums\BannerSizeEnum;
 use App\Enums\CategoryTypeEnum;
+use App\Enums\PageTypeEnum;
 use App\Enums\SeoRobotsMetaEnum;
 use App\Models\Blog;
 
@@ -706,4 +707,25 @@ return [
             'leave_time' => '2025-01-01 12:05:00',
         ],
     ],
+    'about_us' => [
+        [
+            'title' => 'درباره ما',
+            'body'=>'ما یک آموزشگاه زبان هستیم که با هدف ارتقاء مهارت‌های زبانی افراد در محیطی دوستانه و حرفه‌ای فعالیت می‌کنیم. تیم ما متشکل از اساتید مجرب و متعهد است که با استفاده از روش‌های نوین آموزشی، به زبان‌آموزان کمک می‌کنند تا به اهداف زبانی خود دست یابند. ما به کیفیت آموزش، رضایت زبان‌آموزان و ایجاد تجربه‌ای مثبت در فرآیند یادگیری اهمیت می‌دهیم.',
+            'slug' => 'about-us',
+            'deletable'=>\App\Enums\YesNoEnum::NO->value,
+            'type' => PageTypeEnum::ABOUT_US->value,
+            'languages' => [
+                'fa',
+            ],
+            'seo_options' => [
+                'title' => 'درباره ما',
+                'description' => 'ما یک آموزشگاه زبان هستیم که با هدف ارتقاء مهارت‌های زبانی افراد در محیطی دوستانه و حرفه‌ای فعالیت می‌کنیم. تیم ما متشکل از اساتید مجرب و متعهد است که با استفاده از روش‌های نوین آموزشی، به زبان‌آموزان کمک می‌کنند تا به اهداف زبانی خود دست یابند. ما به کیفیت آموزش، رضایت زبان‌آموزان و ایجاد تجربه‌ای مثبت در فرآیند یادگیری اهمیت می‌دهیم.',
+                'canonical' => null,
+                'old_url' => null,
+                'redirect_to' => null,
+                'robots_meta' => SeoRobotsMetaEnum::NOINDEX_FOLLOW,
+            ],
+            'path' => public_path('assets/web/img/about-img.png')
+        ]
+   ]
 ];
