@@ -19,6 +19,40 @@
         }
     ],
     "paths": {
+        "/about-us": {
+            "get": {
+                "tags": [
+                    "AboutUs"
+                ],
+                "summary": "Get about us information",
+                "description": "Returns about us data",
+                "operationId": "getAboutUs",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/AboutUsDetailResource"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        },
+                                        "extra": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/auth/login": {
             "post": {
                 "tags": [
@@ -2510,6 +2544,35 @@
                 },
                 "type": "object"
             },
+            "AboutUsDetailResource": {
+                "title": "AboutUsDetailResource",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "title": {
+                        "type": "string",
+                        "default": "Title"
+                    },
+                    "body": {
+                        "type": "string",
+                        "default": "Description"
+                    },
+                    "slug": {
+                        "type": "string",
+                        "default": "title"
+                    },
+                    "seo_option": {
+                        "type": "object"
+                    },
+                    "image": {
+                        "type": "string",
+                        "default": "https://example.com/image.jpg"
+                    }
+                },
+                "type": "object"
+            },
             "BannerDetailResource": {
                 "title": "BannerDetailResource",
                 "properties": {
@@ -4078,6 +4141,10 @@
         }
     },
     "tags": [
+        {
+            "name": "AboutUs",
+            "description": "AboutUs"
+        },
         {
             "name": "Auth",
             "description": "Auth"
