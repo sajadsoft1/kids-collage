@@ -147,4 +147,12 @@ class Tag extends \Spatie\Tags\Tag implements HasMedia
                 return self::where('type', 'blog')->get();
             }, 3600);
     }
+    public static function faqTags()
+    {
+        return SmartCache::for(__CLASS__)
+            ->key('faq_tags')
+            ->remember(function () {
+                return self::where('type', 'faq')->get();
+            }, 3600);
+    }
 }

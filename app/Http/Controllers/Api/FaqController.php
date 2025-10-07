@@ -5,10 +5,15 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use App\Filters\FuzzyFilter;
+use App\Http\Resources\BannerResource;
+use App\Http\Resources\CategoryResource;
 use App\Http\Resources\FaqDetailResource;
 use App\Http\Resources\FaqResource;
+use App\Http\Resources\TagResource;
+use App\Models\Banner;
 use App\Models\Category;
 use App\Models\Faq;
+use App\Models\Tag;
 use App\Sorts\MostCommentSort;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -156,25 +161,28 @@ class FaqController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/faq/{faq}",
-     *     operationId="getFaqByID",
+     *     path="/faq/data",
+     *     operationId="getFaqExtraData",
      *     tags={"Faq"},
-     *     summary="Get faq information",
-     *     description="Returns faq data",
-     *     @OA\Parameter(name="faq", required=true, in="path", @OA\Schema(type="string")),
+     *     summary="Get faq Extra information",
+     *     description="Returns faq Extra data",
      *     @OA\Response(response=200,
      *         description="Successful operation",
      *         @OA\JsonContent(type="object",
-     *             @OA\Property(property="message", type="string", default="No message"),
      *         )
      *     )
      * )
      */
-    public function show(Faq $faq): JsonResponse
+    public function data(): JsonResponse
     {
+        $banners      = Banner::latestBanner();
+        $categories=Category::faqCategories();
+        $tags=Tag::faqTags();
         return Response::data(
             [
-                'faq' => FaqDetailResource::make($faq->load(['category'])),
+                'banners'      => BannerResource::collection($banners),
+                'Categories'=>CategoryResource::collection($categories),
+                'tags'=>TagResource::collection($tags)
             ]
         );
     }

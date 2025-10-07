@@ -1893,36 +1893,20 @@
                 }
             }
         },
-        "/faq/{faq}": {
+        "/faq/data": {
             "get": {
                 "tags": [
                     "Faq"
                 ],
-                "summary": "Get faq information",
-                "description": "Returns faq data",
-                "operationId": "getFaqByID",
-                "parameters": [
-                    {
-                        "name": "faq",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
+                "summary": "Get faq Extra information",
+                "description": "Returns faq Extra data",
+                "operationId": "getFaqExtraData",
                 "responses": {
                     "200": {
                         "description": "Successful operation",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "default": "No message"
-                                        }
-                                    },
                                     "type": "object"
                                 }
                             }
