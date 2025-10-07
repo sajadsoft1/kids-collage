@@ -47,6 +47,7 @@ class BlogSeeder extends Seeder
                 'old_url'         => $row['seo_options']['old_url'],
                 'redirect_to'     => $row['seo_options']['redirect_to'],
                 'robots_meta'     => $row['seo_options']['robots_meta'],
+                'tags'            => $row['tags'] ?? ['test1','test2'],
             ]);
 
             // Add image for the blogs

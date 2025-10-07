@@ -2003,6 +2003,36 @@
                     }
                 }
             }
+        },
+        "/teachers": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get Teachers",
+                "description": "Returns list of teachers",
+                "operationId": "getTeachers",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "teachers": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/UserResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -4176,6 +4206,10 @@
         {
             "name": "Home",
             "description": "Home"
+        },
+        {
+            "name": "User",
+            "description": "User"
         }
     ],
     "security": [
