@@ -1,3 +1,5 @@
 - ## Get Started
     - [Overview](/{{route}}/{{version}}/overview)
     - [SmartCache](/{{route}}/{{version}}/smart-cache)
+    - [Discount](/{{route}}/{{version}}/discount)
+    - [Sms](/{{route}}/{{version}}/sms)

@@ -289,5 +289,8 @@ return [
         'cooperation_start_date' => 'تاریخ شروع همکاری',
         'cooperation_end_date'   => 'تاریخ پایان همکاری',
         'children'               => 'فرزندان',
+        'discount'               => 'تخفیف',
+        'discount_amount'        => 'مبلغ تخفیف',
+        'discount_type'          => 'نوع تخفیف',
     ],
 ];
