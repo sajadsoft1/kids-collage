@@ -100,4 +100,13 @@ class Page extends Model implements HasMedia
                     ->first();
             }, 3600);
     }
+    public static function rules()
+    {
+        return SmartCache::for(__CLASS__)
+            ->key('rule-page')
+            ->remember(function () {
+                return self::where('type', PageTypeEnum::RULES->value)
+                    ->first();
+            }, 3600);
+    }
 }
