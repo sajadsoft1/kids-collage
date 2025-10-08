@@ -9,6 +9,8 @@ use App\Filters\FuzzyFilter;
 use App\Http\Resources\BannerResource;
 use App\Http\Resources\BulletinDetailResource;
 use App\Http\Resources\BulletinResource;
+use App\Http\Resources\CategoryResource;
+use App\Http\Resources\TagResource;
 use App\Models\Banner;
 use App\Models\Bulletin;
 use App\Models\Category;
@@ -115,6 +117,36 @@ class BulletinController extends Controller
         );
     }
 
+
+    /**
+     * @OA\Get(
+     *     path="/bulletin/index-extra-data",
+     *     operationId="getIndexExtraData",
+     *     tags={"Bulletin"},
+     *     summary="Get index Bulletin Extera information",
+     *     description="Returns index extrea data",
+     *     @OA\Response(response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(type="object"
+     *         )
+     *     )
+     * )
+     */
+    public function indexExtraData()
+    {
+        $latestBulletin  = Bulletin::latestBulletin();
+        $banners      = Banner::latestBanner();
+        $categories   =Category::bulletinCategories();
+        $tags         =Tag::bulletinTags();
+
+        return Response::data([
+            'banners'     => BannerResource::collection($banners),
+            'latestBulletin' => BulletinResource::collection($latestBulletin),
+            'Categories'  => CategoryResource::collection($categories),
+            'tags'        => TagResource::collection($tags),
+        ]);
+    }
+
     /**
      * @OA\Get(
      *     path="/bulletin/{bulletin}",
@@ -142,7 +174,7 @@ class BulletinController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/bulletin/{bulletin}/data",
+     *     path="/bulletin/{bulletin}/show-data",
      *     operationId="getBulletinBySlug",
      *     tags={"Bulletin"},
      *     summary="Get bulletin extra information",
@@ -157,7 +189,7 @@ class BulletinController extends Controller
      *     )
      * )
      */
-    public function extraData(Bulletin $bulletin)
+    public function extraShowData(Bulletin $bulletin)
     {
         $relatedBulletins = $bulletin->relatedBulletin($bulletin);
         $banners          = Banner::latestBanner();
