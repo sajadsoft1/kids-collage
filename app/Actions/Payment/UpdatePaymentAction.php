@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Payment;
 
 use App\Actions\Translation\SyncTranslationAction;
@@ -17,14 +19,11 @@ class UpdatePaymentAction
         private readonly SyncTranslationAction $syncTranslationAction,
     ) {}
 
-
     /**
-     * @param Payment $payment
      * @param array{
      *     title:string,
      *     description:string
      * }               $payload
-     * @return Payment
      * @throws Throwable
      */
     public function handle(Payment $payment, array $payload): Payment

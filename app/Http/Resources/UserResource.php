@@ -38,7 +38,7 @@ class UserResource extends JsonResource
             'mobile'     => $this->mobile,
             'email'      => $this->email,
             'status'     => $this->status->value,
-            'type'     => $this->type->toArray(),
+            'type'       => $this->type->toArray(),
             'avatar'     => $this->resource->getFirstMediaUrl('avatar', Constants::RESOLUTION_100_SQUARE),
             'roles'      => $this->whenLoaded('roles', fn () => $this->roles->pluck('name')),
             'updated_at' => $this->updated_at,

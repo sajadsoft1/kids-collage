@@ -10,7 +10,6 @@ use App\Services\Permissions\PermissionsService;
 
 class TermPolicy
 {
-
     public function viewAny(User $user): bool
     {
         return $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Term::class, 'Index'));

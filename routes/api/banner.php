@@ -10,4 +10,3 @@ Route::group(['prefix' => 'banner', 'as' => 'banner.'], function () {
     Route::get('{banner}', [BannerController::class, 'show'])->name('show');
     Route::get('view-counter/{banner}', [BannerController::class, 'viewCounter'])->name('view-counter');
 });
-

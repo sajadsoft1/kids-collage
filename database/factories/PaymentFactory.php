@@ -1,8 +1,10 @@
 <?php
 
-namespace Database\Factories;
-use App\Models\Payment;
+declare(strict_types=1);
 
+namespace Database\Factories;
+
+use App\Models\Payment;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class PaymentFactory extends Factory
@@ -13,7 +15,7 @@ class PaymentFactory extends Factory
     {
         return [
             'published' => true,
-            'languages'  => [app()->getLocale()]
+            'languages' => [app()->getLocale()],
         ];
     }
 

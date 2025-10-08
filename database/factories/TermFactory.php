@@ -1,8 +1,10 @@
 <?php
 
-namespace Database\Factories;
-use App\Models\Term;
+declare(strict_types=1);
 
+namespace Database\Factories;
+
+use App\Models\Term;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class TermFactory extends Factory
@@ -13,7 +15,7 @@ class TermFactory extends Factory
     {
         return [
             'published' => true,
-            'languages'  => [app()->getLocale()]
+            'languages' => [app()->getLocale()],
         ];
     }
 

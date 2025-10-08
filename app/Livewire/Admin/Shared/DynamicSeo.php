@@ -48,7 +48,7 @@ class DynamicSeo extends Component
 
     public function mount(string $class, int $id): void
     {
-        abort_if(!config('custom-modules.seo'),403);
+        abort_if( ! config('custom-modules.seo'), 403);
         $this->class           = $class;
         $this->back_route      = 'admin.' . Str::kebab($class) . '.index';
         $this->model           = Utils::getEloquent($class)::find($id);

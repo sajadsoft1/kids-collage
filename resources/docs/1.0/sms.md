@@ -40,7 +40,6 @@ KAVENEGAR_SENDER=3000xxxx
 
 # SmsIR Configuration
 SMSIR_API_KEY=your_smsir_api_key
-SMSIR_SECRET_KEY=your_smsir_secret_key
 SMSIR_SENDER=3000yyyy
 
 # MelliPayamak Configuration
@@ -215,6 +214,143 @@ SmsManager::instance()
 <a name="adding-new-drivers"></a>
 ## Adding New Drivers
 
+### Kavenegar Implementation Details
+
+The `KavenegarDriver` is fully integrated with Kavenegar's REST API using Laravel's HTTP client. Here are the key features:
+
+**API Endpoints Used:**
+- `/sms/send.json` - Send single SMS
+- `/sms/sendarray.json` - Send bulk SMS (array method)
+- `/sms/select.json` - Check delivery status
+- `/account/info.json` - Validate credentials (ping)
+
+**Features:**
+- ✅ Laravel HTTP client with 30s timeout for sends
+- ✅ Automatic retry (2 attempts with 100ms delay)
+- ✅ Proper error handling and logging
+- ✅ Kavenegar status code mapping (1-10 range)
+- ✅ Bulk sending optimization with `sendarray` API
+- ✅ Real connectivity check via `account/info` endpoint
+
+**Status Mapping:**
+- `1, 2` → `pending` (در صف ارسال / زمان‌بندی شده)
+- `4, 5` → `sent` (ارسال شده به مخابرات)
+- `10` → `delivered` (رسیده به گیرنده)
+- Other codes → `failed`
+
+**Example Usage:**
+```php
+use App\Services\Sms\SmsManager;
+
+// The KavenegarDriver handles everything automatically
+SmsManager::instance()
+    ->message('سلام، پیام تست')
+    ->numbers(['09120000000', '09123334444'])
+    ->send();
+```
+
+**API Response Format:**
+```json
+{
+    "return": {
+        "status": 200,
+        "message": "تایید شد"
+    },
+    "entries": [
+        {
+            "messageid": 8792343,
+            "message": "خدمات پیام کوتاه کاوه نگار",
+            "status": 1,
+            "statustext": "در صف ارسال",
+            "sender": "10004346",
+            "receptor": "09123456789",
+            "date": 1356619709,
+            "cost": 120
+        }
+    ]
+}
+```
+
+---
+
+### SMS.ir Implementation Details
+
+The `SmsIrDriver` is fully integrated with SMS.ir's REST API using Laravel's HTTP client. Here are the key features:
+
+**API Endpoints Used:**
+- `/send/bulk` - Send single or bulk SMS
+- `/send/verify` - Send verification/template SMS
+- `/send/live/{messageId}` - Check delivery status
+- `/credit/get` - Check account credit (ping)
+
+**Authentication:**
+- Uses `X-API-KEY` header for authentication
+- No token in URL (unlike Kavenegar)
+
+**Features:**
+- ✅ Laravel HTTP client with 30s timeout for sends
+- ✅ Automatic retry (2 attempts with 100ms delay)
+- ✅ Proper error handling and logging
+- ✅ SMS.ir status code mapping (1-7 range)
+- ✅ Bulk sending support (up to 100 numbers per request)
+- ✅ Real connectivity check via `credit/get` endpoint
+- ✅ Complete error message translations (Persian)
+
+**Status Mapping:**
+- `1` → `delivered` (رسیده به گوشی)
+- `3` → `pending` (پردازش در مخابرات)
+- `5` → `sent` (رسیده به مخابرات)
+- `2, 4, 6, 7` → `failed` (نرسیده/خطا/لیست سیاه)
+
+**Error Codes:** (Full list of 25+ error codes with Persian messages)
+- `1` - Success
+- `102` - Insufficient credit
+- `104` - Invalid mobile number(s)
+- `105` - Too many mobiles (max 100)
+- `115` - Blacklisted numbers
+- `123` - Line needs activation
+- And more...
+
+**Example Usage:**
+```php
+use App\Services\Sms\SmsManager;
+
+// The SmsIrDriver handles everything automatically
+SmsManager::instance()
+    ->message('پیام تستی از SMS.ir')
+    ->numbers(['09120000000', '09123334444'])
+    ->send();
+```
+
+**API Request Format:**
+```json
+{
+    "lineNumber": 300000000000,
+    "messageText": "Your Text",
+    "mobiles": [
+        "09120000000",
+        "09123334444"
+    ],
+    "sendDateTime": null
+}
+```
+
+**API Response Format:**
+```json
+{
+    "status": 1,
+    "message": "عملیات با موفقیت انجام شد",
+    "data": {
+        "messageId": 123456789,
+        "cost": 150
+    }
+}
+```
+
+---
+
+### Adding Custom Drivers
+
 Follow these steps to integrate a new SMS provider:
 
 ### 1. Create Driver Class
@@ -233,11 +369,15 @@ use App\Services\Sms\Contracts\DeliveryReportFetcher;
 use App\Services\Sms\Contracts\PingableSmsDriver;
 use App\Services\Sms\Contracts\SmsDriver;
 use App\Services\Sms\Exceptions\DriverConnectionException;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class YourProviderDriver extends AbstractSmsDriver implements DeliveryReportFetcher, PingableSmsDriver, SmsDriver
 {
     /** @var array{api_key?:string,api_secret?:string,sender?:string} */
     public array $config;
+
+    protected string $baseUrl = 'https://api.yourprovider.com/v1/';
 
     public function send(string $phoneNumber, string $message): void
     {
@@ -245,10 +385,45 @@ class YourProviderDriver extends AbstractSmsDriver implements DeliveryReportFetc
             throw new DriverConnectionException('YourProvider API key not set.');
         }
 
-        // Integrate your provider's SDK here
-        // Example:
-        // $client = new YourProviderClient($this->config['api_key']);
-        // $client->sendSms($phoneNumber, $message, $this->config['sender']);
+        $url = $this->baseUrl . 'sms/send';
+
+        try {
+            // Use Laravel HTTP client with timeout and retry
+            $response = Http::timeout(30)
+                ->retry(2, 100)
+                ->post($url, [
+                    'api_key'  => $this->config['api_key'],
+                    'phone'    => $phoneNumber,
+                    'message'  => $message,
+                    'sender'   => $this->config['sender'] ?? null,
+                ]);
+
+            if (!$response->successful()) {
+                Log::error('YourProvider send failed', [
+                    'phone'    => $phoneNumber,
+                    'status'   => $response->status(),
+                    'response' => $response->body(),
+                ]);
+
+                throw new DriverConnectionException('YourProvider API error: ' . $response->body());
+            }
+
+            $data = $response->json();
+
+            // Check provider-specific success indicators
+            if (!($data['success'] ?? false)) {
+                throw new DriverConnectionException('YourProvider error: ' . ($data['message'] ?? 'Unknown error'));
+            }
+        } catch (DriverConnectionException $e) {
+            throw $e;
+        } catch (\Exception $e) {
+            Log::error('YourProvider connection error', [
+                'phone'     => $phoneNumber,
+                'exception' => $e->getMessage(),
+            ]);
+
+            throw new DriverConnectionException('Failed to connect to YourProvider API: ' . $e->getMessage(), previous: $e);
+        }
     }
 
     public function sendTo(string $phoneNumber, string $message): void
@@ -258,9 +433,20 @@ class YourProviderDriver extends AbstractSmsDriver implements DeliveryReportFetc
 
     public function sendToGroup(array $phoneNumbers, string $message): void
     {
-        foreach ($phoneNumbers as $number) {
-            $this->send((string) $number, $message);
-        }
+        // Option 1: Use provider's bulk API if available
+        $url = $this->baseUrl . 'sms/bulk';
+        
+        $response = Http::timeout(30)->post($url, [
+            'api_key'  => $this->config['api_key'],
+            'phones'   => $phoneNumbers,
+            'message'  => $message,
+            'sender'   => $this->config['sender'] ?? null,
+        ]);
+        
+        // Option 2: Loop through individual sends
+        // foreach ($phoneNumbers as $number) {
+        //     $this->send((string) $number, $message);
+        // }
     }
 
     public function sendTemplate(string $phoneNumber, string $template, array $inputs = []): void
@@ -277,32 +463,76 @@ class YourProviderDriver extends AbstractSmsDriver implements DeliveryReportFetc
 
     public function ping(): bool
     {
-        return !empty($this->config['api_key']);
-        
-        // Or implement actual connectivity check:
-        // try {
-        //     $client = new YourProviderClient($this->config['api_key']);
-        //     return $client->checkConnection();
-        // } catch (\Exception $e) {
-        //     return false;
-        // }
+        if (empty($this->config['api_key'])) {
+            return false;
+        }
+
+        try {
+            $url = $this->baseUrl . 'account/info';
+
+            $response = Http::timeout(10)->get($url, [
+                'api_key' => $this->config['api_key'],
+            ]);
+
+            return $response->successful();
+        } catch (\Exception $e) {
+            Log::warning('YourProvider ping failed', ['exception' => $e->getMessage()]);
+
+            return false;
+        }
     }
 
     public function fetchDeliveryReport(string $providerMessageId): array
     {
-        // Integrate delivery report API
-        // Example:
-        // $client = new YourProviderClient($this->config['api_key']);
-        // $report = $client->getDeliveryStatus($providerMessageId);
-        
-        return [
-            'status'       => 'delivered', // or 'pending', 'failed'
-            'delivered_at' => now()->toIso8601String(),
-            'raw'          => null, // raw provider response
-        ];
+        if (empty($this->config['api_key'])) {
+            return ['status' => 'unknown', 'delivered_at' => null, 'raw' => null];
+        }
+
+        try {
+            $url = $this->baseUrl . 'sms/status';
+
+            $response = Http::timeout(10)->get($url, [
+                'api_key'    => $this->config['api_key'],
+                'message_id' => $providerMessageId,
+            ]);
+
+            if (!$response->successful()) {
+                return ['status' => 'unknown', 'delivered_at' => null, 'raw' => null];
+            }
+
+            $data = $response->json();
+
+            // Map provider status to standard statuses
+            $status = match ($data['status'] ?? '') {
+                'sent' => 'sent',
+                'delivered' => 'delivered',
+                'failed' => 'failed',
+                default => 'pending',
+            };
+
+            return [
+                'status'       => $status,
+                'delivered_at' => $status === 'delivered' ? now()->toIso8601String() : null,
+                'raw'          => $data,
+            ];
+        } catch (\Exception $e) {
+            Log::warning('YourProvider delivery report exception', [
+                'message_id' => $providerMessageId,
+                'exception'  => $e->getMessage(),
+            ]);
+
+            return ['status' => 'unknown', 'delivered_at' => null, 'raw' => null];
+        }
     }
 }
 ```
+
+**Key Features:**
+- Uses Laravel's `Http` facade for API requests
+- Implements timeout (30s for sends, 10s for pings)
+- Auto-retries failed requests (2 retries with 100ms delay)
+- Comprehensive error logging with context
+- Proper exception handling and re-throwing
 
 ### 2. Register Driver in Configuration
 
@@ -342,7 +572,7 @@ public function ensureUsable(string $driverName, SmsDriver $driver): void
 {
     $requiredByDriver = match ($driverName) {
         'kavenegar'    => ['token'],
-        'smsir'        => ['api_key', 'secret_key'],
+        'smsir'        => ['api_key'],
         'mellipayamac' => ['username', 'password'],
         'yourprovider' => ['api_key', 'api_secret'], // Add this
         default        => [],

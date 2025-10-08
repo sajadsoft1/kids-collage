@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\CourseSession;
 
 use App\Enums\SessionStatus;
@@ -13,9 +15,7 @@ class StoreCourseSessionAction
 {
     use AsAction;
 
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     /**
      * @param array{
@@ -30,7 +30,6 @@ class StoreCourseSessionAction
      *     status:string,
      *     session_type:string,
      * } $payload
-     * @return CourseSession
      * @throws Throwable
      */
     public function handle(array $payload): CourseSession
@@ -48,6 +47,7 @@ class StoreCourseSessionAction
                 'status'                     => $payload['status'] ?? SessionStatus::PLANNED->value,
                 'session_type'               => $payload['session_type'] ?? SessionType::IN_PERSON->value,
             ]);
+
             return $model->refresh();
         });
     }

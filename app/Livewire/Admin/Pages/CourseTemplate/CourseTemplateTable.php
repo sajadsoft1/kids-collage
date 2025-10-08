@@ -119,7 +119,7 @@ final class CourseTemplateTable extends PowerGridComponent
             PowerGridHelper::btnDelete($row),
             Button::add('run')
                 ->slot("<i class='fa fa-gear'></i>")
-                ->attributes([ 'class' => 'btn btn-square md:btn-sm btn-xs'])
+                ->attributes(['class' => 'btn btn-square md:btn-sm btn-xs'])
                 ->route('admin.course.run', ['courseTemplate' => $row->id], '_self')
                 ->navigate()
                 ->tooltip('Run The Course'),

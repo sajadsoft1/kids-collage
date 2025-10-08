@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\CourseSession;
 
 use App\Models\CourseSession;
@@ -11,9 +13,7 @@ class DeleteCourseSessionAction
 {
     use AsAction;
 
-    /**
-     * @throws Throwable
-     */
+    /** @throws Throwable */
     public function handle(CourseSession $courseSession): bool
     {
         return DB::transaction(function () use ($courseSession) {

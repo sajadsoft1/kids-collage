@@ -7,7 +7,6 @@ namespace App\Http\Controllers\Api;
 use App\Filters\FuzzyFilter;
 use App\Http\Resources\BannerResource;
 use App\Http\Resources\CategoryResource;
-use App\Http\Resources\FaqDetailResource;
 use App\Http\Resources\FaqResource;
 use App\Http\Resources\TagResource;
 use App\Models\Banner;
@@ -176,13 +175,14 @@ class FaqController extends Controller
     public function data(): JsonResponse
     {
         $banners      = Banner::latestBanner();
-        $categories=Category::faqCategories();
-        $tags=Tag::faqTags();
+        $categories   =Category::faqCategories();
+        $tags         =Tag::faqTags();
+
         return Response::data(
             [
-                'banners'      => BannerResource::collection($banners),
-                'Categories'=>CategoryResource::collection($categories),
-                'tags'=>TagResource::collection($tags)
+                'banners'    => BannerResource::collection($banners),
+                'Categories' => CategoryResource::collection($categories),
+                'tags'       => TagResource::collection($tags),
             ]
         );
     }

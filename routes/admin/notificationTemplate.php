@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-
-use App\Livewire\Admin\Pages\NotificationTemplate\NotificationTemplateUpdateOrCreate;
 use App\Livewire\Admin\Pages\NotificationTemplate\NotificationTemplateTable;
+use App\Livewire\Admin\Pages\NotificationTemplate\NotificationTemplateUpdateOrCreate;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'admin/notification-template', 'as' => 'admin.notification-template.'], function () {

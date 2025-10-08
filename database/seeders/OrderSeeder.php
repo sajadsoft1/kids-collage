@@ -13,7 +13,7 @@ class OrderSeeder extends Seeder
     /** Run the database seeds. */
     public function run(): void
     {
-        $data = require database_path('seeders/data/karno.php');
+        $data = require database_path('seeders/data/karno_financial.php');
         foreach ($data['order'] as $row) {
             $model = StoreOrderAction::run([
                 'user_id'      => $row['user_id'],

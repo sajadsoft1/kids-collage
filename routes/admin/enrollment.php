@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-
-use App\Livewire\Admin\Pages\Enrollment\EnrollmentUpdateOrCreate;
 use App\Livewire\Admin\Pages\Enrollment\EnrollmentTable;
+use App\Livewire\Admin\Pages\Enrollment\EnrollmentUpdateOrCreate;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'admin/enrollment', 'as' => 'admin.enrollment.'], function () {

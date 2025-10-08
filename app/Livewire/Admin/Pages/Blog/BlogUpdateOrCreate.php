@@ -11,7 +11,6 @@ use App\Enums\CategoryTypeEnum;
 use App\Helpers\StringHelper;
 use App\Models\Blog;
 use App\Models\Category;
-use App\Traits\CrudHelperTrait;
 use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -26,7 +25,7 @@ class BlogUpdateOrCreate extends Component
     public ?string $description     = '';
     public ?string $body            = '';
     public bool $published          = false;
-    public $published_at    = '';
+    public $published_at            = '';
     public array $categories        = [];
     public array $tags              = [];
     public int $category_id         = 1;

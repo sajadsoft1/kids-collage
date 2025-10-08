@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Installment;
 
 use App\Models\Installment;
@@ -11,9 +13,7 @@ class DeleteInstallmentAction
 {
     use AsAction;
 
-    /**
-     * @throws Throwable
-     */
+    /** @throws Throwable */
     public function handle(Installment $installment): bool
     {
         return DB::transaction(function () use ($installment) {

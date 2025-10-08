@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Enrollment;
 
 use App\Models\Enrollment;
@@ -11,9 +13,7 @@ class DeleteEnrollmentAction
 {
     use AsAction;
 
-    /**
-     * @throws Throwable
-     */
+    /** @throws Throwable */
     public function handle(Enrollment $enrollment): bool
     {
         return DB::transaction(function () use ($enrollment) {

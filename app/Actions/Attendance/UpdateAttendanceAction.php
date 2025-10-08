@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Attendance;
 
 use App\Actions\Translation\SyncTranslationAction;
@@ -17,14 +19,11 @@ class UpdateAttendanceAction
         private readonly SyncTranslationAction $syncTranslationAction,
     ) {}
 
-
     /**
-     * @param Attendance $attendance
      * @param array{
      *     title:string,
      *     description:string
      * }               $payload
-     * @return Attendance
      * @throws Throwable
      */
     public function handle(Attendance $attendance, array $payload): Attendance

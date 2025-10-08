@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Order;
 
 use App\Models\Order;
@@ -11,9 +13,7 @@ class DeleteOrderAction
 {
     use AsAction;
 
-    /**
-     * @throws Throwable
-     */
+    /** @throws Throwable */
     public function handle(Order $order): bool
     {
         return DB::transaction(function () use ($order) {

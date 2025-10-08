@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Database\Seeders;
 
 use App\Actions\Client\StoreClientAction;
-use Exception;
 use Illuminate\Database\Seeder;
 
 class ClientSeeder extends Seeder
@@ -18,10 +17,9 @@ class ClientSeeder extends Seeder
             $model = StoreClientAction::run([
                 'title' => $row['title'],
             ]);
-                $model->addMedia($row['path'])
-                    ->preservingOriginal()
-                    ->toMediaCollection('image');
-
+            $model->addMedia($row['path'])
+                ->preservingOriginal()
+                ->toMediaCollection('image');
         }
     }
 }

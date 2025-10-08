@@ -7,11 +7,7 @@ namespace App\Http\Controllers\Api;
 use App\Filters\FuzzyFilter;
 use App\Http\Resources\ClientDetailResource;
 use App\Http\Resources\ClientResource;
-use App\Http\Resources\FaqDetailResource;
-use App\Http\Resources\FaqResource;
-use App\Models\Category;
 use App\Models\Client;
-use App\Models\Faq;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -93,12 +89,10 @@ class ClientController extends Controller
             [
                 'sort' => [
                     ['label' => '', 'value' => 'id', 'selected' => true, 'default' => true],
-
                 ],
             ]
         );
     }
-
 
     /**
      * @OA\Get(

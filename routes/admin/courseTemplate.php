@@ -2,10 +2,8 @@
 
 declare(strict_types=1);
 
-
 use App\Livewire\Admin\Pages\CourseTemplate\CourseTemplateIndex;
 use App\Livewire\Admin\Pages\CourseTemplate\CourseTemplateUpdateOrCreate;
-use App\Livewire\Admin\Pages\CourseTemplate\CourseTemplateTable;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'admin/course-template', 'as' => 'admin.course-template.'], function () {

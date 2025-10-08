@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Services\SeoOption;
 
 use App\Enums\SeoRobotsMetaEnum;
-use App\Models\Blog;
 use App\Models\Tag;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;

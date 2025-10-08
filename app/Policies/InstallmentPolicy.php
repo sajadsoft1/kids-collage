@@ -10,7 +10,6 @@ use App\Services\Permissions\PermissionsService;
 
 class InstallmentPolicy
 {
-
     public function viewAny(User $user): bool
     {
         return $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Installment::class, 'Index'));

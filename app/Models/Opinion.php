@@ -78,15 +78,14 @@ class Opinion extends Model implements HasMedia
      */
 
     /** Model Attributes -------------------------------------------------------------------------- */
-
-public static function homeOpinions()
-{
-    return SmartCache::for(__CLASS__)
-        ->key('home_opinions')
-        ->remember(function ()  {
-            return self::where('published', BooleanEnum::ENABLE->value)
-                ->orderBy('ordering', 'asc')
-                ->get();
-        },3600);
-}
+    public static function homeOpinions()
+    {
+        return SmartCache::for(__CLASS__)
+            ->key('home_opinions')
+            ->remember(function () {
+                return self::where('published', BooleanEnum::ENABLE->value)
+                    ->orderBy('ordering', 'asc')
+                    ->get();
+            }, 3600);
+    }
 }

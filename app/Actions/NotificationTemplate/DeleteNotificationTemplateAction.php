@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\NotificationTemplate;
 
 use App\Models\NotificationTemplate;
@@ -11,9 +13,7 @@ class DeleteNotificationTemplateAction
 {
     use AsAction;
 
-    /**
-     * @throws Throwable
-     */
+    /** @throws Throwable */
     public function handle(NotificationTemplate $notificationTemplate): bool
     {
         return DB::transaction(function () use ($notificationTemplate) {

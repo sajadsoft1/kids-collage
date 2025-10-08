@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-
-use App\Livewire\Admin\Pages\Bulletin\BulletinUpdateOrCreate;
 use App\Livewire\Admin\Pages\Bulletin\BulletinTable;
+use App\Livewire\Admin\Pages\Bulletin\BulletinUpdateOrCreate;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'admin/bulletin', 'as' => 'admin.bulletin.'], function () {

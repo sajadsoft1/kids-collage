@@ -1,8 +1,10 @@
 <?php
 
-namespace Database\Factories;
-use App\Models\CourseSessionTemplate;
+declare(strict_types=1);
 
+namespace Database\Factories;
+
+use App\Models\CourseSessionTemplate;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CourseSessionTemplateFactory extends Factory
@@ -13,7 +15,7 @@ class CourseSessionTemplateFactory extends Factory
     {
         return [
             'published' => true,
-            'languages'  => [app()->getLocale()]
+            'languages' => [app()->getLocale()],
         ];
     }
 

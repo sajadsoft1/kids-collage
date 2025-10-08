@@ -22,8 +22,8 @@ class BlogSeeder extends Seeder
     public function run(): void
     {
         $data = require database_path('seeders/data/karno.php');
-        $user= User::factory()->create([
-            'type'=>UserTypeEnum::EMPLOYEE->value
+        $user = User::factory()->create([
+            'type' => UserTypeEnum::EMPLOYEE->value,
         ]);
         $user->addMedia(public_path('assets/web/img/teacher-1.jpg'))
             ->preservingOriginal()
@@ -47,7 +47,7 @@ class BlogSeeder extends Seeder
                 'old_url'         => $row['seo_options']['old_url'],
                 'redirect_to'     => $row['seo_options']['redirect_to'],
                 'robots_meta'     => $row['seo_options']['robots_meta'],
-                'tags'            => $row['tags'] ?? ['test1','test2'],
+                'tags'            => $row['tags'] ?? ['test1', 'test2'],
             ]);
 
             // Add image for the blogs

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Payment;
 
 use App\Models\Payment;
@@ -11,9 +13,7 @@ class DeletePaymentAction
 {
     use AsAction;
 
-    /**
-     * @throws Throwable
-     */
+    /** @throws Throwable */
     public function handle(Payment $payment): bool
     {
         return DB::transaction(function () use ($payment) {

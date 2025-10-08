@@ -8,9 +8,9 @@ enum SeoRobotsMetaEnum: string
 {
     use EnumToArray;
 
-    case INDEX_FOLLOW = 'index_follow';
+    case INDEX_FOLLOW     = 'index_follow';
     case NOINDEX_NOFOLLOW = 'noindex_nofollow';
-    case NOINDEX_FOLLOW = 'noindex_follow';
+    case NOINDEX_FOLLOW   = 'noindex_follow';
 
     public function title(): string
     {

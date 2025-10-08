@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->schemalessAttributes('extra_attributes');
             $table->unsignedBigInteger('view_count')->default(0);
             $table->text('languages')->nullable();
-            $table->boolean('deletable')->default(\App\Enums\YesNoEnum::YES->value); // yes, no
+            $table->boolean('deletable')->default(App\Enums\YesNoEnum::YES->value); // yes, no
             $table->timestamps();
         });
     }

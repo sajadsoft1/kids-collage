@@ -42,7 +42,7 @@ class StoreCourseSessionTemplateAction
                 'course_template_id' => $payload['course_template_id'],
                 'order'              => $payload['order'] ?? 1,
                 'duration_minutes'   => $payload['duration_minutes'],
-                'type'   => $payload['type']??CourseTypeEnum::IN_PERSON->value,
+                'type'               => $payload['type'] ?? CourseTypeEnum::IN_PERSON->value,
             ]);
             $this->syncTranslationAction->handle($model, Arr::only($payload, ['title', 'description', 'body']));
             $this->fileService->addMedia($model, Arr::get($payload, 'image'));

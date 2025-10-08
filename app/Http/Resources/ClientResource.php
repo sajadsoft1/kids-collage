@@ -19,7 +19,7 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="published",  ref="#/components/schemas/YesNoEnum"),
  *     @OA\Property(property="updated_at", type="string", default="2024-08-19T07:26:07.000000Z"),
  *     @OA\Property(property="created_at", type="string", default="2024-08-19T07:26:07.000000Z"),
- *               @OA\Property(property="image", type="string", default="https://example.com/image.jpg"),
+ *     @OA\Property(property="image", type="string", default="https://example.com/image.jpg"),
  * )
  */
 class ClientResource extends JsonResource

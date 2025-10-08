@@ -49,7 +49,6 @@ class UserController extends Controller
      *         )
      *     )
      * )
-
      */
     public function teachers(): JsonResponse
     {

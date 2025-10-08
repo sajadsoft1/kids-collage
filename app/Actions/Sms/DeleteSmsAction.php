@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Sms;
 
 use App\Models\Sms;
@@ -11,9 +13,7 @@ class DeleteSmsAction
 {
     use AsAction;
 
-    /**
-     * @throws Throwable
-     */
+    /** @throws Throwable */
     public function handle(Sms $sms): bool
     {
         return DB::transaction(function () use ($sms) {

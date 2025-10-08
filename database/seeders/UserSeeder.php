@@ -14,26 +14,25 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         User::factory(10)->create([
-            'type' => UserTypeEnum::TEACHER,
+            'type'   => UserTypeEnum::TEACHER,
             'status' => true,
         ]);
         User::factory(10)->create([
-            'type' => UserTypeEnum::EMPLOYEE,
+            'type'   => UserTypeEnum::EMPLOYEE,
             'status' => true,
         ]);
 
         $users = User::factory(10)->create([
-            'type' => UserTypeEnum::USER,
+            'type'   => UserTypeEnum::USER,
             'status' => true,
         ]);
 
         User::factory(10)->create([
-            'type' => UserTypeEnum::PARENT,
+            'type'   => UserTypeEnum::PARENT,
             'status' => true,
         ])->each(function (User $user) use ($users) {
-           // add relation to user where not have parrent
+            // add relation to user where not have parrent
             $user->children()->attach($users->random()->id);
         });
-
     }
 }

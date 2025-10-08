@@ -16,7 +16,6 @@ class CategorySeeder extends Seeder
         $data = require database_path('seeders/data/karno_content.php');
 
         foreach ($data['categories'] as $row) {
-
             try {
                 StoreCategoryAction::run([
                     'slug'            => $row['slug'],

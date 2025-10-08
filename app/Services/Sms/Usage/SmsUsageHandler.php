@@ -25,7 +25,7 @@ class SmsUsageHandler
     {
         $requiredByDriver = match ($driverName) {
             'kavenegar'    => ['token'],
-            'smsir'        => ['api_key', 'secret_key'],
+            'smsir'        => ['api_key'],
             'mellipayamac' => ['username', 'password'],
             default        => [],
         };

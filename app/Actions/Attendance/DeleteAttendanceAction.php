@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Attendance;
 
 use App\Models\Attendance;
@@ -11,9 +13,7 @@ class DeleteAttendanceAction
 {
     use AsAction;
 
-    /**
-     * @throws Throwable
-     */
+    /** @throws Throwable */
     public function handle(Attendance $attendance): bool
     {
         return DB::transaction(function () use ($attendance) {

@@ -10,7 +10,6 @@ use App\Services\Permissions\PermissionsService;
 
 class RoomPolicy
 {
-
     public function viewAny(User $user): bool
     {
         return $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Room::class, 'Index'));

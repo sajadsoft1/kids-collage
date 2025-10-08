@@ -1,8 +1,10 @@
 <?php
 
-namespace Database\Factories;
-use App\Models\Attendance;
+declare(strict_types=1);
 
+namespace Database\Factories;
+
+use App\Models\Attendance;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class AttendanceFactory extends Factory
@@ -13,7 +15,7 @@ class AttendanceFactory extends Factory
     {
         return [
             'published' => true,
-            'languages'  => [app()->getLocale()]
+            'languages' => [app()->getLocale()],
         ];
     }
 

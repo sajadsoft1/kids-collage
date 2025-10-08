@@ -736,7 +736,7 @@ namespace App\Models{
  * @property int $id
  * @property \App\Enums\YesNoEnum $follow_up
  * @property string $name
- * @property string $email
+ * @property string|null $email
  * @property string|null $mobile
  * @property string $comment
  * @property string|null $admin_note
@@ -837,20 +837,20 @@ namespace App\Models{
  * A scheduled session for a Course (instance of a SessionTemplate).
  * This represents an actual class session that students attend.
  *
- * @property int                                                                      $id
- * @property int                                                                      $course_id
- * @property int                                                                      $session_template_id
- * @property \Carbon\Carbon|null                                                      $date
- * @property \Carbon\Carbon|null                                                      $start_time
- * @property \Carbon\Carbon|null                                                      $end_time
- * @property int|null                                                                 $room_id
- * @property string|null                                                              $meeting_link
- * @property string|null                                                              $recording_link
- * @property SessionStatus                                                            $status
- * @property SessionType                                                              $session_type
- * @property \Carbon\Carbon|null                                                      $created_at
- * @property \Carbon\Carbon|null                                                      $updated_at
- * @property \Carbon\Carbon|null                                                      $deleted_at
+ * @property int                 $id
+ * @property int                 $course_id
+ * @property int                 $session_template_id
+ * @property \Carbon\Carbon|null $date
+ * @property \Carbon\Carbon|null $start_time
+ * @property \Carbon\Carbon|null $end_time
+ * @property int|null            $room_id
+ * @property string|null         $meeting_link
+ * @property string|null         $recording_link
+ * @property SessionStatus       $status
+ * @property SessionType         $session_type
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
  * @property-read Course                                                              $course
  * @property-read CourseSessionTemplate                                               $sessionTemplate
  * @property-read Room|null                                                           $room
@@ -1057,20 +1057,82 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * Discount Model
+ * 
+ * Manages discount codes with advanced features including:
+ * - Percentage or fixed amount discounts
+ * - User-specific or global discounts
+ * - Minimum order amount requirements
+ * - Usage limits (total and per user)
+ * - Date-based activation/expiration
+ * - Maximum discount cap for percentage types
+ *
+ * @property int                 $id
+ * @property string              $code
+ * @property string              $type
+ * @property float               $value
+ * @property int|null            $user_id
+ * @property float               $min_order_amount
+ * @property float|null          $max_discount_amount
+ * @property int|null            $usage_limit
+ * @property int                 $usage_per_user
+ * @property int                 $used_count
+ * @property \Carbon\Carbon|null $starts_at
+ * @property \Carbon\Carbon|null $expires_at
+ * @property bool                $is_active
+ * @property string|null         $description
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property-read User|null $user
+ * @property-read \Illuminate\Database\Eloquent\Collection<Order> $orders
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
+ * @property-read int|null $activities_count
+ * @property-read int|null $orders_count
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount active()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount byCode(string $code)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount fixedAmount()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount forUser(int $userId)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount percentage()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount valid()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount whereCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount whereExpiresAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount whereIsActive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount whereMaxDiscountAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount whereMinOrderAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount whereStartsAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount whereUsageLimit($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount whereUsagePerUser($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount whereUsedCount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount whereValue($value)
+ */
+	class Discount extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * Enrollment Model
  * 
  * Student registration in a course instance.
  * Tracks student progress, attendance, and completion status.
  *
- * @property int                                                            $id
- * @property int                                                            $user_id
- * @property int                                                            $course_id
- * @property int|null                                                       $order_item_id
- * @property EnrollmentStatusEnum                                           $status
- * @property \Carbon\Carbon                                                 $enrolled_at
- * @property float                                                          $progress_percent
- * @property \Carbon\Carbon|null                                            $created_at
- * @property \Carbon\Carbon|null                                            $updated_at
+ * @property int                  $id
+ * @property int                  $user_id
+ * @property int                  $course_id
+ * @property int|null             $order_item_id
+ * @property EnrollmentStatusEnum $status
+ * @property \Carbon\Carbon       $enrolled_at
+ * @property float                $progress_percent
+ * @property \Carbon\Carbon|null  $created_at
+ * @property \Carbon\Carbon|null  $updated_at
  * @property-read User                                                      $user
  * @property-read Course                                                    $course
  * @property-read OrderItem|null                                            $orderItem
@@ -1132,6 +1194,8 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
  * @property-read int|null $activities_count
  * @property-read \App\Models\Category|null $category
+ * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\Tag> $tags
+ * @property-read int|null $tags_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translations
  * @property-read int|null $translations_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translationsPure
@@ -1159,6 +1223,12 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Faq wherePublishedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Faq whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Faq whereViewCount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Faq withAllTags(\ArrayAccess|\Spatie\Tags\Tag|array|string $tags, ?string $type = null)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Faq withAllTagsOfAnyType($tags)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Faq withAnyTags(\ArrayAccess|\Spatie\Tags\Tag|array|string $tags, ?string $type = null)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Faq withAnyTagsOfAnyType($tags)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Faq withAnyTagsOfType(array|string $type)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Faq withoutTags(\ArrayAccess|\Spatie\Tags\Tag|array|string $tags, ?string $type = null)
  */
 	class Faq extends \Eloquent {}
 }
@@ -1233,13 +1303,30 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * @property int $id
  * @property \App\Enums\BooleanEnum $published
+ * @property array<array-key, mixed>|null $languages
+ * @property string|null $name
+ * @property string $channel
+ * @property string|null $message_template
+ * @property array<array-key, mixed>|null $inputs
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
  * @property-read int|null $activities_count
  * @method static \Database\Factories\NotificationTemplateFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationTemplate newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationTemplate newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationTemplate query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationTemplate whereChannel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationTemplate whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationTemplate whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationTemplate whereInputs($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationTemplate whereLanguages($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationTemplate whereMessageTemplate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationTemplate whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationTemplate wherePublished($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationTemplate whereUpdatedAt($value)
  */
 	class NotificationTemplate extends \Eloquent {}
 }
@@ -1298,27 +1385,52 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * @property int $id
- * @property int $user_id
- * @property float $total_amount
- * @property \App\Enums\OrderStatusEnum $status
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\OrderItem> $items
+ * Order Model
+ * 
+ * Manages customer orders with support for:
+ * - Multiple order items (polymorphic)
+ * - Multiple payments
+ * - Discount codes
+ * - Activity logging
+ *
+ * @property int                 $id
+ * @property int                 $user_id
+ * @property int|null            $discount_id
+ * @property float               $pure_amount
+ * @property float               $discount_amount
+ * @property float               $total_amount
+ * @property string              $status
+ * @property string|null         $note
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property-read User                                                   $user
+ * @property-read Discount|null                                          $discount
+ * @property-read \Illuminate\Database\Eloquent\Collection<OrderItem>   $items
+ * @property-read \Illuminate\Database\Eloquent\Collection<Payment>     $payments
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
+ * @property-read int|null $activities_count
  * @property-read int|null $items_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Payment> $payments
  * @property-read int|null $payments_count
- * @property-read \App\Models\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order cancelled()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order completed()
  * @method static \Database\Factories\OrderFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order pending()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order processing()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereDiscountAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereDiscountId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereNote($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order wherePureAmount($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereTotalAmount($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order withDiscount()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order withStatus(\App\Enums\OrderStatusEnum $status)
  */
 	class Order extends \Eloquent {}
 }
@@ -1379,6 +1491,7 @@ namespace App\Models{
  * @property array<array-key, mixed>|null $extra_attributes
  * @property int $view_count
  * @property array<array-key, mixed>|null $languages
+ * @property \App\Enums\YesNoEnum $deletable
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
@@ -1401,6 +1514,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Page query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Page search($keyword)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Page whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Page whereDeletable($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Page whereExtraAttributes($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Page whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Page whereLanguages($value)
@@ -1414,15 +1528,34 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * @property int $parent_id
+ * @property int $child_id
+ * @property-read \App\Models\User $child
+ * @property-read \App\Models\User $parent
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ParentChild newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ParentChild newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ParentChild query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ParentChild whereChildId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ParentChild whereParentId($value)
+ */
+	class ParentChild extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * @property int $id
  * @property int $user_id
  * @property int $order_id
  * @property float $amount
+ * @property \Illuminate\Support\Carbon|null $paid_at
  * @property \App\Enums\PaymentTypeEnum $type
  * @property \App\Enums\PaymentStatusEnum $status
  * @property string|null $transaction_id
+ * @property string|null $note
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
+ * @property-read int|null $activities_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Installment> $installment
  * @property-read int|null $installment_count
  * @property-read \App\Models\Order $order
@@ -1434,7 +1567,9 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment whereAmount($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment whereNote($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment whereOrderId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment wherePaidAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment whereTransactionId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment whereType($value)
@@ -1509,20 +1644,44 @@ namespace App\Models{
 /**
  * @property int $id
  * @property int $user_id
+ * @property int|null $id_number
  * @property string|null $national_code
- * @property string|null $birth_date
+ * @property \Illuminate\Support\Carbon|null $birth_date
+ * @property \App\Enums\GenderEnum|null $gender
+ * @property string|null $address
+ * @property string|null $phone
+ * @property string|null $father_name
+ * @property string|null $father_phone
+ * @property string|null $mother_name
+ * @property string|null $mother_phone
+ * @property \App\Enums\ReligionEnum|null $religion
+ * @property float $salary
+ * @property float $benefit
+ * @property \Illuminate\Support\Carbon|null $cooperation_start_date
+ * @property \Illuminate\Support\Carbon|null $cooperation_end_date
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \App\Enums\GenderEnum $gender
- * @property \App\Enums\ReligionEnum $religion
  * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereBenefit($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereBirthDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereCooperationEndDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereCooperationStartDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereFatherName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereFatherPhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereGender($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereIdNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereMotherName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereMotherPhone($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereNationalCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile wherePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereReligion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereSalary($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereUserId($value)
  */
@@ -1611,13 +1770,13 @@ namespace App\Models{
  * Physical location for in-person/hybrid courses.
  * Represents classrooms, labs, or other physical spaces where courses can be held.
  *
- * @property int                                                               $id
- * @property string                                                            $name
- * @property int                                                               $capacity
- * @property string|null                                                       $location
- * @property array|null                                                        $languages
- * @property \Carbon\Carbon|null                                               $created_at
- * @property \Carbon\Carbon|null                                               $updated_at
+ * @property int                 $id
+ * @property string              $name
+ * @property int                 $capacity
+ * @property string|null         $location
+ * @property array|null          $languages
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Course>        $courses
  * @property-read \Illuminate\Database\Eloquent\Collection<int, CourseSession> $sessions
  * @property-read int|null $courses_count
@@ -1785,7 +1944,11 @@ namespace App\Models{
 /**
  * @property string $title
  * @property string $description
+ * @property int $id
  * @property \App\Enums\BooleanEnum $published
+ * @property array<array-key, mixed>|null $languages
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \App\Enums\SmsSendStatusEnum $status
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translations
  * @property-read int|null $translations_count
@@ -1796,6 +1959,11 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Sms newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Sms query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Sms search($keyword)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Sms whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Sms whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Sms whereLanguages($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Sms wherePublished($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Sms whereUpdatedAt($value)
  */
 	class Sms extends \Eloquent {}
 }
@@ -2074,7 +2242,6 @@ namespace App\Models{
  * @property string $family
  * @property string|null $email
  * @property string|null $mobile
- * @property int|null $gender
  * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property \Illuminate\Support\Carbon|null $mobile_verified_at
  * @property string $password
@@ -2093,6 +2260,9 @@ namespace App\Models{
  * @property-read int|null $boards_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\CardHistory> $cardHistory
  * @property-read int|null $card_history_count
+ * @property-read \App\Models\ParentChild|null $pivot
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, User> $children
+ * @property-read int|null $children_count
  * @property-read mixed $full_name
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
  * @property-read int|null $media_count
@@ -2100,6 +2270,8 @@ namespace App\Models{
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Order> $orders
  * @property-read int|null $orders_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, User> $parents
+ * @property-read int|null $parents_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Permission> $permissions
  * @property-read int|null $permissions_count
  * @property-read \App\Models\Profile|null $profile
@@ -2123,7 +2295,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereEmailVerifiedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereFamily($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereGender($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereMobile($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereMobileVerifiedAt($value)

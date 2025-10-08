@@ -62,16 +62,14 @@ class Client extends Model implements HasMedia
      * Model Attributes --------------------------------------------------------------------------
      */
 
-    /**
-     * Model Custom Methods --------------------------------------------------------------------------
-     */
+    /** Model Custom Methods -------------------------------------------------------------------------- */
     public static function homeClients()
     {
         return SmartCache::for(__CLASS__)
             ->key('home_clients')
-            ->remember(function ()  {
+            ->remember(function () {
                 return self::where('published', BooleanEnum::ENABLE->value)
                     ->get();
-            },3600);
+            }, 3600);
     }
 }

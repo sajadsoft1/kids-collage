@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-
-use App\Livewire\Admin\Pages\Attendance\AttendanceUpdateOrCreate;
 use App\Livewire\Admin\Pages\Attendance\AttendanceTable;
+use App\Livewire\Admin\Pages\Attendance\AttendanceUpdateOrCreate;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'admin/attendance', 'as' => 'admin.attendance.'], function () {

@@ -1,8 +1,10 @@
 <?php
 
-namespace Database\Factories;
-use App\Models\Room;
+declare(strict_types=1);
 
+namespace Database\Factories;
+
+use App\Models\Room;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class RoomFactory extends Factory
@@ -13,7 +15,7 @@ class RoomFactory extends Factory
     {
         return [
             'published' => true,
-            'languages'  => [app()->getLocale()]
+            'languages' => [app()->getLocale()],
         ];
     }
 

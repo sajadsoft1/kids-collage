@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-
-use App\Livewire\Admin\Pages\Room\RoomUpdateOrCreate;
 use App\Livewire\Admin\Pages\Room\RoomTable;
+use App\Livewire\Admin\Pages\Room\RoomUpdateOrCreate;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'admin/room', 'as' => 'admin.room.'], function () {

@@ -120,7 +120,7 @@ use OpenApi\Annotations as OA;
  * ),
  * * @OA\Schema(
  *     schema="UserTypeEnum",
- *     @OA\Property(property="value", type="string", default="user", enum={"teacher", "parent","user","employee"}),
+ *     @OA\Property(property="value", type="string", default="user", enum={"teacher", "parent", "user", "employee"}),
  *     @OA\Property(property="label", type="string"),
  *
  * ),

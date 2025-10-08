@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Livewire\Admin\Pages\CourseTemplate;
 
-use App\Helpers\StringHelper;
 use Illuminate\Contracts\View\View;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -12,7 +11,6 @@ use Livewire\Component;
 class CourseTemplateIndex extends Component
 {
     public bool $showRunCourseDrawer = false;
-
 
     #[On('run-course')]
     public function runCourse($rowId): void

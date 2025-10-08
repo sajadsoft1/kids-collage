@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Sms;
 
 use App\Actions\Translation\SyncTranslationAction;
@@ -22,7 +24,6 @@ class StoreSmsAction
      *     title:string,
      *     description:string
      * } $payload
-     * @return Sms
      * @throws Throwable
      */
     public function handle(array $payload): Sms

@@ -27,7 +27,7 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="expired_at", type="string", default="2024-08-19T07:26:07.000000Z"),
  *     @OA\Property(property="updated_at", type="string", default="2024-08-19T07:26:07.000000Z"),
  *     @OA\Property(property="created_at", type="string", default="2024-08-19T07:26:07.000000Z"),
- *          @OA\Property(property="image", type="string", default="https://example.com/image.jpg"),
+ *     @OA\Property(property="image", type="string", default="https://example.com/image.jpg"),
  * )
  */
 class SliderResource extends JsonResource
@@ -48,8 +48,7 @@ class SliderResource extends JsonResource
             'timer_start'  => $this->timer_start,
             'updated_at'   => $this->updated_at,
             'created_at'   => $this->created_at,
-            'image'      => $this->resource->getFirstMediaUrl('image', Constants::RESOLUTION_1280_400),
-
+            'image'        => $this->resource->getFirstMediaUrl('image', Constants::RESOLUTION_1280_400),
         ];
     }
 }

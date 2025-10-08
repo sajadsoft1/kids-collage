@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-
-use App\Livewire\Admin\Pages\License\LicenseUpdateOrCreate;
 use App\Livewire\Admin\Pages\License\LicenseTable;
+use App\Livewire\Admin\Pages\License\LicenseUpdateOrCreate;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'admin/license', 'as' => 'admin.license.'], function () {

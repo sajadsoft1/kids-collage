@@ -14,7 +14,7 @@ trait HasViewTracking
         $exists = $model->views()
             ->when(auth()->check(), function ($query) {
                 $query->where('user_id', auth()->id());
-            },function ($query){
+            }, function ($query) {
                 $query->where('ip', request()->ip());
             })
             ->whereDate('created_at', '!=', now()->toDateString())

@@ -1,8 +1,10 @@
 <?php
 
-namespace Database\Factories;
-use App\Models\Sms;
+declare(strict_types=1);
 
+namespace Database\Factories;
+
+use App\Models\Sms;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class SmsFactory extends Factory
@@ -13,7 +15,7 @@ class SmsFactory extends Factory
     {
         return [
             'published' => true,
-            'languages'  => [app()->getLocale()]
+            'languages' => [app()->getLocale()],
         ];
     }
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Installment;
 
 use App\Actions\Translation\SyncTranslationAction;
@@ -17,14 +19,11 @@ class UpdateInstallmentAction
         private readonly SyncTranslationAction $syncTranslationAction,
     ) {}
 
-
     /**
-     * @param Installment $installment
      * @param array{
      *     title:string,
      *     description:string
      * }               $payload
-     * @return Installment
      * @throws Throwable
      */
     public function handle(Installment $installment, array $payload): Installment

@@ -26,9 +26,7 @@ class UpdateCourseTemplateAction
         private readonly StoreCourseSessionTemplateAction $storeCourseSessionTemplateAction,
         private readonly UpdateCourseSessionTemplateAction $updateCourseSessionTemplateAction,
         private readonly FileService $fileService,
-    )
-    {
-    }
+    ) {}
 
     /**
      * @param array{
@@ -70,25 +68,25 @@ class UpdateCourseTemplateAction
             }
 
             // remove deleted sessions
-            $existingOrders = array_map(fn($session) => $session['order'], $payload['sessions']);
+            $existingOrders = array_map(fn ($session) => $session['order'], $payload['sessions']);
             $courseTemplate->sessionTemplates()->whereNotIn('order', $existingOrders)->delete();
 
             foreach ($payload['sessions'] as $session) {
                 $courseSessionTemplate = CourseSessionTemplate::where('order', $session['order'])
-                                                              ->where('course_template_id', $courseTemplate->id)
-                                                              ->first();
+                    ->where('course_template_id', $courseTemplate->id)
+                    ->first();
 
                 // create a new session if not exists
-                if (!$courseSessionTemplate) {
+                if ( ! $courseSessionTemplate) {
                     $this->storeCourseSessionTemplateAction->handle(array_merge($session, [
                         'course_template_id' => $courseTemplate->id,
                     ]));
+
                     continue;
                 }
 
                 // update existing session
                 $this->updateCourseSessionTemplateAction->handle($courseSessionTemplate, $session);
-
             }
 
             return $courseTemplate->refresh();

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Room;
 
 use App\Models\Room;
@@ -11,9 +13,7 @@ class DeleteRoomAction
 {
     use AsAction;
 
-    /**
-     * @throws Throwable
-     */
+    /** @throws Throwable */
     public function handle(Room $room): bool
     {
         return DB::transaction(function () use ($room) {

@@ -26,9 +26,9 @@ class Faq extends Model
     use CLogsActivity;
     use HasFactory;
     use HasScheduledPublishing;
+    use HasTags;
     use HasTranslationAuto;
     use HasView;
-    use HasTags;
     public array $translatable = [
         'title', 'description',
     ];
@@ -49,7 +49,7 @@ class Faq extends Model
         'published'    => BooleanEnum::class,
         'published_at' => 'date',
         'favorite'     => YesNoEnum::class,
-        'deletable'     => YesNoEnum::class,
+        'deletable'    => YesNoEnum::class,
         'languages'    => 'array',
         'created_at'   => 'date',
         'updated_at'   => 'date',
@@ -77,18 +77,16 @@ class Faq extends Model
      * Model Attributes --------------------------------------------------------------------------
      */
 
-    /**
-     * Model Custom Methods --------------------------------------------------------------------------
-     */
+    /** Model Custom Methods -------------------------------------------------------------------------- */
     public static function homeFaq()
     {
         return SmartCache::for(__CLASS__)
             ->key('home_faq')
-            ->remember(function ()  {
+            ->remember(function () {
                 return self::where('published', BooleanEnum::ENABLE->value)
                     ->where('favorite', YesNoEnum::YES->value)
                     ->orderBy('id', 'desc')
                     ->get();
-            },3600);
+            }, 3600);
     }
 }

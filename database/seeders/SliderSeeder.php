@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Database\Seeders;
 
 use App\Actions\Slider\StoreSliderAction;
-use Exception;
 use Illuminate\Database\Seeder;
 
 class SliderSeeder extends Seeder
@@ -23,12 +22,9 @@ class SliderSeeder extends Seeder
                 'link'        => $row['link'],
                 'position'    => $row['position'],
             ]);
-                $model->addMedia($row['path'])
-                    ->preservingOriginal()
-                    ->toMediaCollection('image');
-
+            $model->addMedia($row['path'])
+                ->preservingOriginal()
+                ->toMediaCollection('image');
         }
-
-
     }
 }

@@ -36,11 +36,11 @@ class BannerResource extends JsonResource
             'description'  => $this->description,
             'size'         => $this->size->toArray(),
             'click'        => $this->click,
-            'link'         => $this->link?route('api.banner.view-counter',$this->id):null,
+            'link'         => $this->link ? route('api.banner.view-counter', $this->id) : null,
             'published_at' => $this->published_at,
             'updated_at'   => $this->updated_at,
             'created_at'   => $this->created_at,
-            'image' => $this->resource->getFirstMediaUrl('image', $this->resource->getPrimaryResolution()),
+            'image'        => $this->resource->getFirstMediaUrl('image', $this->resource->getPrimaryResolution()),
         ];
     }
 }

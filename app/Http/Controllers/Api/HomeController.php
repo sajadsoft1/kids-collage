@@ -26,7 +26,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Cache;
 use OpenApi\Annotations as OA;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -68,19 +67,17 @@ class HomeController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-
-           $data= [
-//                'sliders'   => SliderResource::collection(Slider::latestSliders()),
-                'banners'   => BannerResource::collection(Banner::latestBanner()),
-                'teachers'  => UserResource::collection(User::teachers()),
-                'bulletins' => BulletinResource::collection(Bulletin::latestBulletin()),
-                'blogs'     => BlogResource::collection(Blog::latestBlogs()),
-                'opinions'  => OpinionResource::collection(Opinion::homeOpinions()),
-                'clients'   => ClientResource::collection(Client::homeClients()),
-                'events'    => [],
-                'faqs'      => FaqResource::collection(Faq::homeFaq()),
-            ];
-
+        $data= [
+            //                'sliders'   => SliderResource::collection(Slider::latestSliders()),
+            'banners'   => BannerResource::collection(Banner::latestBanner()),
+            'teachers'  => UserResource::collection(User::teachers()),
+            'bulletins' => BulletinResource::collection(Bulletin::latestBulletin()),
+            'blogs'     => BlogResource::collection(Blog::latestBlogs()),
+            'opinions'  => OpinionResource::collection(Opinion::homeOpinions()),
+            'clients'   => ClientResource::collection(Client::homeClients()),
+            'events'    => [],
+            'faqs'      => FaqResource::collection(Faq::homeFaq()),
+        ];
 
         return Response::data($data);
     }

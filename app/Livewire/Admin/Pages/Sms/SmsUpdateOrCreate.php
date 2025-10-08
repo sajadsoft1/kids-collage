@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Admin\Pages\Sms;
 
 use App\Actions\Sms\StoreSmsAction;
@@ -13,18 +15,18 @@ class SmsUpdateOrCreate extends Component
 {
     use Toast;
 
-    public Sms   $model;
+    public Sms $model;
     public string $title       = '';
     public string $description = '';
-    public bool   $published   = false;
+    public bool $published     = false;
 
     public function mount(Sms $sms): void
     {
         $this->model = $sms;
         if ($this->model->id) {
-            $this->title = $this->model->title;
+            $this->title       = $this->model->title;
             $this->description = $this->model->description;
-            $this->published = $this->model->published->value;
+            $this->published   = $this->model->published->value;
         }
     }
 
@@ -33,7 +35,7 @@ class SmsUpdateOrCreate extends Component
         return [
             'title'       => 'required|string',
             'description' => 'required|string',
-            'published'   => 'required'
+            'published'   => 'required',
         ];
     }
 
@@ -61,11 +63,11 @@ class SmsUpdateOrCreate extends Component
             'edit_mode'          => $this->model->id,
             'breadcrumbs'        => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link' => route('admin.sms.index'), 'label' => trans('general.page.index.title', ['model' => trans('sms.model')])],
+                ['link'  => route('admin.sms.index'), 'label' => trans('general.page.index.title', ['model' => trans('sms.model')])],
                 ['label' => trans('general.page.create.title', ['model' => trans('sms.model')])],
             ],
             'breadcrumbsActions' => [
-                ['link' => route('admin.sms.index'), 'icon' => 's-arrow-left']
+                ['link' => route('admin.sms.index'), 'icon' => 's-arrow-left'],
             ],
         ]);
     }

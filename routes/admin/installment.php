@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-
-use App\Livewire\Admin\Pages\Installment\InstallmentUpdateOrCreate;
 use App\Livewire\Admin\Pages\Installment\InstallmentTable;
+use App\Livewire\Admin\Pages\Installment\InstallmentUpdateOrCreate;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'admin/installment', 'as' => 'admin.installment.'], function () {

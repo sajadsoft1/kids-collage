@@ -10,7 +10,6 @@ use App\Services\Permissions\PermissionsService;
 
 class CourseSessionPolicy
 {
-
     public function viewAny(User $user): bool
     {
         return $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(CourseSession::class, 'Index'));

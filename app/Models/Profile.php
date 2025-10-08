@@ -40,5 +40,4 @@ class Profile extends Model
         'cooperation_start_date' => 'date',
         'cooperation_end_date'   => 'date',
     ];
-
 }

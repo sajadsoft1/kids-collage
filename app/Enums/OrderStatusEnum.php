@@ -8,7 +8,7 @@ enum OrderStatusEnum: string
 {
     use EnumToArray;
 
-    case PENDING  = 'pending';
+    case PENDING    = 'pending';
     case PROCESSING = 'processing';
     case COMPLETED  = 'completed';
     case CANCELLED  = 'cancelled';
@@ -16,7 +16,7 @@ enum OrderStatusEnum: string
     public function title(): string
     {
         return match ($this) {
-            self::PENDING  => 'PENDING',
+            self::PENDING    => 'PENDING',
             self::PROCESSING => 'PROCESSING',
             self::COMPLETED  => 'COMPLETED',
             self::CANCELLED  => 'CANCELLED',

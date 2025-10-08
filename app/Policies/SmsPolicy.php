@@ -10,7 +10,6 @@ use App\Services\Permissions\PermissionsService;
 
 class SmsPolicy
 {
-
     public function viewAny(User $user): bool
     {
         return $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Sms::class, 'Index'));

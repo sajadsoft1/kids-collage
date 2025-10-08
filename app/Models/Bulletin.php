@@ -113,13 +113,13 @@ class Bulletin extends Model implements HasMedia
     {
         return SmartCache::for(__CLASS__)
             ->key('latest_bulletins')
-            ->remember(function ()  {
+            ->remember(function () {
                 return self::where('published', BooleanEnum::ENABLE->value)
                     ->orderBy('id', 'desc')
                     ->get();
-            },3600);
-
+            }, 3600);
     }
+
     public static function relatedBulletin(Bulletin $bulletin): Collection
     {
         return Bulletin::where('category_id', $bulletin->category_id)

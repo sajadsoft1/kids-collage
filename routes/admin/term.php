@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-
-use App\Livewire\Admin\Pages\Term\TermUpdateOrCreate;
 use App\Livewire\Admin\Pages\Term\TermTable;
+use App\Livewire\Admin\Pages\Term\TermUpdateOrCreate;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'admin/term', 'as' => 'admin.term.'], function () {

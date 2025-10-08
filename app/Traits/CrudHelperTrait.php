@@ -7,5 +7,4 @@ namespace App\Traits;
 trait CrudHelperTrait
 {
     public bool $showErrors = false;
-
 }

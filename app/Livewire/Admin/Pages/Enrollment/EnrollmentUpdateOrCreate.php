@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Admin\Pages\Enrollment;
 
 use App\Actions\Enrollment\StoreEnrollmentAction;
@@ -13,18 +15,18 @@ class EnrollmentUpdateOrCreate extends Component
 {
     use Toast;
 
-    public Enrollment   $model;
+    public Enrollment $model;
     public string $title       = '';
     public string $description = '';
-    public bool   $published   = false;
+    public bool $published     = false;
 
     public function mount(Enrollment $enrollment): void
     {
         $this->model = $enrollment;
         if ($this->model->id) {
-            $this->title = $this->model->title;
+            $this->title       = $this->model->title;
             $this->description = $this->model->description;
-            $this->published = $this->model->published->value;
+            $this->published   = $this->model->published->value;
         }
     }
 
@@ -33,7 +35,7 @@ class EnrollmentUpdateOrCreate extends Component
         return [
             'title'       => 'required|string',
             'description' => 'required|string',
-            'published'   => 'required'
+            'published'   => 'required',
         ];
     }
 
@@ -61,11 +63,11 @@ class EnrollmentUpdateOrCreate extends Component
             'edit_mode'          => $this->model->id,
             'breadcrumbs'        => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link' => route('admin.enrollment.index'), 'label' => trans('general.page.index.title', ['model' => trans('enrollment.model')])],
+                ['link'  => route('admin.enrollment.index'), 'label' => trans('general.page.index.title', ['model' => trans('enrollment.model')])],
                 ['label' => trans('general.page.create.title', ['model' => trans('enrollment.model')])],
             ],
             'breadcrumbsActions' => [
-                ['link' => route('admin.enrollment.index'), 'icon' => 's-arrow-left']
+                ['link' => route('admin.enrollment.index'), 'icon' => 's-arrow-left'],
             ],
         ]);
     }

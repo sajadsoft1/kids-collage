@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-
-use App\Livewire\Admin\Pages\Payment\PaymentUpdateOrCreate;
 use App\Livewire\Admin\Pages\Payment\PaymentTable;
+use App\Livewire\Admin\Pages\Payment\PaymentUpdateOrCreate;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'admin/payment', 'as' => 'admin.payment.'], function () {

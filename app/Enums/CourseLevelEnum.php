@@ -9,8 +9,8 @@ enum CourseLevelEnum: string
     use EnumToArray;
 
     case BIGGINER  = 'bigginer';
-    case NORMAL = 'normal';
-    case ADVANCE  = 'advance';
+    case NORMAL    = 'normal';
+    case ADVANCE   = 'advance';
 
     public static function options(): array
     {
@@ -27,15 +27,14 @@ enum CourseLevelEnum: string
                 'label' => 'ADVANCE',
                 'value' => self::ADVANCE->value,
             ],
-
         ];
     }
 
     public function title(): string
     {
         return match ($this) {
-            self::BIGGINER  => 'bigginer',
-            self::NORMAL => 'normal',
+            self::BIGGINER => 'bigginer',
+            self::NORMAL   => 'normal',
             self::ADVANCE  => 'advance',
         };
     }

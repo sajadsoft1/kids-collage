@@ -10,7 +10,6 @@ use App\Services\Permissions\PermissionsService;
 
 class AttendancePolicy
 {
-
     public function viewAny(User $user): bool
     {
         return $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Attendance::class, 'Index'));

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -8,10 +10,10 @@ use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema(
- *      schema="StoreContactUsRequest",
- *      title="StoreContactUsRequest",
- *      type="object",
- *      required={"name","comment"},
+ *     schema="StoreContactUsRequest",
+ *     title="StoreContactUsRequest",
+ *     type="object",
+ *     required={"name", "comment"},
  *
  *     @OA\Property(property="name", type="string", default="ahmad dehestani"),
  *     @OA\Property(property="email", type="string", format="email", default="s.ahmad.dehestani@gmail.com"),
@@ -26,12 +28,10 @@ class StoreContactUsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'           => ['required', 'string', 'max:255','min:3'],
-            'email'           => ['email', 'max:255',Rule::when(isset($this->mobile), ['nullable']), Rule::when(!isset($this->mobile), ['required'])],
-            'mobile'           => [ 'numeric' ,Rule::when(isset($this->email), ['nullable']), Rule::when(!isset($this->email), ['required'])],
-            'comment'           => ['required', 'string', 'max:10000'],
-
+            'name'    => ['required', 'string', 'max:255', 'min:3'],
+            'email'   => ['email', 'max:255', Rule::when(isset($this->mobile), ['nullable']), Rule::when( ! isset($this->mobile), ['required'])],
+            'mobile'  => ['numeric', Rule::when(isset($this->email), ['nullable']), Rule::when( ! isset($this->email), ['required'])],
+            'comment' => ['required', 'string', 'max:10000'],
         ];
     }
 }
-

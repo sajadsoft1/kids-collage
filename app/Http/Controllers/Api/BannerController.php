@@ -8,7 +8,6 @@ use App\Filters\FuzzyFilter;
 use App\Http\Resources\BannerDetailResource;
 use App\Http\Resources\BannerResource;
 use App\Models\Banner;
-use App\Traits\HasViewTracking;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -114,7 +113,6 @@ class BannerController extends Controller
      */
     public function show(Banner $banner): JsonResponse
     {
-
         return Response::data(
             [
                 'banner' => BannerDetailResource::make($banner),
@@ -125,6 +123,7 @@ class BannerController extends Controller
     public function viewCounter(Banner $banner)
     {
         $banner->increment('click');
+
         return redirect($banner->link);
     }
 }

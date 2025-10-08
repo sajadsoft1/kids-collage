@@ -95,9 +95,10 @@ class StringHelper
 
     public static function toCurrency(mixed $price): string
     {
-        if ($price){
-            return number_format((float)$price) . ' ' . systemCurrency();
+        if ($price) {
+            return number_format((float) $price) . ' ' . systemCurrency();
         }
+
         return '-';
     }
 }

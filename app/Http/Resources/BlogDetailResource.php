@@ -44,7 +44,7 @@ class BlogDetailResource extends JsonResource
             'body'       => $this->body,
             'languages'  => $this->languages,
             'comments'   => $this->whenLoaded('comments', fn () => CommentResource::collection($this->comments)),
-            'seo_option' =>  $this->seoOption,
+            'seo_option' => $this->seoOption,
             'image'      => $this->resource->getFirstMediaUrl('image', Constants::RESOLUTION_1280_720),
             'liked'      => $this->resource->isWished(),
         ]);

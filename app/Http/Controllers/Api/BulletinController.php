@@ -7,7 +7,6 @@ namespace App\Http\Controllers\Api;
 use App\Filters\DateFilter;
 use App\Filters\FuzzyFilter;
 use App\Http\Resources\BannerResource;
-use App\Http\Resources\BlogResource;
 use App\Http\Resources\BulletinDetailResource;
 use App\Http\Resources\BulletinResource;
 use App\Models\Banner;
@@ -169,9 +168,6 @@ class BulletinController extends Controller
         ]);
     }
 
-
-
-
     /**
      * @OA\Get(
      *     path="/bulletin/category/{category}",
@@ -323,7 +319,6 @@ class BulletinController extends Controller
             $this->query([
                 'limit' => $request->input('limit', 1),
             ])->paginate($request->input('page_limit', 1))->toResourceCollection(BulletinResource::class),
-
         );
     }
 }

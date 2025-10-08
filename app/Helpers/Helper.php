@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-if (!function_exists('generateCacheKey')) {
+if ( ! function_exists('generateCacheKey')) {
     function generateCacheKey(string $type, int $id, string $key, string $local): string
     {
         return 'translated:' . class_basename($type) . ':' . $id . ':' . $key . ':' . $local;
     }
 }
 
-if (!function_exists('attributeCacheKey')) {
+if ( ! function_exists('attributeCacheKey')) {
     function attributeCacheKey($model, string $key, ?string $local = null): string
     {
         $local ??= app()->getLocale();
@@ -21,7 +21,7 @@ if (!function_exists('attributeCacheKey')) {
     }
 }
 
-if (!function_exists('deleteModelCache')) {
+if ( ! function_exists('deleteModelCache')) {
     function deleteModelCache($model): void
     {
         // Ensure the prefix is correctly concatenated
@@ -33,7 +33,7 @@ if (!function_exists('deleteModelCache')) {
     }
 }
 
-if (!function_exists('transOrNull')) {
+if ( ! function_exists('transOrNull')) {
     function transOrNull(string $key): ?string
     {
         // Get the translation using the original `trans` function
@@ -50,7 +50,7 @@ if (!function_exists('transOrNull')) {
     }
 }
 
-if (!function_exists('removeTrailingSlash')) {
+if ( ! function_exists('removeTrailingSlash')) {
     function removeTrailingSlash(string $url): string
     {
         // Check if the URL ends with a slash and remove it
@@ -62,7 +62,7 @@ if (!function_exists('removeTrailingSlash')) {
     }
 }
 
-if (!function_exists('getUrl')) {
+if ( ! function_exists('getUrl')) {
     function getUrl(): string
     {
         if ($url = config('app.url')) {
@@ -73,23 +73,23 @@ if (!function_exists('getUrl')) {
     }
 }
 
-if (!function_exists('getResourceOrNull')) {
+if ( ! function_exists('getResourceOrNull')) {
     function getResourceOrNull($resource): ?JsonResource
     {
-        $object = (array)$resource;
+        $object = (array) $resource;
 
         return is_null($object['resource']) ? null : $resource;
     }
 }
 
-if (!function_exists('isRtl')) {
+if ( ! function_exists('isRtl')) {
     function isRtl(...$args): bool
     {
         return in_array(app()->getLocale(), ['fa', 'ar'], true);
     }
 }
 
-if (!function_exists('croperHint')) {
+if ( ! function_exists('croperHint')) {
     /**
      * @throws JsonException
      */
@@ -99,7 +99,7 @@ if (!function_exists('croperHint')) {
     }
 }
 
-if (!function_exists('_dd')) {
+if ( ! function_exists('_dd')) {
     function _dd(...$args)
     {
         header('Access-Control-Allow-Origin: *');
@@ -108,7 +108,7 @@ if (!function_exists('_dd')) {
     }
 }
 
-if (!function_exists('_dds')) {
+if ( ! function_exists('_dds')) {
     /**
      * @throws JsonException
      */
@@ -122,7 +122,7 @@ if (!function_exists('_dds')) {
     }
 }
 
-if (!function_exists('hex2rgba')) {
+if ( ! function_exists('hex2rgba')) {
     function hex2rgba($color, $alpha = 1): string
     {
         $color = str_replace('#', '', $color);
@@ -146,7 +146,7 @@ if (!function_exists('hex2rgba')) {
     }
 }
 
-if (!function_exists('systemCurrency')) {
+if ( ! function_exists('systemCurrency')) {
     function systemCurrency()
     {
         return match (config('app.currency')) {

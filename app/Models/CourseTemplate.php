@@ -103,9 +103,9 @@ class CourseTemplate extends Model implements HasMedia
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-                         ->logFillable()
-                         ->logOnlyDirty()
-                         ->dontSubmitEmptyLogs();
+            ->logFillable()
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs();
     }
 
     public function registerMediaCollections(): void

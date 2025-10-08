@@ -19,15 +19,15 @@ use Illuminate\Support\Facades\DB;
  * Student registration in a course instance.
  * Tracks student progress, attendance, and completion status.
  *
- * @property int                                                            $id
- * @property int                                                            $user_id
- * @property int                                                            $course_id
- * @property int|null                                                       $order_item_id
- * @property EnrollmentStatusEnum                                           $status
- * @property \Carbon\Carbon                                                 $enrolled_at
- * @property float                                                          $progress_percent
- * @property \Carbon\Carbon|null                                            $created_at
- * @property \Carbon\Carbon|null                                            $updated_at
+ * @property int                  $id
+ * @property int                  $user_id
+ * @property int                  $course_id
+ * @property int|null             $order_item_id
+ * @property EnrollmentStatusEnum $status
+ * @property \Carbon\Carbon       $enrolled_at
+ * @property float                $progress_percent
+ * @property \Carbon\Carbon|null  $created_at
+ * @property \Carbon\Carbon|null  $updated_at
  *
  * @property-read User                                                      $user
  * @property-read Course                                                    $course

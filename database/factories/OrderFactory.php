@@ -1,8 +1,10 @@
 <?php
 
-namespace Database\Factories;
-use App\Models\Order;
+declare(strict_types=1);
 
+namespace Database\Factories;
+
+use App\Models\Order;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class OrderFactory extends Factory
@@ -13,7 +15,7 @@ class OrderFactory extends Factory
     {
         return [
             'published' => true,
-            'languages'  => [app()->getLocale()]
+            'languages' => [app()->getLocale()],
         ];
     }
 

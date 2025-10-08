@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Bulletin;
 
 use App\Models\Bulletin;
@@ -11,9 +13,7 @@ class DeleteBulletinAction
 {
     use AsAction;
 
-    /**
-     * @throws Throwable
-     */
+    /** @throws Throwable */
     public function handle(Bulletin $bulletin): bool
     {
         return DB::transaction(function () use ($bulletin) {

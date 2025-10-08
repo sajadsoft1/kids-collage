@@ -26,7 +26,7 @@ enum PaymentStatusEnum: string
             [
                 'value' => self::FAILED->value,
                 'label' => self::FAILED->title(),
-            ]
+            ],
         ];
     }
 

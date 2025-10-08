@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Database\Seeders;
 
 use App\Actions\Bulletin\StoreBulletinAction;
-use Exception;
 use Illuminate\Database\Seeder;
 
 class BulletinSeeder extends Seeder
@@ -30,12 +29,11 @@ class BulletinSeeder extends Seeder
                 'slug'          => $row['slug'] ?? \Illuminate\Support\Str::slug($row['title']),
             ]);
 
-                if (isset($row['path'])) {
-                    $model->addMedia($row['path'])
-                        ->preservingOriginal()
-                        ->toMediaCollection('image');
-                    }
-
+            if (isset($row['path'])) {
+                $model->addMedia($row['path'])
+                    ->preservingOriginal()
+                    ->toMediaCollection('image');
+            }
         }
     }
 }

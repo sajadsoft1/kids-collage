@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Enums\BooleanEnum;
 use App\Facades\SmartCache;
 use App\Helpers\Constants;
 use App\Traits\HasSeoOption;
@@ -138,7 +137,6 @@ class Tag extends \Spatie\Tags\Tag implements HasMedia
         return DB::table('taggables')->where('tag_id', $this->id)->exists();
     }
 
-
     public static function blogTags()
     {
         return SmartCache::for(__CLASS__)
@@ -147,6 +145,7 @@ class Tag extends \Spatie\Tags\Tag implements HasMedia
                 return self::where('type', 'blog')->get();
             }, 3600);
     }
+
     public static function faqTags()
     {
         return SmartCache::for(__CLASS__)

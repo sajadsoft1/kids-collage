@@ -10,7 +10,6 @@ use App\Services\Permissions\PermissionsService;
 
 class EnrollmentPolicy
 {
-
     public function viewAny(User $user): bool
     {
         return $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Enrollment::class, 'Index'));

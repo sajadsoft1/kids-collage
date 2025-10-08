@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\CourseSession;
 
 use App\Actions\Translation\SyncTranslationAction;
@@ -17,14 +19,11 @@ class UpdateCourseSessionAction
         private readonly SyncTranslationAction $syncTranslationAction,
     ) {}
 
-
     /**
-     * @param CourseSession $courseSession
      * @param array{
      *     title:string,
      *     description:string
      * }               $payload
-     * @return CourseSession
      * @throws Throwable
      */
     public function handle(CourseSession $courseSession, array $payload): CourseSession

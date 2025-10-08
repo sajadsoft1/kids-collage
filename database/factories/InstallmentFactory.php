@@ -1,8 +1,10 @@
 <?php
 
-namespace Database\Factories;
-use App\Models\Installment;
+declare(strict_types=1);
 
+namespace Database\Factories;
+
+use App\Models\Installment;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class InstallmentFactory extends Factory
@@ -13,7 +15,7 @@ class InstallmentFactory extends Factory
     {
         return [
             'published' => true,
-            'languages'  => [app()->getLocale()]
+            'languages' => [app()->getLocale()],
         ];
     }
 

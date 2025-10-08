@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Enrollment;
 
 use App\Actions\Translation\SyncTranslationAction;
@@ -17,14 +19,11 @@ class UpdateEnrollmentAction
         private readonly SyncTranslationAction $syncTranslationAction,
     ) {}
 
-
     /**
-     * @param Enrollment $enrollment
      * @param array{
      *     title:string,
      *     description:string
      * }               $payload
-     * @return Enrollment
      * @throws Throwable
      */
     public function handle(Enrollment $enrollment, array $payload): Enrollment

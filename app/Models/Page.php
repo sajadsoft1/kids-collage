@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Enums\BooleanEnum;
 use App\Enums\PageTypeEnum;
 use App\Enums\YesNoEnum;
 use App\Facades\SmartCache;
@@ -41,7 +40,7 @@ class Page extends Model implements HasMedia
     ];
 
     protected $fillable = [
-        'languages', 'type', 'extra_attributes', 'view_count', 'slug','deletable',
+        'languages', 'type', 'extra_attributes', 'view_count', 'slug', 'deletable',
     ];
 
     protected $casts = [
@@ -57,10 +56,11 @@ class Page extends Model implements HasMedia
         $this->addMediaCollection('image')
             ->singleFile()
             ->useFallbackUrl('/assets/images/default/user-avatar.png')
-            ->registerMediaConversions(function () {
-                $this->addMediaConversion(Constants::RESOLUTION_100_SQUARE)->fit(Fit::Crop, 100, 100);
-                $this->addMediaConversion(Constants::RESOLUTION_854_480)->fit(Fit::Crop, 854, 480);
-                $this->addMediaConversion(Constants::RESOLUTION_1280_720)->fit(Fit::Crop, 1280, 720);
+            ->registerMediaConversions(
+                function () {
+                    $this->addMediaConversion(Constants::RESOLUTION_100_SQUARE)->fit(Fit::Crop, 100, 100);
+                    $this->addMediaConversion(Constants::RESOLUTION_854_480)->fit(Fit::Crop, 854, 480);
+                    $this->addMediaConversion(Constants::RESOLUTION_1280_720)->fit(Fit::Crop, 1280, 720);
                 }
             );
     }
@@ -90,6 +90,7 @@ class Page extends Model implements HasMedia
     {
         return SchemalessAttributesAlias::createForModel($this, 'extra_attributes');
     }
+
     public static function about()
     {
         return SmartCache::for(__CLASS__)
@@ -99,5 +100,4 @@ class Page extends Model implements HasMedia
                     ->first();
             }, 3600);
     }
-
 }

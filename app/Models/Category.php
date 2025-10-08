@@ -137,28 +137,27 @@ class Category extends Model implements HasMedia
      * | Model Custom Methods ---------------------------------------------------------------------
      * |--------------------------------------------------------------------------
      */
+    public static function blogCategories()
+    {
+        return SmartCache::for(__CLASS__)
+            ->key('blog_categories')
+            ->remember(function () {
+                return self::where('type', CategoryTypeEnum::BLOG->value)
+                    ->where('published', BooleanEnum::ENABLE->value)
+                    ->orderBy('ordering', 'asc')
+                    ->get();
+            }, 3600);
+    }
 
-
-public static function blogCategories()
-{
-    return SmartCache::for(__CLASS__)
-        ->key('blog_categories')
-        ->remember(function () {
-            return self::where('type', CategoryTypeEnum::BLOG->value)
-                ->where('published', BooleanEnum::ENABLE->value)
-                ->orderBy('ordering', 'asc')
-                ->get();
-        }, 3600);
-}
-public static function faqCategories()
-{
-    return SmartCache::for(__CLASS__)
-        ->key('faq_categories')
-        ->remember(function () {
-            return self::where('type', CategoryTypeEnum::FAQ->value)
-                ->where('published', BooleanEnum::ENABLE->value)
-                ->orderBy('ordering', 'asc')
-                ->get();
-        }, 3600);
-}
+    public static function faqCategories()
+    {
+        return SmartCache::for(__CLASS__)
+            ->key('faq_categories')
+            ->remember(function () {
+                return self::where('type', CategoryTypeEnum::FAQ->value)
+                    ->where('published', BooleanEnum::ENABLE->value)
+                    ->orderBy('ordering', 'asc')
+                    ->get();
+            }, 3600);
+    }
 }

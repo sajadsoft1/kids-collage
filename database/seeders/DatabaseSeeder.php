@@ -65,7 +65,6 @@ class DatabaseSeeder extends Seeder
         // - InstallmentSeeder
         $this->call(FinancialSeeder::class);
 
-
         $this->command->info('🔑 Login credentials: developer@gmail.com / password');
 
         Artisan::call('optimize:clear');

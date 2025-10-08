@@ -19,20 +19,20 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * A scheduled session for a Course (instance of a SessionTemplate).
  * This represents an actual class session that students attend.
  *
- * @property int                                                                      $id
- * @property int                                                                      $course_id
- * @property int                                                                      $session_template_id
- * @property \Carbon\Carbon|null                                                      $date
- * @property \Carbon\Carbon|null                                                      $start_time
- * @property \Carbon\Carbon|null                                                      $end_time
- * @property int|null                                                                 $room_id
- * @property string|null                                                              $meeting_link
- * @property string|null                                                              $recording_link
- * @property SessionStatus                                                            $status
- * @property SessionType                                                              $session_type
- * @property \Carbon\Carbon|null                                                      $created_at
- * @property \Carbon\Carbon|null                                                      $updated_at
- * @property \Carbon\Carbon|null                                                      $deleted_at
+ * @property int                 $id
+ * @property int                 $course_id
+ * @property int                 $session_template_id
+ * @property \Carbon\Carbon|null $date
+ * @property \Carbon\Carbon|null $start_time
+ * @property \Carbon\Carbon|null $end_time
+ * @property int|null            $room_id
+ * @property string|null         $meeting_link
+ * @property string|null         $recording_link
+ * @property SessionStatus       $status
+ * @property SessionType         $session_type
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
  *
  * @property-read Course                                                              $course
  * @property-read CourseSessionTemplate                                               $sessionTemplate
@@ -162,7 +162,7 @@ class CourseSession extends Model
     /** Check if this session is in the past. */
     public function isPast(): bool
     {
-        if (!$this->date) {
+        if ( ! $this->date) {
             return false; // Self-paced sessions don't have dates
         }
 
@@ -172,7 +172,7 @@ class CourseSession extends Model
     /** Check if this session is today. */
     public function isToday(): bool
     {
-        if (!$this->date) {
+        if ( ! $this->date) {
             return false;
         }
 
@@ -182,7 +182,7 @@ class CourseSession extends Model
     /** Check if this session is in the future. */
     public function isFuture(): bool
     {
-        if (!$this->date) {
+        if ( ! $this->date) {
             return true; // Self-paced sessions are always "future"
         }
 
@@ -192,19 +192,19 @@ class CourseSession extends Model
     /** Get the duration of this session in minutes. */
     public function getDurationAttribute(): int
     {
-        if (!$this->start_time || !$this->end_time) {
+        if ( ! $this->start_time || ! $this->end_time) {
             return $this->sessionTemplate->duration_minutes ?? 0;
         }
 
-        return (int)$this->start_time->diffInMinutes($this->end_time);
+        return (int) $this->start_time->diffInMinutes($this->end_time);
     }
 
     /** Get the formatted duration. */
     public function getFormattedDurationAttribute(): string
     {
         $duration = $this->duration;
-        $hours = floor($duration / 60);
-        $minutes = $duration % 60;
+        $hours    = floor($duration / 60);
+        $minutes  = $duration % 60;
 
         if ($hours > 0) {
             return $minutes > 0 ? "{$hours}h {$minutes}m" : "{$hours}h";
@@ -268,12 +268,12 @@ class CourseSession extends Model
     public function conflictsWith(CourseSession $other): bool
     {
         // Can't conflict if no date/time
-        if (!$this->date || !$other->date) {
+        if ( ! $this->date || ! $other->date) {
             return false;
         }
 
         // Must be on the same date
-        if (!$this->date->isSameDay($other->date)) {
+        if ( ! $this->date->isSameDay($other->date)) {
             return false;
         }
 

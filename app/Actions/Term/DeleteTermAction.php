@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Term;
 
 use App\Models\Term;
@@ -11,9 +13,7 @@ class DeleteTermAction
 {
     use AsAction;
 
-    /**
-     * @throws Throwable
-     */
+    /** @throws Throwable */
     public function handle(Term $term): bool
     {
         return DB::transaction(function () use ($term) {

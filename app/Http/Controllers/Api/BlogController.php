@@ -281,7 +281,6 @@ class BlogController extends Controller
             $this->query([
                 'limit' => $request->input('limit', 1),
             ])->paginate($request->input('page_limit', 1))->toResourceCollection(BlogResource::class),
-
         );
     }
 
@@ -308,7 +307,7 @@ class BlogController extends Controller
 
         return Response::data(
             [
-                'blog' => BlogDetailResource::make($blog->load(['user', 'category', 'media', 'seoOption','tags'])),
+                'blog' => BlogDetailResource::make($blog->load(['user', 'category', 'media', 'seoOption', 'tags'])),
             ]
         );
     }
@@ -332,17 +331,15 @@ class BlogController extends Controller
     {
         $relatedBlogs = $blog->relatedBlogs($blog);
         $banners      = Banner::latestBanner();
-        $tags=Tag::blogTags();
-
+        $tags         =Tag::blogTags();
 
         return Response::data([
             'banners'      => BannerResource::collection($banners),
             'relatedBlogs' => BlogResource::collection($relatedBlogs),
-            'tags'=>TagResource::collection($tags)
-
-
+            'tags'         => TagResource::collection($tags),
         ]);
     }
+
     /**
      * @OA\Get(
      *     path="/blog/data",
@@ -359,17 +356,16 @@ class BlogController extends Controller
      */
     public function data()
     {
-        $popularBlog = Blog::popularBlogs();
+        $popularBlog  = Blog::popularBlogs();
         $banners      = Banner::latestBanner();
-        $categories=Category::BlogCategories();
-        $tags=Tag::blogTags();
+        $categories   =Category::BlogCategories();
+        $tags         =Tag::blogTags();
 
         return Response::data([
-            'banners'      => BannerResource::collection($banners),
+            'banners'     => BannerResource::collection($banners),
             'popularBlog' => BlogResource::collection($popularBlog),
-            'Categories'=>CategoryResource::collection($categories),
-            'tags'=>TagResource::collection($tags)
-
+            'Categories'  => CategoryResource::collection($categories),
+            'tags'        => TagResource::collection($tags),
         ]);
     }
 }

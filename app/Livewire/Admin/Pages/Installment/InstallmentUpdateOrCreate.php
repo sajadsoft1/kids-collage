@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Admin\Pages\Installment;
 
 use App\Actions\Installment\StoreInstallmentAction;
@@ -13,18 +15,18 @@ class InstallmentUpdateOrCreate extends Component
 {
     use Toast;
 
-    public Installment   $model;
+    public Installment $model;
     public string $title       = '';
     public string $description = '';
-    public bool   $published   = false;
+    public bool $published     = false;
 
     public function mount(Installment $installment): void
     {
         $this->model = $installment;
         if ($this->model->id) {
-            $this->title = $this->model->title;
+            $this->title       = $this->model->title;
             $this->description = $this->model->description;
-            $this->published = $this->model->published->value;
+            $this->published   = $this->model->published->value;
         }
     }
 
@@ -33,7 +35,7 @@ class InstallmentUpdateOrCreate extends Component
         return [
             'title'       => 'required|string',
             'description' => 'required|string',
-            'published'   => 'required'
+            'published'   => 'required',
         ];
     }
 
@@ -61,11 +63,11 @@ class InstallmentUpdateOrCreate extends Component
             'edit_mode'          => $this->model->id,
             'breadcrumbs'        => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link' => route('admin.installment.index'), 'label' => trans('general.page.index.title', ['model' => trans('installment.model')])],
+                ['link'  => route('admin.installment.index'), 'label' => trans('general.page.index.title', ['model' => trans('installment.model')])],
                 ['label' => trans('general.page.create.title', ['model' => trans('installment.model')])],
             ],
             'breadcrumbsActions' => [
-                ['link' => route('admin.installment.index'), 'icon' => 's-arrow-left']
+                ['link' => route('admin.installment.index'), 'icon' => 's-arrow-left'],
             ],
         ]);
     }

@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-
-use App\Livewire\Admin\Pages\Order\OrderUpdateOrCreate;
 use App\Livewire\Admin\Pages\Order\OrderTable;
+use App\Livewire\Admin\Pages\Order\OrderUpdateOrCreate;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'admin/order', 'as' => 'admin.order.'], function () {

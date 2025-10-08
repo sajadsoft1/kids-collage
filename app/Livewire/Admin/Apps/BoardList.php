@@ -65,12 +65,12 @@ class BoardList extends Component
     public function getBoardsProperty()
     {
         $query = Auth::user()?->boards()
-                     ->with(['users', 'columns', 'cards'])
-                     ->withCount(['columns', 'cards as completed_cards' => function ($q) {
-                         $q->where('status', CardStatusEnum::COMPLETED->value);
-                     },'cards as pending_cards' => function ($q) {
-                         $q->whereNot('status', CardStatusEnum::COMPLETED->value);
-                     }]);
+            ->with(['users', 'columns', 'cards'])
+            ->withCount(['columns', 'cards as completed_cards' => function ($q) {
+                $q->where('status', CardStatusEnum::COMPLETED->value);
+            }, 'cards as pending_cards' => function ($q) {
+                $q->whereNot('status', CardStatusEnum::COMPLETED->value);
+            }]);
 
         // Apply search filter
         if ( ! empty($this->search)) {
@@ -208,6 +208,7 @@ class BoardList extends Component
     {
         /** @var User $user */
         $user = Auth::user();
+
         return $board->getUserRole($user);
     }
 

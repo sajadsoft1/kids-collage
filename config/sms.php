@@ -17,9 +17,8 @@ return [
         'smsir'        => [
             'class'       => App\Services\Sms\Drivers\SmsIrDriver::class,
             'credentials' => [
-                'api_key'    => env('SMSIR_API_KEY'),
-                'secret_key' => env('SMSIR_SECRET_KEY'),
-                'sender'     => env('SMSIR_SENDER'),
+                'api_key' => env('SMSIR_API_KEY'),
+                'sender'  => env('SMSIR_SENDER'),
             ],
         ],
         'mellipayamac' => [

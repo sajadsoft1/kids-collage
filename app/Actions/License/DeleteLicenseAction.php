@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\License;
 
 use App\Models\License;
@@ -11,9 +13,7 @@ class DeleteLicenseAction
 {
     use AsAction;
 
-    /**
-     * @throws Throwable
-     */
+    /** @throws Throwable */
     public function handle(License $license): bool
     {
         return DB::transaction(function () use ($license) {

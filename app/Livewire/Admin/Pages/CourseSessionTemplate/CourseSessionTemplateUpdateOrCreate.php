@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Admin\Pages\CourseSessionTemplate;
 
 use App\Actions\CourseSessionTemplate\StoreCourseSessionTemplateAction;
@@ -13,18 +15,18 @@ class CourseSessionTemplateUpdateOrCreate extends Component
 {
     use Toast;
 
-    public CourseSessionTemplate   $model;
+    public CourseSessionTemplate $model;
     public string $title       = '';
     public string $description = '';
-    public bool   $published   = false;
+    public bool $published     = false;
 
     public function mount(CourseSessionTemplate $courseSessionTemplate): void
     {
         $this->model = $courseSessionTemplate;
         if ($this->model->id) {
-            $this->title = $this->model->title;
+            $this->title       = $this->model->title;
             $this->description = $this->model->description;
-            $this->published = $this->model->published->value;
+            $this->published   = $this->model->published->value;
         }
     }
 
@@ -33,7 +35,7 @@ class CourseSessionTemplateUpdateOrCreate extends Component
         return [
             'title'       => 'required|string',
             'description' => 'required|string',
-            'published'   => 'required'
+            'published'   => 'required',
         ];
     }
 
@@ -61,11 +63,11 @@ class CourseSessionTemplateUpdateOrCreate extends Component
             'edit_mode'          => $this->model->id,
             'breadcrumbs'        => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link' => route('admin.courseSessionTemplate.index'), 'label' => trans('general.page.index.title', ['model' => trans('courseSessionTemplate.model')])],
+                ['link'  => route('admin.courseSessionTemplate.index'), 'label' => trans('general.page.index.title', ['model' => trans('courseSessionTemplate.model')])],
                 ['label' => trans('general.page.create.title', ['model' => trans('courseSessionTemplate.model')])],
             ],
             'breadcrumbsActions' => [
-                ['link' => route('admin.courseSessionTemplate.index'), 'icon' => 's-arrow-left']
+                ['link' => route('admin.courseSessionTemplate.index'), 'icon' => 's-arrow-left'],
             ],
         ]);
     }

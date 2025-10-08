@@ -65,9 +65,7 @@ class SmartCache
         return $this;
     }
 
-    /**
-     * Store a value in cache.
-     */
+    /** Store a value in cache. */
     public function put(mixed $value, int|Carbon|DateInterval|null $ttl = null): void
     {
         if ($this->supportsTags()) {
@@ -81,9 +79,7 @@ class SmartCache
         $this->registerCacheKey($fullKey);
     }
 
-    /**
-     * Retrieve a value from cache.
-     */
+    /** Retrieve a value from cache. */
     public function get(mixed $default = null): mixed
     {
         if ($this->supportsTags()) {
@@ -93,9 +89,7 @@ class SmartCache
         return Cache::get($this->prefix . $this->key, $default);
     }
 
-    /**
-     * Get or set a value in cache.
-     */
+    /** Get or set a value in cache. */
     public function remember(callable $callback, int|Carbon|DateInterval|null $ttl = null): mixed
     {
         $value = $this->get('__CACHE_MISS__');
@@ -108,9 +102,7 @@ class SmartCache
         return $value;
     }
 
-    /**
-     * Remove a specific key from cache.
-     */
+    /** Remove a specific key from cache. */
     public function forget(): void
     {
         if ($this->supportsTags()) {
@@ -124,9 +116,7 @@ class SmartCache
         $this->unregisterCacheKey($fullKey);
     }
 
-    /**
-     * Flush all cache for this model class.
-     */
+    /** Flush all cache for this model class. */
     public function flush(): void
     {
         if ($this->supportsTags()) {

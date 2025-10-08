@@ -32,7 +32,6 @@ class BannerDetailResource extends JsonResource
         $resource = BannerResource::make($this)->toArray($request);
 
         return array_merge($resource, [
-
         ]);
     }
 }

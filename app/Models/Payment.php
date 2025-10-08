@@ -6,15 +6,17 @@ namespace App\Models;
 
 use App\Enums\PaymentStatusEnum;
 use App\Enums\PaymentTypeEnum;
-use App\Traits\HasTranslationAuto;
+use App\Traits\CLogsActivity;
 use App\Traits\HasUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\Activitylog\LogOptions;
 
 class Payment extends Model
 {
+    use CLogsActivity;
     use HasFactory;
     use HasUser;
 
@@ -22,16 +24,27 @@ class Payment extends Model
         'user_id',
         'order_id',
         'amount',
+        'paid_at',
         'type',
         'status',
         'transaction_id',
+        'note',
     ];
 
     protected $casts = [
-        'type'      => PaymentTypeEnum::class,
-        'status'    => PaymentStatusEnum::class,
-        'amount' => 'float',
+        'type'    => PaymentTypeEnum::class,
+        'status'  => PaymentStatusEnum::class,
+        'amount'  => 'float',
+        'paid_at' => 'date',
     ];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logFillable()
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs();
+    }
 
     /**
      * Model Configuration --------------------------------------------------------------------------

@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-
-use App\Livewire\Admin\Pages\CourseSessionTemplate\CourseSessionTemplateUpdateOrCreate;
 use App\Livewire\Admin\Pages\CourseSessionTemplate\CourseSessionTemplateTable;
+use App\Livewire\Admin\Pages\CourseSessionTemplate\CourseSessionTemplateUpdateOrCreate;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'admin/course-session-template', 'as' => 'admin.course-session-template.'], function () {

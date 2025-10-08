@@ -13,8 +13,12 @@ return new class extends Migration {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->index()->constrained('users')->cascadeOnDelete();
-            $table->decimal('total_amount', 10, 2)->default(0);
+            $table->foreignId('discount_id')->nullable()->index()->constrained('discounts')->nullOnDelete();
+            $table->decimal('pure_amount', 10, 2)->default(0)->comment('Amount before discount');
+            $table->decimal('discount_amount', 10, 2)->default(0)->comment('Discount amount applied');
+            $table->decimal('total_amount', 10, 2)->default(0)->comment('Final amount after discount');
             $table->string('status')->index()->default(OrderStatusEnum::PENDING->value);
+            $table->text('note')->nullable();
             $table->timestamps();
         });
     }
