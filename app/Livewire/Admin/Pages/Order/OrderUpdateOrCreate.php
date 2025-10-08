@@ -25,6 +25,7 @@ class OrderUpdateOrCreate extends Component
     public Order $model;
     public string $accordion_group;
     public int $user_id            = 0;
+    public int $course_id          = 0;
     public string $status          = OrderStatusEnum::PENDING->value;
     public string $note            = '';
     public string $discount_code   = '';
@@ -53,6 +54,12 @@ class OrderUpdateOrCreate extends Component
                     'quantity'      => $item->quantity,
                 ];
             })->toArray();
+
+            // Load course_id from first item if it's a Course
+            $firstItem = $this->model->items->first();
+            if ($firstItem && $firstItem->itemable_type === Course::class) {
+                $this->course_id = $firstItem->itemable_id;
+            }
 
             // Load payments
             $this->payments = $this->model->payments->map(function ($payment) {
@@ -93,6 +100,12 @@ class OrderUpdateOrCreate extends Component
     public function user(): ?User
     {
         return User::find($this->user_id);
+    }
+
+    #[Computed]
+    public function course(): ?Course
+    {
+        return Course::find($this->course_id);
     }
 
     public function addItem(): void
@@ -137,6 +150,7 @@ class OrderUpdateOrCreate extends Component
     {
         return [
             'user_id'                 => ['required', 'exists:users,id'],
+            'course_id'               => ['required', 'exists:courses,id'],
             'status'                  => ['required', 'in:' . implode(',', OrderStatusEnum::values())],
             'note'                    => ['nullable', 'string'],
             'discount_code'           => ['nullable', 'string', 'exists:discounts,code'],

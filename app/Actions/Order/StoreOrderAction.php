@@ -36,14 +36,27 @@ class StoreOrderAction
             $payments     = Arr::pull($payload, 'payments', []);
             $discountCode = Arr::pull($payload, 'discount_code');
 
-            // Calculate pure amount from items
-            $pureAmount             = collect($items)->sum(fn ($item) => ($item['price'] ?? 0) * ($item['quantity'] ?? 1));
-            $payload['pure_amount'] = $pureAmount;
+            // Calculate pure amount from items if not already provided
+            if ( ! empty($items)) {
+                $pureAmount             = collect($items)->sum(fn ($item) => ($item['price'] ?? 0) * ($item['quantity'] ?? 1));
+                $payload['pure_amount'] = $pureAmount;
+            } else {
+                // Use provided amounts or default to 0
+                $pureAmount = $payload['pure_amount'] ?? 0;
+            }
 
-            // Initialize discount fields
-            $payload['discount_amount'] = 0;
-            $payload['total_amount']    = $pureAmount;
-            $payload['discount_id']     = null;
+            // Initialize discount fields if not already provided
+            if ( ! isset($payload['discount_amount'])) {
+                $payload['discount_amount'] = 0;
+            }
+
+            if ( ! isset($payload['total_amount'])) {
+                $payload['total_amount'] = $pureAmount;
+            }
+
+            if ( ! isset($payload['discount_id'])) {
+                $payload['discount_id'] = null;
+            }
 
             // Apply discount if provided
             if ($discountCode) {
