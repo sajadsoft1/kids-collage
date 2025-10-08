@@ -2026,6 +2026,151 @@
                 }
             }
         },
+        "/license": {
+            "get": {
+                "tags": [
+                    "License"
+                ],
+                "summary": "get license list",
+                "description": "Returns list of license",
+                "operationId": "getLicenses",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/page_limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/search"
+                    },
+                    {
+                        "$ref": "#/components/parameters/sort"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/LicenseResource"
+                                            }
+                                        },
+                                        "links": {
+                                            "properties": {
+                                                "first": {
+                                                    "type": "string",
+                                                    "default": "http://localhost/api/license?page=1"
+                                                },
+                                                "last": {
+                                                    "type": "string",
+                                                    "default": "http://localhost/api/license?page=4"
+                                                },
+                                                "prev": {
+                                                    "type": "string",
+                                                    "default": "null",
+                                                    "nullable": true
+                                                },
+                                                "next": {
+                                                    "type": "string",
+                                                    "default": "http://localhost/api/license?page=2",
+                                                    "nullable": true
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "meta": {
+                                            "$ref": "#/components/schemas/Meta"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        },
+                                        "extra": {
+                                            "properties": {
+                                                "default_sort": {
+                                                    "type": "string",
+                                                    "default": "-id"
+                                                },
+                                                "sorts": {
+                                                    "properties": {
+                                                        "label": {
+                                                            "type": "string",
+                                                            "default": "ID"
+                                                        },
+                                                        "value": {
+                                                            "type": "string",
+                                                            "default": "id"
+                                                        },
+                                                        "selected": {
+                                                            "type": "boolean",
+                                                            "default": true
+                                                        },
+                                                        "default": {
+                                                            "type": "boolean",
+                                                            "default": true
+                                                        }
+                                                    },
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/license/{license}": {
+            "get": {
+                "tags": [
+                    "License"
+                ],
+                "summary": "Get license information",
+                "description": "Returns license data",
+                "operationId": "getLicenseByID",
+                "parameters": [
+                    {
+                        "name": "license",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/rules": {
             "get": {
                 "tags": [
@@ -3441,6 +3586,85 @@
                 },
                 "type": "object"
             },
+            "LicenseDetailResource": {
+                "title": "LicenseDetailResource",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "title": {
+                        "type": "string",
+                        "default": "Title"
+                    },
+                    "description": {
+                        "type": "string",
+                        "default": "Description"
+                    },
+                    "slug": {
+                        "type": "string",
+                        "default": "blog-title"
+                    },
+                    "view_count": {
+                        "type": "integer",
+                        "default": 100
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "image": {
+                        "type": "string",
+                        "default": "https://example.com/image.jpg"
+                    },
+                    "seo_option": {
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "LicenseResource": {
+                "title": "LicenseResource",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "title": {
+                        "type": "string",
+                        "default": "Title"
+                    },
+                    "description": {
+                        "type": "string",
+                        "default": "Description"
+                    },
+                    "slug": {
+                        "type": "string",
+                        "default": "blog-title"
+                    },
+                    "view_count": {
+                        "type": "integer",
+                        "default": 100
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "image": {
+                        "type": "string",
+                        "default": "https://example.com/image.jpg"
+                    }
+                },
+                "type": "object"
+            },
             "OpinionDetailResource": {
                 "title": "OpinionDetailResource",
                 "properties": {
@@ -3604,17 +3828,13 @@
                         "type": "string",
                         "default": "Title"
                     },
-                    "description": {
+                    "body": {
                         "type": "string",
-                        "default": "Description"
+                        "default": "Body"
                     },
-                    "updated_at": {
+                    "slug": {
                         "type": "string",
-                        "default": "2024-08-19T07:26:07.000000Z"
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "default": "2024-08-19T07:26:07.000000Z"
+                        "default": "slug"
                     }
                 },
                 "type": "object"
@@ -4261,6 +4481,10 @@
         {
             "name": "Home",
             "description": "Home"
+        },
+        {
+            "name": "License",
+            "description": "License"
         },
         {
             "name": "Rules",
