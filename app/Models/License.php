@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\BooleanEnum;
 use App\Helpers\Constants;
 use App\Traits\HasSeoOption;
 use App\Traits\HasSlugFromTranslation;
@@ -36,10 +37,12 @@ class License extends Model implements HasMedia
         'slug',
         'view_count',
         'languages',
+        'published',
     ];
 
     protected $casts = [
         'languages' => 'array',
+        'published'    => BooleanEnum::class,
     ];
 
     /** Model Configuration -------------------------------------------------------------------------- */
