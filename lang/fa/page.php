@@ -17,6 +17,7 @@ return [
         ],
     ],
     'notifications' => [
+        'you_cannot_delete_this_page' => 'شما نمی‌توانید این صفحه را حذف کنید.',
     ],
     'page'          => [
     ],
