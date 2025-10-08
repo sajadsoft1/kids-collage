@@ -148,6 +148,17 @@ class Category extends Model implements HasMedia
                     ->get();
             }, 3600);
     }
+    public static function bulletinCategories()
+    {
+        return SmartCache::for(__CLASS__)
+            ->key('bulletin_categories')
+            ->remember(function () {
+                return self::where('type', CategoryTypeEnum::BULLETIN->value)
+                    ->where('published', BooleanEnum::ENABLE->value)
+                    ->orderBy('ordering', 'asc')
+                    ->get();
+            }, 3600);
+    }
 
     public static function faqCategories()
     {

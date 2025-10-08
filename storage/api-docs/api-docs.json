@@ -1078,6 +1078,28 @@
                 }
             }
         },
+        "/bulletin/index-extra-data": {
+            "get": {
+                "tags": [
+                    "Bulletin"
+                ],
+                "summary": "Get index Bulletin Extera information",
+                "description": "Returns index extrea data",
+                "operationId": "getIndexExtraData",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/bulletin/{bulletin}": {
             "get": {
                 "tags": [
@@ -1116,7 +1138,7 @@
                 }
             }
         },
-        "/bulletin/{bulletin}/data": {
+        "/bulletin/{bulletin}/show-data": {
             "get": {
                 "tags": [
                     "Bulletin"
@@ -3819,33 +3841,6 @@
                     "slug": {
                         "type": "string",
                         "default": "laravel"
-                    },
-                    "description": {
-                        "type": "string",
-                        "default": "PHP framework"
-                    },
-                    "type": {
-                        "$ref": "#/components/schemas/TagTypeEnum"
-                    },
-                    "order_column": {
-                        "type": "integer",
-                        "default": "1"
-                    },
-                    "image": {
-                        "type": "string",
-                        "default": "https://example.com/image.jpg"
-                    },
-                    "is_in_use": {
-                        "type": "boolean",
-                        "default": true
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "default": "2024-08-19T07:26:07.000000Z"
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "default": "2024-08-19T07:26:07.000000Z"
                     }
                 },
                 "type": "object"
