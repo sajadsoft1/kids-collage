@@ -2026,6 +2026,40 @@
                 }
             }
         },
+        "/rules": {
+            "get": {
+                "tags": [
+                    "Rules"
+                ],
+                "summary": "Get Rules information",
+                "description": "Returns Rules data",
+                "operationId": "getRules",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/RuleDetailResource"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        },
+                                        "extra": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/teachers": {
             "get": {
                 "tags": [
@@ -3559,6 +3593,32 @@
                 },
                 "type": "object"
             },
+            "RuleDetailResource": {
+                "title": "RuleDetailResource",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "title": {
+                        "type": "string",
+                        "default": "Title"
+                    },
+                    "description": {
+                        "type": "string",
+                        "default": "Description"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    }
+                },
+                "type": "object"
+            },
             "SimpleCategoryResource": {
                 "title": "SimpleCategoryResource",
                 "properties": {
@@ -4201,6 +4261,10 @@
         {
             "name": "Home",
             "description": "Home"
+        },
+        {
+            "name": "Rules",
+            "description": "Rules"
         },
         {
             "name": "User",

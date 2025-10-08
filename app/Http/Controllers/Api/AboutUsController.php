@@ -27,20 +27,20 @@ class AboutUsController extends Controller
     {
     }
 
-    private function query(array $payload = []): QueryBuilder
-    {
-        return QueryBuilder::for(AboutUs::query())
-            ->with([])
-            ->when($limit = Arr::get($payload, 'limit'), fn ($q) => $q->limit($limit))
-            ->where('published', true)
-            ->defaultSort('-id')
-            ->allowedSorts([
-                'id',
-            ])
-            ->allowedFilters([
-                AllowedFilter::custom('search', new FuzzyFilter(['translations' => ['title', 'description']])),
-            ]);
-    }
+//    private function query(array $payload = []): QueryBuilder
+//    {
+//        return QueryBuilder::for(AboutUs::query())
+//            ->with([])
+//            ->when($limit = Arr::get($payload, 'limit'), fn ($q) => $q->limit($limit))
+//            ->where('published', true)
+//            ->defaultSort('-id')
+//            ->allowedSorts([
+//                'id',
+//            ])
+//            ->allowedFilters([
+//                AllowedFilter::custom('search', new FuzzyFilter(['translations' => ['title', 'description']])),
+//            ]);
+//    }
 
 //    /**
 //     * @OA\Get(
