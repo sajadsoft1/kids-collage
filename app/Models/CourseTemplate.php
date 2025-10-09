@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Enums\CourseLevelEnum;
 use App\Enums\CourseTypeEnum;
+use App\Facades\SmartCache;
 use App\Helpers\Constants;
 use App\Traits\CLogsActivity;
 use App\Traits\HasCategory;
@@ -112,7 +113,7 @@ class CourseTemplate extends Model implements HasMedia
     {
         $this->addMediaCollection('image')
             ->singleFile()
-            ->useFallbackUrl('/assets/images/default/user-avatar.png')
+            ->useFallbackUrl(url('/assets/images/default/user-avatar.png'))
             ->registerMediaConversions(function () {
                 $this->addMediaConversion(Constants::RESOLUTION_100_SQUARE)->fit(Fit::Crop, 100, 100);
                 $this->addMediaConversion(Constants::RESOLUTION_854_480)->fit(Fit::Crop, 854, 480);
@@ -198,5 +199,15 @@ class CourseTemplate extends Model implements HasMedia
     public function scopeByLevel($query, string $level)
     {
         return $query->where('level', $level);
+    }
+    public static function latestCourseTemplates()
+    {
+        return SmartCache::for(__CLASS__)
+            ->key('latest_course_templates')
+            ->remember(function () {
+                return self::orderBy('id', 'desc')
+                    ->limit(5)
+                    ->get();
+            }, 3600);
     }
 }

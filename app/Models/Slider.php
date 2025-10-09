@@ -115,6 +115,7 @@ class Slider extends Model implements HasMedia
                 return self::where('published', BooleanEnum::ENABLE->value)
                     ->orderBy('ordering')
                     ->orderBy('id', 'desc')
+                    ->limit(5)
                     ->get();
             }, 3600);
     }

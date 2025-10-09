@@ -118,11 +118,24 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="label", type="string"),
  *     @OA\Property(property="color", type="string"),
  * ),
- * * @OA\Schema(
+ *  @OA\Schema(
  *     schema="UserTypeEnum",
  *     @OA\Property(property="value", type="string", default="user", enum={"teacher", "parent", "user", "employee"}),
  *     @OA\Property(property="label", type="string"),
  *
  * ),
+ *   @OA\Schema(
+ *     schema="CourseLevelEnum",
+ *     @OA\Property(property="value", type="string", default="bigginer", enum={"beginner", "intermediate", "advanced", "normal"}),
+ *     @OA\Property(property="label", type="string"),
+ *
+ * ),
+ *    @OA\Schema(
+ *     schema="CourseTypeEnum",
+ *     @OA\Property(property="value", type="string", default="in-person", enum={"online", "in-person", "hybrid", "self-paced"}),
+ *     @OA\Property(property="label", type="string"),
+ *
+ * ),
+ *
  */
 class ExtraSchema {}
