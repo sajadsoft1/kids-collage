@@ -13,10 +13,10 @@ class UserProfileApp extends Component
     public User $user;
     public string $selectedTab = 'users-tab';
 
-    public function mount(?int $user = null): void
+    public function mount(?User $user = null): void
     {
-        if ($user) {
-            $this->user = User::find($user);
+        if ($user?->id) {
+            $this->user = $user;
         } else {
             $this->user = auth()->user();
         }

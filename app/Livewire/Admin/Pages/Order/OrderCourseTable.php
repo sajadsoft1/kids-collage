@@ -125,7 +125,6 @@ final class OrderCourseTable extends PowerGridComponent
     public function actions(Order $row): array
     {
         return [
-            PowerGridHelper::btnTranslate($row),
             PowerGridHelper::btnEdit($row),
             PowerGridHelper::btnDelete($row),
         ];

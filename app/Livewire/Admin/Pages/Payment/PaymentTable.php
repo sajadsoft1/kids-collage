@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace App\Livewire\Admin\Pages\Payment;
 
 use App\Helpers\PowerGridHelper;
+use App\Helpers\StringHelper;
 use App\Models\Payment;
 use App\Traits\PowerGridHelperTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\View\View;
 use Jenssegers\Agent\Agent;
 use Livewire\Attributes\Computed;
+use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
@@ -85,16 +87,29 @@ final class PaymentTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('id')
-            ->add('title', fn ($row) => PowerGridHelper::fieldTitle($row))
-            ->add('created_at_formatted', fn ($row) => PowerGridHelper::fieldCreatedAtFormated($row));
+            ->add('user_formated', fn ($row) => view('admin.datatable-shared.user-info', [
+                'row' => $row->user,
+            ]))
+            ->add('order_number', fn ($row) => $row->order->order_number)
+            ->add('type_formated', fn ($row) => $row->type->title())
+            ->add('status_formated', fn ($row) => view('admin.datatable-shared.badge', [
+                'value' => $row->status->title(),
+                'color' => $row->status->color(),
+            ]))
+            ->add('amount_formated', fn ($row) => StringHelper::toCurrency($row->amount))
+            ->add('scheduled_date_formatted', fn ($row) => jdate($row->scheduled_date)->format('%A, %d %B %Y'));
     }
 
     public function columns(): array
     {
         return [
             PowerGridHelper::columnId(),
-            PowerGridHelper::columnTitle(),
-            PowerGridHelper::columnCreatedAT(),
+            Column::make(trans('validation.attributes.username'), 'user_formated', 'user_id'),
+            Column::make(trans('validation.attributes.order_id'), 'order_number', 'order_id'),
+            Column::make(trans('validation.attributes.type'), 'type_formated', 'type')->sortable(),
+            Column::make(trans('validation.attributes.status'), 'status_formated', 'status')->sortable(),
+            Column::make(trans('validation.attributes.amount'), 'amount_formated', 'amount')->sortable(),
+            Column::make(trans('validation.attributes.scheduled_date'), 'scheduled_date_formatted', 'scheduled_date')->sortable(),
             PowerGridHelper::columnAction(),
         ];
     }
@@ -112,7 +127,6 @@ final class PaymentTable extends PowerGridComponent
     public function actions(Payment $row): array
     {
         return [
-            PowerGridHelper::btnTranslate($row),
             PowerGridHelper::btnEdit($row),
             PowerGridHelper::btnDelete($row),
         ];

@@ -11,6 +11,12 @@ return [
     'validations'   => [
     ],
     'enum'          => [
+        'status' => [
+            'pending' => 'در انتظار',
+            'paid'    => 'پرداخت شده',
+            'active'  => 'فعال',
+            'dropped' => 'لغو شده',
+        ],
     ],
     'notifications' => [
     ],

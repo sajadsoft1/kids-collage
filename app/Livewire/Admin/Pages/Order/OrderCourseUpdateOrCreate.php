@@ -14,7 +14,10 @@ use App\Models\Course;
 use App\Models\Discount;
 use App\Models\Enrollment;
 use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\User;
+use App\Traits\CrudHelperTrait;
+use Exception;
 use Illuminate\View\View;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
@@ -22,7 +25,7 @@ use Mary\Traits\Toast;
 
 class OrderCourseUpdateOrCreate extends Component
 {
-    use Toast;
+    use CrudHelperTrait,Toast;
 
     public Order $model;
     public string $accordion_group;
@@ -48,14 +51,17 @@ class OrderCourseUpdateOrCreate extends Component
             $this->discount_code = $this->discount->code ?? '';
             $this->discount_id   = $this->discount->id ?? null;
             // Load items
-            $this->items = $this->model->items->map(function (Course $item) {
+            $this->items = $this->model->items->map(function (OrderItem $item) {
+                /** @var Course $course */
+                $course = $item->itemable;
+
                 return [
                     'id'            => $item->id,
                     'itemable_type' => $item->itemable_type,
                     'itemable_id'   => $item->itemable_id,
                     'price'         => $item->price,
-                    'session_count' => $item->sessions()->count(),
-                    'teacher'       => $item->teacher->full_name,
+                    'session_count' => $course->sessions()->count(),
+                    'teacher'       => $course->teacher->full_name,
                     'quantity'      => $item->quantity,
                 ];
             })->toArray();
@@ -65,7 +71,7 @@ class OrderCourseUpdateOrCreate extends Component
                 return [
                     'id'               => $payment->id,
                     'amount'           => $payment->amount,
-                    'payment_type'     => $payment->type->value,
+                    'type'             => $payment->type->value,
                     'scheduled_date'   => $payment->scheduled_date?->toDateString(),
                     'paid_at'          => $payment->paid_at?->toDateString(),
                     'status'           => $payment->status->value ?? PaymentStatusEnum::PENDING->value,
@@ -93,7 +99,7 @@ class OrderCourseUpdateOrCreate extends Component
                 [
                     'id'               => null,
                     'amount'           => 0,
-                    'payment_type'     => PaymentTypeEnum::CASH->value,
+                    'type'             => PaymentTypeEnum::CASH->value,
                     'scheduled_date'   => now()->toDateString(),
                     'paid_at'          => null,
                     'status'           => PaymentStatusEnum::PENDING->value,
@@ -137,7 +143,7 @@ class OrderCourseUpdateOrCreate extends Component
         $this->payments[] = [
             'id'               => null,
             'amount'           => 0,
-            'payment_type'     => PaymentTypeEnum::CASH->value,
+            'type'             => PaymentTypeEnum::CASH->value,
             'scheduled_date'   => now()->toDateString(),
             'status'           => PaymentStatusEnum::PENDING->value,
             'last_card_digits' => '',
@@ -158,7 +164,6 @@ class OrderCourseUpdateOrCreate extends Component
     {
         return [
             'user_id'                     => ['required', 'exists:users,id'],
-            'course_id'                   => ['required', 'exists:courses,id'],
             'status'                      => ['required', 'in:' . implode(',', OrderStatusEnum::values())],
             'note'                        => ['nullable', 'string'],
             'discount_code'               => ['nullable', 'string', 'exists:discounts,code'],
@@ -172,8 +177,8 @@ class OrderCourseUpdateOrCreate extends Component
             'payments'                    => ['required', 'array', 'min:1'],
             'payments.*.id'               => ['nullable', 'integer'],
             'payments.*.amount'           => ['required', 'numeric', 'min:0'],
-            'payments.*.payment_type'     => ['required', 'in:' . implode(',', PaymentTypeEnum::values())],
-            'payments.*.paid_at'          => ['required', 'date'],
+            'payments.*.type'             => ['required', 'in:' . implode(',', PaymentTypeEnum::values())],
+            'payments.*.scheduled_date'   => ['nullable', 'date'],
             'payments.*.status'           => ['nullable', 'string'],
             'payments.*.last_card_digits' => ['nullable', 'string', 'max:4'],
             'payments.*.tracking_code'    => ['nullable', 'string'],
@@ -183,19 +188,36 @@ class OrderCourseUpdateOrCreate extends Component
 
     public function submit(): void
     {
-        $payload = $this->validate();
+        $validated = $this->validate();
+        $payload   = [
+            'user_id'     => $validated['user_id'],
+            'status'      => $validated['status'] ?? OrderStatusEnum::PENDING->value,
+            'note'        => $validated['note'] ?? '',
+            'discount_id' => $this->discount_id,
+            'items'       => $validated['items'],
+            'payments'    => $validated['payments'],
+        ];
         if ($this->model->id) {
-            UpdateOrderCourseAction::run($this->model, $payload);
-            $this->success(
-                title: trans('general.model_has_updated_successfully', ['model' => trans('order.model')]),
-                redirectTo: route('admin.order.index')
-            );
+            try {
+                UpdateOrderCourseAction::run($this->model, $payload);
+                $this->success(
+                    title: trans('general.model_has_updated_successfully', ['model' => trans('order.model')]),
+                    redirectTo: route('admin.order.index')
+                );
+            } catch (Exception $exception) {
+                $this->error($exception->getMessage());
+            }
         } else {
-            StoreOrderCourseAction::run($payload);
-            $this->success(
-                title: trans('general.model_has_stored_successfully', ['model' => trans('order.model')]),
-                redirectTo: route('admin.order.index')
-            );
+            try {
+                $payload['force']= true;
+                StoreOrderCourseAction::run($payload);
+                $this->success(
+                    title: trans('general.model_has_stored_successfully', ['model' => trans('order.model')]),
+                    redirectTo: route('admin.order.index')
+                );
+            } catch (Exception $exception) {
+                $this->error($exception->getMessage());
+            }
         }
     }
 
@@ -258,7 +280,7 @@ class OrderCourseUpdateOrCreate extends Component
         }
 
         // Get order amount (course price)
-        $orderAmount = $this->payableAmount;
+        $orderAmount = $this->getPayableAmount();
 
         if ($orderAmount <= 0) {
             $this->warning(trans('order.course_has_no_price'));
@@ -282,22 +304,32 @@ class OrderCourseUpdateOrCreate extends Component
         $this->discount    = $discount;
 
         $this->success(trans('order.discount_applied_successfully', [
-            'amount' => number_format($this->discountAmount),
+            'amount' => number_format($this->getDiscountAmount()),
         ]));
+    }
+
+    public function getDiscountAmount(): float
+    {
+        return $this->discount?->calculateDiscount(collect($this->items)->sum(fn ($item) => $item['price'] * $item['quantity'])) ?? 0.0;
     }
 
     #[Computed]
     public function discountAmount(): float
     {
-        return $this->discount?->calculateDiscount($this->payableAmount()) ?? 0.0;
+        return $this->getDiscountAmount();
+    }
+
+    public function getPayableAmount(): float
+    {
+        $total = (float) collect($this->items)->sum(fn ($item) => $item['price'] * $item['quantity']);
+
+        return max(0, $total - $this->getDiscountAmount());
     }
 
     #[Computed]
     public function payableAmount(): float
     {
-        $total = (float) collect($this->items)->sum(fn ($item) => $item['price'] * $item['quantity']);
-
-        return max(0, $total - $this->discountAmount());
+        return $this->getPayableAmount();
     }
 
     public function render(): View

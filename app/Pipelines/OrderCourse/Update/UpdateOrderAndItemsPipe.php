@@ -6,6 +6,7 @@ namespace App\Pipelines\OrderCourse\Update;
 
 use App\Enums\PaymentStatusEnum;
 use App\Enums\PaymentTypeEnum;
+use App\Models\Order;
 use App\Pipelines\OrderCourse\OrderCourseDTO;
 use App\Pipelines\OrderCourse\OrderCourseInterface;
 use Closure;
@@ -14,6 +15,7 @@ class UpdateOrderAndItemsPipe implements OrderCourseInterface
 {
     public function handle(OrderCourseDTO $dto, Closure $next): OrderCourseDTO
     {
+        /** @var Order $order */
         $order = $dto->getOrder();
 
         // Update order

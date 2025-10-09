@@ -1,0 +1,1 @@
+<x-badge value="{{$value??''}}" class="badge-dash badge-{{$color??'primary'}}"/>

@@ -13,6 +13,7 @@ use App\Models\ContactUs;
 use App\Models\Faq;
 use App\Models\Opinion;
 use App\Models\Page;
+use App\Models\Payment;
 use App\Models\PortFolio;
 use App\Models\Role;
 use App\Models\Slider;
@@ -195,14 +196,6 @@ class NavbarComposer
                         'title'      => trans('_menu.payment_management'),
                         'route_name' => 'admin.payment.index',
                         'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Payment::class, 'Index')),
-                    ],
-                    [
-                        'icon'       => 's-calendar-days',
-                        'params'     => [],
-                        'exact'      => true,
-                        'title'      => trans('_menu.installment_management'),
-                        'route_name' => 'admin.installment.index',
-                        'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Installment::class, 'Index')),
                     ],
                 ],
             ],

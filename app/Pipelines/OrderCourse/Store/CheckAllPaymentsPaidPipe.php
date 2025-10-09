@@ -22,7 +22,7 @@ class CheckAllPaymentsPaidPipe implements OrderCourseInterface
 
         // Check if all payments are paid
         $allPaymentsPaid = $order->payments()
-            ->where('status', '!=', PaymentStatusEnum::PAID->value)
+            ->whereNotIn('status', [PaymentStatusEnum::PAID->value, PaymentStatusEnum::FAILED->value])
             ->doesntExist();
 
         if ($allPaymentsPaid && $order->payments()->exists()) {

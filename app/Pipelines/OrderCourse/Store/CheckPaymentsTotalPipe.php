@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Pipelines\OrderCourse\Store;
 
+use App\Enums\PaymentStatusEnum;
 use App\Pipelines\OrderCourse\OrderCourseDTO;
 use App\Pipelines\OrderCourse\OrderCourseInterface;
 use Closure;
@@ -18,7 +19,7 @@ class CheckPaymentsTotalPipe implements OrderCourseInterface
             trans('order.exceptions.payments_required')
         );
 
-        $paymentsTotal = $dto->getPayments()->sum('amount');
+        $paymentsTotal = $dto->getPayments()->where('status', '!=', PaymentStatusEnum::FAILED->value)->sum('amount');
         $totalAmount   = $dto->getTotalAmount();
 
         abort_if(

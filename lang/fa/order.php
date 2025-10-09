@@ -24,7 +24,7 @@ return [
             'course' => 'دوره',
         ],
         'status' => [
-            'pending'    => 'درحال انتظار',
+            'pending'    => 'در انتظار تکمیل پرداخت',
             'processing' => 'درحال پرداخت',
             'completed'  => 'پرداخت شده',
             'cancelled'  => 'لغو شده',
@@ -40,6 +40,7 @@ return [
         'payment_schedule'                                => 'برنامه پرداخت',
         'please_first_select_user_and_course_description' => 'لطفا ابتدا کاربر و دوره را انتخاب کنید تا پرداخت ها را ثبت کنید',
         'amount_to_pay'                                   => 'مبلغ پرداختی',
+        'add_payment'                                     => 'افزودن پرداخت',
     ],
     'discount_code_required'        => 'لطفا کد تخفیف را وارد کنید',
     'please_select_user_and_course' => 'لطفا ابتدا کاربر و دوره را انتخاب کنید',

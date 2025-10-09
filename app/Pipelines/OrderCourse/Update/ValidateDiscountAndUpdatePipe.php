@@ -15,10 +15,10 @@ class ValidateDiscountAndUpdatePipe implements OrderCourseInterface
     {
         $order         = $dto->getOrder();
         $newDiscountId = $dto->getFromPayload('discount_id');
-        $oldDiscountId = $order->discount_id;
+        $oldDiscountId = $order?->discount_id;
 
-        // Calculate pure amount from items (use new items if provided, otherwise use existing)
-        $items      = $dto->getItems()->isNotEmpty() ? $dto->getItems() : collect($order->items->toArray());
+        // Calculate a pure amount from items (use new items if provided, otherwise use existing)
+        $items      = $dto->getItems()->isNotEmpty() ? $dto->getItems() : collect($order?->items->toArray());
         $pureAmount = $items->sum(fn ($item) => (is_array($item) ? ($item['price'] ?? 0) : $item->price) * (is_array($item) ? ($item['quantity'] ?? 1) : $item->quantity));
 
         $dto->setPureAmount($pureAmount);
@@ -26,7 +26,7 @@ class ValidateDiscountAndUpdatePipe implements OrderCourseInterface
         $dto->setDiscountAmount(0);
 
         // Handle discount changes
-        if ($oldDiscountId && $oldDiscountId != $newDiscountId) {
+        if ($oldDiscountId && $oldDiscountId !== $newDiscountId) {
             // Decrement old discount usage
             $oldDiscount = Discount::find($oldDiscountId);
             if ($oldDiscount) {
@@ -49,8 +49,8 @@ class ValidateDiscountAndUpdatePipe implements OrderCourseInterface
                     $dto->setDiscountAmount($discountResult['discount_amount']);
                     $dto->setTotalAmount($discountResult['final_amount']);
 
-                    // Increment new discount usage if it's different from old one
-                    if ($newDiscountId != $oldDiscountId) {
+                    // Increment new discount usage if it is different from old one.
+                    if ($newDiscountId !== $oldDiscountId) {
                         $discount->incrementUsage();
                     }
                 }

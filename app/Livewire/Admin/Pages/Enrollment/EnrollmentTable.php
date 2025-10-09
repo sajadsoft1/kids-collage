@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\View\View;
 use Jenssegers\Agent\Agent;
 use Livewire\Attributes\Computed;
+use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
@@ -85,7 +86,16 @@ final class EnrollmentTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('id')
-            ->add('title', fn ($row) => PowerGridHelper::fieldTitle($row))
+            ->add('user_formated', fn ($row) => view('admin.datatable-shared.user-info', [
+                'row' => $row->user,
+            ]))
+            ->add('course_formated', fn ($row) => view('admin.datatable-shared.course-info', [
+                'row' => $row->course,
+            ]))
+            ->add('status_formated', fn ($row) => view('admin.datatable-shared.badge', [
+                'value' => $row->status->title(),
+                'color' => $row->status->color(),
+            ]))
             ->add('created_at_formatted', fn ($row) => PowerGridHelper::fieldCreatedAtFormated($row));
     }
 
@@ -93,7 +103,9 @@ final class EnrollmentTable extends PowerGridComponent
     {
         return [
             PowerGridHelper::columnId(),
-            PowerGridHelper::columnTitle(),
+            Column::make(trans('validation.attributes.username'), 'user_formated', 'user_id'),
+            Column::make(trans('validation.attributes.course_id'), 'course_formated', 'course_id'),
+            Column::make(trans('validation.attributes.status'), 'status_formated', 'status')->sortable(),
             PowerGridHelper::columnCreatedAT(),
             PowerGridHelper::columnAction(),
         ];
@@ -112,7 +124,6 @@ final class EnrollmentTable extends PowerGridComponent
     public function actions(Enrollment $row): array
     {
         return [
-            PowerGridHelper::btnTranslate($row),
             PowerGridHelper::btnEdit($row),
             PowerGridHelper::btnDelete($row),
         ];

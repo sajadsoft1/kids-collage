@@ -14,10 +14,10 @@ enum EnrollmentStatusEnum: string
     public function title(): string
     {
         return match ($this) {
-            self::PENDING => 'Pending',
-            self::PAID    => 'Paid',
-            self::ACTIVE  => 'Active',
-            self::DROPPED => 'Dropped',
+            self::PENDING => trans('enrollment.enum.status.pending'),
+            self::PAID    => trans('enrollment.enum.status.paid'),
+            self::ACTIVE  => trans('enrollment.enum.status.active'),
+            self::DROPPED => trans('enrollment.enum.status.dropped'),
         };
     }
 
@@ -29,11 +29,22 @@ enum EnrollmentStatusEnum: string
         };
     }
 
+    public function color(): string
+    {
+        return match ($this) {
+            self::PENDING => 'secondary',
+            self::PAID    => 'accent',
+            self::ACTIVE  => 'success',
+            self::DROPPED => 'danger',
+        };
+    }
+
     public function toArray(): array
     {
         return [
             'value' => $this->value,
             'label' => $this->title(),
+            'color' => $this->color(),
         ];
     }
 }

@@ -49,10 +49,11 @@ class UpdateOrderCourseAction
      * } $payload
      * @throws Throwable
      */
-    public function handle(array $payload): Order
+    public function handle(Order $order, array $payload): Order
     {
-        return DB::transaction(function () use ($payload) {
-            $dto = new OrderCourseDTO($payload);
+        return DB::transaction(function () use ($order, $payload) {
+            $payload['order_id'] = $order->id;
+            $dto                 = new OrderCourseDTO($payload);
 
             $result = app(Pipeline::class)
                 ->send($dto)

@@ -294,5 +294,7 @@ return [
         'discount'               => 'تخفیف',
         'discount_amount'        => 'مبلغ تخفیف',
         'discount_type'          => 'نوع تخفیف',
+        'order_id'               => 'سفارش',
+        'scheduled_date'         => 'تاریخ زمانبندی شده',
     ],
 ];

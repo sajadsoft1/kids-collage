@@ -93,10 +93,10 @@ class StringHelper
         return basename($normalizedPath);
     }
 
-    public static function toCurrency(mixed $price): string
+    public static function toCurrency(?float $price): string
     {
         if ($price) {
-            return number_format((float) $price) . ' ' . systemCurrency();
+            return number_format($price) . ' ' . systemCurrency();
         }
 
         return '-';

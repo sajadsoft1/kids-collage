@@ -33,9 +33,18 @@ enum PaymentStatusEnum: string
     public function title(): string
     {
         return match ($this) {
-            self::PENDING => 'PENDING',
-            self::PAID    => 'PAID',
-            self::FAILED  => 'FAILED',
+            self::PENDING => trans('payment.enum.status.pending'),
+            self::PAID    => trans('payment.enum.status.paid'),
+            self::FAILED  => trans('payment.enum.status.failed'),
+        };
+    }
+
+    public function color(): string
+    {
+        return match ($this) {
+            self::PENDING => 'warning',
+            self::PAID    => 'success',
+            self::FAILED  => 'danger',
         };
     }
 
@@ -44,6 +53,7 @@ enum PaymentStatusEnum: string
         return [
             'value' => $this->value,
             'label' => $this->title(),
+            'color' => $this->color(),
         ];
     }
 }
