@@ -2,9 +2,12 @@
     "mcpServers": {
         "laravel-boost": {
             "command": "php",
+            "args": ["artisan", "boost:mcp"]
+        },
+        "devdb-mcp-server": {
+            "command": "node",
             "args": [
-                "artisan",
-                "boost:mcp"
+                "c:\\Users\\sajad\\.cursor\\extensions\\damms005.devdb-2.8.8-win32-x64\\dist\\services\\mcp\\server.js"
             ]
         }
     }

@@ -256,6 +256,8 @@ return [
         'method'                 => 'روش',
         'transaction_id'         => 'شناسه تراکنش',
         'total_amount'           => 'مبلغ کل',
+        'payable_amount'           => 'مبلغ قابل پرداخت',
+        'pure_amount'            => 'مبلغ خالص',
         'capacity'               => 'ظرفیت',
         'start_time'             => 'زمان شروع',
         'end_time'               => 'زمان پایان',

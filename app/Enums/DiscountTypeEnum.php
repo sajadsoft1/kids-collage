@@ -11,11 +11,25 @@ enum DiscountTypeEnum: string
     case PERCENTAGE = 'percentage';
     case AMOUNT     = 'amount';
 
+    public static function options(): array
+    {
+        return [
+            [
+                'value' => self::PERCENTAGE->value,
+                'label' => self::PERCENTAGE->title(),
+            ],
+            [
+                'value' => self::AMOUNT->value,
+                'label' => self::AMOUNT->title(),
+            ],
+        ];
+    }
+
     public function title(): string
     {
         return match ($this) {
-            self::PERCENTAGE => 'Percentage',
-            self::AMOUNT     => 'Fixed Amount',
+            self::PERCENTAGE => trans('discount.enum.type.percentage'),
+            self::AMOUNT     => trans('discount.enum.type.amount'),
         };
     }
 

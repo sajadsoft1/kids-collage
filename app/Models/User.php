@@ -151,6 +151,12 @@ class User extends Authenticatable implements HasMedia
         return $this->hasMany(CourseSession::class, 'teacher_id');
     }
 
+    /** Get the enrollments for the user (if the user is a student). */
+    public function enrollments(): HasMany
+    {
+        return $this->hasMany(Enrollment::class);
+    }
+
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class);

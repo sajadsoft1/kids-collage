@@ -7,10 +7,28 @@ return [
     'permissions'                   => [
     ],
     'exceptions'                    => [
+        'items_required'          => 'لطفا آیتم های سفارش را انتخاب کنید',
+        'payments_required'       => 'لطفا پرداخت های سفارش را انتخاب کنید',
+        'user_id_required'        => 'شناسه کاربر الزامی است',
+        'user_not_found'          => 'کاربر یافت نشد',
+        'order_id_required'       => 'شناسه سفارش الزامی است',
+        'order_not_found'         => 'سفارش یافت نشد',
+        'user_already_enrolled'   => 'کاربر قبلا در دوره :course ثبت نام کرده است',
+        'payments_total_mismatch' => 'مجموع پرداخت ها (:received) با مبلغ کل سفارش (:expected) مطابقت ندارد',
+        'course_full'             => 'ظرفیت دوره :course تکمیل شده است',
     ],
     'validations'                   => [
     ],
     'enum'                          => [
+        'type'   => [
+            'course' => 'دوره',
+        ],
+        'status' => [
+            'pending'    => 'درحال انتظار',
+            'processing' => 'درحال پرداخت',
+            'completed'  => 'پرداخت شده',
+            'cancelled'  => 'لغو شده',
+        ],
     ],
     'notifications'                 => [
     ],

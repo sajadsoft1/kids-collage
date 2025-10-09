@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\OrderStatusEnum;
+use App\Enums\OrderTypeEnum;
 use App\Traits\CLogsActivity;
 use App\Traits\HasUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -45,8 +46,10 @@ class Order extends Model
     use HasUser;
 
     protected $fillable = [
+        'order_number',
         'user_id',
         'discount_id',
+        'type',
         'pure_amount',
         'discount_amount',
         'total_amount',
@@ -56,6 +59,7 @@ class Order extends Model
 
     protected $casts = [
         'status'          => OrderStatusEnum::class,
+        'type'            => OrderTypeEnum::class,
         'pure_amount'     => 'float',
         'discount_amount' => 'float',
         'total_amount'    => 'float',

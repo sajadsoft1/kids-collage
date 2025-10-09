@@ -12,6 +12,8 @@ return new class extends Migration {
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->string('order_number')->unique();
+            $table->string('type')->index(); // see OrderTypeEnum
             $table->foreignId('user_id')->index()->constrained('users')->cascadeOnDelete();
             $table->foreignId('discount_id')->nullable()->index()->constrained('discounts')->nullOnDelete();
             $table->decimal('pure_amount', 10, 2)->default(0)->comment('Amount before discount');

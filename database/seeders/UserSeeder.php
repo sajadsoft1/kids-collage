@@ -22,7 +22,7 @@ class UserSeeder extends Seeder
             'status' => true,
         ]);
 
-        $users = User::factory(10)->create([
+        $users = User::factory(20)->create([
             'type'   => UserTypeEnum::USER,
             'status' => true,
         ]);

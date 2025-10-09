@@ -4,22 +4,25 @@ declare(strict_types=1);
 
 namespace App\Livewire\Admin\Pages\Order;
 
+use App\Enums\OrderStatusEnum;
 use App\Helpers\PowerGridHelper;
+use App\Helpers\StringHelper;
 use App\Models\Order;
 use App\Traits\PowerGridHelperTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\View\View;
 use Jenssegers\Agent\Agent;
 use Livewire\Attributes\Computed;
+use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 
-final class OrderTable extends PowerGridComponent
+final class OrderCourseTable extends PowerGridComponent
 {
     use PowerGridHelperTrait;
-    public string $tableName     = 'index_order_datatable';
+    public string $tableName     = 'index_order_course_datatable';
     public string $sortDirection = 'desc';
 
     public function setUp(): array
@@ -35,7 +38,7 @@ final class OrderTable extends PowerGridComponent
         ];
 
         if ((new Agent)->isMobile()) {
-            $setup[] = PowerGrid::responsive()->fixedColumns('id', 'title', 'actions');
+            $setup[] = PowerGrid::responsive()->fixedColumns('id', 'user_formated', 'actions');
         }
 
         return $setup;
@@ -85,7 +88,11 @@ final class OrderTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('id')
-            ->add('title', fn ($row) => PowerGridHelper::fieldTitle($row))
+            ->add('user_formated', fn ($row) => view('admin.datatable-shared.user-info', [
+                'row' => $row->user,
+            ]))
+            ->add('price_formated', fn ($row) => StringHelper::toCurrency($row->total_amount))
+            ->add('status_formated', fn ($row) => $row->status->title())
             ->add('created_at_formatted', fn ($row) => PowerGridHelper::fieldCreatedAtFormated($row));
     }
 
@@ -93,7 +100,9 @@ final class OrderTable extends PowerGridComponent
     {
         return [
             PowerGridHelper::columnId(),
-            PowerGridHelper::columnTitle(),
+            Column::make(trans('validation.attributes.username'), 'user_formated', 'user_id'),
+            Column::make(trans('validation.attributes.price'), 'price_formated', 'total_price')->sortable(),
+            Column::make(trans('validation.attributes.status'), 'status_formated', 'status')->sortable(),
             PowerGridHelper::columnCreatedAT(),
             PowerGridHelper::columnAction(),
         ];
@@ -106,6 +115,10 @@ final class OrderTable extends PowerGridComponent
                 ->params([
                     'maxDate' => now(),
                 ]),
+            Filter::select('status', 'status')
+                ->dataSource(OrderStatusEnum::courseOptions())
+                ->optionLabel('label')
+                ->optionValue('value'),
         ];
     }
 

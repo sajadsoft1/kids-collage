@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Enums\PaymentStatusEnum;
 use App\Enums\PaymentTypeEnum;
 use App\Traits\CLogsActivity;
+use App\Traits\HasSchemalessAttributes;
 use App\Traits\HasUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -18,24 +19,25 @@ class Payment extends Model
 {
     use CLogsActivity;
     use HasFactory;
+    use HasSchemalessAttributes;
     use HasUser;
 
     protected $fillable = [
         'user_id',
         'order_id',
         'amount',
-        'paid_at',
+        'scheduled_date',
         'type',
         'status',
-        'transaction_id',
         'note',
+        'extra_attributes',
     ];
 
     protected $casts = [
-        'type'    => PaymentTypeEnum::class,
-        'status'  => PaymentStatusEnum::class,
-        'amount'  => 'float',
-        'paid_at' => 'date',
+        'type'           => PaymentTypeEnum::class,
+        'status'         => PaymentStatusEnum::class,
+        'amount'         => 'float',
+        'scheduled_date' => 'date',
     ];
 
     public function getActivitylogOptions(): LogOptions

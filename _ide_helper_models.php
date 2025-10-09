@@ -1090,6 +1090,7 @@ namespace App\Models{
  * @property-read int|null $orders_count
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount active()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount byCode(string $code)
+ * @method static \Database\Factories\DiscountFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount fixedAmount()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount forUser(int $userId)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount newModelQuery()
@@ -1268,6 +1269,7 @@ namespace App\Models{
  * @property string $description
  * @property int $id
  * @property string $slug
+ * @property \App\Enums\BooleanEnum $published
  * @property int $view_count
  * @property array<array-key, mixed>|null $languages
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -1294,6 +1296,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|License whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|License whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|License whereLanguages($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|License wherePublished($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|License whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|License whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|License whereViewCount($value)
@@ -1407,6 +1410,8 @@ namespace App\Models{
  * @property-read Discount|null                                          $discount
  * @property-read \Illuminate\Database\Eloquent\Collection<OrderItem>   $items
  * @property-read \Illuminate\Database\Eloquent\Collection<Payment>     $payments
+ * @property string $order_number
+ * @property \App\Enums\OrderTypeEnum $type
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
  * @property-read int|null $activities_count
  * @property-read int|null $items_count
@@ -1424,9 +1429,11 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereDiscountId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereNote($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereOrderNumber($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order wherePureAmount($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereTotalAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order withDiscount()
@@ -1547,11 +1554,11 @@ namespace App\Models{
  * @property int $user_id
  * @property int $order_id
  * @property float $amount
- * @property \Illuminate\Support\Carbon|null $paid_at
+ * @property \Illuminate\Support\Carbon|null $scheduled_date
  * @property \App\Enums\PaymentTypeEnum $type
  * @property \App\Enums\PaymentStatusEnum $status
- * @property string|null $transaction_id
  * @property string|null $note
+ * @property \Spatie\SchemalessAttributes\SchemalessAttributes|null $extra_attributes
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
@@ -1566,15 +1573,16 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment whereAmount($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment whereExtraAttributes($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment whereNote($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment whereOrderId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment wherePaidAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment whereScheduledDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment whereTransactionId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment withExtraAttributes()
  */
 	class Payment extends \Eloquent {}
 }
@@ -2263,6 +2271,8 @@ namespace App\Models{
  * @property-read \App\Models\ParentChild|null $pivot
  * @property-read \Illuminate\Database\Eloquent\Collection<int, User> $children
  * @property-read int|null $children_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Enrollment> $enrollments
+ * @property-read int|null $enrollments_count
  * @property-read mixed $full_name
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
  * @property-read int|null $media_count

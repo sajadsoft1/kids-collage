@@ -8,14 +8,15 @@
     'ignoreWire' => true,
     'setNullInput' => false,
     'xRef' => null,
+    'disabled' => false,
     'showFormat' => 'jYYYY/jMM/jDD',
     'returnFormat' => 'YYYY-MM-DD',
 ])
 
 @if (app()->getLocale() == 'fa')
     <x-persian-datepicker wirePropertyName="{{ $wirePropertyName }}" :label="$label" showFormat="{{ $showFormat }}"
-        class="border-2 border-red-500 rounded-md" returnFormat="{{ $returnFormat }}" :required="$required" :defaultDate="$defaultDate"
-        :withTime="$withTime" :setNullInput="$setNullInput" :ignoreWire="$ignoreWire" :withTimeSeconds="$withTimeSeconds" />
+        class="rounded-md border-2 border-red-500" returnFormat="{{ $returnFormat }}" :required="$required" :defaultDate="$defaultDate"
+        :disabled="$disabled" :withTime="$withTime" :setNullInput="$setNullInput" :ignoreWire="$ignoreWire" :withTimeSeconds="$withTimeSeconds" />
     @error($wirePropertyName)
         <span class="text-sm text-red-500">{{ $message }}</span>
     @enderror

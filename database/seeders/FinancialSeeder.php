@@ -13,9 +13,8 @@ class FinancialSeeder extends Seeder
     {
         $this->command->info('💰 Seeding Financial System...');
         $this->call([
+            DiscountSeeder::class,
             OrderSeeder::class,        // Customer orders and purchases
-            //            PaymentSeeder::class,      // Payment transactions and records
-            //            InstallmentSeeder::class,  // Installment plans and schedules
         ]);
         $this->command->info('✅ Financial System seeded successfully!');
     }

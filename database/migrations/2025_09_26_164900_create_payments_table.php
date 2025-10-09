@@ -16,11 +16,11 @@ return new class extends Migration {
             $table->foreignId('user_id')->index()->constrained('users')->cascadeOnDelete();
             $table->foreignId('order_id')->index()->constrained('orders')->cascadeOnDelete();
             $table->decimal('amount', 10, 2);
-            $table->date('paid_at')->nullable();
+            $table->date('scheduled_date')->nullable();
             $table->string('type')->index()->default(PaymentTypeEnum::ONLINE->value);
             $table->string('status')->index()->default(PaymentStatusEnum::PENDING->value);
-            $table->string('transaction_id')->nullable()->index();
             $table->text('note')->nullable();
+            $table->schemalessAttributes('extra_attributes');
             $table->timestamps();
         });
     }
