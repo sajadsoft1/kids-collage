@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Enums\BooleanEnum;
 use App\Enums\DiscountTypeEnum;
+use App\Helpers\StringHelper;
 use App\Traits\CLogsActivity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -75,7 +76,7 @@ class Discount extends Model
         'used_count'          => 'integer',
         'starts_at'           => 'datetime',
         'expires_at'          => 'datetime',
-        'is_active'           => 'boolean',
+        'is_active'           => BooleanEnum::class,
     ];
 
     public function getActivitylogOptions(): LogOptions
@@ -288,30 +289,45 @@ class Discount extends Model
     {
         return match ($this->type) {
             DiscountTypeEnum::PERCENTAGE => $this->value . '%',
-            DiscountTypeEnum::AMOUNT     => '$' . number_format($this->value, 2),
+            DiscountTypeEnum::AMOUNT     => StringHelper::toCurrency($this->value),
         };
     }
 
     /** Get discount status text */
-    public function getStatusText(): string
+    public function getStatusText(): array
     {
         if ( ! $this->is_active) {
-            return 'Inactive';
+            return [
+                'label'=> trans('discount.enum.status.inactive'),
+                'color'=> 'danger',
+            ];
         }
 
         if ($this->hasReachedLimit()) {
-            return 'Limit Reached';
+            return [
+                'label'=> trans('discount.enum.status.limit'),
+                'color'=> 'danger',
+            ];
         }
 
         if ($this->isExpired()) {
-            return 'Expired';
+            return [
+                'label'=> trans('discount.enum.status.expired'),
+                'color'=> 'danger',
+            ];
         }
 
         if ($this->starts_at && $this->starts_at->isFuture()) {
-            return 'Scheduled';
+            return [
+                'label'=> trans('discount.enum.status.furure'),
+                'color'=> 'secondary',
+            ];
         }
 
-        return 'Active';
+        return [
+            'label'=> trans('discount.enum.status.active'),
+            'color'=> 'success',
+        ];
     }
 
     /**

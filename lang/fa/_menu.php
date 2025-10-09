@@ -48,5 +48,6 @@ return [
     'attendance_management'   => 'حضور و غیاب',
     'order_management'        => 'سفارشات',
     'payment_management'      => 'پرداخت ها',
+    'discount_management'      => 'تخفیف ها',
     'installment_management'  => 'اقساط',
 ];

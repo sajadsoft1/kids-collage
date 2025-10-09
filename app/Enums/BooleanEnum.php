@@ -33,15 +33,20 @@ enum BooleanEnum: int
         };
     }
 
+    public function color(): string
+    {
+        return match ($this) {
+            self::DISABLE => 'error',
+            self::ENABLE  => 'success',
+        };
+    }
+
     public function toArray(): array
     {
         return [
             'value' => (bool) $this->value,
             'label' => $this->title(),
-            'color' => match ($this) {
-                self::DISABLE => 'error',
-                self::ENABLE  => 'success',
-            },
+            'color' => $this->color(),
         ];
     }
 

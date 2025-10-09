@@ -47,7 +47,7 @@ class DiscountUpdateOrCreate extends Component
             $this->usage_per_user      = $this->model->usage_per_user;
             $this->starts_at           = $this->model->starts_at?->format('Y-m-d\TH:i');
             $this->expires_at          = $this->model->expires_at?->format('Y-m-d\TH:i');
-            $this->is_active           = $this->model->is_active;
+            $this->is_active           = (boolean)$this->model->is_active->value;
             $this->description         = $this->model->description ?? '';
         }
     }

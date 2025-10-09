@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\View\View;
 use Jenssegers\Agent\Agent;
 use Livewire\Attributes\Computed;
+use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
@@ -29,12 +30,12 @@ final class DiscountTable extends PowerGridComponent
     {
         $setup = [
             PowerGrid::header()
-                ->includeViewOnTop('components.admin.shared.bread-crumbs')
-                ->showSearchInput(),
+                     ->includeViewOnTop('components.admin.shared.bread-crumbs')
+                     ->showSearchInput(),
 
             PowerGrid::footer()
-                ->showPerPage()
-                ->showRecordCount(),
+                     ->showPerPage()
+                     ->showRecordCount(),
         ];
 
         if ((new Agent)->isMobile()) {
@@ -83,19 +84,20 @@ final class DiscountTable extends PowerGridComponent
     public function fields(): PowerGridFields
     {
         return PowerGrid::fields()
-            ->add('id')
-            ->add('code')
-            ->add('type', fn ($row) => $row->type->title())
-            ->add('value_formatted', fn ($row) => $row->getFormattedValue())
-            ->add('user_name', fn ($row) => $row->user?->full_name ?? 'All Users')
-            ->add('status', fn ($row) => $row->getStatusText())
-            ->add('used_count', fn ($row) => $row->used_count . ($row->usage_limit ? ' / ' . $row->usage_limit : ''))
-            ->add('is_active_formatted', function ($row) {
-                return $row->is_active
-                    ? '<span class="badge badge-success">Active</span>'
-                    : '<span class="badge badge-error">Inactive</span>';
-            })
-            ->add('created_at_formatted', fn ($row) => PowerGridHelper::fieldCreatedAtFormated($row));
+                        ->add('id')
+                        ->add('code')
+                        ->add('type_formated', fn($row) => $row->type->title())
+                        ->add('value_formatted', fn($row) => $row->getFormattedValue())
+                        ->add('user_name', fn($row) => $row->user?->full_name ?? trans('discount.page.no_restrictions'))
+                        ->add('status', fn($row) => view('admin.datatable-shared.badge', [
+                            'color' => $row->getStatusText()['color'],
+                            'value' => $row->getStatusText()['label'],
+                        ]))
+                        ->add('used_count', fn($row) => $row->used_count . ($row->usage_limit ? ' / ' . $row->usage_limit : ''))
+                        ->add('is_active_formatted', fn($row) => view('admin.datatable-shared.badge',[
+                            'color' => $row->is_active->color(),
+                            'value' => $row->is_active->title(),
+                        ]));
     }
 
     public function columns(): array
@@ -103,25 +105,25 @@ final class DiscountTable extends PowerGridComponent
         return [
             PowerGridHelper::columnId(),
 
-            \PowerComponents\LivewirePowerGrid\Column::make('Code', 'code')
-                ->sortable()
-                ->searchable(),
+            Column::make(trans('datatable.code'), 'code')
+                                                     ->sortable()
+                                                     ->searchable(),
 
-            \PowerComponents\LivewirePowerGrid\Column::make('Type', 'type')
-                ->sortable(),
+            Column::make(trans('discount.page.fields.type'), 'type_formated', 'type')
+                                                     ->sortable(),
 
-            \PowerComponents\LivewirePowerGrid\Column::make('Value', 'value_formatted'),
+            Column::make(trans('discount.page.fields.value'), 'value_formatted'),
 
-            \PowerComponents\LivewirePowerGrid\Column::make('User', 'user_name')
-                ->sortable(),
+            Column::make(trans('user.user'), 'user_name')
+                                                     ->sortable(),
 
-            \PowerComponents\LivewirePowerGrid\Column::make('Status', 'status'),
+            Column::make(trans('validation.attributes.status'), 'status'),
 
-            \PowerComponents\LivewirePowerGrid\Column::make('Usage', 'used_count')
-                ->sortable(),
+            Column::make(trans('discount.page.fields.usage_limit'), 'used_count')
+                                                     ->sortable(),
 
-            \PowerComponents\LivewirePowerGrid\Column::make('Active', 'is_active_formatted', 'is_active')
-                ->sortable(),
+            Column::make(trans('course.enum.status.active'), 'is_active_formatted', 'is_active')
+                                                     ->sortable(),
 
             PowerGridHelper::columnCreatedAT(),
             PowerGridHelper::columnAction(),
@@ -131,23 +133,23 @@ final class DiscountTable extends PowerGridComponent
     public function filters(): array
     {
         return [
-            Filter::enumSelect('type', 'type')
-                ->datasource(DiscountTypeEnum::cases()),
+//            Filter::enumSelect('type', 'type')
+//                ->datasource(DiscountTypeEnum::cases()),
+//
+//            Filter::enumSelect('is_active_formatted', 'is_active')
+//                ->datasource(BooleanEnum::cases()),
 
-            Filter::enumSelect('is_active_formatted', 'is_active')
-                ->datasource(BooleanEnum::cases()),
-
-            Filter::datepicker('created_at_formatted', 'created_at')
-                ->params([
-                    'maxDate' => now(),
-                ]),
+Filter::datepicker('created_at_formatted', 'created_at')
+      ->params([
+          'maxDate' => now(),
+      ]),
         ];
     }
 
     public function actions(Discount $row): array
     {
         return [
-            PowerGridHelper::btnToggle($row),
+            PowerGridHelper::btnToggle($row, 'is_active'),
             PowerGridHelper::btnEdit($row),
             PowerGridHelper::btnDelete($row),
         ];

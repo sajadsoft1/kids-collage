@@ -34,6 +34,14 @@ return [
             'percentage' => 'درصدی',
             'amount'     => 'مبلغ ثابت',
         ],
+        'status' => [
+            'active'   => 'فعال',
+            'limit' => 'به حد استفاده رسیده',
+            'furure'=> 'در آینده',
+            'inactive' => 'غیرفعال',
+            'expired'  => 'منقضی شده',
+            'upcoming' => 'در آینده',
+        ],
     ],
     'notifications' => [
         'discount_applied' => 'کد تخفیف با موفقیت اعمال شد',
@@ -45,6 +53,11 @@ return [
     'page'          => [
         'title'        => 'مدیریت تخفیف‌ها',
         'description'  => 'ایجاد و مدیریت کدهای تخفیف',
+        'restrictions' => 'محدودیت‌ها',
+        'no_restrictions' => 'بدون محدودیت',
+        'usage_limits' => 'محدودیت‌های استفاده',
+        'person_usage_unit' => 'نفر',
+        'usage_schedule' => 'برنامه زمانی استفاده',
         'fields'       => [
             'code'                => 'کد',
             'type'                => 'نوع',

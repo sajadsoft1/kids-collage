@@ -10,6 +10,7 @@ use App\Models\Category;
 use App\Models\Client;
 use App\Models\Comment;
 use App\Models\ContactUs;
+use App\Models\Discount;
 use App\Models\Faq;
 use App\Models\Opinion;
 use App\Models\Page;
@@ -196,6 +197,14 @@ class NavbarComposer
                         'title'      => trans('_menu.payment_management'),
                         'route_name' => 'admin.payment.index',
                         'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Payment::class, 'Index')),
+                    ],
+                    [
+                        'icon'       => 's-credit-card',
+                        'params'     => [],
+                        'exact'      => true,
+                        'title'      => trans('_menu.discount_management'),
+                        'route_name' => 'admin.discount.index',
+                        'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Discount::class, 'Index')),
                     ],
                 ],
             ],
