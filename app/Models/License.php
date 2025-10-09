@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\BooleanEnum;
+use App\Facades\SmartCache;
 use App\Helpers\Constants;
 use App\Traits\HasSeoOption;
 use App\Traits\HasSlugFromTranslation;
@@ -74,5 +75,16 @@ class License extends Model implements HasMedia
     public function path(): string
     {
         return localized_route('license.detail', ['license' => $this->slug]);
+    }
+
+    public static function homeLicenses()
+    {
+        return SmartCache::for(__CLASS__)
+            ->key('home_licenses')
+            ->remember(function () {
+                return self::where('published', BooleanEnum::ENABLE->value)
+                    ->orderBy('ordering', 'asc')
+                    ->get();
+            }, 3600);
     }
 }

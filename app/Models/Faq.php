@@ -86,6 +86,7 @@ class Faq extends Model
                 return self::where('published', BooleanEnum::ENABLE->value)
                     ->where('favorite', YesNoEnum::YES->value)
                     ->orderBy('id', 'desc')
+                    ->limit(3)
                     ->get();
             }, 3600);
     }

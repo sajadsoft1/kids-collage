@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\BooleanEnum;
 use App\Enums\CourseStatusEnum;
 use App\Enums\CourseTypeEnum;
+use App\Facades\SmartCache;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -64,6 +66,7 @@ class Course extends Model
         'teacher_id'         => 'integer',
         'price'              => 'float',
         'capacity'           => 'integer',
+        'status' => CourseStatusEnum::class
     ];
 
     /** Get the course template that this course is based on. */
@@ -402,7 +405,7 @@ class Course extends Model
     /** Scope for active courses. */
     public function scopeActive($query)
     {
-        return $query->where('status', CourseStatusEnum::ACTIVE);
+        return $query->where('status', CourseStatusEnum::ACTIVE->value);
     }
 
     /** Scope for courses by type. */
@@ -448,5 +451,17 @@ class Course extends Model
     public function scopeByPriceRange($query, float $minPrice, float $maxPrice)
     {
         return $query->whereBetween('price', [$minPrice, $maxPrice]);
+    }
+
+    public static function latestCourses()
+    {
+        return SmartCache::for(__CLASS__)
+            ->key('latest_courses')
+            ->remember(function () {
+                return self::active()
+                    ->orderBy('id', 'desc')
+                    ->limit(5)
+                    ->get();
+            }, 3600);
     }
 }
