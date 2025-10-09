@@ -7,7 +7,6 @@ namespace App\Http\Controllers\Api;
 use App\Filters\FuzzyFilter;
 use App\Http\Resources\LicenseDetailResource;
 use App\Http\Resources\LicenseResource;
-use App\Models\Category;
 use App\Models\License;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -20,9 +19,7 @@ use Throwable;
 
 class LicenseController extends Controller
 {
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     private function query(array $payload = []): QueryBuilder
     {
@@ -109,6 +106,7 @@ class LicenseController extends Controller
     public function show(License $license): JsonResponse
     {
         $license->recordView();
+
         return Response::data(
             [
                 'license' => LicenseDetailResource::make($license),

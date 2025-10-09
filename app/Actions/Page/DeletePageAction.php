@@ -17,7 +17,8 @@ class DeletePageAction
     public function handle(Page $page): bool
     {
         return DB::transaction(function () use ($page) {
-            abort_if(!$page->deletable,401,trans('page.notifications.you_cannot_delete_this_page'));
+            abort_if( ! $page->deletable, 401, trans('page.notifications.you_cannot_delete_this_page'));
+
             return $page->delete();
         });
     }

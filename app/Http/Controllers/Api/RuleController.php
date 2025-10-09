@@ -4,26 +4,15 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
-use App\Filters\FuzzyFilter;
-use App\Http\Resources\RuleControllerDetailResource;
-use App\Http\Resources\RuleControllerResource;
 use App\Http\Resources\RuleDetailResource;
-use App\Models\Category;
 use App\Models\Page;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Arr;
 use OpenApi\Annotations as OA;
-use Spatie\QueryBuilder\AllowedFilter;
-use Spatie\QueryBuilder\QueryBuilder;
-use Throwable;
 
 class RuleController extends Controller
 {
-    public function __construct()
-    {
-    }
+    public function __construct() {}
+
     /**
      * @OA\Get(
      *     path="/rules",
@@ -43,7 +32,6 @@ class RuleController extends Controller
      */
     public function getRules()
     {
-
         return Response::data(
             [
                 'rules' => RuleDetailResource::make(Page::rules()),

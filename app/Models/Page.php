@@ -100,6 +100,7 @@ class Page extends Model implements HasMedia
                     ->first();
             }, 3600);
     }
+
     public static function rules()
     {
         return SmartCache::for(__CLASS__)

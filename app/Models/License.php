@@ -42,7 +42,7 @@ class License extends Model implements HasMedia
 
     protected $casts = [
         'languages' => 'array',
-        'published'    => BooleanEnum::class,
+        'published' => BooleanEnum::class,
     ];
 
     /** Model Configuration -------------------------------------------------------------------------- */

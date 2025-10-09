@@ -13,5 +13,4 @@ Route::group(['prefix' => 'bulletin', 'as' => 'bulletin.'], function () {
     Route::get('category/{category:slug}', [BulletinController::class, 'indexByCategory'])->name('by-category');
     Route::get('tag/{tag:slug}', [BulletinController::class, 'indexByTag'])->name('by-tag');
     Route::get('author/{user}', [BulletinController::class, 'indexByUser'])->name('by-user');
-
 });

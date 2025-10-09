@@ -24,29 +24,29 @@ class OrderCourseUpdateOrCreate extends Component
 {
     use Toast;
 
-    public Order  $model;
+    public Order $model;
     public string $accordion_group;
-    public int    $user_id       = 0;
-    public string $status        = OrderStatusEnum::PENDING->value;
-    public string $note          = '';
-    public string $discount_code = '';
-    public ?int          $discount_id = null;
-    public Discount|null $discount    = null;
-    public array         $items       = [];
-    public array  $payments      = [];
+    public int $user_id           = 0;
+    public string $status         = OrderStatusEnum::PENDING->value;
+    public string $note           = '';
+    public string $discount_code  = '';
+    public ?int $discount_id      = null;
+    public ?Discount $discount    = null;
+    public array $items           = [];
+    public array $payments        = [];
 
     public function mount(Order $order): void
     {
         $this->model = $order->load(['discount', 'items', 'payments']);
         if ($this->model->id) {
             $this->user_id = $this->model->user_id;
-            $this->status = $this->model->status instanceof OrderStatusEnum
+            $this->status  = $this->model->status instanceof OrderStatusEnum
                 ? $this->model->status->value
                 : $this->model->status;
-            $this->note = $this->model->note ?? '';
-            $this->discount = $this->model->discount;
+            $this->note          = $this->model->note ?? '';
+            $this->discount      = $this->model->discount;
             $this->discount_code = $this->discount->code ?? '';
-            $this->discount_id = $this->discount->id ?? null;
+            $this->discount_id   = $this->discount->id ?? null;
             // Load items
             $this->items = $this->model->items->map(function (Course $item) {
                 return [
@@ -96,7 +96,7 @@ class OrderCourseUpdateOrCreate extends Component
                     'payment_type'     => PaymentTypeEnum::CASH->value,
                     'scheduled_date'   => now()->toDateString(),
                     'paid_at'          => null,
-                    'status'           => PAymentStatusEnum::PENDING->value,
+                    'status'           => PaymentStatusEnum::PENDING->value,
                     'last_card_digits' => '',
                     'tracking_code'    => '',
                     'note'             => '',
@@ -139,7 +139,7 @@ class OrderCourseUpdateOrCreate extends Component
             'amount'           => 0,
             'payment_type'     => PaymentTypeEnum::CASH->value,
             'scheduled_date'   => now()->toDateString(),
-            'status'           => PAymentStatusEnum::PENDING->value,
+            'status'           => PaymentStatusEnum::PENDING->value,
             'last_card_digits' => '',
             'tracking_code'    => '',
             'note'             => '',
@@ -207,13 +207,13 @@ class OrderCourseUpdateOrCreate extends Component
         if ($name === 'itemable_id' && isset($this->items[$index]['itemable_type']) && $this->items[$index]['itemable_type'] === Course::class) {
             $course = Course::find($value);
             if ($course) {
-                $this->items[$index]['price'] = $course->price;
+                $this->items[$index]['price']         = $course->price;
                 $this->items[$index]['session_count'] = $course->sessions()->count();
-                $this->items[$index]['teacher'] = $course->teacher->full_name;
+                $this->items[$index]['teacher']       = $course->teacher->full_name;
             } else {
-                $this->items[$index]['price'] = 0;
+                $this->items[$index]['price']         = 0;
                 $this->items[$index]['session_count'] = 0;
-                $this->items[$index]['teacher'] = '-';
+                $this->items[$index]['teacher']       = '-';
             }
         }
     }
@@ -233,14 +233,14 @@ class OrderCourseUpdateOrCreate extends Component
         // Reset discount if code is empty
         if (empty(trim($this->discount_code))) {
             $this->discount_id = null;
-            $this->discount = null;
+            $this->discount    = null;
             $this->warning(trans('order.discount_code_required'));
 
             return;
         }
 
         // Validate required fields
-        if (!$this->user_id || !collect($this->items)->where('itemable_type', Course::class)->where('itemable_id','!=',0)->count()) {
+        if ( ! $this->user_id || ! collect($this->items)->where('itemable_type', Course::class)->where('itemable_id', '!=', 0)->count()) {
             $this->warning(trans('order.please_select_user_and_course'));
 
             return;
@@ -249,9 +249,9 @@ class OrderCourseUpdateOrCreate extends Component
         // Find discount by code
         $discount = Discount::where('code', trim($this->discount_code))->first();
 
-        if (!$discount) {
+        if ( ! $discount) {
             $this->discount_id = null;
-            $this->discount = null;
+            $this->discount    = null;
             $this->error(trans('order.discount_not_found'));
 
             return;
@@ -269,8 +269,8 @@ class OrderCourseUpdateOrCreate extends Component
         // Validate and calculate discount using model's method
         $result = $discount->validateAndCalculate($orderAmount, $this->user_id);
 
-        if (!$result['success']) {
-            $this->discount = null;
+        if ( ! $result['success']) {
+            $this->discount    = null;
             $this->discount_id = null;
             $this->error($result['message']);
 
@@ -279,7 +279,7 @@ class OrderCourseUpdateOrCreate extends Component
 
         // Apply discount
         $this->discount_id = $discount->id;
-        $this->discount = $discount;
+        $this->discount    = $discount;
 
         $this->success(trans('order.discount_applied_successfully', [
             'amount' => number_format($this->discountAmount),
@@ -295,7 +295,8 @@ class OrderCourseUpdateOrCreate extends Component
     #[Computed]
     public function payableAmount(): float
     {
-        $total = (float) collect($this->items)->sum(fn($item) => $item['price'] * $item['quantity']);
+        $total = (float) collect($this->items)->sum(fn ($item) => $item['price'] * $item['quantity']);
+
         return max(0, $total - $this->discountAmount());
     }
 
@@ -305,14 +306,14 @@ class OrderCourseUpdateOrCreate extends Component
             'edit_mode'          => $this->model->id,
             'breadcrumbs'        => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link' => route('admin.order.index'), 'label' => trans('general.page.index.title', ['model' => trans('order.model')])],
+                ['link'  => route('admin.order.index'), 'label' => trans('general.page.index.title', ['model' => trans('order.model')])],
                 ['label' => trans('general.page.create.title', ['model' => trans('order.model')])],
             ],
             'breadcrumbsActions' => [
                 ['link' => route('admin.order.index'), 'icon' => 's-arrow-left'],
             ],
-            'users'              => User::where('type', UserTypeEnum::USER->value)->get()->map(fn(User $user) => ['label' => $user->full_name, 'value' => $user->id]),
-            'courses'            => Course::query()->get()->map(fn(Course $course) => ['label' => $course->template->title, 'value' => $course->id]),
+            'users'              => User::where('type', UserTypeEnum::USER->value)->get()->map(fn (User $user) => ['label' => $user->full_name, 'value' => $user->id]),
+            'courses'            => Course::query()->get()->map(fn (Course $course) => ['label' => $course->template->title, 'value' => $course->id]),
             'itemableTypes'      => [
                 ['label' => 'Course', 'value' => Course::class],
                 ['label' => 'Enrollment', 'value' => Enrollment::class],

@@ -26,7 +26,7 @@ class GenerateOrderAndItemsPipe implements OrderCourseInterface
             'pure_amount'     => $dto->getPureAmount(),
             'discount_amount' => $dto->getDiscountAmount(),
             'total_amount'    => $dto->getTotalAmount(),
-            'status'          => $dto->getFromPayload('status',OrderStatusEnum::PENDING->value),
+            'status'          => $dto->getFromPayload('status', OrderStatusEnum::PENDING->value),
             'note'            => $dto->getFromPayload('note'),
         ]);
 

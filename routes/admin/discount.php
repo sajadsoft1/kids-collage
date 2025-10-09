@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-
-use App\Livewire\Admin\Pages\Discount\DiscountUpdateOrCreate;
 use App\Livewire\Admin\Pages\Discount\DiscountTable;
+use App\Livewire\Admin\Pages\Discount\DiscountUpdateOrCreate;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'admin/discount', 'as' => 'admin.discount.'], function () {

@@ -148,6 +148,7 @@ class Category extends Model implements HasMedia
                     ->get();
             }, 3600);
     }
+
     public static function bulletinCategories()
     {
         return SmartCache::for(__CLASS__)

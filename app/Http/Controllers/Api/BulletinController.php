@@ -117,7 +117,6 @@ class BulletinController extends Controller
         );
     }
 
-
     /**
      * @OA\Get(
      *     path="/bulletin/index-extra-data",
@@ -135,15 +134,15 @@ class BulletinController extends Controller
     public function indexExtraData()
     {
         $latestBulletin  = Bulletin::latestBulletin();
-        $banners      = Banner::latestBanner();
-        $categories   =Category::bulletinCategories();
-        $tags         =Tag::bulletinTags();
+        $banners         = Banner::latestBanner();
+        $categories      =Category::bulletinCategories();
+        $tags            =Tag::bulletinTags();
 
         return Response::data([
-            'banners'     => BannerResource::collection($banners),
+            'banners'        => BannerResource::collection($banners),
             'latestBulletin' => BulletinResource::collection($latestBulletin),
-            'Categories'  => CategoryResource::collection($categories),
-            'tags'        => TagResource::collection($tags),
+            'Categories'     => CategoryResource::collection($categories),
+            'tags'           => TagResource::collection($tags),
         ]);
     }
 
