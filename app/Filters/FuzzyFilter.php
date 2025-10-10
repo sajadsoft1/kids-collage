@@ -12,12 +12,10 @@ use Spatie\QueryBuilder\Filters\Filter;
 class FuzzyFilter implements Filter
 {
     private array $params;
-    private string $operator;
 
-    public function __construct(array $params = [], string $operator = 'like')
+    public function __construct(array $params = [])
     {
-        $this->params   = $params;
-        $this->operator = strtolower($operator);
+        $this->params = $params;
     }
 
     /*
@@ -27,14 +25,15 @@ class FuzzyFilter implements Filter
     | params: The fields that we want to search in
     |--------------------------------------------------------------------------
     */
-    public function __invoke(Builder $query, $value, string $property): void
+    public function __invoke(Builder $query, $value, string $property)
     {
         if (empty($value)) {
-            return;
+            return $query;
         }
 
         $value = StringHelper::enNum($value);
         $value = mb_strtolower($value, 'UTF-8');
+
         $query->where(function ($q) use ($value) {
             $firstCheck = false;
             foreach ($this->params as $relation => $fields) {
@@ -48,7 +47,7 @@ class FuzzyFilter implements Filter
         });
     }
 
-    // Apply a filter on relation
+    // Apply filter on relation
     private function applyRelationFilter(Builder $query, string $relation, array $fields, string $value, bool $firstCheck): void
     {
         $method = $firstCheck ? 'orWhereHas' : 'whereHas';
@@ -72,16 +71,25 @@ class FuzzyFilter implements Filter
     private function applyFieldCondition(Builder $query, string $field, string $value, bool $isFirst): void
     {
         $table = $query->getModel()->getTable();
-        if ($table === 'some table') {
-            // write your custom query here
+        if ($table === 'translations') {
+            $this->applyTranslationsCondition($query, $field, $value, $isFirst);
         } else {
             $method = $isFirst ? 'where' : 'orWhere';
-            $column = DB::raw('LOWER(' . $table . '.' . $field . ')');
-            if ($this->operator === 'equal' || $this->operator === '=') {
-                $query->$method($column, '=', $value);
-            } else {
-                $query->$method($column, 'LIKE', '%' . $value . '%');
-            }
+            $query->$method(DB::raw('LOWER(' . $table . '.' . $field . ')'), 'LIKE', '%' . $value . '%');
+        }
+    }
+
+    // Query filter on translations
+    private function applyTranslationsCondition(Builder $query, string $field, string $value, bool $isFirst): void
+    {
+        if ($isFirst) {
+            $query->where('translations.key', $field)
+                ->where(DB::raw('LOWER(translations.value)'), 'LIKE', '%' . $value . '%');
+        } else {
+            $query->orWhere(function ($q) use ($field, $value) {
+                $q->where('translations.key', $field)
+                    ->where(DB::raw('LOWER(translations.value)'), 'LIKE', '%' . $value . '%');
+            });
         }
     }
 }
