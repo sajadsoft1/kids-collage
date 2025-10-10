@@ -7,17 +7,17 @@ namespace App\Livewire\Admin\Pages\Category;
 use App\Actions\Category\StoreCategoryAction;
 use App\Actions\Category\UpdateCategoryAction;
 use App\Enums\CategoryTypeEnum;
-use App\Livewire\Traits\LivewireCrudHealperTrait;
-use App\Livewire\Traits\SeoOptionTrait;
 use App\Models\Category;
+use App\Traits\CrudHelperTrait;
 use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Mary\Traits\Toast;
+use Throwable;
 
 class CategoryUpdateOrCreate extends Component
 {
-    use LivewireCrudHealperTrait, SeoOptionTrait, Toast, WithFileUploads;
+    use CrudHelperTrait, Toast, WithFileUploads;
 
     public Category $model;
     public ?string $title       = '';
@@ -32,7 +32,6 @@ class CategoryUpdateOrCreate extends Component
         $this->model = $category;
 
         if ($this->model->id) {
-            $this->mountStaticFields();
             $this->title       = $this->model->title;
             $this->description = $this->model->description;
             $this->body        = $this->model->body;
@@ -43,31 +42,39 @@ class CategoryUpdateOrCreate extends Component
 
     protected function rules(): array
     {
-        return array_merge($this->seoOptionRules(), [
+        return [
             'title'       => 'required|string',
             'description' => 'required|string',
             'slug'        => 'required|string|unique:categories,slug,' . $this->model->id,
             'published'   => 'required|boolean',
             'type'        => 'required|string|in:' . implode(',', CategoryTypeEnum::values()),
             'image'       => 'nullable|image|max:2048',
-        ]);
+        ];
     }
 
     public function submit(): void
     {
         $payload = $this->validate();
         if ($this->model->id) {
-            UpdateCategoryAction::run($this->model, $payload);
-            $this->success(
-                title: trans('general.model_has_updated_successfully', ['model' => trans('category.model')]),
-                redirectTo: route('admin.category.index')
-            );
+            try {
+                UpdateCategoryAction::run($this->model, $payload);
+                $this->success(
+                    title: trans('general.model_has_updated_successfully', ['model' => trans('category.model')]),
+                    redirectTo: route('admin.category.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         } else {
-            StoreCategoryAction::run($payload);
-            $this->success(
-                title: trans('general.model_has_stored_successfully', ['model' => trans('category.model')]),
-                redirectTo: route('admin.category.index')
-            );
+            try {
+                StoreCategoryAction::run($payload);
+                $this->success(
+                    title: trans('general.model_has_stored_successfully', ['model' => trans('category.model')]),
+                    redirectTo: route('admin.category.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         }
     }
 

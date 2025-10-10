@@ -12,6 +12,7 @@ use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Mary\Traits\Toast;
+use Throwable;
 
 class OpinionUpdateOrCreate extends Component
 {
@@ -73,17 +74,25 @@ class OpinionUpdateOrCreate extends Component
     {
         $payload = $this->normalizePublishedAt($this->validate());
         if ($this->model->id) {
-            UpdateOpinionAction::run($this->model, $payload);
-            $this->success(
-                title: trans('general.model_has_updated_successfully', ['model' => trans('opinion.model')]),
-                redirectTo: route('admin.opinion.index')
-            );
+            try {
+                UpdateOpinionAction::run($this->model, $payload);
+                $this->success(
+                    title: trans('general.model_has_updated_successfully', ['model' => trans('opinion.model')]),
+                    redirectTo: route('admin.opinion.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         } else {
-            StoreOpinionAction::run($payload);
-            $this->success(
-                title: trans('general.model_has_stored_successfully', ['model' => trans('opinion.model')]),
-                redirectTo: route('admin.opinion.index')
-            );
+            try {
+                StoreOpinionAction::run($payload);
+                $this->success(
+                    title: trans('general.model_has_stored_successfully', ['model' => trans('opinion.model')]),
+                    redirectTo: route('admin.opinion.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         }
     }
 

@@ -12,13 +12,16 @@ use App\Models\Category;
 use App\Models\Course;
 use App\Models\Room;
 use App\Models\User;
+use App\Traits\CrudHelperTrait;
 use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Mary\Traits\Toast;
+use Throwable;
 
 class CourseUpdateOrCreate extends Component
 {
+    use CrudHelperTrait;
     use Toast, WithFileUploads;
 
     public Course $model;
@@ -114,20 +117,29 @@ class CourseUpdateOrCreate extends Component
     {
         $payload = $this->validate();
         if ($this->model->id) {
-            UpdateCourseAction::run($this->model, $payload);
-            $this->success(
-                title: trans('general.model_has_updated_successfully', ['model' => trans('course.model')]),
-                redirectTo: route('admin.course.index')
-            );
+            try {
+                UpdateCourseAction::run($this->model, $payload);
+                $this->success(
+                    title: trans('general.model_has_updated_successfully', ['model' => trans('course.model')]),
+                    redirectTo: route('admin.course.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         } else {
             $payload['teacher_id'] = $payload['teacher_id'];
             // category_id stored on course is legacy; keep if needed in actions or remove later
             $payload['languages']  = [app()->getLocale()];
-            StoreCourseAction::run($payload);
-            $this->success(
-                title: trans('general.model_has_stored_successfully', ['model' => trans('course.model')]),
-                redirectTo: route('admin.course.index')
-            );
+            
+            try {
+                StoreCourseAction::run($payload);
+                $this->success(
+                    title: trans('general.model_has_stored_successfully', ['model' => trans('course.model')]),
+                    redirectTo: route('admin.course.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         }
     }
 

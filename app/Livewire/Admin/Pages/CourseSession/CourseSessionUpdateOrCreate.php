@@ -7,12 +7,15 @@ namespace App\Livewire\Admin\Pages\CourseSession;
 use App\Actions\CourseSession\StoreCourseSessionAction;
 use App\Actions\CourseSession\UpdateCourseSessionAction;
 use App\Models\CourseSession;
+use App\Traits\CrudHelperTrait;
 use Illuminate\View\View;
 use Livewire\Component;
 use Mary\Traits\Toast;
+use Throwable;
 
 class CourseSessionUpdateOrCreate extends Component
 {
+    use CrudHelperTrait;
     use Toast;
 
     public CourseSession $model;
@@ -43,17 +46,25 @@ class CourseSessionUpdateOrCreate extends Component
     {
         $payload = $this->validate();
         if ($this->model->id) {
-            UpdateCourseSessionAction::run($this->model, $payload);
-            $this->success(
-                title: trans('general.model_has_updated_successfully', ['model' => trans('courseSession.model')]),
-                redirectTo: route('admin.courseSession.index')
-            );
+            try {
+                UpdateCourseSessionAction::run($this->model, $payload);
+                $this->success(
+                    title: trans('general.model_has_updated_successfully', ['model' => trans('courseSession.model')]),
+                    redirectTo: route('admin.courseSession.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         } else {
-            StoreCourseSessionAction::run($payload);
-            $this->success(
-                title: trans('general.model_has_stored_successfully', ['model' => trans('courseSession.model')]),
-                redirectTo: route('admin.courseSession.index')
-            );
+            try {
+                StoreCourseSessionAction::run($payload);
+                $this->success(
+                    title: trans('general.model_has_stored_successfully', ['model' => trans('courseSession.model')]),
+                    redirectTo: route('admin.courseSession.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         }
     }
 

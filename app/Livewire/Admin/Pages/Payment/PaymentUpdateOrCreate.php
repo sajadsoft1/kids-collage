@@ -7,12 +7,15 @@ namespace App\Livewire\Admin\Pages\Payment;
 use App\Actions\Payment\StorePaymentAction;
 use App\Actions\Payment\UpdatePaymentAction;
 use App\Models\Payment;
+use App\Traits\CrudHelperTrait;
 use Illuminate\View\View;
 use Livewire\Component;
 use Mary\Traits\Toast;
+use Throwable;
 
 class PaymentUpdateOrCreate extends Component
 {
+    use CrudHelperTrait;
     use Toast;
 
     public Payment $model;
@@ -43,17 +46,25 @@ class PaymentUpdateOrCreate extends Component
     {
         $payload = $this->validate();
         if ($this->model->id) {
-            UpdatePaymentAction::run($this->model, $payload);
-            $this->success(
-                title: trans('general.model_has_updated_successfully', ['model' => trans('payment.model')]),
-                redirectTo: route('admin.payment.index')
-            );
+            try {
+                UpdatePaymentAction::run($this->model, $payload);
+                $this->success(
+                    title: trans('general.model_has_updated_successfully', ['model' => trans('payment.model')]),
+                    redirectTo: route('admin.payment.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         } else {
-            StorePaymentAction::run($payload);
-            $this->success(
-                title: trans('general.model_has_stored_successfully', ['model' => trans('payment.model')]),
-                redirectTo: route('admin.payment.index')
-            );
+            try {
+                StorePaymentAction::run($payload);
+                $this->success(
+                    title: trans('general.model_has_stored_successfully', ['model' => trans('payment.model')]),
+                    redirectTo: route('admin.payment.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         }
     }
 

@@ -12,6 +12,7 @@ use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Mary\Traits\Toast;
+use Throwable;
 
 class TeammateUpdateOrCreate extends Component
 {
@@ -64,17 +65,25 @@ class TeammateUpdateOrCreate extends Component
         $payload = $this->validate();
         $payload = $this->normalizePublishedAt($payload, 'birthday');
         if ($this->model->id) {
-            UpdateTeammateAction::run($this->model, $payload);
-            $this->success(
-                title: trans('general.model_has_updated_successfully', ['model' => trans('teammate.model')]),
-                redirectTo: route('admin.teammate.index')
-            );
+            try {
+                UpdateTeammateAction::run($this->model, $payload);
+                $this->success(
+                    title: trans('general.model_has_updated_successfully', ['model' => trans('teammate.model')]),
+                    redirectTo: route('admin.teammate.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         } else {
-            StoreTeammateAction::run($payload);
-            $this->success(
-                title: trans('general.model_has_stored_successfully', ['model' => trans('teammate.model')]),
-                redirectTo: route('admin.teammate.index')
-            );
+            try {
+                StoreTeammateAction::run($payload);
+                $this->success(
+                    title: trans('general.model_has_stored_successfully', ['model' => trans('teammate.model')]),
+                    redirectTo: route('admin.teammate.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         }
     }
 

@@ -7,12 +7,15 @@ namespace App\Livewire\Admin\Pages\Enrollment;
 use App\Actions\Enrollment\StoreEnrollmentAction;
 use App\Actions\Enrollment\UpdateEnrollmentAction;
 use App\Models\Enrollment;
+use App\Traits\CrudHelperTrait;
 use Illuminate\View\View;
 use Livewire\Component;
 use Mary\Traits\Toast;
+use Throwable;
 
 class EnrollmentUpdateOrCreate extends Component
 {
+    use CrudHelperTrait;
     use Toast;
 
     public Enrollment $model;
@@ -43,17 +46,25 @@ class EnrollmentUpdateOrCreate extends Component
     {
         $payload = $this->validate();
         if ($this->model->id) {
-            UpdateEnrollmentAction::run($this->model, $payload);
-            $this->success(
-                title: trans('general.model_has_updated_successfully', ['model' => trans('enrollment.model')]),
-                redirectTo: route('admin.enrollment.index')
-            );
+            try {
+                UpdateEnrollmentAction::run($this->model, $payload);
+                $this->success(
+                    title: trans('general.model_has_updated_successfully', ['model' => trans('enrollment.model')]),
+                    redirectTo: route('admin.enrollment.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         } else {
-            StoreEnrollmentAction::run($payload);
-            $this->success(
-                title: trans('general.model_has_stored_successfully', ['model' => trans('enrollment.model')]),
-                redirectTo: route('admin.enrollment.index')
-            );
+            try {
+                StoreEnrollmentAction::run($payload);
+                $this->success(
+                    title: trans('general.model_has_stored_successfully', ['model' => trans('enrollment.model')]),
+                    redirectTo: route('admin.enrollment.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         }
     }
 

@@ -13,6 +13,7 @@ use App\Traits\CrudHelperTrait;
 use Illuminate\View\View;
 use Livewire\Component;
 use Mary\Traits\Toast;
+use Throwable;
 
 class FaqUpdateOrCreate extends Component
 {
@@ -81,17 +82,25 @@ class FaqUpdateOrCreate extends Component
     {
         $payload = $this->normalizePublishedAt($this->validate());
         if ($this->model->id) {
-            UpdateFaqAction::run($this->model, $payload);
-            $this->success(
-                title: trans('general.model_has_updated_successfully', ['model' => trans('faq.model')]),
-                redirectTo: route('admin.faq.index')
-            );
+            try {
+                UpdateFaqAction::run($this->model, $payload);
+                $this->success(
+                    title: trans('general.model_has_updated_successfully', ['model' => trans('faq.model')]),
+                    redirectTo: route('admin.faq.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         } else {
-            StoreFaqAction::run($payload);
-            $this->success(
-                title: trans('general.model_has_stored_successfully', ['model' => trans('faq.model')]),
-                redirectTo: route('admin.faq.index')
-            );
+            try {
+                StoreFaqAction::run($payload);
+                $this->success(
+                    title: trans('general.model_has_stored_successfully', ['model' => trans('faq.model')]),
+                    redirectTo: route('admin.faq.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         }
     }
 

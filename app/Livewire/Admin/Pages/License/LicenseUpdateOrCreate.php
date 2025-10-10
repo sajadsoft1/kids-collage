@@ -8,13 +8,16 @@ use App\Actions\License\StoreLicenseAction;
 use App\Actions\License\UpdateLicenseAction;
 use App\Helpers\StringHelper;
 use App\Models\License;
+use App\Traits\CrudHelperTrait;
 use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Mary\Traits\Toast;
+use Throwable;
 
 class LicenseUpdateOrCreate extends Component
 {
+    use CrudHelperTrait;
     use Toast, WithFileUploads;
 
     public License $model;
@@ -44,18 +47,27 @@ class LicenseUpdateOrCreate extends Component
     {
         $payload = $this->validate();
         if ($this->model->id) {
-            UpdateLicenseAction::run($this->model, $payload);
-            $this->success(
-                title: trans('general.model_has_updated_successfully', ['model' => trans('license.model')]),
-                redirectTo: route('admin.license.index')
-            );
+            try {
+                UpdateLicenseAction::run($this->model, $payload);
+                $this->success(
+                    title: trans('general.model_has_updated_successfully', ['model' => trans('license.model')]),
+                    redirectTo: route('admin.license.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         } else {
             $payload['slug'] = StringHelper::slug($this->title);
-            StoreLicenseAction::run($payload);
-            $this->success(
-                title: trans('general.model_has_stored_successfully', ['model' => trans('license.model')]),
-                redirectTo: route('admin.license.index')
-            );
+            
+            try {
+                StoreLicenseAction::run($payload);
+                $this->success(
+                    title: trans('general.model_has_stored_successfully', ['model' => trans('license.model')]),
+                    redirectTo: route('admin.license.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         }
     }
 

@@ -3,23 +3,15 @@
     use App\Helpers\Constants;
 @endphp
 <form wire:submit="submit">
-    <x-admin.shared.bread-crumbs :breadcrumbs="$breadcrumbs" :breadcrumbs-actions="$breadcrumbsActions"/>
+    <x-admin.shared.bread-crumbs :breadcrumbs="$breadcrumbs" :breadcrumbs-actions="$breadcrumbsActions" />
     <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
         <div class="col-span-2 grid grid-cols-1 gap-4">
             <x-card :title="trans('general.page_sections.data')" shadow separator progress-indicator="submit">
                 <div class="grid grid-cols-1 gap-4">
-                    <x-input :label="trans('validation.attributes.title')"
-                             wire:model="name"
-                             required
-                    />
-                    <x-input :label="trans('validation.attributes.description')"
-                             wire:model="description"
-                    />
-                    <x-admin.shared.tinymce wire:model.blur="body"/>
+                    <x-input :label="trans('validation.attributes.title')" wire:model="name" required />
+                    <x-input :label="trans('validation.attributes.description')" wire:model="description" />
+                    <x-admin.shared.tinymce wire:model="body" />
                 </div>
-            </x-card>
-            <x-card :title="trans('general.page_sections.seo_options')" shadow separator progress-indicator="submit">
-                <x-admin.shared.seo-options class="lg:grid-cols-1"/>
             </x-card>
         </div>
 
@@ -27,12 +19,11 @@
             <div class="sticky top-20">
                 <x-card :title="trans('general.page_sections.upload_image')" shadow separator progress-indicator="submit" class="">
                     <x-admin.shared.single-file-upload
-                        default_image="{{ $model->getFirstMediaUrl('image', Constants::RESOLUTION_720_SQUARE) }}"
-                    />
+                        default_image="{{ $model->getFirstMediaUrl('image', Constants::RESOLUTION_720_SQUARE) }}" />
                 </x-card>
             </div>
         </div>
     </div>
 
-    <x-admin.shared.form-actions/>
+    <x-admin.shared.form-actions />
 </form>

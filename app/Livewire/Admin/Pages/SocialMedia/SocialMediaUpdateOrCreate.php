@@ -12,6 +12,7 @@ use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Mary\Traits\Toast;
+use Throwable;
 
 class SocialMediaUpdateOrCreate extends Component
 {
@@ -53,18 +54,27 @@ class SocialMediaUpdateOrCreate extends Component
     public function submit(): void
     {
         $payload = $this->validate();
+
         if ($this->model->id) {
-            UpdateSocialMediaAction::run($this->model, $payload);
-            $this->success(
-                title: trans('general.model_has_updated_successfully', ['model' => trans('socialMedia.model')]),
-                redirectTo: route('admin.social-media.index')
-            );
+            try {
+                UpdateSocialMediaAction::run($this->model, $payload);
+                $this->success(
+                    title: trans('general.model_has_updated_successfully', ['model' => trans('socialMedia.model')]),
+                    redirectTo: route('admin.social-media.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         } else {
-            StoreSocialMediaAction::run($payload);
-            $this->success(
-                title: trans('general.model_has_stored_successfully', ['model' => trans('socialMedia.model')]),
-                redirectTo: route('admin.social-media.index')
-            );
+            try {
+                StoreSocialMediaAction::run($payload);
+                $this->success(
+                    title: trans('general.model_has_stored_successfully', ['model' => trans('socialMedia.model')]),
+                    redirectTo: route('admin.social-media.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         }
     }
 

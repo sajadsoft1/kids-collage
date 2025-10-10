@@ -17,11 +17,11 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\User;
 use App\Traits\CrudHelperTrait;
-use Exception;
 use Illuminate\View\View;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Mary\Traits\Toast;
+use Throwable;
 
 class OrderCourseUpdateOrCreate extends Component
 {
@@ -204,8 +204,8 @@ class OrderCourseUpdateOrCreate extends Component
                     title: trans('general.model_has_updated_successfully', ['model' => trans('order.model')]),
                     redirectTo: route('admin.order.index')
                 );
-            } catch (Exception $exception) {
-                $this->error($exception->getMessage());
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
             }
         } else {
             try {
@@ -215,8 +215,8 @@ class OrderCourseUpdateOrCreate extends Component
                     title: trans('general.model_has_stored_successfully', ['model' => trans('order.model')]),
                     redirectTo: route('admin.order.index')
                 );
-            } catch (Exception $exception) {
-                $this->error($exception->getMessage());
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
             }
         }
     }

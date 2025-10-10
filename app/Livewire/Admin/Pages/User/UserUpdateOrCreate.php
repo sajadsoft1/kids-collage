@@ -19,6 +19,7 @@ use Livewire\WithFileUploads;
 use Mary\Traits\Toast;
 use Random\RandomException;
 use Spatie\Permission\Models\Role;
+use Throwable;
 
 class UserUpdateOrCreate extends Component
 {
@@ -190,19 +191,28 @@ class UserUpdateOrCreate extends Component
         $payload['type']  = $this->detected_user_type->value;
 
         if ($this->user->id) {
-            UpdateUserAction::run($this->user, $payload);
-            $this->success(
-                title: trans('general.model_has_updated_successfully', ['model' => $this->detected_user_type->title()]),
-                redirectTo: route($this->detected_route_name . '.index')
-            );
+            try {
+                UpdateUserAction::run($this->user, $payload);
+                $this->success(
+                    title: trans('general.model_has_updated_successfully', ['model' => $this->detected_user_type->title()]),
+                    redirectTo: route($this->detected_route_name . '.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         } else {
             $payload['id_number'] = now()->format('Y') . now()->format('m') . random_int(10000, 99999);
             $payload['password']  = Hash::make($this->mobile);
-            StoreUserAction::run($payload);
-            $this->success(
-                title: trans('general.model_has_stored_successfully', ['model' => $this->detected_user_type->title()]),
-                redirectTo: route($this->detected_route_name . '.index')
-            );
+
+            try {
+                StoreUserAction::run($payload);
+                $this->success(
+                    title: trans('general.model_has_stored_successfully', ['model' => $this->detected_user_type->title()]),
+                    redirectTo: route($this->detected_route_name . '.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         }
     }
 

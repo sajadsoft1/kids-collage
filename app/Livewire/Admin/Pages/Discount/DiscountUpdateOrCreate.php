@@ -10,12 +10,15 @@ use App\Enums\DiscountTypeEnum;
 use App\Enums\UserTypeEnum;
 use App\Models\Discount;
 use App\Models\User;
+use App\Traits\CrudHelperTrait;
 use Illuminate\View\View;
 use Livewire\Component;
 use Mary\Traits\Toast;
+use Throwable;
 
 class DiscountUpdateOrCreate extends Component
 {
+    use CrudHelperTrait;
     use Toast;
 
     public Discount $model;
@@ -47,7 +50,7 @@ class DiscountUpdateOrCreate extends Component
             $this->usage_per_user      = $this->model->usage_per_user;
             $this->starts_at           = $this->model->starts_at?->format('Y-m-d\TH:i');
             $this->expires_at          = $this->model->expires_at?->format('Y-m-d\TH:i');
-            $this->is_active           = (boolean)$this->model->is_active->value;
+            $this->is_active           = (bool) $this->model->is_active->value;
             $this->description         = $this->model->description ?? '';
         }
     }
@@ -82,17 +85,25 @@ class DiscountUpdateOrCreate extends Component
         $payload['code'] = strtoupper($payload['code']);
 
         if ($this->model->id) {
-            UpdateDiscountAction::run($this->model, $payload);
-            $this->success(
-                title: trans('general.model_has_updated_successfully', ['model' => trans('discount.model')]),
-                redirectTo: route('admin.discount.index')
-            );
+            try {
+                UpdateDiscountAction::run($this->model, $payload);
+                $this->success(
+                    title: trans('general.model_has_updated_successfully', ['model' => trans('discount.model')]),
+                    redirectTo: route('admin.discount.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         } else {
-            StoreDiscountAction::run($payload);
-            $this->success(
-                title: trans('general.model_has_stored_successfully', ['model' => trans('discount.model')]),
-                redirectTo: route('admin.discount.index')
-            );
+            try {
+                StoreDiscountAction::run($payload);
+                $this->success(
+                    title: trans('general.model_has_stored_successfully', ['model' => trans('discount.model')]),
+                    redirectTo: route('admin.discount.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         }
     }
 

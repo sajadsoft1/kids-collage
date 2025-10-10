@@ -9,13 +9,15 @@ use App\Actions\Attendance\UpdateAttendanceAction;
 use App\Models\Attendance;
 use App\Models\CourseSession;
 use App\Models\Enrollment;
+use App\Traits\CrudHelperTrait;
 use Illuminate\View\View;
 use Livewire\Component;
 use Mary\Traits\Toast;
+use Throwable;
 
 class AttendanceUpdateOrCreate extends Component
 {
-    use Toast;
+    use CrudHelperTrait,Toast;
 
     public Attendance $model;
     public int $enrollment_id = 0;
@@ -61,17 +63,25 @@ class AttendanceUpdateOrCreate extends Component
         }
 
         if ($this->model->id) {
-            UpdateAttendanceAction::run($this->model, $payload);
-            $this->success(
-                title: trans('general.model_has_updated_successfully', ['model' => trans('attendance.model')]),
-                redirectTo: route('admin.attendance.index')
-            );
+            try {
+                UpdateAttendanceAction::run($this->model, $payload);
+                $this->success(
+                    title: trans('general.model_has_updated_successfully', ['model' => trans('attendance.model')]),
+                    redirectTo: route('admin.attendance.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         } else {
-            StoreAttendanceAction::run($payload);
-            $this->success(
-                title: trans('general.model_has_stored_successfully', ['model' => trans('attendance.model')]),
-                redirectTo: route('admin.attendance.index')
-            );
+            try {
+                StoreAttendanceAction::run($payload);
+                $this->success(
+                    title: trans('general.model_has_stored_successfully', ['model' => trans('attendance.model')]),
+                    redirectTo: route('admin.attendance.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         }
     }
 

@@ -7,12 +7,15 @@ namespace App\Livewire\Admin\Pages\SeoOption;
 use App\Actions\SeoOption\StoreSeoOptionAction;
 use App\Actions\SeoOption\UpdateSeoOptionAction;
 use App\Models\SeoOption;
+use App\Traits\CrudHelperTrait;
 use Illuminate\View\View;
 use Livewire\Component;
 use Mary\Traits\Toast;
+use Throwable;
 
 class SeoOptionUpdateOrCreate extends Component
 {
+    use CrudHelperTrait;
     use Toast;
 
     public SeoOption $model;
@@ -43,17 +46,25 @@ class SeoOptionUpdateOrCreate extends Component
     {
         $payload = $this->validate();
         if ($this->model->id) {
-            UpdateSeoOptionAction::run($this->model, $payload);
-            $this->success(
-                title: trans('general.model_has_updated_successfully', ['model' => trans('seoOption.model')]),
-                redirectTo: route('admin.seoOption.index')
-            );
+            try {
+                UpdateSeoOptionAction::run($this->model, $payload);
+                $this->success(
+                    title: trans('general.model_has_updated_successfully', ['model' => trans('seoOption.model')]),
+                    redirectTo: route('admin.seoOption.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         } else {
-            StoreSeoOptionAction::run($payload);
-            $this->success(
-                title: trans('general.model_has_stored_successfully', ['model' => trans('seoOption.model')]),
-                redirectTo: route('admin.seoOption.index')
-            );
+            try {
+                StoreSeoOptionAction::run($payload);
+                $this->success(
+                    title: trans('general.model_has_stored_successfully', ['model' => trans('seoOption.model')]),
+                    redirectTo: route('admin.seoOption.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         }
     }
 

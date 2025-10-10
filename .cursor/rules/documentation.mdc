@@ -1,0 +1,257 @@
+# Documentation Guidelines
+
+## LaRecipe Documentation System
+
+This project uses **BinaryTorch LaRecipe** for comprehensive documentation management.
+
+### Documentation Location
+
+All module and feature documentation is written in:
+```
+resources/docs/1.0/
+```
+
+### Available Documentation Files
+
+- **index.md** - Navigation sidebar and table of contents
+- **overview.md** - Project overview and introduction
+- **project-architecture.md** - Detailed architecture and components
+- **smart-cache.md** - SmartCache system documentation
+- **content-publishing.md** - Scheduled content publishing
+- **error-handling.md** - Livewire error handling system
+- **course-management.md** - Complete course management/LMS
+- **discount.md** - Discount system
+- **sms.md** - SMS integration
+
+### Accessing Documentation
+
+Documentation can be accessed at:
+- Development: `http://localhost:8000/web/documentation`
+- Production: `https://your-domain.com/web/documentation`
+
+### LaRecipe Format
+
+All documentation must follow LaRecipe markdown format:
+
+```markdown
+# Page Title
+
+---
+
+* [Section 1](#section-1)
+* [Section 2](#section-2)
+
+---
+
+<a name="section-1"></a>
+## Section 1
+
+Content here...
+
+> {success} Success message
+> {warning} Warning message
+> {danger} Danger message
+> {info} Info message
+> {primary} Primary message
+
+### Code Examples
+
+```php
+// PHP code example
+public function example(): void
+{
+    // Implementation
+}
+```
+```
+
+### Documentation Rules
+
+1. **Always Write Documentation**
+   - When adding a new feature, create or update relevant documentation
+   - When refactoring, update affected documentation pages
+
+2. **Use Proper Format**
+   - Follow LaRecipe markdown syntax
+   - Include table of contents with anchor links
+   - Use callouts for important notes ({success}, {warning}, {danger}, {info}, {primary})
+   - Add code examples with syntax highlighting
+
+3. **Language**
+   - Write all documentation in **English**
+   - Use clear, concise language
+   - Target developers of all skill levels
+
+4. **Structure**
+   - Start with overview/introduction
+   - Include "How It Works" section
+   - Provide practical examples
+   - Add troubleshooting section when applicable
+   - Include important notes/warnings
+
+5. **Code Examples**
+   - Always include working code examples
+   - Show both basic and advanced usage
+   - Include comments in examples
+   - Test examples before committing
+
+6. **Update Navigation**
+   - When creating a new documentation page, add it to `index.md`
+   - Organize pages in logical sections (Get Started, Features, Modules)
+   - Use descriptive link text
+
+### Creating New Documentation
+
+To add new documentation:
+
+1. Create a new `.md` file in `resources/docs/1.0/`
+2. Follow the LaRecipe format structure
+3. Add entry to `index.md` navigation
+4. Use appropriate callouts and formatting
+5. Include code examples
+6. Test locally at `/web/documentation`
+
+### Example Structure
+
+```markdown
+# Feature Name
+
+---
+
+* [Overview](#overview)
+* [Installation](#installation)
+* [Usage](#usage)
+* [Configuration](#configuration)
+* [Examples](#examples)
+* [Troubleshooting](#troubleshooting)
+
+---
+
+<a name="overview"></a>
+## Overview
+
+Brief description of the feature.
+
+> {success} Key benefit or feature
+
+---
+
+<a name="installation"></a>
+## Installation
+
+Step-by-step installation instructions.
+
+---
+
+<a name="usage"></a>
+## Usage
+
+How to use the feature.
+
+### Basic Example
+
+```php
+// Code example
+```
+
+---
+
+<a name="configuration"></a>
+## Configuration
+
+Configuration options and settings.
+
+---
+
+<a name="examples"></a>
+## Examples
+
+Multiple practical examples.
+
+---
+
+<a name="troubleshooting"></a>
+## Troubleshooting
+
+Common issues and solutions.
+
+> {warning} Important warning
+
+> {danger} Critical note
+```
+
+### Documentation Best Practices
+
+1. **Be Comprehensive** - Cover all aspects of the feature
+2. **Be Accurate** - Ensure all information is correct and up-to-date
+3. **Be Clear** - Use simple, direct language
+4. **Use Examples** - Provide real, working code examples
+5. **Cross-Reference** - Link to related documentation pages
+6. **Update Regularly** - Keep documentation synchronized with code changes
+7. **Test Examples** - Verify all code examples work correctly
+
+### Callout Usage
+
+Use appropriate callouts to highlight different types of information:
+
+- **{success}** - Success messages, best practices, recommended approaches
+- **{primary}** - Important information, key features
+- **{info}** - Additional context, helpful tips
+- **{warning}** - Cautions, potential issues, deprecated features
+- **{danger}** - Critical warnings, security concerns, breaking changes
+
+### When to Write Documentation
+
+**Always document:**
+- New features or modules
+- Public APIs and services
+- Complex algorithms or business logic
+- Configuration options
+- Deployment procedures
+- Breaking changes
+- Migration guides
+
+**Update documentation when:**
+- Changing existing features
+- Fixing bugs that affect usage
+- Refactoring public APIs
+- Updating dependencies with API changes
+- Changing configuration requirements
+
+### Documentation Review Checklist
+
+Before committing documentation:
+
+- [ ] Follows LaRecipe format
+- [ ] Includes table of contents
+- [ ] Has clear section headings
+- [ ] Contains working code examples
+- [ ] Uses appropriate callouts
+- [ ] Links are working
+- [ ] Added to index.md navigation
+- [ ] Tested locally
+- [ ] Grammar and spelling checked
+- [ ] Matches code implementation
+
+### Configuration
+
+LaRecipe configuration is in `config/larecipe.php`:
+
+```php
+'docs' => [
+    'route' => 'web/documentation',
+    'path' => '/resources/docs',
+    'landing' => 'overview',
+],
+
+'versions' => [
+    'default' => '1.0',
+    'published' => ['1.0'],
+],
+```
+
+### Additional Resources
+
+- Main documentation README: `DOCUMENTATION.md` in project root
+- LaRecipe package: [https://larecipe.binarytorch.com.my/](https://larecipe.binarytorch.com.my/)
+- Markdown Guide: [https://www.markdownguide.org/](https://www.markdownguide.org/)

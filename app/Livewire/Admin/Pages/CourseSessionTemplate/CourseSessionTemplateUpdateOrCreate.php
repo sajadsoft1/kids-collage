@@ -7,12 +7,15 @@ namespace App\Livewire\Admin\Pages\CourseSessionTemplate;
 use App\Actions\CourseSessionTemplate\StoreCourseSessionTemplateAction;
 use App\Actions\CourseSessionTemplate\UpdateCourseSessionTemplateAction;
 use App\Models\CourseSessionTemplate;
+use App\Traits\CrudHelperTrait;
 use Illuminate\View\View;
 use Livewire\Component;
 use Mary\Traits\Toast;
+use Throwable;
 
 class CourseSessionTemplateUpdateOrCreate extends Component
 {
+    use CrudHelperTrait;
     use Toast;
 
     public CourseSessionTemplate $model;
@@ -43,17 +46,25 @@ class CourseSessionTemplateUpdateOrCreate extends Component
     {
         $payload = $this->validate();
         if ($this->model->id) {
-            UpdateCourseSessionTemplateAction::run($this->model, $payload);
-            $this->success(
-                title: trans('general.model_has_updated_successfully', ['model' => trans('courseSessionTemplate.model')]),
-                redirectTo: route('admin.courseSessionTemplate.index')
-            );
+            try {
+                UpdateCourseSessionTemplateAction::run($this->model, $payload);
+                $this->success(
+                    title: trans('general.model_has_updated_successfully', ['model' => trans('courseSessionTemplate.model')]),
+                    redirectTo: route('admin.courseSessionTemplate.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         } else {
-            StoreCourseSessionTemplateAction::run($payload);
-            $this->success(
-                title: trans('general.model_has_stored_successfully', ['model' => trans('courseSessionTemplate.model')]),
-                redirectTo: route('admin.courseSessionTemplate.index')
-            );
+            try {
+                StoreCourseSessionTemplateAction::run($payload);
+                $this->success(
+                    title: trans('general.model_has_stored_successfully', ['model' => trans('courseSessionTemplate.model')]),
+                    redirectTo: route('admin.courseSessionTemplate.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         }
     }
 

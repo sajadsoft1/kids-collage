@@ -1,4 +1,24 @@
-Project Setup and CI/CD for Laravel with VPS
+# Kids Collage - Laravel CMS Platform
+
+A modern, full-featured Content Management System built with Laravel 12 and Livewire 3.
+
+## 📚 Documentation
+
+**Comprehensive documentation is available at:**
+- Development: `http://localhost:8000/web/documentation`
+- Documentation Files: `resources/docs/1.0/`
+- Guidelines: See `DOCUMENTATION.md` and `.cursor/rules/documentation.mdc`
+
+### Quick Links
+- [Overview](http://localhost:8000/web/documentation/1.0/overview)
+- [Project Architecture](http://localhost:8000/web/documentation/1.0/project-architecture)
+- [Course Management](http://localhost:8000/web/documentation/1.0/course-management)
+- [Error Handling](http://localhost:8000/web/documentation/1.0/error-handling)
+
+---
+
+## Project Setup and CI/CD for Laravel with VPS
+
 This guide covers generating SSH keys, setting up a GitHub project, cloning a Laravel project on a VPS, configuring SSH for CI/CD with GitHub Actions, setting Laravel-specific permissions, and running the project locally. The steps are ordered to ensure SSH is set up before cloning the project.
 1. Generate SSH Key
 
@@ -134,6 +154,19 @@ php artisan serve
 
 
 Open your browser and navigate to http://localhost:8000 (default Laravel port).
+
+14. Access Documentation
+
+After running the project, access the complete documentation at:
+
+http://localhost:8000/web/documentation
+
+
+The documentation includes:
+- Project architecture and components
+- Feature guides (SmartCache, Content Publishing, Course Management)
+- API documentation
+- Troubleshooting guides
 
 Notes
 

@@ -14,6 +14,7 @@ use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Mary\Traits\Toast;
+use Throwable;
 
 class SliderUpdateOrCreate extends Component
 {
@@ -98,17 +99,25 @@ class SliderUpdateOrCreate extends Component
         $payload = $this->normalizePublishedAt($payload, 'expired_at');
         $payload = $this->normalizePublishedAt($payload, 'timer_start');
         if ($this->model->id) {
-            UpdateSliderAction::run($this->model, $payload);
-            $this->success(
-                title: trans('general.model_has_updated_successfully', ['model' => trans('slider.model')]),
-                redirectTo: route('admin.slider.index')
-            );
+            try {
+                UpdateSliderAction::run($this->model, $payload);
+                $this->success(
+                    title: trans('general.model_has_updated_successfully', ['model' => trans('slider.model')]),
+                    redirectTo: route('admin.slider.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         } else {
-            StoreSliderAction::run($payload);
-            $this->success(
-                title: trans('general.model_has_stored_successfully', ['model' => trans('slider.model')]),
-                redirectTo: route('admin.slider.index')
-            );
+            try {
+                StoreSliderAction::run($payload);
+                $this->success(
+                    title: trans('general.model_has_stored_successfully', ['model' => trans('slider.model')]),
+                    redirectTo: route('admin.slider.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         }
     }
 

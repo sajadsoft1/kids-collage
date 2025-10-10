@@ -8,17 +8,18 @@ use App\Actions\Tag\StoreTagAction;
 use App\Actions\Tag\UpdateTagAction;
 use App\Enums\TagTypeEnum;
 use App\Helpers\StringHelper;
-use App\Livewire\Traits\SeoOptionTrait;
 use App\Models\Tag;
+use App\Traits\CrudHelperTrait;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Mary\Traits\Toast;
+use Throwable;
 
 class TagUpdateOrCreate extends Component
 {
-    use SeoOptionTrait;
+    use CrudHelperTrait;
     use Toast;
     use WithFileUploads;
 
@@ -34,7 +35,6 @@ class TagUpdateOrCreate extends Component
     {
         $this->model = $tag;
         if ($this->model->id) {
-            $this->mountStaticFields();
             $this->name         = $this->model->name;
             $this->description  = $this->model->description;
             $this->body         = $this->model->body;
@@ -43,43 +43,44 @@ class TagUpdateOrCreate extends Component
         }
     }
 
-    public function updatedName($value): void
-    {
-        if ( ! $this->model->id || empty($this->seo_title)) {
-            $this->seo_title = $value;
-        }
-        if ( ! $this->model->id || empty($this->slug)) {
-            $this->slug = StringHelper::slug($value);
-        }
-    }
-
     protected function rules(): array
     {
-        return array_merge($this->seoOptionRules(), [
+        return [
             'name'         => ['required', 'string', 'max:255'],
             'description'  => ['nullable', 'string', 'max:255'],
             'body'         => ['nullable', 'string'],
             'type'         => ['nullable', 'string', Rule::in(TagTypeEnum::values())],
             'order_column' => ['nullable', 'integer'],
             'image'        => ['nullable', 'image', 'mimes:jpeg,jpg,png', 'max:1024'],
-        ]);
+        ];
     }
 
     public function submit(): void
     {
         $payload = $this->validate();
+
         if ($this->model->id) {
-            UpdateTagAction::run($this->model, $payload);
-            $this->success(
-                title: trans('general.model_has_updated_successfully', ['model' => trans('tag.model')]),
-                redirectTo: route('admin.tag.index')
-            );
+            try {
+                UpdateTagAction::run($this->model, $payload);
+                $this->success(
+                    title: trans('general.model_has_updated_successfully', ['model' => trans('tag.model')]),
+                    redirectTo: route('admin.tag.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         } else {
-            StoreTagAction::run($payload);
-            $this->success(
-                title: trans('general.model_has_stored_successfully', ['model' => trans('tag.model')]),
-                redirectTo: route('admin.tag.index')
-            );
+            $payload['slug'] = StringHelper::slug($this->name);
+
+            try {
+                StoreTagAction::run($payload);
+                $this->success(
+                    title: trans('general.model_has_stored_successfully', ['model' => trans('tag.model')]),
+                    redirectTo: route('admin.tag.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         }
     }
 

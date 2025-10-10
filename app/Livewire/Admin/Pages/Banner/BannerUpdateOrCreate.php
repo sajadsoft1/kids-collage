@@ -14,6 +14,7 @@ use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Mary\Traits\Toast;
+use Throwable;
 
 class BannerUpdateOrCreate extends Component
 {
@@ -87,17 +88,25 @@ class BannerUpdateOrCreate extends Component
     {
         $payload = $this->normalizePublishedAt($this->validate());
         if ($this->model->id) {
-            UpdateBannerAction::run($this->model, $payload);
-            $this->success(
-                title: trans('general.model_has_updated_successfully', ['model' => trans('banner.model')]),
-                redirectTo: route('admin.banner.index')
-            );
+            try {
+                UpdateBannerAction::run($this->model, $payload);
+                $this->success(
+                    title: trans('general.model_has_updated_successfully', ['model' => trans('banner.model')]),
+                    redirectTo: route('admin.banner.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         } else {
-            StoreBannerAction::run($payload);
-            $this->success(
-                title: trans('general.model_has_stored_successfully', ['model' => trans('banner.model')]),
-                redirectTo: route('admin.banner.index')
-            );
+            try {
+                StoreBannerAction::run($payload);
+                $this->success(
+                    title: trans('general.model_has_stored_successfully', ['model' => trans('banner.model')]),
+                    redirectTo: route('admin.banner.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         }
     }
 

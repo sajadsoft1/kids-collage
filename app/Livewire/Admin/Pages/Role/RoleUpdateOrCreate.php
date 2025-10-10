@@ -13,6 +13,7 @@ use Livewire\Attributes\On;
 use Livewire\Component;
 use Mary\Traits\Toast;
 use Spatie\Permission\Models\Permission;
+use Throwable;
 
 class RoleUpdateOrCreate extends Component
 {
@@ -74,18 +75,27 @@ class RoleUpdateOrCreate extends Component
     public function submit(): void
     {
         $payload = $this->validate();
+
         if ($this->role->id) {
-            UpdateRoleAction::run($this->role, $payload);
-            $this->success(
-                title: trans('general.model_has_updated_successfully', ['model' => trans('role.model')]),
-                redirectTo: route('admin.role.index')
-            );
+            try {
+                UpdateRoleAction::run($this->role, $payload);
+                $this->success(
+                    title: trans('general.model_has_updated_successfully', ['model' => trans('role.model')]),
+                    redirectTo: route('admin.role.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         } else {
-            StoreRoleAction::run($payload);
-            $this->success(
-                title: trans('general.model_has_stored_successfully', ['model' => trans('role.model')]),
-                redirectTo: route('admin.role.index')
-            );
+            try {
+                StoreRoleAction::run($payload);
+                $this->success(
+                    title: trans('general.model_has_stored_successfully', ['model' => trans('role.model')]),
+                    redirectTo: route('admin.role.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         }
     }
 

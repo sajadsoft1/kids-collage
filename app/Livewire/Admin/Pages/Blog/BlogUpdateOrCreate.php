@@ -11,13 +11,16 @@ use App\Enums\CategoryTypeEnum;
 use App\Helpers\StringHelper;
 use App\Models\Blog;
 use App\Models\Category;
+use App\Traits\CrudHelperTrait;
 use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Mary\Traits\Toast;
+use Throwable;
 
 class BlogUpdateOrCreate extends Component
 {
+    use CrudHelperTrait;
     use Toast, WithFileUploads;
 
     public Blog $model;
@@ -69,18 +72,27 @@ class BlogUpdateOrCreate extends Component
     {
         $payload = $this->validate();
         if ($this->model->id) {
-            UpdateBlogAction::run($this->model, $payload);
-            $this->success(
-                title: trans('general.model_has_updated_successfully', ['model' => trans('blog.model')]),
-                redirectTo: route('admin.blog.index')
-            );
+            try {
+                UpdateBlogAction::run($this->model, $payload);
+                $this->success(
+                    title: trans('general.model_has_updated_successfully', ['model' => trans('blog.model')]),
+                    redirectTo: route('admin.blog.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         } else {
             $payload['slug'] = StringHelper::slug($this->title);
-            StoreBlogAction::run($payload);
-            $this->success(
-                title: trans('general.model_has_stored_successfully', ['model' => trans('blog.model')]),
-                redirectTo: route('admin.blog.index')
-            );
+
+            try {
+                StoreBlogAction::run($payload);
+                $this->success(
+                    title: trans('general.model_has_stored_successfully', ['model' => trans('blog.model')]),
+                    redirectTo: route('admin.blog.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         }
     }
 

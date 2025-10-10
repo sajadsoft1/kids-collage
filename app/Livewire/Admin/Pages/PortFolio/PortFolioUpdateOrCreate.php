@@ -14,6 +14,7 @@ use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Mary\Traits\Toast;
+use Throwable;
 
 class PortFolioUpdateOrCreate extends Component
 {
@@ -87,17 +88,25 @@ class PortFolioUpdateOrCreate extends Component
         $payload = $this->normalizePublishedAt($this->validate());
 
         if ($this->model->id) {
-            UpdatePortFolioAction::run($this->model, $payload);
-            $this->success(
-                title: trans('general.model_has_updated_successfully', ['model' => trans('portFolio.model')]),
-                redirectTo: route('admin.portFolio.index')
-            );
+            try {
+                UpdatePortFolioAction::run($this->model, $payload);
+                $this->success(
+                    title: trans('general.model_has_updated_successfully', ['model' => trans('portFolio.model')]),
+                    redirectTo: route('admin.portFolio.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         } else {
-            StorePortFolioAction::run($payload);
-            $this->success(
-                title: trans('general.model_has_stored_successfully', ['model' => trans('portFolio.model')]),
-                redirectTo: route('admin.portFolio.index')
-            );
+            try {
+                StorePortFolioAction::run($payload);
+                $this->success(
+                    title: trans('general.model_has_stored_successfully', ['model' => trans('portFolio.model')]),
+                    redirectTo: route('admin.portFolio.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         }
     }
 

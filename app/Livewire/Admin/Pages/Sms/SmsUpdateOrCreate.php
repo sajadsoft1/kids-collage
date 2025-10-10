@@ -7,12 +7,15 @@ namespace App\Livewire\Admin\Pages\Sms;
 use App\Actions\Sms\StoreSmsAction;
 use App\Actions\Sms\UpdateSmsAction;
 use App\Models\Sms;
+use App\Traits\CrudHelperTrait;
 use Illuminate\View\View;
 use Livewire\Component;
 use Mary\Traits\Toast;
+use Throwable;
 
 class SmsUpdateOrCreate extends Component
 {
+    use CrudHelperTrait;
     use Toast;
 
     public Sms $model;
@@ -43,17 +46,25 @@ class SmsUpdateOrCreate extends Component
     {
         $payload = $this->validate();
         if ($this->model->id) {
-            UpdateSmsAction::run($this->model, $payload);
-            $this->success(
-                title: trans('general.model_has_updated_successfully', ['model' => trans('sms.model')]),
-                redirectTo: route('admin.sms.index')
-            );
+            try {
+                UpdateSmsAction::run($this->model, $payload);
+                $this->success(
+                    title: trans('general.model_has_updated_successfully', ['model' => trans('sms.model')]),
+                    redirectTo: route('admin.sms.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         } else {
-            StoreSmsAction::run($payload);
-            $this->success(
-                title: trans('general.model_has_stored_successfully', ['model' => trans('sms.model')]),
-                redirectTo: route('admin.sms.index')
-            );
+            try {
+                StoreSmsAction::run($payload);
+                $this->success(
+                    title: trans('general.model_has_stored_successfully', ['model' => trans('sms.model')]),
+                    redirectTo: route('admin.sms.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         }
     }
 

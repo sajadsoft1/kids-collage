@@ -21,6 +21,7 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Mary\Traits\Toast;
 use RuntimeException;
+use Throwable;
 
 class CourseTemplateUpdateOrCreate extends Component
 {
@@ -126,19 +127,29 @@ class CourseTemplateUpdateOrCreate extends Component
     public function submit(): void
     {
         $payload = $this->validate();
+
         if ($this->model->id) {
-            UpdateCourseTemplateAction::run($this->model, $payload);
-            $this->success(
-                title: trans('general.model_has_updated_successfully', ['model' => trans('courseTemplate.model')]),
-                redirectTo: route('admin.course-template.index')
-            );
+            try {
+                UpdateCourseTemplateAction::run($this->model, $payload);
+                $this->success(
+                    title: trans('general.model_has_updated_successfully', ['model' => trans('courseTemplate.model')]),
+                    redirectTo: route('admin.course-template.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         } else {
             $payload['slug'] = StringHelper::slug($this->title);
-            StoreCourseTemplateAction::run($payload);
-            $this->success(
-                title: trans('general.model_has_stored_successfully', ['model' => trans('courseTemplate.model')]),
-                redirectTo: route('admin.course-template.index')
-            );
+
+            try {
+                StoreCourseTemplateAction::run($payload);
+                $this->success(
+                    title: trans('general.model_has_stored_successfully', ['model' => trans('courseTemplate.model')]),
+                    redirectTo: route('admin.course-template.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         }
     }
 

@@ -11,13 +11,16 @@ use App\Enums\CategoryTypeEnum;
 use App\Helpers\StringHelper;
 use App\Models\Bulletin;
 use App\Models\Category;
+use App\Traits\CrudHelperTrait;
 use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Mary\Traits\Toast;
+use Throwable;
 
 class BulletinUpdateOrCreate extends Component
 {
+    use CrudHelperTrait;
     use Toast, WithFileUploads;
 
     public Bulletin $model;
@@ -69,19 +72,28 @@ class BulletinUpdateOrCreate extends Component
     {
         $payload = $this->validate();
         if ($this->model->id) {
-            UpdateBulletinAction::run($this->model, $payload);
-            $this->success(
-                title: trans('general.model_has_updated_successfully', ['model' => trans('bulletin.model')]),
-                redirectTo: route('admin.bulletin.index')
-            );
+            try {
+                UpdateBulletinAction::run($this->model, $payload);
+                $this->success(
+                    title: trans('general.model_has_updated_successfully', ['model' => trans('bulletin.model')]),
+                    redirectTo: route('admin.bulletin.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         } else {
             $payload['user_id'] = auth()->id();
             $payload['slug']    = StringHelper::slug($this->title);
-            StoreBulletinAction::run($payload);
-            $this->success(
-                title: trans('general.model_has_stored_successfully', ['model' => trans('bulletin.model')]),
-                redirectTo: route('admin.bulletin.index')
-            );
+            
+            try {
+                StoreBulletinAction::run($payload);
+                $this->success(
+                    title: trans('general.model_has_stored_successfully', ['model' => trans('bulletin.model')]),
+                    redirectTo: route('admin.bulletin.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         }
     }
 

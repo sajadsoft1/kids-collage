@@ -7,9 +7,11 @@ namespace App\Livewire\Admin\Pages\NotificationTemplate;
 use App\Actions\NotificationTemplate\StoreNotificationTemplateAction;
 use App\Actions\NotificationTemplate\UpdateNotificationTemplateAction;
 use App\Models\NotificationTemplate;
+use App\Traits\CrudHelperTrait;
 use Illuminate\View\View;
 use Livewire\Component;
 use Mary\Traits\Toast;
+use Throwable;
 
 /**
  * NotificationTemplateUpdateOrCreate Component
@@ -19,6 +21,7 @@ use Mary\Traits\Toast;
  */
 class NotificationTemplateUpdateOrCreate extends Component
 {
+    use CrudHelperTrait;
     use Toast;
 
     public NotificationTemplate $model;
@@ -84,17 +87,25 @@ class NotificationTemplateUpdateOrCreate extends Component
         $payload = $this->validate();
 
         if ($this->model->id) {
-            UpdateNotificationTemplateAction::run($this->model, $payload);
-            $this->success(
-                title: trans('general.model_has_updated_successfully', ['model' => trans('general.notification_template')]),
-                redirectTo: route('admin.notificationTemplate.index')
-            );
+            try {
+                UpdateNotificationTemplateAction::run($this->model, $payload);
+                $this->success(
+                    title: trans('general.model_has_updated_successfully', ['model' => trans('general.notification_template')]),
+                    redirectTo: route('admin.notificationTemplate.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         } else {
-            StoreNotificationTemplateAction::run($payload);
-            $this->success(
-                title: trans('general.model_has_stored_successfully', ['model' => trans('general.notification_template')]),
-                redirectTo: route('admin.notificationTemplate.index')
-            );
+            try {
+                StoreNotificationTemplateAction::run($payload);
+                $this->success(
+                    title: trans('general.model_has_stored_successfully', ['model' => trans('general.notification_template')]),
+                    redirectTo: route('admin.notificationTemplate.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         }
     }
 

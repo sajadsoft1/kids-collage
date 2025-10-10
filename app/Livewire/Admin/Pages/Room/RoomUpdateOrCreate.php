@@ -7,12 +7,15 @@ namespace App\Livewire\Admin\Pages\Room;
 use App\Actions\Room\StoreRoomAction;
 use App\Actions\Room\UpdateRoomAction;
 use App\Models\Room;
+use App\Traits\CrudHelperTrait;
 use Illuminate\View\View;
 use Livewire\Component;
 use Mary\Traits\Toast;
+use Throwable;
 
 class RoomUpdateOrCreate extends Component
 {
+    use CrudHelperTrait;
     use Toast;
 
     public Room $model;
@@ -43,17 +46,25 @@ class RoomUpdateOrCreate extends Component
     {
         $payload = $this->validate();
         if ($this->model->id) {
-            UpdateRoomAction::run($this->model, $payload);
-            $this->success(
-                title: trans('general.model_has_updated_successfully', ['model' => trans('room.model')]),
-                redirectTo: route('admin.room.index')
-            );
+            try {
+                UpdateRoomAction::run($this->model, $payload);
+                $this->success(
+                    title: trans('general.model_has_updated_successfully', ['model' => trans('room.model')]),
+                    redirectTo: route('admin.room.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         } else {
-            StoreRoomAction::run($payload);
-            $this->success(
-                title: trans('general.model_has_stored_successfully', ['model' => trans('room.model')]),
-                redirectTo: route('admin.room.index')
-            );
+            try {
+                StoreRoomAction::run($payload);
+                $this->success(
+                    title: trans('general.model_has_stored_successfully', ['model' => trans('room.model')]),
+                    redirectTo: route('admin.room.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         }
     }
 

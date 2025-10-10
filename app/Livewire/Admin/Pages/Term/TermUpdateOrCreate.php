@@ -8,12 +8,15 @@ use App\Actions\Term\StoreTermAction;
 use App\Actions\Term\UpdateTermAction;
 use App\Enums\TermStatus;
 use App\Models\Term;
+use App\Traits\CrudHelperTrait;
 use Illuminate\View\View;
 use Livewire\Component;
 use Mary\Traits\Toast;
+use Throwable;
 
 class TermUpdateOrCreate extends Component
 {
+    use CrudHelperTrait;
     use Toast;
 
     public Term $model;
@@ -50,17 +53,25 @@ class TermUpdateOrCreate extends Component
     {
         $payload = $this->validate();
         if ($this->model->id) {
-            UpdateTermAction::run($this->model, $payload);
-            $this->success(
-                title: trans('general.model_has_updated_successfully', ['model' => trans('term.model')]),
-                redirectTo: route('admin.term.index')
-            );
+            try {
+                UpdateTermAction::run($this->model, $payload);
+                $this->success(
+                    title: trans('general.model_has_updated_successfully', ['model' => trans('term.model')]),
+                    redirectTo: route('admin.term.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         } else {
-            StoreTermAction::run($payload);
-            $this->success(
-                title: trans('general.model_has_stored_successfully', ['model' => trans('term.model')]),
-                redirectTo: route('admin.term.index')
-            );
+            try {
+                StoreTermAction::run($payload);
+                $this->success(
+                    title: trans('general.model_has_stored_successfully', ['model' => trans('term.model')]),
+                    redirectTo: route('admin.term.index')
+                );
+            } catch (Throwable $e) {
+                $this->error($e->getMessage(), timeout: 5000);
+            }
         }
     }
 
