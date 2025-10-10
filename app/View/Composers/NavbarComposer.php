@@ -54,6 +54,7 @@ class NavbarComposer
                 'exact'      => true,
                 'title'      => trans('_menu.profile'),
                 'route_name' => 'admin.app.profile',
+                'params'     => ['user' => $user->id],
             ],
 
             [

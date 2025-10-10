@@ -140,7 +140,8 @@
                         </div>
                     </x-slot:trigger>
                     <x-menu>
-                        <x-menu-item title="Profile" icon="o-user" link="{{ route('admin.app.profile') }}" />
+                        <x-menu-item title="Profile" icon="o-user"
+                            link="{{ route('admin.app.profile', ['user' => auth()->id()]) }}" />
                         <x-menu-item title="Settings" icon="o-cog-6-tooth" link="{{ route('admin.setting') }}" />
                         <x-menu-item title="Security" icon="o-shield-check" link="#" />
                         <x-menu-separator />
