@@ -112,18 +112,18 @@
 /* Custom theme variables */
 :root {
     --color-base-100: #FFFFFF;
-    --color-base-200: #F9F5F0;
-    --color-base-300: #F9F5F0;
-    --color-primary: #F4991A;
+    --color-base-200: #FFFFFF;
+    --color-base-300: #F0F5F9;
+    --color-primary: #fa8227;
     --color-secondary: #F2EAD3;
-    --color-accent: #344F1F;
+    --color-accent: #069021;
     --color-focus-outline: transparent;
 }
 
 /* Dark theme variables */
 .dark {
     --color-base-100: #101828;
-    --color-base-200: #1e1e30;
+    --color-base-200: #101828;
     --color-base-300: #0f0f0f;
 }
 /**:focus-within {*/
