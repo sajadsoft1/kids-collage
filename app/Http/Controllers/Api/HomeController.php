@@ -74,7 +74,7 @@ class HomeController extends Controller
     {
         $extraData=[
             'teachers_count' => User::teachers()->count(),
-            'courses_count'  => Course::published()->count(),
+            'courses_count'  => Course::all()->count(),
             'students_count' => User::studentCont(),
             'experience'      => 10,
         ];

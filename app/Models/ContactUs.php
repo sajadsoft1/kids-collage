@@ -19,6 +19,7 @@ class ContactUs extends Model
     protected $table    = 'contactuses';
     protected $fillable = [
         'name',
+        'subject',
         'email',
         'mobile',
         'comment',

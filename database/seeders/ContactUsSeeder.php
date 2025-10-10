@@ -19,6 +19,7 @@ class ContactUsSeeder extends Seeder
                 'email'   => $row['email'],
                 'mobile'  => $row['mobile'],
                 'comment' => $row['comment'],
+                'subject' => $row['subject']??'test',
             ]);
         }
     }
