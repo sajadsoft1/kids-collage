@@ -83,7 +83,7 @@ class License extends Model implements HasMedia
             ->key('home_licenses')
             ->remember(function () {
                 return self::where('published', BooleanEnum::ENABLE->value)
-                    ->orderBy('ordering', 'asc')
+                    ->orderBy('id', 'asc')
                     ->get();
             }, 3600);
     }
