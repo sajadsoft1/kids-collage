@@ -13,7 +13,7 @@ use OpenApi\Annotations as OA;
  *     schema="StoreContactUsRequest",
  *     title="StoreContactUsRequest",
  *     type="object",
- *     required={"name", "comment"},
+ *     required={"name", "comment","subject"},
  *
  *     @OA\Property(property="name", type="string", default="ahmad dehestani"),
  *     @OA\Property(property="subject", type="string", default="test subject"),

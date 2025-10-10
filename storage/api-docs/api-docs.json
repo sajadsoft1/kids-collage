@@ -3078,12 +3078,17 @@
                 "title": "StoreContactUsRequest",
                 "required": [
                     "name",
-                    "comment"
+                    "comment",
+                    "subject"
                 ],
                 "properties": {
                     "name": {
                         "type": "string",
                         "default": "ahmad dehestani"
+                    },
+                    "subject": {
+                        "type": "string",
+                        "default": "test subject"
                     },
                     "email": {
                         "type": "string",
