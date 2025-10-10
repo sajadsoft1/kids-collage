@@ -46,7 +46,7 @@ class StoreBlogAction
             $this->seoOptionService->create($model, Arr::only($payload, ['title', 'description']));
             $this->fileService->addMedia($model, Arr::get($payload, 'image'));
             if ($tags = Arr::get($payload, 'tags')) {
-                $model->syncTagsWithType($tags, 'blog');
+                $model->syncTags($tags);
             }
 
             return $model->refresh();

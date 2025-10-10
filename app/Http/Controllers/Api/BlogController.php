@@ -28,6 +28,8 @@ use Spatie\QueryBuilder\AllowedSort;
 use Spatie\QueryBuilder\Enums\SortDirection;
 use Spatie\QueryBuilder\QueryBuilder;
 use Throwable;
+use Spatie\Tags\Tag as SpatieTag;
+
 
 class BlogController extends Controller
 {
@@ -42,7 +44,7 @@ class BlogController extends Controller
             ->with(['user', 'category', 'media'])
             ->when($limit = Arr::get($payload, 'limit'), fn ($q) => $q->limit($limit))
             ->when($categoryId = Arr::get($payload, 'category_id'), fn ($q) => $q->where('category_id', $categoryId))
-            ->when($tagId = Arr::get($payload, 'tag_id'), fn ($q) => $q->withAnyTags([$tagId], 'tags'))
+            ->when($tag = Arr::get($payload, 'tag'), fn ($q) => $q->withAnyTags([$tag->name], $tag->type))
             ->when($userId = Arr::get($payload, 'user_id'), fn ($q) => $q->where('user_id', $userId))
             ->where('published', true)
             ->defaultSort('-id')
@@ -221,11 +223,12 @@ class BlogController extends Controller
      * )
      * @throws Throwable
      */
-    public function indexByTag(Request $request, Tag $tag): JsonResponse
+    public function indexByTag(Request $request, SpatieTag $tag): JsonResponse
     {
         return Response::dataWithAdditional(
             $this->query([
                 'limit' => $request->input('limit', 1),
+                'tag' => $tag,
             ])->paginate($request->input('page_limit', 1))->toResourceCollection(BlogResource::class),
             [
                 'aaa' => 'bbbb',
