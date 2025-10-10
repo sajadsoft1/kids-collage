@@ -24,6 +24,11 @@ class OpinionSeeder extends Seeder
             $model->addMedia($row['path'])
                 ->preservingOriginal()
                 ->toMediaCollection('image');
+if(isset($row['video'])){
+                $model->addMedia($row['video'])
+                    ->preservingOriginal()
+                    ->toMediaCollection('video');
+            }
         }
     }
 }

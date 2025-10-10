@@ -72,18 +72,25 @@ class HomeController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
+        $extraData=[
+            'teachers_count' => User::teachers()->count(),
+            'courses_count'  => Course::all()->count(),
+            'students_count' => User::studentCont(),
+            'experience'      => 10,
+        ];
         $data= [
-                            'sliders'   => SliderResource::collection(Slider::latestSliders()),
-            'banners'   => BannerResource::collection(Banner::latestBanner()),
-            'teachers'  => UserResource::collection(User::teachers()),
-            'bulletins' => BulletinResource::collection(Bulletin::latestBulletin()),
-            'blogs'     => BlogResource::collection(Blog::latestBlogs()),
-            'opinions'  => OpinionResource::collection(Opinion::homeOpinions()),
-            'clients'   => ClientResource::collection(Client::homeClients()),
-            'events'    => [],
-            'faqs'      => FaqResource::collection(Faq::homeFaq()),
-            'licenses'  => LicenseResource::collection(License::homeLicenses()),
-            'courseTemplate'=> CourseTemplateResource::collection(CourseTemplate::latestCourseTemplates()),
+            'sliders'        => SliderResource::collection(Slider::latestSliders()),
+            'banners'        => BannerResource::collection(Banner::latestBanner()),
+            'teachers'       => UserResource::collection(User::teachers()),
+            'bulletins'      => BulletinResource::collection(Bulletin::latestBulletin()),
+            'blogs'          => BlogResource::collection(Blog::latestBlogs()),
+            'opinions'       => OpinionResource::collection(Opinion::homeOpinions()),
+            'clients'        => ClientResource::collection(Client::homeClients()),
+            'events'         => [],
+            'faqs'           => FaqResource::collection(Faq::homeFaq()),
+            'licenses'       => LicenseResource::collection(License::homeLicenses()),
+            'courseTemplate' => CourseTemplateResource::collection(CourseTemplate::latestCourseTemplates()),
+            'extra_data'     => $extraData,
         ];
 
         return Response::data($data);

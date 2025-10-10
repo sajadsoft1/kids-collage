@@ -6,6 +6,7 @@ namespace App\Actions\Opinion;
 
 use App\Actions\Translation\SyncTranslationAction;
 use App\Models\Opinion;
+use App\Services\File\FileService;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Lorisleiva\Actions\Concerns\AsAction;
@@ -17,6 +18,7 @@ class UpdateOpinionAction
 
     public function __construct(
         private readonly SyncTranslationAction $syncTranslationAction,
+        private readonly FileService $fileService,
     ) {}
 
     /**
@@ -38,7 +40,8 @@ class UpdateOpinionAction
         return DB::transaction(function () use ($opinion, $payload) {
             $opinion->update($payload);
             $this->syncTranslationAction->handle($opinion, Arr::only($payload, ['title', 'description']));
-
+            $this->fileService->addMedia($opinion, Arr::get($payload, 'image'));
+            $this->fileService->addMedia($opinion, Arr::get($payload, 'video'));
             return $opinion->refresh();
         });
     }
