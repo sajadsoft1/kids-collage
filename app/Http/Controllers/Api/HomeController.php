@@ -9,7 +9,9 @@ use App\Http\Resources\BannerResource;
 use App\Http\Resources\BlogResource;
 use App\Http\Resources\BulletinResource;
 use App\Http\Resources\ClientResource;
+use App\Http\Resources\CourseTemplateResource;
 use App\Http\Resources\FaqResource;
+use App\Http\Resources\LicenseResource;
 use App\Http\Resources\OpinionResource;
 use App\Http\Resources\SliderResource;
 use App\Http\Resources\UserResource;
@@ -17,8 +19,11 @@ use App\Models\Banner;
 use App\Models\Blog;
 use App\Models\Bulletin;
 use App\Models\Client;
+use App\Models\Course;
+use App\Models\CourseTemplate;
 use App\Models\Faq;
 use App\Models\Home;
+use App\Models\License;
 use App\Models\Opinion;
 use App\Models\Slider;
 use App\Models\User;
@@ -68,7 +73,7 @@ class HomeController extends Controller
     public function index(Request $request): JsonResponse
     {
         $data= [
-            //                'sliders'   => SliderResource::collection(Slider::latestSliders()),
+                            'sliders'   => SliderResource::collection(Slider::latestSliders()),
             'banners'   => BannerResource::collection(Banner::latestBanner()),
             'teachers'  => UserResource::collection(User::teachers()),
             'bulletins' => BulletinResource::collection(Bulletin::latestBulletin()),
@@ -77,6 +82,8 @@ class HomeController extends Controller
             'clients'   => ClientResource::collection(Client::homeClients()),
             'events'    => [],
             'faqs'      => FaqResource::collection(Faq::homeFaq()),
+            'licenses'  => LicenseResource::collection(License::homeLicenses()),
+            'courseTemplate'=> CourseTemplateResource::collection(CourseTemplate::latestCourseTemplates()),
         ];
 
         return Response::data($data);
