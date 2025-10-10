@@ -142,7 +142,12 @@ class Tag extends \Spatie\Tags\Tag implements HasMedia
         return SmartCache::for(__CLASS__)
             ->key('blog_tags')
             ->remember(function () {
-                return self::where('type', 'blog')->get();
+                return \Spatie\Tags\Tag::query()
+                    ->whereIn('id', function ($query) {
+                        $query->select('tag_id')
+                            ->from('taggables')
+                            ->where('taggable_type', Blog::class);
+                    })->get();
             }, 3600);
     }
 
@@ -151,7 +156,13 @@ class Tag extends \Spatie\Tags\Tag implements HasMedia
         return SmartCache::for(__CLASS__)
             ->key('bulletin_tags')
             ->remember(function () {
-                return self::where('type', 'bulletin')->get();
+                return \Spatie\Tags\Tag::query()
+                    ->whereIn('id', function ($query) {
+                        $query->select('tag_id')
+                            ->from('taggables')
+                            ->where('taggable_type', Bulletin::class);
+                    })->get();
+
             }, 3600);
     }
 
