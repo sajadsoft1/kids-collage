@@ -8,6 +8,7 @@ use App\Livewire\Admin\Pages\Setting\SettingList;
 use App\Livewire\Admin\Shared\DynamicSeo;
 use App\Livewire\Admin\Shared\DynamicTranslate;
 use App\Livewire\Admin\Test\ErrorHandlingDemo;
+use App\Livewire\Admin\Test\FeatureModule;
 use Illuminate\Support\Facades\Route;
 
 // Volt::route('/', 'users.index');
@@ -28,6 +29,7 @@ Route::group(['middleware' => ['admin.panel']], function () {
     if (config('app.debug')) {
         Route::get('admin/test/error-handling', ErrorHandlingDemo::class)->name('admin.test.error-handling');
     }
+    Route::get('admin/feature-module/{module}', FeatureModule::class)->name('admin.feature-module');
 
     Route::get('utilitys/translate/{class}/{id}', DynamicTranslate::class)->name('admin.dynamic-translate');
     Route::get('utility/seo/{class}/{id}', DynamicSeo::class)->name('admin.dynamic-seo');

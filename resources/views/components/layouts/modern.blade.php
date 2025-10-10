@@ -65,11 +65,17 @@
                             @if (Arr::get($menu, 'access', true))
                                 <x-menu-sub :title="Arr::get($menu, 'title')" :icon="Arr::get($menu, 'icon')">
                                     @foreach (Arr::get($menu, 'sub_menu', []) as $subMenu)
-                                        <x-menu-item :exact="Arr::get($subMenu, 'exact', false)" :title="Arr::get($subMenu, 'title')" :icon="Arr::get($subMenu, 'icon')"
-                                            :badge="Arr::get($subMenu, 'badge')" :badge-classes="Arr::get($subMenu, 'badge_classes', 'float-left')" :link="route(
-                                                Arr::get($subMenu, 'route_name'),
-                                                Arr::get($subMenu, 'params', []),
-                                            )" />
+                                        @if (Arr::get($subMenu, 'access', true))
+                                            <x-menu-item :exact="Arr::get($subMenu, 'exact', false)" :title="Arr::get($subMenu, 'title')" :icon="Arr::get($subMenu, 'icon')"
+                                                :badge="Arr::get($subMenu, 'badge')" :badge-classes="Arr::get(
+                                                    $subMenu,
+                                                    'badge_classes',
+                                                    'float-left badge-info badge-dash',
+                                                )" :link="route(
+                                                    Arr::get($subMenu, 'route_name'),
+                                                    Arr::get($subMenu, 'params', []),
+                                                )" />
+                                        @endif
                                     @endforeach
                                 </x-menu-sub>
                             @endif
