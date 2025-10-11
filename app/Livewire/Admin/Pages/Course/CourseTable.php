@@ -8,6 +8,7 @@ use App\Enums\CourseTypeEnum;
 use App\Helpers\PowerGridHelper;
 use App\Models\Category;
 use App\Models\Course;
+use App\Models\CourseTemplate;
 use App\Models\User;
 use App\Services\Permissions\PermissionsService;
 use App\Traits\PowerGridHelperTrait;
@@ -26,12 +27,13 @@ use PowerComponents\LivewirePowerGrid\PowerGridFields;
 final class CourseTable extends PowerGridComponent
 {
     use PowerGridHelperTrait;
+    public CourseTemplate $courseTemplate;
 
     public string $tableName     = 'index_course_datatable';
     public string $sortDirection = 'desc';
 
     /** Livewire events for course lifecycle buttons */
-    protected $listeners = ['course-publish' => 'publishCourse', 'course-start' => 'startCourse', 'course-finish' => 'finishCourse'];
+    protected $listeners = ['course-publish' => 'publishCourse', 'course-finish' => 'finishCourse'];
 
     public function setUp(): array
     {
@@ -69,6 +71,7 @@ final class CourseTable extends PowerGridComponent
     {
         return [
             ['link' => route('admin.dashboard'), 'icon' => 's-home'],
+            ['link' => route('admin.course-template.index'),'label'=>trans('general.page.index.title', ['model' => trans('coursetemplate.model')]), 'icon' => 'o-book-open'],
             ['label' => trans('general.page.index.title', ['model' => trans('course.model')])],
         ];
     }
@@ -78,7 +81,7 @@ final class CourseTable extends PowerGridComponent
     {
         return [
             [
-                'link'   => route('admin.course.create'),
+                'link'   => route('admin.course.run', ['courseTemplate' => $this->courseTemplate->id]),
                 'icon'   => 's-plus',
                 'label'  => trans(
                     'general.page.create.title',
@@ -92,6 +95,7 @@ final class CourseTable extends PowerGridComponent
     public function datasource(): Builder
     {
         return Course::query()
+            ->where('course_template_id', $this->courseTemplate->id)
             ->with(['teacher', 'template.category', 'term']);
     }
 
@@ -124,6 +128,7 @@ final class CourseTable extends PowerGridComponent
             ->add('category_formatted', fn ($row) => $row->template->category?->title ?? '---')
             ->add('price_formatted', fn ($row) => number_format($row->price) . systemCurrency())
             ->add('type_formatted', fn ($row) => $row->template->type->title())
+            ->add('status_formatted', fn ($row) => $row->status->title())
             ->add('start_date_formatted', fn ($row) => $row->sessions()->min('date') ?? '---')
             ->add('end_date_formatted', fn ($row) => $row->sessions()->max('date') ?? '---')
             ->add('view_count_formated', fn ($row) => "<strong style='color: " . ($row->template->view_count === 0 ? 'blue' : 'red') . "'>" . $row->template->view_count . '</strong>')
@@ -140,6 +145,7 @@ final class CourseTable extends PowerGridComponent
             Column::make(trans('datatable.category'), 'category_formatted'),
             Column::make(trans('datatable.price'), 'price_formatted'),
             Column::make(trans('datatable.type'), 'type_formatted'),
+            Column::make(trans('datatable.status'), 'status_formatted'),
             Column::make(trans('datatable.start_date'), 'start_date_formatted'),
             Column::make(trans('datatable.end_date'), 'end_date_formatted'),
             PowerGridHelper::columnViewCount('view_count_formated')->hidden(true, false),
@@ -182,12 +188,9 @@ final class CourseTable extends PowerGridComponent
     public function actions(Course $row): array
     {
         return [
-            Button::add('start')
-                ->slot('<x-mary-icon name="o-play" class="w-4 h-4" />')
-                ->class('btn btn-square md:btn-sm btn-xs')
-                ->dispatch('course-start', ['id' => $row->id]),
+
             Button::add('finish')
-                ->slot('<x-mary-icon name="o-flag" class="w-4 h-4" />')
+                ->slot('<i class="fa fa-stop"></i>')
                 ->class('btn btn-square md:btn-sm btn-xs')
                 ->dispatch('course-finish', ['id' => $row->id]),
 
@@ -207,7 +210,7 @@ final class CourseTable extends PowerGridComponent
     public function noDataLabel(): string|View
     {
         return view('admin.datatable-shared.empty-table', [
-            'link' => route('admin.course.create'),
+            'link' => route('admin.course.run', ['courseTemplate' => $this->courseTemplate->id]),
         ]);
     }
 
@@ -216,13 +219,6 @@ final class CourseTable extends PowerGridComponent
         $course = Course::findOrFail($id);
         $course->publish();
         $this->notification()->success(trans('general.success'), trans('course.published'));
-    }
-
-    public function startCourse(int $id): void
-    {
-        $course = Course::findOrFail($id);
-        $course->start();
-        $this->notification()->success(trans('general.success'), trans('course.started'));
     }
 
     public function finishCourse(int $id): void

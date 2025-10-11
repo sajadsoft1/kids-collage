@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Enums\BooleanEnum;
 use App\Enums\CourseStatusEnum;
 use App\Enums\CourseTypeEnum;
 use App\Facades\SmartCache;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 /**
  * Course Model
@@ -22,22 +23,22 @@ use Illuminate\Support\Facades\DB;
  * A real execution of a CourseTemplate in a Term with a teacher.
  * This represents an actual course instance that students can enroll in.
  *
- * @property int                 $id
- * @property int                 $course_template_id
- * @property int                 $term_id
- * @property int                 $teacher_id
- * @property int|null            $capacity
- * @property float               $price
- * @property CourseTypeEnum      $type
- * @property CourseStatusEnum    $status
- * @property array|null          $days_of_week
- * @property \Carbon\Carbon|null $start_time
- * @property \Carbon\Carbon|null $end_time
- * @property int|null            $room_id
- * @property string|null         $meeting_link
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
- * @property \Carbon\Carbon|null $deleted_at
+ * @property int              $id
+ * @property int              $course_template_id
+ * @property int              $term_id
+ * @property int              $teacher_id
+ * @property int|null         $capacity
+ * @property float            $price
+ * @property CourseTypeEnum   $type
+ * @property CourseStatusEnum $status
+ * @property array|null       $days_of_week
+ * @property Carbon|null      $start_time
+ * @property Carbon|null      $end_time
+ * @property int|null         $room_id
+ * @property string|null      $meeting_link
+ * @property Carbon|null      $created_at
+ * @property Carbon|null      $updated_at
+ * @property Carbon|null      $deleted_at
  *
  * @property-read CourseTemplate $template
  * @property-read Term                                                         $term
@@ -66,7 +67,7 @@ class Course extends Model
         'teacher_id'         => 'integer',
         'price'              => 'float',
         'capacity'           => 'integer',
-        'status' => CourseStatusEnum::class
+        'status'             => CourseStatusEnum::class,
     ];
 
     /** Get the course template that this course is based on. */
@@ -145,7 +146,7 @@ class Course extends Model
         return ! $this->isAtCapacity();
     }
 
-    /** Get the number of available spots. */
+    /** Get the amount available spots. */
     public function getAvailableSpotsAttribute(): int
     {
         if ($this->capacity === null) {
@@ -170,7 +171,7 @@ class Course extends Model
     /** Move course to scheduled state. */
     public function publish(): bool
     {
-        abort_unless($this->canPublish(), 422, 'Only draft courses can be published');
+        abort_unless($this->canPublish(), 422, trans('course.exceptions.only_draft_courses_can_be_published'));
 
         return $this->update(['status' => CourseStatusEnum::SCHEDULED]);
     }
@@ -181,10 +182,12 @@ class Course extends Model
         return $this->status === CourseStatusEnum::SCHEDULED;
     }
 
-    /** Start the course: clone sessions and set ACTIVE. */
+    /** Start the course: clone sessions and set ACTIVE.
+     * @throws Throwable
+     */
     public function start(): bool
     {
-        abort_unless($this->canStart(), 422, 'Course is not in a state that can be started');
+        abort_unless($this->canStart(), 422, trans('course.exceptions.course_is_not_in_a_state_that_can_be_started'));
 
         DB::transaction(function () {
             $this->cloneSessions();
@@ -203,7 +206,7 @@ class Course extends Model
     /** Finish the course. */
     public function finish(): bool
     {
-        abort_unless($this->canFinish(), 422, 'Only active courses can be finished');
+        abort_unless($this->canFinish(), 400, trans('course.exceptions.only_active_courses_can_be_finished'));
 
         return $this->update(['status' => CourseStatusEnum::FINISHED]);
     }
@@ -211,7 +214,7 @@ class Course extends Model
     /** Cancel the course from any non-finished state. */
     public function cancel(): bool
     {
-        abort_if($this->status === CourseStatusEnum::FINISHED, 422, 'Finished courses cannot be cancelled');
+        abort_if($this->status === CourseStatusEnum::FINISHED, 422, trans('course.exceptions.finished_courses_cannot_be_cancelled'));
 
         return $this->update(['status' => CourseStatusEnum::CANCELLED]);
     }
@@ -388,12 +391,12 @@ class Course extends Model
     }
 
     /** Find the next available date based on days of week. */
-    protected function findNextAvailableDate(\Carbon\Carbon $startDate, \Carbon\Carbon $endDate): ?\Carbon\Carbon
+    protected function findNextAvailableDate(Carbon $startDate, Carbon $endDate): ?Carbon
     {
         $current = $startDate->copy();
 
         while ($current->lte($endDate)) {
-            if (in_array($current->dayOfWeek, $this->days_of_week ?? [])) {
+            if (in_array($current->dayOfWeek, $this->days_of_week ?? [], true)) {
                 return $current->copy();
             }
             $current->addDay();

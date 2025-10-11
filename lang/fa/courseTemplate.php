@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 return [
-    'model'         => 'نمونه دوره',
+    'model'         => 'قالب دوره',
     'permissions'   => [
     ],
     'exceptions'    => [
@@ -19,5 +19,8 @@ return [
         'session_description_x'  => 'توضیحات جلسه :number',
         'add_session'            => 'افزودن جلسه',
         'description_of_session' => 'توضیحات جلسه',
+        'run_the_course_template'          => 'اجرای دوره',
+        'course_template_details'        => 'جزئیات نمونه دوره',
+        'course_list'                   => 'لیست دوره‌ها',
     ],
 ];

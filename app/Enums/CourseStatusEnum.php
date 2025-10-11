@@ -16,15 +16,15 @@ enum CourseStatusEnum: string
     {
         return [
             [
-                'label' => trans('course.enum.status.draft'),
+                'label' => self::DRAFT->title(),
                 'value' => self::DRAFT->value,
             ],
             [
-                'label' => trans('course.enum.status.scheduled'),
+                'label' => self::SCHEDULED->title(),
                 'value' => self::SCHEDULED->value,
             ],
             [
-                'label' => trans('course.enum.status.active'),
+                'label' => self::ACTIVE->title(),
                 'value' => self::ACTIVE->value,
             ],
         ];
@@ -34,29 +34,29 @@ enum CourseStatusEnum: string
     {
         return [
             [
-                'label' => trans('course.enum.status.draft'),
+                'label' => self::DRAFT->title(),
                 'value' => self::DRAFT->value,
             ],
             [
-                'label' => trans('course.enum.status.scheduled'),
+                'label' => self::SCHEDULED->title(),
                 'value' => self::SCHEDULED->value,
             ],
             [
-                'label' => trans('course.enum.status.active'),
+                'label' => self::ACTIVE->title(),
                 'value' => self::ACTIVE->value,
             ],
             [
-                'label' => trans('course.enum.status.finished'),
+                'label' => self::FINISHED->title(),
                 'value' => self::FINISHED->value,
             ],
             [
-                'label' => trans('course.enum.status.cancelled'),
+                'label' => self::CANCELLED->title(),
                 'value' => self::CANCELLED->value,
             ],
         ];
     }
 
-    public function label(): string
+    public function title(): string
     {
         return match ($this) {
             self::DRAFT     => trans('course.enum.status.draft'),

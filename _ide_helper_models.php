@@ -766,22 +766,22 @@ namespace App\Models{
  * A real execution of a CourseTemplate in a Term with a teacher.
  * This represents an actual course instance that students can enroll in.
  *
- * @property int                 $id
- * @property int                 $course_template_id
- * @property int                 $term_id
- * @property int                 $teacher_id
- * @property int|null            $capacity
- * @property float               $price
- * @property CourseTypeEnum      $type
- * @property CourseStatusEnum    $status
- * @property array|null          $days_of_week
- * @property \Carbon\Carbon|null $start_time
- * @property \Carbon\Carbon|null $end_time
- * @property int|null            $room_id
- * @property string|null         $meeting_link
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
- * @property \Carbon\Carbon|null $deleted_at
+ * @property int              $id
+ * @property int              $course_template_id
+ * @property int              $term_id
+ * @property int              $teacher_id
+ * @property int|null         $capacity
+ * @property float            $price
+ * @property CourseTypeEnum   $type
+ * @property CourseStatusEnum $status
+ * @property array|null       $days_of_week
+ * @property Carbon|null      $start_time
+ * @property Carbon|null      $end_time
+ * @property int|null         $room_id
+ * @property string|null      $meeting_link
+ * @property Carbon|null      $created_at
+ * @property Carbon|null      $updated_at
+ * @property Carbon|null      $deleted_at
  * @property-read CourseTemplate $template
  * @property-read Term                                                         $term
  * @property-read User                                                         $teacher
@@ -1636,9 +1636,9 @@ namespace App\Models{
  * @property float $benefit
  * @property \Illuminate\Support\Carbon|null $cooperation_start_date
  * @property \Illuminate\Support\Carbon|null $cooperation_end_date
- * @property \Spatie\SchemalessAttributes\SchemalessAttributes|null $extra_attributes
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Spatie\SchemalessAttributes\SchemalessAttributes $extra_attributes
  * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile newQuery()
@@ -1649,7 +1649,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereCooperationEndDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereCooperationStartDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereExtraAttributes($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereFatherName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereFatherPhone($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereGender($value)

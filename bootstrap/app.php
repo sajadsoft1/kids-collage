@@ -13,8 +13,12 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Middleware\SubstituteBindings;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -50,24 +54,46 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions) {
         // Handle Livewire exceptions
-        $exceptions->renderable(function (Throwable $e, $request) {
+        $exceptions->render(function (Throwable $e, Request $request) {
             // Check if this is a Livewire request
-            if ($request->header('X-Livewire')) {
+            if ($request->is('livewire/*') && $e instanceof Exception) {
+                // Determine the appropriate status code
+                $statusCode = 500;
+
+                if ($e instanceof ValidationException) {
+                    $statusCode = 422;
+                } elseif ($e instanceof HttpException) {
+                    $statusCode = $e->getStatusCode();
+                } elseif ($e instanceof InvalidArgumentException) {
+                    $statusCode = 400;
+                }
+
                 // Log the error for debugging
                 Log::error('Livewire Error: ' . $e->getMessage(), [
                     'exception' => get_class($e),
                     'file'      => $e->getFile(),
                     'line'      => $e->getLine(),
-                    'trace'     => $e->getTraceAsString(),
+                    'status'    => $statusCode,
+                    'url'       => $request->fullUrl(),
                 ]);
 
-                // Return a JSON response that Livewire can handle
+                // Determine the message to show
+                $message = $e->getMessage();
+
+                if ( ! config('app.debug') && (empty($message) || $message === 'Server Error')) {
+                    $message = match ($statusCode) {
+                        400     => __('درخواست نامعتبر است.'),
+                        403     => __('شما اجازه انجام این عملیات را ندارید.'),
+                        419     => __('نشست شما منقضی شده است.'),
+                        422     => __('اطلاعات ارسالی نامعتبر است.'),
+                        default => __('خطایی رخ داده است. لطفاً دوباره تلاش کنید.'),
+                    };
+                }
+
                 return response()->json([
-                    'message'   => config('app.debug')
-                        ? $e->getMessage()
-                        : __('خطایی رخ داده است. لطفاً دوباره تلاش کنید.'),
+                    'message'   => $message,
                     'exception' => config('app.debug') ? get_class($e) : null,
-                ], 500);
+                ], $statusCode);
             }
         });
     })
