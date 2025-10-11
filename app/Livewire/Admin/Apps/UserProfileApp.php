@@ -11,7 +11,7 @@ use Livewire\Component;
 class UserProfileApp extends Component
 {
     public User $user;
-    public string $selectedTab = 'users-tab';
+    public string $selectedTab = 'information-tab';
 
     public function mount(?User $user = null): void
     {

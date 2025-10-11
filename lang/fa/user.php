@@ -52,4 +52,15 @@ return [
         'parent'   => 'والدین',
         'user'     => 'دانش آموز',
     ],
+    'profile'    => [
+        'tabs' => [
+            'information-tab'   => 'اطلاعات کاربری',
+            'settings-tab'      => 'تنظیمات',
+            'security-tab'      => 'امنیت',
+            'notifications-tab' => 'اعلانات',
+            'tickets-tab'       => 'تیکت ها',
+            'payments-tab'      => 'پرداخت ها',
+            'logout-tab'        => 'خروج',
+        ],
+    ],
 ];

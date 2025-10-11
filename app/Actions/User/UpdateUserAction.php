@@ -56,7 +56,8 @@ readonly class UpdateUserAction
     {
         return DB::transaction(function () use ($user, $payload) {
             $user->update(Arr::only($payload, ['name', 'family', 'email', 'status', 'mobile']));
-            $user->profile()->update(Arr::only($payload, [
+
+            $profileFields = [
                 'gender',
                 'birth_date',
                 'national_code',
@@ -71,8 +72,19 @@ readonly class UpdateUserAction
                 'benefit',
                 'cooperation_start_date',
                 'cooperation_end_date',
-            ]));
-            $user->syncRoles(Arr::get($payload, 'rules', []));
+            ];
+
+            $profilePayload = [];
+            foreach ($profileFields as $field) {
+                if (isset($payload[$field])) {
+                    $profilePayload[$field] = $payload[$field];
+                }
+            }
+
+            $user->profile()->update($profilePayload);
+            if (isset($payload['rules'])) {
+                $user->syncRoles(Arr::get($payload, 'rules', []));
+            }
             $this->fileService->addMedia($user, Arr::get($payload, 'avatar'), 'avatar');
             $this->fileService->addMedia($user, Arr::get($payload, 'national_card'), 'national_card');
             $this->fileService->addMedia($user, Arr::get($payload, 'birth_certificate'), 'birth_certificate');

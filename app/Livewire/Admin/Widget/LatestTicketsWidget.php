@@ -13,6 +13,7 @@ use Livewire\Component;
 
 class LatestTicketsWidget extends Component
 {
+    public ?int $userId        = null;
     public int $limit          = 10;
     public ?string $start_date = null;
     public ?string $end_date   = null;
@@ -20,8 +21,9 @@ class LatestTicketsWidget extends Component
     public string $department  = '';
 
     /** Initialize the widget with default values */
-    public function mount(int $limit = 10, ?string $start_date = null, ?string $end_date = null, ?string $status = null, ?string $department = null): void
+    public function mount(int $limit = 10, ?string $start_date = null, ?string $end_date = null, ?string $status = null, ?string $department = null, ?int $userId = null): void
     {
+        $this->userId     = $userId;
         $this->limit      = $limit;
         $this->start_date = $start_date ?? Carbon::now()->subDays(30)->format('Y-m-d');
         $this->end_date   = $end_date ?? Carbon::now()->format('Y-m-d');
@@ -35,6 +37,9 @@ class LatestTicketsWidget extends Component
     {
         $query = Ticket::query()
             ->with(['user', 'closeBy'])
+            ->when($this->userId, function (Builder $query) {
+                $query->where('user_id', $this->userId);
+            })
             ->when($this->start_date, function (Builder $query) {
                 $query->whereDate('created_at', '>=', $this->start_date);
             })
@@ -58,6 +63,9 @@ class LatestTicketsWidget extends Component
     public function ticketStats()
     {
         $baseQuery = Ticket::query()
+            ->when($this->userId, function (Builder $query) {
+                $query->where('user_id', $this->userId);
+            })
             ->when($this->start_date, function (Builder $query) {
                 $query->whereDate('created_at', '>=', $this->start_date);
             })
@@ -91,6 +99,7 @@ class LatestTicketsWidget extends Component
     public function getMoreItemsUrl(): string
     {
         $params = http_build_query([
+            'user_id'    => $this->userId,
             'start_date' => $this->start_date,
             'end_date'   => $this->end_date,
             'status'     => $this->status,

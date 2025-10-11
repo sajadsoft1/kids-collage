@@ -1236,35 +1236,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * @property int $id
- * @property int $payment_id
- * @property float $amount
- * @property \Illuminate\Support\Carbon $due_date
- * @property \App\Enums\InstallmentMethodEnum $method
- * @property \App\Enums\InstallmentStatusEnum $status
- * @property string|null $transaction_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\Payment $payment
- * @method static \Database\Factories\InstallmentFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Installment newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Installment newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Installment query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Installment whereAmount($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Installment whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Installment whereDueDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Installment whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Installment whereMethod($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Installment wherePaymentId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Installment whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Installment whereTransactionId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Installment whereUpdatedAt($value)
- */
-	class Installment extends \Eloquent {}
-}
-
-namespace App\Models{
-/**
  * @property string $title
  * @property string $description
  * @property int $id
@@ -1563,8 +1534,6 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
  * @property-read int|null $activities_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Installment> $installment
- * @property-read int|null $installment_count
  * @property-read \App\Models\Order $order
  * @property-read \App\Models\User $user
  * @method static \Database\Factories\PaymentFactory factory($count = null, $state = [])
@@ -1667,6 +1636,7 @@ namespace App\Models{
  * @property float $benefit
  * @property \Illuminate\Support\Carbon|null $cooperation_start_date
  * @property \Illuminate\Support\Carbon|null $cooperation_end_date
+ * @property \Spatie\SchemalessAttributes\SchemalessAttributes|null $extra_attributes
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\User $user
@@ -1679,6 +1649,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereCooperationEndDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereCooperationStartDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereExtraAttributes($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereFatherName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereFatherPhone($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereGender($value)
