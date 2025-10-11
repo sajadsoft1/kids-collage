@@ -186,6 +186,16 @@ class User extends Authenticatable implements HasMedia
             }, 3600);
     }
 
+    public static function studentCont()
+    {
+        return SmartCache::for(__CLASS__)
+            ->key('student')
+            ->remember(function () {
+                return self::where('type', UserTypeEnum::USER->value)
+                    ->count();
+            }, 3600);
+    }
+
     public function father(): ?User
     {
         return $this->parents()->whereHas('profile', fn ($q) => $q->where('gender', GenderEnum::MALE))->first();

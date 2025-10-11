@@ -60,6 +60,8 @@ class Opinion extends Model implements HasMedia
                 $this->addMediaConversion(Constants::RESOLUTION_100_SQUARE)->fit(Fit::Crop, 100, 100);
                 $this->addMediaConversion(Constants::RESOLUTION_1280_400)->fit(Fit::Crop, 1280, 400);
             });
+        $this->addMediaCollection('video')
+            ->singleFile();
     }
 
     public function getActivitylogOptions(): LogOptions

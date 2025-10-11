@@ -43,6 +43,7 @@ class OpinionResource extends JsonResource
             'updated_at'   => $this->updated_at,
             'created_at'   => $this->created_at,
             'image'        => $this->resource->getFirstMediaUrl('image', Constants::RESOLUTION_100_SQUARE),
+            'video'        => $this->resource->getFirstMediaUrl('video'),
         ];
     }
 }

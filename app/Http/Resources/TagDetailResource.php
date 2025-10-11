@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
+use App\Helpers\Constants;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use OpenApi\Annotations as OA;
@@ -25,6 +26,8 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="is_in_use", type="boolean", default=true),
  *     @OA\Property(property="updated_at", type="string", default="2024-08-19T07:26:07.000000Z"),
  *     @OA\Property(property="created_at", type="string", default="2024-08-19T07:26:07.000000Z"),
+ *          @OA\Property(property="image", type="string", default="https://example.com/image.jpg"),
+ *
  * )
  */
 class TagDetailResource extends JsonResource
@@ -37,6 +40,7 @@ class TagDetailResource extends JsonResource
             'body'       => $this->body,
             'languages'  => $this->languages,
             'seo_option' => $this->seoOption,
+            'image'          => $this->resource->getFirstMediaUrl('image', Constants::RESOLUTION_720_SQUARE),
         ]);
     }
 }
