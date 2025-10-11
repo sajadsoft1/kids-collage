@@ -60,7 +60,6 @@ class NavbarComposer
             [
                 'icon'       => 'o-bell',
                 'params'     => [],
-                'exact'      => true,
                 'title'      => trans('_menu.notifications'),
                 'route_name' => 'admin.notification.index',
             ],
@@ -75,7 +74,6 @@ class NavbarComposer
             [
                 'icon'       => 'o-calendar',
                 'params'     => [],
-                'exact'      => true,
                 'title'      => trans('_menu.calendar'),
                 'route_name' => 'admin.app.calendar',
             ],
@@ -84,13 +82,11 @@ class NavbarComposer
             [
                 'icon'     => 'o-academic-cap',
                 'params'   => [],
-                'exact'    => true,
                 'title'    => trans('_menu.education'),
                 'sub_menu' => [
                     [
                         'icon'       => 'o-book-open',
                         'params'     => [],
-                        'exact'      => true,
                         'title'      => trans('_menu.course_management'),
                         'route_name' => 'admin.course-template.index',
                         'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Course::class, 'Index')),
@@ -98,7 +94,6 @@ class NavbarComposer
                     [
                         'icon'       => 'o-building-office-2',
                         'params'     => [],
-                        'exact'      => true,
                         'title'      => trans('_menu.room_management'),
                         'route_name' => 'admin.room.index',
                         'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Room::class, 'Index')),
@@ -106,7 +101,6 @@ class NavbarComposer
                     [
                         'icon'       => 'o-calendar-days',
                         'params'     => [],
-                        'exact'      => true,
                         'title'      => trans('_menu.term_management'),
                         'route_name' => 'admin.term.index',
                         'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Term::class, 'Index')),
@@ -114,7 +108,6 @@ class NavbarComposer
                     [
                         'icon'       => 'o-user-plus',
                         'params'     => [],
-                        'exact'      => true,
                         'title'      => trans('_menu.enrollment_management'),
                         'route_name' => 'admin.enrollment.index',
                         'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Enrollment::class, 'Index')),
@@ -122,7 +115,6 @@ class NavbarComposer
                     [
                         'icon'       => 'o-clipboard-document-check',
                         'params'     => [],
-                        'exact'      => true,
                         'title'      => trans('_menu.attendance_management'),
                         'route_name' => 'admin.attendance.index',
                         'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Attendance::class, 'Index')),
@@ -131,7 +123,6 @@ class NavbarComposer
                     // Future Education Modules
                     [
                         'icon'       => 'o-book-open',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.gradebook_management'),
                         'route_name' => 'admin.feature-module',
@@ -140,7 +131,6 @@ class NavbarComposer
                     ],
                     [
                         'icon'       => 'o-clipboard-document',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.assignments_management'),
                         'route_name' => 'admin.feature-module',
@@ -149,7 +139,6 @@ class NavbarComposer
                     ],
                     [
                         'icon'       => 'o-document-text',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.exams_management'),
                         'route_name' => 'admin.feature-module',
@@ -158,7 +147,6 @@ class NavbarComposer
                     ],
                     [
                         'icon'       => 'o-document-chart-bar',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.report_cards'),
                         'route_name' => 'admin.feature-module',
@@ -167,7 +155,6 @@ class NavbarComposer
                     ],
                     [
                         'icon'       => 'o-academic-cap',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.certificates_management'),
                         'route_name' => 'admin.feature-module',
@@ -176,7 +163,6 @@ class NavbarComposer
                     ],
                     [
                         'icon'       => 'o-rectangle-stack',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.curriculum_management'),
                         'route_name' => 'admin.feature-module',
@@ -185,7 +171,6 @@ class NavbarComposer
                     ],
                     [
                         'icon'       => 'o-user-group',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.parent_portal'),
                         'route_name' => 'admin.feature-module',
@@ -194,7 +179,6 @@ class NavbarComposer
                     ],
                     [
                         'icon'       => 'o-users',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.student_portal'),
                         'route_name' => 'admin.feature-module',
@@ -203,7 +187,6 @@ class NavbarComposer
                     ],
                     [
                         'icon'       => 'o-calendar-days',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.events_management'),
                         'route_name' => 'admin.feature-module',
@@ -212,7 +195,6 @@ class NavbarComposer
                     ],
                     [
                         'icon'       => 'o-calendar',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.academic_calendar'),
                         'route_name' => 'admin.feature-module',
@@ -226,7 +208,6 @@ class NavbarComposer
             [
                 'icon'       => 'o-users',
                 'params'     => [],
-                'exact'      => true,
                 'title'      => trans('_menu.hrm'),
                 'route_name' => 'admin.user.index',
                 'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(User::class, 'Index')),
@@ -234,7 +215,6 @@ class NavbarComposer
                     [
                         'icon'       => 'o-user-group',
                         'params'     => [],
-                        'exact'      => true,
                         'title'      => trans('_menu.user_management'),
                         'route_name' => 'admin.user.index',
                         'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(User::class, 'Index')),
@@ -242,7 +222,6 @@ class NavbarComposer
                     [
                         'icon'       => 'o-briefcase',
                         'params'     => [],
-                        'exact'      => true,
                         'title'      => trans('_menu.employee_management'),
                         'route_name' => 'admin.employee.index',
                         'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(User::class, 'Index')),
@@ -250,7 +229,6 @@ class NavbarComposer
                     [
                         'icon'       => 'o-academic-cap',
                         'params'     => [],
-                        'exact'      => true,
                         'title'      => trans('_menu.teacher_management'),
                         'route_name' => 'admin.teacher.index',
                         'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(User::class, 'Index')),
@@ -258,7 +236,6 @@ class NavbarComposer
                     [
                         'icon'       => 'o-heart',
                         'params'     => [],
-                        'exact'      => true,
                         'title'      => trans('_menu.parent_management'),
                         'route_name' => 'admin.parent.index',
                         'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(User::class, 'Index')),
@@ -266,7 +243,6 @@ class NavbarComposer
                     [
                         'icon'       => 'o-key',
                         'params'     => [],
-                        'exact'      => true,
                         'title'      => trans('_menu.role_management'),
                         'route_name' => 'admin.role.index',
                         'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Role::class, 'Index')),
@@ -275,7 +251,6 @@ class NavbarComposer
                     // Future HRM Modules
                     [
                         'icon'       => 'o-banknotes',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.payroll_management'),
                         'route_name' => 'admin.feature-module',
@@ -284,7 +259,6 @@ class NavbarComposer
                     ],
                     [
                         'icon'       => 'o-calendar-days',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.leave_management'),
                         'route_name' => 'admin.feature-module',
@@ -293,7 +267,6 @@ class NavbarComposer
                     ],
                     [
                         'icon'       => 'o-chart-bar-square',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.performance_management'),
                         'route_name' => 'admin.feature-module',
@@ -302,7 +275,6 @@ class NavbarComposer
                     ],
                     [
                         'icon'       => 'o-clock',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.time_tracking'),
                         'route_name' => 'admin.feature-module',
@@ -311,7 +283,6 @@ class NavbarComposer
                     ],
                     [
                         'icon'       => 'o-document-text',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.contracts_management'),
                         'route_name' => 'admin.feature-module',
@@ -320,7 +291,6 @@ class NavbarComposer
                     ],
                     [
                         'icon'       => 'o-folder-open',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.documents_management'),
                         'route_name' => 'admin.feature-module',
@@ -329,7 +299,6 @@ class NavbarComposer
                     ],
                     [
                         'icon'       => 'o-user-circle',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.recruitment_management'),
                         'route_name' => 'admin.feature-module',
@@ -338,7 +307,6 @@ class NavbarComposer
                     ],
                     [
                         'icon'       => 'o-light-bulb',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.training_management'),
                         'route_name' => 'admin.feature-module',
@@ -347,7 +315,6 @@ class NavbarComposer
                     ],
                     [
                         'icon'       => 'o-calendar',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.scheduling_management'),
                         'route_name' => 'admin.feature-module',
@@ -361,13 +328,11 @@ class NavbarComposer
             [
                 'icon'     => 'o-banknotes',
                 'params'   => [],
-                'exact'    => true,
                 'title'    => trans('_menu.accounting'),
                 'sub_menu' => [
                     [
                         'icon'       => 'o-shopping-cart',
                         'params'     => [],
-                        'exact'      => true,
                         'title'      => trans('_menu.order_management'),
                         'route_name' => 'admin.order.index',
                         'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Order::class, 'Index')),
@@ -375,7 +340,6 @@ class NavbarComposer
                     [
                         'icon'       => 'o-credit-card',
                         'params'     => [],
-                        'exact'      => true,
                         'title'      => trans('_menu.payment_management'),
                         'route_name' => 'admin.payment.index',
                         'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Payment::class, 'Index')),
@@ -384,7 +348,6 @@ class NavbarComposer
                     // Future Accounting Modules
                     [
                         'icon'       => 'o-document-duplicate',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.invoices_management'),
                         'route_name' => 'admin.feature-module',
@@ -393,7 +356,6 @@ class NavbarComposer
                     ],
                     [
                         'icon'       => 'o-calendar-days',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.installments_management'),
                         'route_name' => 'admin.feature-module',
@@ -402,7 +364,6 @@ class NavbarComposer
                     ],
                     [
                         'icon'       => 'o-arrow-trending-down',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.expenses_management'),
                         'route_name' => 'admin.feature-module',
@@ -411,7 +372,6 @@ class NavbarComposer
                     ],
                     [
                         'icon'       => 'o-arrow-trending-up',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.income_management'),
                         'route_name' => 'admin.feature-module',
@@ -420,7 +380,6 @@ class NavbarComposer
                     ],
                     [
                         'icon'       => 'o-presentation-chart-line',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.financial_reports'),
                         'route_name' => 'admin.feature-module',
@@ -429,7 +388,6 @@ class NavbarComposer
                     ],
                     [
                         'icon'       => 'o-calculator',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.budget_management'),
                         'route_name' => 'admin.feature-module',
@@ -438,7 +396,6 @@ class NavbarComposer
                     ],
                     [
                         'icon'       => 'o-arrows-right-left',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.cash_flow'),
                         'route_name' => 'admin.feature-module',
@@ -447,7 +404,6 @@ class NavbarComposer
                     ],
                     [
                         'icon'       => 'o-clipboard-document-list',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.accounting_documents'),
                         'route_name' => 'admin.feature-module',
@@ -456,7 +412,6 @@ class NavbarComposer
                     ],
                     [
                         'icon'       => 'o-receipt-percent',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.tax_management'),
                         'route_name' => 'admin.feature-module',
@@ -465,7 +420,6 @@ class NavbarComposer
                     ],
                     [
                         'icon'       => 'o-inbox-stack',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.cashbox_management'),
                         'route_name' => 'admin.feature-module',
@@ -474,7 +428,6 @@ class NavbarComposer
                     ],
                     [
                         'icon'       => 'o-building-library',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.banks_management'),
                         'route_name' => 'admin.feature-module',
@@ -488,21 +441,18 @@ class NavbarComposer
             [
                 'icon'     => 'o-chart-bar',
                 'params'   => [],
-                'exact'    => true,
                 'title'    => trans('_menu.crm'),
                 'access'   => true,
                 'sub_menu' => [
                     [
                         'icon'       => 'o-view-columns',
                         'params'     => [],
-                        'exact'      => true,
                         'title'      => trans('_menu.board_management'),
                         'route_name' => 'admin.app.boards',
                     ],
                     [
                         'icon'       => 'o-ticket',
                         'params'     => [],
-                        'exact'      => true,
                         'title'      => trans('_menu.ticket_management'),
                         'route_name' => 'admin.ticket.index',
                         'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Ticket::class, 'Index')),
@@ -510,7 +460,6 @@ class NavbarComposer
                     [
                         'icon'       => 'o-chat-bubble-left-right',
                         'params'     => [],
-                        'exact'      => true,
                         'title'      => trans('_menu.comment_management'),
                         'route_name' => 'admin.comment.index',
                         'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Comment::class, 'Index')),
@@ -518,7 +467,6 @@ class NavbarComposer
                     [
                         'icon'       => 'o-envelope',
                         'params'     => [],
-                        'exact'      => true,
                         'title'      => trans('_menu.contact_us_management'),
                         'route_name' => 'admin.contact-us.index',
                         'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(ContactUs::class, 'Index')),
@@ -526,7 +474,6 @@ class NavbarComposer
                     [
                         'icon'       => 'o-receipt-percent',
                         'params'     => [],
-                        'exact'      => true,
                         'title'      => trans('_menu.discount_management'),
                         'route_name' => 'admin.discount.index',
                         'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Discount::class, 'Index')),
@@ -535,7 +482,6 @@ class NavbarComposer
                     // Future CRM Modules
                     [
                         'icon'       => 'o-user-plus',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.leads_management'),
                         'route_name' => 'admin.feature-module',
@@ -544,7 +490,6 @@ class NavbarComposer
                     ],
                     [
                         'icon'       => 'o-megaphone',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.campaigns_management'),
                         'route_name' => 'admin.feature-module',
@@ -553,7 +498,6 @@ class NavbarComposer
                     ],
                     [
                         'icon'       => 'o-envelope-open',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.email_marketing'),
                         'route_name' => 'admin.feature-module',
@@ -562,7 +506,6 @@ class NavbarComposer
                     ],
                     [
                         'icon'       => 'o-device-phone-mobile',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.sms_marketing'),
                         'route_name' => 'admin.feature-module',
@@ -571,7 +514,6 @@ class NavbarComposer
                     ],
                     [
                         'icon'       => 'o-funnel',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.sales_pipeline'),
                         'route_name' => 'admin.feature-module',
@@ -580,7 +522,6 @@ class NavbarComposer
                     ],
                     [
                         'icon'       => 'o-clock',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.followups_management'),
                         'route_name' => 'admin.feature-module',
@@ -589,7 +530,6 @@ class NavbarComposer
                     ],
                     [
                         'icon'       => 'o-squares-2x2',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.segments_management'),
                         'route_name' => 'admin.feature-module',
@@ -598,7 +538,6 @@ class NavbarComposer
                     ],
                     [
                         'icon'       => 'o-chart-pie',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.crm_reports'),
                         'route_name' => 'admin.feature-module',
@@ -612,13 +551,11 @@ class NavbarComposer
             [
                 'icon'     => 'o-document-text',
                 'params'   => [],
-                'exact'    => true,
                 'title'    => trans('_menu.content'),
                 'sub_menu' => [
                     [
                         'icon'       => 'o-newspaper',
                         'params'     => [],
-                        'exact'      => true,
                         'title'      => trans('_menu.blog_management'),
                         'route_name' => 'admin.blog.index',
                         'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Blog::class, 'Index')),
@@ -626,7 +563,6 @@ class NavbarComposer
                     [
                         'icon'       => 'o-photo',
                         'params'     => [],
-                        'exact'      => true,
                         'title'      => trans('_menu.portfolio_management'),
                         'route_name' => 'admin.portFolio.index',
                         'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(PortFolio::class, 'Index')),
@@ -634,7 +570,6 @@ class NavbarComposer
                     [
                         'icon'       => 'o-document-duplicate',
                         'params'     => [],
-                        'exact'      => true,
                         'title'      => trans('_menu.page_management'),
                         'route_name' => 'admin.page.index',
                         'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Page::class, 'Index')),
@@ -642,7 +577,6 @@ class NavbarComposer
                     [
                         'icon'       => 'o-folder',
                         'params'     => [],
-                        'exact'      => true,
                         'title'      => trans('_menu.category_management'),
                         'route_name' => 'admin.category.index',
                         'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Category::class, 'Index')),
@@ -650,7 +584,6 @@ class NavbarComposer
                     [
                         'icon'       => 'o-tag',
                         'params'     => [],
-                        'exact'      => true,
                         'title'      => trans('_menu.tag_management'),
                         'route_name' => 'admin.tag.index',
                         'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Tag::class, 'Index')),
@@ -658,7 +591,6 @@ class NavbarComposer
                     [
                         'icon'       => 'o-megaphone',
                         'params'     => [],
-                        'exact'      => true,
                         'title'      => trans('_menu.bulletin_management'),
                         'route_name' => 'admin.bulletin.index',
                         'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Bulletin::class, 'Index')),
@@ -666,7 +598,6 @@ class NavbarComposer
                     [
                         'icon'       => 'o-shield-check',
                         'params'     => [],
-                        'exact'      => true,
                         'title'      => trans('_menu.license_management'),
                         'route_name' => 'admin.license.index',
                         'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(License::class, 'Index')),
@@ -675,7 +606,6 @@ class NavbarComposer
                     // Future Content Modules
                     [
                         'icon'       => 'o-film',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.media_library'),
                         'route_name' => 'admin.feature-module',
@@ -684,7 +614,6 @@ class NavbarComposer
                     ],
                     [
                         'icon'       => 'o-play',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.video_gallery'),
                         'route_name' => 'admin.feature-module',
@@ -693,7 +622,6 @@ class NavbarComposer
                     ],
                     [
                         'icon'       => 'o-microphone',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.podcasts_management'),
                         'route_name' => 'admin.feature-module',
@@ -702,7 +630,6 @@ class NavbarComposer
                     ],
                     [
                         'icon'       => 'o-book-open',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.ebooks_management'),
                         'route_name' => 'admin.feature-module',
@@ -711,7 +638,6 @@ class NavbarComposer
                     ],
                     [
                         'icon'       => 'o-arrow-down-tray',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.downloads_management'),
                         'route_name' => 'admin.feature-module',
@@ -720,7 +646,6 @@ class NavbarComposer
                     ],
                     [
                         'icon'       => 'o-document-duplicate',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.documentation'),
                         'route_name' => 'admin.feature-module',
@@ -729,7 +654,6 @@ class NavbarComposer
                     ],
                     [
                         'icon'       => 'o-newspaper',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.newsletter_management'),
                         'route_name' => 'admin.feature-module',
@@ -743,7 +667,6 @@ class NavbarComposer
             [
                 'icon'       => 'o-cog-6-tooth',
                 'params'     => [],
-                'exact'      => true,
                 'title'      => trans('_menu.base_management'),
                 'route_name' => 'admin.slider.index',
                 'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Slider::class, 'Index')),
@@ -751,7 +674,6 @@ class NavbarComposer
                     [
                         'icon'       => 'o-rectangle-stack',
                         'params'     => [],
-                        'exact'      => true,
                         'title'      => trans('_menu.slider_management'),
                         'route_name' => 'admin.slider.index',
                         'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Slider::class, 'Index')),
@@ -759,7 +681,6 @@ class NavbarComposer
                     [
                         'icon'       => 'o-question-mark-circle',
                         'params'     => [],
-                        'exact'      => true,
                         'title'      => trans('_menu.faq_management'),
                         'route_name' => 'admin.faq.index',
                         'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Faq::class, 'Index')),
@@ -767,7 +688,6 @@ class NavbarComposer
                     [
                         'icon'       => 'o-photo',
                         'params'     => [],
-                        'exact'      => true,
                         'title'      => trans('_menu.banner_management'),
                         'route_name' => 'admin.banner.index',
                         'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Banner::class, 'Index')),
@@ -775,7 +695,6 @@ class NavbarComposer
                     [
                         'icon'       => 'o-building-storefront',
                         'params'     => [],
-                        'exact'      => true,
                         'title'      => trans('_menu.client_management'),
                         'route_name' => 'admin.client.index',
                         'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Client::class, 'Index')),
@@ -783,7 +702,6 @@ class NavbarComposer
                     [
                         'icon'       => 'o-user-group',
                         'params'     => [],
-                        'exact'      => true,
                         'title'      => trans('_menu.teammate_management'),
                         'route_name' => 'admin.teammate.index',
                         'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Teammate::class, 'Index')),
@@ -791,7 +709,6 @@ class NavbarComposer
                     [
                         'icon'       => 'o-share',
                         'params'     => [],
-                        'exact'      => true,
                         'title'      => trans('_menu.social_media_management'),
                         'route_name' => 'admin.social-media.index',
                         'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(SocialMedia::class, 'Index')),
@@ -799,7 +716,6 @@ class NavbarComposer
                     [
                         'icon'       => 'o-star',
                         'params'     => [],
-                        'exact'      => true,
                         'title'      => trans('_menu.opinion_management'),
                         'route_name' => 'admin.opinion.index',
                         'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Opinion::class, 'Index')),
@@ -808,7 +724,6 @@ class NavbarComposer
                     // Future Base Settings Modules
                     [
                         'icon'       => 'o-cog-8-tooth',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.system_settings'),
                         'route_name' => 'admin.feature-module',
@@ -817,7 +732,6 @@ class NavbarComposer
                     ],
                     [
                         'icon'       => 'o-bell-alert',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.notification_templates'),
                         'route_name' => 'admin.feature-module',
@@ -826,7 +740,6 @@ class NavbarComposer
                     ],
                     [
                         'icon'       => 'o-envelope',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.email_templates'),
                         'route_name' => 'admin.feature-module',
@@ -835,7 +748,6 @@ class NavbarComposer
                     ],
                     [
                         'icon'       => 'o-chat-bubble-bottom-center-text',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.sms_templates'),
                         'route_name' => 'admin.feature-module',
@@ -844,7 +756,6 @@ class NavbarComposer
                     ],
                     [
                         'icon'       => 'o-clipboard-document-list',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.activity_logs'),
                         'route_name' => 'admin.feature-module',
@@ -853,7 +764,6 @@ class NavbarComposer
                     ],
                     [
                         'icon'       => 'o-archive-box',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.backup_management'),
                         'route_name' => 'admin.feature-module',
@@ -862,7 +772,6 @@ class NavbarComposer
                     ],
                     [
                         'icon'       => 'o-language',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.languages_management'),
                         'route_name' => 'admin.feature-module',
@@ -871,7 +780,6 @@ class NavbarComposer
                     ],
                     [
                         'icon'       => 'o-magnifying-glass-circle',
-                        'exact'      => true,
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.seo_settings'),
                         'route_name' => 'admin.feature-module',
