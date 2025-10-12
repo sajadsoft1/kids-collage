@@ -46,7 +46,7 @@ class CourseTemplateDetailResource extends JsonResource
             'comments'   => $this->whenLoaded('comments', fn () => CommentResource::collection($this->comments)),
             'seo_option' => $this->seoOption,
             'image'      => $this->resource->getFirstMediaUrl('image', Constants::RESOLUTION_1280_720),
-            'courses'=>$this->whenLoaded('courses', fn()=>CourseResource::collection($this->activeCourses->load('media','term','teachers','sessions'))),
+            'courses'=>$this->whenLoaded('courses', fn()=>CourseResource::collection($this->activeCourses->load('term','teacher','sessions'))),
 
         ]);
     }
