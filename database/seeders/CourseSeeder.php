@@ -25,6 +25,7 @@ class CourseSeeder extends Seeder
             'level'       => $row['level'],
             'type'        => $row['type'],
             'sessions'    => $row['sessions'],
+            'status'      =>'active',
         ]);
 
         foreach ($data['course'] as $row) {

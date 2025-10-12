@@ -4694,46 +4694,16 @@
                         "type": "string",
                         "default": "laravel"
                     },
-                    "description": {
-                        "type": "string",
-                        "default": "PHP framework"
-                    },
                     "body": {
                         "type": "string",
-                        "default": "Detailed tag content..."
-                    },
-                    "type": {
-                        "type": "string",
-                        "default": "blog"
-                    },
-                    "order_column": {
-                        "type": "integer",
-                        "default": "1"
-                    },
-                    "languages": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        }
+                        "default": "Body content"
                     },
                     "seo_option": {
                         "type": "object"
                     },
                     "image": {
                         "type": "string",
-                        "default": "https://example.com/image.jpg"
-                    },
-                    "is_in_use": {
-                        "type": "boolean",
-                        "default": true
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "default": "2024-08-19T07:26:07.000000Z"
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "default": "2024-08-19T07:26:07.000000Z"
+                        "default": "http://localhost/storage/1/image/720x720/filename.jpg"
                     }
                 },
                 "type": "object"

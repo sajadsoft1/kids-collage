@@ -90,8 +90,8 @@ class CourseTemplateUpdateOrCreate extends Component
         foreach (range(0, $this->sessions_count - 1) as $index) {
             $newSessions[] = $oldSessions[$index] ?? [
                 'order'            => $index + 1,
-                'title'            => trans('coursetemplate.page.session_title_x', ['number' => $index + 1]),
-                'description'      => trans('coursetemplate.page.session_description_x', ['number' => $index + 1]),
+                'title'            => trans('courseTemplate.page.session_title_x', ['number' => $index + 1]),
+                'description'      => trans('courseTemplate.page.session_description_x', ['number' => $index + 1]),
                 'duration_minutes' => 60,
                 'type'             => $this->type,
             ];
