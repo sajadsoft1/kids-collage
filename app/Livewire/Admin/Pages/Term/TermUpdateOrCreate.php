@@ -7,12 +7,12 @@ namespace App\Livewire\Admin\Pages\Term;
 use App\Actions\Term\StoreTermAction;
 use App\Actions\Term\UpdateTermAction;
 use App\Enums\TermStatus;
+use App\Helpers\Constants;
 use App\Models\Term;
 use App\Traits\CrudHelperTrait;
 use Illuminate\View\View;
 use Livewire\Component;
 use Mary\Traits\Toast;
-use Throwable;
 
 class TermUpdateOrCreate extends Component
 {
@@ -32,8 +32,8 @@ class TermUpdateOrCreate extends Component
         if ($this->model->id) {
             $this->title            = $this->model->title;
             $this->description      = $this->model->description;
-            $this->start_date       = $this->model->start_date;
-            $this->end_date         = $this->model->end_date;
+            $this->start_date       = $this->model->start_date->format('Y-m-d');
+            $this->end_date         = $this->model->end_date->format(Constants::DEFAULT_DATE_FORMAT);
             $this->status           = $this->model->status->value;
         }
     }
@@ -44,34 +44,27 @@ class TermUpdateOrCreate extends Component
             'title'       => 'required|string',
             'description' => 'required|string',
             'start_date'  => 'required|date',
-            'end_date'    => 'required|date',
-            'status'      => 'required|string|in:' . implode(',', TermStatus::cases()),
+            'end_date'    => 'required|date|after:start_date',
+            'status'      => 'required|string|in:' . implode(',', TermStatus::values()),
         ];
     }
 
     public function submit(): void
     {
         $payload = $this->validate();
+
         if ($this->model->id) {
-            try {
-                UpdateTermAction::run($this->model, $payload);
-                $this->success(
-                    title: trans('general.model_has_updated_successfully', ['model' => trans('term.model')]),
-                    redirectTo: route('admin.term.index')
-                );
-            } catch (Throwable $e) {
-                $this->error($e->getMessage(), timeout: 5000);
-            }
+            UpdateTermAction::run($this->model, $payload);
+            $this->success(
+                title: trans('general.model_has_updated_successfully', ['model' => trans('term.model')]),
+                redirectTo: route('admin.term.index')
+            );
         } else {
-            try {
-                StoreTermAction::run($payload);
-                $this->success(
-                    title: trans('general.model_has_stored_successfully', ['model' => trans('term.model')]),
-                    redirectTo: route('admin.term.index')
-                );
-            } catch (Throwable $e) {
-                $this->error($e->getMessage(), timeout: 5000);
-            }
+            StoreTermAction::run($payload);
+            $this->success(
+                title: trans('general.model_has_stored_successfully', ['model' => trans('term.model')]),
+                redirectTo: route('admin.term.index')
+            );
         }
     }
 

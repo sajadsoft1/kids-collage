@@ -15,11 +15,11 @@
 
 @if (app()->getLocale() == 'fa')
     <x-persian-datepicker wirePropertyName="{{ $wirePropertyName }}" :label="$label" showFormat="{{ $showFormat }}"
-        class="rounded-md border-2 border-red-500" returnFormat="{{ $returnFormat }}" :required="$required" :defaultDate="$defaultDate"
+        class="border-2 border-red-500 rounded-md" returnFormat="{{ $returnFormat }}" :required="$required" :defaultDate="$defaultDate"
         :disabled="$disabled" :withTime="$withTime" :setNullInput="$setNullInput" :ignoreWire="$ignoreWire" :withTimeSeconds="$withTimeSeconds" />
     @error($wirePropertyName)
         <span class="text-sm text-red-500">{{ $message }}</span>
     @enderror
 @else
-    <x-datetime :label="$label" wire:model="$wirePropertyName" x-ref="$xRef" />
+    <x-datepicker :label="$label" wire:model="$wirePropertyName" x-ref="$xRef" />
 @endif

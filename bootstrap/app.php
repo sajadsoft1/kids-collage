@@ -56,8 +56,10 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withExceptions(function (Exceptions $exceptions) {
         // Handle Livewire exceptions
         $exceptions->render(function (Throwable $e, Request $request) {
-            // Check if this is a Livewire request
-            if ($request->is('livewire/*') && $e instanceof Exception) {
+            // Check if this is a Livewire request (check both URL and header)
+            $isLivewireRequest = $request->is('livewire/*') || $request->hasHeader('X-Livewire');
+
+            if ($isLivewireRequest) {
                 // Determine the appropriate status code
                 $statusCode = 500;
 

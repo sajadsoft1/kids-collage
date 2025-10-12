@@ -1,0 +1,53 @@
+@font-face {
+    font-family: YekanBakhFa;
+    font-style: normal;
+    font-weight: 300;
+    src: url("~/assets/fonts/woff/YekanBakhFaNum-Light.woff") format("woff"), url("~/assets/fonts/woff2/YekanBakhFaNum-Light.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: YekanBakhFa;
+    font-style: normal;
+    font-weight: normal;
+    src: url("~/assets/fonts/woff/YekanBakhFaNum-Regular.woff") format("woff"), url("~/assets/fonts/woff2/YekanBakhFaNum-Regular.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: YekanBakhFa;
+    font-style: normal;
+    font-weight: 600;
+    src: url("~/assets/fonts/woff/YekanBakhFaNum-SemiBold.woff") format("woff"), url("~/assets/fonts/woff2/YekanBakhFaNum-SemiBold.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: YekanBakhFa;
+    font-style: normal;
+    font-weight: bold;
+    src: url("~/assets/fonts/woff/YekanBakhFaNum-Bold.woff") format("woff"), url("~/assets/fonts/woff2/YekanBakhFaNum-Bold.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: YekanBakhFa;
+    font-style: normal;
+    font-weight: 800;
+    src: url("~/assets/fonts/woff/YekanBakhFaNum-ExtraBold.woff") format("woff"), url("~/assets/fonts/woff2/YekanBakhFaNum-ExtraBold.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: YekanBakhFa;
+    font-style: normal;
+    font-weight: 900;
+    src: url("~/assets/fonts/woff/YekanBakhFaNum-Black.woff") format("woff"), url("~/assets/fonts/woff2/YekanBakhFaNum-Black.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: YekanBakhFa;
+    font-style: normal;
+    font-weight: 950;
+    src: url("~/assets/fonts/woff/YekanBakhFaNum-ExtraBlack.woff") format("woff"), url("~/assets/fonts/woff2/YekanBakhFaNum-ExtraBlack.woff2") format("woff2");
+}
+
+:root {
+    font-family: YekanBakhFa;
+    direction: rtl;
+}

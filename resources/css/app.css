@@ -85,9 +85,9 @@
 #pg-footer nav > div a svg{
     @apply rtl:rotate-180;
 }
-* {
+/* * {
     font-family: Vazirmatn, sans-serif;
-}
+} */
 /* start powergrid*/
 .responsive-row-expand-container {
     @apply flex-col gap-y-5 bg-base-300 rounded-md;
