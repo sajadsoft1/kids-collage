@@ -38,6 +38,15 @@ enum SessionType: string
         };
     }
 
+    public function color(): string
+    {
+        return match ($this) {
+            self::IN_PERSON => 'success',
+            self::ONLINE    => 'primary',
+            self::HYBRID    => 'warning',
+        };
+    }
+
     public function toArray(): array
     {
         return [

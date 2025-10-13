@@ -11,12 +11,12 @@ return [
         'delete_course' => 'حذف دوره',
     ],
     'exceptions'    => [
-        'course_not_found'     => 'دوره مورد نظر یافت نشد',
-        'course_access_denied' => 'دسترسی به دوره مورد نظر مجاز نیست',
-        'only_draft_courses_can_be_published' => 'فقط دوره‌های در حالت پیش‌نویس می‌توانند منتشر شوند',
+        'course_not_found'                             => 'دوره مورد نظر یافت نشد',
+        'course_access_denied'                         => 'دسترسی به دوره مورد نظر مجاز نیست',
+        'only_draft_courses_can_be_published'          => 'فقط دوره‌های در حالت پیش‌نویس می‌توانند منتشر شوند',
         'course_is_not_in_a_state_that_can_be_started' => 'دوره در حالتی نیست که بتوان آن را شروع کرد',
-        'only_active_courses_can_be_finished' => 'فقط دوره‌های فعال می‌توانند به اتمام برسند',
-        'finished_courses_cannot_be_cancelled' => 'دوره‌های به اتمام رسیده نمی‌توانند لغو شوند',
+        'only_active_courses_can_be_finished'          => 'فقط دوره‌های فعال می‌توانند به اتمام برسند',
+        'finished_courses_cannot_be_cancelled'         => 'دوره‌های به اتمام رسیده نمی‌توانند لغو شوند',
     ],
     'validations'   => [
         'title_required'       => 'عنوان دوره الزامی است',
@@ -55,6 +55,7 @@ return [
         'create_title' => 'ایجاد دوره جدید',
         'edit_title'   => 'ویرایش دوره',
         'show_title'   => 'جزئیات دوره',
+        'session_list' => 'لیست جلسات دوره',
 
         'runer'        => [
             'generated_sessions' => 'جلسات تولید شده با توجه به بازه انتخابی',

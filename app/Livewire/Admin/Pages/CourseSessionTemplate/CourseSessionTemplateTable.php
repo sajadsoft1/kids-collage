@@ -4,14 +4,17 @@ declare(strict_types=1);
 
 namespace App\Livewire\Admin\Pages\CourseSessionTemplate;
 
-use App\Enums\BooleanEnum;
+use App\Enums\SessionType;
 use App\Helpers\PowerGridHelper;
 use App\Models\CourseSessionTemplate;
+use App\Models\CourseTemplate;
 use App\Traits\PowerGridHelperTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\View\View;
 use Jenssegers\Agent\Agent;
 use Livewire\Attributes\Computed;
+use PowerComponents\LivewirePowerGrid\Button;
+use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
@@ -20,6 +23,8 @@ use PowerComponents\LivewirePowerGrid\PowerGridFields;
 final class CourseSessionTemplateTable extends PowerGridComponent
 {
     use PowerGridHelperTrait;
+    public CourseTemplate $courseTemplate;
+
     public string $tableName     = 'index_courseSessionTemplate_datatable';
     public string $sortDirection = 'desc';
 
@@ -47,6 +52,7 @@ final class CourseSessionTemplateTable extends PowerGridComponent
     {
         return [
             ['link' => route('admin.dashboard'), 'icon' => 's-home'],
+            ['link'  => route('admin.course-template.index'), 'label' => trans('general.page.index.title', ['model' => trans('coursetemplate.model')])],
             ['label' => trans('general.page.index.title', ['model' => trans('courseSessionTemplate.model')])],
         ];
     }
@@ -55,13 +61,14 @@ final class CourseSessionTemplateTable extends PowerGridComponent
     public function breadcrumbsActions(): array
     {
         return [
-            ['link' => route('admin.courseSessionTemplate.create'), 'icon' => 's-plus', 'label' => trans('general.page.create.title', ['model' => trans('courseSessionTemplate.model')])],
+            ['link' => route('admin.course-session-template.create', ['courseTemplate' => $this->courseTemplate->id]), 'icon' => 's-plus', 'label' => trans('general.page.create.title', ['model' => trans('courseSessionTemplate.model')])],
         ];
     }
 
     public function datasource(): Builder
     {
-        return CourseSessionTemplate::query();
+        return CourseSessionTemplate::where('course_template_id', $this->courseTemplate->id)
+            ->orderBy('order');
     }
 
     public function relationSearch(): array
@@ -78,8 +85,10 @@ final class CourseSessionTemplateTable extends PowerGridComponent
         return PowerGrid::fields()
             ->add('id')
             ->add('title', fn ($row) => PowerGridHelper::fieldTitle($row))
-            ->add('published_formated', fn ($row) => PowerGridHelper::fieldPublishedAtFormated($row))
-            ->add('created_at_formatted', fn ($row) => PowerGridHelper::fieldCreatedAtFormated($row));
+            ->add('type_formated', fn ($row) => view('admin.datatable-shared.badge', [
+                'value' => $row->type->title(),
+                'color' => $row->type->color(),
+            ]));
     }
 
     public function columns(): array
@@ -87,8 +96,8 @@ final class CourseSessionTemplateTable extends PowerGridComponent
         return [
             PowerGridHelper::columnId(),
             PowerGridHelper::columnTitle(),
-            PowerGridHelper::columnPublished(),
-            PowerGridHelper::columnCreatedAT(),
+            Column::make(trans('validation.attributes.type'), 'type_formated', 'type')->sortable(),
+            Column::make(trans('validation.attributes.duration_minutes'), 'duration_minutes')->sortable(),
             PowerGridHelper::columnAction(),
         ];
     }
@@ -96,13 +105,8 @@ final class CourseSessionTemplateTable extends PowerGridComponent
     public function filters(): array
     {
         return [
-            Filter::enumSelect('published_formated', 'published')
-                ->datasource(BooleanEnum::cases()),
-
-            Filter::datepicker('created_at_formatted', 'created_at')
-                ->params([
-                    'maxDate' => now(),
-                ]),
+            Filter::enumSelect('type_formatted', 'type')
+                ->datasource(SessionType::cases()),
         ];
     }
 
@@ -110,8 +114,12 @@ final class CourseSessionTemplateTable extends PowerGridComponent
     {
         return [
             PowerGridHelper::btnTranslate($row),
-            PowerGridHelper::btnToggle($row),
-            PowerGridHelper::btnEdit($row),
+            Button::add('edit')
+                ->slot("<i class='fa fa-pencil'></i>")
+                ->attributes(['class' => 'btn btn-square md:btn-sm btn-xs text-info'])
+                ->route('admin.course-session-template.edit', ['courseTemplate' => $this->courseTemplate->id, 'courseSessionTemplate' => $row->id], '_self')
+                ->navigate()
+                ->tooltip(trans('datatable.buttons.edit')),
             PowerGridHelper::btnDelete($row),
         ];
     }
@@ -119,7 +127,7 @@ final class CourseSessionTemplateTable extends PowerGridComponent
     public function noDataLabel(): string|View
     {
         return view('admin.datatable-shared.empty-table', [
-            'link' => route('admin.courseSessionTemplate.create'),
+            'link' => route('admin.course-session-template.create', ['courseTemplate' => $this->courseTemplate->id]),
         ]);
     }
 }

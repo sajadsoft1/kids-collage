@@ -296,5 +296,6 @@ return [
         'discount_type'          => 'نوع تخفیف',
         'order_id'               => 'سفارش',
         'scheduled_date'         => 'تاریخ زمانبندی شده',
+        'duration_minutes'       => 'مدت زمان (دقیقه)',
     ],
 ];

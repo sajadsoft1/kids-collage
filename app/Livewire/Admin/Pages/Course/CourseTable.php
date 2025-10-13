@@ -71,7 +71,7 @@ final class CourseTable extends PowerGridComponent
     {
         return [
             ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-            ['link' => route('admin.course-template.index'),'label'=>trans('general.page.index.title', ['model' => trans('coursetemplate.model')]), 'icon' => 'o-book-open'],
+            ['link'  => route('admin.course-template.index'), 'label' => trans('general.page.index.title', ['model' => trans('coursetemplate.model')])],
             ['label' => trans('general.page.index.title', ['model' => trans('course.model')])],
         ];
     }
@@ -188,21 +188,24 @@ final class CourseTable extends PowerGridComponent
     public function actions(Course $row): array
     {
         return [
-
             Button::add('finish')
                 ->slot('<i class="fa fa-stop"></i>')
                 ->class('btn btn-square md:btn-sm btn-xs')
                 ->dispatch('course-finish', ['id' => $row->id]),
 
-            // Button::add('sessions')
-            //     ->slot(PowerGridHelper::iconShow())
-            //     ->attributes([
-            //         'class' => 'btn btn-square md:btn-sm btn-xs',
-            //     ])
-            //     ->route('admin.session.index', ['course' => $row->id])
-            //     ->tooltip(trans('datatable.buttons.sessions')),
+            Button::add('sessions')
+                ->slot("<i class='fa fa-list-tree'></i>")
+                ->attributes(['class' => 'btn btn-square md:btn-sm btn-xs text-info'])
+                ->route('admin.course-session.index', ['courseTemplate' => $this->courseTemplate->id, 'course' => $row->id])
+                ->tooltip(trans('course.page.session_list')),
 
-            PowerGridHelper::btnEdit($row),
+            Button::add('edit')
+                ->slot("<i class='fa fa-pencil'></i>")
+                ->attributes(['class' => 'btn btn-square md:btn-sm btn-xs text-info'])
+                ->route('admin.course.edit', ['courseTemplate' => $this->courseTemplate->id, 'course' => $row->id], '_self')
+                ->navigate()
+                ->tooltip(trans('datatable.buttons.edit')),
+            
             PowerGridHelper::btnDelete($row),
         ];
     }

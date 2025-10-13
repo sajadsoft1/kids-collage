@@ -116,21 +116,28 @@ final class CourseTemplateTable extends PowerGridComponent
             PowerGridHelper::btnSeo($row),
             PowerGridHelper::btnTranslate($row),
             Button::add('run')
-                  ->slot("<i class='fa fa-play'></i>")
-                  ->attributes(['class' => 'btn btn-square md:btn-sm btn-xs text-success'])
-                  ->route('admin.course.run', ['courseTemplate' => $row->id], '_self')
-                  ->navigate()
-                  ->tooltip(trans('coursetemplate.page.run_the_course_template')),
+                ->slot("<i class='fa fa-play'></i>")
+                ->attributes(['class' => 'btn btn-square md:btn-sm btn-xs text-success'])
+                ->route('admin.course.run', ['courseTemplate' => $row->id], '_self')
+                ->navigate()
+                ->tooltip(trans('coursetemplate.page.run_the_course_template')),
 
             Button::add('courses_list')
-                  ->slot("<i class='fa fa-list'></i>")
-                  ->attributes(['class' => 'btn btn-square md:btn-sm btn-xs text-info'])
-                  ->route('admin.course.index', ['courseTemplate' => $row->id], '_self')
-                  ->navigate()
-                  ->tooltip(trans('courseTemplate.page.course_list')),
+                ->slot("<i class='fa fa-list'></i>")
+                ->attributes(['class' => 'btn btn-square md:btn-sm btn-xs text-info'])
+                ->route('admin.course.index', ['courseTemplate' => $row->id], '_self')
+                ->navigate()
+                ->tooltip(trans('courseTemplate.page.course_list')),
+
+            Button::add('courses_session_list')
+                ->slot("<i class='fa fa-list-tree'></i>")
+                ->attributes(['class' => 'btn btn-square md:btn-sm btn-xs text-info'])
+                ->route('admin.course-session-template.index', ['courseTemplate' => $row->id], '_self')
+                ->navigate()
+                ->tooltip(trans('courseTemplate.page.course_session_template_list')),
+
             PowerGridHelper::btnEdit($row),
             PowerGridHelper::btnDelete($row),
-
         ];
     }
 
