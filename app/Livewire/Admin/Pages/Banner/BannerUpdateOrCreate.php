@@ -7,6 +7,7 @@ namespace App\Livewire\Admin\Pages\Banner;
 use App\Actions\Banner\StoreBannerAction;
 use App\Actions\Banner\UpdateBannerAction;
 use App\Enums\BannerSizeEnum;
+use App\Helpers\Constants;
 use App\Models\Banner;
 use App\Traits\CrudHelperTrait;
 use Illuminate\Validation\Rule;
@@ -42,7 +43,7 @@ class BannerUpdateOrCreate extends Component
             $this->published    = (bool) $this->model->published->value;
             $this->size         = $this->model->size->value;
             $this->oldSize      = $this->model->size->value;
-            $this->published_at = $this->setPublishedAt($this->model->published_at);
+            $this->published_at = $this->model->published_at?->format(Constants::DEFAULT_DATE_FORMAT);
         } else {
             // For new banners, ensure published is properly initialized
             $this->published = false;
@@ -58,14 +59,7 @@ class BannerUpdateOrCreate extends Component
             'published_at' => [
                 'nullable',
                 'date',
-                function ($attribute, $value, $fail) {
-                    if ($value) {
-                        $carbon = $this->parseTimestamp($value);
-                        if ($carbon && $carbon->addMinutes(2)->isBefore(now())) {
-                            $fail(trans('slider.exceptions.published_at_after_now'));
-                        }
-                    }
-                },
+
             ],
             'size'         => ['required', Rule::in(BannerSizeEnum::values())],
             'image'        => ['image', 'max:2048', $this->size != $this->oldSize ? 'required' : 'nullable'], // 1MB Max
@@ -86,7 +80,7 @@ class BannerUpdateOrCreate extends Component
 
     public function submit(): void
     {
-        $payload = $this->normalizePublishedAt($this->validate());
+        $payload =$this->validate();
         if ($this->model->id) {
             try {
                 UpdateBannerAction::run($this->model, $payload);
