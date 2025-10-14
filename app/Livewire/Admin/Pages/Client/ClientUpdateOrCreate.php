@@ -24,7 +24,7 @@ class ClientUpdateOrCreate extends Component
     public string $title       = '';
     public string $description = '';
     public bool $published     = false;
-    public string $link        ='';
+    public ?string $link        ='';
     public $image;
 
     public function mount(Client $client): void

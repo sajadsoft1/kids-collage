@@ -23,7 +23,7 @@ class SocialMediaUpdateOrCreate extends Component
     public string $title    = '';
     public bool $published  = false;
     public string $position = SocialMediaPositionEnum::HEADER->value;
-    public string $link     = '';
+    public ?string $link     = null;
     public int $ordering    = 1;
     public $image;
 

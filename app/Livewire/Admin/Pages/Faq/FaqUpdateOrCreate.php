@@ -7,6 +7,7 @@ namespace App\Livewire\Admin\Pages\Faq;
 use App\Actions\Faq\StoreFaqAction;
 use App\Actions\Faq\UpdateFaqAction;
 use App\Enums\CategoryTypeEnum;
+use App\Helpers\Constants;
 use App\Models\Category;
 use App\Models\Faq;
 use App\Traits\CrudHelperTrait;
@@ -47,7 +48,7 @@ class FaqUpdateOrCreate extends Component
             $this->favorite     = (bool) $this->model->favorite->value;
             $this->ordering     = $this->model->ordering;
             $this->category_id  = $this->model->category_id;
-            $this->published_at = $this->setPublishedAt($this->model->published_at);
+            $this->published_at = $this->model->published_at?->format(Constants::DEFAULT_DATE_FORMAT);
         } else {
             // For new faqs, ensure published is properly initialized
             $this->published = false;
@@ -66,21 +67,13 @@ class FaqUpdateOrCreate extends Component
             'published_at' => [
                 'nullable',
                 'date',
-                function ($attribute, $value, $fail) {
-                    if ($value) {
-                        $carbon = $this->parseTimestamp($value);
-                        if ($carbon && $carbon->addMinutes(2)->isBefore(now())) {
-                            $fail(trans('slider.exceptions.published_at_after_now'));
-                        }
-                    }
-                },
             ],
         ];
     }
 
     public function submit(): void
     {
-        $payload = $this->normalizePublishedAt($this->validate());
+        $payload = $this->validate();
         if ($this->model->id) {
             try {
                 UpdateFaqAction::run($this->model, $payload);

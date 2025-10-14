@@ -6,6 +6,7 @@ namespace App\Livewire\Admin\Pages\Slider;
 
 use App\Actions\Slider\StoreSliderAction;
 use App\Actions\Slider\UpdateSliderAction;
+use App\Helpers\Constants;
 use App\Models\Category;
 use App\Models\Slider;
 use App\Models\Tag;
@@ -42,13 +43,12 @@ class SliderUpdateOrCreate extends Component
             $this->title        = $this->model->title;
             $this->description  = $this->model->description;
             $this->published    = (bool) $this->model->published->value;
-            $this->published    = (bool) $this->model->published->value;
             $this->ordering     = $this->model->ordering;
-            $this->published_at = $this->setPublishedAt($this->model->published_at);
-            $this->expired_at   = $this->setPublishedAt($this->model->expired_at);
+            $this->published_at = $this->model->published_at?->format(Constants::DEFAULT_DATE_FORMAT);
+            $this->expired_at   = $this->model->expired_at?->format(Constants::DEFAULT_DATE_FORMAT);
             $this->link         = $this->model->link;
             $this->has_timer    = $this->model->has_timer->value;
-            $this->timer_start  = $this->setPublishedAt($this->model->timer_start);
+            $this->timer_start  = $this->model->timer_start?->format(Constants::DEFAULT_DATE_FORMAT);
             $this->roles        = $this->model->references
                 ->groupBy('morphable_type')
                 ->map(fn ($references, $type) => [
@@ -73,14 +73,7 @@ class SliderUpdateOrCreate extends Component
             'published_at'  => [
                 'nullable',
                 'date',
-                function ($attribute, $value, $fail) {
-                    if ($value) {
-                        $carbon = $this->parseTimestamp($value);
-                        if ($carbon && $carbon->addMinutes(2)->isBefore(now())) {
-                            $fail(trans('slider.exceptions.published_at_after_now'));
-                        }
-                    }
-                },
+
             ],
             'expired_at'    => ['nullable', 'required_if:has_timer,true', 'date', 'after:now'],
             'link'          => ['nullable', 'url'],
@@ -95,9 +88,8 @@ class SliderUpdateOrCreate extends Component
 
     public function submit(): void
     {
-        $payload = $this->normalizePublishedAt($this->validate());
-        $payload = $this->normalizePublishedAt($payload, 'expired_at');
-        $payload = $this->normalizePublishedAt($payload, 'timer_start');
+        $payload = $this->validate();
+
         if ($this->model->id) {
             try {
                 UpdateSliderAction::run($this->model, $payload);
