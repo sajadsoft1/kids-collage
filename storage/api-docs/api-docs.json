@@ -2524,6 +2524,47 @@
                     }
                 }
             }
+        },
+        "/teacher/{user}": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get user information",
+                "description": "Returns user data",
+                "operationId": "getUserByID",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/UserDetailResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
