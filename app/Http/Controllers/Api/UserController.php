@@ -66,8 +66,6 @@ class UserController extends Controller
     public function teachers(): JsonResponse
     {
         $teachers = User::teachers();
-        _dds($teachers);
-
         return Response::data(
             [
                 'teachers' => UserResource::collection($teachers),
