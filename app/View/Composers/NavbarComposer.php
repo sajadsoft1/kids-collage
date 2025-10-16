@@ -22,6 +22,7 @@ use App\Models\Order;
 use App\Models\Page;
 use App\Models\Payment;
 use App\Models\PortFolio;
+use App\Models\Resource;
 use App\Models\Role;
 use App\Models\Room;
 use App\Models\Slider;
@@ -118,6 +119,13 @@ class NavbarComposer
                         'title'      => trans('_menu.attendance_management'),
                         'route_name' => 'admin.attendance.index',
                         'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Attendance::class, 'Index')),
+                    ],
+                    [
+                        'icon'       => 'o-file-text',
+                        'params'     => [],
+                        'title'      => trans('_menu.resource_management'),
+                        'route_name' => 'admin.resource.index',
+                        'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Resource::class, 'Index')),
                     ],
 
                     // Future Education Modules

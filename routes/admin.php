@@ -46,6 +46,7 @@ Route::group(['middleware' => ['admin.panel']], function () {
     require __DIR__ . '/admin/courseSession.php';
     require __DIR__ . '/admin/courseSessionTemplate.php';
     require __DIR__ . '/admin/courseTemplate.php';
+    require __DIR__ . '/admin/resource.php';
     require __DIR__ . '/admin/discount.php';
     require __DIR__ . '/admin/enrollment.php';
     require __DIR__ . '/admin/faq.php';

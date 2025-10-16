@@ -20,9 +20,15 @@ class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
+        // Register Telescope only in local environment
         if ($this->app->environment('local') && class_exists(\Laravel\Telescope\TelescopeServiceProvider::class)) {
             $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
             $this->app->register(TelescopeServiceProvider::class);
+        }
+
+        // Register IDE Helper only in local environment
+        if ($this->app->environment('local') && class_exists(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class)) {
+            $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
         }
 
         $this->app->singleton('smartcache', function () {

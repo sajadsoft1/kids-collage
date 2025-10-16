@@ -50,6 +50,7 @@ return [
     'payment_management'      => 'پرداخت ها',
     'discount_management'     => 'تخفیف ها',
     'installment_management'  => 'اقساط',
+    'resource_management'     => 'مدیریت منابع',
     'crm'                     => 'CRM',
     'hrm'                     => 'HRM',
     'education'               => 'آموزش',
