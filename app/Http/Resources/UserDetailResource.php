@@ -38,7 +38,8 @@ class UserDetailResource extends JsonResource
         return array_merge($resource, [
             'email'              => $this->email,
             'gender'             => $this->gender?->value,
-            'body'               => $this?->body,
+            'short_bio'               => $this?->short_bio,
+            'bio'               => $this?->bio,
             'experience'           => $this?->experience,
             'status'             => $this->status?->value,
             'email_verified_at'  => $this->email_verified_at,
