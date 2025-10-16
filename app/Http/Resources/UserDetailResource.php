@@ -38,6 +38,9 @@ class UserDetailResource extends JsonResource
         return array_merge($resource, [
             'email'              => $this->email,
             'gender'             => $this->gender?->value,
+            'body'               => $this?->body,
+            'experience'           => $this?->experience,
+            'status'             => $this->status?->value,
             'email_verified_at'  => $this->email_verified_at,
             'mobile_verified_at' => $this->mobile_verified_at,
             'permissions'        => $this->whenLoaded('permissions', fn () => $this->getAllPermissions()->pluck('name')),
