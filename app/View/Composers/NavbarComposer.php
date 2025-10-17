@@ -121,7 +121,7 @@ class NavbarComposer
                         'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Attendance::class, 'Index')),
                     ],
                     [
-                        'icon'       => 'o-file-text',
+                        'icon'       => 'o-user',
                         'params'     => [],
                         'title'      => trans('_menu.resource_management'),
                         'route_name' => 'admin.resource.index',
