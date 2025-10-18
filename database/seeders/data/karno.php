@@ -384,7 +384,7 @@ return [
             'languages'   => [
                 'fa',
             ],
-            'path'        => public_path('assets/web/img/banner-2-img-1.jpg'),
+            'path'        => public_path('assets/web/img/b1.jpg'),
         ], [
             'title'       => 'test',
             'description' => 'test description',
@@ -394,7 +394,7 @@ return [
             'languages'   => [
                 'fa',
             ],
-            'path'        => public_path('assets/web/img/banner-2-img-2.jpg'),
+            'path'        => public_path('assets/web/img/b2.jpg'),
         ],
     ],
     'slider'       => [
