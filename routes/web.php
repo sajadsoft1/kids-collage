@@ -26,56 +26,57 @@ use App\Livewire\Web\Pages\SearchPage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('change-locale/{lang}', [UtilityController::class, 'changeLocale'])->name('change-locale');
-
-// Logout Route
-Route::post('logout', function () {
-    Auth::logout();
-
-    return redirect()->route('login')->with('success', 'Successfully logged out.');
-})->name('logout');
-
-// Web Authentication Routes (Redirect authenticated users)
-Route::middleware(RedirectIfAuthenticated::class)->group(function () {
-    Route::multilingual('login', LoginPage::class)->name('login');
-    Route::multilingual('register', RegisterPage::class)->name('register');
-    Route::multilingual('forget-password', ForgetPasswordPage::class)->name('password.request');
-    Route::multilingual('confirm', ConfirmPage::class)->name('password.confirm');
-
-    // Google OAuth Routes
-    Route::get('auth/google/redirect', [GoogleController::class, 'redirect'])->name('google.redirect');
-    Route::get('auth/google/callback', [GoogleController::class, 'callback'])->name('google.callback');
-});
+//Route::get('change-locale/{lang}', [UtilityController::class, 'changeLocale'])->name('change-locale');
+//
+//// Logout Route
+//Route::post('logout', function () {
+//    Auth::logout();
+//
+//    return redirect()->route('login')->with('success', 'Successfully logged out.');
+//})->name('logout');
+//
+//// Web Authentication Routes (Redirect authenticated users)
+//Route::middleware(RedirectIfAuthenticated::class)->group(function () {
+//    Route::multilingual('login', LoginPage::class)->name('login');
+//    Route::multilingual('register', RegisterPage::class)->name('register');
+//    Route::multilingual('forget-password', ForgetPasswordPage::class)->name('password.request');
+//    Route::multilingual('confirm', ConfirmPage::class)->name('password.confirm');
+//
+//    // Google OAuth Routes
+//    Route::get('auth/google/redirect', [GoogleController::class, 'redirect'])->name('google.redirect');
+//    Route::get('auth/google/callback', [GoogleController::class, 'callback'])->name('google.callback');
+//});
 
 // Web Pages
-Route::multilingual('/', HomePage::class)->name('home-page');
-Route::multilingual('blog', BlogPage::class)->name('blog');
-Route::multilingual('blog/{blog:slug}', BlogDetailPage::class)->name('blog.detail');
+//Route::multilingual('/', HomePage::class)->name('home-page');
+//Route::multilingual('blog', BlogPage::class)->name('blog');
+//Route::multilingual('blog/{blog:slug}', BlogDetailPage::class)->name('blog.detail');
+//
+//// Course Pages
+//Route::multilingual('course', BlogPage::class)->name('blog');
+//Route::multilingual('course/{slug}', BlogDetailPage::class)->name('courseTemplate.detail');
+//
+//// search by:text|category|tag|author
+//Route::multilingual('search', SearchPage::class)->name('search');
+//
+//Route::multilingual('news', NewsPage::class)->name('news');
+//Route::multilingual('news/{news}', NewsDetailPage::class)->name('news.detail');
+//
+//Route::multilingual('event', EventPage::class)->name('event');
+//Route::multilingual('event/{event}', EventDetailPage::class)->name('event.detail');
+//
+//Route::multilingual('course', CoursePage::class)->name('course');
+//Route::multilingual('course/{course}', CourseDetailPage::class)->name('course.detail');
+//
+//Route::multilingual('faq', FaqPage::class)->name('faq');
+//Route::multilingual('contact', ContactUsPage::class)->name('contact');
+//Route::multilingual('about', AboutUsPage::class)->name('about');
 
-// Course Pages
-Route::multilingual('course', BlogPage::class)->name('blog');
-Route::multilingual('course/{slug}', BlogDetailPage::class)->name('courseTemplate.detail');
-
-// search by:text|category|tag|author
-Route::multilingual('search', SearchPage::class)->name('search');
-
-Route::multilingual('news', NewsPage::class)->name('news');
-Route::multilingual('news/{news}', NewsDetailPage::class)->name('news.detail');
-
-Route::multilingual('event', EventPage::class)->name('event');
-Route::multilingual('event/{event}', EventDetailPage::class)->name('event.detail');
-
-Route::multilingual('course', CoursePage::class)->name('course');
-Route::multilingual('course/{course}', CourseDetailPage::class)->name('course.detail');
-
-Route::multilingual('faq', FaqPage::class)->name('faq');
-Route::multilingual('contact', ContactUsPage::class)->name('contact');
-Route::multilingual('about', AboutUsPage::class)->name('about');
-
-Route::multilingual('sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
-Route::multilingual('sitemap-article.xml', [SitemapController::class, 'article'])->name('sitemap-article');
+//
+//Route::multilingual('sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
+//Route::multilingual('sitemap-article.xml', [SitemapController::class, 'article'])->name('sitemap-article');
 
 // laravel not found route
-// Route::fallback(function () {
-//    return redirect(localized_route('home-page'));
-// });
+ Route::fallback(function () {
+    return redirect('/admin');
+ });

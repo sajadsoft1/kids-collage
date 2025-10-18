@@ -56,7 +56,7 @@ class User extends Authenticatable implements HasMedia
     {
         $this->addMediaCollection('avatar')
             ->singleFile()
-            ->useFallbackUrl(url('/assets/images/default/user-avatar.png'))
+            ->useFallbackUrl(url('assets/web/img/instructor-4.jpg'))
             ->registerMediaConversions(function () {
                 $this->addMediaConversion(Constants::RESOLUTION_512_SQUARE)->fit(Fit::Crop, 512, 512);
             });

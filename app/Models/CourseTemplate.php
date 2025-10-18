@@ -113,7 +113,7 @@ class CourseTemplate extends Model implements HasMedia
     {
         $this->addMediaCollection('image')
             ->singleFile()
-            ->useFallbackUrl(url('/assets/images/default/user-avatar.png'))
+            ->useFallbackUrl(url('/assets/web/img/course-1.jpg'))
             ->registerMediaConversions(function () {
                 $this->addMediaConversion(Constants::RESOLUTION_100_SQUARE)->fit(Fit::Crop, 100, 100);
                 $this->addMediaConversion(Constants::RESOLUTION_854_480)->fit(Fit::Crop, 854, 480);
