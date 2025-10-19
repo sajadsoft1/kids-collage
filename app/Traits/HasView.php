@@ -25,13 +25,15 @@ trait HasView
 
     public function recordView(): void
     {
-        $exists = $this->views()
-            ->when(auth()->check(), function ($query) {
-                $query->where('user_id', auth()->id());
-            }, function ($query) {
-                $query->where('ip', request()->ip());
-            })
-            ->exists();
+        $query = $this->views();
+
+        if (auth()->check()) {
+            $query->where('user_id', auth()->id());
+        } else {
+            $query->where('ip', request()->ip());
+        }
+
+        $exists = $query->exists();
 
         if ( ! $exists) {
             $this->views()->create([
@@ -39,9 +41,8 @@ trait HasView
                 'ip'         => request()->ip(),
                 'collection' => 'website',
             ]);
-            $this->update([
-                'view_count' => ++$this->view_count,
-            ]);
+
+            $this->increment('view_count');
         }
     }
 }
