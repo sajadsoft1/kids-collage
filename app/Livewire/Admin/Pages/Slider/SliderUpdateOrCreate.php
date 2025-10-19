@@ -80,7 +80,7 @@ class SliderUpdateOrCreate extends Component
             'has_timer'     => ['nullable', 'boolean'],
             'timer_start'   => ['nullable', 'required_if:has_timer,true', 'date', 'before:expired_at'],
             'image'         => ['image', 'max:2048', isset($this->model->id) ? 'nullable' : 'required'], // 2MB Max
-            'roles'         => ['required', 'array'],
+            'roles'         => ['nullable', 'array'],
             'roles.*.type'  => ['required', 'string'],
             'roles.*.value' => ['required', 'array'],
         ];
