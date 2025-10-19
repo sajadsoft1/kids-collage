@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Livewire\Admin\Pages\Resource;
 
-use App\Enums\BooleanEnum;
 use App\Helpers\PowerGridHelper;
 use App\Models\Resource;
 use App\Traits\PowerGridHelperTrait;
@@ -78,7 +77,6 @@ final class ResourceTable extends PowerGridComponent
         return PowerGrid::fields()
             ->add('id')
             ->add('title', fn ($row) => PowerGridHelper::fieldTitle($row))
-            ->add('published_formated', fn ($row) => PowerGridHelper::fieldPublishedAtFormated($row))
             ->add('created_at_formatted', fn ($row) => PowerGridHelper::fieldCreatedAtFormated($row));
     }
 
@@ -87,7 +85,6 @@ final class ResourceTable extends PowerGridComponent
         return [
             PowerGridHelper::columnId(),
             PowerGridHelper::columnTitle(),
-            PowerGridHelper::columnPublished(),
             PowerGridHelper::columnCreatedAT(),
             PowerGridHelper::columnAction(),
         ];
@@ -96,9 +93,6 @@ final class ResourceTable extends PowerGridComponent
     public function filters(): array
     {
         return [
-            Filter::enumSelect('published_formated', 'published')
-                ->datasource(BooleanEnum::cases()),
-
             Filter::datepicker('created_at_formatted', 'created_at')
                 ->params([
                     'maxDate' => now(),
@@ -109,8 +103,6 @@ final class ResourceTable extends PowerGridComponent
     public function actions(Resource $row): array
     {
         return [
-            PowerGridHelper::btnTranslate($row),
-            PowerGridHelper::btnToggle($row),
             PowerGridHelper::btnEdit($row),
             PowerGridHelper::btnDelete($row),
         ];

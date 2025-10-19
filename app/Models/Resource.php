@@ -5,10 +5,13 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\ResourceType;
+use App\Traits\HasSchemalessAttributes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * Resource Model
@@ -16,23 +19,26 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * Educational material (PDF, Video, Image, Link) that can be attached
  * to any resourceable entity (CourseTemplate, SessionTemplate, Session).
  *
- * @property int                 $id
- * @property string              $resourceable_type
- * @property int                 $resourceable_id
- * @property ResourceType        $type
- * @property string              $path
- * @property string              $title
- * @property array|null          $metadata
- * @property bool                $is_public
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
- * @property \Carbon\Carbon|null $deleted_at
+ * @property int                                               $id
+ * @property string                                            $resourceable_type
+ * @property int                                               $resourceable_id
+ * @property ResourceType                                      $type
+ * @property string                                            $path
+ * @property string                                            $title
+ * @property \Spatie\SchemalessAttributes\SchemalessAttributes $extra_attributes
+ * @property bool                                              $is_public
+ * @property \Carbon\Carbon|null                               $created_at
+ * @property \Carbon\Carbon|null                               $updated_at
+ * @property \Carbon\Carbon|null                               $deleted_at
  *
  * @property-read Model $resourceable
  */
-class Resource extends Model
+class Resource extends Model implements HasMedia
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
+    use HasSchemalessAttributes;
+    use InteractsWithMedia;
+    use SoftDeletes;
 
     protected $fillable = [
         'resourceable_type',
@@ -40,15 +46,20 @@ class Resource extends Model
         'type',
         'path',
         'title',
-        'metadata',
+        'extra_attributes',
         'is_public',
     ];
 
     protected $casts = [
         'type'      => ResourceType::class,
-        'metadata'  => 'array',
         'is_public' => 'boolean',
     ];
+
+    /** Model Configuration -------------------------------------------------------------------------- */
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('file');
+    }
 
     /** Get the parent resourceable model. */
     public function resourceable(): MorphTo
@@ -56,10 +67,10 @@ class Resource extends Model
         return $this->morphTo();
     }
 
-    /** Get the file size from metadata. */
+    /** Get the file size from extra_attributes. */
     public function getFileSizeAttribute(): ?int
     {
-        return $this->metadata['file_size'] ?? null;
+        return $this->extra_attributes->get('file_size', null);
     }
 
     /** Get the file size in human readable format. */
@@ -80,24 +91,24 @@ class Resource extends Model
         return round($size, 2) . ' ' . $units[$i];
     }
 
-    /** Get the MIME type from metadata. */
+    /** Get the MIME type from extra_attributes. */
     public function getMimeTypeAttribute(): ?string
     {
-        return $this->metadata['mime_type'] ?? null;
+        return $this->extra_attributes->get('mime_type', null);
     }
 
     /** Get the duration for video resources. */
     public function getDurationAttribute(): ?int
     {
         return $this->type === ResourceType::VIDEO
-            ? ($this->metadata['duration'] ?? null)
+            ? ($this->extra_attributes->get('duration', null))
             : null;
     }
 
     /** Get the thumbnail path for video/image resources. */
     public function getThumbnailPathAttribute(): ?string
     {
-        return $this->metadata['thumbnail_path'] ?? null;
+        return $this->extra_attributes->get('thumbnail_path', null);
     }
 
     /** Check if this resource requires authentication. */
