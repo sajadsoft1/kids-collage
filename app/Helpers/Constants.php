@@ -6,17 +6,18 @@ namespace App\Helpers;
 
 class Constants
 {
-    public const CACHE_TIME_1                  = 1;     // 1 sec
-    public const CACHE_TIME_30                 = 1800;  // 30 min
-    public const CACHE_TIME_60                 = 3600;  // 60 min
-    public const CACHE_TIME_1_DAY              = 86400; // 60*24 min
-    public const DEFAULT_DATE_FORMAT           = 'Y/m/d';
-    public const DEFAULT_DATE_FORMAT_WITH_TIME = 'H:i , Y/m/d';
-    public const MAX_IMAGE_SIZE                = 2;  // 2MB
-    public const MAX_VIDEO_SIZE                = 20; // 20MB
-    public const DEFAULT_PAGINATE              = 15;
-    public const DEFAULT_PAGINATE_WEB          = 21;
-    
+    public const CACHE_TIME_1                             = 1;     // 1 sec
+    public const CACHE_TIME_30                            = 1800;  // 30 min
+    public const CACHE_TIME_60                            = 3600;  // 60 min
+    public const CACHE_TIME_1_DAY                         = 86400; // 60*24 min
+    public const DEFAULT_DATE_FORMAT_SMART_TIME           = 'Y-m-d';
+    public const DEFAULT_DATE_FORMAT                      = 'Y/m/d';
+    public const DEFAULT_DATE_FORMAT_WITH_TIME            = 'H:i , Y/m/d';
+    public const MAX_IMAGE_SIZE                           = 2;  // 2MB
+    public const MAX_VIDEO_SIZE                           = 20; // 20MB
+    public const DEFAULT_PAGINATE                         = 15;
+    public const DEFAULT_PAGINATE_WEB                     = 21;
+
     // 1:1
     public const RESOLUTION_50_SQUARE   = '50x50';
     public const RESOLUTION_100_SQUARE  = '100x100';

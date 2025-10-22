@@ -14,7 +14,6 @@ Route::group(['as' => 'api.', 'middleware' => [SetApiGuard::class]], function ()
     require __DIR__ . '/api/comment.php';
     require __DIR__ . '/api/faq.php';
     require __DIR__ . '/api/home.php';
-    require __DIR__ . '/api/news.php';
     require __DIR__ . '/api/user.php';
     require __DIR__ . '/api/contact.php';
     require __DIR__ . '/api/about.php';
@@ -22,5 +21,4 @@ Route::group(['as' => 'api.', 'middleware' => [SetApiGuard::class]], function ()
     require __DIR__ . '/api/rule.php';
     require __DIR__ . '/api/license.php';
     require __DIR__ . '/api/courseTemplate.php';
-
 });
