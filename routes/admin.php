@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Livewire\Admin\Auth\LoginPage;
 use App\Livewire\Admin\Pages\Dashboard\DashboardIndex;
 use App\Livewire\Admin\Pages\Setting\SettingList;
+use App\Livewire\Admin\Pages\Test\TestChart;
 use App\Livewire\Admin\Shared\DynamicSeo;
 use App\Livewire\Admin\Shared\DynamicTranslate;
 use App\Livewire\Admin\Test\ErrorHandlingDemo;
@@ -22,11 +23,11 @@ Route::get('admin/auth/logout', function () {
 
 Route::group(['middleware' => ['admin.panel']], function () {
     Route::get('admin', DashboardIndex::class)->name('admin.dashboard');
-
     Route::get('admin/setting', SettingList::class)->name('admin.setting');
 
     // Test route for error handling demo (only in development)
     if (config('app.debug')) {
+        Route::get('admin/test/chart', TestChart::class)->name('admin.test.chart');
         Route::get('admin/test/error-handling', ErrorHandlingDemo::class)->name('admin.test.error-handling');
     }
     Route::get('admin/feature-module/{module}', FeatureModule::class)->name('admin.feature-module');
