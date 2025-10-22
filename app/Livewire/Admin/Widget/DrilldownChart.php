@@ -10,26 +10,24 @@ class DrilldownChart extends Component
 {
     public array $chartData   = [];
     public array $breadcrumbs = [];
-    public bool $loading      = false;
 
     public function mount()
     {
-        $this->loadLevel(); // سطح اول: سال‌ها
+        $this->loadLevel();
     }
 
     public function loadLevel(?string $parentId = null)
     {
-        $this->loading = true;
-        usleep(300000);
-
         $this->chartData = $this->getData($parentId);
-        $this->loading   = false;
 
         if ($parentId) {
             $this->breadcrumbs[] = $parentId;
         } else {
             $this->breadcrumbs = [];
         }
+
+        // ارسال دیتا برای JS (به‌جای تکیه بر Alpine)
+        $this->dispatch('updateChart', $this->chartData);
     }
 
     public function goBack($index = null)
@@ -37,17 +35,15 @@ class DrilldownChart extends Component
         if ($index === null) {
             $this->loadLevel();
         } else {
-            $targetId          = $this->breadcrumbs[$index] ?? null;
+            $targetId          = $this->breadcrumbs[$index - 1] ?? null;
             $this->breadcrumbs = array_slice($this->breadcrumbs, 0, $index);
             $this->loadLevel($targetId);
         }
     }
 
-    private function getData(?string $parentId): array
+    private function getData(?string $parentId = null): array
     {
-        // شبیه‌سازی دیتای بازدید چندسطحی
         if ( ! $parentId) {
-            // سطح ۱: سال‌ها
             return collect(range(2020, 2025))->map(fn ($y) => [
                 'id'    => "year-{$y}",
                 'label' => "سال {$y}",
@@ -56,16 +52,14 @@ class DrilldownChart extends Component
         }
 
         if (str_starts_with($parentId, 'year-')) {
-            // سطح ۲: ماه‌های هر سال
             return collect(range(1, 12))->map(fn ($m) => [
                 'id'    => "{$parentId}-month-{$m}",
                 'label' => "ماه {$m}",
-                'value' => rand(100, 500),
+                'value' => rand(200, 800),
             ])->toArray();
         }
 
         if (str_contains($parentId, 'month-')) {
-            // سطح ۳: هفته‌های هر ماه
             return collect(range(1, 4))->map(fn ($w) => [
                 'id'    => "{$parentId}-week-{$w}",
                 'label' => "هفته {$w}",
@@ -74,16 +68,14 @@ class DrilldownChart extends Component
         }
 
         if (str_contains($parentId, 'week-')) {
-            // سطح ۴: روزهای هر هفته
             return collect(range(1, 7))->map(fn ($d) => [
                 'id'    => "{$parentId}-day-{$d}",
                 'label' => "روز {$d}",
-                'value' => rand(10, 50),
+                'value' => rand(20, 100),
             ])->toArray();
         }
 
         if (str_contains($parentId, 'day-')) {
-            // سطح ۵: ساعت‌های هر روز
             return collect(range(0, 23))->map(fn ($h) => [
                 'id'    => "{$parentId}-hour-{$h}",
                 'label' => "{$h}:00",
