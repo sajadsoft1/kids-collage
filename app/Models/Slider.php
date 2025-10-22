@@ -55,7 +55,7 @@ class Slider extends Model implements HasMedia
         'has_timer'    => YesNoEnum::class,
         'languages'    => 'array',
         'ordering'     => 'integer',
-        'published_at' => 'datetime',
+        'published_at' => 'date',
         'expired_at'   => 'date',
         'timer_start'  => 'date',
     ];
