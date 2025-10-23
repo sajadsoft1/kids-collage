@@ -21,13 +21,13 @@ class DrilldownChart extends Component
         $this->chartData = $this->getData($parentId);
 
         if ($parentId) {
-            $this->breadcrumbs[] = $parentId;
+            $this->breadcrumbs[] = $this->getBreadcrumbLabel($parentId);
         } else {
             $this->breadcrumbs = [];
         }
 
         // ارسال دیتا برای JS (به‌جای تکیه بر Alpine)
-        $this->dispatch('updateChart', $this->chartData);
+        $this->dispatch('updateChart', data: $this->chartData);
     }
 
     public function goBack($index = null)
@@ -51,7 +51,7 @@ class DrilldownChart extends Component
             ])->toArray();
         }
 
-        if (str_starts_with($parentId, 'year-')) {
+        if (str_starts_with($parentId, 'year-') && ! str_contains($parentId, 'month-')) {
             return collect(range(1, 12))->map(fn ($m) => [
                 'id'    => "{$parentId}-month-{$m}",
                 'label' => "ماه {$m}",
@@ -59,7 +59,7 @@ class DrilldownChart extends Component
             ])->toArray();
         }
 
-        if (str_contains($parentId, 'month-')) {
+        if (str_contains($parentId, 'month-') && ! str_contains($parentId, 'week-')) {
             return collect(range(1, 4))->map(fn ($w) => [
                 'id'    => "{$parentId}-week-{$w}",
                 'label' => "هفته {$w}",
@@ -67,7 +67,7 @@ class DrilldownChart extends Component
             ])->toArray();
         }
 
-        if (str_contains($parentId, 'week-')) {
+        if (str_contains($parentId, 'week-') && ! str_contains($parentId, 'day-')) {
             return collect(range(1, 7))->map(fn ($d) => [
                 'id'    => "{$parentId}-day-{$d}",
                 'label' => "روز {$d}",
@@ -75,7 +75,7 @@ class DrilldownChart extends Component
             ])->toArray();
         }
 
-        if (str_contains($parentId, 'day-')) {
+        if (str_contains($parentId, 'day-') && ! str_contains($parentId, 'hour-')) {
             return collect(range(0, 23))->map(fn ($h) => [
                 'id'    => "{$parentId}-hour-{$h}",
                 'label' => "{$h}:00",
@@ -84,6 +84,45 @@ class DrilldownChart extends Component
         }
 
         return [];
+    }
+
+    private function getBreadcrumbLabel(string $id): string
+    {
+        if (str_starts_with($id, 'year-')) {
+            $year = str_replace('year-', '', $id);
+
+            return "سال {$year}";
+        }
+
+        if (str_contains($id, 'month-')) {
+            $parts = explode('-', $id);
+            $month = end($parts);
+
+            return "ماه {$month}";
+        }
+
+        if (str_contains($id, 'week-')) {
+            $parts = explode('-', $id);
+            $week  = end($parts);
+
+            return "هفته {$week}";
+        }
+
+        if (str_contains($id, 'day-')) {
+            $parts = explode('-', $id);
+            $day   = end($parts);
+
+            return "روز {$day}";
+        }
+
+        if (str_contains($id, 'hour-')) {
+            $parts = explode('-', $id);
+            $hour  = end($parts);
+
+            return "{$hour}:00";
+        }
+
+        return $id;
     }
 
     public function render()
