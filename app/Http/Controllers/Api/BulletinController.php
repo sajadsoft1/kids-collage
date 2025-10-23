@@ -294,8 +294,11 @@ class BulletinController extends Controller
      * )
      * @throws Throwable
      */
-    public function indexByTag(Request $request, SpatieTag $tag): JsonResponse
+    public function indexByTag(Request $request, string $value): JsonResponse
     {
+        $locale = app()->getLocale();
+        $tag    = SpatieTag::where("slug->{$locale}", $value)->firstOrFail();
+
         return Response::dataWithAdditional(
             $this->query([
                 'limit' => $request->input('limit', 1),

@@ -185,6 +185,11 @@ class PowerGridHelper
         return $row->created_at;
     }
 
+    public static function fieldDateFormated($row, string $field='created_at'): string
+    {
+        return jdate($row->{$field})->format('%A, %d %B %Y');
+    }
+
     public static function fieldCreatedAtFormated($row): string
     {
         return jdate($row->created_at)->format('%A, %d %B %Y');

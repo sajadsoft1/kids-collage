@@ -67,15 +67,15 @@ final class PageTable extends PowerGridComponent
     public function breadcrumbsActions(): array
     {
         return [
-            [
-                'link'   => route('admin.page.create'),
-                'icon'   => 's-plus',
-                'label'  => trans(
-                    'general.page.create.title',
-                    ['model' => trans('page.model')]
-                ),
-                'access' => auth()->user()->hasAnyPermission(PermissionsService::generatePermissionsByModel(Page::class, 'Store')),
-            ],
+            //            [
+            //                'link'   => route('admin.page.create'),
+            //                'icon'   => 's-plus',
+            //                'label'  => trans(
+            //                    'general.page.create.title',
+            //                    ['model' => trans('page.model')]
+            //                ),
+            //                'access' => auth()->user()->hasAnyPermission(PermissionsService::generatePermissionsByModel(Page::class, 'Store')),
+            //            ],
         ];
     }
 
