@@ -8,7 +8,7 @@ use App\Enums\ResourceType;
 use App\Traits\HasSchemalessAttributes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -17,21 +17,21 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * Resource Model
  *
  * Educational material (PDF, Video, Image, Link) that can be attached
- * to any resourceable entity (CourseTemplate, SessionTemplate, Session).
+ * to multiple CourseSessionTemplates via pivot table.
  *
  * @property int                                               $id
- * @property string                                            $resourceable_type
- * @property int                                               $resourceable_id
  * @property ResourceType                                      $type
  * @property string                                            $path
  * @property string                                            $title
+ * @property int                                               $order
+ * @property string|null                                       $description
  * @property \Spatie\SchemalessAttributes\SchemalessAttributes $extra_attributes
  * @property bool                                              $is_public
  * @property \Carbon\Carbon|null                               $created_at
  * @property \Carbon\Carbon|null                               $updated_at
  * @property \Carbon\Carbon|null                               $deleted_at
  *
- * @property-read Model $resourceable
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, CourseSessionTemplate> $courseSessionTemplates
  */
 class Resource extends Model implements HasMedia
 {
@@ -41,8 +41,6 @@ class Resource extends Model implements HasMedia
     use SoftDeletes;
 
     protected $fillable = [
-        'resourceable_type',
-        'resourceable_id',
         'type',
         'path',
         'title',
@@ -68,10 +66,11 @@ class Resource extends Model implements HasMedia
         $this->addMediaCollection('file');
     }
 
-    /** Get the parent resourceable model. */
-    public function resourceable(): MorphTo
+    /** Get the course session templates this resource is attached to. */
+    public function courseSessionTemplates(): BelongsToMany
     {
-        return $this->morphTo();
+        return $this->belongsToMany(CourseSessionTemplate::class, 'course_session_template_resource')
+            ->withTimestamps();
     }
 
     /** Get the file size from extra_attributes. */
@@ -184,11 +183,12 @@ class Resource extends Model implements HasMedia
         return $query->whereIn('type', [ResourceType::PDF, ResourceType::LINK]);
     }
 
-    /** Scope for resources attached to a specific model. */
-    public function scopeForModel($query, string $modelType, int $modelId)
+    /** Scope for resources attached to a specific course session template. */
+    public function scopeForCourseSessionTemplate($query, int $courseSessionTemplateId)
     {
-        return $query->where('resourceable_type', $modelType)
-            ->where('resourceable_id', $modelId);
+        return $query->whereHas('courseSessionTemplates', function ($q) use ($courseSessionTemplateId) {
+            $q->where('course_session_template_id', $courseSessionTemplateId);
+        });
     }
 
     /** Scope for ordered resources. */

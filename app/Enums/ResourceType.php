@@ -6,6 +6,8 @@ namespace App\Enums;
 
 enum ResourceType: string
 {
+    use EnumToArray;
+
     case PDF   = 'pdf';
     case VIDEO = 'video';
     case IMAGE = 'image';

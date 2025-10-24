@@ -3,28 +3,29 @@
 
     <x-card :title="trans('general.page_sections.data')" shadow separator progress-indicator="submit">
         <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
-            <!-- Title -->
-            <x-input :label="trans('validation.attributes.title')" wire:model="title" placeholder="Enter resource title" />
+            <div class="col-span-2">
+                <x-input :label="trans('validation.attributes.title')" wire:model="title" placeholder="Enter resource title" />
+            </div>
 
-            <!-- Resource Type -->
-            <x-select :label="trans('resource.type')" wire:model="type" :options="$this->resourceTypes" option-value="value" option-label="label"
-                placeholder="Select resource type" />
-
-            <!-- Description -->
-            <x-textarea :label="trans('validation.attributes.description')" wire:model="description" placeholder="Enter resource description"
-                rows="3" />
-
-            <!-- Resourceable Selection -->
-            <x-select :label="trans('resource.attached_to')" wire:model="resourceable_type" :options="$this->resourceableOptions" option-value="value"
-                option-label="label" option-sub-label="group" placeholder="Select what this resource is attached to" />
-
-            <!-- Order -->
             <x-input :label="trans('resource.order')" wire:model="order" type="number" min="0" placeholder="Display order" />
 
-            <!-- Is Public -->
             <x-select :label="trans('resource.is_public')" wire:model="is_public" :options="\App\Enums\BooleanEnum::formatedCases()" option-value="value"
                 option-label="label" placeholder="Select if the resource is public" />
+
+            <div class="col-span-2">
+                <x-textarea :label="trans('validation.attributes.description')" wire:model="description" placeholder="Enter resource description"
+                    rows="3" />
+            </div>
+
         </div>
+
+
+    </x-card>
+
+    <x-card :title="trans('resource.upload_file')" shadow separator progress-indicator="submit" class="mt-5">
+        <!-- Resource Type -->
+        <x-select :label="trans('resource.type')" wire:model="type" :options="$this->resourceTypes" option-value="value" option-label="label"
+            placeholder="Select resource type" />
 
         <!-- Dynamic Fields based on Resource Type -->
         <div class="mt-6" x-show="resourceType !== ''">
@@ -159,6 +160,50 @@
                         </a>
                     </div>
                 </div>
+            </div>
+        @endif
+
+    </x-card>
+
+    <x-card :title="trans('resource.attached_resources')" shadow separator progress-indicator="submit" class="mt-5">
+        <x-slot:menu>
+            <x-button wire:click="addRelationship" class="btn-primary btn-sm" icon="o-plus"
+                spinner="addRelationship">
+                {{ trans('resource.add_relationship') }}
+            </x-button>
+        </x-slot:menu>
+
+        @if (count($relationships) > 0)
+            <div class="space-y-4">
+                @foreach ($relationships as $index => $relationship)
+                    <div class="flex gap-4 items-end">
+                        <!-- Course Template Select -->
+                        <div class="flex-1">
+                            <x-select :label="trans('coursetemplate.model')" :options="$courseTemplates"
+                                wire:model.live="relationships.{{ $index }}.course_template_id"
+                                placeholder="Select Course Template" option-value="value" option-label="label" />
+                        </div>
+
+                        <!-- Course Session Template Select (Dynamic based on selected Course Template) -->
+                        <div class="flex-1">
+                            <x-select :label="trans('courseSessionTemplate.model')" :options="$this->getCourseSessionTemplatesForTemplate($relationship['course_template_id'])"
+                                wire:model="relationships.{{ $index }}.course_session_template_id"
+                                placeholder="Select Session Template" option-value="value" option-label="label"
+                                :disabled="$relationship['disabled']" :disabled="!$relationship['course_template_id']" />
+                        </div>
+
+                        <!-- Remove Button -->
+                        <div>
+                            <x-button wire:click="removeRelationship({{ $index }})" class="btn-error btn-sm"
+                                spinner="removeRelationship({{ $index }})" icon="o-trash" />
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        @else
+            <div class="py-8 text-center text-gray-500">
+                <p>{{ trans('resource.no_relationships') }}</p>
+                <p class="mt-2 text-sm">{{ trans('resource.click_add_to_create') }}</p>
             </div>
         @endif
     </x-card>

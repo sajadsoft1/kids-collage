@@ -27,6 +27,10 @@ return [
     ],
     'notifications' => [
     ],
-    'page'          => [
+    'page'               => [
     ],
+    'attached_resources'  => 'Attached Resources',
+    'add_relationship'    => 'Add Relationship',
+    'no_relationships'    => 'No relationships defined',
+    'click_add_to_create' => 'Click the add button to create a new relationship',
 ];

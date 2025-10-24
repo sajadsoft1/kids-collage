@@ -79,8 +79,8 @@ final class ResourceTable extends PowerGridComponent
         return PowerGrid::fields()
             ->add('id')
             ->add('title', fn ($row) => PowerGridHelper::fieldTitle($row))
-            ->add('type', fn ($row) => $row->type->title())
-            ->add('resourceable_type', fn ($row) => class_basename($row->resourceable_type))
+            ->add('type_formated', fn ($row) => $row->type->title())
+            ->add('attached_to', fn ($row) => $row->courseSessionTemplates->count() . ' session(s)')
             ->add('is_public', fn ($row) => $row->is_public ? 'Public' : 'Private')
             ->add('order', fn ($row) => $row->order)
             ->add('created_at_formatted', fn ($row) => PowerGridHelper::fieldCreatedAtFormated($row));
@@ -91,11 +91,10 @@ final class ResourceTable extends PowerGridComponent
         return [
             PowerGridHelper::columnId(),
             PowerGridHelper::columnTitle(),
-            Column::make('Type', 'type')
+            Column::make('Type', 'type_formated', 'type')
                 ->sortable()
                 ->searchable(),
-            Column::make('Attached To', 'resourceable_type')
-                ->sortable(),
+            Column::make('Attached To', 'attached_to'),
             Column::make('Visibility', 'is_public')
                 ->sortable(),
             Column::make('Order', 'order')
@@ -108,18 +107,11 @@ final class ResourceTable extends PowerGridComponent
     public function filters(): array
     {
         return [
-            Filter::select('type', 'type')
-                ->dataSource(ResourceType::options())
-                ->optionValue('value')
-                ->optionLabel('label'),
-            Filter::select('resourceable_type', 'resourceable_type')
-                ->dataSource([
-                    ['value' => 'App\\Models\\CourseTemplate', 'label' => 'Course Template'],
-                    ['value' => 'App\\Models\\CourseSessionTemplate', 'label' => 'Session Template'],
-                    ['value' => 'App\\Models\\CourseSession', 'label' => 'Course Session'],
-                ])
-                ->optionValue('value')
-                ->optionLabel('label'),
+            // Filter::select('type', 'type')
+            //     ->dataSource(ResourceType::options())
+            //     ->optionValue('value')
+            //     ->optionLabel('label'),
+
             Filter::select('is_public', 'is_public')
                 ->dataSource([
                     ['value' => '1', 'label' => 'Public'],

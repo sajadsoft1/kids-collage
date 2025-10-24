@@ -19,11 +19,6 @@ class ResourceFactory extends Factory
         $type = $this->faker->randomElement(ResourceType::cases());
 
         return [
-            'resourceable_type' => $this->faker->randomElement([
-                CourseTemplate::class,
-                CourseSessionTemplate::class,
-            ]),
-            'resourceable_id'   => $this->faker->numberBetween(1, 10),
             'type'              => $type,
             'path'              => $type === ResourceType::LINK
                 ? $this->faker->url()
@@ -86,21 +81,6 @@ class ResourceFactory extends Factory
         };
     }
 
-    public function forCourseTemplate(CourseTemplate $template): static
-    {
-        return $this->state(fn (array $attributes) => [
-            'resourceable_type' => CourseTemplate::class,
-            'resourceable_id'   => $template->id,
-        ]);
-    }
-
-    public function forSessionTemplate(CourseSessionTemplate $template): static
-    {
-        return $this->state(fn (array $attributes) => [
-            'resourceable_type' => CourseSessionTemplate::class,
-            'resourceable_id'   => $template->id,
-        ]);
-    }
 
     public function pdf(): static
     {

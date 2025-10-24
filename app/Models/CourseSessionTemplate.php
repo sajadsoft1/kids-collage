@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -73,10 +73,11 @@ class CourseSessionTemplate extends Model
         return $this->hasMany(CourseSession::class);
     }
 
-    /** Get the fixed lesson resources for this session template. */
-    public function resources(): MorphMany
+    /** Get the resources attached to this session template. */
+    public function resources(): BelongsToMany
     {
-        return $this->morphMany(Resource::class, 'resourceable');
+        return $this->belongsToMany(Resource::class, 'course_session_template_resource')
+            ->withTimestamps();
     }
 
     /** Get the duration in hours. */

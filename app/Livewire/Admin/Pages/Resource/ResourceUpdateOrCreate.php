@@ -26,48 +26,59 @@ class ResourceUpdateOrCreate extends Component
     use WithFileUploads;
 
     public Resource $model;
-    public string $title             = '';
-    public string $description       = '';
-    public string $type              = '';
-    public string $path              = '';
-    public string $resourceable_type = '';
-    public ?int $resourceable_id     = null;
-    public bool $is_public           = true;
-    public int $order                = 0;
+    public string $title       = '';
+    public string $description = '';
+    public string $type        = '';
+    public string $path        = '';
+    public bool $is_public     = true;
+    public int $order          = 1;
     public $file;
+    public array $relationships = [];
 
     public function mount(Resource $resource): void
     {
         $this->model = $resource;
         if ($this->model->id) {
-            $this->title             = $this->model->title;
-            $this->description       = $this->model->description;
-            $this->type              = $this->model->type->value;
-            $this->path              = $this->model->path;
-            $this->resourceable_type = $this->model->resourceable_type;
-            $this->resourceable_id   = $this->model->resourceable_id;
-            $this->is_public         = $this->model->is_public;
-            $this->order             = $this->model->order;
+            $this->title       = $this->model->title;
+            $this->description = $this->model->description;
+            $this->type        = $this->model->type->value;
+            $this->path        = $this->model->path;
+            $this->is_public   = $this->model->is_public;
+            $this->order       = $this->model->order;
+
+            // Load existing relationships
+            $this->relationships = $this->model->courseSessionTemplates->map(function ($template) {
+                return [
+                    'course_template_id'         => $template->course_template_id,
+                    'course_session_template_id' => $template->id,
+                ];
+            })->toArray();
         }
     }
 
     protected function rules(): array
     {
         $rules = [
-            'title'             => 'required|string|max:255',
-            'description'       => 'nullable|string',
-            'type'              => 'required|string|in:' . implode(',', array_column(ResourceType::cases(), 'value')),
-            'resourceable_type' => 'required|string',
-            'resourceable_id'   => 'required|integer',
-            'is_public'         => 'boolean',
-            'order'             => 'required|integer|min:0',
+            'title'                                             => 'required|string|max:255',
+            'description'                                       => 'nullable|string',
+            'type'                                              => 'required|string|in:' . implode(',', ResourceType::values()),
+            'is_public'                                         => 'boolean',
+            'order'                                             => 'required|integer|min:0',
+            'relationships'                                     => 'required|array|min:1',
+            'relationships.*.course_session_template_id'        => 'required|integer|exists:course_session_templates,id',
+            'relationships.*.course_template_id'                => 'required|integer|exists:course_templates,id',
         ];
 
         // Dynamic validation based on resource type
         if ($this->type === ResourceType::LINK->value) {
             $rules['path'] = 'required|url';
         } else {
-            $rules['file'] = 'required|file';
+            // In edit mode, file is optional if already exists
+            if ($this->model->id && $this->model->isUploadedFile()) {
+                $rules['file'] = 'nullable|file';
+            } else {
+                $rules['file'] = 'required|file';
+            }
         }
 
         return $rules;
@@ -79,29 +90,45 @@ class ResourceUpdateOrCreate extends Component
 
         // Prepare payload for action
         $actionPayload = [
-            'title'             => $payload['title'],
-            'description'       => $payload['description'],
-            'type'              => ResourceType::from($payload['type']),
-            'resourceable_type' => $payload['resourceable_type'],
-            'resourceable_id'   => $payload['resourceable_id'],
-            'is_public'         => $payload['is_public'],
-            'order'             => $payload['order'],
+            'title'       => $payload['title'],
+            'description' => $payload['description'],
+            'type'        => ResourceType::from($payload['type']),
+            'is_public'   => $payload['is_public'],
+            'order'       => $payload['order'],
         ];
 
         if ($this->type === ResourceType::LINK->value) {
             $actionPayload['path'] = $payload['path'];
         } else {
-            $actionPayload['file'] = $payload['file'];
+            if (isset($payload['file']) && $payload['file']) {
+                $actionPayload['file'] = $payload['file'];
+            }
         }
+
+        // Extract course_session_template_ids from relationships
+        $courseSessionTemplateIds = collect($payload['relationships'])
+            ->pluck('course_session_template_id')
+            ->filter()
+            ->unique()
+            ->values()
+            ->toArray();
 
         if ($this->model->id) {
             UpdateResourceAction::run($this->model, $actionPayload);
+            
+            // Sync relationships with pivot table
+            $this->model->courseSessionTemplates()->sync($courseSessionTemplateIds);
+            
             $this->success(
                 title: trans('general.model_has_updated_successfully', ['model' => trans('resource.model')]),
                 redirectTo: route('admin.resource.index')
             );
         } else {
-            StoreResourceAction::run($actionPayload);
+            $resource = StoreResourceAction::run($actionPayload);
+            
+            // Attach relationships to pivot table
+            $resource->courseSessionTemplates()->attach($courseSessionTemplateIds);
+            
             $this->success(
                 title: trans('general.model_has_stored_successfully', ['model' => trans('resource.model')]),
                 redirectTo: route('admin.resource.index')
@@ -115,45 +142,36 @@ class ResourceUpdateOrCreate extends Component
         return ResourceType::options();
     }
 
-    #[Computed]
-    public function resourceableOptions(): array
+
+    public function addRelationship(): void
     {
-        $options = [];
+        $this->relationships[] = [
+            'course_template_id'         => null,
+            'course_session_template_id' => null,
+        ];
+    }
 
-        // Course Templates
-        $options = CourseTemplate::select('id')->get()->map(function ($template) {
-            return [
-                'label' => "Course Template: {$template->title}",
-                'value' => "{$template->id}",
-                'group' => 'Course Templates',
-            ];
-        });
+    public function removeRelationship(int $index): void
+    {
+        unset($this->relationships[$index]);
+        $this->relationships = array_values($this->relationships);
+    }
 
-        // Course Session Templates
-        $options = CourseSessionTemplate::with('courseTemplate')
-            ->select('id', 'course_template_id')
+    public function getCourseSessionTemplatesForTemplate(?int $courseTemplateId): array
+    {
+        if (!$courseTemplateId) {
+            return [];
+        }
+
+        return CourseSessionTemplate::where('course_template_id', $courseTemplateId)
+            ->select('id')
             ->get()
-            ->map(function ($template) {
-                return [
-                    'label' => "Session: {$template?->title} ({$template?->courseTemplate?->title})",
-                    'value' => "{$template->id}",
-                    'group' => 'Session Templates',
-                ];
-            });
-
-        // Course Sessions
-        $options = CourseSession::with(['sessionTemplate.courseTemplate'])
-            ->select('id', 'course_session_template_id')
-            ->get()
-            ->map(function ($session) {
-                return [
-                    'label' => "Session Instance: {$session->sessionTemplate?->title} ({$session->sessionTemplate?->courseTemplate?->title})",
-                    'value' => "{$session->id}",
-                    'group' => 'Course Sessions',
-                ];
-            });
-
-        return $options->toArray();
+            ->map(fn ($template) => [
+                'value' => $template->id,
+                'label' => $template->title,
+                'disabled' => in_array($template->id, collect($this->relationships)->pluck('course_session_template_id')->toArray()),
+            ])
+            ->toArray();
     }
 
     public function render(): View
@@ -168,6 +186,10 @@ class ResourceUpdateOrCreate extends Component
             'breadcrumbsActions' => [
                 ['link' => route('admin.resource.index'), 'icon' => 's-arrow-left'],
             ],
+            'courseTemplates' => CourseTemplate::select('id')->get()->map(fn ($template) => [
+                'value' => $template->id,
+                'label' => $template->title,
+            ])->toArray(),
         ]);
     }
 }

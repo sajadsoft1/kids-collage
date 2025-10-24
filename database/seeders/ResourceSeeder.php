@@ -13,50 +13,48 @@ class ResourceSeeder extends Seeder
 {
     public function run(): void
     {
-        // Get some existing course templates and session templates
-        $courseTemplates  = CourseTemplate::take(3)->get();
+        // Get some existing session templates
         $sessionTemplates = CourseSessionTemplate::take(5)->get();
 
-        // Create resources for course templates
-        foreach ($courseTemplates as $template) {
-            // Create 2-4 resources per course template
-            Resource::factory()
+        if ($sessionTemplates->isEmpty()) {
+            return;
+        }
+
+        // Create resources and attach them to session templates
+        foreach ($sessionTemplates as $template) {
+            // Create 2-4 mixed resources per session template
+            $resources = Resource::factory()
                 ->count(fake()->numberBetween(2, 4))
-                ->forCourseTemplate($template)
                 ->create();
+            
+            $template->resources()->attach($resources->pluck('id'));
 
             // Create some PDF resources specifically
-            Resource::factory()
+            $pdfResources = Resource::factory()
                 ->count(fake()->numberBetween(1, 2))
                 ->pdf()
-                ->forCourseTemplate($template)
                 ->create();
-        }
-
-        // Create resources for session templates
-        foreach ($sessionTemplates as $template) {
-            // Create 1-3 resources per session template
-            Resource::factory()
-                ->count(fake()->numberBetween(1, 3))
-                ->forSessionTemplate($template)
-                ->create();
+            
+            $template->resources()->attach($pdfResources->pluck('id'));
 
             // Create some video resources specifically
-            Resource::factory()
+            $videoResources = Resource::factory()
                 ->count(fake()->numberBetween(0, 2))
                 ->video()
-                ->forSessionTemplate($template)
                 ->create();
+            
+            $template->resources()->attach($videoResources->pluck('id'));
 
             // Create some link resources
-            Resource::factory()
+            $linkResources = Resource::factory()
                 ->count(fake()->numberBetween(0, 1))
                 ->link()
-                ->forSessionTemplate($template)
                 ->create();
+            
+            $template->resources()->attach($linkResources->pluck('id'));
         }
 
-        // Create some standalone resources (not attached to any specific model)
+        // Create some standalone resources (not attached to any template yet)
         Resource::factory()
             ->count(10)
             ->create();

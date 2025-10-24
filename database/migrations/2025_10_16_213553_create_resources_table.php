@@ -11,9 +11,8 @@ return new class extends Migration {
     {
         Schema::create('resources', function (Blueprint $table) {
             $table->id();
-            $table->morphs('resourceable');
-            $table->string('type');
-            $table->string('path');
+            $table->string('type')->index();
+            $table->string('path')->nullable();
             $table->string('title');
             $table->integer('order')->default(0);
             $table->text('description')->nullable();
@@ -21,13 +20,26 @@ return new class extends Migration {
             $table->boolean('is_public')->default(true);
             $table->timestamps();
             $table->softDeletes();
+        });
 
-            $table->index('type');
+        Schema::create('course_session_template_resource', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('resource_id')
+                ->constrained('resources')
+                ->cascadeOnDelete();
+            $table->foreignId('course_session_template_id')
+                ->constrained('course_session_templates')
+                ->cascadeOnDelete()
+                ->name('cst_resource_cst_id_foreign');
+            $table->timestamps();
+
+            $table->unique(['resource_id', 'course_session_template_id'], 'resource_cst_unique');
         });
     }
 
     public function down(): void
     {
+        Schema::dropIfExists('course_session_template_resource');
         Schema::dropIfExists('resources');
     }
 };
