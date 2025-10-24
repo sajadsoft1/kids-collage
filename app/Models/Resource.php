@@ -59,11 +59,11 @@ class Resource extends Model implements HasMedia
     /** Model Configuration -------------------------------------------------------------------------- */
     public function registerMediaCollections(): void
     {
-        $this->addMediaCollection('video');
-        $this->addMediaCollection('image');
-        $this->addMediaCollection('pdf');
-        $this->addMediaCollection('audio');
-        $this->addMediaCollection('file');
+        $this->addMediaCollection('video')->singleFile();
+        $this->addMediaCollection('image')->singleFile();
+        $this->addMediaCollection('pdf')->singleFile();
+        $this->addMediaCollection('audio')->singleFile();
+        $this->addMediaCollection('file')->singleFile();
     }
 
     /** Get the course session templates this resource is attached to. */

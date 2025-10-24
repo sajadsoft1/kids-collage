@@ -7,8 +7,6 @@ namespace App\Livewire\Admin\Pages\Resource;
 use App\Actions\Resource\StoreResourceAction;
 use App\Actions\Resource\UpdateResourceAction;
 use App\Enums\ResourceType;
-use App\Models\Course;
-use App\Models\CourseSession;
 use App\Models\CourseSessionTemplate;
 use App\Models\CourseTemplate;
 use App\Models\Resource;
@@ -56,17 +54,25 @@ class ResourceUpdateOrCreate extends Component
         }
     }
 
+    /** Reset file and path when type changes */
+    public function updatedType(): void
+    {
+        $this->file = null;
+        $this->path = '';
+        $this->resetValidation(['file', 'path']);
+    }
+
     protected function rules(): array
     {
         $rules = [
-            'title'                                             => 'required|string|max:255',
-            'description'                                       => 'nullable|string',
-            'type'                                              => 'required|string|in:' . implode(',', ResourceType::values()),
-            'is_public'                                         => 'boolean',
-            'order'                                             => 'required|integer|min:0',
-            'relationships'                                     => 'required|array|min:1',
-            'relationships.*.course_session_template_id'        => 'required|integer|exists:course_session_templates,id',
-            'relationships.*.course_template_id'                => 'required|integer|exists:course_templates,id',
+            'title'                                      => 'required|string|max:255',
+            'description'                                => 'nullable|string',
+            'type'                                       => 'required|string|in:' . implode(',', ResourceType::values()),
+            'is_public'                                  => 'boolean',
+            'order'                                      => 'required|integer|min:0',
+            'relationships'                              => 'required|array|min:1',
+            'relationships.*.course_session_template_id' => 'required|integer|exists:course_session_templates,id',
+            'relationships.*.course_template_id'         => 'required|integer|exists:course_templates,id',
         ];
 
         // Dynamic validation based on resource type
@@ -92,7 +98,7 @@ class ResourceUpdateOrCreate extends Component
         $actionPayload = [
             'title'       => $payload['title'],
             'description' => $payload['description'],
-            'type'        => ResourceType::from($payload['type']),
+            'type'        => ResourceType::from($payload['type'])->value,
             'is_public'   => $payload['is_public'],
             'order'       => $payload['order'],
         ];
@@ -115,20 +121,20 @@ class ResourceUpdateOrCreate extends Component
 
         if ($this->model->id) {
             UpdateResourceAction::run($this->model, $actionPayload);
-            
+
             // Sync relationships with pivot table
             $this->model->courseSessionTemplates()->sync($courseSessionTemplateIds);
-            
+
             $this->success(
                 title: trans('general.model_has_updated_successfully', ['model' => trans('resource.model')]),
                 redirectTo: route('admin.resource.index')
             );
         } else {
             $resource = StoreResourceAction::run($actionPayload);
-            
+
             // Attach relationships to pivot table
             $resource->courseSessionTemplates()->attach($courseSessionTemplateIds);
-            
+
             $this->success(
                 title: trans('general.model_has_stored_successfully', ['model' => trans('resource.model')]),
                 redirectTo: route('admin.resource.index')
@@ -141,7 +147,6 @@ class ResourceUpdateOrCreate extends Component
     {
         return ResourceType::options();
     }
-
 
     public function addRelationship(): void
     {
@@ -159,7 +164,7 @@ class ResourceUpdateOrCreate extends Component
 
     public function getCourseSessionTemplatesForTemplate(?int $courseTemplateId): array
     {
-        if (!$courseTemplateId) {
+        if ( ! $courseTemplateId) {
             return [];
         }
 
@@ -167,8 +172,8 @@ class ResourceUpdateOrCreate extends Component
             ->select('id')
             ->get()
             ->map(fn ($template) => [
-                'value' => $template->id,
-                'label' => $template->title,
+                'value'    => $template->id,
+                'label'    => $template->title,
                 'disabled' => in_array($template->id, collect($this->relationships)->pluck('course_session_template_id')->toArray()),
             ])
             ->toArray();
@@ -186,7 +191,7 @@ class ResourceUpdateOrCreate extends Component
             'breadcrumbsActions' => [
                 ['link' => route('admin.resource.index'), 'icon' => 's-arrow-left'],
             ],
-            'courseTemplates' => CourseTemplate::select('id')->get()->map(fn ($template) => [
+            'courseTemplates'    => CourseTemplate::select('id')->get()->map(fn ($template) => [
                 'value' => $template->id,
                 'label' => $template->title,
             ])->toArray(),

@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use App\Enums\ResourceType;
-use App\Models\CourseSessionTemplate;
-use App\Models\CourseTemplate;
 use App\Models\Resource;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -19,15 +17,13 @@ class ResourceFactory extends Factory
         $type = $this->faker->randomElement(ResourceType::cases());
 
         return [
-            'type'              => $type,
-            'path'              => $type === ResourceType::LINK
-                ? $this->faker->url()
-                : '/storage/resources/' . $this->faker->uuid() . '.' . $this->getFileExtension($type),
-            'title'             => $this->faker->sentence(3),
-            'description'       => $this->faker->paragraph(),
-            'order'             => $this->faker->numberBetween(0, 100),
-            'is_public'         => $this->faker->boolean(80), // 80% chance of being public
-            'extra_attributes'  => $this->generateExtraAttributes($type),
+            'type'             => ResourceType::LINK->value,
+            'path'             => $this->faker->url(),
+            'title'            => $this->faker->sentence(3),
+            'description'      => $this->faker->paragraph(),
+            'order'            => $this->faker->numberBetween(0, 100),
+            'is_public'        => $this->faker->boolean(80), // 80% chance of being public
+            'extra_attributes' => $this->generateExtraAttributes($type),
         ];
     }
 
@@ -80,7 +76,6 @@ class ResourceFactory extends Factory
             ResourceType::LINK  => '',
         };
     }
-
 
     public function pdf(): static
     {

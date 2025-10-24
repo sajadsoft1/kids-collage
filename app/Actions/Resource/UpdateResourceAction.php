@@ -6,6 +6,7 @@ namespace App\Actions\Resource;
 
 use App\Enums\ResourceType;
 use App\Models\Resource;
+use App\Services\File\FileService;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Lorisleiva\Actions\Concerns\AsAction;
@@ -16,6 +17,7 @@ class UpdateResourceAction
     use AsAction;
 
     public function __construct(
+        private readonly FileService $fileService,
     ) {}
 
     /**
@@ -39,30 +41,12 @@ class UpdateResourceAction
 
             // Handle file upload if provided
             if (isset($payload['file']) && $payload['file']) {
-                // Clear existing media if updating with new file
-                $resource->clearMediaCollection($resource->type->value);
-                $this->handleFileUpload($resource, $payload['file'], $payload['type'] ?? $resource->type);
+                $this->fileService->addMedia($resource, $payload['file'], $payload['type'] ?? $resource->type->value);
             }
 
             $resource->update($resourceData);
 
             return $resource->refresh();
         });
-    }
-
-    private function handleFileUpload(Resource $resource, $file, ResourceType $type): void
-    {
-        $media = $resource->addMediaFromRequest('file')
-            ->toMediaCollection($type->value);
-
-        // Update path with media URL
-        $resource->update(['path' => $media->getUrl()]);
-
-        // Store file metadata
-        $resource->extra_attributes = array_merge($resource->extra_attributes->toArray(), [
-            'file_size' => $file->getSize(),
-            'mime_type' => $file->getMimeType(),
-        ]);
-        $resource->save();
     }
 }

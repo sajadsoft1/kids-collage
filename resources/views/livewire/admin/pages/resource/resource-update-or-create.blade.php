@@ -24,7 +24,7 @@
 
     <x-card :title="trans('resource.upload_file')" shadow separator progress-indicator="submit" class="mt-5">
         <!-- Resource Type -->
-        <x-select :label="trans('resource.type')" wire:model="type" :options="$this->resourceTypes" option-value="value" option-label="label"
+        <x-select :label="trans('resource.type')" wire:model.live="type" :options="$this->resourceTypes" option-value="value" option-label="label"
             placeholder="Select resource type" />
 
         <!-- Dynamic Fields based on Resource Type -->
@@ -40,10 +40,10 @@
             <!-- File Upload Field (for all other types) -->
             <div x-show="resourceType !== 'link'" class="mb-4">
                 <!-- PDF Files -->
-                <div x-show="resourceType === 'pdf'">
-                    <x-file wire:model="file" accept="application/pdf" :label="trans('resource.file')">
+                @if ($type === 'pdf')
+                    <x-file wire:model="file" accept="application/pdf" :label="trans('resource.file')" :hint="$edit_mode && $model->isUploadedFile() ? 'Leave empty to keep existing file' : ''">
                         <div
-                            class="flex justify-center items-center h-32 bg-gray-50 rounded-lg border-2 border-gray-300 border-dashed">
+                            class="flex justify-center items-center h-32 bg-gray-50 rounded-lg border-2 border-gray-300 border-dashed cursor-pointer hover:bg-gray-100">
                             <div class="text-center">
                                 <x-icon name="o-document-text" class="mx-auto w-12 h-12 text-red-500" />
                                 <p class="mt-2 text-sm text-gray-600">PDF Document</p>
@@ -51,14 +51,17 @@
                             </div>
                         </div>
                     </x-file>
-                </div>
+                    @error('file')
+                        <span class="text-sm text-red-500">{{ $message }}</span>
+                    @enderror
+                @endif
 
                 <!-- Video Files -->
-                <div x-show="resourceType === 'video'">
+                @if ($type === 'video')
                     <x-file wire:model="file" accept="video/mp4,video/avi,video/mov,video/wmv,video/mkv"
-                        :label="trans('resource.file')">
+                        :label="trans('resource.file')" :hint="$edit_mode && $model->isUploadedFile() ? 'Leave empty to keep existing file' : ''">
                         <div
-                            class="flex justify-center items-center h-32 bg-gray-50 rounded-lg border-2 border-gray-300 border-dashed">
+                            class="flex justify-center items-center h-32 bg-gray-50 rounded-lg border-2 border-gray-300 border-dashed cursor-pointer hover:bg-gray-100">
                             <div class="text-center">
                                 <x-icon name="o-video-camera" class="mx-auto w-12 h-12 text-blue-500" />
                                 <p class="mt-2 text-sm text-gray-600">Video File</p>
@@ -66,13 +69,17 @@
                             </div>
                         </div>
                     </x-file>
-                </div>
+                    @error('file')
+                        <span class="text-sm text-red-500">{{ $message }}</span>
+                    @enderror
+                @endif
 
                 <!-- Image Files -->
-                <div x-show="resourceType === 'image'">
-                    <x-file wire:model="file" accept="image/jpeg,image/png,image/gif,image/webp" :label="trans('resource.file')">
+                @if ($type === 'image')
+                    <x-file wire:model="file" accept="image/jpeg,image/png,image/gif,image/webp" :label="trans('resource.file')"
+                        :hint="$edit_mode && $model->isUploadedFile() ? 'Leave empty to keep existing file' : ''">
                         <div
-                            class="flex justify-center items-center h-32 bg-gray-50 rounded-lg border-2 border-gray-300 border-dashed">
+                            class="flex justify-center items-center h-32 bg-gray-50 rounded-lg border-2 border-gray-300 border-dashed cursor-pointer hover:bg-gray-100">
                             <div class="text-center">
                                 <x-icon name="o-photo" class="mx-auto w-12 h-12 text-green-500" />
                                 <p class="mt-2 text-sm text-gray-600">Image File</p>
@@ -80,22 +87,26 @@
                             </div>
                         </div>
                     </x-file>
+                    @error('file')
+                        <span class="text-sm text-red-500">{{ $message }}</span>
+                    @enderror
 
                     <!-- Image Preview -->
-                    @if ($edit_mode && $model->type === \App\Enums\ResourceType::IMAGE)
+                    @if ($file)
                         <div class="mt-4">
-                            <p class="mb-2 text-sm font-medium text-gray-700">Current Image:</p>
-                            <img src="{{ $model->url }}" alt="{{ $model->title }}"
+                            <p class="mb-2 text-sm font-medium text-gray-700">Preview:</p>
+                            <img src="{{ $file->temporaryUrl() }}" alt="Preview"
                                 class="object-cover w-32 h-32 rounded-lg border">
                         </div>
                     @endif
-                </div>
+                @endif
 
                 <!-- Audio Files -->
-                <div x-show="resourceType === 'audio'">
-                    <x-file wire:model="file" accept="audio/mp3,audio/wav,audio/ogg,audio/m4a" :label="trans('resource.file')">
+                @if ($type === 'audio')
+                    <x-file wire:model="file" accept="audio/mp3,audio/wav,audio/ogg,audio/m4a" :label="trans('resource.file')"
+                        :hint="$edit_mode && $model->isUploadedFile() ? 'Leave empty to keep existing file' : ''">
                         <div
-                            class="flex justify-center items-center h-32 bg-gray-50 rounded-lg border-2 border-gray-300 border-dashed">
+                            class="flex justify-center items-center h-32 bg-gray-50 rounded-lg border-2 border-gray-300 border-dashed cursor-pointer hover:bg-gray-100">
                             <div class="text-center">
                                 <x-icon name="o-musical-note" class="mx-auto w-12 h-12 text-purple-500" />
                                 <p class="mt-2 text-sm text-gray-600">Audio File</p>
@@ -103,14 +114,17 @@
                             </div>
                         </div>
                     </x-file>
-                </div>
+                    @error('file')
+                        <span class="text-sm text-red-500">{{ $message }}</span>
+                    @enderror
+                @endif
 
                 <!-- General Files -->
-                <div x-show="resourceType === 'file'">
+                @if ($type === 'file')
                     <x-file wire:model="file" accept=".zip,.rar,.txt,.doc,.docx,.xls,.xlsx,.ppt,.pptx"
-                        :label="trans('resource.file')">
+                        :label="trans('resource.file')" :hint="$edit_mode && $model->isUploadedFile() ? 'Leave empty to keep existing file' : ''">
                         <div
-                            class="flex justify-center items-center h-32 bg-gray-50 rounded-lg border-2 border-gray-300 border-dashed">
+                            class="flex justify-center items-center h-32 bg-gray-50 rounded-lg border-2 border-gray-300 border-dashed cursor-pointer hover:bg-gray-100">
                             <div class="text-center">
                                 <x-icon name="o-document" class="mx-auto w-12 h-12 text-gray-500" />
                                 <p class="mt-2 text-sm text-gray-600">Document File</p>
@@ -118,7 +132,10 @@
                             </div>
                         </div>
                     </x-file>
-                </div>
+                    @error('file')
+                        <span class="text-sm text-red-500">{{ $message }}</span>
+                    @enderror
+                @endif
             </div>
         </div>
 
