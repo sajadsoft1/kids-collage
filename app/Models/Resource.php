@@ -46,6 +46,8 @@ class Resource extends Model implements HasMedia
         'type',
         'path',
         'title',
+        'order',
+        'description',
         'extra_attributes',
         'is_public',
     ];
@@ -53,6 +55,7 @@ class Resource extends Model implements HasMedia
     protected $casts = [
         'type'      => ResourceType::class,
         'is_public' => 'boolean',
+        'order'     => 'integer',
     ];
 
     /** Model Configuration -------------------------------------------------------------------------- */
@@ -186,5 +189,36 @@ class Resource extends Model implements HasMedia
     {
         return $query->where('resourceable_type', $modelType)
             ->where('resourceable_id', $modelId);
+    }
+
+    /** Scope for ordered resources. */
+    public function scopeOrdered($query)
+    {
+        return $query->orderBy('order');
+    }
+
+    /** Check if this resource is an uploaded file. */
+    public function isUploadedFile(): bool
+    {
+        return $this->type !== ResourceType::LINK;
+    }
+
+    /** Check if this resource is an external link. */
+    public function isExternalLink(): bool
+    {
+        return $this->type === ResourceType::LINK;
+    }
+
+    /** Get the URL for this resource. */
+    public function getUrlAttribute(): string
+    {
+        if ($this->isExternalLink()) {
+            return $this->path;
+        }
+
+        // For uploaded files, return the media URL
+        $media = $this->getFirstMedia($this->type->value);
+
+        return $media ? $media->getUrl() : $this->path;
     }
 }

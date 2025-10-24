@@ -1636,9 +1636,9 @@ namespace App\Models{
  * @property float $benefit
  * @property \Illuminate\Support\Carbon|null $cooperation_start_date
  * @property \Illuminate\Support\Carbon|null $cooperation_end_date
- * @property \Spatie\SchemalessAttributes\SchemalessAttributes|null $extra_attributes
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Spatie\SchemalessAttributes\SchemalessAttributes $extra_attributes
  * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile newQuery()
@@ -1649,7 +1649,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereCooperationEndDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereCooperationStartDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereExtraAttributes($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereFatherName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereFatherPhone($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereGender($value)
@@ -1691,6 +1690,7 @@ namespace App\Models{
  * @property-read string|null $formatted_file_size
  * @property-read string|null $mime_type
  * @property-read string|null $thumbnail_path
+ * @property-read string $url
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
  * @property-read int|null $media_count
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource byType(\App\Enums\ResourceType $type)
@@ -1701,20 +1701,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource ordered()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource private()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource public()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource whereExtraAttributes($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource whereIsPublic($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource wherePath($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource whereResourceableId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource whereResourceableType($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource whereTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource withExtraAttributes()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource withoutTrashed()

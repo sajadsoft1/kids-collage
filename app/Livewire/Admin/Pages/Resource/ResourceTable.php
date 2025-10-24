@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Livewire\Admin\Pages\Resource;
 
+use App\Enums\ResourceType;
 use App\Helpers\PowerGridHelper;
 use App\Models\Resource;
 use App\Traits\PowerGridHelperTrait;
@@ -11,6 +12,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\View\View;
 use Jenssegers\Agent\Agent;
 use Livewire\Attributes\Computed;
+use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
@@ -77,6 +79,10 @@ final class ResourceTable extends PowerGridComponent
         return PowerGrid::fields()
             ->add('id')
             ->add('title', fn ($row) => PowerGridHelper::fieldTitle($row))
+            ->add('type', fn ($row) => $row->type->title())
+            ->add('resourceable_type', fn ($row) => class_basename($row->resourceable_type))
+            ->add('is_public', fn ($row) => $row->is_public ? 'Public' : 'Private')
+            ->add('order', fn ($row) => $row->order)
             ->add('created_at_formatted', fn ($row) => PowerGridHelper::fieldCreatedAtFormated($row));
     }
 
@@ -85,6 +91,15 @@ final class ResourceTable extends PowerGridComponent
         return [
             PowerGridHelper::columnId(),
             PowerGridHelper::columnTitle(),
+            Column::make('Type', 'type')
+                ->sortable()
+                ->searchable(),
+            Column::make('Attached To', 'resourceable_type')
+                ->sortable(),
+            Column::make('Visibility', 'is_public')
+                ->sortable(),
+            Column::make('Order', 'order')
+                ->sortable(),
             PowerGridHelper::columnCreatedAT(),
             PowerGridHelper::columnAction(),
         ];
@@ -93,6 +108,25 @@ final class ResourceTable extends PowerGridComponent
     public function filters(): array
     {
         return [
+            Filter::select('type', 'type')
+                ->dataSource(ResourceType::options())
+                ->optionValue('value')
+                ->optionLabel('label'),
+            Filter::select('resourceable_type', 'resourceable_type')
+                ->dataSource([
+                    ['value' => 'App\\Models\\CourseTemplate', 'label' => 'Course Template'],
+                    ['value' => 'App\\Models\\CourseSessionTemplate', 'label' => 'Session Template'],
+                    ['value' => 'App\\Models\\CourseSession', 'label' => 'Course Session'],
+                ])
+                ->optionValue('value')
+                ->optionLabel('label'),
+            Filter::select('is_public', 'is_public')
+                ->dataSource([
+                    ['value' => '1', 'label' => 'Public'],
+                    ['value' => '0', 'label' => 'Private'],
+                ])
+                ->optionValue('value')
+                ->optionLabel('label'),
             Filter::datepicker('created_at_formatted', 'created_at')
                 ->params([
                     'maxDate' => now(),

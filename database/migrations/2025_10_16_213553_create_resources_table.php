@@ -15,6 +15,8 @@ return new class extends Migration {
             $table->string('type');
             $table->string('path');
             $table->string('title');
+            $table->integer('order')->default(0);
+            $table->text('description')->nullable();
             $table->schemalessAttributes('extra_attributes');
             $table->boolean('is_public')->default(true);
             $table->timestamps();
