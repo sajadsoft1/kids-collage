@@ -297,5 +297,11 @@ return [
         'order_id'               => 'سفارش',
         'scheduled_date'         => 'تاریخ زمانبندی شده',
         'duration_minutes'       => 'مدت زمان (دقیقه)',
+        'location'               => 'مکان',
+        'min_order_amount'       => 'حداقل مبلغ سفارش',
+        'max_discount_amount'    => 'حداکثر مبلغ تخفیف',
+        'usage_limit'            => 'حداکثر استفاده',
+        'starts_at'              => 'تاریخ شروع',
+        'expires_at'             => 'تاریخ انقضا',
     ],
 ];

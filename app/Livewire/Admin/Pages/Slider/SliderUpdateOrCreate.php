@@ -27,11 +27,11 @@ class SliderUpdateOrCreate extends Component
     public ?string $title        = '';
     public ?string $description  = '';
     public int $ordering         = 1;
-    public ?string $published_at = '';
-    public ?string $expired_at   = '';
+    public ?string $published_at = null;
+    public ?string $expired_at   = null;
     public ?string $link         = '';
     public int $has_timer        = 0;
-    public ?string $timer_start  = '';
+    public ?string $timer_start  = null;
     public bool $published       = false;
     public $image;
     public $roles = [];
@@ -44,11 +44,11 @@ class SliderUpdateOrCreate extends Component
             $this->description  = $this->model->description;
             $this->published    = (bool) $this->model->published->value;
             $this->ordering     = $this->model->ordering;
-            $this->published_at = $this->model->published_at?->format(Constants::DEFAULT_DATE_FORMAT);
-            $this->expired_at   = $this->model->expired_at?->format(Constants::DEFAULT_DATE_FORMAT);
+            $this->published_at = $this->model->published_at?->format(Constants::DEFAULT_DATE_FORMAT_SMART_TIME);
+            $this->expired_at   = $this->model->expired_at?->format(Constants::DEFAULT_DATE_FORMAT_SMART_TIME);
             $this->link         = $this->model->link;
             $this->has_timer    = $this->model->has_timer->value;
-            $this->timer_start  = $this->model->timer_start?->format(Constants::DEFAULT_DATE_FORMAT);
+            $this->timer_start  = $this->model->timer_start?->format(Constants::DEFAULT_DATE_FORMAT_SMART_TIME);
             $this->roles        = $this->model->references
                 ->groupBy('morphable_type')
                 ->map(fn ($references, $type) => [
@@ -59,7 +59,8 @@ class SliderUpdateOrCreate extends Component
                 ->toArray();
         } else {
             // For new sliders, ensure published is properly initialized
-            $this->published = false;
+            $this->published  = true;
+            $this->expired_at = now()->addMonths(2)->format(Constants::DEFAULT_DATE_FORMAT);
         }
     }
 
@@ -73,14 +74,13 @@ class SliderUpdateOrCreate extends Component
             'published_at'  => [
                 'nullable',
                 'date',
-
             ],
             'expired_at'    => ['nullable', 'required_if:has_timer,true', 'date', 'after:now'],
             'link'          => ['nullable', 'url'],
             'has_timer'     => ['nullable', 'boolean'],
             'timer_start'   => ['nullable', 'required_if:has_timer,true', 'date', 'before:expired_at'],
             'image'         => ['image', 'max:2048', isset($this->model->id) ? 'nullable' : 'required'], // 2MB Max
-            'roles'         => ['required', 'array'],
+            'roles'         => ['nullable', 'array'],
             'roles.*.type'  => ['required', 'string'],
             'roles.*.value' => ['required', 'array'],
         ];

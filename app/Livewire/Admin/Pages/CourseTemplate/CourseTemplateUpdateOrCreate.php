@@ -36,7 +36,7 @@ class CourseTemplateUpdateOrCreate extends Component
     public string $level             = CourseLevelEnum::BIGGINER->value;
     public array $categories         = [];
     public array $tags               = [];
-    public int $category_id          = 1;
+    public int $category_id          = 0;
     public bool $is_self_paced       = false;
     public array $prerequisitesList  = [];
     public array $prerequisites      = [];
@@ -111,7 +111,7 @@ class CourseTemplateUpdateOrCreate extends Component
             'is_self_paced'               => 'required|boolean',
             'prerequisites'               => 'nullable|array',
             'prerequisites.*'             => 'integer|exists:course_templates,id',
-            'category_id'                 => 'required|exists:categories,id,type,blog',
+            'category_id'                 => 'required|exists:categories,id,type,course',
             'image'                       => 'nullable|file|mimes:png,jpg,jpeg|max:4096',
             'tags'                        => 'nullable|array',
             'tags.*'                      => 'string',

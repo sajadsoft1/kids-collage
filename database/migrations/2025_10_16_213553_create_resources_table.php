@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Enums\BooleanEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,9 +11,16 @@ return new class extends Migration {
     {
         Schema::create('resources', function (Blueprint $table) {
             $table->id();
-            $table->boolean('published')->default(BooleanEnum::ENABLE->value);
-            $table->text('languages')->nullable();
+            $table->morphs('resourceable');
+            $table->string('type');
+            $table->string('path');
+            $table->string('title');
+            $table->schemalessAttributes('extra_attributes');
+            $table->boolean('is_public')->default(true);
             $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('type');
         });
     }
 

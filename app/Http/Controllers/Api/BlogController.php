@@ -27,9 +27,8 @@ use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\AllowedSort;
 use Spatie\QueryBuilder\Enums\SortDirection;
 use Spatie\QueryBuilder\QueryBuilder;
-use Throwable;
 use Spatie\Tags\Tag as SpatieTag;
-
+use Throwable;
 
 class BlogController extends Controller
 {
@@ -223,12 +222,15 @@ class BlogController extends Controller
      * )
      * @throws Throwable
      */
-    public function indexByTag(Request $request, SpatieTag $tag): JsonResponse
+    public function indexByTag(Request $request, string $value): JsonResponse
     {
+        $locale = app()->getLocale();
+        $tag    = SpatieTag::where("slug->{$locale}", $value)->firstOrFail();
+
         return Response::dataWithAdditional(
             $this->query([
                 'limit' => $request->input('limit', 1),
-                'tag' => $tag,
+                'tag'   => $tag,
             ])->paginate($request->input('page_limit', 1))->toResourceCollection(BlogResource::class),
             [
                 'aaa' => 'bbbb',

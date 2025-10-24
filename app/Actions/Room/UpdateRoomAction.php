@@ -30,9 +30,7 @@ class UpdateRoomAction
     public function handle(Room $room, array $payload): Room
     {
         return DB::transaction(function () use ($room, $payload) {
-            $room->update(Arr::only($payload, ['capacity']));
-            $this->syncTranslationAction->handle($room, Arr::only($payload, ['title', 'description']));
-
+            $room->update($payload);
             return $room->refresh();
         });
     }

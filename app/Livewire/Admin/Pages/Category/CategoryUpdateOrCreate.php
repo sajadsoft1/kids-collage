@@ -7,13 +7,13 @@ namespace App\Livewire\Admin\Pages\Category;
 use App\Actions\Category\StoreCategoryAction;
 use App\Actions\Category\UpdateCategoryAction;
 use App\Enums\CategoryTypeEnum;
+use App\Helpers\StringHelper;
 use App\Models\Category;
 use App\Traits\CrudHelperTrait;
 use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Mary\Traits\Toast;
-use Throwable;
 
 class CategoryUpdateOrCreate extends Component
 {
@@ -45,7 +45,6 @@ class CategoryUpdateOrCreate extends Component
         return [
             'title'       => 'required|string',
             'description' => 'required|string',
-            'slug'        => 'required|string|unique:categories,slug,' . $this->model->id,
             'published'   => 'required|boolean',
             'type'        => 'required|string|in:' . implode(',', CategoryTypeEnum::values()),
             'image'       => 'nullable|image|max:2048',
@@ -56,25 +55,18 @@ class CategoryUpdateOrCreate extends Component
     {
         $payload = $this->validate();
         if ($this->model->id) {
-            try {
-                UpdateCategoryAction::run($this->model, $payload);
-                $this->success(
-                    title: trans('general.model_has_updated_successfully', ['model' => trans('category.model')]),
-                    redirectTo: route('admin.category.index')
-                );
-            } catch (Throwable $e) {
-                $this->error($e->getMessage(), timeout: 5000);
-            }
+            UpdateCategoryAction::run($this->model, $payload);
+            $this->success(
+                title: trans('general.model_has_updated_successfully', ['model' => trans('category.model')]),
+                redirectTo: route('admin.category.index')
+            );
         } else {
-            try {
-                StoreCategoryAction::run($payload);
-                $this->success(
-                    title: trans('general.model_has_stored_successfully', ['model' => trans('category.model')]),
-                    redirectTo: route('admin.category.index')
-                );
-            } catch (Throwable $e) {
-                $this->error($e->getMessage(), timeout: 5000);
-            }
+            $payload['slug'] = StringHelper::slug($this->title);
+            StoreCategoryAction::run($payload);
+            $this->success(
+                title: trans('general.model_has_stored_successfully', ['model' => trans('category.model')]),
+                redirectTo: route('admin.category.index')
+            );
         }
     }
 

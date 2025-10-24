@@ -35,7 +35,7 @@ class TagUpdateOrCreate extends Component
     {
         $this->model = $tag;
         if ($this->model->id) {
-            $this->name         = $this->model->name;
+            $this->name         = $this->model->getTranslation('name', app()->getLocale());
             $this->description  = $this->model->description;
             $this->body         = $this->model->body;
             $this->type         = $this->model->type;

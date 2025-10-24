@@ -5,6 +5,8 @@ declare(strict_types=1);
 return [
     // Global Settings
     'show_future_modules' => env('SHOW_FUTURE_MODULES', false),
+    'translation'         => env('MODULE_TRANSLATION', false),
+    'seo'                 => env('MODULE_SEO', false),
 
     // Education Management
     'education'           => [

@@ -1636,9 +1636,9 @@ namespace App\Models{
  * @property float $benefit
  * @property \Illuminate\Support\Carbon|null $cooperation_start_date
  * @property \Illuminate\Support\Carbon|null $cooperation_end_date
+ * @property \Spatie\SchemalessAttributes\SchemalessAttributes|null $extra_attributes
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \Spatie\SchemalessAttributes\SchemalessAttributes $extra_attributes
  * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile newQuery()
@@ -1649,6 +1649,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereCooperationEndDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereCooperationStartDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereExtraAttributes($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereFatherName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereFatherPhone($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereGender($value)
@@ -1673,25 +1674,28 @@ namespace App\Models{
  * Educational material (PDF, Video, Image, Link) that can be attached
  * to any resourceable entity (CourseTemplate, SessionTemplate, Session).
  *
- * @property int                 $id
- * @property string              $resourceable_type
- * @property int                 $resourceable_id
- * @property ResourceType        $type
- * @property string              $path
- * @property string              $title
- * @property array|null          $metadata
- * @property bool                $is_public
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
- * @property \Carbon\Carbon|null $deleted_at
+ * @property int                                               $id
+ * @property string                                            $resourceable_type
+ * @property int                                               $resourceable_id
+ * @property ResourceType                                      $type
+ * @property string                                            $path
+ * @property string                                            $title
+ * @property \Spatie\SchemalessAttributes\SchemalessAttributes $extra_attributes
+ * @property bool                                              $is_public
+ * @property \Carbon\Carbon|null                               $created_at
+ * @property \Carbon\Carbon|null                               $updated_at
+ * @property \Carbon\Carbon|null                               $deleted_at
  * @property-read Model $resourceable
  * @property-read int|null $duration
  * @property-read int|null $file_size
  * @property-read string|null $formatted_file_size
  * @property-read string|null $mime_type
  * @property-read string|null $thumbnail_path
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
+ * @property-read int|null $media_count
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource byType(\App\Enums\ResourceType $type)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource documents()
+ * @method static \Database\Factories\ResourceFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource forModel(string $modelType, int $modelId)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource media()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource newModelQuery()
@@ -1700,10 +1704,22 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource private()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource public()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource whereExtraAttributes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource whereIsPublic($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource wherePath($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource whereResourceableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource whereResourceableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource withExtraAttributes()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource withoutTrashed()
  */
-	class Resource extends \Eloquent {}
+	class Resource extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
 }
 
 namespace App\Models{

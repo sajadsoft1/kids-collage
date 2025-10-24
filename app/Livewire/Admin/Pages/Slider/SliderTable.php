@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\View\View;
 use Jenssegers\Agent\Agent;
 use Livewire\Attributes\Computed;
+use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
@@ -98,6 +99,7 @@ final class SliderTable extends PowerGridComponent
             ->add('id')
             ->add('title', fn ($row) => PowerGridHelper::fieldTitle($row))
             ->add('published_formated', fn ($row) => PowerGridHelper::fieldPublishedAtFormated($row))
+            ->add('expired_formated', fn ($row) => PowerGridHelper::fieldDateFormated($row, 'expired_at'))
             ->add('created_at_formatted', fn ($row) => PowerGridHelper::fieldCreatedAtFormated($row));
     }
 
@@ -106,6 +108,8 @@ final class SliderTable extends PowerGridComponent
         return [
             PowerGridHelper::columnId(),
             PowerGridHelper::columnTitle(),
+            Column::make(trans('discount.page.fields.expires_at'), 'expired_formated', 'expired_at')
+                ->sortable(),
             PowerGridHelper::columnPublished(),
             PowerGridHelper::columnCreatedAT(),
             PowerGridHelper::columnAction(),

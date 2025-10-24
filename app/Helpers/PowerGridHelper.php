@@ -93,7 +93,7 @@ class PowerGridHelper
             ->attributes([
                 'class' => 'btn btn-square md:btn-sm btn-xs',
             ])
-            ->can(true)
+            ->can(config('custom-modules.seo') && auth()->user()->hasAnyPermission(PermissionsService::generatePermissionsByModel($row::class, 'Update')))
             ->route('admin.dynamic-seo', ['class' => Str::camel(StringHelper::basename($row::class)), 'id' => $row->id], '_self')
             ->navigate()
             ->tooltip(trans('datatable.buttons.seo'));
@@ -183,6 +183,11 @@ class PowerGridHelper
     public static function fieldCreatedAt($row)
     {
         return $row->created_at;
+    }
+
+    public static function fieldDateFormated($row, string $field='created_at'): string
+    {
+        return jdate($row->{$field})->format('%A, %d %B %Y');
     }
 
     public static function fieldCreatedAtFormated($row): string

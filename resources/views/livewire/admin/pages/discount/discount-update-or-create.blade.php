@@ -5,14 +5,20 @@
     <x-admin.shared.bread-crumbs :breadcrumbs="$breadcrumbs" :breadcrumbs-actions="$breadcrumbsActions"/>
 
     {{-- Basic Information Card --}}
-    <x-card :title="trans('discount.page.fields.code') . ' & ' . trans('discount.page.fields.type')" shadow separator progress-indicator="submit" class="mt-5">
+    <x-card :title="trans('discount.page.fields.code') . ' & ' . trans('discount.page.fields.type')" shadow separator
+            progress-indicator="submit" class="mt-5">
         <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
-            <x-input :label="trans('discount.page.fields.code')" :placeholder="trans('discount.page.placeholders.code')" :hint="trans('discount.page.help.code')" wire:model="code" uppercase required/>
+            <x-input :label="trans('discount.page.fields.code')" :placeholder="trans('discount.page.placeholders.code')"
+                     :hint="trans('discount.page.help.code')" wire:model="code" uppercase required/>
 
-            <x-select :label="trans('discount.page.fields.type')" :placeholder="trans('general.please_select_an_option')" :hint="trans('discount.page.help.type')" wire:model.live="type" :options="$discountTypes"
+            <x-select :label="trans('discount.page.fields.type')"
+                      :placeholder="trans('general.please_select_an_option')" :hint="trans('discount.page.help.type')"
+                      wire:model.live="type" :options="$discountTypes"
                       option-label="label" option-value="value" required/>
 
-            <x-input :label="trans('discount.page.fields.value')" :placeholder="trans('discount.page.placeholders.value')" :hint="trans('discount.page.help.value')" wire:model="value" type="number"
+            <x-input :label="trans('discount.page.fields.value')"
+                     :placeholder="trans('discount.page.placeholders.value')" :hint="trans('discount.page.help.value')"
+                     wire:model="value" type="number"
                      step="0.01" min="0" :max="$type === DiscountTypeEnum::PERCENTAGE->value ? '100' : null"
                      suffix="{{ $type === DiscountTypeEnum::PERCENTAGE->value ? '%' : systemCurrency() }}" required/>
         </div>
@@ -21,14 +27,19 @@
     {{-- Restrictions Card --}}
     <x-card :title="trans('discount.page.restrictions')" shadow separator class="mt-5">
         <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
-            <x-select :label="trans('discount.page.fields.user')" :placeholder="trans('discount.page.no_restrictions')" :hint="trans('discount.page.help.user')" wire:model="user_id" :options="$users"
+            <x-select :label="trans('discount.page.fields.user')" :placeholder="trans('discount.page.no_restrictions')"
+                      :hint="trans('discount.page.help.user')" wire:model="user_id" :options="$users"
                       option-label="label" option-value="value" clearable/>
 
-            <x-input :label="trans('discount.page.fields.min_order_amount')" :placeholder="trans('discount.page.placeholders.min_order_amount')" :hint="trans('discount.page.help.min_order_amount')" wire:model="min_order_amount"
+            <x-input :label="trans('discount.page.fields.min_order_amount')"
+                     :placeholder="trans('discount.page.placeholders.min_order_amount')"
+                     :hint="trans('discount.page.help.min_order_amount')" wire:model="min_order_amount"
                      type="number" step="0.01" min="0" :prefix="systemCurrency()" required/>
 
             @if ($type === DiscountTypeEnum::PERCENTAGE->value)
-                <x-input :label="trans('discount.page.fields.max_discount_amount')" :placeholder="trans('discount.page.placeholders.max_discount_amount')" :hint="trans('discount.page.help.max_discount_amount')" wire:model="max_discount_amount"
+                <x-input :label="trans('discount.page.fields.max_discount_amount')"
+                         :placeholder="trans('discount.page.placeholders.max_discount_amount')"
+                         :hint="trans('discount.page.help.max_discount_amount')" wire:model="max_discount_amount"
                          type="number" step="0.01" min="0" :prefix="systemCurrency()"/>
             @endif
         </div>
@@ -37,10 +48,14 @@
     {{-- Usage Limits Card --}}
     <x-card :title="trans('discount.page.usage_limits')" shadow separator class="mt-5">
         <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
-            <x-input :label="trans('discount.page.fields.usage_limit')" :placeholder="trans('discount.page.placeholders.usage_limit')" :hint="trans('discount.page.help.usage_limit')" wire:model="usage_limit" type="number"
+            <x-input :label="trans('discount.page.fields.usage_limit')"
+                     :placeholder="trans('discount.page.placeholders.usage_limit')"
+                     :hint="trans('discount.page.help.usage_limit')" wire:model="usage_limit" type="number"
                      min="1" :prefix="trans('discount.page.person_usage_unit')"/>
 
-            <x-input :label="trans('discount.page.fields.usage_per_user')" :hint="trans('discount.page.help.usage_per_user')" wire:model="usage_per_user" type="number" min="1"
+            <x-input :label="trans('discount.page.fields.usage_per_user')"
+                     :hint="trans('discount.page.help.usage_per_user')" wire:model="usage_per_user" type="number"
+                     min="1"
                      required :prefix="trans('discount.page.person_usage_unit')"/>
         </div>
 
@@ -57,19 +72,27 @@
     </x-card>
 
     {{-- Date & Status Card --}}
-    <x-card :title="trans('discount.page.usage_schedule') . ' & ' . trans('validation.attributes.status')" shadow separator class="mt-5">
+    <x-card :title="trans('discount.page.usage_schedule') . ' & ' . trans('validation.attributes.status')" shadow
+            separator class="mt-5">
         <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
-            <x-datetime :label="trans('discount.page.fields.starts_at')" wire:model="starts_at"/>
 
-            <x-datetime :label="trans('discount.page.fields.expires_at')" wire:model="expires_at"/>
+            <x-admin.shared.smart-datetime :label="trans('validation.attributes.start_date')"
+                                           :default-date="$starts_at"
+                                           wire-property-name="starts_at"/>
+            <x-admin.shared.smart-datetime :label="trans('validation.attributes.expired_at')"
+                                           :default-date="$expires_at"
+                                           wire-property-name="expires_at"/>
 
-            <x-select :label="trans('validation.attributes.status')" wire:model="is_active" :options="BooleanEnum::options()" option-label="label" option-value="value"/>
+            <x-select :label="trans('validation.attributes.status')" wire:model="is_active"
+                      :options="BooleanEnum::options()" option-label="label" option-value="value"/>
         </div>
 
         @if ($edit_mode)
             <div class="mt-4">
                 <div class="badge badge-lg {{ $model->isValid() ? 'badge-success' : 'badge-error' }}">
-                    {{ trans('discount.page.fields.status') }}: <x-badge :value="$model->getStatusText()['label']" class="badge-{{$model->getStatusText()['color']}}" />
+                    {{ trans('discount.page.fields.status') }}:
+                    <x-badge :value="$model->getStatusText()['label']"
+                             class="badge-{{$model->getStatusText()['color']}}"/>
                 </div>
             </div>
         @endif
@@ -77,7 +100,8 @@
 
     {{-- Description Card --}}
     <x-card :title="trans('discount.page.fields.description')" shadow separator class="mt-5">
-        <x-textarea :label="trans('discount.page.fields.description')" :placeholder="trans('discount.page.placeholders.description')" wire:model="description" rows="3"/>
+        <x-textarea :label="trans('discount.page.fields.description')"
+                    :placeholder="trans('discount.page.placeholders.description')" wire:model="description" rows="3"/>
     </x-card>
 
     <x-admin.shared.form-actions/>

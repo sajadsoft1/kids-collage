@@ -55,7 +55,7 @@ final class CourseTemplateTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return CourseTemplate::query();
+        return CourseTemplate::withCount('sessionTemplates');
     }
 
     public function relationSearch(): array
@@ -73,6 +73,7 @@ final class CourseTemplateTable extends PowerGridComponent
             ->add('id')
             ->add('image', fn ($row) => PowerGridHelper::fieldImage($row, 'image', Constants::RESOLUTION_854_480, 11, 6))
             ->add('title', fn ($row) => PowerGridHelper::fieldTitle($row))
+            ->add('formatted_type', fn ($row) => $row->type->title())
             ->add('category_formatted', fn ($row) => $row->category?->title ?? '---')
             ->add('view_count_formated', fn ($row) => "<strong style='color: " . ($row->view_count === 0 ? 'blue' : 'red') . "'>{$row->view_count}</strong>")
             ->add('updated_at_formatted', fn ($row) => PowerGridHelper::fieldUpdatedAtFormated($row))
@@ -85,7 +86,10 @@ final class CourseTemplateTable extends PowerGridComponent
             PowerGridHelper::columnId(),
             PowerGridHelper::columnImage(),
             PowerGridHelper::columnTitle(),
+            Column::make(trans('datatable.type'), 'formatted_type'),
             Column::make(trans('datatable.category_title'), 'category_formatted'),
+            Column::make(trans('validation.attributes.session_count'), 'session_templates_count')
+                ->sortable(),
             PowerGridHelper::columnViewCount('view_count_formated')->hidden(true, false),
             PowerGridHelper::columnUpdatedAT(),
             PowerGridHelper::columnAction(),
