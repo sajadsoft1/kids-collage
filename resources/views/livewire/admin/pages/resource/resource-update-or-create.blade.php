@@ -1,4 +1,4 @@
-<form wire:submit="submit" x-data="{ resourceType: @entangle('type') }">
+<form wire:submit="submit" x-data="{ resourceType: @entangle('type').live }">
     <x-admin.shared.bread-crumbs :breadcrumbs="$breadcrumbs" :breadcrumbs-actions="$breadcrumbsActions" />
 
     <x-card :title="trans('general.page_sections.data')" shadow separator progress-indicator="submit">
@@ -10,7 +10,7 @@
             <x-input :label="trans('resource.order')" wire:model="order" type="number" min="0" placeholder="Display order" />
 
             <x-select :label="trans('resource.is_public')" wire:model="is_public" :options="\App\Enums\BooleanEnum::formatedCases()" option-value="value"
-                option-label="label" placeholder="Select if the resource is public" />
+                option-label="label" placeholder="Select if the resource is public" placeholder-value="" />
 
             <div class="col-span-2">
                 <x-textarea :label="trans('validation.attributes.description')" wire:model="description" placeholder="Enter resource description"
@@ -29,7 +29,7 @@
 
         <div class="grid grid-cols-1 gap-4 mt-6 lg:grid-cols-2">
             <!-- Dynamic Fields based on Resource Type -->
-            <div class="mt-6" x-show="resourceType !== ''">
+            <div class="mt-6" x-show="resourceType !== '' && resourceType !== null">
                 <!-- Link URL Field (only for LINK type) -->
                 <div x-show="resourceType === 'link'" class="mb-4">
                     <x-input :label="trans('resource.url')" wire:model="path" placeholder="https://example.com" type="url" />
@@ -41,12 +41,12 @@
                 <!-- File Upload Field (for all other types) -->
                 <div x-show="resourceType !== 'link'" class="mb-4">
                     <!-- PDF Files -->
-                    @if ($type === 'pdf')
+                    @if ($type && $type === 'pdf')
                         <x-file wire:model="file" accept="application/pdf" :label="trans('resource.file')" :hint="$edit_mode && $model->isUploadedFile() ? 'Leave empty to keep existing file' : ''">
                             <div
-                                class="flex justify-center items-center px-5 py-4 h-32 bg-gray-50 rounded-lg border-2 border-gray-300 border-dashed cursor-pointer hover:bg-gray-100">
+                                class="flex items-center justify-center h-32 px-5 py-4 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-base-100 hover:bg-gray-100">
                                 <div class="text-center">
-                                    <x-icon name="o-document-text" class="mx-auto w-12 h-12 text-red-500" />
+                                    <x-icon name="o-document-text" class="w-12 h-12 mx-auto text-red-500" />
                                     <p class="mt-2 text-sm text-gray-600">PDF Document</p>
                                     <p class="text-xs text-gray-500">Click to upload PDF file</p>
                                 </div>
@@ -58,15 +58,15 @@
                     @endif
 
                     <!-- Video Files -->
-                    @if ($type === 'video')
+                    @if ($type && $type === 'video')
                         <x-file wire:model="file" accept="video/mp4,video/avi,video/mov,video/wmv,video/mkv"
                             :label="trans('resource.file')" :hint="$edit_mode && $model->isUploadedFile()
                                 ? 'Leave empty to keep existing file'
                                 : ''">
                             <div
-                                class="flex justify-center items-center px-5 py-4 h-32 bg-gray-50 rounded-lg border-2 border-gray-300 border-dashed cursor-pointer hover:bg-gray-100">
+                                class="flex items-center justify-center h-32 px-5 py-4 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-base-100 hover:bg-gray-100">
                                 <div class="text-center">
-                                    <x-icon name="o-video-camera" class="mx-auto w-12 h-12 text-blue-500" />
+                                    <x-icon name="o-video-camera" class="w-12 h-12 mx-auto text-blue-500" />
                                     <p class="mt-2 text-sm text-gray-600">Video File</p>
                                     <p class="text-xs text-gray-500">Click to upload video file</p>
                                 </div>
@@ -78,15 +78,15 @@
                     @endif
 
                     <!-- Image Files -->
-                    @if ($type === 'image')
+                    @if ($type && $type === 'image')
                         <x-file wire:model="file" accept="image/jpeg,image/png,image/gif,image/webp" :label="trans('resource.file')"
                             :hint="$edit_mode && $model->isUploadedFile()
                                 ? 'Leave empty to keep existing file'
                                 : ''">
                             <div
-                                class="flex justify-center items-center px-5 py-4 h-32 bg-gray-50 rounded-lg border-2 border-gray-300 border-dashed cursor-pointer hover:bg-gray-100">
+                                class="flex items-center justify-center h-32 px-5 py-4 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-base-100 hover:bg-gray-100">
                                 <div class="text-center">
-                                    <x-icon name="o-photo" class="mx-auto w-12 h-12 text-green-500" />
+                                    <x-icon name="o-photo" class="w-12 h-12 mx-auto text-green-500" />
                                     <p class="mt-2 text-sm text-gray-600">Image File</p>
                                     <p class="text-xs text-gray-500">Click to upload image file</p>
                                 </div>
@@ -101,21 +101,21 @@
                             <div class="mt-4">
                                 <p class="mb-2 text-sm font-medium text-gray-700">Preview:</p>
                                 <img src="{{ $file->temporaryUrl() }}" alt="Preview"
-                                    class="object-cover w-32 h-32 rounded-lg border">
+                                    class="object-cover w-32 h-32 border rounded-lg">
                             </div>
                         @endif
                     @endif
 
                     <!-- Audio Files -->
-                    @if ($type === 'audio')
+                    @if ($type && $type === 'audio')
                         <x-file wire:model="file" accept="audio/mp3,audio/wav,audio/ogg,audio/m4a" :label="trans('resource.file')"
                             :hint="$edit_mode && $model->isUploadedFile()
                                 ? 'Leave empty to keep existing file'
                                 : ''">
                             <div
-                                class="flex justify-center items-center px-5 py-4 h-32 bg-gray-50 rounded-lg border-2 border-gray-300 border-dashed cursor-pointer hover:bg-gray-100">
+                                class="flex items-center justify-center h-32 px-5 py-4 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-base-100 hover:bg-gray-100">
                                 <div class="text-center">
-                                    <x-icon name="o-musical-note" class="mx-auto w-12 h-12 text-purple-500" />
+                                    <x-icon name="o-musical-note" class="w-12 h-12 mx-auto text-purple-500" />
                                     <p class="mt-2 text-sm text-gray-600">Audio File</p>
                                     <p class="text-xs text-gray-500">Click to upload audio file</p>
                                 </div>
@@ -127,15 +127,15 @@
                     @endif
 
                     <!-- General Files -->
-                    @if ($type === 'file')
+                    @if ($type && $type === 'file')
                         <x-file wire:model="file" accept=".zip,.rar,.txt,.doc,.docx,.xls,.xlsx,.ppt,.pptx"
                             :label="trans('resource.file')" :hint="$edit_mode && $model->isUploadedFile()
                                 ? 'Leave empty to keep existing file'
                                 : ''">
                             <div
-                                class="flex justify-center items-center px-5 py-4 h-32 bg-gray-50 rounded-lg border-2 border-gray-300 border-dashed cursor-pointer hover:bg-gray-100">
+                                class="flex items-center justify-center h-32 px-5 py-4 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-base-100 hover:bg-gray-100">
                                 <div class="text-center">
-                                    <x-icon name="o-document" class="mx-auto w-12 h-12 text-gray-500" />
+                                    <x-icon name="o-document" class="w-12 h-12 mx-auto text-gray-500" />
                                     <p class="mt-2 text-sm text-gray-600">Document File</p>
                                     <p class="text-xs text-gray-500">Click to upload document file</p>
                                 </div>
@@ -150,14 +150,14 @@
 
             <!-- File Preview (for edit mode) -->
             @if ($edit_mode && $model->isUploadedFile())
-                <div class="p-4 mt-4 bg-gray-50 rounded-lg">
+                <div class="p-4 mt-4 rounded-lg bg-base-100">
                     <h4 class="mb-2 text-sm font-medium text-gray-700">Current File:</h4>
                     <div class="flex items-center space-x-4">
                         @if ($model->type === \App\Enums\ResourceType::IMAGE)
                             <img src="{{ $model->url }}" alt="{{ $model->title }}"
-                                class="object-cover w-16 h-16 rounded-lg border">
+                                class="object-cover w-16 h-16 border rounded-lg">
                         @else
-                            <div class="flex justify-center items-center w-16 h-16 bg-gray-200 rounded-lg border">
+                            <div class="flex items-center justify-center w-16 h-16 bg-gray-200 border rounded-lg">
                                 @switch($model->type)
                                     @case(\App\Enums\ResourceType::PDF)
                                         <x-icon name="o-document-text" class="w-8 h-8 text-red-500" />
@@ -202,10 +202,10 @@
         @if (count($relationships) > 0)
             <div class="space-y-4">
                 @foreach ($relationships as $index => $relationship)
-                    <div class="flex gap-4 items-end">
+                    <div class="flex items-end gap-4">
                         <!-- Course Template Select -->
                         <div class="flex-1">
-                            <x-select :label="trans('coursetemplate.model')" :options="$courseTemplates"
+                            <x-choices-offline searchable single :label="trans('coursetemplate.model')" :options="$courseTemplates"
                                 wire:model.live="relationships.{{ $index }}.course_template_id"
                                 placeholder="Select Course Template" option-value="value" option-label="label" />
                         </div>

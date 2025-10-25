@@ -52,7 +52,7 @@ class Resource extends Model implements HasMedia
 
     protected $casts = [
         'type'      => ResourceType::class,
-        'is_public' => 'boolean',
+        'is_public' => 'bool',
         'order'     => 'integer',
     ];
 

@@ -9,6 +9,7 @@ use App\Helpers\PowerGridHelper;
 use App\Models\User;
 use App\Traits\PowerGridHelperTrait;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Carbon;
 use Jenssegers\Agent\Agent;
 use Livewire\Attributes\Computed;
 use PowerComponents\LivewirePowerGrid\Button;
@@ -89,6 +90,7 @@ final class UserTable extends PowerGridComponent
             ->add('user_formated', fn ($row) => view('admin.datatable-shared.user-info', [
                 'row' => $row,
             ]))
+            ->add('age', fn ($row) => $row->profile?->birth_date ? (int) Carbon::parse($row->profile->birth_date)->diffInYears(now()) : null)
             ->add('gender_formated', fn ($row) => view('admin.datatable-shared.gender', [
                 'gender' => $row->profile?->gender,
             ]))
@@ -105,6 +107,9 @@ final class UserTable extends PowerGridComponent
                 ->sortable(),
 
             Column::make(trans('validation.attributes.gender'), 'gender_formated', 'gender')
+                ->sortable(),
+
+            Column::make(trans('validation.attributes.age'), 'age', 'age')
                 ->sortable(),
 
             PowerGridHelper::columnCreatedAT(),

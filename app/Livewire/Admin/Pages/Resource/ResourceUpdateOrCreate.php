@@ -26,9 +26,9 @@ class ResourceUpdateOrCreate extends Component
     public Resource $model;
     public string $title       = '';
     public string $description = '';
-    public string $type        = '';
+    public ?string $type       = null;
     public string $path        = '';
-    public bool $is_public     = true;
+    public int $is_public      = 1;
     public int $order          = 1;
     public $file;
     public array $relationships = [];
@@ -41,7 +41,7 @@ class ResourceUpdateOrCreate extends Component
             $this->description = $this->model->description;
             $this->type        = $this->model->type->value;
             $this->path        = $this->model->path;
-            $this->is_public   = $this->model->is_public;
+            $this->is_public   = (int) $this->model->is_public;
             $this->order       = $this->model->order;
 
             // Load existing relationships
@@ -76,9 +76,9 @@ class ResourceUpdateOrCreate extends Component
         ];
 
         // Dynamic validation based on resource type
-        if ($this->type === ResourceType::LINK->value) {
+        if ($this->type && $this->type === ResourceType::LINK->value) {
             $rules['path'] = 'required|url';
-        } else {
+        } elseif ($this->type) {
             // In edit mode, file is optional if already exists
             if ($this->model->id && $this->model->isUploadedFile()) {
                 $rules['file'] = 'nullable|file';

@@ -63,6 +63,7 @@ class NavbarComposer
                 'params'     => [],
                 'title'      => trans('_menu.notifications'),
                 'route_name' => 'admin.notification.index',
+                'access'     => false,
             ],
             [
                 'icon'       => 'o-user-circle',
@@ -77,6 +78,7 @@ class NavbarComposer
                 'params'     => [],
                 'title'      => trans('_menu.calendar'),
                 'route_name' => 'admin.app.calendar',
+                'access'     => false,
             ],
 
             // Education Management
@@ -121,7 +123,7 @@ class NavbarComposer
                         'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Attendance::class, 'Index')),
                     ],
                     [
-                        'icon'       => 'o-user',
+                        'icon'       => 'o-video-camera',
                         'params'     => [],
                         'title'      => trans('_menu.resource_management'),
                         'route_name' => 'admin.resource.index',
@@ -457,6 +459,7 @@ class NavbarComposer
                         'params'     => [],
                         'title'      => trans('_menu.board_management'),
                         'route_name' => 'admin.app.boards',
+                        'access'     => false,
                     ],
                     [
                         'icon'       => 'o-ticket',

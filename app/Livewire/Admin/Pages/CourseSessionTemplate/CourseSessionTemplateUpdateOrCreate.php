@@ -9,6 +9,7 @@ use App\Actions\CourseSessionTemplate\UpdateCourseSessionTemplateAction;
 use App\Enums\SessionType;
 use App\Models\CourseSessionTemplate;
 use App\Models\CourseTemplate;
+use App\Models\Resource;
 use App\Traits\CrudHelperTrait;
 use Illuminate\View\View;
 use Livewire\Component;
@@ -26,6 +27,7 @@ class CourseSessionTemplateUpdateOrCreate extends Component
     public int $order            = 0;
     public int $duration_minutes = 0;
     public string $type          = SessionType::IN_PERSON->value;
+    public array $resources      = [];
 
     public function mount(CourseSessionTemplate $courseSessionTemplate): void
     {
@@ -36,6 +38,13 @@ class CourseSessionTemplateUpdateOrCreate extends Component
             $this->order            = $this->model->order;
             $this->duration_minutes = $this->model->duration_minutes;
             $this->type             = $this->model->type->value;
+
+            // Load existing resources
+            $this->resources = $this->model->resources->map(function (Resource $resourceItem) {
+                return [
+                    'resource_id' => $resourceItem->id,
+                ];
+            })->toArray();
         } else {
             $this->order = $this->courseTemplate->sessionTemplates()->count() + 1;
         }
@@ -44,31 +53,63 @@ class CourseSessionTemplateUpdateOrCreate extends Component
     protected function rules(): array
     {
         return [
-            'title'            => 'required|string',
-            'description'      => 'required|string',
-            'order'            => 'required|integer|min:1',
-            'duration_minutes' => 'required|integer|min:1',
-            'type'             => 'required|in:' . implode(',', SessionType::values()),
+            'title'                   => 'required|string',
+            'description'             => 'required|string',
+            'order'                   => 'required|integer|min:1',
+            'duration_minutes'        => 'required|integer|min:1',
+            'type'                    => 'required|in:' . implode(',', SessionType::values()),
+            'resources'               => 'nullable|array',
+            'resources.*.resource_id' => 'required|integer|exists:resources,id|distinct',
         ];
     }
 
     public function submit(): void
     {
         $payload = $this->validate();
+
+        // Extract resource_ids from resources array
+        $resourceIds = collect($payload['resources'] ?? [])
+            ->pluck('resource_id')
+            ->filter()
+            ->unique()
+            ->values()
+            ->toArray();
+
         if ($this->model->id) {
             UpdateCourseSessionTemplateAction::run($this->model, $payload);
+
+            // Sync resources with pivot table
+            $this->model->resources()->sync($resourceIds);
+
             $this->success(
                 title: trans('general.model_has_updated_successfully', ['model' => trans('courseSessionTemplate.model')]),
                 redirectTo: route('admin.course-session-template.index', ['courseTemplate' => $this->courseTemplate->id])
             );
         } else {
             $payload['course_template_id'] = $this->courseTemplate->id;
-            StoreCourseSessionTemplateAction::run($payload);
+            $sessionTemplate               = StoreCourseSessionTemplateAction::run($payload);
+
+            // Attach resources to pivot table
+            $sessionTemplate->resources()->attach($resourceIds);
+
             $this->success(
                 title: trans('general.model_has_stored_successfully', ['model' => trans('courseSessionTemplate.model')]),
                 redirectTo: route('admin.course-session-template.index', ['courseTemplate' => $this->courseTemplate->id])
             );
         }
+    }
+
+    public function addResource(): void
+    {
+        $this->resources[] = [
+            'resource_id' => null,
+        ];
+    }
+
+    public function removeResource(int $index): void
+    {
+        unset($this->resources[$index]);
+        $this->resources = array_values($this->resources);
     }
 
     public function render(): View
@@ -84,6 +125,13 @@ class CourseSessionTemplateUpdateOrCreate extends Component
             'breadcrumbsActions' => [
                 ['link' => route('admin.course-session-template.index', ['courseTemplate' => $this->courseTemplate->id]), 'icon' => 's-arrow-left'],
             ],
+            'availableResources' => Resource::select('id', 'title')
+                ->get()
+                ->map(fn ($resource) => [
+                    'value' => $resource->id,
+                    'label' => $resource->title,
+                ])
+                ->toArray(),
         ]);
     }
 }

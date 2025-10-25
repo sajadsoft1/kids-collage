@@ -142,7 +142,7 @@ class UserUpdateOrCreate extends Component
                 'unique:users,mobile,' . $this->user->id,
             ],
             'status'                 => 'required',
-            'birth_date'             => 'nullable|date',
+            'birth_date'             => 'required|date',
             'selected_rules'         => 'nullable|array',
             'selected_rules.*'       => 'exists:roles,id',
             'avatar'                 => [

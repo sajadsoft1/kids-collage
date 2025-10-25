@@ -736,6 +736,7 @@ namespace App\Models{
  * @property int $id
  * @property \App\Enums\YesNoEnum $follow_up
  * @property string $name
+ * @property string $subject
  * @property string|null $email
  * @property string|null $mobile
  * @property string $comment
@@ -754,6 +755,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ContactUs whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ContactUs whereMobile($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ContactUs whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ContactUs whereSubject($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ContactUs whereUpdatedAt($value)
  */
 	class ContactUs extends \Eloquent {}
@@ -1636,9 +1638,9 @@ namespace App\Models{
  * @property float $benefit
  * @property \Illuminate\Support\Carbon|null $cooperation_start_date
  * @property \Illuminate\Support\Carbon|null $cooperation_end_date
+ * @property \Spatie\SchemalessAttributes\SchemalessAttributes|null $extra_attributes
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \Spatie\SchemalessAttributes\SchemalessAttributes $extra_attributes
  * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile newQuery()
@@ -1649,6 +1651,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereCooperationEndDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereCooperationStartDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereExtraAttributes($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereFatherName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereFatherPhone($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Profile whereGender($value)
@@ -1671,20 +1674,21 @@ namespace App\Models{
  * Resource Model
  * 
  * Educational material (PDF, Video, Image, Link) that can be attached
- * to any resourceable entity (CourseTemplate, SessionTemplate, Session).
+ * to multiple CourseSessionTemplates via pivot table.
  *
  * @property int                                               $id
- * @property string                                            $resourceable_type
- * @property int                                               $resourceable_id
  * @property ResourceType                                      $type
  * @property string                                            $path
  * @property string                                            $title
+ * @property int                                               $order
+ * @property string|null                                       $description
  * @property \Spatie\SchemalessAttributes\SchemalessAttributes $extra_attributes
  * @property bool                                              $is_public
  * @property \Carbon\Carbon|null                               $created_at
  * @property \Carbon\Carbon|null                               $updated_at
  * @property \Carbon\Carbon|null                               $deleted_at
- * @property-read Model $resourceable
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, CourseSessionTemplate> $courseSessionTemplates
+ * @property-read int|null $course_session_templates_count
  * @property-read int|null $duration
  * @property-read int|null $file_size
  * @property-read string|null $formatted_file_size
@@ -1696,7 +1700,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource byType(\App\Enums\ResourceType $type)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource documents()
  * @method static \Database\Factories\ResourceFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource forModel(string $modelType, int $modelId)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource forCourseSessionTemplate(int $courseSessionTemplateId)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource media()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource newQuery()
@@ -1705,6 +1709,17 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource private()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource public()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource whereExtraAttributes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource whereIsPublic($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource whereOrder($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource wherePath($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource withExtraAttributes()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource withoutTrashed()

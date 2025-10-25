@@ -25,7 +25,7 @@
                         option-label="label" required />
 
                     <x-admin.shared.smart-datetime :label="trans('validation.attributes.birth_date')" wire-property-name="birth_date"
-                        :required="false" />
+                        :required="true" />
 
                     <div class="md:col-span-2 lg:col-span-3">
                         <x-textarea :label="trans('validation.attributes.address')" wire:model="address" />
