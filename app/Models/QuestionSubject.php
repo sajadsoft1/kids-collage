@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Enums\BooleanEnum;
+use App\Traits\HasTranslationAuto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\HasTranslationAuto;
 
 /**
  * @property string $title
@@ -18,42 +17,35 @@ class QuestionSubject extends Model
     use HasFactory;
     use HasTranslationAuto;
 
+    public array $translatable = [
+        'title', 'description',
+    ];
+
     protected $fillable = [
-        'published',
         'languages',
     ];
 
     protected $casts = [
-        'published' => BooleanEnum::class,
-        'languages' => 'array'
-    ];
-
-    public array $translatable = [
-        'title','description'
+        'languages' => 'array',
     ];
 
     /**
      * Model Configuration --------------------------------------------------------------------------
      */
 
-
     /**
      * Model Relations --------------------------------------------------------------------------
      */
-
 
     /**
      * Model Scope --------------------------------------------------------------------------
      */
 
-
     /**
      * Model Attributes --------------------------------------------------------------------------
      */
 
-
     /**
      * Model Custom Methods --------------------------------------------------------------------------
      */
-
 }

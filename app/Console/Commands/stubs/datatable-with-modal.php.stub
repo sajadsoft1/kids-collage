@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Livewire\Admin\Pages\QuestionSubject;
+namespace App\Livewire\Admin\Pages\{{model}};
 
-use App\Actions\QuestionSubject\StoreQuestionSubjectAction;
-use App\Actions\QuestionSubject\UpdateQuestionSubjectAction;
+use App\Actions\{{model}}\Store{{model}}Action;
+use App\Actions\{{model}}\Update{{model}}Action;
+use App\Enums\BooleanEnum;
 use App\Helpers\PowerGridHelper;
-use App\Models\QuestionSubject;
+use App\Models\{{model}};
 use App\Traits\HasModalForm;
 use App\Traits\PowerGridHelperTrait;
 use Illuminate\Database\Eloquent\Builder;
@@ -21,12 +22,13 @@ use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 
-final class QuestionSubjectTable extends PowerGridComponent
+final class {{model}}Table extends PowerGridComponent
 {
     use HasModalForm;
     use PowerGridHelperTrait;
     use Toast;
-    public string $tableName     = 'index_questionSubject_datatable';
+
+    public string $tableName     = 'index_{{cmodel}}_datatable';
     public string $sortDirection = 'desc';
 
     public function setUp(): array
@@ -49,6 +51,7 @@ final class QuestionSubjectTable extends PowerGridComponent
         return $setup;
     }
 
+    /** تعریف فیلدهای مودال */
     protected function modalFields(): array
     {
         return [
@@ -66,27 +69,33 @@ final class QuestionSubjectTable extends PowerGridComponent
                 'placeholder' => trans('validation.attributes.description'),
                 'required'    => true,
             ],
+            [
+                'name'    => 'published',
+                'type'    => 'toggle',
+                'label'   => trans('datatable.status'),
+                'default' => false,
+            ],
         ];
     }
 
     protected function getModelClass(): string
     {
-        return QuestionSubject::class;
+        return {{model}}::class;
     }
 
     protected function getStoreActionClass(): string
     {
-        return StoreQuestionSubjectAction::class;
+        return Store{{model}}Action::class;
     }
 
     protected function getUpdateActionClass(): string
     {
-        return UpdateQuestionSubjectAction::class;
+        return Update{{model}}Action::class;
     }
 
     protected function getModelTranslationKey(): string
     {
-        return 'questionSubject.model';
+        return '{{cmodel}}.model';
     }
 
     #[Computed(persist: true)]
@@ -94,7 +103,7 @@ final class QuestionSubjectTable extends PowerGridComponent
     {
         return [
             ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-            ['label' => trans('general.page.index.title', ['model' => trans('questionSubject.model')])],
+            ['label' => trans('general.page.index.title', ['model' => trans('{{cmodel}}.model')])],
         ];
     }
 
@@ -102,13 +111,13 @@ final class QuestionSubjectTable extends PowerGridComponent
     public function breadcrumbsActions(): array
     {
         return [
-            ['action' => 'openCreateModal', 'icon' => 's-plus', 'label' => trans('general.page.create.title', ['model' => trans('questionSubject.model')])],
+            ['action' => 'openCreateModal', 'icon' => 's-plus', 'label' => trans('general.page.create.title', ['model' => trans('{{cmodel}}.model')])],
         ];
     }
 
     public function datasource(): Builder
     {
-        return QuestionSubject::query();
+        return {{model}}::query();
     }
 
     public function relationSearch(): array
@@ -125,6 +134,7 @@ final class QuestionSubjectTable extends PowerGridComponent
         return PowerGrid::fields()
             ->add('id')
             ->add('title', fn ($row) => PowerGridHelper::fieldTitle($row))
+            ->add('published_formated', fn ($row) => PowerGridHelper::fieldPublishedAtFormated($row))
             ->add('created_at_formatted', fn ($row) => PowerGridHelper::fieldCreatedAtFormated($row));
     }
 
@@ -133,6 +143,7 @@ final class QuestionSubjectTable extends PowerGridComponent
         return [
             PowerGridHelper::columnId(),
             PowerGridHelper::columnTitle(),
+            PowerGridHelper::columnPublished(),
             PowerGridHelper::columnCreatedAT(),
             PowerGridHelper::columnAction(),
         ];
@@ -141,6 +152,9 @@ final class QuestionSubjectTable extends PowerGridComponent
     public function filters(): array
     {
         return [
+            Filter::enumSelect('published_formated', 'published')
+                ->datasource(BooleanEnum::cases()),
+
             Filter::datepicker('created_at_formatted', 'created_at')
                 ->params([
                     'maxDate' => now(),
@@ -148,10 +162,11 @@ final class QuestionSubjectTable extends PowerGridComponent
         ];
     }
 
-    public function actions(QuestionSubject $row): array
+    public function actions({{model}} $row): array
     {
         return [
             PowerGridHelper::btnTranslate($row),
+            PowerGridHelper::btnToggle($row),
             Button::add('edit')
                 ->slot(PowerGridHelper::iconEdit())
                 ->attributes([
@@ -166,7 +181,9 @@ final class QuestionSubjectTable extends PowerGridComponent
     public function noDataLabel(): string|View
     {
         return view('admin.datatable-shared.empty-table', [
-            'link' => route('admin.question-subject.create'),
+            'link' => route('admin.{{kmodel}}.create'),
         ]);
     }
 }
+
+

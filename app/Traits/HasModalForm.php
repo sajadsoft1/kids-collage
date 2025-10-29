@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Traits;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 use Livewire\Attributes\On;
 
 /**
@@ -137,8 +138,17 @@ trait HasModalForm
     /** ذخیره یا بروزرسانی رکورد */
     public function saveModal(): void
     {
-        $validated = $this->validate();
-        $payload   = $validated['modalData'];
+        try {
+            $validated = $this->validate();
+            $payload   = $validated['modalData'];
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // تبدیل پیام‌های خطا از فرمت modalData.title به modalData.title
+            foreach ($e->errors() as $key => $messages) {
+                $this->addError($key, $messages[0]);
+            }
+
+            return;
+        }
 
         if ($this->editingId) {
             // بروزرسانی
@@ -182,9 +192,42 @@ trait HasModalForm
         $modelName = trans($this->getModelTranslationKey());
 
         if ($this->editingId) {
-            return trans('general.page.update.title', ['model' => $modelName]);
+            return trans('general.page.edit.title_simple', ['model' => $modelName]);
         }
 
         return trans('general.page.create.title', ['model' => $modelName]);
+    }
+
+    /**
+     * دریافت نام‌های attribute برای پیام‌های اعتبارسنجی
+     * این متد آخرین بخش از کلیدهای nested را به عنوان attribute مشخص می‌کند
+     *
+     * @return array<string, string>
+     */
+    protected function validationAttributes(): array
+    {
+        return $this->generateAttributes();
+    }
+
+    /**
+     * تولید نام‌های attribute برای کلیدهای nested در validation
+     *
+     * @return array<string, string>
+     */
+    protected function generateAttributes(): array
+    {
+        return collect($this->rules())->filter(function ($item, $key) {
+            return Str::contains($key, '.');
+        })->map(function ($item, $key) {
+            // دریافت آخرین بخش از کلید (مثلاً 'title' از 'modalData.title')
+            $lastSegment = last(explode('.', $key));
+
+            // تلاش برای دریافت ترجمه
+            $translationKey = 'validation.attributes.' . $lastSegment;
+            $translated     = trans($translationKey);
+
+            // اگر ترجمه برابر با کلید بود (یعنی ترجمه پیدا نشد)، از کلید اصلی استفاده کن
+            return ($translated !== $translationKey) ? $translated : $lastSegment;
+        })->toArray();
     }
 }

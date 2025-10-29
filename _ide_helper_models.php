@@ -1671,6 +1671,48 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * @property string $title
+ * @property string $description
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translations
+ * @property-read int|null $translations_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translationsPure
+ * @property-read int|null $translations_pure_count
+ * @method static \Database\Factories\QuestionCompetencieFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionCompetencie newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionCompetencie newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionCompetencie query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionCompetencie search($keyword)
+ */
+	class QuestionCompetencie extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * @property string $title
+ * @property string $description
+ * @property int $id
+ * @property array<array-key, mixed>|null $languages
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translations
+ * @property-read int|null $translations_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translationsPure
+ * @property-read int|null $translations_pure_count
+ * @method static \Database\Factories\QuestionSubjectFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionSubject newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionSubject newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionSubject query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionSubject search($keyword)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionSubject whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionSubject whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionSubject whereLanguages($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionSubject whereUpdatedAt($value)
+ */
+	class QuestionSubject extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * Resource Model
  * 
  * Educational material (PDF, Video, Image, Link) that can be attached

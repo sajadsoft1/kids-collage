@@ -8,7 +8,7 @@
                 @if (Arr::get($action, 'access', true))
                     @if (Arr::get($action, 'action'))
                         <x-button :label="Arr::get($action, 'label')" :icon="Arr::get($action, 'icon')" wire:click="{{ Arr::get($action, 'action') }}"
-                            @class([
+                            :spinner="Arr::get($action, 'action')" @class([
                                 'join-item btn-sm btn-outline btn-primary',
                                 Arr::get($action, 'class'),
                             ]) />
