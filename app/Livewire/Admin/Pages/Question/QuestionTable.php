@@ -14,6 +14,7 @@ use Illuminate\View\View;
 use Jenssegers\Agent\Agent;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
+use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
@@ -80,6 +81,10 @@ final class QuestionTable extends PowerGridComponent
         return PowerGrid::fields()
             ->add('id')
             ->add('title', fn ($row) => PowerGridHelper::fieldTitle($row))
+            ->add('category_title', fn ($row) => $row->category->title)
+            ->add('subject_title', fn ($row) => $row->subject->title)
+            ->add('competency_title', fn ($row) => $row->competency->title)
+            ->add('type_formatted', fn ($row) => $row->type->title())
             ->add('created_at_formatted', fn ($row) => PowerGridHelper::fieldCreatedAtFormated($row));
     }
 
@@ -88,6 +93,10 @@ final class QuestionTable extends PowerGridComponent
         return [
             PowerGridHelper::columnId(),
             PowerGridHelper::columnTitle(),
+            Column::make(trans('validation.attributes.category_id'), 'category_title', 'category.title'),
+            Column::make(trans('validation.attributes.subject_id'), 'subject_title', 'subject.title'),
+            Column::make(trans('validation.attributes.competency_id'), 'competency_title', 'competency.title'),
+            Column::make(trans('validation.attributes.type'), 'type_formatted', 'type'),
             PowerGridHelper::columnCreatedAT(),
             PowerGridHelper::columnAction(),
         ];

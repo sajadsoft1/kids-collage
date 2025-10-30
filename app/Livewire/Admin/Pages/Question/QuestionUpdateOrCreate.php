@@ -6,8 +6,13 @@ namespace App\Livewire\Admin\Pages\Question;
 
 use App\Actions\Question\StoreQuestionAction;
 use App\Actions\Question\UpdateQuestionAction;
+use App\Enums\CategoryTypeEnum;
+use App\Enums\DifficultyEnum;
 use App\Enums\QuestionTypeEnum;
+use App\Models\Category;
 use App\Models\Question;
+use App\Models\QuestionCompetency;
+use App\Models\QuestionSubject;
 use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -148,13 +153,11 @@ class QuestionUpdateOrCreate extends Component
             'breadcrumbsActions' => [
                 ['link' => route('admin.question.index'), 'icon' => 's-arrow-left'],
             ],
-            'types'              => QuestionTypeEnum::cases(),
-            'difficulties'       => DifficultyEnum::cases(),
-            'categories'         => Category::where('type', 'question')->get(),
-            'subjects'           => QuestionSubject::when($this->category_id, function ($q) {
-                $q->where('category_id', $this->category_id);
-            })->get(),
-            'competencies'       => QuestionCompetency::all(),
+            'types'              => QuestionTypeEnum::formatedCases(),
+            'difficulties'       => DifficultyEnum::formatedCases(),
+            'categories'         => Category::where('type', CategoryTypeEnum::QUESTION->value)->get()->map(fn ($category) => ['value' => $category->id, 'label' => $category->title]),
+            'subjects'           => QuestionSubject::where('category_id', $this->category_id)->get()->map(fn ($subject) => ['value' => $subject->id, 'label' => $subject->title]),
+            'competencies'       => QuestionCompetency::all()->map(fn ($competency) => ['value' => $competency->id, 'label' => $competency->title]),
         ]);
     }
 }

@@ -11,6 +11,7 @@ return new class extends Migration {
     {
         Schema::create('question_subjects', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('category_id')->index()->constrained()->cascadeOnDelete();
             $table->text('languages')->nullable();
             $table->timestamps();
         });

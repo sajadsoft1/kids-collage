@@ -8,26 +8,24 @@ use Livewire\Component;
 
 class SingleChoice extends Component
 {
-    public $options = [];
-    public $config  = [];
+    public array $options = [];
+    public array $config  = [];
 
-    public function mount($options = [], $config = [])
+    public function mount(array $options = [], array $config = []): void
     {
         $this->options = empty($options) ? $this->getDefaultOptions() : $options;
         $this->config  = array_merge($this->getDefaultConfig(), $config);
     }
 
-    protected function getDefaultOptions()
+    protected function getDefaultOptions(): array
     {
         return [
             ['content' => '', 'is_correct' => false, 'order' => 1],
             ['content' => '', 'is_correct' => false, 'order' => 2],
-            ['content' => '', 'is_correct' => false, 'order' => 3],
-            ['content' => '', 'is_correct' => false, 'order' => 4],
         ];
     }
 
-    protected function getDefaultConfig()
+    protected function getDefaultConfig(): array
     {
         return [
             'shuffle_options'  => false,
@@ -35,7 +33,7 @@ class SingleChoice extends Component
         ];
     }
 
-    public function addOption()
+    public function addOption(): void
     {
         $this->options[] = [
             'content'    => '',
@@ -44,7 +42,7 @@ class SingleChoice extends Component
         ];
     }
 
-    public function removeOption($index)
+    public function removeOption(int $index): void
     {
         if (count($this->options) > 2) {
             unset($this->options[$index]);
@@ -52,25 +50,24 @@ class SingleChoice extends Component
         }
     }
 
-    public function setCorrect($index)
+    public function setCorrect(int $index): void
     {
-        // تنها یک گزینه می‌تواند صحیح باشد
-        foreach ($this->options as $key => $option) {
-            $this->options[$key]['is_correct'] = ($key === $index);
+        foreach ($this->options as $i => $opt) {
+            $this->options[$i]['is_correct'] = $i === $index;
         }
     }
 
-    public function updatedOptions()
+    public function updatedOptions(): void
     {
         $this->dispatch('optionsUpdated', $this->options);
     }
 
-    public function updatedConfig()
+    public function updatedConfig(): void
     {
         $this->dispatch('configUpdated', $this->config);
     }
 
-    public function render()
+    public function render(): \Illuminate\Contracts\View\View
     {
         return view('livewire.admin.pages.question-builder.single-choice');
     }

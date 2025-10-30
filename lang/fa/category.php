@@ -19,6 +19,8 @@ return [
             'faq'       => 'سوال پرتکرار',
             'bulletin'  => 'اطلاعیه',
             'course'    => 'دوره',
+            'question'  => 'سوال',
+            'subject'   => 'موضوع',
         ],
     ],
     'notifications' => [

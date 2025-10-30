@@ -1,4 +1,45 @@
 <div class="space-y-4">
+    @if ($question->title)
+        <div class="text-lg font-medium text-gray-900">{!! nl2br(e($question->title)) !!}</div>
+    @endif
+
+    @if ($question->body)
+        <div class="p-4 max-w-none text-gray-700 bg-gray-50 rounded-lg prose">
+            {!! nl2br(e($question->body)) !!}
+        </div>
+    @endif
+
+    <div class="space-y-2">
+        @foreach ($options as $option)
+            <label wire:key="option-{{ $option->id }}"
+                class="flex items-start p-4 rounded-lg border-2 cursor-pointer transition-all
+                          {{ $selected === $option->id ? 'border-blue-500 bg-blue-50' : 'border-gray-200 hover:border-gray-300' }}
+                          {{ $disabled ? 'cursor-not-allowed opacity-75' : '' }}
+                          {{ $showCorrect && $option->is_correct ? 'border-green-500 bg-green-50' : '' }}
+                          {{ $showCorrect && $selected === $option->id && !$option->is_correct ? 'border-red-500 bg-red-50' : '' }}">
+
+                <x-radio wire:click="choose({{ $option->id }})" value="{{ $option->id }}" :checked="$selected === $option->id"
+                    :disabled="$disabled" class="mt-1 w-5 h-5" />
+
+                <div class="flex-1 mr-3 text-gray-900">{{ $option->content }}</div>
+            </label>
+        @endforeach
+    </div>
+
+    @if (($question->config['show_explanation'] ?? false) && $showCorrect && $question->explanation)
+        <div class="p-4 mt-4 bg-yellow-50 rounded border-r-4 border-yellow-400">
+            <div class="flex items-start">
+                <x-heroicon-o-light-bulb class="mt-0.5 ml-2 w-5 h-5 text-yellow-600" />
+                <div>
+                    <h4 class="mb-1 font-medium text-yellow-900">توضیحات</h4>
+                    <div class="text-sm text-yellow-800">{!! nl2br(e($question->explanation)) !!}</div>
+                </div>
+            </div>
+        </div>
+    @endif
+</div>
+
+<div class="space-y-4">
     {{-- Question Title --}}
     @if ($question->title)
         <div class="text-lg font-medium text-gray-900">

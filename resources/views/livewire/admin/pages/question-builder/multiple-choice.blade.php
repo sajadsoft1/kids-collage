@@ -16,10 +16,7 @@
 
                 {{-- Remove Button --}}
                 @if (count($options) > 2)
-                    <button type="button" wire:click="removeOption({{ $index }})"
-                        class="p-2 text-red-600 rounded hover:bg-red-50">
-                        <x-heroicon-o-trash class="w-5 h-5" />
-                    </button>
+                    <x-button icon="o-trash" wire:click="removeOption({{ $index }})" class="btn-ghost text-red-600" />
                 @endif
             </div>
         @endforeach
@@ -27,28 +24,23 @@
 
     {{-- Add Option Button --}}
     @if (count($options) < 10)
-        <button type="button" wire:click="addOption"
-            class="py-2 w-full text-gray-600 rounded-lg border-2 border-gray-300 border-dashed hover:border-blue-500 hover:text-blue-600">
-            <x-heroicon-o-plus class="inline ml-1 w-5 h-5" />
-            افزودن گزینه
-        </button>
+        <x-button icon="o-plus" wire:click="addOption" class="btn-outline btn-block">
+            {{ __('question.builder.multiple.add_option') }}
+        </x-button>
     @endif
 
     {{-- Config --}}
     <div class="pt-6 mt-6 border-t border-gray-200">
-        <h4 class="mb-3 font-medium">تنظیمات</h4>
+        <h4 class="mb-3 font-medium">{{ __('question.builder.common.settings') }}</h4>
 
         <div class="space-y-3">
-            <label class="flex items-center">
-                <x-checkbox wire:model.live="config.shuffle_options" />
-                <span class="mr-2 text-sm text-gray-700">به هم ریختن گزینه‌ها هنگام نمایش</span>
-            </label>
+            <x-checkbox wire:model.live="config.shuffle_options" label="{{ __('question.builder.multiple.shuffle_options') }}" />
 
             <div>
-                <label class="block mb-2 text-sm font-medium text-gray-700">نوع نمره‌دهی</label>
+                <label class="block mb-2 text-sm font-medium text-gray-700">{{ __('question.builder.multiple.scoring_type') }}</label>
                 <x-select wire:model.live="config.scoring_type">
-                    <option value="all_or_nothing">همه یا هیچ (باید همه پاسخ‌های صحیح انتخاب شوند)</option>
-                    <option value="partial">نمره جزئی (بر اساس تعداد پاسخ‌های صحیح)</option>
+                    <option value="all_or_nothing">{{ __('question.builder.multiple.scoring_all_or_nothing') }}</option>
+                    <option value="partial">{{ __('question.builder.multiple.scoring_partial') }}</option>
                 </x-select>
             </div>
         </div>
@@ -57,8 +49,8 @@
     {{-- Info --}}
     <div class="p-3 mt-4 bg-blue-50 rounded-lg">
         <p class="text-sm text-blue-800">
-            <x-heroicon-o-information-circle class="inline ml-1 w-4 h-4" />
-            حداقل یک گزینه را به عنوان پاسخ صحیح انتخاب کنید.
+            <x-icon name="o-information-circle" class="inline ml-1 w-4 h-4" />
+            {{ __('question.info.select_one_correct') }}
         </p>
     </div>
 </div>

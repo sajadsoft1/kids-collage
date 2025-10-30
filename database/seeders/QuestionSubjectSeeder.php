@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Enums\CategoryTypeEnum;
+use App\Models\Category;
+use App\Models\QuestionSubject;
 use Illuminate\Database\Seeder;
 
 class QuestionSubjectSeeder extends Seeder
 {
     public function run(): void
     {
-        if (class_exists(\App\Models\QuestionSubject::class)) {
-            \App\Models\QuestionSubject::query()->insert([
-                ['languages' => json_encode(['fa' => ['title' => 'ریاضی', 'description' => null]]), 'created_at' => now(), 'updated_at' => now()],
-                ['languages' => json_encode(['fa' => ['title' => 'علوم', 'description' => null]]), 'created_at' => now(), 'updated_at' => now()],
-                ['languages' => json_encode(['fa' => ['title' => 'ادبیات', 'description' => null]]), 'created_at' => now(), 'updated_at' => now()],
-            ]);
-        }
+        $category = Category::where('type', CategoryTypeEnum::QUESTION->value)->first();
+        QuestionSubject::factory()->count(10)->create([
+            'category_id' => $category->id,
+        ]);
     }
 }

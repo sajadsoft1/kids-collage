@@ -304,5 +304,12 @@ return [
         'starts_at'              => 'تاریخ شروع',
         'expires_at'             => 'تاریخ انقضا',
         'age'                    => 'سن',
+        'type'                   => 'نوع',
+        'category_id'            => 'دسته بندی',
+        'subject_id'             => 'موضوع',
+        'competency_id'          => 'مهارت',
+        'difficulty'             => 'سختی',
+        'default_score'          => 'امتیاز پیش فرض',
+        'tags'                   => 'برچسب ها',
     ],
 ];

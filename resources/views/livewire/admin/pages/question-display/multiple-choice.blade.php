@@ -8,15 +8,15 @@
 
     {{-- Question Body --}}
     @if ($question->body)
-        <div class="p-4 max-w-none text-gray-700 bg-gray-50 rounded-lg prose"></div>
-        {!! nl2br(e($question->body)) !!}
-</div>
-@endif
+        <div class="p-4 max-w-none text-gray-700 bg-gray-50 rounded-lg prose">
+            {!! nl2br(e($question->body)) !!}
+        </div>
+    @endif
 
 {{-- Hint --}}
 <div class="flex items-center text-sm text-gray-600">
-    <x-heroicon-o-information-circle class="ml-1 w-4 h-4" />
-    می‌توانید چند گزینه را انتخاب کنید
+    <x-icon name="o-information-circle" class="ml-1 w-4 h-4" />
+    {{ __('question.display.multiple.hint_multi_select') }}
 </div>
 
 {{-- Options --}}
@@ -41,13 +41,13 @@
                 @if ($showCorrect)
                     @if ($option->is_correct)
                         <div class="flex items-center mt-2 text-sm text-green-700">
-                            <x-heroicon-o-check-circle class="ml-1 w-4 h-4" />
-                            پاسخ صحیح
+                            <x-icon name="o-check-circle" class="ml-1 w-4 h-4" />
+                            {{ __('question.display.correct') }}
                         </div>
                     @elseif(in_array($option->id, $selectedOptions))
                         <div class="flex items-center mt-2 text-sm text-red-700">
-                            <x-heroicon-o-x-circle class="ml-1 w-4 h-4" />
-                            نباید انتخاب می‌شد
+                            <x-icon name="o-x-circle" class="ml-1 w-4 h-4" />
+                            {{ __('question.display.should_not_be_selected') }}
                         </div>
                     @endif
                 @endif
@@ -60,9 +60,9 @@
 @if ($showCorrect && $question->explanation)
     <div class="p-4 mt-4 bg-yellow-50 rounded border-r-4 border-yellow-400">
         <div class="flex items-start">
-            <x-heroicon-o-light-bulb class="mt-0.5 ml-2 w-5 h-5 text-yellow-600" />
+            <x-icon name="o-light-bulb" class="mt-0.5 ml-2 w-5 h-5 text-yellow-600" />
             <div>
-                <h4 class="mb-1 font-medium text-yellow-900">توضیحات</h4>
+                <h4 class="mb-1 font-medium text-yellow-900">{{ __('question.display.explanation') }}</h4>
                 <div class="text-sm text-yellow-800">
                     {!! nl2br(e($question->explanation)) !!}
                 </div>

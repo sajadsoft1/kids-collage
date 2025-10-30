@@ -117,6 +117,15 @@ enum QuestionTypeEnum: string
         };
     }
 
+    public function toArray(): array
+    {
+        return [
+            'value' => $this->value,
+            'label' => $this->title(),
+            'color' => $this->color(),
+        ];
+    }
+
     public function handler(): string
     {
         return match ($this) {

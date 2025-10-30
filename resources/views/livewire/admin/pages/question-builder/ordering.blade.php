@@ -1,3 +1,32 @@
+<div class="space-y-4">
+    <div class="space-y-2">
+        @foreach ($options as $index => $item)
+            <div wire:key="item-{{ $index }}" class="flex items-center gap-2 p-3 bg-gray-50 rounded">
+                <div class="flex items-center gap-1">
+                    <x-button size="xs" icon="o-chevron-up" wire:click="moveUp({{ $index }})" class="btn-ghost" />
+                    <x-button size="xs" icon="o-chevron-down" wire:click="moveDown({{ $index }})" class="btn-ghost" />
+                </div>
+                <div class="text-xs w-8 text-center">{{ $index + 1 }}</div>
+                <x-input class="flex-1" wire:model.live="options.{{ $index }}.content" />
+                @if (count($options) > 2)
+                    <x-button icon="o-trash" wire:click="removeItem({{ $index }})" class="btn-ghost" />
+                @endif
+            </div>
+        @endforeach
+    </div>
+
+    <x-button icon="o-plus" wire:click="addItem" class="btn-outline w-full">افزودن مورد</x-button>
+
+    <div class="pt-4 border-t border-gray-200 space-y-3">
+        <h4 class="font-medium">تنظیمات</h4>
+        <x-select wire:model.live="config.scoring_type">
+            <option value="exact">ترتیب کاملاً درست</option>
+            <option value="partial">تطبیق موقعیت‌ها</option>
+            <option value="adjacent">تطبیق مجاورت</option>
+        </x-select>
+    </div>
+</div>
+
 <div x-data="{ draggedIndex: null }">
     {{-- Options List (Sortable) --}}
     <div class="mb-4 space-y-3">

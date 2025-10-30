@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
+use App\Enums\CategoryTypeEnum;
 use App\Enums\DifficultyEnum;
 use App\Enums\QuestionTypeEnum;
 use App\Models\Category;
@@ -23,8 +24,10 @@ class QuestionFactory extends Factory
 
         return [
             'type'           => $type,
-            'category_id'    => Category::factory(),
-            'subject_id'     => QuestionSubject::factory(),
+            'category_id'    => Category::where('type', CategoryTypeEnum::QUESTION->value)->first()->id,
+            'subject_id'     => QuestionSubject::factory()->create([
+                'category_id' => Category::where('type', CategoryTypeEnum::QUESTION->value)->first()->id,
+            ]),
             'competency_id'  => QuestionCompetency::factory(),
             'title'          => fake()->sentence() . '?',
             'body'           => fake()->optional()->paragraph(),

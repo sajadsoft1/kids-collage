@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
+use App\Enums\CategoryTypeEnum;
+use App\Models\Category;
 use App\Models\QuestionSubject;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -14,7 +16,8 @@ class QuestionSubjectFactory extends Factory
     public function definition(): array
     {
         return [
-            'languages' => [app()->getLocale()],
+            'languages'   => [app()->getLocale()],
+            'category_id' => Category::where('type', CategoryTypeEnum::QUESTION->value)->first()->id,
         ];
     }
 

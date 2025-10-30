@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\HasCategory;
 use App\Traits\HasTranslationAuto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class QuestionSubject extends Model
 {
+    use HasCategory;
     use HasFactory;
     use HasTranslationAuto;
 
@@ -23,6 +25,7 @@ class QuestionSubject extends Model
 
     protected $fillable = [
         'languages',
+        'category_id',
     ];
 
     protected $casts = [

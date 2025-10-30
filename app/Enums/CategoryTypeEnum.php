@@ -13,6 +13,7 @@ enum CategoryTypeEnum: string
     case FAQ       = 'faq';
     case BULLETIN  = 'bulletin';
     case COURSE    = 'course';
+    case QUESTION  = 'question';
 
     public function title(): string
     {
@@ -22,6 +23,7 @@ enum CategoryTypeEnum: string
             self::FAQ       => trans('category.enum.type.faq'),
             self::BULLETIN  => trans('category.enum.type.bulletin'),
             self::COURSE    => trans('category.enum.type.course'),
+            self::QUESTION  => trans('category.enum.type.question'),
         };
     }
 

@@ -8,32 +8,32 @@ use Livewire\Component;
 
 class Ordering extends Component
 {
-    public $options = [];
-    public $config  = [];
+    public array $options = [];
+    public array $config  = [];
 
-    public function mount($options = [], $config = [])
+    public function mount(array $options = [], array $config = []): void
     {
         $this->options = empty($options) ? $this->getDefaultOptions() : $options;
         $this->config  = array_merge($this->getDefaultConfig(), $config);
     }
 
-    protected function getDefaultOptions()
+    protected function getDefaultOptions(): array
     {
         return [
-            ['content' => '', 'order' => 1],
-            ['content' => '', 'order' => 2],
-            ['content' => '', 'order' => 3],
+            ['content' => 'مورد ۱', 'order' => 1],
+            ['content' => 'مورد ۲', 'order' => 2],
+            ['content' => 'مورد ۳', 'order' => 3],
         ];
     }
 
-    protected function getDefaultConfig()
+    protected function getDefaultConfig(): array
     {
         return [
             'scoring_type' => 'exact',
         ];
     }
 
-    public function addOption()
+    public function addItem(): void
     {
         $this->options[] = [
             'content' => '',
@@ -41,43 +41,56 @@ class Ordering extends Component
         ];
     }
 
-    public function removeOption($index)
+    public function removeItem(int $index): void
     {
         if (count($this->options) > 2) {
             unset($this->options[$index]);
             $this->options = array_values($this->options);
-
-            // Re-order
-            foreach ($this->options as $key => $option) {
-                $this->options[$key]['order'] = $key + 1;
-            }
+            $this->reindexOrders();
         }
     }
 
-    public function reorder($newOrder)
+    public function moveUp(int $index): void
     {
-        // $newOrder is array of indices
-        $reordered = [];
-        foreach ($newOrder as $index => $oldIndex) {
-            $reordered[] = array_merge(
-                $this->options[$oldIndex],
-                ['order' => $index + 1]
-            );
+        if ($index <= 0) {
+            return;
         }
-        $this->options = $reordered;
+        $this->swap($index, $index - 1);
     }
 
-    public function updatedOptions()
+    public function moveDown(int $index): void
+    {
+        if ($index >= count($this->options) - 1) {
+            return;
+        }
+        $this->swap($index, $index + 1);
+    }
+
+    protected function swap(int $a, int $b): void
+    {
+        [$this->options[$a], $this->options[$b]] = [$this->options[$b], $this->options[$a]];
+        $this->reindexOrders();
+        $this->dispatch('optionsUpdated', $this->options);
+    }
+
+    protected function reindexOrders(): void
+    {
+        foreach ($this->options as $i => $opt) {
+            $this->options[$i]['order'] = $i + 1;
+        }
+    }
+
+    public function updatedOptions(): void
     {
         $this->dispatch('optionsUpdated', $this->options);
     }
 
-    public function updatedConfig()
+    public function updatedConfig(): void
     {
         $this->dispatch('configUpdated', $this->config);
     }
 
-    public function render()
+    public function render(): \Illuminate\Contracts\View\View
     {
         return view('livewire.admin.pages.question-builder.ordering');
     }

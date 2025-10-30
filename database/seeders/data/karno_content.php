@@ -122,6 +122,29 @@ return [
             ],
             'path'        => public_path('images/test/categories/laravel-cat.png'),
         ],
+        [
+            'title'       => 'QUESTION',
+            'slug'        => 'QUESTION',
+            'description' => 'لاراول (Laravel) یک فریم‌ورک محبوب و قدرتمند برای توسعه وب با زبان PHP است که بر پایه معماری MVC (Model-View-Controller) ساخته شده.',
+            'body'        => 'این فریم‌ورک با هدف ساده‌سازی توسعه برنامه‌های تحت وب ایجاد شده و امکاناتی مثل مسیریابی ساده، مدیریت پایگاه‌داده با Eloquent ORM، سیستم صف، احراز هویت، ارسال ایمیل، و قالب Blade رو در اختیار توسعه‌دهنده قرار می‌ده.لاراول با سینتکس زیبا و ابزارهای حرفه‌ای، توسعه پروژه‌های کوچک تا بزرگ رو سریع‌تر و لذت‌بخش‌تر می‌کنه.',
+            'seo_options' => [
+                'title'       => 'QUESTION',
+                'description' => 'لاراول (Laravel) یک فریم‌ورک محبوب و قدرتمند برای توسعه وب با زبان PHP است که بر پایه معماری MVC (Model-View-Controller) ساخته شده.',
+                'canonical'   => null,
+                'old_url'     => null,
+                'redirect_to' => null,
+                'robots_meta' => SeoRobotsMetaEnum::INDEX_FOLLOW,
+            ],
+            'type'        => CategoryTypeEnum::QUESTION->value,
+            'ordering'    => 1,
+            'parent_id'   => null,
+            'created_at'  => now(),
+            'updated_at'  => now(),
+            'languages'   => [
+                'fa',
+            ],
+            'path'        => public_path('images/test/categories/laravel-cat.png'),
+        ],
     ],
     'blogs'      => [
         [

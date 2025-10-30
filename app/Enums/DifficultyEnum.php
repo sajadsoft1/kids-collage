@@ -48,6 +48,17 @@ enum DifficultyEnum: string
         };
     }
 
+    public function toArray(): array
+    {
+        return [
+            'value'   => $this->value,
+            'label'   => $this->title(),
+            'color'   => $this->color(),
+            'icon'    => $this->icon(),
+            'bgColor' => $this->bgColor(),
+        ];
+    }
+
     public function suggestedScore(): float
     {
         return match ($this) {
