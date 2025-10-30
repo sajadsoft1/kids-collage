@@ -15,6 +15,7 @@ use App\Models\ContactUs;
 use App\Models\Course;
 use App\Models\Discount;
 use App\Models\Enrollment;
+use App\Models\Exam;
 use App\Models\Faq;
 use App\Models\License;
 use App\Models\Opinion;
@@ -22,6 +23,7 @@ use App\Models\Order;
 use App\Models\Page;
 use App\Models\Payment;
 use App\Models\PortFolio;
+use App\Models\Question;
 use App\Models\Resource;
 use App\Models\Role;
 use App\Models\Room;
@@ -148,14 +150,6 @@ class NavbarComposer
                         'access'     => $this->hasAccessToModule('education.assignments'),
                     ],
                     [
-                        'icon'       => 'o-document-text',
-                        'badge'      => trans('_menu.future_module'),
-                        'title'      => trans('_menu.exams_management'),
-                        'route_name' => 'admin.feature-module',
-                        'params'     => ['module' => 'exams'],
-                        'access'     => $this->hasAccessToModule('education.exams'),
-                    ],
-                    [
                         'icon'       => 'o-document-chart-bar',
                         'badge'      => trans('_menu.future_module'),
                         'title'      => trans('_menu.report_cards'),
@@ -210,6 +204,45 @@ class NavbarComposer
                         'route_name' => 'admin.feature-module',
                         'params'     => ['module' => 'academic-calendar'],
                         'access'     => $this->hasAccessToModule('education.academic_calendar'),
+                    ],
+                ],
+            ],
+
+            // Exam Management
+            [
+                'icon'     => 'o-document-text',
+                'title'    => trans('_menu.exam_management'),
+                'sub_menu' => [
+                    [
+                        'icon'       => 'o-document-text',
+                        'params'     => [],
+                        'title'      => trans('_menu.exams'),
+                        'route_name' => 'admin.exam.index',
+                        'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Exam::class, 'Index')),
+                    ],
+
+                    [
+                        'icon'       => 'o-question-mark-circle',
+                        'params'     => [],
+                        'title'      => trans('_menu.questions'),
+                        'route_name' => 'admin.question.index',
+                        'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Question::class, 'Index')),
+                    ],
+                    [
+                        'icon'       => 'o-book-open',
+                        'params'     => [],
+                        'exact'      => true,
+                        'title'      => trans('_menu.question_subjects'),
+                        'route_name' => 'admin.question-subject.index',
+                        'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Question::class, 'Index')),
+                    ],
+                    [
+                        'icon'       => 'o-star',
+                        'params'     => [],
+                        'exact'      => true,
+                        'title'      => trans('_menu.question_competencies'),
+                        'route_name' => 'admin.question-competency.index',
+                        'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Question::class, 'Index')),
                     ],
                 ],
             ],

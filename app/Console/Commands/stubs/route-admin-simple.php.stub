@@ -1,0 +1,12 @@
+<?php
+
+declare(strict_types=1);
+
+use App\Livewire\Admin\Pages\{{model}}\{{model}}Table;
+use Illuminate\Support\Facades\Route;
+
+Route::group(['prefix' => 'admin/{{kmodel}}', 'as' => 'admin.{{kmodel}}.'], function () {
+    Route::get('/', {{model}}Table::class)->name('index');
+});
+
+

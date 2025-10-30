@@ -1,8 +1,10 @@
 <?php
 
-namespace Database\Factories;
-use App\Models\QuestionSubject;
+declare(strict_types=1);
 
+namespace Database\Factories;
+
+use App\Models\QuestionSubject;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class QuestionSubjectFactory extends Factory
@@ -12,8 +14,7 @@ class QuestionSubjectFactory extends Factory
     public function definition(): array
     {
         return [
-            'published' => true,
-            'languages'  => [app()->getLocale()]
+            'languages' => [app()->getLocale()],
         ];
     }
 

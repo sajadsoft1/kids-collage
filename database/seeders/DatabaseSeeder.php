@@ -67,6 +67,16 @@ class DatabaseSeeder extends Seeder
 
         $this->command->info('🔑 Login credentials: developer@gmail.com / password');
 
+        $this->call([
+            // اول category و user باید seed بشن (از قبل موجودن)
+
+            QuestionCompetencySeeder::class,
+            QuestionSubjectSeeder::class,
+            QuestionSeeder::class,
+            ExamSeeder::class,
+
+            // ExamAttemptSeeder::class, // اختیاری
+        ]);
         Artisan::call('optimize:clear');
     }
 }

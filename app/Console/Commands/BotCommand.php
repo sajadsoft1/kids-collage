@@ -48,7 +48,7 @@ class BotCommand extends Command
 
         Artisan::call('app:lang ' . $model);
 
-        Artisan::call('app:route ' . $model);
+        Artisan::call('app:route ' . $model . ($simple ? ' --simple' : ''));
 
         Artisan::call('app:datatable ' . $model);
 

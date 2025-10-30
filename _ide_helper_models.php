@@ -1182,6 +1182,42 @@ namespace App\Models{
 /**
  * @property string $title
  * @property string $description
+ * @property \App\Enums\BooleanEnum $published
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translations
+ * @property-read int|null $translations_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translationsPure
+ * @property-read int|null $translations_pure_count
+ * @method static \Database\Factories\ExamFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam search($keyword)
+ */
+	class Exam extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamAttemt newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamAttemt newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamAttemt query()
+ */
+	class ExamAttemt extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamQuestion newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamQuestion newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamQuestion query()
+ */
+	class ExamQuestion extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * @property string $title
+ * @property string $description
  * @property int $id
  * @property array<array-key, mixed>|null $languages
  * @property int|null $category_id
@@ -1671,19 +1707,57 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * @property mixed $type
+ * @property mixed $difficulty
+ * @method static \Database\Factories\QuestionFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Question newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Question newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Question query()
+ */
+	class Question extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * @property string $title
  * @property string $description
+ * @property int $id
+ * @property array<array-key, mixed>|null $languages
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translations
  * @property-read int|null $translations_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translationsPure
  * @property-read int|null $translations_pure_count
- * @method static \Database\Factories\QuestionCompetencieFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionCompetencie newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionCompetencie newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionCompetencie query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionCompetencie search($keyword)
+ * @method static \Database\Factories\QuestionCompetencyFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionCompetency newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionCompetency newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionCompetency query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionCompetency search($keyword)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionCompetency whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionCompetency whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionCompetency whereLanguages($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionCompetency whereUpdatedAt($value)
  */
-	class QuestionCompetencie extends \Eloquent {}
+	class QuestionCompetency extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * @property string $title
+ * @property string $description
+ * @property \App\Enums\BooleanEnum $published
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translations
+ * @property-read int|null $translations_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translationsPure
+ * @property-read int|null $translations_pure_count
+ * @method static \Database\Factories\QuestionOptionFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionOption newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionOption newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionOption query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionOption search($keyword)
+ */
+	class QuestionOption extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -2351,6 +2425,15 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User withoutRole($roles, $guard = null)
  */
 	class User extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
+}
+
+namespace App\Models{
+/**
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAnswer newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAnswer newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAnswer query()
+ */
+	class UserAnswer extends \Eloquent {}
 }
 
 namespace App\Models{
