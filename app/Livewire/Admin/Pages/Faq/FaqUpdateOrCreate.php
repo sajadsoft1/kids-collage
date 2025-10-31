@@ -64,10 +64,7 @@ class FaqUpdateOrCreate extends Component
             'favorite'     => 'required',
             'ordering'     => 'required',
             'category_id'  => 'required',
-            'published_at' => [
-                'nullable',
-                'date',
-            ],
+            'published_at' => 'required_if:published,false|nullable|date',
         ];
     }
 
@@ -76,6 +73,7 @@ class FaqUpdateOrCreate extends Component
         $payload = $this->validate();
         if ($this->model->id) {
             try {
+                $payload['published_at'] = $this->published_at ?? null;
                 UpdateFaqAction::run($this->model, $payload);
                 $this->success(
                     title: trans('general.model_has_updated_successfully', ['model' => trans('faq.model')]),

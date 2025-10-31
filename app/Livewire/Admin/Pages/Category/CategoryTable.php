@@ -8,12 +8,10 @@ use App\Enums\BooleanEnum;
 use App\Enums\CategoryTypeEnum;
 use App\Helpers\PowerGridHelper;
 use App\Models\Category;
-use App\Services\Permissions\PermissionsService;
 use App\Traits\PowerGridHelperTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\View\View;
 use Jenssegers\Agent\Agent;
-use Livewire\Attributes\Computed;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
@@ -24,6 +22,8 @@ final class CategoryTable extends PowerGridComponent
 {
     use PowerGridHelperTrait;
 
+    public string $type = CategoryTypeEnum::BLOG->value;
+
     public string $tableName     = 'index_category_datatable';
     public string $sortDirection = 'desc';
 
@@ -32,7 +32,6 @@ final class CategoryTable extends PowerGridComponent
         $this->persist(['columns'], prefix: auth()->id ?? '');
         $setup = [
             PowerGrid::header()
-                ->includeViewOnTop('components.admin.shared.bread-crumbs')
                 ->showToggleColumns()
                 ->showSearchInput(),
 
@@ -57,34 +56,9 @@ final class CategoryTable extends PowerGridComponent
         ];
     }
 
-    #[Computed(persist: true)]
-    public function breadcrumbs(): array
-    {
-        return [
-            ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-            ['label' => trans('general.page.index.title', ['model' => trans('category.model')])],
-        ];
-    }
-
-    #[Computed(persist: true)]
-    public function breadcrumbsActions(): array
-    {
-        return [
-            [
-                'link'   => route('admin.category.create'),
-                'icon'   => 's-plus',
-                'label'  => trans(
-                    'general.page.create.title',
-                    ['model' => trans('category.model')]
-                ),
-                'access' => auth()->user()->hasAnyPermission(PermissionsService::generatePermissionsByModel(Category::class, 'Store')),
-            ],
-        ];
-    }
-
     public function datasource(): Builder
     {
-        return Category::query();
+        return Category::query()->where('type', $this->type);
     }
 
     public function relationSearch(): array
@@ -102,7 +76,6 @@ final class CategoryTable extends PowerGridComponent
             ->add('id')
             ->add('image', fn ($row) => PowerGridHelper::fieldImage($row))
             ->add('title', fn ($row) => PowerGridHelper::fieldTitle($row))
-            ->add('type_formatted', fn ($row) => $row->type->title())
             ->add('parent_id_formatted', fn ($row) => $row->parent ? $row->parent->title : '-')
             ->add('published_formated', fn ($row) => PowerGridHelper::fieldPublishedAtFormated($row))
             ->add('view_count_formated', fn ($row) => "<strong style='color: " . ($row->view_count === 0 ? 'blue' : 'red') . "'>{$row->view_count}</strong>")
@@ -115,7 +88,6 @@ final class CategoryTable extends PowerGridComponent
             PowerGridHelper::columnId(),
             PowerGridHelper::columnImage(),
             PowerGridHelper::columnTitle(),
-            Column::make(trans('datatable.type'), 'type_formatted', 'type'),
             Column::make(trans('datatable.parent_id'), 'parent_id_formatted', 'parent_id'),
             PowerGridHelper::columnPublished(),
             PowerGridHelper::columnViewCount('view_count_formated')->sortable()->hidden(true, false),
@@ -134,9 +106,6 @@ final class CategoryTable extends PowerGridComponent
                 ->params([
                     'maxDate' => now(),
                 ]),
-
-            Filter::enumSelect('type_formatted', 'type')
-                ->dataSource(CategoryTypeEnum::cases()),
         ];
     }
 

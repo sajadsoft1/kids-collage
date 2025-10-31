@@ -1,5 +1,6 @@
 @php
     use App\Enums\BooleanEnum;
+    use App\Enums\CategoryTypeEnum;
     use App\Enums\QuestionTypeEnum;
 @endphp
 <form wire:submit="submit">
@@ -103,14 +104,16 @@
                         <x-select :label="trans('validation.attributes.category_id')" wire:model.live="category_id" :options="$categories"
                             option-label="label" option-value="value" required>
                             <x-slot:append>
-                                <x-button class="join-item btn-primary" icon="o-plus" :link="route('admin.category.create')" external
+                                <x-button class="join-item btn-primary" icon="o-plus" :link="route('admin.category.create', [
+                                    'type' => CategoryTypeEnum::QUESTION->value,
+                                ])" external
                                     :tooltip-bottom="trans('general.page.create.title', ['model' => trans('category.model')])" />
                             </x-slot:append>
                         </x-select>
                         <x-select :label="trans('validation.attributes.subject_id')" wire:model.live="subject_id" :options="$subjects"
                             option-label="label" option-value="value" required>
                             <x-slot:append>
-                                <x-button class="join-item btn-primary" icon="o-plus" :link="route('admin.question-subject.index')" external
+                                <x-button class="join-item btn-primary" icon="o-plus" :link="route('admin.question-subject.index', ['category_id' => $category_id])" external
                                     :tooltip-bottom="trans('general.page.create.title', ['model' => trans('subject.model')])" />
                             </x-slot:append>
                         </x-select>

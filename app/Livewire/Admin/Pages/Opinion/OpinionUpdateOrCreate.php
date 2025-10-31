@@ -28,6 +28,7 @@ class OpinionUpdateOrCreate extends Component
     public int $ordering           = 1;
     public ?string $published_at   = '';
     public $image;
+    public $video;
 
     public function mount(Opinion $opinion): void
     {
@@ -39,10 +40,11 @@ class OpinionUpdateOrCreate extends Component
             $this->company      = $this->model->company;
             $this->published    = (bool) $this->model->published->value;
             $this->ordering     = $this->model->ordering;
-            $this->published_at = $this->setPublishedAt($this->model->published_at);
+            $this->published_at = $this->model->published_at?->format('Y-m-d');
         } else {
             // For new opinions, ensure published is properly initialized
-            $this->published = false;
+            $this->published    = false;
+            $this->published_at = now()->format('Y-m-d');
         }
     }
 
@@ -54,27 +56,18 @@ class OpinionUpdateOrCreate extends Component
             'company'      => 'nullable|string',
             'published'    => ['required', 'boolean'],
             'ordering'     => ['required', 'numeric'],
-            'published_at' => [
-                'nullable',
-                'date',
-                function ($attribute, $value, $fail) {
-                    if ($value) {
-                        $carbon = $this->parseTimestamp($value);
-                        if ($carbon && $carbon->addMinutes(2)->isBefore(now())) {
-                            $fail(trans('slider.exceptions.published_at_after_now'));
-                        }
-                    }
-                },
-            ],
+            'published_at' => 'required_if:published,false|nullable|date',
             'image'        => 'nullable|image|max:1024',
+            'video'        => 'nullable|file|mimes:mp4',
         ];
     }
 
     public function submit(): void
     {
-        $payload = $this->normalizePublishedAt($this->validate());
+        $payload = $this->validate();
         if ($this->model->id) {
             try {
+                $payload['published_at'] = $this->published_at ?? null;
                 UpdateOpinionAction::run($this->model, $payload);
                 $this->success(
                     title: trans('general.model_has_updated_successfully', ['model' => trans('opinion.model')]),

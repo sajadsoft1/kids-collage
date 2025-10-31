@@ -11,6 +11,7 @@ use App\Helpers\StringHelper;
 use App\Models\Category;
 use App\Traits\CrudHelperTrait;
 use Illuminate\View\View;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Mary\Traits\Toast;
@@ -24,6 +25,7 @@ class CategoryUpdateOrCreate extends Component
     public ?string $description = '';
     public bool $published      = false;
     public ?string $body        = '';
+    #[Url]
     public ?string $type        = CategoryTypeEnum::BLOG->value;
     public $image;
 
@@ -55,6 +57,7 @@ class CategoryUpdateOrCreate extends Component
     {
         $payload = $this->validate();
         if ($this->model->id) {
+            $payload['type'] = $this->model->type->value;
             UpdateCategoryAction::run($this->model, $payload);
             $this->success(
                 title: trans('general.model_has_updated_successfully', ['model' => trans('category.model')]),
@@ -80,7 +83,7 @@ class CategoryUpdateOrCreate extends Component
                 ['label' => trans('general.page.create.title', ['model' => trans('category.model')])],
             ],
             'breadcrumbsActions' => [
-                ['link' => route('admin.category.index'), 'icon' => 's-arrow-left'],
+                ['link' => route('admin.category.index', ['type' => $this->type]), 'icon' => 's-arrow-left'],
             ],
         ]);
     }

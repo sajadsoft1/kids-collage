@@ -44,9 +44,11 @@ class BannerUpdateOrCreate extends Component
             $this->size         = $this->model->size->value;
             $this->oldSize      = $this->model->size->value;
             $this->published_at = $this->model->published_at?->format(Constants::DEFAULT_DATE_FORMAT);
+            $this->ratio        = $this->calculateRatio($this->size);
         } else {
             // For new banners, ensure published is properly initialized
             $this->published = false;
+            $this->ratio     = 1;
         }
     }
 
@@ -56,26 +58,26 @@ class BannerUpdateOrCreate extends Component
             'title'        => 'required|string',
             'description'  => 'nullable|string',
             'published'    => 'required',
-            'published_at' => [
-                'nullable',
-                'date',
-
-            ],
+            'published_at' => 'required_if:published,false|nullable|date',
             'size'         => ['required', Rule::in(BannerSizeEnum::values())],
             'image'        => ['image', 'max:2048', $this->size != $this->oldSize ? 'required' : 'nullable'], // 1MB Max
         ];
     }
 
-    public function updatedSize($value)
+    public function updatedSize($value): void
     {
-        $this->image=null;
-        if ($value === BannerSizeEnum::S1X1->value) {
-            $this->ratio= 1;
-        } elseif ($value === BannerSizeEnum::S16X9->value) {
-            $this->ratio= 16 / 9;
-        } else {
-            $this->ratio= 4 / 3;
-        }
+        $this->image = null;
+        $this->ratio = $this->calculateRatio($value);
+    }
+
+    protected function calculateRatio(string $size): float
+    {
+        return match ($size) {
+            BannerSizeEnum::S1X1->value  => 1,
+            BannerSizeEnum::S16X9->value => 16 / 9,
+            BannerSizeEnum::S4X3->value  => 4 / 3,
+            default                      => 1,
+        };
     }
 
     public function submit(): void
