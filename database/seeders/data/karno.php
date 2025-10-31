@@ -446,8 +446,7 @@ return [
                 'fa',
             ],
             'path'      => public_path('assets/web/img/teacher-1.jpg'),
-            'video'      => public_path('assets/web/video/tizer.mp4'),
-
+            'video'     => public_path('assets/web/video/tizer.mp4'),
         ], [
             'published' => true,
             'ordering'  => 2,

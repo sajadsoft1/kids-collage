@@ -30,14 +30,14 @@ return [
         'expires_after_start' => 'تاریخ انقضا باید بعد از تاریخ شروع باشد',
     ],
     'enum'          => [
-        'type' => [
+        'type'   => [
             'percentage' => 'درصدی',
             'amount'     => 'مبلغ ثابت',
         ],
         'status' => [
             'active'   => 'فعال',
-            'limit' => 'به حد استفاده رسیده',
-            'furure'=> 'در آینده',
+            'limit'    => 'به حد استفاده رسیده',
+            'furure'   => 'در آینده',
             'inactive' => 'غیرفعال',
             'expired'  => 'منقضی شده',
             'upcoming' => 'در آینده',
@@ -51,14 +51,14 @@ return [
         'discount_deleted' => 'کد تخفیف با موفقیت حذف شد',
     ],
     'page'          => [
-        'title'        => 'مدیریت تخفیف‌ها',
-        'description'  => 'ایجاد و مدیریت کدهای تخفیف',
-        'restrictions' => 'محدودیت‌ها',
-        'no_restrictions' => 'بدون محدودیت',
-        'usage_limits' => 'محدودیت‌های استفاده',
+        'title'             => 'مدیریت تخفیف‌ها',
+        'description'       => 'ایجاد و مدیریت کدهای تخفیف',
+        'restrictions'      => 'محدودیت‌ها',
+        'no_restrictions'   => 'بدون محدودیت',
+        'usage_limits'      => 'محدودیت‌های استفاده',
         'person_usage_unit' => 'نفر',
-        'usage_schedule' => 'برنامه زمانی استفاده',
-        'fields'       => [
+        'usage_schedule'    => 'برنامه زمانی استفاده',
+        'fields'            => [
             'code'                => 'کد',
             'type'                => 'نوع',
             'value'               => 'مقدار',
@@ -74,7 +74,7 @@ return [
             'description'         => 'توضیحات',
             'status'              => 'وضعیت',
         ],
-        'placeholders' => [
+        'placeholders'      => [
             'code'                => 'مثال: SUMMER2025',
             'value'               => 'مقدار تخفیف را وارد کنید',
             'min_order_amount'    => 'حداقل مبلغ سفارش',
@@ -82,7 +82,7 @@ return [
             'usage_limit'         => 'برای نامحدود خالی بگذارید',
             'description'         => 'توضیحات اختیاری',
         ],
-        'help'         => [
+        'help'              => [
             'code'                => 'کد منحصر به فردی که مشتریان برای اعمال این تخفیف استفاده می‌کنند',
             'type'                => 'بین تخفیف درصدی یا مبلغ ثابت انتخاب کنید',
             'value'               => 'برای درصد: 0-100، برای مبلغ: مقدار ثابت',

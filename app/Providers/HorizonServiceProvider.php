@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Providers;
 
 use Illuminate\Support\Facades\Gate;
@@ -8,9 +10,7 @@ use Laravel\Horizon\HorizonApplicationServiceProvider;
 
 class HorizonServiceProvider extends HorizonApplicationServiceProvider
 {
-    /**
-     * Bootstrap any application services.
-     */
+    /** Bootstrap any application services. */
     public function boot(): void
     {
         parent::boot();
@@ -29,7 +29,6 @@ class HorizonServiceProvider extends HorizonApplicationServiceProvider
     {
         Gate::define('viewHorizon', function ($user = null) {
             return in_array(optional($user)->email, [
-                //
             ]);
         });
     }

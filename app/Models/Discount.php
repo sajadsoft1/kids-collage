@@ -298,35 +298,35 @@ class Discount extends Model
     {
         if ( ! $this->is_active) {
             return [
-                'label'=> trans('discount.enum.status.inactive'),
-                'color'=> 'danger',
+                'label' => trans('discount.enum.status.inactive'),
+                'color' => 'danger',
             ];
         }
 
         if ($this->hasReachedLimit()) {
             return [
-                'label'=> trans('discount.enum.status.limit'),
-                'color'=> 'danger',
+                'label' => trans('discount.enum.status.limit'),
+                'color' => 'danger',
             ];
         }
 
         if ($this->isExpired()) {
             return [
-                'label'=> trans('discount.enum.status.expired'),
-                'color'=> 'danger',
+                'label' => trans('discount.enum.status.expired'),
+                'color' => 'danger',
             ];
         }
 
         if ($this->starts_at && $this->starts_at->isFuture()) {
             return [
-                'label'=> trans('discount.enum.status.furure'),
-                'color'=> 'secondary',
+                'label' => trans('discount.enum.status.furure'),
+                'color' => 'secondary',
             ];
         }
 
         return [
-            'label'=> trans('discount.enum.status.active'),
-            'color'=> 'success',
+            'label' => trans('discount.enum.status.active'),
+            'color' => 'success',
         ];
     }
 

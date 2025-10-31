@@ -7,7 +7,6 @@ namespace App\Http\Controllers\Api;
 use App\Filters\FuzzyFilter;
 use App\Http\Resources\CourseDetailResource;
 use App\Http\Resources\CourseResource;
-use App\Models\Category;
 use App\Models\Course;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -20,14 +19,12 @@ use Throwable;
 
 class CourseController extends Controller
 {
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     private function query(array $payload = []): QueryBuilder
     {
         return QueryBuilder::for(Course::query())
-            ->with(['template','term','sessions','teacher','enrollments'])
+            ->with(['template', 'term', 'sessions', 'teacher', 'enrollments'])
             ->when($limit = Arr::get($payload, 'limit'), fn ($q) => $q->limit($limit))
             ->where('published', true)
             ->defaultSort('-id')
@@ -110,7 +107,7 @@ class CourseController extends Controller
     {
         return Response::data(
             [
-                'course' => CourseDetailResource::make($course->load('template','term','sessions','teacher','enrollments','comments','seoOption')),
+                'course' => CourseDetailResource::make($course->load('template', 'term', 'sessions', 'teacher', 'enrollments', 'comments', 'seoOption')),
             ]
         );
     }

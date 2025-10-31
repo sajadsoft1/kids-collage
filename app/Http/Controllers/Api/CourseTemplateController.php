@@ -7,7 +7,6 @@ namespace App\Http\Controllers\Api;
 use App\Filters\FuzzyFilter;
 use App\Http\Resources\CourseTemplateDetailResource;
 use App\Http\Resources\CourseTemplateResource;
-use App\Models\Category;
 use App\Models\CourseTemplate;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -20,9 +19,7 @@ use Throwable;
 
 class CourseTemplateController extends Controller
 {
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     private function query(array $payload = []): QueryBuilder
     {
@@ -108,6 +105,7 @@ class CourseTemplateController extends Controller
     public function show(CourseTemplate $courseTemplate): JsonResponse
     {
         $courseTemplate->recordView();
+
         return Response::data(
             [
                 'courseTemplate' => CourseTemplateDetailResource::make($courseTemplate->load('courses', 'comments', 'seoOption')),

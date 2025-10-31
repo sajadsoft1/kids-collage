@@ -22,7 +22,7 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="image", type="string", default="https://example.com/image.jpg"),
  *     @OA\Property(property="user", ref="#/components/schemas/UserResource"),
  *     @OA\Property(property="category", ref="#/components/schemas/CategoryResource"),
- *     @OA\Property(property="tags",ref="#/components/schemas/TagResource"),
+ *     @OA\Property(property="tags", ref="#/components/schemas/TagResource"),
  *     @OA\Property(property="view_count", type="integer", default="100"),
  *     @OA\Property(property="comment_count", type="integer", default="10"),
  *     @OA\Property(property="wish_count", type="integer", default="50"),

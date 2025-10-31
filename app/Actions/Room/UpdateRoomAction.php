@@ -6,7 +6,6 @@ namespace App\Actions\Room;
 
 use App\Actions\Translation\SyncTranslationAction;
 use App\Models\Room;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Lorisleiva\Actions\Concerns\AsAction;
 use Throwable;
@@ -31,6 +30,7 @@ class UpdateRoomAction
     {
         return DB::transaction(function () use ($room, $payload) {
             $room->update($payload);
+
             return $room->refresh();
         });
     }

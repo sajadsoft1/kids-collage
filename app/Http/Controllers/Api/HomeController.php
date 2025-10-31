@@ -76,7 +76,7 @@ class HomeController extends Controller
             'teachers_count' => User::teachers()->count(),
             'courses_count'  => Course::all()->count(),
             'students_count' => User::studentCont(),
-            'experience'      => 10,
+            'experience'     => 10,
         ];
         $data= [
             'sliders'        => SliderResource::collection(Slider::latestSliders()),

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Admin\Pages\QuestionSubject;
 
 use App\Actions\QuestionSubject\StoreQuestionSubjectAction;
@@ -13,18 +15,18 @@ class QuestionSubjectUpdateOrCreate extends Component
 {
     use Toast;
 
-    public QuestionSubject   $model;
+    public QuestionSubject $model;
     public string $title       = '';
     public string $description = '';
-    public bool   $published   = false;
+    public bool $published     = false;
 
     public function mount(QuestionSubject $questionSubject): void
     {
         $this->model = $questionSubject;
         if ($this->model->id) {
-            $this->title = $this->model->title;
+            $this->title       = $this->model->title;
             $this->description = $this->model->description;
-            $this->published = $this->model->published->value;
+            $this->published   = $this->model->published->value;
         }
     }
 
@@ -33,7 +35,7 @@ class QuestionSubjectUpdateOrCreate extends Component
         return [
             'title'       => 'required|string',
             'description' => 'required|string',
-            'published'   => 'required'
+            'published'   => 'required',
         ];
     }
 
@@ -61,11 +63,11 @@ class QuestionSubjectUpdateOrCreate extends Component
             'edit_mode'          => $this->model->id,
             'breadcrumbs'        => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link' => route('admin.question-subject.index'), 'label' => trans('general.page.index.title', ['model' => trans('questionSubject.model')])],
+                ['link'  => route('admin.question-subject.index'), 'label' => trans('general.page.index.title', ['model' => trans('questionSubject.model')])],
                 ['label' => trans('general.page.create.title', ['model' => trans('questionSubject.model')])],
             ],
             'breadcrumbsActions' => [
-                ['link' => route('admin.question-subject.index'), 'icon' => 's-arrow-left']
+                ['link' => route('admin.question-subject.index'), 'icon' => 's-arrow-left'],
             ],
         ]);
     }

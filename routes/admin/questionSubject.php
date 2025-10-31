@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-
-use App\Livewire\Admin\Pages\QuestionSubject\QuestionSubjectUpdateOrCreate;
 use App\Livewire\Admin\Pages\QuestionSubject\QuestionSubjectTable;
+use App\Livewire\Admin\Pages\QuestionSubject\QuestionSubjectUpdateOrCreate;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'admin/question-subject', 'as' => 'admin.question-subject.'], function () {

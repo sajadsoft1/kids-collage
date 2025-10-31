@@ -162,7 +162,6 @@ class Tag extends \Spatie\Tags\Tag implements HasMedia
                             ->from('taggables')
                             ->where('taggable_type', Bulletin::class);
                     })->get();
-
             }, 3600);
     }
 

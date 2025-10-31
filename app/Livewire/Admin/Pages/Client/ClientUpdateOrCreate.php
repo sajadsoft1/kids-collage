@@ -21,9 +21,9 @@ class ClientUpdateOrCreate extends Component
     use WithFileUploads;
 
     public Client $model;
-    public string $title       = '';
-    public string $description = '';
-    public bool $published     = false;
+    public string $title        = '';
+    public string $description  = '';
+    public bool $published      = false;
     public ?string $link        ='';
     public $image;
 

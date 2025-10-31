@@ -18,29 +18,19 @@ use OpenApi\Annotations as OA;
 class UserController extends Controller
 {
     /** Display a listing of the resource. */
-    public function index()
-    {
-    }
+    public function index() {}
 
     /** Store a newly created resource in storage. */
-    public function store(Request $request)
-    {
-    }
+    public function store(Request $request) {}
 
     /** Display the specified resource. */
-    public function show(string $id)
-    {
-    }
+    public function show(string $id) {}
 
     /** Update the specified resource in storage. */
-    public function update(Request $request, string $id)
-    {
-    }
+    public function update(Request $request, string $id) {}
 
     /** Remove the specified resource from storage. */
-    public function destroy(string $id)
-    {
-    }
+    public function destroy(string $id) {}
 
     /**
      * @OA\Get(
@@ -66,6 +56,7 @@ class UserController extends Controller
     public function teachers(): JsonResponse
     {
         $teachers = User::teachers();
+
         return Response::data(
             [
                 'teachers' => UserResource::collection($teachers),
@@ -92,8 +83,7 @@ class UserController extends Controller
      */
     public function showTeacher(User $user): JsonResponse
     {
-
-        if ($user->type !==UserTypeEnum::TEACHER || $user->status != BooleanEnum::ENABLE) {
+        if ($user->type !== UserTypeEnum::TEACHER || $user->status != BooleanEnum::ENABLE) {
             abort(404);
         }
 
@@ -104,5 +94,3 @@ class UserController extends Controller
         );
     }
 }
-
-

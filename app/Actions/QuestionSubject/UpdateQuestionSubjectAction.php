@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\QuestionSubject;
 
 use App\Actions\Translation\SyncTranslationAction;
@@ -17,14 +19,11 @@ class UpdateQuestionSubjectAction
         private readonly SyncTranslationAction $syncTranslationAction,
     ) {}
 
-
     /**
-     * @param QuestionSubject $questionSubject
      * @param array{
      *     title:string,
      *     description:string
      * }               $payload
-     * @return QuestionSubject
      * @throws Throwable
      */
     public function handle(QuestionSubject $questionSubject, array $payload): QuestionSubject

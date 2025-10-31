@@ -200,6 +200,7 @@ class CourseTemplate extends Model implements HasMedia
     {
         return $query->where('level', $level);
     }
+
     public static function latestCourseTemplates()
     {
         return SmartCache::for(__CLASS__)

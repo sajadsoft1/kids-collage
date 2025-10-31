@@ -20,11 +20,11 @@ class SocialMediaUpdateOrCreate extends Component
     use WithFileUploads;
 
     public SocialMedia $model;
-    public string $title    = '';
-    public bool $published  = false;
-    public string $position = SocialMediaPositionEnum::HEADER->value;
+    public string $title     = '';
+    public bool $published   = false;
+    public string $position  = SocialMediaPositionEnum::HEADER->value;
     public ?string $link     = null;
-    public int $ordering    = 1;
+    public int $ordering     = 1;
     public $image;
 
     public function mount(SocialMedia $socialMedia): void

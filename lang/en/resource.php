@@ -3,21 +3,21 @@
 declare(strict_types=1);
 
 return [
-    'model'         => 'Resource',
-    'type'          => 'Resource Type',
-    'attached_to'   => 'Attached To',
-    'url'           => 'URL',
-    'file'          => 'File',
-    'order'         => 'Display Order',
-    'is_public'     => 'Is Public',
-    'description'   => 'Description',
-    'permissions'   => [
+    'model'               => 'Resource',
+    'type'                => 'Resource Type',
+    'attached_to'         => 'Attached To',
+    'url'                 => 'URL',
+    'file'                => 'File',
+    'order'               => 'Display Order',
+    'is_public'           => 'Is Public',
+    'description'         => 'Description',
+    'permissions'         => [
     ],
-    'exceptions'    => [
+    'exceptions'          => [
     ],
-    'validations'   => [
+    'validations'         => [
     ],
-    'enum'          => [
+    'enum'                => [
         'pdf'   => 'PDF Document',
         'video' => 'Video',
         'image' => 'Image',
@@ -25,9 +25,9 @@ return [
         'file'  => 'File',
         'link'  => 'Link',
     ],
-    'notifications' => [
+    'notifications'       => [
     ],
-    'page'               => [
+    'page'                => [
     ],
     'attached_resources'  => 'Attached Resources',
     'add_relationship'    => 'Add Relationship',

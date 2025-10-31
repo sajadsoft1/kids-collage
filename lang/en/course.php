@@ -11,8 +11,8 @@ return [
         'delete_course' => 'Delete Course',
     ],
     'exceptions'    => [
-        'course_not_found'     => 'Course not found',
-        'course_access_denied' => 'Access to course denied',
+        'course_not_found'                    => 'Course not found',
+        'course_access_denied'                => 'Access to course denied',
         'only_draft_courses_can_be_published' => 'Only draft courses can be published',
     ],
     'validations'   => [

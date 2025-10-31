@@ -25,7 +25,6 @@ class CourseSeeder extends Seeder
             'level'       => $row['level'],
             'type'        => $row['type'],
             'sessions'    => $row['sessions'],
-
         ]);
 
         foreach ($data['course'] as $row) {
@@ -35,7 +34,7 @@ class CourseSeeder extends Seeder
                 'price'      => $row['price'],
                 'capacity'   => $row['capacity'],
                 'sessions'   => $row['sessions'],
-                'status'      =>'active',
+                'status'     => 'active',
             ]);
         }
     }

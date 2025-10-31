@@ -8,12 +8,11 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use OpenApi\Annotations as OA;
 
-
 /**
  * @OA\Schema(
  *     schema="TermResource",
  *     title="TermResource",
- *     @OA\Property( property="id", type="integer", default="1"),
+ *     @OA\Property(property="id", type="integer", default="1"),
  *     @OA\Property(property="title", type="string", default="Title"),
  *     @OA\Property(property="description", type="string", default="Description"),
  *
@@ -23,7 +22,6 @@ use OpenApi\Annotations as OA;
  */
 class TermResource extends JsonResource
 {
-
     public function toArray(Request $request): array
     {
         return [

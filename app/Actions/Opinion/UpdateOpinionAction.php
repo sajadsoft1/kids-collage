@@ -42,6 +42,7 @@ class UpdateOpinionAction
             $this->syncTranslationAction->handle($opinion, Arr::only($payload, ['title', 'description']));
             $this->fileService->addMedia($opinion, Arr::get($payload, 'image'));
             $this->fileService->addMedia($opinion, Arr::get($payload, 'video'));
+
             return $opinion->refresh();
         });
     }

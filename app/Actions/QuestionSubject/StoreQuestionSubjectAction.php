@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\QuestionSubject;
 
 use App\Actions\Translation\SyncTranslationAction;
@@ -22,7 +24,6 @@ class StoreQuestionSubjectAction
      *     title:string,
      *     description:string
      * } $payload
-     * @return QuestionSubject
      * @throws Throwable
      */
     public function handle(array $payload): QuestionSubject

@@ -42,7 +42,7 @@ class StorePageAction
     public function handle(array $payload): Page
     {
         return DB::transaction(function () use ($payload) {
-            $model = Page::create(Arr::only($payload, ['type', 'slug','deletable']));
+            $model = Page::create(Arr::only($payload, ['type', 'slug', 'deletable']));
             $this->syncTranslationAction->handle($model, Arr::only($payload, ['title', 'body']));
             $this->fileService->addMedia($model, Arr::get($payload, 'image'));
             $this->seoOptionService->create($model, [
