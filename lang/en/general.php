@@ -3,47 +3,49 @@
 declare(strict_types=1);
 
 return [
-    'show'                             => 'Show',
-    'create'                           => 'Create',
-    'edit'                             => 'Edit',
-    'delete'                           => 'Delete',
-    'back'                             => 'Back',
-    'submit'                           => 'Submit',
-    'cancel'                           => 'Cancel',
+    'show'                                 => 'Show',
+    'create'                               => 'Create',
+    'edit'                                 => 'Edit',
+    'delete'                               => 'Delete',
+    'back'                                 => 'Back',
+    'submit'                               => 'Submit',
+    'cancel'                               => 'Cancel',
 
-    'please_select_an_option'          => 'Please select an option',
-    'yes'                              => 'Yes',
-    'no'                               => 'No',
-    'active'                           => 'Active',
-    'inactive'                         => 'Inactive',
+    'please_select_an_option'              => 'Please select an option',
+    'yes'                                  => 'Yes',
+    'no'                                   => 'No',
+    'active'                               => 'Active',
+    'inactive'                             => 'Inactive',
 
-    'model_has_stored_successfully'    => ':model has been stored successfully',
-    'model_has_updated_successfully'   => ':model has been updated successfully',
-    'model_has_deleted_successfully'   => ':model has been deleted successfully',
-    'model_has_toggled_successfully'   => ':model has been toggled successfully',
-    'model_has_upload_successfully'    => ':model has been uploaded successfully',
-    'model_has_Failed_to_upload'       => ':model has failed to upload',
-    'model_has_retrieved_successfully' => ':model has been retrieved successfully',
-    'model_has_Failed_to_store'        => ':model has failed to store',
-    'store_success'                    => 'Store :model successfully',
-    'store_failed'                     => 'Store :model failed, please report the problem',
-    'update_success'                   => 'Update :model successfully',
-    'update_failed'                    => 'Update :model failed, please report the problem',
-    'delete_success'                   => 'Delete :model successfully',
-    'delete_failed'                    => 'Delete :model failed, please report the problem',
-    'delete_can_not'                   => 'You do not have permission to delete :model',
-    'toggle_success'                   => 'Toggle :model successfully',
-    'toggle_failed'                    => 'Toggle :model failed, please report the problem',
-    'toggle_can_not'                   => 'You do not have permission to toggle :model',
-    'like_add'                         => 'Like store success',
-    'like_remove'                      => 'Like removed',
-    'to_do_action_please_login'        => 'Please login to handle action',
-    'model_has_not_set'                => 'model has not set.',
-    'menu'                             => [
+    'translation_has_updated_successfully' => 'Translation has been updated successfully',
+
+    'model_has_stored_successfully'        => ':model has been stored successfully',
+    'model_has_updated_successfully'       => ':model has been updated successfully',
+    'model_has_deleted_successfully'       => ':model has been deleted successfully',
+    'model_has_toggled_successfully'       => ':model has been toggled successfully',
+    'model_has_upload_successfully'        => ':model has been uploaded successfully',
+    'model_has_Failed_to_upload'           => ':model has failed to upload',
+    'model_has_retrieved_successfully'     => ':model has been retrieved successfully',
+    'model_has_Failed_to_store'            => ':model has failed to store',
+    'store_success'                        => 'Store :model successfully',
+    'store_failed'                         => 'Store :model failed, please report the problem',
+    'update_success'                       => 'Update :model successfully',
+    'update_failed'                        => 'Update :model failed, please report the problem',
+    'delete_success'                       => 'Delete :model successfully',
+    'delete_failed'                        => 'Delete :model failed, please report the problem',
+    'delete_can_not'                       => 'You do not have permission to delete :model',
+    'toggle_success'                       => 'Toggle :model successfully',
+    'toggle_failed'                        => 'Toggle :model failed, please report the problem',
+    'toggle_can_not'                       => 'You do not have permission to toggle :model',
+    'like_add'                             => 'Like store success',
+    'like_remove'                          => 'Like removed',
+    'to_do_action_please_login'            => 'Please login to handle action',
+    'model_has_not_set'                    => 'model has not set.',
+    'menu'                                 => [
         'index' => ':model s',
     ],
 
-    'page'                             => [
+    'page'                                 => [
         'index'   => [
             'page_title' => ':model s',
             'title'      => 'All :model',
@@ -79,19 +81,19 @@ return [
         ],
     ],
 
-    'clients'                          => [
+    'clients'                              => [
         'SHOP_APPLICATION'       => 'SHOP_APPLICATION',
         'ADMIN_SHOP_APPLICATION' => 'ADMIN_SHOP_APPLICATION',
         'SHOP_WEBSITE'           => 'SHOP_WEBSITE',
         'SHOP_PANEL_ADMIN'       => 'SHOP_PANEL_ADMIN',
     ],
 
-    'exceptions'                       => [
+    'exceptions'                           => [
         'bad_request' => 'Bad request',
         'not_allowed' => 'Not allowed',
     ],
 
-    'page_sections'                    => [
+    'page_sections'                        => [
         'data'                 => 'Information',
         'seo_options'          => 'SEO settings',
         'upload_image'         => 'Upload image',
@@ -99,7 +101,7 @@ return [
         'end_of_work_settings' => 'End of work settings',
     ],
 
-    'signs'                            => [
+    'signs'                                => [
         '='  => 'Equal',
         '>'  => 'Greater than',
         '<'  => 'Less than',
@@ -107,26 +109,26 @@ return [
         '<=' => 'Less than or equal',
     ],
 
-    'calendar'                         => [
+    'calendar'                             => [
         'persian'   => 'Persian Calendar',
         'gregorian' => 'Gregorian Calendar',
         'hijri'     => 'Hijri Calendar',
     ],
 
-    'notification_template'            => 'Notification Template',
+    'notification_template'                => 'Notification Template',
 
-    'channels'                         => [
+    'channels'                             => [
         'sms'          => 'SMS',
         'email'        => 'Email',
         'notification' => 'In-App Notification',
     ],
 
-    'languages'                        => [
+    'languages'                            => [
         'en' => 'English',
         'fa' => 'Persian (Farsi)',
     ],
 
-    'notification_template_hints'      => [
+    'notification_template_hints'          => [
         'name'             => 'A unique name to identify this template',
         'channel'          => 'Select the communication channel for this template',
         'message_template' => 'Write your message with variables in curly braces, e.g., {user_name}',
@@ -136,10 +138,10 @@ return [
         'published'        => 'Enable or disable this template',
     ],
 
-    'available_variables'              => 'Available Variables',
-    'example'                          => 'Example',
+    'available_variables'                  => 'Available Variables',
+    'example'                              => 'Example',
 
-    'variables'                        => [
+    'variables'                            => [
         'user_name'   => 'User name',
         'user_email'  => 'User email address',
         'order_id'    => 'Order ID',

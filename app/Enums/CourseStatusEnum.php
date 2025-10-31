@@ -19,10 +19,10 @@ enum CourseStatusEnum: string
                 'label' => self::DRAFT->title(),
                 'value' => self::DRAFT->value,
             ],
-            [
-                'label' => self::SCHEDULED->title(),
-                'value' => self::SCHEDULED->value,
-            ],
+            // [
+            //     'label' => self::SCHEDULED->title(),
+            //     'value' => self::SCHEDULED->value,
+            // ],
             [
                 'label' => self::ACTIVE->title(),
                 'value' => self::ACTIVE->value,

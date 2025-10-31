@@ -10,6 +10,7 @@ use App\Enums\BooleanEnum;
 use App\Enums\CourseTypeEnum;
 use App\Models\Category;
 use App\Models\Course;
+use App\Models\CourseTemplate;
 use App\Models\Room;
 use App\Models\User;
 use App\Traits\CrudHelperTrait;
@@ -24,6 +25,7 @@ class CourseUpdateOrCreate extends Component
     use CrudHelperTrait;
     use Toast, WithFileUploads;
 
+    public CourseTemplate $courseTemplate;
     public Course $model;
     public ?string $title        = '';
     public ?string $description  = '';
@@ -45,10 +47,11 @@ class CourseUpdateOrCreate extends Component
     public ?string $meeting_link = null;
     public $image;
 
-    public function mount(Course $course): void
+    public function mount(CourseTemplate $courseTemplate, Course $course): void
     {
-        $this->model      = $course;
-        $this->categories = Category::where('type', 'course')
+        $this->courseTemplate = $courseTemplate;
+        $this->model          = $course;
+        $this->categories     = Category::where('type', 'course')
             ->where('published', BooleanEnum::ENABLE)
             ->get()
             ->map(fn ($item) => ['name' => $item->title, 'id' => $item->id])->toArray();
@@ -74,20 +77,21 @@ class CourseUpdateOrCreate extends Component
         $this->type = CourseTypeEnum::IN_PERSON->value;
 
         if ($this->model->id) {
-            $this->title         = $this->model->title;
-            $this->description   = $this->model->description;
-            $this->body          = $this->model->body;
-            $this->category_id   = $this->model->category_id ?? $this->category_id;
+            // dd($this->courseTemplate->toArray(), $this->model->toArray());
+            $this->title         = $this->courseTemplate->title;
+            $this->description   = $this->courseTemplate->description;
+            $this->body          = $this->courseTemplate->body;
+            $this->category_id   = $this->courseTemplate->category_id ?? $this->category_id;
             $this->teacher_id    = $this->model->teacher_id;
             $this->capacity      = $this->model->capacity;
             $this->price         = (float) $this->model->price;
-            $this->type          = $this->model->type->value;
+            $this->type          = $this->courseTemplate->type->value;
             $this->days_of_week  = $this->model->days_of_week ?? [];
             $this->start_time    = $this->model->start_time?->format('H:i');
             $this->end_time      = $this->model->end_time?->format('H:i');
             $this->room_id       = $this->model->room_id;
             $this->meeting_link  = $this->model->meeting_link;
-            $this->tags          = $this->model->tags()->pluck('name')->toArray();
+            $this->tags          = $this->courseTemplate->tags()->pluck('name')->toArray();
         }
     }
 
@@ -130,7 +134,7 @@ class CourseUpdateOrCreate extends Component
             $payload['teacher_id'] = $payload['teacher_id'];
             // category_id stored on course is legacy; keep if needed in actions or remove later
             $payload['languages']  = [app()->getLocale()];
-            
+
             try {
                 StoreCourseAction::run($payload);
                 $this->success(
@@ -149,11 +153,11 @@ class CourseUpdateOrCreate extends Component
             'edit_mode'          => $this->model->id,
             'breadcrumbs'        => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link'  => route('admin.course.index'), 'label' => trans('general.page.index.title', ['model' => trans('course.model')])],
+                ['link'  => route('admin.course.index', ['courseTemplate' => $this->courseTemplate->id]), 'label' => trans('general.page.index.title', ['model' => trans('course.model')])],
                 ['label' => $this->model->id ? trans('general.page.edit.title', ['model' => trans('course.model')]) : trans('general.page.create.title', ['model' => trans('course.model')])],
             ],
             'breadcrumbsActions' => [
-                ['link' => route('admin.course.index'), 'icon' => 's-arrow-left'],
+                ['link' => route('admin.course.index', ['courseTemplate' => $this->courseTemplate->id]), 'icon' => 's-arrow-left'],
             ],
         ]);
     }

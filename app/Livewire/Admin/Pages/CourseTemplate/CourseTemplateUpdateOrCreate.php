@@ -100,6 +100,14 @@ class CourseTemplateUpdateOrCreate extends Component
         $this->sessions = $newSessions;
     }
 
+    public function updatedType($value): void
+    {
+        $this->sessions = array_map(fn ($session) => [
+            ...$session,
+            'type' => $value,
+        ], $this->sessions);
+    }
+
     protected function rules(): array
     {
         return [
@@ -139,7 +147,7 @@ class CourseTemplateUpdateOrCreate extends Component
                 $this->error($e->getMessage(), timeout: 5000);
             }
         } else {
-            $payload['slug'] = StringHelper::slug($this->title);
+            $payload['slug'] = $this->model->uniqueSlug(StringHelper::slug($this->title));
 
             try {
                 StoreCourseTemplateAction::run($payload);

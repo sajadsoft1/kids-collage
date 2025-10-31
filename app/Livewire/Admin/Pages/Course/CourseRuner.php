@@ -8,11 +8,13 @@ use App\Actions\Course\StoreCourseAction;
 use App\Enums\CourseStatusEnum;
 use App\Enums\SessionStatus;
 use App\Enums\SessionType;
+use App\Enums\UserTypeEnum;
 use App\Models\CourseTemplate;
 use App\Models\Room;
 use App\Models\Term;
 use App\Models\User;
 use Exception;
+use Illuminate\Support\Carbon;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Mary\Traits\Toast;
@@ -32,7 +34,6 @@ class CourseRuner extends Component
     public string $start_date = '';
     public string $end_date   = '';
     public string $start_time = '16:00';
-    public string $end_time   = '18:00';
     public array $week_days   = [];
     public array $dayNames    = [
         '1' => 'شنبه',
@@ -58,7 +59,9 @@ class CourseRuner extends Component
             'type'               => SessionType::ONLINE->value,
             'date'               => null,
             'start_time'         => $this->start_time,
-            'end_time'           => $this->end_time,
+            'end_time'           => Carbon::createFromFormat('H:i', $this->start_time)
+                ->addMinutes($session->duration_minutes)
+                ->format('H:i'),
             'room_id'            => 0,
             'link'               => 'https://meet.google.com',
         ])->toArray();
@@ -130,15 +133,15 @@ class CourseRuner extends Component
             $this->end_date = '';
         }
 
-        if ( ! empty($this->week_days) && ! empty($this->start_date) && ! empty($this->end_date) && ! empty($this->start_time) && ! empty($this->end_time)) {
-            $this->generateAndUpdateSessions($this->week_days, $this->start_date, $this->end_date, $this->start_time, $this->end_time);
+        if ( ! empty($this->week_days) && ! empty($this->start_date) && ! empty($this->end_date) && ! empty($this->start_time)) {
+            $this->generateAndUpdateSessions($this->week_days, $this->start_date, $this->end_date, $this->start_time);
         }
     }
 
     #[Computed]
     public function dates_example(): string|array
     {
-        return $this->generateAndUpdateSessions($this->week_days, $this->start_date, $this->end_date, $this->start_time, $this->end_time);
+        return $this->generateAndUpdateSessions($this->week_days, $this->start_date, $this->end_date, $this->start_time);
     }
 
     /**
@@ -148,14 +151,13 @@ class CourseRuner extends Component
      * @param  string $start_date Start date in Y-m-d format
      * @param  string $end_date   End date in Y-m-d format
      * @param  string $start_time Start time in H:i format
-     * @param  string $end_time   End time in H:i format
      * @return array  Formatted array of generated dates
      */
-    public function generateAndUpdateSessions($week_days, $start_date, $end_date, $start_time, $end_time): array|string
+    public function generateAndUpdateSessions($week_days, $start_date, $end_date, $start_time): array|string
     {
         try {
-            $startDate = \Carbon\Carbon::createFromFormat('Y-m-d', $start_date);
-            $endDate   = \Carbon\Carbon::createFromFormat('Y-m-d', $end_date);
+            $startDate = Carbon::createFromFormat('Y-m-d', $start_date);
+            $endDate   = Carbon::createFromFormat('Y-m-d', $end_date);
 
             // Validate date range
             if ($startDate->gt($endDate)) {
@@ -175,8 +177,12 @@ class CourseRuner extends Component
                         'date'       => $currentDate->format('Y-m-d'),
                         'day_name'   => $this->dayNames[(string) $dayOfWeek] ?? 'نامشخص',
                         'start_time' => $start_time,
-                        'end_time'   => $end_time,
-                        'formatted'  => $currentDate->format('Y/m/d') . ' (' . ($this->dayNames[(string) $dayOfWeek] ?? 'نامشخص') . ') - ' . $start_time . ' تا ' . $end_time,
+                        'end_time'   => Carbon::createFromFormat('H:i', $start_time)
+                            ->addMinutes($this->courseTemplate->sessionTemplates->first()->duration_minutes)
+                            ->format('H:i'),
+                        'formatted'  => $currentDate->format('Y/m/d') . ' (' . ($this->dayNames[(string) $dayOfWeek] ?? 'نامشخص') . ') - ' . $start_time . ' تا ' . Carbon::createFromFormat('H:i', $start_time)
+                            ->addMinutes($this->courseTemplate->sessionTemplates->first()->duration_minutes)
+                            ->format('H:i'),
                     ];
                 }
 
@@ -253,7 +259,6 @@ class CourseRuner extends Component
             'start_date'  => ['required', 'date_format:Y-m-d', 'after_or_equal:' . $term->start_date],
             'end_date'    => ['required', 'date_format:Y-m-d', 'before_or_equal:' . $term->end_date],
             'start_time'  => 'required|date_format:H:i',
-            'end_time'    => 'required|date_format:H:i|after:start_time',
             'week_days'   => 'required|array',
             'week_days.*' => 'required|integer|min:1',
         ]);
@@ -299,7 +304,7 @@ class CourseRuner extends Component
 
         $this->success(
             title: trans('general.model_has_stored_successfully', ['model' => trans('course.model')]),
-            redirectTo: route('admin.course.index')
+            redirectTo: route('admin.course.index', ['courseTemplate' => $this->courseTemplate->id])
         );
     }
 
@@ -315,7 +320,7 @@ class CourseRuner extends Component
                 ['link' => route('admin.course-template.index'), 'icon' => 's-arrow-left'],
             ],
             'terms'              => Term::all()->map(fn ($term) => ['value' => $term->id, 'label' => $term->title]),
-            'teachers'           => User::all()->map(fn ($teacher) => ['value' => $teacher->id, 'label' => $teacher->name]),
+            'teachers'           => User::where('type', UserTypeEnum::TEACHER->value)->get()->map(fn ($teacher) => ['value' => $teacher->id, 'label' => $teacher->name]),
             'rooms'              => Room::all()->map(fn ($room) => ['value' => $room->id, 'label' => $room->name]),
             'informations'       => [
                 [
@@ -335,6 +340,7 @@ class CourseRuner extends Component
                     'value' => $this->courseTemplate->sessionTemplates()->count(),
                 ],
             ],
+            'prerequisites'      => $this->courseTemplate->prerequisites ? CourseTemplate::whereIn('id', $this->courseTemplate->prerequisites)->get()->map(fn ($prerequisite) => ['value' => $prerequisite->id, 'label' => $prerequisite->title]) : [],
         ]);
     }
 }

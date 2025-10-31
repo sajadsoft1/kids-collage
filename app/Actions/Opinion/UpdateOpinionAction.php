@@ -40,8 +40,8 @@ class UpdateOpinionAction
         return DB::transaction(function () use ($opinion, $payload) {
             $opinion->update($payload);
             $this->syncTranslationAction->handle($opinion, Arr::only($payload, ['title', 'description']));
-            $this->fileService->addMedia($opinion, Arr::get($payload, 'image'));
-            $this->fileService->addMedia($opinion, Arr::get($payload, 'video'));
+            $this->fileService->addMedia($opinion, Arr::get($payload, 'image'), 'image');
+            $this->fileService->addMedia($opinion, Arr::get($payload, 'video'), 'video');
 
             return $opinion->refresh();
         });

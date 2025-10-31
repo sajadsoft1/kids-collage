@@ -50,8 +50,11 @@ class DynamicSeo extends Component
     {
         // abort_if( ! config('custom-modules.seo'), 403);
         $this->class           = $class;
-        $this->back_route      = 'admin.' . Str::kebab($class) . '.index';
         $this->model           = Utils::getEloquent($class)::find($id);
+        $this->back_route      = match ($class) {
+            'courseSessionTemplate' => route('admin.course-session-template.index', ['courseTemplate' => $this->model->course_template_id]),
+            default                 => route('admin.' . Str::kebab($class) . '.index'),
+        };
         $this->slug            = $this->model->slug;
         $this->seo_title       = $this->model->seoOption->title;
         $this->seo_description = $this->model->seoOption->description;
@@ -209,11 +212,11 @@ class DynamicSeo extends Component
         return view('livewire.admin.shared.dynamic-seo', [
             'breadcrumbs'        => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link'  => route('admin.' . Str::kebab($this->class) . '.index'), 'label' => trans('general.page.index.title', ['model' => trans($this->class . '.model')])],
+                ['link'  => $this->back_route, 'label' => trans('general.page.index.title', ['model' => trans($this->class . '.model')])],
                 ['label' => $this->model->title],
             ],
             'breadcrumbsActions' => [
-                ['link' => route('admin.' . Str::kebab($this->class) . '.index'), 'icon' => 's-arrow-left'],
+                ['link' => $this->back_route, 'icon' => 's-arrow-left'],
             ],
             'viewsCount'         => $this->countGenerator($this->baseViewsQuery()),
             'commentsCount'      => $this->countGenerator($this->baseCommentsQuery()),

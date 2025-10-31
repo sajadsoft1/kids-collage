@@ -7,6 +7,7 @@ return [
     'permissions'   => [
     ],
     'exceptions'    => [
+        'not_allowed_to_delete_course_template_due_to_courses' => 'شما اجازه حذف دوره ای که اجرا شده است را ندارید.',
     ],
     'validations'   => [
     ],
@@ -23,5 +24,6 @@ return [
         'course_template_details'      => 'جزئیات نمونه دوره',
         'course_list'                  => 'لیست دوره‌ها',
         'course_session_template_list' => 'لیست نمونه جلسات',
+        'sessions'                     => 'جلسات',
     ],
 ];

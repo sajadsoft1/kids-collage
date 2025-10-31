@@ -59,7 +59,7 @@ class StoreCourseTemplateAction
                 'level'         => $payload['level'] ?? CourseLevelEnum::BIGGINER->value,
                 'type'          => $payload['type'] ?? CourseTypeEnum::IN_PERSON->value,
                 'prerequisites' => $payload['prerequisites'] ?? [],
-                'is_self_paced' => $payload['is_self_paced'] ?? false,
+                'is_self_paced' => $payload['type'] === CourseTypeEnum::SELF_PACED->value ? true : false,
             ]);
             $this->syncTranslationAction->handle($model, Arr::only($payload, ['title', 'description', 'body']));
             $this->fileService->addMedia($model, Arr::get($payload, 'image'));

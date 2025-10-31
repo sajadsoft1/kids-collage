@@ -127,14 +127,14 @@ final class CourseTemplateTable extends PowerGridComponent
                 ->tooltip(trans('coursetemplate.page.run_the_course_template')),
 
             Button::add('courses_list')
-                ->slot("<i class='fa fa-list'></i>")
+                ->slot("<i class='fa fa-book-open'></i>")
                 ->attributes(['class' => 'btn btn-square md:btn-sm btn-xs text-info'])
                 ->route('admin.course.index', ['courseTemplate' => $row->id], '_self')
                 ->navigate()
                 ->tooltip(trans('courseTemplate.page.course_list')),
 
             Button::add('courses_session_list')
-                ->slot("<i class='fa fa-list-tree'></i>")
+                ->slot("<i class='fa fa-list-ol'></i>")
                 ->attributes(['class' => 'btn btn-square md:btn-sm btn-xs text-info'])
                 ->route('admin.course-session-template.index', ['courseTemplate' => $row->id], '_self')
                 ->navigate()

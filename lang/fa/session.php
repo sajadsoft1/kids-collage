@@ -12,9 +12,10 @@ return [
     ],
     'enum'        => [
         'type' => [
-            'in_person' => 'حضوری',
-            'online'    => 'آنلاین',
-            'hybrid'    => 'هایبرید',
+            'in_person'  => 'حضوری',
+            'online'     => 'آنلاین',
+            'hybrid'     => 'هایبرید',
+            'self_paced' => 'فروش آنلاین',
         ],
     ],
 ];

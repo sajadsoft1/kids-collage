@@ -3,52 +3,54 @@
 declare(strict_types=1);
 
 return [
-    'show'                             => 'نمایش',
-    'create'                           => 'ایجاد',
-    'edit'                             => 'ویرایش',
-    'delete'                           => 'حذف',
-    'back'                             => 'بازگشت',
-    'submit'                           => 'ثبت',
-    'cancel'                           => 'لغو',
-    'fa'                               => 'فارسی',
-    'en'                               => 'انگلیسی',
-    'show_errors'                      => 'نمایش خطاها',
+    'show'                                 => 'نمایش',
+    'create'                               => 'ایجاد',
+    'edit'                                 => 'ویرایش',
+    'delete'                               => 'حذف',
+    'back'                                 => 'بازگشت',
+    'submit'                               => 'ثبت',
+    'cancel'                               => 'لغو',
+    'fa'                                   => 'فارسی',
+    'en'                                   => 'انگلیسی',
+    'show_errors'                          => 'نمایش خطاها',
 
-    'please_select_an_option'          => 'لطفا گزینه مربوطه را انتخاب کنید',
-    'yes'                              => 'بله',
-    'no'                               => 'خیر',
-    'active'                           => 'فعال',
-    'inactive'                         => 'غیر فعال',
+    'please_select_an_option'              => 'لطفا گزینه مربوطه را انتخاب کنید',
+    'yes'                                  => 'بله',
+    'no'                                   => 'خیر',
+    'active'                               => 'فعال',
+    'inactive'                             => 'غیر فعال',
 
-    'model_has_stored_successfully'    => ':model با موفقیت ثبت شد',
-    'model_has_updated_successfully'   => ':model با موفقیت به روز رسانی شد',
-    'model_has_deleted_successfully'   => ':model با موفقیت حذف شد',
-    'model_has_toggled_successfully'   => ':model با موفقیت تغییر وضعیت یافت',
-    'model_has_upload_successfully'    => ':model  با موفقیت آپلود شد',
-    'model_has_Failed_to_upload'       => ':model  بارگذاری نشد',
-    'model_has_retrieved_successfully' => ':model  با موفقیت بازیابی شده است',
-    'model_has_Failed_to_store'        => ':model  ذخیره نشد',
-    'model_has_not_set'                => 'مدل تعریف نشده است.',
+    'translation_has_updated_successfully' => 'ترجمه با موفقیت به روز رسانی شد',
 
-    'store_success'                    => 'ثبت :model با موفقیت انجام شد',
-    'store_failed'                     => 'ثبت :model با خطا مواجه شد، لطفا مشکل پیش آمده را گزارش نمایید',
+    'model_has_stored_successfully'        => ':model با موفقیت ثبت شد',
+    'model_has_updated_successfully'       => ':model با موفقیت به روز رسانی شد',
+    'model_has_deleted_successfully'       => ':model با موفقیت حذف شد',
+    'model_has_toggled_successfully'       => ':model با موفقیت تغییر وضعیت یافت',
+    'model_has_upload_successfully'        => ':model  با موفقیت آپلود شد',
+    'model_has_Failed_to_upload'           => ':model  بارگذاری نشد',
+    'model_has_retrieved_successfully'     => ':model  با موفقیت بازیابی شده است',
+    'model_has_Failed_to_store'            => ':model  ذخیره نشد',
+    'model_has_not_set'                    => 'مدل تعریف نشده است.',
 
-    'update_success'                   => 'به روز رسانی :model با موفقیت انجام شد',
-    'update_failed'                    => 'به روز رسانی :model با خطا مواجه شد، لطفا مشکل پیش آمده را گزارش نمایید',
+    'store_success'                        => 'ثبت :model با موفقیت انجام شد',
+    'store_failed'                         => 'ثبت :model با خطا مواجه شد، لطفا مشکل پیش آمده را گزارش نمایید',
 
-    'delete_success'                   => 'حذف :model با موفقیت انجام شد',
-    'delete_failed'                    => 'حذف :model با خطا مواجه شد، لطفا مشکل پیش آمده را گزارش نمایید',
-    'delete_can_not'                   => 'شما دسترسی لازم برای حذف :model را ندارید',
+    'update_success'                       => 'به روز رسانی :model با موفقیت انجام شد',
+    'update_failed'                        => 'به روز رسانی :model با خطا مواجه شد، لطفا مشکل پیش آمده را گزارش نمایید',
 
-    'toggle_success'                   => 'تغییر وضعیت :model با موفقیت انجام شد',
-    'toggle_failed'                    => 'تغییر وضعیت :model با خطا مواجه شد، لطفا مشکل پیش آمده را گزارش نمایید',
-    'toggle_can_not'                   => 'شما دسترسی لازم برای حذف :model را ندارید',
+    'delete_success'                       => 'حذف :model با موفقیت انجام شد',
+    'delete_failed'                        => 'حذف :model با خطا مواجه شد، لطفا مشکل پیش آمده را گزارش نمایید',
+    'delete_can_not'                       => 'شما دسترسی لازم برای حذف :model را ندارید',
 
-    'menu'                             => [
+    'toggle_success'                       => 'تغییر وضعیت :model با موفقیت انجام شد',
+    'toggle_failed'                        => 'تغییر وضعیت :model با خطا مواجه شد، لطفا مشکل پیش آمده را گزارش نمایید',
+    'toggle_can_not'                       => 'شما دسترسی لازم برای حذف :model را ندارید',
+
+    'menu'                                 => [
         'index' => ':modelان',
     ],
 
-    'page'                             => [
+    'page'                                 => [
         'index'   => [
             'page_title' => ':model ها',
             'title'      => 'تمام :model ها',
@@ -85,12 +87,12 @@ return [
         ],
     ],
 
-    'exceptions'                       => [
+    'exceptions'                           => [
         'bad_request' => 'درخواست نامعتبر',
         'not_allowed' => 'عملیات مجاز نیست',
     ],
 
-    'page_sections'                    => [
+    'page_sections'                        => [
         'data'                 => 'اطلاعات',
         'seo_options'          => 'تنظیمات سئو',
         'upload_image'         => 'آپلود تصویر',
@@ -102,46 +104,46 @@ return [
         'end_of_work_settings' => 'تنظیمات پایان کار',
     ],
 
-    'signs'                            => [
+    'signs'                                => [
         '='  => 'مساوی',
         '>'  => 'بزرگتر از',
         '<'  => 'کوچکتر از',
         '>=' => 'بزرگتر یا مساوی',
         '<=' => 'کوچکتر یا مساوی',
     ],
-    'profile'                          => 'پروفایل',
-    'personal_information'             => 'اطلاعات شخصی',
-    'favorite'                         => 'علاقه مندی ها',
-    'transactions'                     => 'تراکنش ها',
-    'activities'                       => 'فعالیت ها',
-    'views'                            => 'بازدید ها',
+    'profile'                              => 'پروفایل',
+    'personal_information'                 => 'اطلاعات شخصی',
+    'favorite'                             => 'علاقه مندی ها',
+    'transactions'                         => 'تراکنش ها',
+    'activities'                           => 'فعالیت ها',
+    'views'                                => 'بازدید ها',
 
-    'calendar'                         => [
+    'calendar'                             => [
         'persian'   => 'تقویم شمسی',
         'gregorian' => 'تقویم میلادی',
         'hijri'     => 'تقویم قمری',
     ],
-    'close'                            => 'بستن',
-    'reload'                           => 'بارگذاری مجدد',
-    'reset'                            => 'ریست',
-    'are_you_shure_to_delete_record'   => 'آیا از حذف این رکورد مطمئن هستید؟',
-    'roles'                            => 'نقش ها',
-    'croper_image_hint'                => 'بیشترین رزولوشن :resolution است',
+    'close'                                => 'بستن',
+    'reload'                               => 'بارگذاری مجدد',
+    'reset'                                => 'ریست',
+    'are_you_shure_to_delete_record'       => 'آیا از حذف این رکورد مطمئن هستید؟',
+    'roles'                                => 'نقش ها',
+    'croper_image_hint'                    => 'بیشترین رزولوشن :resolution است',
 
-    'notification_template'            => 'قالب اعلان',
+    'notification_template'                => 'قالب اعلان',
 
-    'channels'                         => [
+    'channels'                             => [
         'sms'          => 'پیامک',
         'email'        => 'ایمیل',
         'notification' => 'اعلان درون برنامه',
     ],
 
-    'languages'                        => [
+    'languages'                            => [
         'en' => 'انگلیسی',
         'fa' => 'فارسی',
     ],
 
-    'notification_template_hints'      => [
+    'notification_template_hints'          => [
         'name'             => 'یک نام منحصر به فرد برای شناسایی این قالب',
         'channel'          => 'کانال ارتباطی برای این قالب را انتخاب کنید',
         'message_template' => 'پیام خود را با متغیرها در آکولاد بنویسید، مثال: {user_name}',
@@ -151,10 +153,10 @@ return [
         'published'        => 'فعال یا غیرفعال کردن این قالب',
     ],
 
-    'available_variables'              => 'متغیرهای قابل استفاده',
-    'example'                          => 'مثال',
+    'available_variables'                  => 'متغیرهای قابل استفاده',
+    'example'                              => 'مثال',
 
-    'variables'                        => [
+    'variables'                            => [
         'user_name'   => 'نام کاربر',
         'user_email'  => 'ایمیل کاربر',
         'order_id'    => 'شناسه سفارش',
