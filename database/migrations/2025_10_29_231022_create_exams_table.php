@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
+use App\Enums\ExamStatusEnum;
+use App\Enums\ExamTypeEnum;
+use App\Enums\ShowResultsEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,7 +20,7 @@ return new class extends Migration {
             $table->foreignId('category_id')->nullable()->constrained('categories')->nullOnDelete();
 
             // Store enum as string (ExamTypeEnum values)
-            $table->string('type', 20)->default('scored');
+            $table->string('type', 20)->default(ExamTypeEnum::SCORED->value);
             $table->decimal('total_score', 8, 2)->nullable();
 
             $table->integer('duration')->nullable()->comment('minutes');
@@ -27,7 +30,7 @@ return new class extends Migration {
 
             $table->boolean('shuffle_questions')->default(false);
             // Store enum as string (ShowResultsEnum values)
-            $table->string('show_results', 20)->default('after_submit');
+            $table->string('show_results', 20)->default(ShowResultsEnum::AFTER_SUBMIT->value);
             $table->boolean('allow_review')->default(true);
 
             $table->json('settings')->nullable();
@@ -36,11 +39,12 @@ return new class extends Migration {
             $table->timestamp('ends_at')->nullable();
 
             // Store enum as string (ExamStatusEnum values)
-            $table->string('status', 20)->default('draft');
+            $table->string('status', 20)->default(ExamStatusEnum::DRAFT->value);
 
             $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
-
+            $table->schemalessAttributes('extra_attributes');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->index('category_id');
             $table->index('status');

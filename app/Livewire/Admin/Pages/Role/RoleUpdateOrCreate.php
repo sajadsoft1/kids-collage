@@ -7,12 +7,9 @@ namespace App\Livewire\Admin\Pages\Role;
 use App\Actions\Role\StoreRoleAction;
 use App\Actions\Role\UpdateRoleAction;
 use App\Models\Role;
-use App\Services\Permissions\PermissionsService;
 use Illuminate\View\View;
-use Livewire\Attributes\On;
 use Livewire\Component;
 use Mary\Traits\Toast;
-use Spatie\Permission\Models\Permission;
 use Throwable;
 
 class RoleUpdateOrCreate extends Component
@@ -43,34 +40,6 @@ class RoleUpdateOrCreate extends Component
             'permissions.*' => 'required|exists:permissions,id',
         ];
     }
-
-    #[On('admin-selected')]
-    public function clearAllExceptAdmin(): void
-    {
-        $adminId           = Permission::where('name', 'Shared.Admin')->value('id');
-        $this->permissions = [$adminId]; // keep only Admin
-    }
-
-    //    public function toggleAllPermissions(): void
-    //    {
-    //        $allPermissions = $this->getAllPossiblePermissions(); // Your method
-    //        $this->permissions = count($this->permissions) === count($allPermissions)
-    //            ? []
-    //            : $allPermissions;
-    //    }
-    //
-    //    public function getAllPossiblePermissions(): array
-    //    {
-    //        $result = [];
-    //        foreach (PermissionsService::showPermissionsByService() as $arrayItem) {
-    //            foreach ($arrayItem['items'] as $item) {
-    //                $permissionId = Permission::where('name', $item['value'])->value('id');
-    //                $result[] = $permissionId;
-    //            }
-    //        }
-    //
-    //        return $result;
-    //    }
 
     public function submit(): void
     {

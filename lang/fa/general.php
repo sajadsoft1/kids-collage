@@ -100,7 +100,7 @@ return [
         'upload_video'         => 'آپلود ویدیو',
         'upload_audio'         => 'آپلود صوتی',
         'upload_document'      => 'آپلود مستند',
-        'publish_config'       => 'تنظیمات انتشار',
+        'publish_config'       => 'تنظیمات',
         'end_of_work_settings' => 'تنظیمات پایان کار',
     ],
 

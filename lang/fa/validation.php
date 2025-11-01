@@ -162,6 +162,9 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'parent_id'      => [
+            'not_self' => 'یک دسته بندی نمی‌تواند والد خودش باشد',
+        ],
     ],
 
     /*
@@ -311,5 +314,6 @@ return [
         'difficulty'             => 'سختی',
         'default_score'          => 'امتیاز پیش فرض',
         'tags'                   => 'برچسب ها',
+        'parent_id'              => 'دسته بندی والد',
     ],
 ];

@@ -10,7 +10,7 @@
                 <div class="grid grid-cols-1 gap-4">
                     <x-input :label="trans('validation.attributes.title')" wire:model="title" required />
                     <x-input :label="trans('validation.attributes.description')" wire:model="description" required />
-                    <x-admin.shared.tinymce wire:model="body" />
+                    <x-admin.shared.tinymce wire:model="body" :config="['max_height' => 500, 'min_height' => 500]" />
                 </div>
             </x-card>
 
@@ -24,6 +24,8 @@
 
                 <x-card :title="trans('general.page_sections.publish_config')" shadow separator progress-indicator="submit" class="mt-5">
                     <x-admin.shared.published-config has-published-at="0" />
+                    <x-choices-offline single clearable searchable :label="trans('validation.attributes.parent_id')" :placeholder="trans('general.please_select_an_option')"
+                        wire:model="parent_id" :options="$categories" option-label="title" option-value="id" />
                 </x-card>
             </div>
         </div>

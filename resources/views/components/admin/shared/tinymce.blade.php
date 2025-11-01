@@ -1,5 +1,9 @@
 @props([
-    'config' => [
+    'config' => [],
+])
+
+@php
+    $defaultConfig = [
         'plugins' => 'autoresize',
         'height' => 1500,
         'min_height' => 1000,
@@ -14,8 +18,11 @@
             'undo redo | formatselect | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media | code fullscreen',
         'quickbars_selection_toolbar' => 'bold italic | quicklink h2 h3 blockquote',
         'contextmenu' => 'link image imagetools table',
-    ],
-])
+    ];
+
+    $mergedConfig = array_replace_recursive($defaultConfig, $config);
+@endphp
+
 <div class="{{ $attributes->get('class:div') }}">
-    <x-editor :label="trans('validation.attributes.body')" {{ $attributes }} disk="tinymce" :config="$config" />
+    <x-editor :label="trans('validation.attributes.body')" {{ $attributes }} disk="tinymce" :config="$mergedConfig" />
 </div>

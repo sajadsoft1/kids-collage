@@ -5,7 +5,7 @@
         label-div-class="p-2 mx-auto rounded bg-primary/5 w-fit">
         @foreach (\App\Enums\CategoryTypeEnum::cases() as $type)
             <x-tab name="{{ $type->value }}" label="{{ $type->title() }}">
-                <livewire:admin.pages.category.category-table :type="$type->value" />
+                <livewire:admin.pages.category.category-table :type="$type->value" :key="'category-table-' . $type->value" :table-name="'index_category_datatable_' . $type->value" />
             </x-tab>
         @endforeach
 

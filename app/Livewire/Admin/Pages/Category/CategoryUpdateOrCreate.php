@@ -28,6 +28,7 @@ class CategoryUpdateOrCreate extends Component
     #[Url]
     public ?string $type        = CategoryTypeEnum::BLOG->value;
     public $image;
+    public ?int $parent_id = null;
 
     public function mount(Category $category): void
     {
@@ -39,6 +40,7 @@ class CategoryUpdateOrCreate extends Component
             $this->body        = $this->model->body;
             $this->type        = $this->model->type->value;
             $this->published   = (bool) $this->model->published->value;
+            $this->parent_id   = $this->model->parent_id;
         }
     }
 
@@ -47,9 +49,19 @@ class CategoryUpdateOrCreate extends Component
         return [
             'title'       => 'required|string',
             'description' => 'required|string',
+            'body'        => 'nullable|string',
             'published'   => 'required|boolean',
             'type'        => 'required|string|in:' . implode(',', CategoryTypeEnum::values()),
             'image'       => 'nullable|image|max:2048',
+            'parent_id'   => [
+                'nullable',
+                'exists:categories,id',
+                function ($attribute, $value, $fail) {
+                    if ($value !== null && $this->model->id && (int) $value === $this->model->id) {
+                        $fail(trans('validation.custom.parent_id.not_self'));
+                    }
+                },
+            ],
         ];
     }
 
@@ -85,6 +97,8 @@ class CategoryUpdateOrCreate extends Component
             'breadcrumbsActions' => [
                 ['link' => route('admin.category.index', ['type' => $this->type]), 'icon' => 's-arrow-left'],
             ],
+            'categories'         => Category::where('type', $this->type)->where('parent_id', null)
+                ->where('id', '!=', $this->model->id)->get()->map(fn ($category) => ['id' => $category->id, 'title' => $category->title]),
         ]);
     }
 }
