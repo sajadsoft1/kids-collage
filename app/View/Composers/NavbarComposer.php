@@ -522,6 +522,13 @@ class NavbarComposer
                         'route_name' => 'admin.discount.index',
                         'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Discount::class, 'Index')),
                     ],
+                    [
+                        'icon'       => 'o-clipboard-document-list',
+                        'params'     => [],
+                        'title'      => trans('_menu.survey_management'),
+                        'route_name' => 'admin.survey.index',
+                        'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Exam::class, 'Index')),
+                    ],
 
                     // Future CRM Modules
                     [

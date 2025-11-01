@@ -34,18 +34,20 @@ class Question extends Model
         'created_by',
         'is_active',
         'is_public',
+        'is_survey_question',
     ];
 
     protected $casts = [
-        'type'           => QuestionTypeEnum::class,
-        'difficulty'     => DifficultyEnum::class,
-        'default_score'  => 'decimal:2',
-        'config'         => 'array',
-        'correct_answer' => 'array',
-        'metadata'       => 'array',
-        'is_active'      => 'boolean',
-        'is_public'      => 'boolean',
-        'usage_count'    => 'integer',
+        'type'               => QuestionTypeEnum::class,
+        'difficulty'         => DifficultyEnum::class,
+        'default_score'      => 'decimal:2',
+        'config'             => 'array',
+        'correct_answer'     => 'array',
+        'metadata'           => 'array',
+        'is_active'          => 'boolean',
+        'is_public'          => 'boolean',
+        'is_survey_question' => 'boolean',
+        'usage_count'        => 'integer',
     ];
 
     public function scopeActive($query)
@@ -56,6 +58,16 @@ class Question extends Model
     public function scopePublic($query)
     {
         return $query->where('is_public', true);
+    }
+
+    public function scopeFromBank($query)
+    {
+        return $query->where('is_survey_question', false);
+    }
+
+    public function scopeSurveyQuestions($query)
+    {
+        return $query->where('is_survey_question', true);
     }
 
     /** Model Relations -------------------------------------------------------------------------- */

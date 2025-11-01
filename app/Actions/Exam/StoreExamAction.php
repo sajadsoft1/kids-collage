@@ -22,15 +22,25 @@ class StoreExamAction
     /**
      * @param array{
      *     title:string,
-     *     description:string
+     *     description:string,
+     *     rules?: array
      * } $payload
      * @throws Throwable
      */
     public function handle(array $payload): Exam
     {
         return DB::transaction(function () use ($payload) {
-            $model =  Exam::create($payload);
+            $rules = $payload['rules'] ?? null;
+            unset($payload['rules']);
+
+            $model = Exam::create($payload);
             $this->syncTranslationAction->handle($model, Arr::only($payload, ['title', 'description']));
+
+            // Set rules if provided
+            if ($rules !== null) {
+                $model->setRules($rules);
+                $model->save();
+            }
 
             return $model->refresh();
         });

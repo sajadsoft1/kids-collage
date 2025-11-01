@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Actions\Exam\EvaluateExamRulesAction;
 use App\Enums\ExamStatusEnum;
 use App\Enums\ExamTypeEnum;
+use App\Traits\HasSchemalessAttributes;
+use DB;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -22,6 +25,7 @@ use Spatie\Tags\HasTags;
 class Exam extends Model
 {
     use HasFactory;
+    use HasSchemalessAttributes;
     use HasTags;
     use SoftDeletes;
 
@@ -42,6 +46,7 @@ class Exam extends Model
         'ends_at',
         'status',
         'created_by',
+        'extra_attributes',
     ];
 
     protected $casts = [
@@ -224,6 +229,16 @@ class Exam extends Model
 
     public function canUserTakeExam(User $user): bool
     {
+        // Check rules first if they exist
+        if ($this->hasRules()) {
+            $canParticipate = EvaluateExamRulesAction::run($this, $user);
+
+            if ( ! $canParticipate) {
+                return false;
+            }
+        }
+
+        // Existing validation checks
         if ($this->status !== ExamStatusEnum::PUBLISHED) {
             return false;
         }
@@ -313,5 +328,71 @@ class Exam extends Model
     public function getQuestionsCount(): int
     {
         return $this->questions()->count();
+    }
+
+    // ============================================
+    // Rules Management
+    // ============================================
+
+    /** Get rules from extra_attributes. */
+    public function getRules(): ?array
+    {
+        return $this->extra_attributes->rules ?? null;
+    }
+
+    /** Check if exam has rules defined. */
+    public function hasRules(): bool
+    {
+        $rules = $this->getRules();
+
+        return $rules !== null && ! empty($rules);
+    }
+
+    /** Set rules in extra_attributes. */
+    public function setRules(array $rules): void
+    {
+        $this->extra_attributes->set('rules', $rules);
+    }
+
+    /** Scope: Get exams accessible by user (based on rules). */
+    public function scopeAccessibleByUser($query, User $user)
+    {
+        return $query->where(function ($q) {
+            $q->where(function ($subQuery) {
+                // Exams without rules (accessible to all based on other criteria)
+                $subQuery->whereNull(DB::raw("JSON_EXTRACT(extra_attributes, '$.rules')"));
+            })->orWhere(function ($subQuery) {
+                // Exams with rules - check if user can access
+                $subQuery->whereNotNull(DB::raw("JSON_EXTRACT(extra_attributes, '$.rules')"));
+            });
+        });
+    }
+
+    /** Scope: Get exams user has attempted. */
+    public function scopeWithUserAttempts($query, User $user)
+    {
+        return $query->whereHas('attempts', function ($q) use ($user) {
+            $q->where('user_id', $user->id);
+        });
+    }
+
+    /** Scope: Get exams user can participate in (can take or has attempted). */
+    public function scopeParticipableByUser($query, User $user)
+    {
+        $examIdsAccessible = [];
+
+        // Get all exams and check rules for each
+        $exams = Exam::all();
+
+        foreach ($exams as $exam) {
+            if ($exam->canUserTakeExam($user)) {
+                $examIdsAccessible[] = $exam->id;
+            }
+        }
+
+        return $query->whereIn('id', $examIdsAccessible)
+            ->orWhereHas('attempts', function ($q) use ($user) {
+                $q->where('user_id', $user->id);
+            });
     }
 }

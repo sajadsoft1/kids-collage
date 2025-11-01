@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Exam;
+namespace App\Actions\Survey;
 
 use App\Actions\Translation\SyncTranslationAction;
 use App\Models\Exam;
@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Lorisleiva\Actions\Concerns\AsAction;
 use Throwable;
 
-class UpdateExamAction
+class StoreSurveyAction
 {
     use AsAction;
 
@@ -23,26 +23,27 @@ class UpdateExamAction
      * @param array{
      *     title:string,
      *     description:string,
+     *     type:string,
      *     rules?: array
-     * }               $payload
+     * } $payload
      * @throws Throwable
      */
-    public function handle(Exam $exam, array $payload): Exam
+    public function handle(array $payload): Exam
     {
-        return DB::transaction(function () use ($exam, $payload) {
+        return DB::transaction(function () use ($payload) {
             $rules = $payload['rules'] ?? null;
             unset($payload['rules']);
 
-            $exam->update($payload);
-            $this->syncTranslationAction->handle($exam, Arr::only($payload, ['title', 'description']));
+            $model = Exam::create($payload);
+            $this->syncTranslationAction->handle($model, Arr::only($payload, ['title', 'description']));
 
-            // Update rules if provided
+            // Set rules if provided
             if ($rules !== null) {
-                $exam->setRules($rules);
-                $exam->save();
+                $model->setRules($rules);
+                $model->save();
             }
 
-            return $exam->refresh();
+            return $model->refresh();
         });
     }
 }

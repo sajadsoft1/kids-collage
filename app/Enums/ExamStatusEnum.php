@@ -39,6 +39,15 @@ enum ExamStatusEnum: string
         };
     }
 
+    public function toArray(): array
+    {
+        return [
+            'value' => $this->value,
+            'label' => $this->title(),
+            'color' => $this->color(),
+        ];
+    }
+
     public function bgColor(): string
     {
         return match ($this) {

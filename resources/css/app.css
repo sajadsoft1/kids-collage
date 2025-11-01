@@ -90,10 +90,10 @@
 } */
 /* start powergrid*/
 .responsive-row-expand-container {
-    @apply flex-col gap-y-5 bg-base-300 rounded-md;
+    @apply flex-col rounded-md gap-y-5 bg-base-300;
 }
 .responsive-row-expand-item-container {
-    @apply flex justify-between items-center;
+    @apply flex items-center justify-between;
 }
 #power-grid-table-base > div > div:nth-child(2) {
     @apply max-[600px]:flex max-md:flex-col gap-y-3
@@ -106,14 +106,14 @@
 
 
 .mary-active-menu {
-    @apply bg-primary text-white;
+    @apply text-white bg-primary;
 }
 
 /* Custom theme variables */
 :root {
     --color-base-100: #FFFFFF;
-    --color-base-200: #FFFFFF;
-    --color-base-300: #F0F5F9;
+    --color-base-200: #F0F5F9;
+    --color-base-300: #E5EAF1;
     --color-primary: #fa8227;
     --color-secondary: #F2EAD3;
     --color-accent: #069021;
@@ -123,7 +123,7 @@
 /* Dark theme variables */
 .dark {
     --color-base-100: #101828;
-    --color-base-200: #101828;
+    --color-base-200: #1d2939;
     --color-base-300: #0f0f0f;
 }
 /**:focus-within {*/

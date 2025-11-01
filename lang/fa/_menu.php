@@ -71,6 +71,7 @@ return [
     'followups_management'    => 'پیگیری‌ها',
     'segments_management'     => 'تقسیم‌بندی مشتریان',
     'crm_reports'             => 'گزارشات CRM',
+    'survey_management'       => 'نظر سنجی',
 
     // HRM Modules
     'payroll_management'      => 'حقوق و دستمزد',

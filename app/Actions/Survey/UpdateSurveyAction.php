@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Exam;
+namespace App\Actions\Survey;
 
 use App\Actions\Translation\SyncTranslationAction;
 use App\Models\Exam;
@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Lorisleiva\Actions\Concerns\AsAction;
 use Throwable;
 
-class UpdateExamAction
+class UpdateSurveyAction
 {
     use AsAction;
 

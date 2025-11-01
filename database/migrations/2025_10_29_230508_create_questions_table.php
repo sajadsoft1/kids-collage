@@ -38,6 +38,7 @@ return new class extends Migration {
             $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
             $table->boolean('is_active')->default(true);
             $table->boolean('is_public')->default(false);
+            $table->boolean('is_survey_question')->default(false);
             $table->unsignedInteger('usage_count')->default(0);
 
             $table->timestamps();

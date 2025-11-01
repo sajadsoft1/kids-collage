@@ -29,6 +29,14 @@ enum QuestionTypeEnum: string
     case MATRIX   = 'matrix';
     case HOT_SPOT = 'hot_spot';
 
+    public static function surveyTypesFormatedCases(): array
+    {
+        return [
+            self::SINGLE_CHOICE->toArray(),
+            self::MULTIPLE_CHOICE->toArray(),
+        ];
+    }
+
     public function title(): string
     {
         return match ($this) {
