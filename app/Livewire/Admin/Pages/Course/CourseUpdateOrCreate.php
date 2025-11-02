@@ -7,7 +7,9 @@ namespace App\Livewire\Admin\Pages\Course;
 use App\Actions\Course\StoreCourseAction;
 use App\Actions\Course\UpdateCourseAction;
 use App\Enums\BooleanEnum;
+use App\Enums\CategoryTypeEnum;
 use App\Enums\CourseTypeEnum;
+use App\Enums\UserTypeEnum;
 use App\Models\Category;
 use App\Models\Course;
 use App\Models\CourseTemplate;
@@ -33,46 +35,27 @@ class CourseUpdateOrCreate extends Component
     public array $categories     = [];
     public array $teachers       = [];
     public array $rooms          = [];
-    public array $daysOptions    = [];
     public array $tags           = [];
     public int $category_id      = 1;
     public int $teacher_id       = 1;
     public ?int $capacity        = null;
     public float $price          = 0;
     public string $type          = '';
-    public array $days_of_week   = [];
-    public ?string $start_time   = null; // H:i
-    public ?string $end_time     = null; // H:i
     public ?int $room_id         = null;
-    public ?string $meeting_link = null;
     public $image;
 
     public function mount(CourseTemplate $courseTemplate, Course $course): void
     {
         $this->courseTemplate = $courseTemplate;
         $this->model          = $course;
-        $this->categories     = Category::where('type', 'course')
-            ->where('published', BooleanEnum::ENABLE)
+        $this->categories     = Category::where('type', CategoryTypeEnum::COURSE->value)
+            ->where('published', BooleanEnum::ENABLE->value)
             ->get()
-            ->map(fn ($item) => ['name' => $item->title, 'id' => $item->id])->toArray();
+            ->map(fn ($category) => ['value' => $category->id, 'label' => $category->title])->toArray();
 
-        $this->teachers = User::whereHas('roles', function ($query) {
-            $query->where('name', 'teacher');
-        })->get()
-            ->map(fn ($item) => ['name' => $item->name, 'id' => $item->id])->toArray();
+        $this->teachers = User::where('type', UserTypeEnum::TEACHER->value)->get()->map(fn ($teacher) => ['value' => $teacher->id, 'label' => $teacher->name])->toArray();
 
-        $this->rooms = Room::query()->get()
-            ->map(fn ($item) => ['name' => $item->name, 'id' => $item->id])->toArray();
-
-        $this->daysOptions = [
-            ['id' => 0, 'name' => 'Sunday'],
-            ['id' => 1, 'name' => 'Monday'],
-            ['id' => 2, 'name' => 'Tuesday'],
-            ['id' => 3, 'name' => 'Wednesday'],
-            ['id' => 4, 'name' => 'Thursday'],
-            ['id' => 5, 'name' => 'Friday'],
-            ['id' => 6, 'name' => 'Saturday'],
-        ];
+        $this->rooms = Room::query()->get()->map(fn ($room) => ['value' => $room->id, 'label' => $room->name])->toArray();
 
         $this->type = CourseTypeEnum::IN_PERSON->value;
 
@@ -86,11 +69,7 @@ class CourseUpdateOrCreate extends Component
             $this->capacity      = $this->model->capacity;
             $this->price         = (float) $this->model->price;
             $this->type          = $this->courseTemplate->type->value;
-            $this->days_of_week  = $this->model->days_of_week ?? [];
-            $this->start_time    = $this->model->start_time?->format('H:i');
-            $this->end_time      = $this->model->end_time?->format('H:i');
             $this->room_id       = $this->model->room_id;
-            $this->meeting_link  = $this->model->meeting_link;
             $this->tags          = $this->courseTemplate->tags()->pluck('name')->toArray();
         }
     }
@@ -98,22 +77,17 @@ class CourseUpdateOrCreate extends Component
     protected function rules(): array
     {
         return [
-            'title'          => 'required|string|max:255|min:2',
-            'description'    => 'required|string|max:255',
-            'body'           => 'required|string',
-            'category_id'    => 'required|exists:categories,id',
-            'teacher_id'     => 'required|exists:users,id',
-            'capacity'       => 'nullable|integer|min:1',
-            'price'          => 'required|numeric|min:0',
-            'type'           => 'required|string',
-            'days_of_week'   => 'nullable|array',
-            'days_of_week.*' => 'integer|between:0,6',
-            'start_time'     => 'nullable|date_format:H:i',
-            'end_time'       => 'nullable|date_format:H:i',
-            'room_id'        => 'nullable|exists:rooms,id',
-            'meeting_link'   => 'nullable|string|max:255',
-            'image'          => 'nullable|file|mimes:png,jpg,jpeg|max:4096',
-            'tags'           => 'nullable|array',
+            'title'       => 'required|string|max:255|min:2',
+            'description' => 'required|string|max:255',
+            'body'        => 'required|string',
+            'category_id' => 'required|exists:categories,id',
+            'teacher_id'  => 'required|exists:users,id',
+            'capacity'    => 'nullable|integer|min:1',
+            'price'       => 'required|numeric|min:0',
+            'type'        => 'required|string',
+            'room_id'     => 'nullable|exists:rooms,id',
+            'image'       => 'nullable|file|mimes:png,jpg,jpeg|max:4096',
+            'tags'        => 'nullable|array',
         ];
     }
 
