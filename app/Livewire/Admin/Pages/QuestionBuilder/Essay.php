@@ -8,11 +8,36 @@ use Livewire\Component;
 
 class Essay extends Component
 {
-    public array $config = [];
+    public array $config        = [];
+    public ?int $questionIndex  = null;
 
-    public function mount(array $config = []): void
+    public function mount(array $config = [], ?int $questionIndex = null): void
     {
-        $this->config = array_merge($this->getDefaultConfig(), $config);
+        $this->config        = array_merge($this->getDefaultConfig(), $config);
+        $this->questionIndex = $questionIndex;
+        // Sync initial data
+        $this->syncData();
+    }
+
+    public function dehydrate(): void
+    {
+        // Sync data before component dehydrates (sends to frontend)
+        $this->syncData();
+    }
+
+    protected function syncData(): void
+    {
+        $this->dispatchConfig();
+    }
+
+    protected function dispatchConfig(): void
+    {
+        if ($this->questionIndex !== null) {
+            $this->dispatch('configUpdated', [
+                'index'  => $this->questionIndex,
+                'config' => $this->config,
+            ]);
+        }
     }
 
     protected function getDefaultConfig(): array
@@ -26,7 +51,7 @@ class Essay extends Component
 
     public function updatedConfig(): void
     {
-        $this->dispatch('configUpdated', $this->config);
+        $this->dispatchConfig();
     }
 
     public function render(): \Illuminate\Contracts\View\View

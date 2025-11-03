@@ -5,12 +5,14 @@
             <div wire:key="option-{{ $index }}" class="flex items-start gap-4 p-3 rounded-lg bg-base-200">
                 {{-- Radio (single correct) --}}
                 <div class="pt-2">
-                    <x-radio wire:click="setCorrect({{ $index }})" :checked="$option['is_correct']" class="w-5 h-5" />
+                    <input type="radio" name="correct_option_single_choice" value="{{ $index }}"
+                        wire:change="setCorrect({{ $index }})" @checked($option['is_correct'])
+                        class="radio radio-primary w-5 h-5" />
                 </div>
 
                 {{-- Content --}}
                 <div class="flex-1">
-                    <x-textarea wire:model.blur="options.{{ $index }}.content" rows="2"
+                    <x-textarea wire:model.live.debounce.300ms="options.{{ $index }}.content" rows="2"
                         placeholder="متن گزینه {{ $index + 1 }}" />
                 </div>
 

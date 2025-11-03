@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Actions\Survey;
 
-use App\Actions\Translation\SyncTranslationAction;
 use App\Models\Exam;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Lorisleiva\Actions\Concerns\AsAction;
 use Throwable;
@@ -15,16 +13,15 @@ class UpdateSurveyAction
 {
     use AsAction;
 
-    public function __construct(
-        private readonly SyncTranslationAction $syncTranslationAction,
-    ) {}
-
     /**
      * @param array{
-     *     title:string,
-     *     description:string,
+     *     title?: string,
+     *     description?: string,
+     *     starts_at?: string|null,
+     *     ends_at?: string|null,
+     *     status?: string,
      *     rules?: array
-     * }               $payload
+     * } $payload
      * @throws Throwable
      */
     public function handle(Exam $exam, array $payload): Exam
@@ -33,8 +30,9 @@ class UpdateSurveyAction
             $rules = $payload['rules'] ?? null;
             unset($payload['rules']);
 
+            // Exam model doesn't use translation system
+            // All fields (including title and description) are stored directly in exams table
             $exam->update($payload);
-            $this->syncTranslationAction->handle($exam, Arr::only($payload, ['title', 'description']));
 
             // Update rules if provided
             if ($rules !== null) {

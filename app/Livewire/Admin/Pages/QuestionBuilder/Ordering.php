@@ -8,13 +8,29 @@ use Livewire\Component;
 
 class Ordering extends Component
 {
-    public array $options = [];
-    public array $config  = [];
+    public array $options       = [];
+    public array $config        = [];
+    public ?int $questionIndex  = null;
 
-    public function mount(array $options = [], array $config = []): void
+    public function mount(array $options = [], array $config = [], ?int $questionIndex = null): void
     {
-        $this->options = empty($options) ? $this->getDefaultOptions() : $options;
-        $this->config  = array_merge($this->getDefaultConfig(), $config);
+        $this->options       = empty($options) ? $this->getDefaultOptions() : $options;
+        $this->config        = array_merge($this->getDefaultConfig(), $config);
+        $this->questionIndex = $questionIndex;
+        // Sync initial data
+        $this->syncData();
+    }
+
+    public function dehydrate(): void
+    {
+        // Sync data before component dehydrates (sends to frontend)
+        $this->syncData();
+    }
+
+    protected function syncData(): void
+    {
+        $this->dispatchOptions();
+        $this->dispatchConfig();
     }
 
     protected function getDefaultOptions(): array
@@ -39,6 +55,7 @@ class Ordering extends Component
             'content' => '',
             'order'   => count($this->options) + 1,
         ];
+        $this->dispatchOptions();
     }
 
     public function removeItem(int $index): void
@@ -47,6 +64,7 @@ class Ordering extends Component
             unset($this->options[$index]);
             $this->options = array_values($this->options);
             $this->reindexOrders();
+            $this->dispatchOptions();
         }
     }
 
@@ -70,7 +88,7 @@ class Ordering extends Component
     {
         [$this->options[$a], $this->options[$b]] = [$this->options[$b], $this->options[$a]];
         $this->reindexOrders();
-        $this->dispatch('optionsUpdated', $this->options);
+        $this->dispatchOptions();
     }
 
     protected function reindexOrders(): void
@@ -80,14 +98,34 @@ class Ordering extends Component
         }
     }
 
+    protected function dispatchOptions(): void
+    {
+        if ($this->questionIndex !== null) {
+            $this->dispatch('optionsUpdated', [
+                'index'   => $this->questionIndex,
+                'options' => $this->options,
+            ]);
+        }
+    }
+
+    protected function dispatchConfig(): void
+    {
+        if ($this->questionIndex !== null) {
+            $this->dispatch('configUpdated', [
+                'index'  => $this->questionIndex,
+                'config' => $this->config,
+            ]);
+        }
+    }
+
     public function updatedOptions(): void
     {
-        $this->dispatch('optionsUpdated', $this->options);
+        $this->dispatchOptions();
     }
 
     public function updatedConfig(): void
     {
-        $this->dispatch('configUpdated', $this->config);
+        $this->dispatchConfig();
     }
 
     public function render(): \Illuminate\Contracts\View\View

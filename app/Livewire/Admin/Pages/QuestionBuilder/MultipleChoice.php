@@ -8,16 +8,32 @@ use Livewire\Component;
 
 class MultipleChoice extends Component
 {
-    public $options = [];
-    public $config  = [];
+    public array $options       = [];
+    public array $config        = [];
+    public ?int $questionIndex  = null;
 
-    public function mount($options = [], $config = [])
+    public function mount(array $options = [], array $config = [], ?int $questionIndex = null): void
     {
-        $this->options = empty($options) ? $this->getDefaultOptions() : $options;
-        $this->config  = array_merge($this->getDefaultConfig(), $config);
+        $this->options       = empty($options) ? $this->getDefaultOptions() : $options;
+        $this->config        = array_merge($this->getDefaultConfig(), $config);
+        $this->questionIndex = $questionIndex;
+        // Sync initial data
+        $this->syncData();
     }
 
-    protected function getDefaultOptions()
+    public function dehydrate(): void
+    {
+        // Sync data before component dehydrates (sends to frontend)
+        $this->syncData();
+    }
+
+    protected function syncData(): void
+    {
+        $this->dispatchOptions();
+        $this->dispatchConfig();
+    }
+
+    protected function getDefaultOptions(): array
     {
         return [
             ['content' => '', 'is_correct' => false, 'order' => 1],
@@ -27,7 +43,7 @@ class MultipleChoice extends Component
         ];
     }
 
-    protected function getDefaultConfig()
+    protected function getDefaultConfig(): array
     {
         return [
             'shuffle_options' => false,
@@ -35,39 +51,62 @@ class MultipleChoice extends Component
         ];
     }
 
-    public function addOption()
+    public function addOption(): void
     {
         $this->options[] = [
             'content'    => '',
             'is_correct' => false,
             'order'      => count($this->options) + 1,
         ];
+        $this->dispatchOptions();
     }
 
-    public function removeOption($index)
+    public function removeOption(int $index): void
     {
         if (count($this->options) > 2) {
             unset($this->options[$index]);
             $this->options = array_values($this->options);
+            $this->dispatchOptions();
         }
     }
 
-    public function toggleCorrect($index)
+    public function toggleCorrect(int $index): void
     {
         $this->options[$index]['is_correct'] = ! $this->options[$index]['is_correct'];
+        $this->dispatchOptions();
     }
 
-    public function updatedOptions()
+    protected function dispatchOptions(): void
     {
-        $this->dispatch('optionsUpdated', $this->options);
+        if ($this->questionIndex !== null) {
+            $this->dispatch('optionsUpdated', [
+                'index'   => $this->questionIndex,
+                'options' => $this->options,
+            ]);
+        }
     }
 
-    public function updatedConfig()
+    protected function dispatchConfig(): void
     {
-        $this->dispatch('configUpdated', $this->config);
+        if ($this->questionIndex !== null) {
+            $this->dispatch('configUpdated', [
+                'index'  => $this->questionIndex,
+                'config' => $this->config,
+            ]);
+        }
     }
 
-    public function render()
+    public function updatedOptions(): void
+    {
+        $this->dispatchOptions();
+    }
+
+    public function updatedConfig(): void
+    {
+        $this->dispatchConfig();
+    }
+
+    public function render(): \Illuminate\Contracts\View\View
     {
         return view('livewire.admin.pages.question-builder.multiple-choice');
     }

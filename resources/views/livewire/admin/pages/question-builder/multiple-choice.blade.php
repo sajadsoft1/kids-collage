@@ -1,7 +1,7 @@
 <div>
     {{-- Options List --}}
     <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
-        @foreach ($options as $index => $option)
+        @foreach ($options ?? [] as $index => $option)
             <div wire:key="option-{{ $index }}" class="flex items-start gap-4 p-3 rounded-lg bg-base-200">
                 {{-- Checkbox --}}
                 <div class="pt-2">
@@ -10,7 +10,7 @@
 
                 {{-- Content --}}
                 <div class="flex-1">
-                    <x-textarea wire:model.blur="options.{{ $index }}.content" rows="2"
+                    <x-textarea wire:model.live.debounce.300ms="options.{{ $index }}.content" rows="2"
                         placeholder="متن گزینه {{ $index + 1 }}" />
                 </div>
 

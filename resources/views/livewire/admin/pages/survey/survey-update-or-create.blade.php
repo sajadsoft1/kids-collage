@@ -117,12 +117,14 @@
                                                     @switch($question['type'])
                                                         @case(\App\Enums\QuestionTypeEnum::SINGLE_CHOICE->value)
                                                             <livewire:admin.pages.question-builder.single-choice
-                                                                :options="$question['options'] ?? []" :config="$question['config'] ?? []" :key="'survey-single-choice-' . $questionIndex" />
+                                                                :options="$question['options'] ?? []" :config="$question['config'] ?? []" :question-index="$questionIndex"
+                                                                :key="'survey-single-choice-' . $questionIndex" />
                                                         @break
 
                                                         @case(\App\Enums\QuestionTypeEnum::MULTIPLE_CHOICE->value)
                                                             <livewire:admin.pages.question-builder.multiple-choice
-                                                                :options="$question['options'] ?? []" :config="$question['config'] ?? []" :key="'survey-multiple-choice-' . $questionIndex" />
+                                                                :options="$question['options'] ?? []" :config="$question['config'] ?? []" :question-index="$questionIndex"
+                                                                :key="'survey-multiple-choice-' . $questionIndex" />
                                                         @break
 
                                                         @default

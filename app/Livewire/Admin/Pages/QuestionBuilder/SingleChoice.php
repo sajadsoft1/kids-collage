@@ -8,13 +8,29 @@ use Livewire\Component;
 
 class SingleChoice extends Component
 {
-    public array $options = [];
-    public array $config  = [];
+    public array $options      = [];
+    public array $config       = [];
+    public ?int $questionIndex = null;
 
-    public function mount(array $options = [], array $config = []): void
+    public function mount(array $options = [], array $config = [], ?int $questionIndex = null): void
     {
-        $this->options = empty($options) ? $this->getDefaultOptions() : $options;
-        $this->config  = array_merge($this->getDefaultConfig(), $config);
+        $this->options       = empty($options) ? $this->getDefaultOptions() : $options;
+        $this->config        = array_merge($this->getDefaultConfig(), $config);
+        $this->questionIndex = $questionIndex;
+        // Sync initial data
+        $this->syncData();
+    }
+
+    public function dehydrate(): void
+    {
+        // Sync data before component dehydrates (sends to frontend)
+        $this->syncData();
+    }
+
+    protected function syncData(): void
+    {
+        $this->dispatchOptions();
+        $this->dispatchConfig();
     }
 
     protected function getDefaultOptions(): array
@@ -40,6 +56,7 @@ class SingleChoice extends Component
             'is_correct' => false,
             'order'      => count($this->options) + 1,
         ];
+        $this->dispatchOptions();
     }
 
     public function removeOption(int $index): void
@@ -47,6 +64,7 @@ class SingleChoice extends Component
         if (count($this->options) > 2) {
             unset($this->options[$index]);
             $this->options = array_values($this->options);
+            $this->dispatchOptions();
         }
     }
 
@@ -55,16 +73,37 @@ class SingleChoice extends Component
         foreach ($this->options as $i => $opt) {
             $this->options[$i]['is_correct'] = $i === $index;
         }
+        $this->dispatchOptions();
+    }
+
+    protected function dispatchOptions(): void
+    {
+        if ($this->questionIndex !== null) {
+            $this->dispatch('optionsUpdated', [
+                'index'   => $this->questionIndex,
+                'options' => $this->options,
+            ]);
+        }
+    }
+
+    protected function dispatchConfig(): void
+    {
+        if ($this->questionIndex !== null) {
+            $this->dispatch('configUpdated', [
+                'index'  => $this->questionIndex,
+                'config' => $this->config,
+            ]);
+        }
     }
 
     public function updatedOptions(): void
     {
-        $this->dispatch('optionsUpdated', $this->options);
+        $this->dispatchOptions();
     }
 
     public function updatedConfig(): void
     {
-        $this->dispatch('configUpdated', $this->config);
+        $this->dispatchConfig();
     }
 
     public function render(): \Illuminate\Contracts\View\View

@@ -7,6 +7,7 @@ namespace App\Livewire\Admin\Pages\Survey;
 use App\Actions\Question\StoreQuestionAction;
 use App\Actions\Survey\StoreSurveyAction;
 use App\Actions\Survey\UpdateSurveyAction;
+use App\Enums\ExamStatusEnum;
 use App\Enums\ExamTypeEnum;
 use App\Enums\QuestionTypeEnum;
 use App\Models\Exam;
@@ -24,7 +25,7 @@ class SurveyUpdateOrCreate extends Component
     public Exam $model;
     public string $title       = '';
     public string $description = '';
-    public string $selectedTab = 'questions';
+    public string $selectedTab = 'basic';
     public ?string $starts_at  = null;
     public ?string $ends_at    = null;
     public string $status      = 'draft';
@@ -42,8 +43,8 @@ class SurveyUpdateOrCreate extends Component
         if ($this->model->id) {
             $this->title       = $this->model->title;
             $this->description = $this->model->description;
-            $this->starts_at   = $this->model->starts_at?->format('Y-m-d\TH:i');
-            $this->ends_at     = $this->model->ends_at?->format('Y-m-d\TH:i');
+            $this->starts_at   = $this->model->starts_at?->format('Y-m-d');
+            $this->ends_at     = $this->model->ends_at?->format('Y-m-d');
             $this->status      = $this->model->status->value;
             $this->rules       = $this->model->getRules() ?? [
                 'groups'      => [],
@@ -76,6 +77,95 @@ class SurveyUpdateOrCreate extends Component
                     ];
                 })
                 ->toArray();
+        } else {
+            // Set demo survey data as provided in the sample array, with improved question text
+
+            $this->title       = 'Cupiditate sequi vel';
+            $this->description = 'Deleniti facere ea d';
+            $this->starts_at   = '2025-11-03T00:00';
+            $this->ends_at     = '2025-11-05T00:00';
+            $this->status      = ExamStatusEnum::DRAFT->value;
+
+            $this->rules = [
+                'group_logic' => 'or',
+                'groups'      => [
+                    [
+                        'logic'      => 'and',
+                        'conditions' => [
+                            [
+                                'field'    => 'enrollment_date',
+                                'operator' => 'after',
+                                'value'    => '2025-11-03',
+                            ],
+                        ],
+                    ],
+                ],
+            ];
+
+            $this->questions = [
+                [
+                    'type'           => QuestionTypeEnum::SINGLE_CHOICE->value,
+                    'title'          => 'کدام یک از موارد زیر بیشترین تأثیر را در موفقیت حرفه‌ای دارد؟',
+                    'body'           => 'لطفا بهترین گزینه را انتخاب کنید.',
+                    'explanation'    => 'پاسخ صحیح بر اساس تحقیقات علمی اثبات شده است.',
+                    'options'        => [
+                        [
+                            'content'    => 'گزینه 1',
+                            'type'       => 'text',
+                            'is_correct' => true,
+                            'order'      => 1,
+                            'metadata'   => [],
+                        ],
+                        [
+                            'content'    => 'گزینه 2',
+                            'type'       => 'text',
+                            'is_correct' => false,
+                            'order'      => 2,
+                            'metadata'   => [],
+                        ],
+                    ],
+                    'config'         => [],
+                    'correct_answer' => [1],
+                ],
+                [
+                    'type'           => QuestionTypeEnum::MULTIPLE_CHOICE->value,
+                    'title'          => 'به نظر شما کدام گزینه‌ها به بهبود سلامت جسمانی کمک می‌کند؟',
+                    'body'           => 'تمام گزینه‌های صحیح را انتخاب نمایید.',
+                    'explanation'    => 'چندین پاسخ می‌تواند صحیح باشد.',
+                    'options'        => [
+                        [
+                            'content'    => 'گزینه 1',
+                            'type'       => 'text',
+                            'is_correct' => true,
+                            'order'      => 1,
+                            'metadata'   => [],
+                        ],
+                        [
+                            'content'    => 'گزینه 2',
+                            'type'       => 'text',
+                            'is_correct' => true,
+                            'order'      => 2,
+                            'metadata'   => [],
+                        ],
+                        [
+                            'content'    => 'گزینه 3',
+                            'type'       => 'text',
+                            'is_correct' => false,
+                            'order'      => 3,
+                            'metadata'   => [],
+                        ],
+                        [
+                            'content'    => 'گزینه 4',
+                            'type'       => 'text',
+                            'is_correct' => false,
+                            'order'      => 4,
+                            'metadata'   => [],
+                        ],
+                    ],
+                    'config'         => [],
+                    'correct_answer' => [1, 2],
+                ],
+            ];
         }
     }
 
@@ -151,11 +241,27 @@ class SurveyUpdateOrCreate extends Component
     protected function rules(): array
     {
         return [
-            'title'       => 'required|string',
-            'description' => 'required|string',
-            'starts_at'   => 'nullable|date',
-            'ends_at'     => 'nullable|date|after:starts_at',
-            'status'      => 'required|string',
+            'title'                                => 'required|string',
+            'description'                          => 'nullable|string',
+            'starts_at'                            => 'required|date',
+            'ends_at'                              => 'required|date|after:starts_at',
+            'status'                               => ['required', 'string', 'in:' . implode(',', array_column(ExamStatusEnum::cases(), 'value'))],
+            'rules'                                => 'required|array',
+            'rules.groups'                         => 'required|array',
+            'rules.group_logic'                    => 'required|string',
+            'rules.groups.*.conditions'            => 'required|array',
+            'rules.groups.*.conditions.*.field'    => 'required|string',
+            'rules.groups.*.conditions.*.operator' => 'required|string',
+            'rules.groups.*.conditions.*.value'    => 'required|string',
+            'rules.groups.*.logic'                 => 'required|string',
+            'questions'                            => 'required|array|min:1',
+            'questions.*.type'                     => ['required', 'string', 'in:' . implode(',', [QuestionTypeEnum::SINGLE_CHOICE->value, QuestionTypeEnum::MULTIPLE_CHOICE->value])],
+            'questions.*.title'                    => 'required|string',
+            'questions.*.body'                     => 'nullable|string',
+            'questions.*.explanation'              => 'nullable|string',
+            'questions.*.options'                  => 'nullable|array',
+            'questions.*.config'                   => 'nullable|array',
+            'questions.*.correct_answer'           => 'nullable|array',
         ];
     }
 
@@ -184,12 +290,13 @@ class SurveyUpdateOrCreate extends Component
         $exam = null;
         if ($this->model->id) {
             $exam = UpdateSurveyAction::run($this->model, $payload);
+            // Save questions separately for updates
+            $this->saveQuestions($exam);
         } else {
-            $exam = StoreSurveyAction::run($payload);
+            // Include questions in payload for new surveys
+            $payload['questions'] = $this->questions;
+            $exam                 = StoreSurveyAction::run($payload);
         }
-
-        // Save questions
-        $this->saveQuestions($exam);
 
         $this->success(
             title: $this->model->id
