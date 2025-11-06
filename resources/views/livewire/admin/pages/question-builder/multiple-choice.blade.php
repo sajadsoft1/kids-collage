@@ -5,20 +5,20 @@
             <div wire:key="option-{{ $index }}" class="flex items-start gap-4 p-3 rounded-lg bg-base-200">
                 {{-- Checkbox --}}
                 <div class="pt-2">
-                    <x-checkbox wire:click="toggleCorrect({{ $index }})" :checked="$option['is_correct']" class="w-5 h-5" />
+                    <x-checkbox wire:click="toggleCorrect({{ $index }})" :checked="$option['is_correct']" class="w-5 h-5"/>
                 </div>
 
                 {{-- Content --}}
                 <div class="flex-1">
                     <x-textarea wire:model.live.debounce.300ms="options.{{ $index }}.content" rows="2"
-                        placeholder="متن گزینه {{ $index + 1 }}" />
+                                placeholder="متن گزینه {{ $index + 1 }}"/>
                 </div>
 
                 {{-- Remove Button --}}
                 @if (count($options) > 2)
                     <x-button icon="o-trash" wire:click="removeOption({{ $index }})"
-                        class="text-red-600 btn-ghost" wire:loading.attr="disabled"
-                        wire:target="removeOption({{ $index }})" spinner="removeOption({{ $index }})" />
+                              class="text-red-600 btn-ghost" wire:loading.attr="disabled"
+                              wire:target="removeOption({{ $index }})" spinner="removeOption({{ $index }})"/>
                 @endif
             </div>
         @endforeach
@@ -27,7 +27,7 @@
     {{-- Add Option Button --}}
     @if (count($options) < 10)
         <x-button icon="o-plus" wire:click="addOption" class="btn-outline btn-block" wire:loading.attr="disabled"
-            wire:target="addOption" spinner="addOption" class="mt-5 btn-primary">
+                  wire:target="addOption" spinner="addOption" class="mt-5 btn-primary">
             {{ __('question.builder.multiple.add_option') }}
         </x-button>
     @endif
@@ -38,25 +38,20 @@
 
         <div class="space-y-3">
             <x-checkbox wire:model.live="config.shuffle_options"
-                label="{{ __('question.builder.multiple.shuffle_options') }}" />
+                        label="{{ __('question.builder.multiple.shuffle_options') }}"/>
 
             <div>
                 <label
-                    class="block mb-2 text-sm font-medium text-gray-700">{{ __('question.builder.multiple.scoring_type') }}</label>
-                <x-select wire:model.live="config.scoring_type">
-                    <option value="all_or_nothing">{{ __('question.builder.multiple.scoring_all_or_nothing') }}
-                    </option>
-                    <option value="partial">{{ __('question.builder.multiple.scoring_partial') }}</option>
+                        class="block mb-2 text-sm font-medium text-gray-700">{{ __('question.builder.multiple.scoring_type') }}</label>
+                <x-select wire:model.live="config.scoring_type" :options="[
+    ['key' => 'all_or_nothing', 'value' => __('question.builder.multiple.scoring_all_or_nothing')],
+    ['key' => 'partial', 'value' => __('question.builder.multiple.scoring_partial')],
+]" option-label="value" option-value="key">
                 </x-select>
             </div>
         </div>
     </div>
 
     {{-- Info --}}
-    <div class="p-3 mt-4 rounded-lg bg-blue-50">
-        <p class="text-sm text-blue-800">
-            <x-icon name="o-information-circle" class="inline w-4 h-4 ml-1" />
-            {{ __('question.info.select_one_correct') }}
-        </p>
-    </div>
+    <x-alert icon="o-information-circle" :label="trans('question.info.select_one_correct')" class="alert-warning mt-5"/>
 </div>

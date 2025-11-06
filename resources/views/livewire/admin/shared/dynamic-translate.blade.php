@@ -1,8 +1,8 @@
 <div class="">
     <x-admin.shared.bread-crumbs :breadcrumbs="$breadcrumbs" :breadcrumbs-actions="$breadcrumbsActions" />
     <x-card class="m-5" label="ترجمه" shadow separator progress-indicator="submit">
-        <x-tabs active-class="bg-primary rounded !text-white" label-class="font-semibold"
-            label-div-class="p-2 rounded bg-primary/5 w-fit" wire:model="translate_modal_tab">
+        <x-tabs active-class="bg-primary rounded !text-white" label-class="px-4 py-2 font-semibold"
+                label-div-class="p-2 mx-auto rounded bg-primary/5 w-fit" wire:model="translate_modal_tab">
 
             @foreach (config('app.supported_locales') as $local)
                 <x-tab :name="$local" :label="trans('language.' . $local)">

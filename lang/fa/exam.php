@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 return [
-    'model'         => 'مدل',
+    'model'         => 'آزمون',
     'permissions'   => [
     ],
     'exceptions'    => [
@@ -15,5 +15,14 @@ return [
     'notifications' => [
     ],
     'page'          => [
+        'builder'=>[
+            'group'=>[
+                'rules'=>[
+                    'and'=>'و (AND)',
+                    'or'=>'یا (OR)',
+                ]
+            ],
+            'remove_group'=> 'حذف گروه'
+        ]
     ],
 ];

@@ -27,7 +27,7 @@
           </div>
       </div>
       <div class="flex items-center justify-center w-full pb-2 mb-8">
-          <x-tabs wire:model="selectedTab" active-class="bg-primary rounded !text-white" label-class="p-2 font-semibold"
+          <x-tabs wire:model="selectedTab" active-class="bg-primary rounded !text-white" label-class="px-4 py-2 font-semibold"
               label-div-class="p-2 mx-auto rounded bg-primary/5 w-fit">
               <x-tab name="information-tab" label="{{ __('user.profile.tabs.information-tab') }}" icon="lucide.user">
                   <livewire:admin.pages.profile.update-information-section />

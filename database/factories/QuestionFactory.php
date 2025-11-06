@@ -40,6 +40,7 @@ class QuestionFactory extends Factory
             'created_by'     => User::factory(),
             'is_active'      => true,
             'is_public'      => fake()->boolean(30),
+            'is_survey_question' => false
         ];
     }
 

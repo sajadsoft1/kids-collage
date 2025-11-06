@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Enums\QuestionTypeEnum;
 use App\Models\Exam;
 use App\Models\Question;
 use App\Services\ExamService;
@@ -52,8 +53,10 @@ class ExamSeeder extends Seeder
             ->create()
             ->each(function ($exam) use ($examService) {
                 $questions = Question::active()
+                    ->where('is_survey_question', true)
+                    ->whereIn('type',[QuestionTypeEnum::SINGLE_CHOICE->value,QuestionTypeEnum::MULTIPLE_CHOICE->value])
                     ->inRandomOrder()
-                    ->limit(rand(5, 10))
+                    ->limit(random_int(5, 10))
                     ->get();
 
                 foreach ($questions as $index => $question) {

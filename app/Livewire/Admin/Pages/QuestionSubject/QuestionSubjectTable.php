@@ -58,6 +58,7 @@ final class QuestionSubjectTable extends PowerGridComponent
                 'label'       => trans('validation.attributes.title'),
                 'placeholder' => trans('validation.attributes.title'),
                 'required'    => true,
+                'rules'=>'required|min:3'
             ],
             [
                 'name'        => 'description',

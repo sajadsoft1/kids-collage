@@ -1,7 +1,7 @@
 <div class="space-y-4">
     <div class="flex items-center justify-between">
         <h3 class="text-lg font-semibold">قوانین شرکت در آزمون</h3>
-        <x-button wire:click="addGroup" label="افزودن گروه شرایط" icon="o-plus" class="btn-sm" />
+        <x-button wire:click="addGroup" label="افزودن گروه شرایط" icon="o-plus" class="btn-sm" spinner wire:target="addGroup" />
     </div>
 
     <div class="space-y-4">
@@ -10,14 +10,15 @@
                 <div class="flex items-center justify-between mb-4">
                     <div class="flex items-center gap-2">
                         <span class="text-sm font-medium">گروه {{ $groupIndex + 1 }}</span>
-                        <select wire:model.live="rules.groups.{{ $groupIndex }}.logic"
-                            class="select select-sm select-bordered">
-                            <option value="and">و (AND)</option>
-                            <option value="or">یا (OR)</option>
-                        </select>
+                        <x-select wire:model.live="rules.groups.{{ $groupIndex }}.logic"
+                                  :options="[
+                                        ['key'=>'and','value'=>trans('exam.page.builder.group.rules.and')],
+                                        ['key'=>'or','value'=>trans('exam.page.builder.group.rules.or')],
+                                    ]">
+                        </x-select>
                     </div>
-                    <x-button wire:click="removeGroup({{ $groupIndex }})" label="حذف گروه" icon="o-trash"
-                        class="btn-sm btn-error" />
+                    <x-button wire:click="removeGroup({{ $groupIndex }})" :label="trans('exam.page.builder.remove_group')" icon="o-trash"
+                        class="btn-sm btn-error" spinner wire:target="removeGroup({{ $groupIndex }})"/>
                 </div>
 
                 <div class="space-y-3">
@@ -83,11 +84,13 @@
                                 @endif
                             </div>
                             <x-button wire:click="removeCondition({{ $groupIndex }}, {{ $conditionIndex }})"
+                                      spinner wire:target="removeCondition({{ $groupIndex }}, {{ $conditionIndex }})"
                                 icon="o-trash" class="btn-sm btn-error btn-ghost" />
                         </div>
                     @endforeach
 
                     <x-button wire:click="addCondition({{ $groupIndex }})" label="افزودن شرط" icon="o-plus"
+                              spinner wire:target="addCondition({{ $groupIndex }})"
                         class="btn-sm btn-outline" />
                 </div>
             </x-card>
@@ -95,17 +98,18 @@
     </div>
 
     @if (empty($rules['groups']))
-        <div class="py-8 text-center text-base-content/60">
-            <p>هیچ گروه شرایطی تعریف نشده است.</p>
-            <p class="mt-2 text-sm">برای شروع، یک گروه شرایط اضافه کنید.</p>
-        </div>
+        @include('components.admin.shared.empty-view',[
+    'title' => 'هیچ گروه شرایطی تعریف نشده است.',
+    'description' => 'برای شروع، یک گروه شرایط اضافه کنید.'
+])
     @endif
 
     <div class="flex items-center gap-2 pt-4 border-t">
         <span class="text-sm font-medium">منطق بین گروه‌ها:</span>
-        <select wire:model.live="rules.group_logic" class="select select-sm select-bordered">
-            <option value="or">یا (OR) - حداقل یک گروه باید برقرار باشد</option>
-            <option value="and">و (AND) - همه گروه‌ها باید برقرار باشند</option>
-        </select>
+        <x-select wire:model.live="rules.group_logic" :options="[
+    ['key' => 'or', 'value' => 'یا (OR) - حداقل یک گروه باید برقرار باشد'],
+    ['key' => 'and', 'value' => 'و (AND) - همه گروه‌ها باید برقرار باشند'],
+]" option-label="value" option-value="key">
+        </x-select>
     </div>
 </div>

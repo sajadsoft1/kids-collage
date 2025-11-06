@@ -42,7 +42,7 @@ class SurveyUpdateOrCreate extends Component
 
         if ($this->model->id) {
             $this->title       = $this->model->title;
-            $this->description = $this->model->description;
+            $this->description = $this->model->description??'';
             $this->starts_at   = $this->model->starts_at?->format('Y-m-d');
             $this->ends_at     = $this->model->ends_at?->format('Y-m-d');
             $this->status      = $this->model->status->value;
@@ -78,7 +78,7 @@ class SurveyUpdateOrCreate extends Component
                 })
                 ->toArray();
         } else {
-            // Set demo survey data as provided in the sample array, with improved question text
+            // Set demo survey data as provided in the sample array, with improved question text.
 
             $this->title       = 'Cupiditate sequi vel';
             $this->description = 'Deleniti facere ea d';
@@ -124,7 +124,10 @@ class SurveyUpdateOrCreate extends Component
                             'metadata'   => [],
                         ],
                     ],
-                    'config'         => [],
+                    'config'         => [
+                        'shuffle_options'=>true,
+                        'show_explanation'=>true
+                    ],
                     'correct_answer' => [1],
                 ],
                 [
@@ -162,7 +165,10 @@ class SurveyUpdateOrCreate extends Component
                             'metadata'   => [],
                         ],
                     ],
-                    'config'         => [],
+                    'config'         => [
+                        'scoring_type'=>'all_or_nothing',
+                        'shuffle_options'=>true
+                    ],
                     'correct_answer' => [1, 2],
                 ],
             ];
