@@ -9,6 +9,7 @@ use App\Actions\Ticket\ToggleTicketStatusAction;
 use App\Actions\TicketMessage\StoreTicketMessageAction;
 use App\Enums\TicketDepartmentEnum;
 use App\Enums\TicketPriorityEnum;
+use App\Enums\UserTypeEnum;
 use App\Models\Ticket;
 use App\Models\TicketMessage;
 use Illuminate\Database\Eloquent\Builder;
@@ -116,6 +117,31 @@ class TicketApp extends Component
                 $query->where('name', 'like', '%' . $this->search_ticket . '%')
                     ->orWhere('family', 'like', '%' . $this->search_ticket . '%');
             }))
+            ->when(
+                auth()->user()->type === UserTypeEnum::PARENT,
+                function ($q) {
+                    $children = auth()->user()->children->pluck('id')->toArray();
+                    $q->whereIn('user_id', [...$children, auth()->id()]);
+                }
+            )
+            ->when(
+                auth()->user()->type === UserTypeEnum::TEACHER,
+                function ($q) {
+                    $q->where('user_id', auth()->id());
+                }
+            )
+            ->when(
+                auth()->user()->type === UserTypeEnum::EMPLOYEE,
+                function ($q) {
+                    $q->where('user_id', auth()->id());
+                }
+            )
+            ->when(
+                auth()->user()->type === UserTypeEnum::USER,
+                function ($q) {
+                    $q->where('user_id', auth()->id());
+                }
+            )
             ->latest()
             ->paginate(15);
 

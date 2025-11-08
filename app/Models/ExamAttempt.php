@@ -188,7 +188,7 @@ class ExamAttempt extends Model
             return 0;
         }
 
-        return $now->diffInSeconds($endTime);
+        return (int) $now->diffInSeconds($endTime);
     }
 
     public function isExpired(): bool
@@ -202,7 +202,7 @@ class ExamAttempt extends Model
     {
         $endTime = $this->completed_at ?? now();
 
-        return $this->started_at->diffInSeconds($endTime);
+        return (int) $this->started_at->diffInSeconds($endTime);
     }
 
     public function isPassed(): ?bool

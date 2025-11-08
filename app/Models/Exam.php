@@ -120,11 +120,11 @@ class Exam extends Model
 
     public function getQuestionWeight(Question $question): float
     {
-        return $this->questions()
+        return (float) $this->questions()
             ->where('question_id', $question->id)
             ->first()
             ?->pivot
-            ->weight ?? 0;
+            ->weight ?? 0.0;
     }
 
     public function getQuestionConfig(Question $question): ?array

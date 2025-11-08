@@ -1,24 +1,34 @@
 <div class="space-y-4">
     @if ($question->title)
-        <div class="text-lg font-medium text-gray-900">{!! nl2br(e($question->title)) !!}</div>
+        <div class="text-lg font-medium text-base-content">{!! nl2br(e($question->title)) !!}</div>
     @endif
 
     @if ($question->body)
-        <div class="p-4 max-w-none text-gray-700 bg-gray-50 rounded-lg prose">
+        <div class="p-4 max-w-none rounded-lg text-base-content bg-base-200 prose">
             {!! nl2br(e($question->body)) !!}
         </div>
     @endif
 
     <div class="flex gap-6">
-        <label
-            class="inline-flex items-center gap-2 p-3 rounded-lg border-2 cursor-pointer transition-all {{ $selected === true ? 'border-blue-500 bg-blue-50' : 'border-gray-200 hover:border-gray-300' }} {{ $disabled ? 'cursor-not-allowed opacity-75' : '' }} {{ $showCorrect && ($question->correct_answer['value'] ?? false) === true ? 'border-green-500 bg-green-50' : '' }}">
-            <x-radio wire:click="choose(true)" :checked="$selected === true" :disabled="$disabled" />
-            <span>{{ $question->config['true_label'] ?? 'درست' }}</span>
+        <label wire:click="choose(true)" @class([
+            'inline-flex items-center gap-2 p-3 rounded-lg border-2 cursor-pointer transition-all',
+            'border-primary bg-primary/10' => $selected === true,
+            'border-base-200 hover:border-base-200' => !$selected,
+            'cursor-not-allowed opacity-75' => $disabled,
+            'border-success bg-success/10' =>
+                $showCorrect && ($question->correct_answer['value'] ?? false) === true,
+        ])>
+            <input type="radio" name="true-false-option" value="1"
+                class="w-5 h-5 text-primary border-base-300 focus:ring-primary" @checked($selected === true)
+                @disabled($disabled) />
+            <span class="text-base-content">{{ $question->config['true_label'] ?? 'درست' }}</span>
         </label>
-        <label
-            class="inline-flex items-center gap-2 p-3 rounded-lg border-2 cursor-pointer transition-all {{ $selected === false ? 'border-blue-500 bg-blue-50' : 'border-gray-200 hover:border-gray-300' }} {{ $disabled ? 'cursor-not-allowed opacity-75' : '' }} {{ $showCorrect && ($question->correct_answer['value'] ?? false) === false ? 'border-green-500 bg-green-50' : '' }}">
-            <x-radio wire:click="choose(false)" :checked="$selected === false" :disabled="$disabled" />
-            <span>{{ $question->config['false_label'] ?? 'غلط' }}</span>
+        <label wire:click="choose(false)"
+            class="inline-flex items-center gap-2 p-3 rounded-lg border-2 cursor-pointer transition-all {{ $selected === false ? 'border-primary bg-primary/10' : 'border-base-200 hover:border-base-200' }} {{ $disabled ? 'cursor-not-allowed opacity-75' : '' }} {{ $showCorrect && ($question->correct_answer['value'] ?? false) === false ? 'border-success bg-success/10' : '' }}">
+            <input type="radio" name="true-false-option" value="0"
+                class="w-5 h-5 text-primary border-base-300 focus:ring-primary" @checked($selected === false)
+                @disabled($disabled) />
+            <span class="text-base-content">{{ $question->config['false_label'] ?? 'غلط' }}</span>
         </label>
     </div>
 

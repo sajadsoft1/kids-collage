@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\View\Composers;
 
+use App\Enums\UserTypeEnum;
 use App\Models\Attendance;
 use App\Models\Banner;
 use App\Models\Blog;
@@ -52,7 +53,25 @@ class NavbarComposer
     public function compose(View $view): void
     {
         $user = Auth::user();
-        $view->with('navbarMenu', [
+        $view->with(
+            'navbarMenu',
+            $this->menuByUserType($user)
+        );
+    }
+
+    private function menuByUserType(User $user): array
+    {
+        return match ($user->type->value) {
+            UserTypeEnum::USER->value     => $this->userMenu($user),
+            UserTypeEnum::PARENT->value   => $this->parentMenu($user),
+            UserTypeEnum::TEACHER->value  => $this->teacherMenu($user),
+            UserTypeEnum::EMPLOYEE->value => $this->employeeMenu($user),
+        };
+    }
+
+    private function employeeMenu(User $user): array
+    {
+        return [
             [
                 'icon'       => 'o-home',
                 'params'     => [],
@@ -94,42 +113,57 @@ class NavbarComposer
                         'params'     => [],
                         'title'      => trans('_menu.course_management'),
                         'route_name' => 'admin.course-template.index',
-                        'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Course::class, 'Index')),
+                        'access'     => $this->checkPermission([
+                            Course::class => 'Index',
+                            function (User $user): bool {
+                                return false;
+                            },
+                        ]),
                     ],
                     [
                         'icon'       => 'o-building-office-2',
                         'params'     => [],
                         'title'      => trans('_menu.room_management'),
                         'route_name' => 'admin.room.index',
-                        'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Room::class, 'Index')),
+                        'access'     => $this->checkPermission([
+                            Room::class => 'Index',
+                        ]),
                     ],
                     [
                         'icon'       => 'o-calendar-days',
                         'params'     => [],
                         'title'      => trans('_menu.term_management'),
                         'route_name' => 'admin.term.index',
-                        'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Term::class, 'Index')),
+                        'access'     => $this->checkPermission([
+                            Term::class => 'Index',
+                        ]),
                     ],
                     [
                         'icon'       => 'o-user-plus',
                         'params'     => [],
                         'title'      => trans('_menu.enrollment_management'),
                         'route_name' => 'admin.enrollment.index',
-                        'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Enrollment::class, 'Index')),
+                        'access'     => $this->checkPermission([
+                            Enrollment::class => 'Index',
+                        ]),
                     ],
                     [
                         'icon'       => 'o-clipboard-document-check',
                         'params'     => [],
                         'title'      => trans('_menu.attendance_management'),
                         'route_name' => 'admin.attendance.index',
-                        'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Attendance::class, 'Index')),
+                        'access'     => $this->checkPermission([
+                            Attendance::class => 'Index',
+                        ]),
                     ],
                     [
                         'icon'       => 'o-video-camera',
                         'params'     => [],
                         'title'      => trans('_menu.resource_management'),
                         'route_name' => 'admin.resource.index',
-                        'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Resource::class, 'Index')),
+                        'access'     => $this->checkPermission([
+                            Resource::class => 'Index',
+                        ]),
                     ],
 
                     // Future Education Modules
@@ -218,7 +252,9 @@ class NavbarComposer
                         'params'     => [],
                         'title'      => trans('_menu.exams'),
                         'route_name' => 'admin.exam.index',
-                        'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Exam::class, 'Index')),
+                        'access'     => $this->checkPermission([
+                            Exam::class => 'Index',
+                        ]),
                     ],
 
                     [
@@ -226,7 +262,9 @@ class NavbarComposer
                         'params'     => [],
                         'title'      => trans('_menu.questions'),
                         'route_name' => 'admin.question.index',
-                        'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Question::class, 'Index')),
+                        'access'     => $this->checkPermission([
+                            Question::class => 'Index',
+                        ]),
                     ],
                     [
                         'icon'       => 'o-book-open',
@@ -234,7 +272,9 @@ class NavbarComposer
                         'exact'      => true,
                         'title'      => trans('_menu.question_subjects'),
                         'route_name' => 'admin.question-subject.index',
-                        'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Question::class, 'Index')),
+                        'access'     => $this->checkPermission([
+                            Question::class => 'Index',
+                        ]),
                     ],
                     [
                         'icon'       => 'o-star',
@@ -242,7 +282,9 @@ class NavbarComposer
                         'exact'      => true,
                         'title'      => trans('_menu.question_competencies'),
                         'route_name' => 'admin.question-competency.index',
-                        'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Question::class, 'Index')),
+                        'access'     => $this->checkPermission([
+                            Question::class => 'Index',
+                        ]),
                     ],
                 ],
             ],
@@ -253,42 +295,54 @@ class NavbarComposer
                 'params'     => [],
                 'title'      => trans('_menu.hrm'),
                 'route_name' => 'admin.user.index',
-                'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(User::class, 'Index')),
+                'access'     => $this->checkPermission([
+                    User::class => 'Index',
+                ]),
                 'sub_menu'   => [
                     [
                         'icon'       => 'o-user-group',
                         'params'     => [],
                         'title'      => trans('_menu.user_management'),
                         'route_name' => 'admin.user.index',
-                        'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(User::class, 'Index')),
+                        'access'     => $this->checkPermission([
+                            User::class => 'Index',
+                        ]),
                     ],
                     [
                         'icon'       => 'o-briefcase',
                         'params'     => [],
                         'title'      => trans('_menu.employee_management'),
                         'route_name' => 'admin.employee.index',
-                        'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(User::class, 'Index')),
+                        'access'     => $this->checkPermission([
+                            User::class => 'Index',
+                        ]),
                     ],
                     [
                         'icon'       => 'o-academic-cap',
                         'params'     => [],
                         'title'      => trans('_menu.teacher_management'),
                         'route_name' => 'admin.teacher.index',
-                        'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(User::class, 'Index')),
+                        'access'     => $this->checkPermission([
+                            User::class => 'Index',
+                        ]),
                     ],
                     [
                         'icon'       => 'o-heart',
                         'params'     => [],
                         'title'      => trans('_menu.parent_management'),
                         'route_name' => 'admin.parent.index',
-                        'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(User::class, 'Index')),
+                        'access'     => $this->checkPermission([
+                            User::class => 'Index',
+                        ]),
                     ],
                     [
                         'icon'       => 'o-key',
                         'params'     => [],
                         'title'      => trans('_menu.role_management'),
                         'route_name' => 'admin.role.index',
-                        'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Role::class, 'Index')),
+                        'access'     => $this->checkPermission([
+                            Role::class => 'Index',
+                        ]),
                     ],
 
                     // Future HRM Modules
@@ -378,14 +432,18 @@ class NavbarComposer
                         'params'     => [],
                         'title'      => trans('_menu.order_management'),
                         'route_name' => 'admin.order.index',
-                        'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Order::class, 'Index')),
+                        'access'     => $this->checkPermission([
+                            Order::class => 'Index',
+                        ]),
                     ],
                     [
                         'icon'       => 'o-credit-card',
                         'params'     => [],
                         'title'      => trans('_menu.payment_management'),
                         'route_name' => 'admin.payment.index',
-                        'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Payment::class, 'Index')),
+                        'access'     => $this->checkPermission([
+                            Payment::class => 'Index',
+                        ]),
                     ],
 
                     // Future Accounting Modules
@@ -499,35 +557,45 @@ class NavbarComposer
                         'params'     => [],
                         'title'      => trans('_menu.ticket_management'),
                         'route_name' => 'admin.ticket.index',
-                        'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Ticket::class, 'Index')),
+                        'access'     => $this->checkPermission([
+                            Ticket::class => 'Index',
+                        ]),
                     ],
                     [
                         'icon'       => 'o-chat-bubble-left-right',
                         'params'     => [],
                         'title'      => trans('_menu.comment_management'),
                         'route_name' => 'admin.comment.index',
-                        'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Comment::class, 'Index')),
+                        'access'     => $this->checkPermission([
+                            Comment::class => 'Index',
+                        ]),
                     ],
                     [
                         'icon'       => 'o-envelope',
                         'params'     => [],
                         'title'      => trans('_menu.contact_us_management'),
                         'route_name' => 'admin.contact-us.index',
-                        'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(ContactUs::class, 'Index')),
+                        'access'     => $this->checkPermission([
+                            ContactUs::class => 'Index',
+                        ]),
                     ],
                     [
                         'icon'       => 'o-receipt-percent',
                         'params'     => [],
                         'title'      => trans('_menu.discount_management'),
                         'route_name' => 'admin.discount.index',
-                        'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Discount::class, 'Index')),
+                        'access'     => $this->checkPermission([
+                            Discount::class => 'Index',
+                        ]),
                     ],
                     [
                         'icon'       => 'o-clipboard-document-list',
                         'params'     => [],
                         'title'      => trans('_menu.survey_management'),
                         'route_name' => 'admin.survey.index',
-                        'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Exam::class, 'Index')),
+                        'access'     => $this->checkPermission([
+                            Exam::class => 'Index',
+                        ]),
                     ],
 
                     // Future CRM Modules
@@ -609,49 +677,63 @@ class NavbarComposer
                         'params'     => [],
                         'title'      => trans('_menu.blog_management'),
                         'route_name' => 'admin.blog.index',
-                        'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Blog::class, 'Index')),
+                        'access'     => $this->checkPermission([
+                            Blog::class => 'Index',
+                        ]),
                     ],
                     [
                         'icon'       => 'o-photo',
                         'params'     => [],
                         'title'      => trans('_menu.portfolio_management'),
                         'route_name' => 'admin.portFolio.index',
-                        'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(PortFolio::class, 'Index')),
+                        'access'     => $this->checkPermission([
+                            PortFolio::class => 'Index',
+                        ]),
                     ],
                     [
                         'icon'       => 'o-document-duplicate',
                         'params'     => [],
                         'title'      => trans('_menu.page_management'),
                         'route_name' => 'admin.page.index',
-                        'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Page::class, 'Index')),
+                        'access'     => $this->checkPermission([
+                            Page::class => 'Index',
+                        ]),
                     ],
                     [
                         'icon'       => 'o-folder',
                         'params'     => [],
                         'title'      => trans('_menu.category_management'),
                         'route_name' => 'admin.category.index',
-                        'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Category::class, 'Index')),
+                        'access'     => $this->checkPermission([
+                            Category::class => 'Index',
+                        ]),
                     ],
                     [
                         'icon'       => 'o-tag',
                         'params'     => [],
                         'title'      => trans('_menu.tag_management'),
                         'route_name' => 'admin.tag.index',
-                        'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Tag::class, 'Index')),
+                        'access'     => $this->checkPermission([
+                            Tag::class => 'Index',
+                        ]),
                     ],
                     [
                         'icon'       => 'o-megaphone',
                         'params'     => [],
                         'title'      => trans('_menu.bulletin_management'),
                         'route_name' => 'admin.bulletin.index',
-                        'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Bulletin::class, 'Index')),
+                        'access'     => $this->checkPermission([
+                            Bulletin::class => 'Index',
+                        ]),
                     ],
                     [
                         'icon'       => 'o-shield-check',
                         'params'     => [],
                         'title'      => trans('_menu.license_management'),
                         'route_name' => 'admin.license.index',
-                        'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(License::class, 'Index')),
+                        'access'     => $this->checkPermission([
+                            License::class => 'Index',
+                        ]),
                     ],
 
                     // Future Content Modules
@@ -720,56 +802,72 @@ class NavbarComposer
                 'params'     => [],
                 'title'      => trans('_menu.base_management'),
                 'route_name' => 'admin.slider.index',
-                'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Slider::class, 'Index')),
+                'access'     => $this->checkPermission([
+                    Slider::class => 'Index',
+                ]),
                 'sub_menu'   => [
                     [
                         'icon'       => 'o-rectangle-stack',
                         'params'     => [],
                         'title'      => trans('_menu.slider_management'),
                         'route_name' => 'admin.slider.index',
-                        'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Slider::class, 'Index')),
+                        'access'     => $this->checkPermission([
+                            Slider::class => 'Index',
+                        ]),
                     ],
                     [
                         'icon'       => 'o-question-mark-circle',
                         'params'     => [],
                         'title'      => trans('_menu.faq_management'),
                         'route_name' => 'admin.faq.index',
-                        'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Faq::class, 'Index')),
+                        'access'     => $this->checkPermission([
+                            Faq::class => 'Index',
+                        ]),
                     ],
                     [
                         'icon'       => 'o-photo',
                         'params'     => [],
                         'title'      => trans('_menu.banner_management'),
                         'route_name' => 'admin.banner.index',
-                        'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Banner::class, 'Index')),
+                        'access'     => $this->checkPermission([
+                            Banner::class => 'Index',
+                        ]),
                     ],
                     [
                         'icon'       => 'o-building-storefront',
                         'params'     => [],
                         'title'      => trans('_menu.client_management'),
                         'route_name' => 'admin.client.index',
-                        'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Client::class, 'Index')),
+                        'access'     => $this->checkPermission([
+                            Client::class => 'Index',
+                        ]),
                     ],
                     [
                         'icon'       => 'o-user-group',
                         'params'     => [],
                         'title'      => trans('_menu.teammate_management'),
                         'route_name' => 'admin.teammate.index',
-                        'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Teammate::class, 'Index')),
+                        'access'     => $this->checkPermission([
+                            Teammate::class => 'Index',
+                        ]),
                     ],
                     [
                         'icon'       => 'o-share',
                         'params'     => [],
                         'title'      => trans('_menu.social_media_management'),
                         'route_name' => 'admin.social-media.index',
-                        'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(SocialMedia::class, 'Index')),
+                        'access'     => $this->checkPermission([
+                            SocialMedia::class => 'Index',
+                        ]),
                     ],
                     [
                         'icon'       => 'o-star',
                         'params'     => [],
                         'title'      => trans('_menu.opinion_management'),
                         'route_name' => 'admin.opinion.index',
-                        'access'     => $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Opinion::class, 'Index')),
+                        'access'     => $this->checkPermission([
+                            Opinion::class => 'Index',
+                        ]),
                     ],
 
                     // Future Base Settings Modules
@@ -839,6 +937,223 @@ class NavbarComposer
                     ],
                 ],
             ],
-        ]);
+        ];
+    }
+
+    private function userMenu(User $user): array
+    {
+        return [
+            [
+                'icon'       => 'o-home',
+                'params'     => [],
+                'exact'      => true,
+                'title'      => trans('_menu.dashboard'),
+                'route_name' => 'admin.dashboard',
+            ],
+            [
+                'icon'       => 'o-user-circle',
+                'params'     => [],
+                'exact'      => true,
+                'title'      => trans('_menu.profile'),
+                'route_name' => 'admin.app.profile',
+                'params'     => ['user' => $user->id],
+            ],
+            [
+                'icon'       => 'o-shopping-cart',
+                'params'     => [],
+                'title'      => trans('_menu.order_management'),
+                'route_name' => 'admin.order.index',
+            ],
+            [
+                'icon'       => 'o-credit-card',
+                'params'     => [],
+                'title'      => trans('_menu.payment_management'),
+                'route_name' => 'admin.payment.index',
+            ],
+            [
+                'icon'       => 'o-clipboard-document-list',
+                'params'     => [],
+                'title'      => trans('_menu.survey_management'),
+                'route_name' => 'admin.survey.index',
+            ],
+            [
+                'icon'       => 'o-ticket',
+                'params'     => [],
+                'title'      => trans('_menu.ticket_management'),
+                'route_name' => 'admin.ticket.index',
+            ],
+        ];
+    }
+
+    private function parentMenu(User $user): array
+    {
+        return [
+            [
+                'icon'       => 'o-home',
+                'params'     => [],
+                'exact'      => true,
+                'title'      => trans('_menu.dashboard'),
+                'route_name' => 'admin.dashboard',
+            ],
+            [
+                'icon'       => 'o-user-circle',
+                'params'     => [],
+                'exact'      => true,
+                'title'      => trans('_menu.profile'),
+                'route_name' => 'admin.app.profile',
+                'params'     => ['user' => $user->id],
+            ],
+            [
+                'icon'       => 'o-shopping-cart',
+                'params'     => [],
+                'title'      => trans('_menu.order_management'),
+                'route_name' => 'admin.order.index',
+            ],
+            [
+                'icon'       => 'o-credit-card',
+                'params'     => [],
+                'title'      => trans('_menu.payment_management'),
+                'route_name' => 'admin.payment.index',
+            ],
+            [
+                'icon'       => 'o-clipboard-document-list',
+                'params'     => [],
+                'title'      => trans('_menu.survey_management'),
+                'route_name' => 'admin.survey.index',
+            ],
+            [
+                'icon'       => 'o-ticket',
+                'params'     => [],
+                'title'      => trans('_menu.ticket_management'),
+                'route_name' => 'admin.ticket.index',
+            ],
+        ];
+    }
+
+    private function teacherMenu(User $user): array
+    {
+        return [
+            [
+                'icon'       => 'o-home',
+                'params'     => [],
+                'exact'      => true,
+                'title'      => trans('_menu.dashboard'),
+                'route_name' => 'admin.dashboard',
+            ],
+            [
+                'icon'       => 'o-user-circle',
+                'params'     => [],
+                'exact'      => true,
+                'title'      => trans('_menu.profile'),
+                'route_name' => 'admin.app.profile',
+                'params'     => ['user' => $user->id],
+            ],
+            [
+                'icon'       => 'o-shopping-cart',
+                'params'     => [],
+                'title'      => trans('_menu.order_management'),
+                'route_name' => 'admin.order.index',
+            ],
+            [
+                'icon'       => 'o-credit-card',
+                'params'     => [],
+                'title'      => trans('_menu.payment_management'),
+                'route_name' => 'admin.payment.index',
+            ],
+            [
+                'icon'       => 'o-clipboard-document-list',
+                'params'     => [],
+                'title'      => trans('_menu.survey_management'),
+                'route_name' => 'admin.survey.index',
+            ],
+            [
+                'icon'       => 'o-ticket',
+                'params'     => [],
+                'title'      => trans('_menu.ticket_management'),
+                'route_name' => 'admin.ticket.index',
+            ],
+        ];
+    }
+
+    /**
+     * Evaluate access rules defined as permission pairs and/or closures.
+     *
+     * Accepted formats:
+     *  - [ModelClass::class => 'Index']
+     *  - [ModelClass::class => ['Index', 'Create']]
+     *  - [['model' => ModelClass::class, 'actions' => ['Index', 'Create']]]
+     *  - [fn (User $user) => bool, ...]
+     *  - Any combination of the above.
+     */
+    private function checkPermission(array $permissions): bool
+    {
+        $user = Auth::user();
+
+        if ($user === null) {
+            return false;
+        }
+
+        foreach ($permissions as $key => $value) {
+            // Allow closures/callables anywhere in the array
+            if ($this->evaluateCallable($value, $user)) {
+                return true;
+            }
+
+            // Keyed by model class => actions
+            if (is_string($key) && class_exists($key)) {
+                if ($this->userHasAnyAction($user, $key, $value)) {
+                    return true;
+                }
+
+                continue;
+            }
+
+            // Numeric keys with associative array definition
+            if (is_array($value)) {
+                $model   = $value['model'] ?? null;
+                $actions = $value['actions'] ?? ($value['action'] ?? null);
+
+                if (is_string($model) && class_exists($model) && $actions !== null) {
+                    if ($this->userHasAnyAction($user, $model, $actions)) {
+                        return true;
+                    }
+                }
+
+                // Allow nested closures inside arrays
+                foreach ($value as $inner) {
+                    if ($this->evaluateCallable($inner, $user)) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private function evaluateCallable(mixed $value, User $user): bool
+    {
+        return is_object($value) && is_callable($value)
+            ? (bool) $value($user)
+            : false;
+    }
+
+    private function userHasAnyAction(User $user, string $model, mixed $actions): bool
+    {
+        $actionList = is_array($actions) ? $actions : [$actions];
+
+        foreach ($actionList as $action) {
+            if ( ! is_string($action)) {
+                continue;
+            }
+
+            if ($user->hasAnyPermission(
+                PermissionsService::generatePermissionsByModel($model, $action)
+            )) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

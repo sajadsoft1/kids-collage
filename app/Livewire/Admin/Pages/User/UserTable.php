@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Livewire\Admin\Pages\User;
 
+use App\Enums\UserTypeEnum;
 use App\Helpers\Constants;
 use App\Helpers\PowerGridHelper;
+use App\Livewire\Admin\Pages\User\Concerns\HandlesPasswordChange;
 use App\Models\User;
 use App\Traits\PowerGridHelperTrait;
 use Illuminate\Database\Eloquent\Builder;
@@ -21,6 +23,7 @@ use PowerComponents\LivewirePowerGrid\PowerGridFields;
 
 final class UserTable extends PowerGridComponent
 {
+    use HandlesPasswordChange;
     use PowerGridHelperTrait;
 
     public string $tableName     = 'user-index-h9omkb-table';
@@ -30,7 +33,8 @@ final class UserTable extends PowerGridComponent
     {
         $setup = [
             PowerGrid::header()
-                ->showSearchInput(),
+                ->showSearchInput()
+                ->includeViewOnBottom('livewire.admin.pages.user.partials.change-password-modal'),
 
             PowerGrid::footer()
                 ->showPerPage()
@@ -63,7 +67,7 @@ final class UserTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return User::query();
+        return User::query()->where('type', UserTypeEnum::USER->value);
     }
 
     public function relationSearch(): array
@@ -132,6 +136,7 @@ final class UserTable extends PowerGridComponent
     {
         return [
             PowerGridHelper::btnToggle($row, 'status'),
+            PowerGridHelper::btnChangePassword($row),
             PowerGridHelper::btnEdit($row),
             PowerGridHelper::btnDelete($row),
         ];

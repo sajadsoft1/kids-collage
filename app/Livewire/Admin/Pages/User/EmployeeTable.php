@@ -8,10 +8,12 @@ use App\Enums\UserTypeEnum;
 use App\Helpers\Constants;
 use App\Helpers\PowerGridHelper;
 use App\Helpers\StringHelper;
+use App\Livewire\Admin\Pages\User\Concerns\HandlesPasswordChange;
 use App\Models\User;
 use App\Services\Permissions\PermissionsService;
 use App\Traits\PowerGridHelperTrait;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use Jenssegers\Agent\Agent;
 use Livewire\Attributes\Computed;
 use PowerComponents\LivewirePowerGrid\Button;
@@ -23,6 +25,7 @@ use PowerComponents\LivewirePowerGrid\PowerGridFields;
 
 final class EmployeeTable extends PowerGridComponent
 {
+    use HandlesPasswordChange;
     use PowerGridHelperTrait;
 
     public string $tableName     = 'employee-index-h9omkb-table';
@@ -32,7 +35,8 @@ final class EmployeeTable extends PowerGridComponent
     {
         $setup = [
             PowerGrid::header()
-                ->showSearchInput(),
+                ->showSearchInput()
+                ->includeViewOnBottom('livewire.admin.pages.user.partials.change-password-modal'),
 
             PowerGrid::footer()
                 ->showPerPage()
@@ -133,12 +137,13 @@ final class EmployeeTable extends PowerGridComponent
     {
         return [
             PowerGridHelper::btnToggle($row, 'status'),
+            PowerGridHelper::btnChangePassword($row),
             Button::add('edit')
                 ->slot("<i class='fa fa-pencil'></i>")
                 ->attributes([
                     'class' => 'btn btn-square md:btn-sm btn-xs',
                 ])
-                ->can(auth()->user()->hasAnyPermission(PermissionsService::generatePermissionsByModel($row::class, 'Update')))
+                ->can(Auth::user()?->hasAnyPermission(PermissionsService::generatePermissionsByModel($row::class, 'Update')) ?? false)
                 ->route('admin.employee.edit', ['user' => $row->id], '_self')
                 ->navigate()
                 ->tooltip(trans('datatable.buttons.edit')),

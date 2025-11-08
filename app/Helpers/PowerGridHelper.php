@@ -7,10 +7,10 @@ namespace App\Helpers;
 use App\Enums\BooleanEnum;
 use App\Services\Permissions\PermissionsService;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
-use PowerComponents\LivewirePowerGrid\Components\Filters\Builders\Boolean;
 
 class PowerGridHelper
 {
@@ -80,7 +80,7 @@ class PowerGridHelper
             ->attributes([
                 'class' => 'btn btn-square md:btn-sm btn-xs',
             ])
-            ->can(auth()->user()->hasAnyPermission(PermissionsService::generatePermissionsByModel($row::class, 'Update')))
+            ->can(Auth::user()?->hasAnyPermission(PermissionsService::generatePermissionsByModel($row::class, 'Update')) ?? false)
             ->route("admin.{$param}.edit", [Str::camel($param) => $row->id], '_self')
             ->navigate()
             ->tooltip(trans('datatable.buttons.edit'));
@@ -93,7 +93,7 @@ class PowerGridHelper
             ->attributes([
                 'class' => 'btn btn-square md:btn-sm btn-xs',
             ])
-            ->can(config('custom-modules.seo') && auth()->user()->hasAnyPermission(PermissionsService::generatePermissionsByModel($row::class, 'Update')))
+            ->can(config('custom-modules.seo') && (Auth::user()?->hasAnyPermission(PermissionsService::generatePermissionsByModel($row::class, 'Update')) ?? false))
             ->route('admin.dynamic-seo', ['class' => Str::camel(StringHelper::basename($row::class)), 'id' => $row->id], '_self')
             ->navigate()
             ->tooltip(trans('datatable.buttons.seo'));
@@ -108,7 +108,7 @@ class PowerGridHelper
             ->attributes([
                 'class' => 'btn btn-square md:btn-sm btn-xs',
             ])
-            ->can(config('custom-modules.translation') && auth()->user()->hasAnyPermission(PermissionsService::generatePermissionsByModel($row::class, 'Update')))
+            ->can(config('custom-modules.translation') && (Auth::user()?->hasAnyPermission(PermissionsService::generatePermissionsByModel($row::class, 'Update')) ?? false))
             ->route('admin.dynamic-translate', ['class' => Str::camel($param), 'id' => $row->id], '_self')
             ->navigate()
             ->tooltip(trans('datatable.buttons.translate'));
@@ -116,10 +116,14 @@ class PowerGridHelper
 
     public static function btnToggle(mixed $row, string $toggleField = 'published'): Button
     {
-        if ($row->{$toggleField} instanceof Boolean) {
-            $status = $row->{$toggleField};
+        $rawStatus = $row->{$toggleField};
+
+        if (is_bool($rawStatus)) {
+            $status = $rawStatus;
+        } elseif (is_object($rawStatus) && isset($rawStatus->value)) {
+            $status = (bool) $rawStatus->value;
         } else {
-            $status = $row->{$toggleField}->value;
+            $status = (bool) $rawStatus;
         }
 
         return Button::add('toggle')
@@ -127,9 +131,21 @@ class PowerGridHelper
             ->attributes([
                 'class' => 'btn btn-square md:btn-sm btn-xs',
             ])
-            ->can(auth()->user()->hasAnyPermission(PermissionsService::generatePermissionsByModel($row::class, 'Update')))
+            ->can(Auth::user()?->hasAnyPermission(PermissionsService::generatePermissionsByModel($row::class, 'Update')) ?? false)
             ->dispatch('toggle', ['rowId' => $row->id, 'toogleField' => $toggleField])
             ->tooltip(trans('datatable.buttons.toggle'));
+    }
+
+    public static function btnChangePassword(mixed $row): Button
+    {
+        return Button::add('change-password')
+            ->slot("<i class='fa fa-key text-warning'></i>")
+            ->attributes([
+                'class' => 'btn btn-square md:btn-sm btn-xs',
+            ])
+            ->can(Auth::user()?->hasAnyPermission(PermissionsService::generatePermissionsByModel($row::class, 'Update')) ?? false)
+            ->dispatch('change-password-modal', ['rowId' => $row->id])
+            ->tooltip('تغییر رمز عبور');
     }
 
     public static function btnDelete(mixed $row, ?string $param=null): Button
@@ -142,7 +158,7 @@ class PowerGridHelper
                 'wire:confirm' => trans('general.are_you_shure_to_delete_record'),
                 'class'        => 'btn btn-square md:btn-sm btn-xs',
             ])
-            ->can(auth()->user()->hasAnyPermission(PermissionsService::generatePermissionsByModel($row::class, 'Delete')))
+            ->can(Auth::user()?->hasAnyPermission(PermissionsService::generatePermissionsByModel($row::class, 'Delete')) ?? false)
             ->dispatch('force-delete', ['rowId' => $row->id])
             ->tooltip(trans('datatable.buttons.delete'));
     }
@@ -319,7 +335,7 @@ class PowerGridHelper
 
     public static function columnCommentCount(string $field = 'comment_count', string $dataField = 'comment_count'): Column
     {
-        return Column::make(trans('datatable.comment_count'), $field, $dataField);
+        return Column::make('تعداد نظرات', $field, $dataField);
     }
 
     public static function columnAction(): Column

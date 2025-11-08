@@ -83,12 +83,16 @@ class ExamRuleBuilder extends Component
             'logic'      => 'and',
             'conditions' => [],
         ];
+
+        $this->notifyRulesUpdated();
     }
 
     public function removeGroup(int $groupIndex): void
     {
         unset($this->rules['groups'][$groupIndex]);
         $this->rules['groups'] = array_values($this->rules['groups']);
+
+        $this->notifyRulesUpdated();
     }
 
     public function addCondition(int $groupIndex): void
@@ -102,6 +106,8 @@ class ExamRuleBuilder extends Component
             'operator' => 'equals',
             'value'    => '',
         ];
+
+        $this->notifyRulesUpdated();
     }
 
     public function removeCondition(int $groupIndex, int $conditionIndex): void
@@ -114,6 +120,8 @@ class ExamRuleBuilder extends Component
         $this->rules['groups'][$groupIndex]['conditions'] = array_values(
             $this->rules['groups'][$groupIndex]['conditions']
         );
+
+        $this->notifyRulesUpdated();
     }
 
     public function updatedRules(): void
@@ -177,5 +185,10 @@ class ExamRuleBuilder extends Component
     public function render(): \Illuminate\Contracts\View\View
     {
         return view('livewire.admin.pages.exam.exam-rule-builder');
+    }
+
+    protected function notifyRulesUpdated(): void
+    {
+        $this->dispatch('rulesUpdated', rules: $this->rules);
     }
 }

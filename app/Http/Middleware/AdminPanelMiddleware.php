@@ -30,10 +30,10 @@ class AdminPanelMiddleware
         }
 
         // Check if user has admin roles
-        if (count($user->getRoleNames()) > 0) {
-            return $next($request);
-        }
+        // if (count($user->getRoleNames()) > 0) {
+        return $next($request);
+        // }
 
-        abort(403, 'دسترسی غیرمجاز');
+        // abort(403, 'دسترسی غیرمجاز');
     }
 }

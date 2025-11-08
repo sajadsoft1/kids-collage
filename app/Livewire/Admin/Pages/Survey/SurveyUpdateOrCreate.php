@@ -42,7 +42,7 @@ class SurveyUpdateOrCreate extends Component
 
         if ($this->model->id) {
             $this->title       = $this->model->title;
-            $this->description = $this->model->description??'';
+            $this->description = $this->model->description ?? '';
             $this->starts_at   = $this->model->starts_at?->format('Y-m-d');
             $this->ends_at     = $this->model->ends_at?->format('Y-m-d');
             $this->status      = $this->model->status->value;
@@ -125,8 +125,8 @@ class SurveyUpdateOrCreate extends Component
                         ],
                     ],
                     'config'         => [
-                        'shuffle_options'=>true,
-                        'show_explanation'=>true
+                        'shuffle_options'  => true,
+                        'show_explanation' => true,
                     ],
                     'correct_answer' => [1],
                 ],
@@ -166,8 +166,8 @@ class SurveyUpdateOrCreate extends Component
                         ],
                     ],
                     'config'         => [
-                        'scoring_type'=>'all_or_nothing',
-                        'shuffle_options'=>true
+                        'scoring_type'    => 'all_or_nothing',
+                        'shuffle_options' => true,
                     ],
                     'correct_answer' => [1, 2],
                 ],
@@ -276,6 +276,10 @@ class SurveyUpdateOrCreate extends Component
         $payload           = $this->validate();
         $payload['rules']  = $this->rules;
         $payload['type']   = ExamTypeEnum::SURVEY->value;
+
+        if ( ! $this->model->id) {
+            $payload['created_by'] = Auth::id();
+        }
 
         // Validate that at least one question exists
         if (empty($this->questions)) {

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Livewire\Admin\Pages\Payment;
 
+use App\Enums\UserTypeEnum;
 use App\Helpers\PowerGridHelper;
 use App\Helpers\StringHelper;
 use App\Models\Payment;
@@ -71,7 +72,32 @@ final class PaymentTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Payment::query();
+        return Payment::query()
+            ->when(
+                auth()->user()->type === UserTypeEnum::PARENT,
+                function ($q) {
+                    $children = auth()->user()->children->pluck('id')->toArray();
+                    $q->whereIn('user_id', [...$children, auth()->id()]);
+                }
+            )
+            ->when(
+                auth()->user()->type === UserTypeEnum::TEACHER,
+                function ($q) {
+                    $q->where('user_id', auth()->id());
+                }
+            )
+            ->when(
+                auth()->user()->type === UserTypeEnum::EMPLOYEE,
+                function ($q) {
+                    $q->where('user_id', auth()->id());
+                }
+            )
+            ->when(
+                auth()->user()->type === UserTypeEnum::USER,
+                function ($q) {
+                    $q->where('user_id', auth()->id());
+                }
+            );
     }
 
     public function relationSearch(): array

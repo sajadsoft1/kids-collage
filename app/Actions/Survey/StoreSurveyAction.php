@@ -48,6 +48,8 @@ class StoreSurveyAction
 
             unset($payload['rules'], $payload['questions']);
 
+            $payload['created_by'] ??= Auth::id();
+
             $model = Exam::create($payload);
 
             // $this->syncTranslationAction->handle($model, Arr::only($payload, ['title', 'description']));
