@@ -6,7 +6,6 @@ namespace Database\Factories;
 
 use App\Models\Bulletin;
 use App\Models\Category;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -22,7 +21,7 @@ class BulletinFactory extends Factory
             'slug'          => Str::slug($title),
             'published'     => $this->faker->boolean(80),
             'published_at'  => $this->faker->dateTimeBetween('-1 year', '+1 month'),
-            'user_id'       => User::factory(),
+            'user_id'       => 1,
             'category_id'   => Category::where('type', 'bulletin')->inRandomOrder()->first()?->id ?? Category::factory(),
             'view_count'    => $this->faker->numberBetween(0, 1000),
             'comment_count' => $this->faker->numberBetween(0, 50),

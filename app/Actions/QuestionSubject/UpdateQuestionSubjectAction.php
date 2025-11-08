@@ -22,14 +22,19 @@ class UpdateQuestionSubjectAction
     /**
      * @param array{
      *     title:string,
-     *     description:string
+     *     description:string,
+     *     ordering:int,
+     *     category_id:int
      * }               $payload
      * @throws Throwable
      */
     public function handle(QuestionSubject $questionSubject, array $payload): QuestionSubject
     {
         return DB::transaction(function () use ($questionSubject, $payload) {
-            $questionSubject->update($payload);
+            $questionSubject->update([
+                'ordering'    => Arr::get($payload, 'ordering', $questionSubject->ordering),
+                'category_id' => Arr::get($payload, 'category_id', $questionSubject->category_id),
+            ]);
             $this->syncTranslationAction->handle($questionSubject, Arr::only($payload, ['title', 'description']));
 
             return $questionSubject->refresh();

@@ -4,18 +4,20 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Enums\CategoryTypeEnum;
-use App\Models\Category;
-use App\Models\QuestionSubject;
+use App\Actions\QuestionSubject\StoreQuestionSubjectAction;
 use Illuminate\Database\Seeder;
 
 class QuestionSubjectSeeder extends Seeder
 {
     public function run(): void
     {
-        $category = Category::where('type', CategoryTypeEnum::QUESTION->value)->first();
-        QuestionSubject::factory()->count(10)->create([
-            'category_id' => $category->id,
-        ]);
+        $data = require database_path('seeders/data/karno_exam.php');
+        foreach ($data['question_subject'] as $row) {
+            StoreQuestionSubjectAction::run([
+                'title'       => $row['title'],
+                'description' => $row['description'],
+                'category_id' => $row['category_id'],
+            ]);
+        }
     }
 }

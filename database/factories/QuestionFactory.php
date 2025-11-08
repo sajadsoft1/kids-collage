@@ -11,7 +11,6 @@ use App\Models\Category;
 use App\Models\Question;
 use App\Models\QuestionCompetency;
 use App\Models\QuestionSubject;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class QuestionFactory extends Factory
@@ -23,24 +22,22 @@ class QuestionFactory extends Factory
         $type = fake()->randomElement(QuestionTypeEnum::cases());
 
         return [
-            'type'           => $type,
-            'category_id'    => Category::where('type', CategoryTypeEnum::QUESTION->value)->first()->id,
-            'subject_id'     => QuestionSubject::factory()->create([
-                'category_id' => Category::where('type', CategoryTypeEnum::QUESTION->value)->first()->id,
-            ]),
-            'competency_id'  => QuestionCompetency::factory(),
-            'title'          => fake()->sentence() . '?',
-            'body'           => fake()->optional()->paragraph(),
-            'explanation'    => fake()->optional()->paragraph(),
-            'difficulty'     => fake()->randomElement(DifficultyEnum::cases()),
-            'default_score'  => fake()->randomFloat(2, 1, 10),
-            'config'         => $this->getConfigForType($type),
-            'correct_answer' => $this->getCorrectAnswerForType($type),
-            'metadata'       => [],
-            'created_by'     => User::factory(),
-            'is_active'      => true,
-            'is_public'      => fake()->boolean(30),
-            'is_survey_question' => false
+            'type'               => $type,
+            'category_id'        => Category::where('type', CategoryTypeEnum::QUESTION->value)->first()->id,
+            'subject_id'         => QuestionSubject::where('category_id', Category::where('type', CategoryTypeEnum::QUESTION->value)->first()->id)->inRandomOrder()->first()->id,
+            'competency_id'      => QuestionCompetency::inRandomOrder()->first()->id,
+            'title'              => fake()->sentence() . '?',
+            'body'               => fake()->optional()->paragraph(),
+            'explanation'        => fake()->optional()->paragraph(),
+            'difficulty'         => fake()->randomElement(DifficultyEnum::cases()),
+            'default_score'      => fake()->randomFloat(2, 1, 10),
+            'config'             => $this->getConfigForType($type),
+            'correct_answer'     => $this->getCorrectAnswerForType($type),
+            'metadata'           => [],
+            'created_by'         => 1,
+            'is_active'          => true,
+            'is_public'          => fake()->boolean(30),
+            'is_survey_question' => false,
         ];
     }
 

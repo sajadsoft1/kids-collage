@@ -9,8 +9,10 @@ use App\Enums\UserTypeEnum;
 use App\Helpers\PowerGridHelper;
 use App\Helpers\StringHelper;
 use App\Models\Order;
+use App\Services\Permissions\PermissionsService;
 use App\Traits\PowerGridHelperTrait;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Jenssegers\Agent\Agent;
 use Livewire\Attributes\Computed;
@@ -88,7 +90,8 @@ final class OrderCourseTable extends PowerGridComponent
                 }
             )
             ->when(
-                auth()->user()->type === UserTypeEnum::EMPLOYEE,
+                auth()->user()->type === UserTypeEnum::EMPLOYEE &&
+                ! Auth::user()?->hasAnyPermission(PermissionsService::generatePermissionsByModel(Order::class, 'All', 'Index', 'Create', 'Update', 'Delete')),
                 function ($q) {
                     $q->where('user_id', auth()->id());
                 }

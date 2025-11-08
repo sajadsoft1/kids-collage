@@ -8,7 +8,6 @@ use App\Enums\ExamStatusEnum;
 use App\Enums\ExamTypeEnum;
 use App\Models\Category;
 use App\Models\Exam;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ExamFactory extends Factory
@@ -36,7 +35,7 @@ class ExamFactory extends Factory
             'starts_at'         => fake()->optional()->dateTimeBetween('now', '+1 month'),
             'ends_at'           => fake()->optional()->dateTimeBetween('+1 month', '+3 months'),
             'status'            => fake()->randomElement(ExamStatusEnum::cases()),
-            'created_by'        => User::factory(),
+            'created_by'        => 1,
         ];
     }
 

@@ -14,6 +14,12 @@ class ExamSeeder extends Seeder
 {
     public function run(ExamService $examService): void
     {
+        $this->call([
+            QuestionCompetencySeeder::class,
+            QuestionSubjectSeeder::class,
+            QuestionSeeder::class,
+        ]);
+
         // ایجاد آزمون‌های نمونه
         Exam::factory()
             ->count(5)
@@ -54,7 +60,7 @@ class ExamSeeder extends Seeder
             ->each(function ($exam) use ($examService) {
                 $questions = Question::active()
                     ->where('is_survey_question', true)
-                    ->whereIn('type',[QuestionTypeEnum::SINGLE_CHOICE->value,QuestionTypeEnum::MULTIPLE_CHOICE->value])
+                    ->whereIn('type', [QuestionTypeEnum::SINGLE_CHOICE->value, QuestionTypeEnum::MULTIPLE_CHOICE->value])
                     ->inRandomOrder()
                     ->limit(random_int(5, 10))
                     ->get();

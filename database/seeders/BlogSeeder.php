@@ -22,12 +22,8 @@ class BlogSeeder extends Seeder
     public function run(): void
     {
         $data = require database_path('seeders/data/karno.php');
-        $user = User::factory()->create([
-            'type' => UserTypeEnum::EMPLOYEE->value,
-        ]);
-        $user->addMedia(public_path('assets/web/img/teacher-1.jpg'))
-            ->preservingOriginal()
-            ->toMediaCollection('avatar');
+        $user = User::where('type', UserTypeEnum::EMPLOYEE)->first();
+
         foreach ($data['blogs'] as $row) {
             $blog = StoreBlogAction::run([
                 'slug'            => $row['slug'],
@@ -82,7 +78,7 @@ class BlogSeeder extends Seeder
 
             foreach (range(1, 5) as $item) {
                 $blogCommentsRelation->create([
-                    'user_id'   => random_int(2, 12), // فرض بر این است که کاربران در دیتابیس موجود هستند
+                    'user_id'   => User::inRandomOrder()->first()->id,
                     'comment'   => $faker->randomElement($comments),
                     'published' => true,
                 ]);

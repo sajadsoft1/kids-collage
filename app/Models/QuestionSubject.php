@@ -24,12 +24,14 @@ class QuestionSubject extends Model
     ];
 
     protected $fillable = [
+        'ordering',
         'languages',
         'category_id',
     ];
 
     protected $casts = [
         'languages' => 'array',
+        'ordering'  => 'integer',
     ];
 
     /**

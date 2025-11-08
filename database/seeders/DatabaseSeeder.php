@@ -67,16 +67,9 @@ class DatabaseSeeder extends Seeder
 
         $this->command->info('🔑 Login credentials: developer@gmail.com / password');
 
-        $this->call([
-            // اول category و user باید seed بشن (از قبل موجودن)
+        // 7. Exam System — Exam management functionality.
+        $this->call(ExamSeeder::class);
 
-            QuestionCompetencySeeder::class,
-            QuestionSubjectSeeder::class,
-            QuestionSeeder::class,
-            ExamSeeder::class,
-
-            // ExamAttemptSeeder::class, // اختیاری
-        ]);
         Artisan::call('optimize:clear');
     }
 }

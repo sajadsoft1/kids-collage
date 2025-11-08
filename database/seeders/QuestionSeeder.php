@@ -50,43 +50,40 @@ class QuestionSeeder extends Seeder
             ->trueFalse()
             ->create();
 
-
-
-
-        //survey
+        // survey
         Question::factory()
-                ->count(20)
-                ->singleChoice()
-                ->create([
-                    'is_survey_question' => true,
-                ])
-                ->each(function ($question) {
-                    QuestionOption::factory()->count(4)->create([
-                        'question_id' => $question->id,
-                    ]);
+            ->count(20)
+            ->singleChoice()
+            ->create([
+                'is_survey_question' => true,
+            ])
+            ->each(function ($question) {
+                QuestionOption::factory()->count(4)->create([
+                    'question_id' => $question->id,
+                ]);
 
-                    // یکی رو صحیح می‌کنیم
-                    $question->options()->inRandomOrder()->limit(1)->update([
-                        'is_correct' => true,
-                    ]);
-                });
+                // یکی رو صحیح می‌کنیم
+                $question->options()->inRandomOrder()->limit(1)->update([
+                    'is_correct' => true,
+                ]);
+            });
 
         // Multiple Choice Questions
         Question::factory()
-                ->count(15)
-                ->multipleChoice()
-                ->create([
-                    'is_survey_question' => true
-                ])
-                ->each(function ($question) {
-                    QuestionOption::factory()->count(5)->create([
-                        'question_id' => $question->id,
-                    ]);
+            ->count(15)
+            ->multipleChoice()
+            ->create([
+                'is_survey_question' => true,
+            ])
+            ->each(function ($question) {
+                QuestionOption::factory()->count(5)->create([
+                    'question_id' => $question->id,
+                ]);
 
-                    // دو تا رو صحیح می‌کنیم
-                    $question->options()->inRandomOrder()->limit(2)->update([
-                        'is_correct' => true,
-                    ]);
-                });
+                // دو تا رو صحیح می‌کنیم
+                $question->options()->inRandomOrder()->limit(2)->update([
+                    'is_correct' => true,
+                ]);
+            });
     }
 }

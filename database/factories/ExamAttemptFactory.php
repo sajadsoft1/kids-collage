@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use App\Enums\AttemptStatusEnum;
+use App\Enums\ExamStatusEnum;
+use App\Enums\UserTypeEnum;
 use App\Models\Exam;
 use App\Models\ExamAttempt;
 use App\Models\User;
@@ -24,8 +26,8 @@ class ExamAttemptFactory extends Factory
             : null;
 
         return [
-            'exam_id'      => Exam::factory(),
-            'user_id'      => User::factory(),
+            'exam_id'      => Exam::where('status', ExamStatusEnum::PUBLISHED->value)->inRandomOrder()->first()->id,
+            'user_id'      => User::where('type', UserTypeEnum::USER->value)->inRandomOrder()->first()->id,
             'started_at'   => $startedAt,
             'completed_at' => $completedAt,
             'total_score'  => $completedAt ? fake()->randomFloat(2, 0, 100) : null,

@@ -24,10 +24,9 @@ class OrderSeeder extends Seeder
     {
         $data = require database_path('seeders/data/karno_financial.php');
 
-        $userIds = User::where('type', UserTypeEnum::USER->value)->pluck('id');
-        foreach ($data['order_course'] as $index => $row) {
+        foreach ($data['order_course'] as $row) {
             StoreOrderCourseAction::run([
-                'user_id'     => $userIds[$index],
+                'user_id'     => User::where('type', UserTypeEnum::USER->value)->inRandomOrder()->first()->id,
                 'discount_id' => $row['discount_id'] ?? null,
                 'type'        => $row['type'],
                 'status'      => $row['status'],

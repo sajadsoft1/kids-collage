@@ -22,14 +22,17 @@ class StoreQuestionCompetencyAction
     /**
      * @param array{
      *     title:string,
-     *     description:string
+     *     description:string,
+     *     ordering:int
      * } $payload
      * @throws Throwable
      */
     public function handle(array $payload): QuestionCompetency
     {
         return DB::transaction(function () use ($payload) {
-            $model =  QuestionCompetency::create($payload);
+            $model =  QuestionCompetency::create([
+                'ordering' => QuestionCompetency::max('ordering') + 1,
+            ]);
             $this->syncTranslationAction->handle($model, Arr::only($payload, ['title', 'description']));
 
             return $model->refresh();

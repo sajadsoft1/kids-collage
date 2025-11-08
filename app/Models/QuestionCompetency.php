@@ -23,10 +23,12 @@ class QuestionCompetency extends Model
 
     protected $fillable = [
         'languages',
+        'ordering',
     ];
 
     protected $casts = [
         'languages' => 'array',
+        'ordering'  => 'integer',
     ];
 
     /**

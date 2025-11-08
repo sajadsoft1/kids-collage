@@ -11,6 +11,7 @@ return new class extends Migration {
     {
         Schema::create('question_competencies', function (Blueprint $table) {
             $table->id();
+            $table->integer('ordering')->default(1);
             $table->text('languages')->nullable();
             $table->timestamps();
         });

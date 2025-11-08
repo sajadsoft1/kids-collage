@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use App\Enums\DiscountTypeEnum;
+use App\Enums\UserTypeEnum;
 use App\Models\Discount;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -23,7 +24,7 @@ class DiscountFactory extends Factory
             'value'               => $type === DiscountTypeEnum::PERCENTAGE
                 ? $this->faker->numberBetween(5, 50)
                 : $this->faker->numberBetween(10, 100),
-            'user_id'             => $this->faker->boolean(20) ? User::factory() : null,
+            'user_id'             => User::where('type', UserTypeEnum::USER->value)->inRandomOrder()->first()->id,
             'min_order_amount'    => $this->faker->randomElement([0, 50, 100, 200]),
             'max_discount_amount' => $type === DiscountTypeEnum::PERCENTAGE
                 ? $this->faker->randomElement([null, 50, 100, 200])
@@ -80,7 +81,7 @@ class DiscountFactory extends Factory
     public function forUser(?int $userId = null): static
     {
         return $this->state(fn (array $attributes) => [
-            'user_id' => $userId ?? User::factory(),
+            'user_id' => $userId ?? User::where('type', UserTypeEnum::USER->value)->inRandomOrder()->first()->id,
         ]);
     }
 

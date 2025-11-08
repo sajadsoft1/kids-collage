@@ -22,14 +22,17 @@ class UpdateQuestionCompetencyAction
     /**
      * @param array{
      *     title:string,
-     *     description:string
+     *     description:string,
+     *     ordering:int
      * }               $payload
      * @throws Throwable
      */
     public function handle(QuestionCompetency $questionCompetency, array $payload): QuestionCompetency
     {
         return DB::transaction(function () use ($questionCompetency, $payload) {
-            $questionCompetency->update($payload);
+            $questionCompetency->update([
+                'ordering' => Arr::get($payload, 'ordering', $questionCompetency->ordering),
+            ]);
             $this->syncTranslationAction->handle($questionCompetency, Arr::only($payload, ['title', 'description']));
 
             return $questionCompetency->refresh();
