@@ -7,7 +7,7 @@
                 <div class="pt-2">
                     <input type="radio" name="correct_option_single_choice" value="{{ $index }}"
                         wire:change="setCorrect({{ $index }})" @checked($option['is_correct'])
-                        class="radio radio-primary w-5 h-5" />
+                        @disabled(!$hasCorrectAnswer) class="radio radio-primary w-5 h-5" />
                 </div>
 
                 {{-- Content --}}
@@ -28,8 +28,8 @@
 
     {{-- Add Option Button --}}
     @if (count($options) < 10)
-        <x-button icon="o-plus" wire:click="addOption" class="btn-outline btn-block" wire:loading.attr="disabled"
-            wire:target="addOption" spinner="addOption" class="mt-5 btn-primary">
+        <x-button icon="o-plus" wire:click="addOption" class="btn-outline btn-block mt-5 btn-primary"
+            wire:loading.attr="disabled" wire:target="addOption" spinner="addOption">
             {{ __('question.builder.single.add_option') }}
         </x-button>
     @endif
@@ -46,4 +46,6 @@
                 label="{{ __('question.builder.single.show_explanation') }}" />
         </div>
     </div>
+
+
 </div>

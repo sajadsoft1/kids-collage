@@ -24,11 +24,13 @@
                         @switch($type)
                             @case(QuestionTypeEnum::SINGLE_CHOICE->value)
                                 <livewire:admin.pages.question-builder.single-choice :options="$options" :config="$config"
+                                    :has-correct-answer="(bool) ($config['has_correct_answer'] ?? true)"
                                     :key="'single-choice-' . ($model->id ?? 'new')" />
                             @break
 
                             @case(QuestionTypeEnum::MULTIPLE_CHOICE->value)
                                 <livewire:admin.pages.question-builder.multiple-choice :options="$options" :config="$config"
+                                    :has-correct-answer="(bool) ($config['has_correct_answer'] ?? true)"
                                     :key="'multiple-choice-' . ($model->id ?? 'new')" />
                             @break
 

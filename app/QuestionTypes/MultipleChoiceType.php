@@ -11,12 +11,13 @@ class MultipleChoiceType extends AbstractQuestionType
     public function defaultConfig(): array
     {
         return [
-            'min_options'     => 2,
-            'max_options'     => 10,
-            'min_correct'     => 1,
-            'max_correct'     => 5,
-            'shuffle_options' => false,
-            'scoring_type'    => 'all_or_nothing', // all_or_nothing, partial
+            'min_options'        => 2,
+            'max_options'        => 10,
+            'min_correct'        => 1,
+            'max_correct'        => 5,
+            'shuffle_options'    => false,
+            'scoring_type'       => 'all_or_nothing', // all_or_nothing, partial
+            'has_correct_answer' => true,
         ];
     }
 
@@ -25,27 +26,32 @@ class MultipleChoiceType extends AbstractQuestionType
         $config = $this->getConfig();
 
         return [
-            'title'                  => ['required', 'string', 'max:2000'],
-            'body'                   => ['nullable', 'string', 'max:10000'],
-            'explanation'            => ['nullable', 'string'],
-            'default_score'          => ['required', 'numeric', 'min:0'],
+            'title'                     => ['required', 'string', 'max:2000'],
+            'body'                      => ['nullable', 'string', 'max:10000'],
+            'explanation'               => ['nullable', 'string'],
+            'default_score'             => ['required', 'numeric', 'min:0'],
 
-            'options'                => [
+            'options'                   => [
                 'required',
                 'array',
                 "min:{$config['min_options']}",
                 "max:{$config['max_options']}",
             ],
-            'options.*.content'      => ['required', 'string', 'max:1000'],
-            'options.*.is_correct'   => ['required', 'boolean'],
+            'options.*.content'         => ['required', 'string', 'max:1000'],
+            'options.*.is_correct'      => ['required', 'boolean'],
 
-            'config.scoring_type'    => ['nullable', 'in:all_or_nothing,partial'],
-            'config.shuffle_options' => ['nullable', 'boolean'],
+            'config.scoring_type'       => ['nullable', 'in:all_or_nothing,partial'],
+            'config.shuffle_options'    => ['nullable', 'boolean'],
+            'config.has_correct_answer' => ['nullable', 'boolean'],
         ];
     }
 
     public function afterValidation(array $data): array
     {
+        if (($this->question->is_survey_question ?? false) || ! ($data['config']['has_correct_answer'] ?? true)) {
+            return $data;
+        }
+
         $config = $this->getConfig();
 
         $correctCount = collect($data['options'])

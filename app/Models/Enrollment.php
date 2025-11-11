@@ -167,9 +167,9 @@ class Enrollment extends Model
     public function updateProgress(float $newProgress): bool
     {
         $newProgress = max(0.0, min(100.0, $newProgress));
-        
+
         $updated = $this->update(['progress_percent' => $newProgress]);
-        
+
         if ($updated) {
             $this->logActivity('progress.updated', [
                 'old_progress' => $this->getOriginal('progress_percent'),
@@ -193,10 +193,10 @@ class Enrollment extends Model
     {
         return DB::transaction(function () {
             $updated = $this->update(['progress_percent' => 100.0]);
-            
+
             if ($updated) {
                 $this->logActivity('enrollment.completed');
-                
+
                 // Issue certificate if course is eligible
                 if ($this->course->courseTemplate->is_self_paced || $this->attendance_percentage >= 80) {
                     $this->issueCertificate();
@@ -233,7 +233,7 @@ class Enrollment extends Model
     {
         $attendanceGrade = $this->attendance_percentage;
         $progressGrade   = $this->progress_percent;
-        
+
         $overallGrade = ($attendanceGrade + $progressGrade) / 2;
 
         return match (true) {
@@ -283,7 +283,7 @@ class Enrollment extends Model
     {
         return DB::transaction(function () use ($reason) {
             $updated = $this->update(['status' => EnrollmentStatusEnum::DROPPED]);
-            
+
             if ($updated) {
                 $this->logActivity('enrollment.dropped', [
                     'reason' => $reason,
@@ -299,7 +299,7 @@ class Enrollment extends Model
     {
         return DB::transaction(function () {
             $updated = $this->update(['status' => EnrollmentStatusEnum::ACTIVE]);
-            
+
             if ($updated) {
                 $this->logActivity('enrollment.reactivated');
             }
@@ -354,5 +354,10 @@ class Enrollment extends Model
     public function scopeRecent($query, int $days = 30)
     {
         return $query->where('enrolled_at', '>=', now()->subDays($days));
+    }
+
+    public function order(): Order
+    {
+        return $this->orderItem->order;
     }
 }

@@ -11,10 +11,11 @@ class SingleChoiceType extends AbstractQuestionType
     public function defaultConfig(): array
     {
         return [
-            'min_options'      => 2,
-            'max_options'      => 10,
-            'shuffle_options'  => false,
-            'show_explanation' => false,
+            'min_options'        => 2,
+            'max_options'        => 10,
+            'shuffle_options'    => false,
+            'show_explanation'   => false,
+            'has_correct_answer' => true,
         ];
     }
 
@@ -23,23 +24,24 @@ class SingleChoiceType extends AbstractQuestionType
         $config = $this->getConfig();
 
         return [
-            'title'                   => ['required', 'string', 'max:2000'],
-            'body'                    => ['nullable', 'string', 'max:10000'],
-            'explanation'             => ['nullable', 'string'],
-            'default_score'           => ['required', 'numeric', 'min:0'],
+            'title'                     => ['required', 'string', 'max:2000'],
+            'body'                      => ['nullable', 'string', 'max:10000'],
+            'explanation'               => ['nullable', 'string'],
+            'default_score'             => ['required', 'numeric', 'min:0'],
 
-            'options'                 => [
+            'options'                   => [
                 'required',
                 'array',
                 "min:{$config['min_options']}",
                 "max:{$config['max_options']}",
             ],
-            'options.*.content'       => ['required', 'string', 'max:1000'],
-            'options.*.is_correct'    => ['required', 'boolean'],
-            'options.*.order'         => ['nullable', 'integer'],
+            'options.*.content'         => ['required', 'string', 'max:1000'],
+            'options.*.is_correct'      => ['required', 'boolean'],
+            'options.*.order'           => ['nullable', 'integer'],
 
-            'config.shuffle_options'  => ['nullable', 'boolean'],
-            'config.show_explanation' => ['nullable', 'boolean'],
+            'config.shuffle_options'    => ['nullable', 'boolean'],
+            'config.show_explanation'   => ['nullable', 'boolean'],
+            'config.has_correct_answer' => ['nullable', 'boolean'],
         ];
     }
 
@@ -53,6 +55,10 @@ class SingleChoiceType extends AbstractQuestionType
 
     public function afterValidation(array $data): array
     {
+        if (($this->question->is_survey_question ?? false) || ! ($data['config']['has_correct_answer'] ?? true)) {
+            return $data;
+        }
+
         // بررسی اینکه فقط یک گزینه صحیح وجود داشته باشد
         $correctCount = collect($data['options'])
             ->where('is_correct', true)

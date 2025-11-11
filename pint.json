@@ -63,10 +63,8 @@
     "binary_operator_spaces": {
       "default": "single_space",
       "operators": {
-        "=>": "align_single_space_minimal_by_scope",
-        "|": "no_space",
+        "=>": "single_space",
         "=": "align",
-        "xor": null,
         "+=": "align_single_space",
         "===": "align_single_space_minimal"
       }

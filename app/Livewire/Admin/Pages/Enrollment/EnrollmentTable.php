@@ -40,7 +40,7 @@ final class EnrollmentTable extends PowerGridComponent
     public function breadcrumbsActions(): array
     {
         return [
-            ['link' => route('admin.enrollment.create'), 'icon' => 's-plus', 'label' => trans('general.page.create.title', ['model' => trans('enrollment.model')])],
+            ['link' => route('admin.order.create'), 'icon' => 's-plus', 'label' => trans('general.page.create.title', ['model' => trans('enrollment.model')])],
         ];
     }
 
@@ -83,7 +83,7 @@ final class EnrollmentTable extends PowerGridComponent
             Column::make(trans('validation.attributes.course_id'), 'course_formated', 'course_id'),
             Column::make(trans('validation.attributes.status'), 'status_formated', 'status')->sortable(),
             PowerGridHelper::columnCreatedAT(),
-            PowerGridHelper::columnAction(),
+            // PowerGridHelper::columnAction(),
         ];
     }
 
@@ -97,18 +97,18 @@ final class EnrollmentTable extends PowerGridComponent
         ];
     }
 
-    public function actions(Enrollment $row): array
-    {
-        return [
-            PowerGridHelper::btnEdit($row),
-            PowerGridHelper::btnDelete($row),
-        ];
-    }
+    // public function actions(Enrollment $row): array
+    // {
+    //     return [
+    //         PowerGridHelper::btnEdit($row->order()),
+    //         PowerGridHelper::btnDelete($row),
+    //     ];
+    // }
 
     public function noDataLabel(): string|View
     {
         return view('admin.datatable-shared.empty-table', [
-            'link' => route('admin.enrollment.create'),
+            'link' => route('admin.order.create'),
         ]);
     }
 }

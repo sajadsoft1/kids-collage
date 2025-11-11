@@ -96,8 +96,10 @@ class StoreSurveyAction
             // Get QuestionType handler class
             $handlerClass = $questionType->handler();
             $tempQuestion = new Question([
-                'type'   => $questionData['type'],
-                'config' => $questionData['config'] ?? [],
+                'type'               => $questionData['type'],
+                'config'             => $questionData['config'] ?? [],
+                'is_survey_question' => true,
+                'default_score'      => 0,
             ]);
 
             /** @var AbstractQuestionType $questionTypeHandler */
@@ -109,7 +111,7 @@ class StoreSurveyAction
                 'title'              => $questionData['title'],
                 'body'               => $questionData['body'] ?? null,
                 'explanation'        => $questionData['explanation'] ?? null,
-                'default_score'      => 1,
+                'default_score'      => 0,
                 'config'             => array_merge(
                     $questionTypeHandler->defaultConfig(),
                     $questionData['config'] ?? []
@@ -140,6 +142,7 @@ class StoreSurveyAction
             // Merge system fields that are not in validation rules
             $validatedData = array_merge($validatedData, [
                 'type'               => $questionData['type'],
+                'default_score'      => 0,
                 'is_survey_question' => true,
                 'is_active'          => true,
                 'is_public'          => false,

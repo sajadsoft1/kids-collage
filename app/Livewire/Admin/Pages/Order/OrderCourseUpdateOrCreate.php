@@ -154,10 +154,28 @@ class OrderCourseUpdateOrCreate extends Component
 
     public function removePayment(int $index): void
     {
-        if (count($this->payments) > 1) {
-            unset($this->payments[$index]);
-            $this->payments = array_values($this->payments);
+        $payment = $this->payments[$index] ?? null;
+
+        if ($payment === null) {
+            return;
         }
+
+        $status = PaymentStatusEnum::tryFrom((string) ($payment['status'] ?? ''));
+
+        if ($status === PaymentStatusEnum::PAID) {
+            $this->warning(__('Paid payments cannot be deleted.'));
+
+            return;
+        }
+
+        if (count($this->payments) <= 1) {
+            $this->warning(__('At least one payment is required.'));
+
+            return;
+        }
+
+        unset($this->payments[$index]);
+        $this->payments = array_values($this->payments);
     }
 
     protected function rules(): array

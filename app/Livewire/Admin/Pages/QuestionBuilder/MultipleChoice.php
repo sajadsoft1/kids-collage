@@ -8,15 +8,23 @@ use Livewire\Component;
 
 class MultipleChoice extends Component
 {
-    public array $options       = [];
-    public array $config        = [];
-    public ?int $questionIndex  = null;
+    public array $options         = [];
+    public array $config          = [];
+    public ?int $questionIndex    = null;
+    public bool $hasCorrectAnswer = true;
 
-    public function mount(array $options = [], array $config = [], ?int $questionIndex = null): void
+    public function mount(array $options = [], array $config = [], ?int $questionIndex = null, ?bool $hasCorrectAnswer = null): void
     {
-        $this->options       = empty($options) ? $this->getDefaultOptions() : $options;
-        $this->config        = array_merge($this->getDefaultConfig(), $config);
-        $this->questionIndex = $questionIndex;
+        $mergedConfig             = array_merge($this->getDefaultConfig(), $config);
+        $this->options            = empty($options) ? $this->getDefaultOptions() : $options;
+        $this->config             = $mergedConfig;
+        $this->hasCorrectAnswer   = $hasCorrectAnswer ?? (bool) ($mergedConfig['has_correct_answer'] ?? true);
+        $this->questionIndex      = $questionIndex;
+
+        if ( ! $this->hasCorrectAnswer) {
+            $this->clearCorrectFlags();
+        }
+
         // Sync initial data
         $this->syncData();
     }
@@ -46,8 +54,9 @@ class MultipleChoice extends Component
     protected function getDefaultConfig(): array
     {
         return [
-            'shuffle_options' => false,
-            'scoring_type'    => 'all_or_nothing',
+            'shuffle_options'    => false,
+            'scoring_type'       => 'all_or_nothing',
+            'has_correct_answer' => true,
         ];
     }
 
@@ -72,8 +81,22 @@ class MultipleChoice extends Component
 
     public function toggleCorrect(int $index): void
     {
+        if ( ! $this->hasCorrectAnswer) {
+            return;
+        }
+
         $this->options[$index]['is_correct'] = ! $this->options[$index]['is_correct'];
         $this->dispatchOptions();
+    }
+
+    public function updatedHasCorrectAnswer(): void
+    {
+        if ( ! $this->hasCorrectAnswer) {
+            $this->clearCorrectFlags();
+            $this->dispatchOptions();
+        }
+
+        $this->dispatchConfig();
     }
 
     protected function dispatchOptions(): void
@@ -89,6 +112,8 @@ class MultipleChoice extends Component
     protected function dispatchConfig(): void
     {
         if ($this->questionIndex !== null) {
+            $this->config['has_correct_answer'] = $this->hasCorrectAnswer;
+
             $this->dispatch('configUpdated', [
                 'index'  => $this->questionIndex,
                 'config' => $this->config,
@@ -103,11 +128,19 @@ class MultipleChoice extends Component
 
     public function updatedConfig(): void
     {
+        $this->config['has_correct_answer'] = $this->hasCorrectAnswer;
         $this->dispatchConfig();
     }
 
     public function render(): \Illuminate\Contracts\View\View
     {
         return view('livewire.admin.pages.question-builder.multiple-choice');
+    }
+
+    protected function clearCorrectFlags(): void
+    {
+        foreach ($this->options as $i => $option) {
+            $this->options[$i]['is_correct'] = false;
+        }
     }
 }

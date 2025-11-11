@@ -30,7 +30,7 @@ class SurveyUpdateOrCreate extends Component
     public ?string $ends_at    = null;
     public string $status      = 'draft';
     public array $rules        = [
-        'groups'      => [],
+        'groups' => [],
         'group_logic' => 'or',
     ];
     public array $questions = [];
@@ -47,7 +47,7 @@ class SurveyUpdateOrCreate extends Component
             $this->ends_at     = $this->model->ends_at?->format('Y-m-d');
             $this->status      = $this->model->status->value;
             $this->rules       = $this->model->getRules() ?? [
-                'groups'      => [],
+                'groups' => [],
                 'group_logic' => 'or',
             ];
 
@@ -58,22 +58,22 @@ class SurveyUpdateOrCreate extends Component
                 ->get()
                 ->map(function ($question, $index) {
                     return [
-                        'id'             => $question->id,
-                        'type'           => $question->type->value,
-                        'title'          => $question->title,
-                        'body'           => $question->body ?? '',
-                        'explanation'    => $question->explanation ?? '',
-                        'options'        => $question->options->map(fn ($opt) => [
-                            'id'         => $opt->id,
-                            'content'    => $opt->content,
-                            'type'       => $opt->type,
+                        'id' => $question->id,
+                        'type' => $question->type->value,
+                        'title' => $question->title,
+                        'body' => $question->body ?? '',
+                        'explanation' => $question->explanation ?? '',
+                        'options' => $question->options->map(fn ($opt) => [
+                            'id' => $opt->id,
+                            'content' => $opt->content,
+                            'type' => $opt->type,
                             'is_correct' => $opt->is_correct,
-                            'order'      => $opt->order,
-                            'metadata'   => $opt->metadata ?? [],
+                            'order' => $opt->order,
+                            'metadata' => $opt->metadata ?? [],
                         ])->toArray(),
-                        'config'         => $question->config ?? [],
+                        'config' => $question->config ?? [],
                         'correct_answer' => $question->correct_answer ?? [],
-                        'order'          => $index + 1,
+                        'order' => $index + 1,
                     ];
                 })
                 ->toArray();
@@ -88,14 +88,14 @@ class SurveyUpdateOrCreate extends Component
 
             $this->rules = [
                 'group_logic' => 'or',
-                'groups'      => [
+                'groups' => [
                     [
-                        'logic'      => 'and',
+                        'logic' => 'and',
                         'conditions' => [
                             [
-                                'field'    => 'enrollment_date',
+                                'field' => 'enrollment_date',
                                 'operator' => 'after',
-                                'value'    => '2025-11-03',
+                                'value' => '2025-11-03',
                             ],
                         ],
                     ],
@@ -104,69 +104,69 @@ class SurveyUpdateOrCreate extends Component
 
             $this->questions = [
                 [
-                    'type'           => QuestionTypeEnum::SINGLE_CHOICE->value,
-                    'title'          => 'کدام یک از موارد زیر بیشترین تأثیر را در موفقیت حرفه‌ای دارد؟',
-                    'body'           => 'لطفا بهترین گزینه را انتخاب کنید.',
-                    'explanation'    => 'پاسخ صحیح بر اساس تحقیقات علمی اثبات شده است.',
-                    'options'        => [
+                    'type' => QuestionTypeEnum::SINGLE_CHOICE->value,
+                    'title' => 'کدام یک از موارد زیر بیشترین تأثیر را در موفقیت حرفه‌ای دارد؟',
+                    'body' => 'لطفا بهترین گزینه را انتخاب کنید.',
+                    'explanation' => 'پاسخ صحیح بر اساس تحقیقات علمی اثبات شده است.',
+                    'options' => [
                         [
-                            'content'    => 'گزینه 1',
-                            'type'       => 'text',
+                            'content' => 'گزینه 1',
+                            'type' => 'text',
                             'is_correct' => true,
-                            'order'      => 1,
-                            'metadata'   => [],
+                            'order' => 1,
+                            'metadata' => [],
                         ],
                         [
-                            'content'    => 'گزینه 2',
-                            'type'       => 'text',
+                            'content' => 'گزینه 2',
+                            'type' => 'text',
                             'is_correct' => false,
-                            'order'      => 2,
-                            'metadata'   => [],
+                            'order' => 2,
+                            'metadata' => [],
                         ],
                     ],
-                    'config'         => [
-                        'shuffle_options'  => true,
+                    'config' => [
+                        'shuffle_options' => true,
                         'show_explanation' => true,
                     ],
                     'correct_answer' => [1],
                 ],
                 [
-                    'type'           => QuestionTypeEnum::MULTIPLE_CHOICE->value,
-                    'title'          => 'به نظر شما کدام گزینه‌ها به بهبود سلامت جسمانی کمک می‌کند؟',
-                    'body'           => 'تمام گزینه‌های صحیح را انتخاب نمایید.',
-                    'explanation'    => 'چندین پاسخ می‌تواند صحیح باشد.',
-                    'options'        => [
+                    'type' => QuestionTypeEnum::MULTIPLE_CHOICE->value,
+                    'title' => 'به نظر شما کدام گزینه‌ها به بهبود سلامت جسمانی کمک می‌کند؟',
+                    'body' => 'تمام گزینه‌های صحیح را انتخاب نمایید.',
+                    'explanation' => 'چندین پاسخ می‌تواند صحیح باشد.',
+                    'options' => [
                         [
-                            'content'    => 'گزینه 1',
-                            'type'       => 'text',
+                            'content' => 'گزینه 1',
+                            'type' => 'text',
                             'is_correct' => true,
-                            'order'      => 1,
-                            'metadata'   => [],
+                            'order' => 1,
+                            'metadata' => [],
                         ],
                         [
-                            'content'    => 'گزینه 2',
-                            'type'       => 'text',
+                            'content' => 'گزینه 2',
+                            'type' => 'text',
                             'is_correct' => true,
-                            'order'      => 2,
-                            'metadata'   => [],
+                            'order' => 2,
+                            'metadata' => [],
                         ],
                         [
-                            'content'    => 'گزینه 3',
-                            'type'       => 'text',
+                            'content' => 'گزینه 3',
+                            'type' => 'text',
                             'is_correct' => false,
-                            'order'      => 3,
-                            'metadata'   => [],
+                            'order' => 3,
+                            'metadata' => [],
                         ],
                         [
-                            'content'    => 'گزینه 4',
-                            'type'       => 'text',
+                            'content' => 'گزینه 4',
+                            'type' => 'text',
                             'is_correct' => false,
-                            'order'      => 4,
-                            'metadata'   => [],
+                            'order' => 4,
+                            'metadata' => [],
                         ],
                     ],
-                    'config'         => [
-                        'scoring_type'    => 'all_or_nothing',
+                    'config' => [
+                        'scoring_type' => 'all_or_nothing',
                         'shuffle_options' => true,
                     ],
                     'correct_answer' => [1, 2],
@@ -178,15 +178,17 @@ class SurveyUpdateOrCreate extends Component
     public function addQuestion(): void
     {
         $this->questions[] = [
-            'id'             => null,
-            'type'           => QuestionTypeEnum::SINGLE_CHOICE->value,
-            'title'          => '',
-            'body'           => '',
-            'explanation'    => '',
-            'options'        => [],
-            'config'         => [],
+            'id' => null,
+            'type' => QuestionTypeEnum::SINGLE_CHOICE->value,
+            'title' => '',
+            'body' => '',
+            'explanation' => '',
+            'options' => [],
+            'config' => [
+                'has_correct_answer' => false,
+            ],
             'correct_answer' => [],
-            'order'          => count($this->questions) + 1,
+            'order' => count($this->questions) + 1,
         ];
     }
 
@@ -247,27 +249,27 @@ class SurveyUpdateOrCreate extends Component
     protected function rules(): array
     {
         return [
-            'title'                                => 'required|string',
-            'description'                          => 'nullable|string',
-            'starts_at'                            => 'required|date',
-            'ends_at'                              => 'required|date|after:starts_at',
-            'status'                               => ['required', 'string', 'in:' . implode(',', array_column(ExamStatusEnum::cases(), 'value'))],
-            'rules'                                => 'required|array',
-            'rules.groups'                         => 'required|array',
-            'rules.group_logic'                    => 'required|string',
-            'rules.groups.*.conditions'            => 'required|array',
-            'rules.groups.*.conditions.*.field'    => 'required|string',
+            'title' => 'required|string',
+            'description' => 'nullable|string',
+            'starts_at' => 'required|date',
+            'ends_at' => 'required|date|after:starts_at',
+            'status' => ['required', 'string', 'in:' . implode(',', array_column(ExamStatusEnum::cases(), 'value'))],
+            'rules' => 'required|array',
+            'rules.groups' => 'required|array',
+            'rules.group_logic' => 'required|string',
+            'rules.groups.*.conditions' => 'required|array',
+            'rules.groups.*.conditions.*.field' => 'required|string',
             'rules.groups.*.conditions.*.operator' => 'required|string',
-            'rules.groups.*.conditions.*.value'    => 'required|string',
-            'rules.groups.*.logic'                 => 'required|string',
-            'questions'                            => 'required|array|min:1',
-            'questions.*.type'                     => ['required', 'string', 'in:' . implode(',', [QuestionTypeEnum::SINGLE_CHOICE->value, QuestionTypeEnum::MULTIPLE_CHOICE->value])],
-            'questions.*.title'                    => 'required|string',
-            'questions.*.body'                     => 'nullable|string',
-            'questions.*.explanation'              => 'nullable|string',
-            'questions.*.options'                  => 'nullable|array',
-            'questions.*.config'                   => 'nullable|array',
-            'questions.*.correct_answer'           => 'nullable|array',
+            'rules.groups.*.conditions.*.value' => 'required|string',
+            'rules.groups.*.logic' => 'required|string',
+            'questions' => 'required|array|min:1',
+            'questions.*.type' => ['required', 'string', 'in:' . implode(',', [QuestionTypeEnum::SINGLE_CHOICE->value, QuestionTypeEnum::MULTIPLE_CHOICE->value])],
+            'questions.*.title' => 'required|string',
+            'questions.*.body' => 'nullable|string',
+            'questions.*.explanation' => 'nullable|string',
+            'questions.*.options' => 'nullable|array',
+            'questions.*.config' => 'nullable|array',
+            'questions.*.correct_answer' => 'nullable|array',
         ];
     }
 
@@ -333,17 +335,17 @@ class SurveyUpdateOrCreate extends Component
         // Create and attach new questions
         foreach ($this->questions as $index => $questionData) {
             $questionPayload = [
-                'type'               => $questionData['type'],
-                'title'              => $questionData['title'],
-                'body'               => $questionData['body'] ?? null,
-                'explanation'        => $questionData['explanation'] ?? null,
-                'default_score'      => 1,
-                'config'             => $questionData['config'] ?? [],
-                'correct_answer'     => $questionData['correct_answer'] ?? [],
+                'type' => $questionData['type'],
+                'title' => $questionData['title'],
+                'body' => $questionData['body'] ?? null,
+                'explanation' => $questionData['explanation'] ?? null,
+                'default_score' => 1,
+                'config' => $questionData['config'] ?? [],
+                'correct_answer' => $questionData['correct_answer'] ?? [],
                 'is_survey_question' => true,
-                'is_active'          => true,
-                'is_public'          => false,
-                'created_by'         => Auth::id(),
+                'is_active' => true,
+                'is_public' => false,
+                'created_by' => Auth::id(),
             ];
 
             $question = StoreQuestionAction::run($questionPayload);
@@ -352,20 +354,20 @@ class SurveyUpdateOrCreate extends Component
             if ( ! empty($questionData['options'])) {
                 foreach ($questionData['options'] as $optionData) {
                     $question->options()->create([
-                        'content'    => $optionData['content'] ?? '',
-                        'type'       => $optionData['type'] ?? 'text',
+                        'content' => $optionData['content'] ?? '',
+                        'type' => $optionData['type'] ?? 'text',
                         'is_correct' => $optionData['is_correct'] ?? false,
-                        'order'      => $optionData['order'] ?? 0,
-                        'metadata'   => $optionData['metadata'] ?? [],
+                        'order' => $optionData['order'] ?? 0,
+                        'metadata' => $optionData['metadata'] ?? [],
                     ]);
                 }
             }
 
             // Attach to exam
             $exam->questions()->attach($question->id, [
-                'weight'          => 1,
-                'order'           => $questionData['order'] ?? $index + 1,
-                'is_required'     => true,
+                'weight' => 1,
+                'order' => $questionData['order'] ?? $index + 1,
+                'is_required' => true,
                 'config_override' => null,
             ]);
         }
@@ -374,16 +376,16 @@ class SurveyUpdateOrCreate extends Component
     public function render(): View
     {
         return view('livewire.admin.pages.survey.survey-update-or-create', [
-            'edit_mode'          => $this->model->id,
-            'breadcrumbs'        => [
+            'edit_mode' => $this->model->id,
+            'breadcrumbs' => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link'  => route('admin.survey.index'), 'label' => trans('_menu.survey_management')],
+                ['link' => route('admin.survey.index'), 'label' => trans('_menu.survey_management')],
                 ['label' => $this->model->id ? 'ویرایش' : 'ایجاد'],
             ],
             'breadcrumbsActions' => [
                 ['link' => route('admin.survey.index'), 'icon' => 's-arrow-left'],
             ],
-            'questionTypes'      => QuestionTypeEnum::surveyTypesFormatedCases(),
+            'questionTypes' => QuestionTypeEnum::surveyTypesFormatedCases(),
         ]);
     }
 }
