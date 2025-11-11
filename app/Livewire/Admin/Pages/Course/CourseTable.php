@@ -44,7 +44,7 @@ final class CourseTable extends PowerGridComponent
     {
         return [
             ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-            ['link'  => route('admin.course-template.index'), 'label' => trans('general.page.index.title', ['model' => trans('coursetemplate.model')])],
+            ['link' => route('admin.course-template.index'), 'label' => trans('general.page.index.title', ['model' => trans('coursetemplate.model')])],
             ['label' => trans('general.page.index.title', ['model' => trans('course.model')])],
         ];
     }
@@ -54,9 +54,9 @@ final class CourseTable extends PowerGridComponent
     {
         return [
             [
-                'link'   => route('admin.course.run', ['courseTemplate' => $this->courseTemplate->id]),
-                'icon'   => 's-plus',
-                'label'  => trans(
+                'link' => route('admin.course.run', ['courseTemplate' => $this->courseTemplate->id]),
+                'icon' => 's-plus',
+                'label' => trans(
                     'general.page.create.title',
                     ['model' => trans('course.model')]
                 ),
@@ -75,17 +75,17 @@ final class CourseTable extends PowerGridComponent
     public function relationSearch(): array
     {
         return [
-            'translations'          => [
+            'translations' => [
                 'value',
             ],
             'category.translations' => [
                 'value',
             ],
-            'teacher'               => [
+            'teacher' => [
                 'name',
                 'email',
             ],
-            'user'                  => [
+            'user' => [
                 'name',
                 'email',
             ],

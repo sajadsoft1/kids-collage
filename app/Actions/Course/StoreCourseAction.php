@@ -48,11 +48,11 @@ class StoreCourseAction
         return DB::transaction(function () use ($courseTemplate, $payload) {
             $model = Course::create([
                 'course_template_id' => $courseTemplate->id,
-                'term_id'            => Arr::get($payload, 'term_id'),
-                'teacher_id'         => Arr::get($payload, 'teacher_id'),
-                'capacity'           => Arr::get($payload, 'capacity'),
-                'status'             => Arr::get($payload, 'status') ?? CourseStatusEnum::DRAFT->value,
-                'price'              => Arr::get($payload, 'price', 0),
+                'term_id' => Arr::get($payload, 'term_id'),
+                'teacher_id' => Arr::get($payload, 'teacher_id'),
+                'capacity' => Arr::get($payload, 'capacity'),
+                'status' => Arr::get($payload, 'status') ?? CourseStatusEnum::DRAFT->value,
+                'price' => Arr::get($payload, 'price', 0),
             ]);
 
             foreach ($payload['sessions'] as $session) {

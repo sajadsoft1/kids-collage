@@ -41,10 +41,10 @@ class ShortAnswer extends Component
     protected function getDefaultConfig(): array
     {
         return [
-            'max_length'      => 500,
-            'case_sensitive'  => false,
+            'max_length' => 500,
+            'case_sensitive' => false,
             'trim_whitespace' => true,
-            'auto_grade'      => false,
+            'auto_grade' => false,
         ];
     }
 
@@ -67,7 +67,7 @@ class ShortAnswer extends Component
     {
         if ($this->questionIndex !== null) {
             $this->dispatch('configUpdated', [
-                'index'  => $this->questionIndex,
+                'index' => $this->questionIndex,
                 'config' => $this->config,
             ]);
         }
@@ -77,7 +77,7 @@ class ShortAnswer extends Component
     {
         if ($this->questionIndex !== null) {
             $this->dispatch('correctAnswerUpdated', [
-                'index'          => $this->questionIndex,
+                'index' => $this->questionIndex,
                 'correct_answer' => $this->correct_answer,
             ]);
         }

@@ -74,8 +74,8 @@ class LatestTicketsWidget extends Component
             });
 
         return [
-            'total'  => (clone $baseQuery)->count(),
-            'open'   => (clone $baseQuery)->where('status', TicketStatusEnum::OPEN)->count(),
+            'total' => (clone $baseQuery)->count(),
+            'open' => (clone $baseQuery)->where('status', TicketStatusEnum::OPEN)->count(),
             'closed' => (clone $baseQuery)->where('status', TicketStatusEnum::CLOSE)->count(),
         ];
     }
@@ -99,10 +99,10 @@ class LatestTicketsWidget extends Component
     public function getMoreItemsUrl(): string
     {
         $params = http_build_query([
-            'user_id'    => $this->userId,
+            'user_id' => $this->userId,
             'start_date' => $this->start_date,
-            'end_date'   => $this->end_date,
-            'status'     => $this->status,
+            'end_date' => $this->end_date,
+            'status' => $this->status,
             'department' => $this->department,
         ]);
 

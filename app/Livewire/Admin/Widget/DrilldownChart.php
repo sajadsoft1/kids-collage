@@ -45,7 +45,7 @@ class DrilldownChart extends Component
     {
         if ( ! $parentId) {
             return collect(range(2020, 2025))->map(fn ($y) => [
-                'id'    => "year-{$y}",
+                'id' => "year-{$y}",
                 'label' => "سال {$y}",
                 'value' => rand(1000, 3000),
             ])->toArray();
@@ -53,7 +53,7 @@ class DrilldownChart extends Component
 
         if (str_starts_with($parentId, 'year-') && ! str_contains($parentId, 'month-')) {
             return collect(range(1, 12))->map(fn ($m) => [
-                'id'    => "{$parentId}-month-{$m}",
+                'id' => "{$parentId}-month-{$m}",
                 'label' => "ماه {$m}",
                 'value' => rand(200, 800),
             ])->toArray();
@@ -61,7 +61,7 @@ class DrilldownChart extends Component
 
         if (str_contains($parentId, 'month-') && ! str_contains($parentId, 'week-')) {
             return collect(range(1, 4))->map(fn ($w) => [
-                'id'    => "{$parentId}-week-{$w}",
+                'id' => "{$parentId}-week-{$w}",
                 'label' => "هفته {$w}",
                 'value' => rand(50, 150),
             ])->toArray();
@@ -69,7 +69,7 @@ class DrilldownChart extends Component
 
         if (str_contains($parentId, 'week-') && ! str_contains($parentId, 'day-')) {
             return collect(range(1, 7))->map(fn ($d) => [
-                'id'    => "{$parentId}-day-{$d}",
+                'id' => "{$parentId}-day-{$d}",
                 'label' => "روز {$d}",
                 'value' => rand(20, 100),
             ])->toArray();
@@ -77,7 +77,7 @@ class DrilldownChart extends Component
 
         if (str_contains($parentId, 'day-') && ! str_contains($parentId, 'hour-')) {
             return collect(range(0, 23))->map(fn ($h) => [
-                'id'    => "{$parentId}-hour-{$h}",
+                'id' => "{$parentId}-hour-{$h}",
                 'label' => "{$h}:00",
                 'value' => rand(1, 10),
             ])->toArray();

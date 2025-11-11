@@ -12,58 +12,58 @@ use Livewire\Component;
 class ExamRuleBuilder extends Component
 {
     public array $rules = [
-        'groups'      => [],
+        'groups' => [],
         'group_logic' => 'or',
     ];
 
     public array $availableFields = [
-        'user_type'          => 'نوع کاربر',
-        'enrollment_date'    => 'تاریخ ثبت نام',
+        'user_type' => 'نوع کاربر',
+        'enrollment_date' => 'تاریخ ثبت نام',
         'enrolled_in_course' => 'ثبت نام در دوره',
         'has_role_in_course' => 'نقش در دوره',
-        'term_id'            => 'ترم',
-        'created_at'         => 'تاریخ ثبت نام کاربر',
+        'term_id' => 'ترم',
+        'created_at' => 'تاریخ ثبت نام کاربر',
     ];
 
     public array $availableOperators = [
-        'user_type'          => [
-            'equals'     => 'برابر با',
+        'user_type' => [
+            'equals' => 'برابر با',
             'not_equals' => 'مخالف با',
-            'in'         => 'یکی از',
-            'not_in'     => 'هیچکدام از',
+            'in' => 'یکی از',
+            'not_in' => 'هیچکدام از',
         ],
-        'enrollment_date'    => [
-            'before'       => 'قبل از',
-            'after'        => 'بعد از',
-            'on'           => 'در تاریخ',
+        'enrollment_date' => [
+            'before' => 'قبل از',
+            'after' => 'بعد از',
+            'on' => 'در تاریخ',
             'before_or_on' => 'قبل از یا برابر',
-            'after_or_on'  => 'بعد از یا برابر',
-            'is_null'      => 'تعریف نشده',
+            'after_or_on' => 'بعد از یا برابر',
+            'is_null' => 'تعریف نشده',
         ],
         'enrolled_in_course' => [
-            'equals'     => 'برابر با',
+            'equals' => 'برابر با',
             'not_equals' => 'مخالف با',
-            'in'         => 'یکی از',
-            'not_in'     => 'هیچکدام از',
-            'is_null'    => 'ثبت نام نشده',
+            'in' => 'یکی از',
+            'not_in' => 'هیچکدام از',
+            'is_null' => 'ثبت نام نشده',
         ],
         'has_role_in_course' => [
-            'equals'     => 'برابر با',
+            'equals' => 'برابر با',
             'not_equals' => 'مخالف با',
         ],
-        'term_id'            => [
-            'equals'     => 'برابر با',
+        'term_id' => [
+            'equals' => 'برابر با',
             'not_equals' => 'مخالف با',
-            'in'         => 'یکی از',
-            'not_in'     => 'هیچکدام از',
-            'is_null'    => 'تعریف نشده',
+            'in' => 'یکی از',
+            'not_in' => 'هیچکدام از',
+            'is_null' => 'تعریف نشده',
         ],
-        'created_at'         => [
-            'before'       => 'قبل از',
-            'after'        => 'بعد از',
-            'on'           => 'در تاریخ',
+        'created_at' => [
+            'before' => 'قبل از',
+            'after' => 'بعد از',
+            'on' => 'در تاریخ',
             'before_or_on' => 'قبل از یا برابر',
-            'after_or_on'  => 'بعد از یا برابر',
+            'after_or_on' => 'بعد از یا برابر',
         ],
     ];
 
@@ -71,7 +71,7 @@ class ExamRuleBuilder extends Component
     {
         if ($rules !== null && is_array($rules)) {
             $this->rules = array_merge([
-                'groups'      => [],
+                'groups' => [],
                 'group_logic' => 'or',
             ], $rules);
         }
@@ -80,7 +80,7 @@ class ExamRuleBuilder extends Component
     public function addGroup(): void
     {
         $this->rules['groups'][] = [
-            'logic'      => 'and',
+            'logic' => 'and',
             'conditions' => [],
         ];
 
@@ -102,9 +102,9 @@ class ExamRuleBuilder extends Component
         }
 
         $this->rules['groups'][$groupIndex]['conditions'][] = [
-            'field'    => 'user_type',
+            'field' => 'user_type',
             'operator' => 'equals',
-            'value'    => '',
+            'value' => '',
         ];
 
         $this->notifyRulesUpdated();
@@ -161,7 +161,7 @@ class ExamRuleBuilder extends Component
         return Course::with('term')
             ->get()
             ->map(fn ($course) => [
-                'id'   => $course->id,
+                'id' => $course->id,
                 'name' => $course->title . ' (' . ($course->term->title ?? 'بدون ترم') . ')',
             ])
             ->toArray();
@@ -171,7 +171,7 @@ class ExamRuleBuilder extends Component
     {
         return Term::all()
             ->map(fn ($term) => [
-                'id'   => $term->id,
+                'id' => $term->id,
                 'name' => $term->title,
             ])
             ->toArray();

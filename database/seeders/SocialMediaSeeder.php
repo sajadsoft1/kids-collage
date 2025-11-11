@@ -16,9 +16,9 @@ class SocialMediaSeeder extends Seeder
         $data = require database_path('seeders/data/karno.php');
         foreach ($data['social_media'] as $row) {
             $model = StoreSocialMediaAction::run([
-                'title'    => $row['title'],
+                'title' => $row['title'],
                 'position' => $row['position'],
-                'link'     => $row['link'],
+                'link' => $row['link'],
                 'ordering' => $row['ordering'],
             ]);
         }

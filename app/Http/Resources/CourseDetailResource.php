@@ -25,12 +25,12 @@ class CourseDetailResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'          => $this->id,
-            'title'       => $this->title,
+            'id' => $this->id,
+            'title' => $this->title,
             'description' => $this->description,
-            'updated_at'  => $this->updated_at,
-            'created_at'  => $this->created_at,
-            'sessions'    => $this->whenLoaded('sessions', function () {
+            'updated_at' => $this->updated_at,
+            'created_at' => $this->created_at,
+            'sessions' => $this->whenLoaded('sessions', function () {
                 return CourseSessionResource::collection($this->sessions);
             }),
             'enrollments' => $this->whenLoaded('enrollments', function () {
@@ -41,7 +41,7 @@ class CourseDetailResource extends JsonResource
         $resource = BlogResource::make($this)->toArray($request);
 
         return array_merge($resource, [
-            'comments'   => $this->whenLoaded('comments', fn () => CommentResource::collection($this->comments)),
+            'comments' => $this->whenLoaded('comments', fn () => CommentResource::collection($this->comments)),
             'seo_option' => $this->seoOption,
         ]);
     }

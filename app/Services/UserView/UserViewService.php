@@ -21,12 +21,12 @@ class UserViewService
                 $visitor = auth()->id();
             }
             UserView::query()->create([
-                'morphable_id'   => $eloquent->id,
+                'morphable_id' => $eloquent->id,
                 'morphable_type' => $eloquent::class,
-                'user_id'        => auth()->id(),
-                'collection'     => $collection,
-                'visitor'        => $visitor,
-                'ip'             => request()->ip(),
+                'user_id' => auth()->id(),
+                'collection' => $collection,
+                'visitor' => $visitor,
+                'ip' => request()->ip(),
             ]);
             
             if (array_key_exists('view_count', $eloquent->toArray())) {
@@ -43,18 +43,18 @@ class UserViewService
     {
         if (Auth::guard('api')->check()) {
             return UserView::query()->where([
-                'morphable_id'   => $eloquent->id,
+                'morphable_id' => $eloquent->id,
                 'morphable_type' => $eloquent::class,
-                'collection'     => $collection,
-                'user_id'        => auth()->id(),
+                'collection' => $collection,
+                'user_id' => auth()->id(),
             ])->exists();
         }
         
         return UserView::query()->where([
-            'morphable_id'   => $eloquent->id,
+            'morphable_id' => $eloquent->id,
             'morphable_type' => $eloquent::class,
-            'collection'     => $collection,
-            'ip'             => request()->ip(),
+            'collection' => $collection,
+            'ip' => request()->ip(),
         ])->exists();
     }
 }

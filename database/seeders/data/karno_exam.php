@@ -9,38 +9,38 @@ use App\Models\Category;
 return [
     'question_competency' => [
         [
-            'title'       => 'کوپتانسی مهارتی',
+            'title' => 'کوپتانسی مهارتی',
             'description' => 'توضیحات کوپتانسی مهارتی',
         ],
     ],
-    'question_subject'    => [
+    'question_subject' => [
         [
-            'title'       => 'مهارتی',
+            'title' => 'مهارتی',
             'description' => 'توضیحات مهارتی',
             'category_id' => Category::where('type', CategoryTypeEnum::QUESTION->value)->first()->id,
         ],
     ],
-    'question'            => [
+    'question' => [
         [
-            'question'      => 'سوال مهارتی',
-            'subject_id'    => 1,
+            'question' => 'سوال مهارتی',
+            'subject_id' => 1,
             'competency_id' => 1,
-            'type'          => QuestionTypeEnum::SINGLE_CHOICE->value,
-            'options'       => [
+            'type' => QuestionTypeEnum::SINGLE_CHOICE->value,
+            'options' => [
                 [
-                    'option'     => 'گزینه A',
+                    'option' => 'گزینه A',
                     'is_correct' => true,
                 ],
                 [
-                    'option'     => 'گزینه B',
+                    'option' => 'گزینه B',
                     'is_correct' => false,
                 ],
                 [
-                    'option'     => 'گزینه C',
+                    'option' => 'گزینه C',
                     'is_correct' => false,
                 ],
                 [
-                    'option'     => 'گزینه D',
+                    'option' => 'گزینه D',
                     'is_correct' => false,
                 ],
             ],

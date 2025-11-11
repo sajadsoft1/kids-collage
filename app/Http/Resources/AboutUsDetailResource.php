@@ -27,11 +27,11 @@ class AboutUsDetailResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'title'      => $this->title,
-            'body'       => $this->body,
-            'slug'       => $this->slug,
+            'title' => $this->title,
+            'body' => $this->body,
+            'slug' => $this->slug,
             'seo_option' => $this->seoOption,
-            'image'      => $this->resource->getFirstMediaUrl('image', Constants::RESOLUTION_1280_720),
+            'image' => $this->resource->getFirstMediaUrl('image', Constants::RESOLUTION_1280_720),
         ];
     }
 }

@@ -40,8 +40,8 @@ class Comment extends Model
 
     protected $casts = [
         'published' => BooleanEnum::class,
-        'suggest'   => YesNoEnum::class,
-        'rate'      => 'integer',
+        'suggest' => YesNoEnum::class,
+        'rate' => 'integer',
     ];
 
     /**

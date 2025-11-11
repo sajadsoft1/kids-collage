@@ -33,16 +33,16 @@ class GenerateEnrollmentPipe implements OrderCourseInterface
                     // Update existing enrollment with new order_item_id
                     $existingEnrollment->update([
                         'order_item_id' => $item->id,
-                        'enrolled_at'   => $existingEnrollment->enrolled_at ?? now(),
+                        'enrolled_at' => $existingEnrollment->enrolled_at ?? now(),
                     ]);
                     $dto->setEnrollment($existingEnrollment);
                 } else {
                     // Create new enrollment
                     $enrollment = $user?->enrollments()->create([
-                        'course_id'     => $item->itemable_id,
-                        'status'        => EnrollmentStatusEnum::ACTIVE->value,
+                        'course_id' => $item->itemable_id,
+                        'status' => EnrollmentStatusEnum::ACTIVE->value,
                         'order_item_id' => $item->id,
-                        'enrolled_at'   => now(),
+                        'enrolled_at' => now(),
                     ]);
                     $dto->setEnrollment($enrollment);
                 }

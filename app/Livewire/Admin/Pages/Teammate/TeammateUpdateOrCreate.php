@@ -48,15 +48,15 @@ class TeammateUpdateOrCreate extends Component
     protected function rules(): array
     {
         return [
-            'title'       => 'required|string',
+            'title' => 'required|string',
             'description' => 'required|string',
-            'bio'         => ['nullable', 'string'],
-            'position'    => ['required', 'string'],
-            'birthday'    => ['required', 'date'],
-            'published'   => ['sometimes', 'boolean'],
-            'image'       => ['nullable', 'file', 'mimes:png,jpg,jpeg', 'max:2048'],
+            'bio' => ['nullable', 'string'],
+            'position' => ['required', 'string'],
+            'birthday' => ['required', 'date'],
+            'published' => ['sometimes', 'boolean'],
+            'image' => ['nullable', 'file', 'mimes:png,jpg,jpeg', 'max:2048'],
             //            'bio_image' => ['nullable', 'file', 'mimes:png,jpg,jpeg', 'max:2048'],
-            'email'       => ['nullable', 'email'],
+            'email' => ['nullable', 'email'],
         ];
     }
 
@@ -90,10 +90,10 @@ class TeammateUpdateOrCreate extends Component
     public function render(): View
     {
         return view('livewire.admin.pages.teammate.teammate-update-or-create', [
-            'edit_mode'          => $this->model->id,
-            'breadcrumbs'        => [
+            'edit_mode' => $this->model->id,
+            'breadcrumbs' => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link'  => route('admin.teammate.index'), 'label' => trans('general.page.index.title', ['model' => trans('teammate.model')])],
+                ['link' => route('admin.teammate.index'), 'label' => trans('general.page.index.title', ['model' => trans('teammate.model')])],
                 ['label' => trans('general.page.create.title', ['model' => trans('teammate.model')])],
             ],
             'breadcrumbsActions' => [

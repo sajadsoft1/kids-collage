@@ -56,10 +56,10 @@ enum OrderStatusEnum: string
     public function title(): string
     {
         return match ($this) {
-            self::PENDING    => trans('order.enum.status.pending'),
+            self::PENDING => trans('order.enum.status.pending'),
             self::PROCESSING => trans('order.enum.status.processing'),
-            self::COMPLETED  => trans('order.enum.status.completed'),
-            self::CANCELLED  => trans('order.enum.status.cancelled'),
+            self::COMPLETED => trans('order.enum.status.completed'),
+            self::CANCELLED => trans('order.enum.status.cancelled'),
         };
     }
 

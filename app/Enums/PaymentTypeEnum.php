@@ -33,8 +33,8 @@ enum PaymentTypeEnum: string
     public function title(): string
     {
         return match ($this) {
-            self::ONLINE       => trans('payment.enum.type.online'),
-            self::CASH         => trans('payment.enum.type.cash'),
+            self::ONLINE => trans('payment.enum.type.online'),
+            self::CASH => trans('payment.enum.type.cash'),
             self::CARD_TO_CARD => trans('payment.enum.type.card_to_card'),
         };
     }

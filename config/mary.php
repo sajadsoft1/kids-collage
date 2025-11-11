@@ -16,7 +16,7 @@ return [
      *               <x-mary-button />
      *               <x-mary-card />
      */
-    'prefix'       => '',
+    'prefix' => '',
 
     /**
      * Default route prefix.
@@ -38,7 +38,7 @@ return [
     /**
      * Components settings
      */
-    'components'   => [
+    'components' => [
         'spotlight' => [
             'class' => 'App\Support\Spotlight',
         ],

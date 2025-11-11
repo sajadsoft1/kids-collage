@@ -76,74 +76,74 @@ class Handler extends ExceptionHandler
 
             if ($e instanceof NotFoundHttpException) {
                 return response()->json([
-                    'message'     => __('exception.address_not_found'),
+                    'message' => __('exception.address_not_found'),
                     'serverError' => $e->getMessage(),
                 ], $e->getStatusCode());
             }
             if ($e instanceof TooManyRequestsHttpException) {
                 return response()->json([
-                    'message'     => __('exception.too_many_requests'),
+                    'message' => __('exception.too_many_requests'),
                     'serverError' => $e->getMessage(),
                 ], $e->getStatusCode());
             }
             if ($e instanceof MethodNotAllowedHttpException) {
                 return response()->json([
-                    'message'     => __('exception.method_not_supported'),
+                    'message' => __('exception.method_not_supported'),
                     'serverError' => $e->getMessage(),
-                    'data'        => [],
+                    'data' => [],
                 ], $e->getStatusCode());
             }
             if ($e instanceof HttpException) {
                 return response()->json([
-                    'message'     => $e->getMessage(),
+                    'message' => $e->getMessage(),
                     'serverError' => $e->getMessage(),
                 ], $e->getStatusCode());
             }
             if ($e instanceof ModelNotFoundException) {
                 return response()->json([
-                    'message'     => __('exception.data_not_found'),
+                    'message' => __('exception.data_not_found'),
                     'serverError' => $e->getMessage(),
                 ], 404);
             }
             if ($e instanceof ValidationException) {
                 return response()->json([
                     'message' => ! empty($e->getMessage()) ? $e->getMessage() : __('exception.invalid_data_is_sent'),
-                    'errors'  => $e->validator->errors(),
+                    'errors' => $e->validator->errors(),
                 ], $e->status);
             }
             if ($e instanceof AuthenticationException) {
                 return response()->json([
-                    'message'     => __('auth.unauthenticated'),
+                    'message' => __('auth.unauthenticated'),
                     'serverError' => $e->getMessage(),
                 ], 401);
             }
             if ($e instanceof BadMethodCallException) {
                 return response()->json([
-                    'message'     => __('exception.calling_function_failed'),
+                    'message' => __('exception.calling_function_failed'),
                     'serverError' => $e->getMessage(),
                 ], 500);
             }
             if ($e instanceof ErrorException) {
                 return response()->json([
-                    'message'     => __('exception.server_side_error'),
+                    'message' => __('exception.server_side_error'),
                     'serverError' => $e->getMessage(),
                 ], 500);
             }
             if ($e instanceof Error) {
                 return response()->json([
-                    'message'     => __('exception.server_side_error'),
+                    'message' => __('exception.server_side_error'),
                     'serverError' => $e->getMessage(),
                 ], 500);
             }
             if ($e instanceof BadRequestException) {
                 return response()->json([
-                    'message'     => __('exception.invalid_request_sent'),
+                    'message' => __('exception.invalid_request_sent'),
                     'serverError' => $e->getMessage(),
                 ], 400);
             }
             if ($e instanceof AuthorizationException) {
                 return response()->json([
-                    'message'     => __('exception.unauthorized'),
+                    'message' => __('exception.unauthorized'),
                     'serverError' => $e->getMessage(),
                 ], 403);
             }
@@ -159,8 +159,8 @@ class Handler extends ExceptionHandler
 
                 return response()->json(
                     [
-                        'code'        => $code,
-                        'message'     => $e->getMessage(),
+                        'code' => $code,
+                        'message' => $e->getMessage(),
                         'serverError' => null,
                     ],
                     500
@@ -168,9 +168,9 @@ class Handler extends ExceptionHandler
             } catch (Exception $e) {
                 return response()->json(
                     [
-                        'message'     => __('exception.unexpected_error'),
+                        'message' => __('exception.unexpected_error'),
                         'serverError' => $e->getMessage(),
-                        'errors'      => $e->getTrace(),
+                        'errors' => $e->getTrace(),
                     ],
                     500
                 );

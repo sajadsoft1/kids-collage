@@ -3,17 +3,17 @@
 declare(strict_types=1);
 
 return [
-    'model'         => 'نوع سوالات',
-    'permissions'   => [
+    'model' => 'نوع سوالات',
+    'permissions' => [
     ],
-    'exceptions'    => [
+    'exceptions' => [
     ],
-    'validations'   => [
+    'validations' => [
     ],
-    'enum'          => [
+    'enum' => [
     ],
     'notifications' => [
     ],
-    'page'          => [
+    'page' => [
     ],
 ];

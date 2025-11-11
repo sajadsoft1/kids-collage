@@ -14,29 +14,29 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         User::factory(1)->create([
-            'type'   => UserTypeEnum::TEACHER,
+            'type' => UserTypeEnum::TEACHER,
             'status' => true,
-            'email'  => 'teacher@gmail.com',
+            'email' => 'teacher@gmail.com',
             'mobile' => '09100000001',
         ]);
         User::factory(1)->create([
-            'type'   => UserTypeEnum::EMPLOYEE,
+            'type' => UserTypeEnum::EMPLOYEE,
             'status' => true,
-            'email'  => 'employee@gmail.com',
+            'email' => 'employee@gmail.com',
             'mobile' => '09100000002',
         ]);
 
         $users = User::factory(1)->create([
-            'type'   => UserTypeEnum::USER,
+            'type' => UserTypeEnum::USER,
             'status' => true,
-            'email'  => 'user@gmail.com',
+            'email' => 'user@gmail.com',
             'mobile' => '09100000003',
         ]);
 
         User::factory(1)->create([
-            'type'   => UserTypeEnum::PARENT,
+            'type' => UserTypeEnum::PARENT,
             'status' => true,
-            'email'  => 'parent@gmail.com',
+            'email' => 'parent@gmail.com',
             'mobile' => '09100000004',
         ])->each(function (User $user) use ($users) {
             // add relation to user where not have parrent

@@ -74,10 +74,10 @@ final class NotificationTemplateTable extends PowerGridComponent
             ->add('name')
             ->add('channel', function ($row) {
                 return match ($row->channel) {
-                    'sms'          => '<span class="badge badge-primary badge-sm">' . trans('general.channels.sms') . '</span>',
-                    'email'        => '<span class="badge badge-info badge-sm">' . trans('general.channels.email') . '</span>',
+                    'sms' => '<span class="badge badge-primary badge-sm">' . trans('general.channels.sms') . '</span>',
+                    'email' => '<span class="badge badge-info badge-sm">' . trans('general.channels.email') . '</span>',
                     'notification' => '<span class="badge badge-accent badge-sm">' . trans('general.channels.notification') . '</span>',
-                    default        => $row->channel,
+                    default => $row->channel,
                 };
             })
             ->add('channel_text', fn ($row) => trans('general.channels.' . $row->channel))

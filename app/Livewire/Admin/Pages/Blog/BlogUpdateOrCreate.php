@@ -57,14 +57,14 @@ class BlogUpdateOrCreate extends Component
     protected function rules(): array
     {
         return [
-            'title'        => 'required|string|max:255|min:2',
-            'description'  => 'required|string|max:255',
-            'body'         => 'required|string',
-            'published'    => 'required|boolean',
+            'title' => 'required|string|max:255|min:2',
+            'description' => 'required|string|max:255',
+            'body' => 'required|string',
+            'published' => 'required|boolean',
             'published_at' => 'nullable|date',
-            'category_id'  => 'required|exists:categories,id,type,blog',
-            'image'        => 'nullable|file|mimes:png,jpg,jpeg|max:4096',
-            'tags'         => 'nullable|array',
+            'category_id' => 'required|exists:categories,id,type,blog',
+            'image' => 'nullable|file|mimes:png,jpg,jpeg|max:4096',
+            'tags' => 'nullable|array',
         ];
     }
 
@@ -99,10 +99,10 @@ class BlogUpdateOrCreate extends Component
     public function render(): View
     {
         return view('livewire.admin.pages.blog.blog-update-or-create', [
-            'edit_mode'          => $this->model->id,
-            'breadcrumbs'        => [
+            'edit_mode' => $this->model->id,
+            'breadcrumbs' => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link'  => route('admin.blog.index'), 'label' => trans('general.page.index.title', ['model' => trans('blog.model')])],
+                ['link' => route('admin.blog.index'), 'label' => trans('general.page.index.title', ['model' => trans('blog.model')])],
                 ['label' => trans('general.page.create.title', ['model' => trans('blog.model')])],
             ],
             'breadcrumbsActions' => [

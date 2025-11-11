@@ -53,7 +53,7 @@ class DynamicSeo extends Component
         $this->model           = Utils::getEloquent($class)::find($id);
         $this->back_route      = match ($class) {
             'courseSessionTemplate' => route('admin.course-session-template.index', ['courseTemplate' => $this->model->course_template_id]),
-            default                 => route('admin.' . Str::kebab($class) . '.index'),
+            default => route('admin.' . Str::kebab($class) . '.index'),
         };
         $this->slug            = $this->model->slug;
         $this->seo_title       = $this->model->seoOption->title;
@@ -151,11 +151,11 @@ class DynamicSeo extends Component
         return [
             'type' => $chartType,
             'data' => [
-                'labels'   => $labels,
+                'labels' => $labels,
                 'datasets' => [
                     [
                         'label' => '# of Items',
-                        'data'  => $data,
+                        'data' => $data,
                     ],
                 ],
             ],
@@ -179,13 +179,13 @@ class DynamicSeo extends Component
     protected function rules(): array
     {
         return [
-            'slug'            => ['required', 'max:255', 'unique:' . Str::plural($this->class) . ',slug,' . $this->model->id],
-            'seo_title'       => ['required', 'max:255'],
+            'slug' => ['required', 'max:255', 'unique:' . Str::plural($this->class) . ',slug,' . $this->model->id],
+            'seo_title' => ['required', 'max:255'],
             'seo_description' => ['required', 'max:500'],
-            'canonical'       => ['nullable', 'max:255', 'url'],
-            'old_url'         => ['nullable', 'max:255', 'url'],
-            'redirect_to'     => ['nullable', 'max:255', 'url'],
-            'robots_meta'     => ['required', 'in:' . implode(',', SeoRobotsMetaEnum::values())],
+            'canonical' => ['nullable', 'max:255', 'url'],
+            'old_url' => ['nullable', 'max:255', 'url'],
+            'redirect_to' => ['nullable', 'max:255', 'url'],
+            'robots_meta' => ['required', 'in:' . implode(',', SeoRobotsMetaEnum::values())],
         ];
     }
 
@@ -194,10 +194,10 @@ class DynamicSeo extends Component
         $payload =  $this->validate();
 
         $this->model->seoOption->update([
-            'title'       => $payload['seo_title'],
+            'title' => $payload['seo_title'],
             'description' => $payload['seo_description'],
-            'canonical'   => $payload['canonical'],
-            'old_url'     => $payload['old_url'],
+            'canonical' => $payload['canonical'],
+            'old_url' => $payload['old_url'],
             'redirect_to' => $payload['redirect_to'],
             'robots_meta' => SeoRobotsMetaEnum::from($payload['robots_meta']),
         ]);
@@ -210,21 +210,21 @@ class DynamicSeo extends Component
     public function render(): View
     {
         return view('livewire.admin.shared.dynamic-seo', [
-            'breadcrumbs'        => [
+            'breadcrumbs' => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link'  => $this->back_route, 'label' => trans('general.page.index.title', ['model' => trans($this->class . '.model')])],
+                ['link' => $this->back_route, 'label' => trans('general.page.index.title', ['model' => trans($this->class . '.model')])],
                 ['label' => $this->model->title],
             ],
             'breadcrumbsActions' => [
                 ['link' => $this->back_route, 'icon' => 's-arrow-left'],
             ],
-            'viewsCount'         => $this->countGenerator($this->baseViewsQuery()),
-            'commentsCount'      => $this->countGenerator($this->baseCommentsQuery()),
-            'wishesCount'        => $this->countGenerator($this->baseWishesQuery()),
+            'viewsCount' => $this->countGenerator($this->baseViewsQuery()),
+            'commentsCount' => $this->countGenerator($this->baseCommentsQuery()),
+            'wishesCount' => $this->countGenerator($this->baseWishesQuery()),
 
-            'comments'           => $this->baseCommentsQuery()->paginate(15),
-            'views'              => $this->baseViewsQuery()->paginate(15),
-            'wishes'             => $this->baseWishesQuery()->paginate(15),
+            'comments' => $this->baseCommentsQuery()->paginate(15),
+            'views' => $this->baseViewsQuery()->paginate(15),
+            'wishes' => $this->baseWishesQuery()->paginate(15),
         ]);
     }
 }

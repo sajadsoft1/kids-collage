@@ -42,19 +42,19 @@ final class QuestionSubjectTable extends PowerGridComponent
     {
         return [
             [
-                'name'        => 'title',
-                'type'        => 'input',
-                'label'       => trans('validation.attributes.title'),
+                'name' => 'title',
+                'type' => 'input',
+                'label' => trans('validation.attributes.title'),
                 'placeholder' => trans('validation.attributes.title'),
-                'required'    => true,
-                'rules'       => 'required|min:3',
+                'required' => true,
+                'rules' => 'required|min:3',
             ],
             [
-                'name'        => 'description',
-                'type'        => 'input',
-                'label'       => trans('validation.attributes.description'),
+                'name' => 'description',
+                'type' => 'input',
+                'label' => trans('validation.attributes.description'),
                 'placeholder' => trans('validation.attributes.description'),
-                'required'    => true,
+                'required' => true,
             ],
         ];
     }

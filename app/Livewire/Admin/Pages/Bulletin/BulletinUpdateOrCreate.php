@@ -57,14 +57,14 @@ class BulletinUpdateOrCreate extends Component
     protected function rules(): array
     {
         return [
-            'title'        => 'required|string|max:255|min:2',
-            'description'  => 'required|string|max:255',
-            'body'         => 'required|string',
-            'published'    => 'required|boolean',
+            'title' => 'required|string|max:255|min:2',
+            'description' => 'required|string|max:255',
+            'body' => 'required|string',
+            'published' => 'required|boolean',
             'published_at' => 'nullable|date',
-            'category_id'  => 'required|exists:categories,id',
-            'image'        => 'nullable|file|mimes:png,jpg,jpeg|max:4096',
-            'tags'         => 'nullable|array',
+            'category_id' => 'required|exists:categories,id',
+            'image' => 'nullable|file|mimes:png,jpg,jpeg|max:4096',
+            'tags' => 'nullable|array',
         ];
     }
 
@@ -100,10 +100,10 @@ class BulletinUpdateOrCreate extends Component
     public function render(): View
     {
         return view('livewire.admin.pages.bulletin.bulletin-update-or-create', [
-            'edit_mode'          => $this->model->id,
-            'breadcrumbs'        => [
+            'edit_mode' => $this->model->id,
+            'breadcrumbs' => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link'  => route('admin.bulletin.index'), 'label' => trans('general.page.index.title', ['model' => trans('bulletin.model')])],
+                ['link' => route('admin.bulletin.index'), 'label' => trans('general.page.index.title', ['model' => trans('bulletin.model')])],
                 ['label' => trans('general.page.create.title', ['model' => trans('bulletin.model')])],
             ],
             'breadcrumbsActions' => [

@@ -50,8 +50,8 @@ class Enrollment extends Model
     ];
 
     protected $casts = [
-        'status'           => EnrollmentStatusEnum::class,
-        'enrolled_at'      => 'datetime',
+        'status' => EnrollmentStatusEnum::class,
+        'enrolled_at' => 'datetime',
         'progress_percent' => 'decimal:2',
     ];
 
@@ -215,10 +215,10 @@ class Enrollment extends Model
         }
 
         $certificate = $this->certificate()->create([
-            'issue_date'       => now(),
-            'grade'            => $this->calculateGrade(),
+            'issue_date' => now(),
+            'grade' => $this->calculateGrade(),
             'certificate_path' => $this->generateCertificatePath(),
-            'signature_hash'   => $this->generateSignatureHash(),
+            'signature_hash' => $this->generateSignatureHash(),
         ]);
 
         $this->logActivity('certificate.issued', [
@@ -241,7 +241,7 @@ class Enrollment extends Model
             $overallGrade >= 80 => 'B',
             $overallGrade >= 70 => 'C',
             $overallGrade >= 60 => 'D',
-            default             => 'F',
+            default => 'F',
         };
     }
 
@@ -258,9 +258,9 @@ class Enrollment extends Model
     {
         $data = [
             'enrollment_id' => $this->id,
-            'user_id'       => $this->user_id,
-            'course_id'     => $this->course_id,
-            'issue_date'    => now()->toISOString(),
+            'user_id' => $this->user_id,
+            'course_id' => $this->course_id,
+            'issue_date' => now()->toISOString(),
         ];
 
         return hash('sha256', json_encode($data) . config('app.key'));
@@ -270,11 +270,11 @@ class Enrollment extends Model
     public function logActivity(string $event, array $properties = []): ActivityLog
     {
         return $this->activityLogs()->create([
-            'event'       => $event,
-            'properties'  => $properties,
+            'event' => $event,
+            'properties' => $properties,
             'causer_type' => User::class,
-            'causer_id'   => \Illuminate\Support\Facades\Auth::id(),
-            'created_at'  => now(),
+            'causer_id' => \Illuminate\Support\Facades\Auth::id(),
+            'created_at' => now(),
         ]);
     }
 

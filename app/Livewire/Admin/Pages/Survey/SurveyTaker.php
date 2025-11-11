@@ -150,22 +150,22 @@ class SurveyTaker extends Component
         $progress = $this->attempt
             ? app(ExamAttemptService::class)->getProgress($this->attempt)
             : [
-                'total_questions'     => $this->questions->count(),
-                'answered_questions'  => 0,
+                'total_questions' => $this->questions->count(),
+                'answered_questions' => 0,
                 'remaining_questions' => $this->questions->count(),
                 'progress_percentage' => 0,
-                'remaining_time'      => $this->timeRemaining,
-                'elapsed_time'        => 0,
+                'remaining_time' => $this->timeRemaining,
+                'elapsed_time' => 0,
             ];
 
         return view('livewire.admin.pages.survey.survey-taker', [
             'currentQuestion' => $currentQuestion,
-            'totalQuestions'  => $this->questions->count(),
-            'progress'        => $progress,
-            'canContinue'     => $this->attempt->canContinue(),
-            'breadcrumbs'     => [
+            'totalQuestions' => $this->questions->count(),
+            'progress' => $progress,
+            'canContinue' => $this->attempt->canContinue(),
+            'breadcrumbs' => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link'  => route('admin.survey.index'), 'label' => trans('_menu.survey_management')],
+                ['link' => route('admin.survey.index'), 'label' => trans('_menu.survey_management')],
                 ['label' => $this->exam->title],
             ],
         ]);

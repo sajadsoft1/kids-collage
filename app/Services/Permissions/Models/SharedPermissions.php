@@ -18,7 +18,7 @@ class SharedPermissions extends BasePermissions
         ];
         $this->groupTitle        = trans('permissions.shared');
         $this->otherTranslations = [
-            'Shared.Admin'             => 'Admin',
+            'Shared.Admin' => 'Admin',
             'Shared.ReceiveNewUserSms' => 'Receive New User SMS',
         ];
     }

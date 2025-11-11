@@ -9,7 +9,7 @@ class TrueFalseType extends AbstractQuestionType
     public function defaultConfig(): array
     {
         return [
-            'true_label'  => 'درست',
+            'true_label' => 'درست',
             'false_label' => 'غلط',
         ];
     }
@@ -17,10 +17,10 @@ class TrueFalseType extends AbstractQuestionType
     public function validationRules(): array
     {
         return [
-            'title'          => ['required', 'string', 'max:2000'],
-            'body'           => ['nullable', 'string', 'max:10000'],
-            'explanation'    => ['nullable', 'string'],
-            'default_score'  => ['required', 'numeric', 'min:0'],
+            'title' => ['required', 'string', 'max:2000'],
+            'body' => ['nullable', 'string', 'max:10000'],
+            'explanation' => ['nullable', 'string'],
+            'default_score' => ['required', 'numeric', 'min:0'],
             'correct_answer' => ['required', 'boolean'],
         ];
     }

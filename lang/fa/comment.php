@@ -3,22 +3,22 @@
 declare(strict_types=1);
 
 return [
-    'model'           => 'نظرات',
-    'permissions'     => [
+    'model' => 'نظرات',
+    'permissions' => [
     ],
-    'exceptions'      => [
+    'exceptions' => [
     ],
-    'validations'     => [
+    'validations' => [
     ],
-    'enum'            => [
+    'enum' => [
         'type' => [
-            'normal'  => 'معمولی',
+            'normal' => 'معمولی',
             'special' => 'ویژه',
         ],
     ],
-    'notifications'   => [
+    'notifications' => [
     ],
-    'page'            => [
+    'page' => [
     ],
     'no_admin_answer' => 'بدون پاسخ مدیریت',
 ];

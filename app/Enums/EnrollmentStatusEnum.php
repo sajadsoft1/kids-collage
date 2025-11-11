@@ -15,8 +15,8 @@ enum EnrollmentStatusEnum: string
     {
         return match ($this) {
             self::PENDING => trans('enrollment.enum.status.pending'),
-            self::PAID    => trans('enrollment.enum.status.paid'),
-            self::ACTIVE  => trans('enrollment.enum.status.active'),
+            self::PAID => trans('enrollment.enum.status.paid'),
+            self::ACTIVE => trans('enrollment.enum.status.active'),
             self::DROPPED => trans('enrollment.enum.status.dropped'),
         };
     }
@@ -33,8 +33,8 @@ enum EnrollmentStatusEnum: string
     {
         return match ($this) {
             self::PENDING => 'secondary',
-            self::PAID    => 'accent',
-            self::ACTIVE  => 'success',
+            self::PAID => 'accent',
+            self::ACTIVE => 'success',
             self::DROPPED => 'danger',
         };
     }

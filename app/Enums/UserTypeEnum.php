@@ -51,10 +51,10 @@ enum UserTypeEnum: string
     public function title()
     {
         return match ($this) {
-            self::TEACHER  => trans('user.type_enums.teacher'),
+            self::TEACHER => trans('user.type_enums.teacher'),
             self::EMPLOYEE => trans('user.type_enums.employee'),
-            self::PARENT   => trans('user.type_enums.parent'),
-            self::USER     => trans('user.type_enums.user'),
+            self::PARENT => trans('user.type_enums.parent'),
+            self::USER => trans('user.type_enums.user'),
         };
     }
 

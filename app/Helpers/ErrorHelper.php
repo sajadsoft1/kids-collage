@@ -15,7 +15,7 @@ class ErrorHelper
         if (empty($errors)) {
             throw new HttpResponseException(response()->json([
                 'message' => $message ?? 'Validation failed.',
-                'errors'  => [],
+                'errors' => [],
             ], 422));
         }
 
@@ -31,7 +31,7 @@ class ErrorHelper
 
         throw new HttpResponseException(response()->json([
             'message' => $errorMessage,
-            'errors'  => $flattenedErrors,
+            'errors' => $flattenedErrors,
         ], 422));
     }
 

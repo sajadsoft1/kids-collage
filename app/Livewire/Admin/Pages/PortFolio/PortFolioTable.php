@@ -43,9 +43,9 @@ final class PortFolioTable extends PowerGridComponent
     {
         return [
             [
-                'link'   => route('admin.portFolio.create'),
-                'icon'   => 's-plus',
-                'label'  => trans(
+                'link' => route('admin.portFolio.create'),
+                'icon' => 's-plus',
+                'label' => trans(
                     'general.page.create.title',
                     ['model' => trans('portFolio.model')]
                 ),

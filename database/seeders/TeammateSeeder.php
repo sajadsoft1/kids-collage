@@ -16,10 +16,10 @@ class TeammateSeeder extends Seeder
         $data = require database_path('seeders/data/karno.php');
         foreach ($data['teammate'] as $row) {
             $model=StoreTeammateAction::run([
-                'title'       => $row['title'],
+                'title' => $row['title'],
                 'description' => $row['description'],
-                'birthday'    => $row['birthday'],
-                'position'    => $row['position'],
+                'birthday' => $row['birthday'],
+                'position' => $row['position'],
             ]);
         }
 

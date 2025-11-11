@@ -16,9 +16,9 @@ enum NotificationChannelEnum: string
     public function title(): string
     {
         return match ($this) {
-            self::SMS      => 'پیامک',
-            self::EMAIL    => 'ایمیل',
-            self::PUSH     => 'پوش نوتیفیکیشن',
+            self::SMS => 'پیامک',
+            self::EMAIL => 'ایمیل',
+            self::PUSH => 'پوش نوتیفیکیشن',
             self::DATABASE => 'نوتیفیکیشن داخلی',
         };
     }
@@ -26,9 +26,9 @@ enum NotificationChannelEnum: string
     public function icon(): string
     {
         return match ($this) {
-            self::SMS      => 'o-chat-bubble-left-right',
-            self::EMAIL    => 'o-envelope',
-            self::PUSH     => 'o-bell-alert',
+            self::SMS => 'o-chat-bubble-left-right',
+            self::EMAIL => 'o-envelope',
+            self::PUSH => 'o-bell-alert',
             self::DATABASE => 'o-bell',
         };
     }
@@ -36,9 +36,9 @@ enum NotificationChannelEnum: string
     public function description(): string
     {
         return match ($this) {
-            self::SMS      => 'ارسال پیامک به شماره موبایل',
-            self::EMAIL    => 'ارسال ایمیل به آدرس پست الکترونیک',
-            self::PUSH     => 'ارسال نوتیفیکیشن به دستگاه موبایل',
+            self::SMS => 'ارسال پیامک به شماره موبایل',
+            self::EMAIL => 'ارسال ایمیل به آدرس پست الکترونیک',
+            self::PUSH => 'ارسال نوتیفیکیشن به دستگاه موبایل',
             self::DATABASE => 'ذخیره نوتیفیکیشن در سیستم',
         };
     }

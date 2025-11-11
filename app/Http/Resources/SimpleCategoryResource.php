@@ -25,9 +25,9 @@ class SimpleCategoryResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'    => $this->id,
+            'id' => $this->id,
             'title' => $this->title,
-            'slug'  => $this->slug,
+            'slug' => $this->slug,
             'image' => $this->resource->getFirstMediaUrl('image', Constants::RESOLUTION_512_SQUARE),
         ];
     }

@@ -13,8 +13,8 @@ enum SessionStatus: string
     public function title(): string
     {
         return match ($this) {
-            self::PLANNED   => trans('session.enum.status.planned'),
-            self::DONE      => trans('session.enum.status.done'),
+            self::PLANNED => trans('session.enum.status.planned'),
+            self::DONE => trans('session.enum.status.done'),
             self::CANCELLED => trans('session.enum.status.cancelled'),
         };
     }

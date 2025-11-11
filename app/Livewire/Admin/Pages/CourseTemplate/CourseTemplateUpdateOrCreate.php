@@ -67,11 +67,11 @@ class CourseTemplateUpdateOrCreate extends Component
             $this->category_id   = $this->model->category_id;
             $this->tags          = $this->model->tags()->pluck('name')->toArray();
             $this->sessions      = $this->model->sessionTemplates->map(fn ($item) => [
-                'order'            => $item->order,
-                'title'            => $item->title,
-                'description'      => $item->description,
+                'order' => $item->order,
+                'title' => $item->title,
+                'description' => $item->description,
                 'duration_minutes' => $item->duration_minutes ?? 60,
-                'type'             => $this->model->type->value,
+                'type' => $this->model->type->value,
             ])->toArray();
         } else {
             $this->updatedSessionsCount(10);
@@ -89,11 +89,11 @@ class CourseTemplateUpdateOrCreate extends Component
         $newSessions = [];
         foreach (range(0, $this->sessions_count - 1) as $index) {
             $newSessions[] = $oldSessions[$index] ?? [
-                'order'            => $index + 1,
-                'title'            => trans('courseTemplate.page.session_title_x', ['number' => $index + 1]),
-                'description'      => trans('courseTemplate.page.session_description_x', ['number' => $index + 1]),
+                'order' => $index + 1,
+                'title' => trans('courseTemplate.page.session_title_x', ['number' => $index + 1]),
+                'description' => trans('courseTemplate.page.session_description_x', ['number' => $index + 1]),
                 'duration_minutes' => 60,
-                'type'             => $this->type,
+                'type' => $this->type,
             ];
         }
 
@@ -111,24 +111,24 @@ class CourseTemplateUpdateOrCreate extends Component
     protected function rules(): array
     {
         return [
-            'title'                       => 'required|string',
-            'description'                 => 'required|string',
-            'body'                        => 'required|string',
-            'type'                        => ['required', Rule::in(CourseTypeEnum::values())],
-            'level'                       => ['required', Rule::in(CourseLevelEnum::values())],
-            'is_self_paced'               => 'required|boolean',
-            'prerequisites'               => 'nullable|array',
-            'prerequisites.*'             => 'integer|exists:course_templates,id',
-            'category_id'                 => 'required|exists:categories,id,type,course',
-            'image'                       => 'nullable|file|mimes:png,jpg,jpeg|max:4096',
-            'tags'                        => 'nullable|array',
-            'tags.*'                      => 'string',
-            'sessions'                    => 'required|array|min:1',
-            'sessions.*.order'            => 'required|integer|min:1',
-            'sessions.*.title'            => 'required|string',
-            'sessions.*.description'      => 'nullable|string',
+            'title' => 'required|string',
+            'description' => 'required|string',
+            'body' => 'required|string',
+            'type' => ['required', Rule::in(CourseTypeEnum::values())],
+            'level' => ['required', Rule::in(CourseLevelEnum::values())],
+            'is_self_paced' => 'required|boolean',
+            'prerequisites' => 'nullable|array',
+            'prerequisites.*' => 'integer|exists:course_templates,id',
+            'category_id' => 'required|exists:categories,id,type,course',
+            'image' => 'nullable|file|mimes:png,jpg,jpeg|max:4096',
+            'tags' => 'nullable|array',
+            'tags.*' => 'string',
+            'sessions' => 'required|array|min:1',
+            'sessions.*.order' => 'required|integer|min:1',
+            'sessions.*.title' => 'required|string',
+            'sessions.*.description' => 'nullable|string',
             'sessions.*.duration_minutes' => 'required|integer|min:1',
-            'sessions.*.type'             => ['required', Rule::in(CourseTypeEnum::values())],
+            'sessions.*.type' => ['required', Rule::in(CourseTypeEnum::values())],
         ];
     }
 
@@ -164,10 +164,10 @@ class CourseTemplateUpdateOrCreate extends Component
     public function render(): View
     {
         return view('livewire.admin.pages.courseTemplate.courseTemplate-update-or-create', [
-            'edit_mode'          => $this->model->id,
-            'breadcrumbs'        => [
+            'edit_mode' => $this->model->id,
+            'breadcrumbs' => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link'  => route('admin.course-template.index'), 'label' => trans('general.page.index.title', ['model' => trans('courseTemplate.model')])],
+                ['link' => route('admin.course-template.index'), 'label' => trans('general.page.index.title', ['model' => trans('courseTemplate.model')])],
                 ['label' => trans('general.page.create.title', ['model' => trans('courseTemplate.model')])],
             ],
             'breadcrumbsActions' => [

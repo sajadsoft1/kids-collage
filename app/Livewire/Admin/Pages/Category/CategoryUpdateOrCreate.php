@@ -47,13 +47,13 @@ class CategoryUpdateOrCreate extends Component
     protected function rules(): array
     {
         return [
-            'title'       => 'required|string',
+            'title' => 'required|string',
             'description' => 'required|string',
-            'body'        => 'nullable|string',
-            'published'   => 'required|boolean',
-            'type'        => 'required|string|in:' . implode(',', CategoryTypeEnum::values()),
-            'image'       => 'nullable|image|max:2048',
-            'parent_id'   => [
+            'body' => 'nullable|string',
+            'published' => 'required|boolean',
+            'type' => 'required|string|in:' . implode(',', CategoryTypeEnum::values()),
+            'image' => 'nullable|image|max:2048',
+            'parent_id' => [
                 'nullable',
                 'exists:categories,id',
                 function ($attribute, $value, $fail) {
@@ -88,16 +88,16 @@ class CategoryUpdateOrCreate extends Component
     public function render(): View
     {
         return view('livewire.admin.pages.category.category-update-or-create', [
-            'edit_mode'          => $this->model->id,
-            'breadcrumbs'        => [
+            'edit_mode' => $this->model->id,
+            'breadcrumbs' => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link'  => route('admin.category.index'), 'label' => trans('general.page.index.title', ['model' => trans('category.model')])],
+                ['link' => route('admin.category.index'), 'label' => trans('general.page.index.title', ['model' => trans('category.model')])],
                 ['label' => trans('general.page.create.title', ['model' => trans('category.model')])],
             ],
             'breadcrumbsActions' => [
                 ['link' => route('admin.category.index', ['type' => $this->type]), 'icon' => 's-arrow-left'],
             ],
-            'categories'         => Category::where('type', $this->type)->where('parent_id', null)
+            'categories' => Category::where('type', $this->type)->where('parent_id', null)
                 ->where('id', '!=', $this->model->id)->get()->map(fn ($category) => ['id' => $category->id, 'title' => $category->title]),
         ]);
     }

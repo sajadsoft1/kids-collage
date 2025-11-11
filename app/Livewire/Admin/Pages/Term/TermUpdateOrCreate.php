@@ -41,11 +41,11 @@ class TermUpdateOrCreate extends Component
     protected function rules(): array
     {
         return [
-            'title'       => 'required|string',
+            'title' => 'required|string',
             'description' => 'required|string',
-            'start_date'  => 'required|date',
-            'end_date'    => 'required|date|after:start_date',
-            'status'      => 'required|string|in:' . implode(',', TermStatus::values()),
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after:start_date',
+            'status' => 'required|string|in:' . implode(',', TermStatus::values()),
         ];
     }
 
@@ -71,10 +71,10 @@ class TermUpdateOrCreate extends Component
     public function render(): View
     {
         return view('livewire.admin.pages.term.term-update-or-create', [
-            'edit_mode'          => $this->model->id,
-            'breadcrumbs'        => [
+            'edit_mode' => $this->model->id,
+            'breadcrumbs' => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link'  => route('admin.term.index'), 'label' => trans('general.page.index.title', ['model' => trans('term.model')])],
+                ['link' => route('admin.term.index'), 'label' => trans('general.page.index.title', ['model' => trans('term.model')])],
                 ['label' => trans('general.page.create.title', ['model' => trans('term.model')])],
             ],
             'breadcrumbsActions' => [

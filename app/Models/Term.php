@@ -44,10 +44,10 @@ class Term extends Model
     ];
 
     protected $casts = [
-        'languages'  => 'array',
+        'languages' => 'array',
         'start_date' => 'date',
-        'end_date'   => 'date',
-        'status'     => TermStatus::class,
+        'end_date' => 'date',
+        'status' => TermStatus::class,
     ];
 
     /** Get the courses for this term. */

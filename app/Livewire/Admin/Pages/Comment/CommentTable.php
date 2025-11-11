@@ -46,9 +46,9 @@ final class CommentTable extends PowerGridComponent
     {
         return [
             [
-                'link'   => route('admin.comment.create'),
-                'icon'   => 's-plus',
-                'label'  => trans(
+                'link' => route('admin.comment.create'),
+                'icon' => 's-plus',
+                'label' => trans(
                     'general.page.create.title',
                     ['model' => trans('comment.model')]
                 ),

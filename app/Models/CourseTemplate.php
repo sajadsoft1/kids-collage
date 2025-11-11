@@ -92,12 +92,12 @@ class CourseTemplate extends Model implements HasMedia
     protected $casts = [
         'prerequisites' => 'array',
         'is_self_paced' => 'boolean',
-        'view_count'    => 'integer',
+        'view_count' => 'integer',
         'comment_count' => 'integer',
-        'wish_count'    => 'integer',
-        'languages'     => 'array',
-        'level'         => CourseLevelEnum::class,
-        'type'          => CourseTypeEnum::class,
+        'wish_count' => 'integer',
+        'languages' => 'array',
+        'level' => CourseLevelEnum::class,
+        'type' => CourseTypeEnum::class,
     ];
 
     /** Model Configuration -------------------------------------------------------------------------- */

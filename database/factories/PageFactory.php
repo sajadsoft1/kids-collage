@@ -25,13 +25,13 @@ class PageFactory extends Factory
             $model->translations()->createMany([
                 [
                     'locale' => app()->getLocale(),
-                    'key'    => 'title',
-                    'value'  => $this->faker->word(),
+                    'key' => 'title',
+                    'value' => $this->faker->word(),
                 ],
                 [
                     'locale' => app()->getLocale(),
-                    'key'    => 'description',
-                    'value'  => $this->faker->realText,
+                    'key' => 'description',
+                    'value' => $this->faker->realText,
                 ],
             ]);
         });

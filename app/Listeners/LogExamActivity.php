@@ -14,8 +14,8 @@ class LogExamActivity
     {
         Log::info('Exam started', [
             'attempt_id' => $event->attempt->id,
-            'exam_id'    => $event->attempt->exam_id,
-            'user_id'    => $event->attempt->user_id,
+            'exam_id' => $event->attempt->exam_id,
+            'user_id' => $event->attempt->user_id,
         ]);
     }
 
@@ -23,15 +23,15 @@ class LogExamActivity
     {
         Log::info('Exam completed', [
             'attempt_id' => $event->attempt->id,
-            'score'      => $event->attempt->total_score,
-            'duration'   => $event->attempt->getElapsedTime(),
+            'score' => $event->attempt->total_score,
+            'duration' => $event->attempt->getElapsedTime(),
         ]);
     }
 
     public function subscribe($events): array
     {
         return [
-            ExamStarted::class   => 'handleStarted',
+            ExamStarted::class => 'handleStarted',
             ExamCompleted::class => 'handleCompleted',
         ];
     }

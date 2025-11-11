@@ -10,19 +10,19 @@ class TextHighlightType extends AbstractQuestionType
     {
         return [
             'allow_multiple' => true,
-            'scoring_type'   => 'partial', // exact, partial
+            'scoring_type' => 'partial', // exact, partial
         ];
     }
 
     public function validationRules(): array
     {
         return [
-            'title'                             => ['required', 'string', 'max:2000'],
-            'body'                              => ['required', 'string'], // متن اصلی
-            'correct_answer'                    => ['required', 'array'],
-            'correct_answer.selections'         => ['required', 'array', 'min:1'],
+            'title' => ['required', 'string', 'max:2000'],
+            'body' => ['required', 'string'], // متن اصلی
+            'correct_answer' => ['required', 'array'],
+            'correct_answer.selections' => ['required', 'array', 'min:1'],
             'correct_answer.selections.*.start' => ['required', 'integer', 'min:0'],
-            'correct_answer.selections.*.end'   => ['required', 'integer'],
+            'correct_answer.selections.*.end' => ['required', 'integer'],
         ];
     }
 

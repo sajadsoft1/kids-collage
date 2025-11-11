@@ -44,12 +44,12 @@ class WelcomeNotification extends Notification implements ShouldQueue
     public function toArray(object $notifiable): array
     {
         return [
-            'type'               => NoificationTypeEnum::AUTH_WELCOME->value,
+            'type' => NoificationTypeEnum::AUTH_WELCOME->value,
             'translations_field' => ['title', 'sub_title'],
-            'title'              => 'notification.auth.welcome.title',
-            'sub_title'          => 'notification.auth.welcome.sub_title',
-            'eloquent_id'        => null,
-            'eloquent_type'      => null,
+            'title' => 'notification.auth.welcome.title',
+            'sub_title' => 'notification.auth.welcome.sub_title',
+            'eloquent_id' => null,
+            'eloquent_type' => null,
         ];
     }
 }

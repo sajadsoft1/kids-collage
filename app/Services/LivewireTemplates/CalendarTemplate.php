@@ -40,10 +40,10 @@ class CalendarTemplate extends Component
     public $eventClickEnabled;
 
     protected $casts = [
-        'startsAt'     => 'date',
-        'endsAt'       => 'date',
+        'startsAt' => 'date',
+        'endsAt' => 'date',
         'gridStartsAt' => 'date',
-        'gridEndsAt'   => 'date',
+        'gridEndsAt' => 'date',
     ];
 
     public function mount(
@@ -203,9 +203,9 @@ class CalendarTemplate extends Component
 
         return view($this->calendarView)
             ->with([
-                'componentId'     => $this->getId(),
-                'monthGrid'       => $this->monthGrid(),
-                'events'          => $events,
+                'componentId' => $this->getId(),
+                'monthGrid' => $this->monthGrid(),
+                'events' => $events,
                 'getEventsForDay' => function ($day) use ($events) {
                     return $this->getEventsForDay($day, $events);
                 },

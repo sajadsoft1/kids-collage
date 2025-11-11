@@ -51,14 +51,14 @@ class OpinionUpdateOrCreate extends Component
     protected function rules(): array
     {
         return [
-            'user_name'    => 'required|string',
-            'comment'      => 'required|string',
-            'company'      => 'nullable|string',
-            'published'    => ['required', 'boolean'],
-            'ordering'     => ['required', 'numeric'],
+            'user_name' => 'required|string',
+            'comment' => 'required|string',
+            'company' => 'nullable|string',
+            'published' => ['required', 'boolean'],
+            'ordering' => ['required', 'numeric'],
             'published_at' => 'required_if:published,false|nullable|date',
-            'image'        => 'nullable|image|max:1024',
-            'video'        => 'nullable|file|mimes:mp4',
+            'image' => 'nullable|image|max:1024',
+            'video' => 'nullable|file|mimes:mp4',
         ];
     }
 
@@ -92,10 +92,10 @@ class OpinionUpdateOrCreate extends Component
     public function render(): View
     {
         return view('livewire.admin.pages.opinion.opinion-update-or-create', [
-            'edit_mode'          => $this->model->id,
-            'breadcrumbs'        => [
+            'edit_mode' => $this->model->id,
+            'breadcrumbs' => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link'  => route('admin.opinion.index'), 'label' => trans('general.page.index.title', ['model' => trans('opinion.model')])],
+                ['link' => route('admin.opinion.index'), 'label' => trans('general.page.index.title', ['model' => trans('opinion.model')])],
                 ['label' => trans('general.page.create.title', ['model' => trans('opinion.model')])],
             ],
             'breadcrumbsActions' => [

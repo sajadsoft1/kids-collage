@@ -61,9 +61,9 @@ final class TeammateTable extends PowerGridComponent
     {
         return [
             [
-                'link'   => route('admin.teammate.create'),
-                'icon'   => 's-plus',
-                'label'  => trans(
+                'link' => route('admin.teammate.create'),
+                'icon' => 's-plus',
+                'label' => trans(
                     'general.page.create.title',
                     ['model' => trans('teammate.model')]
                 ),

@@ -28,7 +28,7 @@ class QuestionCompetency extends Model
 
     protected $casts = [
         'languages' => 'array',
-        'ordering'  => 'integer',
+        'ordering' => 'integer',
     ];
 
     /**

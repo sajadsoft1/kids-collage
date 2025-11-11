@@ -36,9 +36,9 @@ class CourseSessionUpdateOrCreate extends Component
     protected function rules(): array
     {
         return [
-            'title'       => 'required|string',
+            'title' => 'required|string',
             'description' => 'required|string',
-            'published'   => 'required',
+            'published' => 'required',
         ];
     }
 
@@ -71,10 +71,10 @@ class CourseSessionUpdateOrCreate extends Component
     public function render(): View
     {
         return view('livewire.admin.pages.courseSession.courseSession-update-or-create', [
-            'edit_mode'          => $this->model->id,
-            'breadcrumbs'        => [
+            'edit_mode' => $this->model->id,
+            'breadcrumbs' => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link'  => route('admin.courseSession.index'), 'label' => trans('general.page.index.title', ['model' => trans('courseSession.model')])],
+                ['link' => route('admin.courseSession.index'), 'label' => trans('general.page.index.title', ['model' => trans('courseSession.model')])],
                 ['label' => trans('general.page.create.title', ['model' => trans('courseSession.model')])],
             ],
             'breadcrumbsActions' => [

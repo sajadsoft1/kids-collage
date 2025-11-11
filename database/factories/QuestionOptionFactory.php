@@ -16,11 +16,11 @@ class QuestionOptionFactory extends Factory
     {
         return [
             'question_id' => Question::factory(),
-            'content'     => fake()->sentence(),
-            'type'        => 'text',
-            'is_correct'  => false,
-            'order'       => 1,
-            'metadata'    => null,
+            'content' => fake()->sentence(),
+            'type' => 'text',
+            'is_correct' => false,
+            'order' => 1,
+            'metadata' => null,
         ];
     }
 
@@ -34,7 +34,7 @@ class QuestionOptionFactory extends Factory
     public function image(): static
     {
         return $this->state(fn (array $attributes) => [
-            'type'    => 'image',
+            'type' => 'image',
             'content' => fake()->imageUrl(),
         ]);
     }

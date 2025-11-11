@@ -54,8 +54,8 @@ class MultipleChoice extends Component
     protected function getDefaultConfig(): array
     {
         return [
-            'shuffle_options'    => false,
-            'scoring_type'       => 'all_or_nothing',
+            'shuffle_options' => false,
+            'scoring_type' => 'all_or_nothing',
             'has_correct_answer' => true,
         ];
     }
@@ -63,9 +63,9 @@ class MultipleChoice extends Component
     public function addOption(): void
     {
         $this->options[] = [
-            'content'    => '',
+            'content' => '',
             'is_correct' => false,
-            'order'      => count($this->options) + 1,
+            'order' => count($this->options) + 1,
         ];
         $this->dispatchOptions();
     }
@@ -103,7 +103,7 @@ class MultipleChoice extends Component
     {
         if ($this->questionIndex !== null) {
             $this->dispatch('optionsUpdated', [
-                'index'   => $this->questionIndex,
+                'index' => $this->questionIndex,
                 'options' => $this->options,
             ]);
         }
@@ -115,7 +115,7 @@ class MultipleChoice extends Component
             $this->config['has_correct_answer'] = $this->hasCorrectAnswer;
 
             $this->dispatch('configUpdated', [
-                'index'  => $this->questionIndex,
+                'index' => $this->questionIndex,
                 'config' => $this->config,
             ]);
         }

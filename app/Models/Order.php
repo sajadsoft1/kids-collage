@@ -58,11 +58,11 @@ class Order extends Model
     ];
 
     protected $casts = [
-        'status'          => OrderStatusEnum::class,
-        'type'            => OrderTypeEnum::class,
-        'pure_amount'     => 'float',
+        'status' => OrderStatusEnum::class,
+        'type' => OrderTypeEnum::class,
+        'pure_amount' => 'float',
         'discount_amount' => 'float',
-        'total_amount'    => 'float',
+        'total_amount' => 'float',
     ];
 
     public function getActivitylogOptions(): LogOptions

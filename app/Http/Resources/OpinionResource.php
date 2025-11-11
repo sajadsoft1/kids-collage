@@ -31,19 +31,19 @@ class OpinionResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'           => $this->id,
-            'title'        => $this->title,
-            'description'  => $this->description,
-            'published'    => $this->published->toArray(),
+            'id' => $this->id,
+            'title' => $this->title,
+            'description' => $this->description,
+            'published' => $this->published->toArray(),
             'published_at' => $this->published_at,
-            'ordering'     => $this->ordering,
-            'company'      => $this->company,
-            'user_name'    => $this->user_name,
-            'comment'      => $this->comment,
-            'updated_at'   => $this->updated_at,
-            'created_at'   => $this->created_at,
-            'image'        => $this->resource->getFirstMediaUrl('image', Constants::RESOLUTION_100_SQUARE),
-            'video'        => $this->resource->getFirstMediaUrl('video'),
+            'ordering' => $this->ordering,
+            'company' => $this->company,
+            'user_name' => $this->user_name,
+            'comment' => $this->comment,
+            'updated_at' => $this->updated_at,
+            'created_at' => $this->created_at,
+            'image' => $this->resource->getFirstMediaUrl('image', Constants::RESOLUTION_100_SQUARE),
+            'video' => $this->resource->getFirstMediaUrl('video'),
         ];
     }
 }

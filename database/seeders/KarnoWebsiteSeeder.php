@@ -48,11 +48,11 @@ class KarnoWebsiteSeeder extends Seeder
 
         foreach ($banners as $row) {
             $banner = StoreBannerAction::run([
-                'title'       => $row['title'],
+                'title' => $row['title'],
                 'description' => $row['description'],
-                'published'   => $row['published'],
-                'size'        => $row['size'],
-                'languages'   => $row['languages'],
+                'published' => $row['published'],
+                'size' => $row['size'],
+                'languages' => $row['languages'],
             ]);
 
             // Add images to the banners
@@ -75,13 +75,13 @@ class KarnoWebsiteSeeder extends Seeder
 
         foreach ($sliders as $row) {
             $slider = StoreSliderAction::run([
-                'title'       => $row['title'],
+                'title' => $row['title'],
                 'description' => $row['description'],
-                'published'   => $row['published'],
-                'ordering'    => $row['ordering'],
-                'link'        => $row['link'],
-                'position'    => $row['position'],
-                'languages'   => $row['languages'],
+                'published' => $row['published'],
+                'ordering' => $row['ordering'],
+                'link' => $row['link'],
+                'position' => $row['position'],
+                'languages' => $row['languages'],
             ]);
 
             // Add images to the sliders
@@ -105,11 +105,11 @@ class KarnoWebsiteSeeder extends Seeder
         foreach ($comments as $row) {
             try {
                 StoreCommentAction::run([
-                    'published'      => $row['published'],
-                    'user_id'        => $row['user_id'],
-                    'morphable_id'   => $row['morphable_id'],
+                    'published' => $row['published'],
+                    'user_id' => $row['user_id'],
+                    'morphable_id' => $row['morphable_id'],
                     'morphable_type' => $row['morphable_type'],
-                    'comment'        => $row['comment'],
+                    'comment' => $row['comment'],
                 ]);
             } catch (Exception $e) {
                 // If comment creation fails, skip it
@@ -131,11 +131,11 @@ class KarnoWebsiteSeeder extends Seeder
             try {
                 $opinion = StoreOpinionAction::run([
                     'published' => $row['published'],
-                    'ordering'  => $row['ordering'],
-                    'company'   => $row['company'],
+                    'ordering' => $row['ordering'],
+                    'company' => $row['company'],
                     'user_name' => $row['user_name'],
-                    'comment'   => $row['comment'],
-                    'image'     => $row['path'],
+                    'comment' => $row['comment'],
+                    'image' => $row['path'],
                 ]);
 
                 // Set languages manually since StoreOpinionAction doesn't handle it

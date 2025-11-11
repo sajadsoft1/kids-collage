@@ -58,14 +58,14 @@ enum CardTypeEnum: string
     public function title(): string
     {
         return match ($this) {
-            self::NOTE    => __('kanban.note'),
-            self::TASK    => __('kanban.task'),
-            self::BUG     => __('kanban.bug'),
+            self::NOTE => __('kanban.note'),
+            self::TASK => __('kanban.task'),
+            self::BUG => __('kanban.bug'),
             self::FEATURE => __('kanban.feature'),
-            self::CALL    => __('kanban.call'),
+            self::CALL => __('kanban.call'),
             self::MEETING => __('kanban.meeting'),
-            self::EMAIL   => __('kanban.email'),
-            self::OTHER   => __('kanban.other'),
+            self::EMAIL => __('kanban.email'),
+            self::OTHER => __('kanban.other'),
         };
     }
 
@@ -75,24 +75,24 @@ enum CardTypeEnum: string
             'value' => $this->value,
             'label' => $this->title(),
             'color' => match ($this) {
-                self::NOTE    => 'primary',
-                self::TASK    => 'primary',
-                self::BUG     => 'error',
+                self::NOTE => 'primary',
+                self::TASK => 'primary',
+                self::BUG => 'error',
                 self::FEATURE => 'success',
-                self::CALL    => 'info',
+                self::CALL => 'info',
                 self::MEETING => 'warning',
-                self::EMAIL   => 'secondary',
-                self::OTHER   => 'neutral',
+                self::EMAIL => 'secondary',
+                self::OTHER => 'neutral',
             },
-            'icon'  => match ($this) {
-                self::NOTE    => 'o-clipboard-document-list',
-                self::TASK    => 'o-clipboard-document-list',
-                self::BUG     => 'o-exclamation-triangle',
+            'icon' => match ($this) {
+                self::NOTE => 'o-clipboard-document-list',
+                self::TASK => 'o-clipboard-document-list',
+                self::BUG => 'o-exclamation-triangle',
                 self::FEATURE => 'o-star',
-                self::CALL    => 'o-phone',
+                self::CALL => 'o-phone',
                 self::MEETING => 'o-users',
-                self::EMAIL   => 'o-envelope',
-                self::OTHER   => 'o-document',
+                self::EMAIL => 'o-envelope',
+                self::OTHER => 'o-document',
             },
         ];
     }

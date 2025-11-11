@@ -29,17 +29,17 @@ class CourseResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'                => $this->id,
-            'price'             => $this->price,
-            'capacity'          => $this->capacity,
-            'updated_at'        => $this->updated_at,
-            'created_at'        => $this->created_at,
+            'id' => $this->id,
+            'price' => $this->price,
+            'capacity' => $this->capacity,
+            'updated_at' => $this->updated_at,
+            'created_at' => $this->created_at,
             'enrollments_count' => $this->enrollments()->count(),
-            'sessions_count'    => $this->sessions()->count(),
-            'term'              => $this->whenLoaded('term', function () {
+            'sessions_count' => $this->sessions()->count(),
+            'term' => $this->whenLoaded('term', function () {
                 return TermResource::make($this->term);
             }),
-            'teacher'           => $this->whenLoaded('teacher', function () {
+            'teacher' => $this->whenLoaded('teacher', function () {
                 return UserResource::make($this->teacher);
             }),
         ];

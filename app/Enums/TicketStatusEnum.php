@@ -14,7 +14,7 @@ enum TicketStatusEnum: string
     public function title(): string
     {
         return match ($this) {
-            self::OPEN  => __('ticket.enum.status.open'),
+            self::OPEN => __('ticket.enum.status.open'),
             self::CLOSE => __('ticket.enum.status.close'),
         };
     }

@@ -37,9 +37,9 @@ enum SessionType: string
     public function title(): string
     {
         return match ($this) {
-            self::IN_PERSON  => trans('session.enum.type.in_person'),
-            self::ONLINE     => trans('session.enum.type.online'),
-            self::HYBRID     => trans('session.enum.type.hybrid'),
+            self::IN_PERSON => trans('session.enum.type.in_person'),
+            self::ONLINE => trans('session.enum.type.online'),
+            self::HYBRID => trans('session.enum.type.hybrid'),
             self::SELF_PACED => trans('session.enum.type.self_paced'),
         };
     }
@@ -47,9 +47,9 @@ enum SessionType: string
     public function color(): string
     {
         return match ($this) {
-            self::IN_PERSON  => 'success',
-            self::ONLINE     => 'primary',
-            self::HYBRID     => 'warning',
+            self::IN_PERSON => 'success',
+            self::ONLINE => 'primary',
+            self::HYBRID => 'warning',
             self::SELF_PACED => 'info',
         };
     }

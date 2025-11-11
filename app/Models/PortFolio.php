@@ -48,11 +48,11 @@ class PortFolio extends Model implements HasMedia
     ];
 
     protected $casts = [
-        'published'      => BooleanEnum::class,
-        'published_at'   => 'datetime',
+        'published' => BooleanEnum::class,
+        'published_at' => 'datetime',
         'execution_date' => 'datetime',
-        'deleted_at'     => 'datetime',
-        'languages'      => 'array',
+        'deleted_at' => 'datetime',
+        'languages' => 'array',
     ];
 
     /** Model Configuration -------------------------------------------------------------------------- */

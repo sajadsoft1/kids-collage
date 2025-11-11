@@ -36,9 +36,9 @@ class PaymentUpdateOrCreate extends Component
     protected function rules(): array
     {
         return [
-            'title'       => 'required|string',
+            'title' => 'required|string',
             'description' => 'required|string',
-            'published'   => 'required',
+            'published' => 'required',
         ];
     }
 
@@ -71,10 +71,10 @@ class PaymentUpdateOrCreate extends Component
     public function render(): View
     {
         return view('livewire.admin.pages.payment.payment-update-or-create', [
-            'edit_mode'          => $this->model->id,
-            'breadcrumbs'        => [
+            'edit_mode' => $this->model->id,
+            'breadcrumbs' => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link'  => route('admin.payment.index'), 'label' => trans('general.page.index.title', ['model' => trans('payment.model')])],
+                ['link' => route('admin.payment.index'), 'label' => trans('general.page.index.title', ['model' => trans('payment.model')])],
                 ['label' => trans('general.page.create.title', ['model' => trans('payment.model')])],
             ],
             'breadcrumbsActions' => [

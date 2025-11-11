@@ -54,10 +54,10 @@ class StoreCourseTemplateAction
     {
         return DB::transaction(function () use ($payload) {
             $model = CourseTemplate::create([
-                'slug'          => $payload['slug'],
-                'category_id'   => $payload['category_id'] ?? null,
-                'level'         => $payload['level'] ?? CourseLevelEnum::BIGGINER->value,
-                'type'          => $payload['type'] ?? CourseTypeEnum::IN_PERSON->value,
+                'slug' => $payload['slug'],
+                'category_id' => $payload['category_id'] ?? null,
+                'level' => $payload['level'] ?? CourseLevelEnum::BIGGINER->value,
+                'type' => $payload['type'] ?? CourseTypeEnum::IN_PERSON->value,
                 'prerequisites' => $payload['prerequisites'] ?? [],
                 'is_self_paced' => $payload['type'] === CourseTypeEnum::SELF_PACED->value ? true : false,
             ]);

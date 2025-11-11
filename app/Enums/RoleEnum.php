@@ -24,17 +24,17 @@ enum RoleEnum: string
     {
         return match ($this) {
             self::DEVELOPER => 'Developer',
-            self::ADMIN     => 'Admin',
-            self::TEACHER   => trans('user.type_enums.teacher'),
-            self::PARENT    => trans('user.type_enums.parent'),
-            self::USER      => trans('user.type_enums.user'),
+            self::ADMIN => 'Admin',
+            self::TEACHER => trans('user.type_enums.teacher'),
+            self::PARENT => trans('user.type_enums.parent'),
+            self::USER => trans('user.type_enums.user'),
         };
     }
 
     public function toArray(): array
     {
         return [
-            'name'  => $this->name,
+            'name' => $this->name,
             'value' => $this->value,
             'title' => $this->title(),
         ];
@@ -44,8 +44,8 @@ enum RoleEnum: string
     {
         return match ($this) {
             self::DEVELOPER => [SharedPermissions::Admin],
-            self::ADMIN     => [SharedPermissions::Admin, SharedPermissions::ReceiveNewUserSms],
-            self::TEACHER   => [
+            self::ADMIN => [SharedPermissions::Admin, SharedPermissions::ReceiveNewUserSms],
+            self::TEACHER => [
                 AttendancePermissions::Index,
                 AttendancePermissions::Show,
                 AttendancePermissions::Store,
@@ -56,7 +56,7 @@ enum RoleEnum: string
                 DiscountPermissions::Index,
                 DiscountPermissions::Show,
             ],
-            self::PARENT    => [
+            self::PARENT => [
                 AttendancePermissions::Index,
                 AttendancePermissions::Show,
                 AttendancePermissions::Store,
@@ -66,7 +66,7 @@ enum RoleEnum: string
                 CourseTemplatePermissions::Show,
                 DiscountPermissions::Index,
                 DiscountPermissions::Show],
-            self::USER      => [
+            self::USER => [
                 AttendancePermissions::Index,
                 AttendancePermissions::Show,
                 AttendancePermissions::Store,

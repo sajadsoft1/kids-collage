@@ -40,7 +40,7 @@ class Teammate extends Model implements HasMedia
     protected $casts = [
         'published' => BooleanEnum::class,
         'languages' => 'array',
-        'birthday'  => 'date',
+        'birthday' => 'date',
     ];
 
     /** Model Configuration -------------------------------------------------------------------------- */

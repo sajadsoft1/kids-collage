@@ -23,14 +23,14 @@ class UserAnswer extends Model
     ];
 
     protected $casts = [
-        'answer_data'          => 'array',
-        'score'                => 'decimal:2',
-        'max_score'            => 'decimal:2',
-        'is_correct'           => 'boolean',
+        'answer_data' => 'array',
+        'score' => 'decimal:2',
+        'max_score' => 'decimal:2',
+        'is_correct' => 'boolean',
         'is_partially_correct' => 'boolean',
-        'time_spent'           => 'integer',
-        'answered_at'          => 'datetime',
-        'reviewed_at'          => 'datetime',
+        'time_spent' => 'integer',
+        'answered_at' => 'datetime',
+        'reviewed_at' => 'datetime',
     ];
 
     // ============================================

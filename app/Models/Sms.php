@@ -40,8 +40,8 @@ class Sms extends Model
     protected $casts = [
         'published' => BooleanEnum::class,
         'languages' => 'array',
-        'inputs'    => 'array',
-        'status'    => SmsSendStatusEnum::class,
+        'inputs' => 'array',
+        'status' => SmsSendStatusEnum::class,
     ];
 
     /**

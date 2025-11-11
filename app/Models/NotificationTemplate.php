@@ -27,7 +27,7 @@ class NotificationTemplate extends Model
     protected $casts = [
         'published' => BooleanEnum::class,
         'languages' => 'array',
-        'inputs'    => 'array',
+        'inputs' => 'array',
     ];
 
     /** Model Configuration -------------------------------------------------------------------------- */

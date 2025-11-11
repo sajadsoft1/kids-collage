@@ -17,7 +17,7 @@ class ExamTaker extends Component
     public $timeRemaining        = null;
 
     protected $listeners = [
-        'answerChanged'                       => 'handleAnswerChanged',
+        'answerChanged' => 'handleAnswerChanged',
         'echo:exam.{exam.id},ExamTimeExpired' => 'handleTimeExpired',
     ];
 
@@ -113,8 +113,8 @@ class ExamTaker extends Component
 
         return view('livewire.admin.pages.exam.exam-taker', [
             'currentQuestion' => $currentQuestion,
-            'progress'        => $progress,
-            'totalQuestions'  => count($this->questions),
+            'progress' => $progress,
+            'totalQuestions' => count($this->questions),
         ]);
     }
 }

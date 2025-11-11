@@ -20,7 +20,7 @@ class LoginPage extends Component
     protected function rules(): array
     {
         return [
-            'email'    => 'required|email|exists:users,email',
+            'email' => 'required|email|exists:users,email',
             'password' => 'required|string|min:8',
         ];
     }

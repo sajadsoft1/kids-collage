@@ -24,7 +24,7 @@ class SyncTranslationAction
                 $value = Arr::get($payload, $column, request()->input($column));
                 if ( ! empty($value)) {
                     $model->translations()->updateOrCreate([
-                        'key'    => $column,
+                        'key' => $column,
                         'locale' => $locale,
                     ], [
                         'value' => $value,

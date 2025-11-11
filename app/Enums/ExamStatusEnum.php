@@ -15,27 +15,27 @@ enum ExamStatusEnum: string
     public function title(): string
     {
         return match ($this) {
-            self::DRAFT     => 'پیش‌نویس',
+            self::DRAFT => 'پیش‌نویس',
             self::PUBLISHED => 'منتشر شده',
-            self::ARCHIVED  => 'بایگانی شده',
+            self::ARCHIVED => 'بایگانی شده',
         };
     }
 
     public function description(): string
     {
         return match ($this) {
-            self::DRAFT     => 'آزمون در حال ویرایش است',
+            self::DRAFT => 'آزمون در حال ویرایش است',
             self::PUBLISHED => 'آزمون منتشر شده و قابل دسترسی است',
-            self::ARCHIVED  => 'آزمون بایگانی شده و غیرفعال است',
+            self::ARCHIVED => 'آزمون بایگانی شده و غیرفعال است',
         };
     }
 
     public function color(): string
     {
         return match ($this) {
-            self::DRAFT     => 'gray',
+            self::DRAFT => 'gray',
             self::PUBLISHED => 'success',
-            self::ARCHIVED  => 'warning',
+            self::ARCHIVED => 'warning',
         };
     }
 
@@ -51,27 +51,27 @@ enum ExamStatusEnum: string
     public function bgColor(): string
     {
         return match ($this) {
-            self::DRAFT     => 'bg-gray-100 text-gray-800',
+            self::DRAFT => 'bg-gray-100 text-gray-800',
             self::PUBLISHED => 'bg-green-100 text-green-800',
-            self::ARCHIVED  => 'bg-yellow-100 text-yellow-800',
+            self::ARCHIVED => 'bg-yellow-100 text-yellow-800',
         };
     }
 
     public function icon(): string
     {
         return match ($this) {
-            self::DRAFT     => 'heroicon-o-document',
+            self::DRAFT => 'heroicon-o-document',
             self::PUBLISHED => 'heroicon-o-check-circle',
-            self::ARCHIVED  => 'heroicon-o-archive-box',
+            self::ARCHIVED => 'heroicon-o-archive-box',
         };
     }
 
     public function badge(): string
     {
         return match ($this) {
-            self::DRAFT     => 'secondary',
+            self::DRAFT => 'secondary',
             self::PUBLISHED => 'success',
-            self::ARCHIVED  => 'warning',
+            self::ARCHIVED => 'warning',
         };
     }
 

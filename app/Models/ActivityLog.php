@@ -185,17 +185,17 @@ class ActivityLog extends Model
     public function getIconAttribute(): string
     {
         return match ($this->event) {
-            'enrollment.created'   => 'user-plus',
+            'enrollment.created' => 'user-plus',
             'enrollment.completed' => 'check-circle',
-            'enrollment.dropped'   => 'user-minus',
-            'progress.updated'     => 'trending-up',
-            'session.attended'     => 'calendar-check',
-            'session.cancelled'    => 'calendar-x',
-            'video.watched'        => 'play-circle',
-            'resource.accessed'    => 'download',
-            'certificate.issued'   => 'award',
-            'payment.completed'    => 'credit-card',
-            default                => 'activity',
+            'enrollment.dropped' => 'user-minus',
+            'progress.updated' => 'trending-up',
+            'session.attended' => 'calendar-check',
+            'session.cancelled' => 'calendar-x',
+            'video.watched' => 'play-circle',
+            'resource.accessed' => 'download',
+            'certificate.issued' => 'award',
+            'payment.completed' => 'credit-card',
+            default => 'activity',
         };
     }
 
@@ -208,7 +208,7 @@ class ActivityLog extends Model
             'progress.updated', 'session.attended' => 'blue',
             'video.watched', 'resource.accessed' => 'purple',
             'payment.completed' => 'yellow',
-            default             => 'gray',
+            default => 'gray',
         };
     }
 
@@ -298,12 +298,12 @@ class ActivityLog extends Model
             ->where('created_at', '>=', now()->subDays($days));
 
         return [
-            'total_activities'      => $query->count(),
+            'total_activities' => $query->count(),
             'enrollment_activities' => $query->enrollmentRelated()->count(),
-            'progress_activities'   => $query->progressRelated()->count(),
-            'course_activities'     => $query->courseRelated()->count(),
-            'recent_activities'     => $query->recent(7)->count(),
-            'events'                => $query->selectRaw('event, COUNT(*) as count')
+            'progress_activities' => $query->progressRelated()->count(),
+            'course_activities' => $query->courseRelated()->count(),
+            'recent_activities' => $query->recent(7)->count(),
+            'events' => $query->selectRaw('event, COUNT(*) as count')
                 ->groupBy('event')
                 ->pluck('count', 'event')
                 ->toArray(),
@@ -323,11 +323,11 @@ class ActivityLog extends Model
             });
 
         return [
-            'total_activities'      => $query->count(),
+            'total_activities' => $query->count(),
             'enrollment_activities' => $query->enrollmentRelated()->count(),
-            'progress_activities'   => $query->progressRelated()->count(),
-            'recent_activities'     => $query->recent(7)->count(),
-            'events'                => $query->selectRaw('event, COUNT(*) as count')
+            'progress_activities' => $query->progressRelated()->count(),
+            'recent_activities' => $query->recent(7)->count(),
+            'events' => $query->selectRaw('event, COUNT(*) as count')
                 ->groupBy('event')
                 ->pluck('count', 'event')
                 ->toArray(),
@@ -355,14 +355,14 @@ class ActivityLog extends Model
         ?string $logName = null
     ): static {
         return static::create([
-            'log_name'     => $logName,
-            'description'  => $description,
-            'event'        => $event,
+            'log_name' => $logName,
+            'description' => $description,
+            'event' => $event,
             'subject_type' => $subject ? get_class($subject) : null,
-            'subject_id'   => $subject?->id,
-            'causer_type'  => $causer ? get_class($causer) : null,
-            'causer_id'    => $causer?->id,
-            'properties'   => $properties,
+            'subject_id' => $subject?->id,
+            'causer_type' => $causer ? get_class($causer) : null,
+            'causer_id' => $causer?->id,
+            'properties' => $properties,
         ]);
     }
 }

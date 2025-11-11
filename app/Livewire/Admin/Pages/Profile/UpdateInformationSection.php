@@ -96,20 +96,20 @@ class UpdateInformationSection extends Component
     protected function rules(): array
     {
         return [
-            'name'          => 'required|string|max:255',
-            'family'        => 'required|string|max:255',
-            'email'         => 'nullable|email|max:255|unique:users,email,' . $this->user->id,
-            'mobile'        => [
+            'name' => 'required|string|max:255',
+            'family' => 'required|string|max:255',
+            'email' => 'nullable|email|max:255|unique:users,email,' . $this->user->id,
+            'mobile' => [
                 'nullable',
                 'regex:/^(0|\+98|98)9[0-9]{9}$/',
                 'unique:users,mobile,' . $this->user->id,
             ],
             'national_code' => 'nullable|string|max:10|regex:/^[0-9]{10}$/',
-            'birth_date'    => 'nullable|date',
-            'gender'        => 'nullable|string|in:' . implode(',', GenderEnum::values()),
-            'address'       => 'nullable|string|max:500',
-            'phone'         => 'nullable|string|max:11|regex:/^0[0-9]{10}$/',
-            'religion'      => 'nullable|string|in:' . implode(',', ReligionEnum::values()),
+            'birth_date' => 'nullable|date',
+            'gender' => 'nullable|string|in:' . implode(',', GenderEnum::values()),
+            'address' => 'nullable|string|max:500',
+            'phone' => 'nullable|string|max:11|regex:/^0[0-9]{10}$/',
+            'religion' => 'nullable|string|in:' . implode(',', ReligionEnum::values()),
         ];
     }
 
@@ -138,7 +138,7 @@ class UpdateInformationSection extends Component
 
             logger()->error('Failed to update user information', [
                 'user_id' => $this->user->id,
-                'error'   => $e->getMessage(),
+                'error' => $e->getMessage(),
             ]);
         }
     }

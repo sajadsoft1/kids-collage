@@ -137,7 +137,7 @@ class AboutUsController extends Controller
 
         return Response::data(
             [
-                'aboutUs'  => AboutUsDetailResource::make(Page::about()),
+                'aboutUs' => AboutUsDetailResource::make(Page::about()),
                 'teachers' => UserResource::collection($teachers),
             ]
         );

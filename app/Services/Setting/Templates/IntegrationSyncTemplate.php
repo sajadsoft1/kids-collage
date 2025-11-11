@@ -45,29 +45,29 @@ class IntegrationSyncTemplate extends BaseTemplate
     public function validate(Setting $setting, array $payload = []): array
     {
         return $this->makeValidator($payload, [
-            'mahak'           => ['required', 'array'],
-            'mahak.status'    => ['required', 'boolean'],
-            'mahak.url'       => ['required'],
+            'mahak' => ['required', 'array'],
+            'mahak.status' => ['required', 'boolean'],
+            'mahak.url' => ['required'],
             'mahak.user_name' => ['required'],
-            'mahak.password'  => ['required'],
+            'mahak.password' => ['required'],
             
-            'orash'           => ['required', 'array'],
-            'orash.status'    => ['required', 'boolean'],
-            'orash.url'       => ['required'],
+            'orash' => ['required', 'array'],
+            'orash.status' => ['required', 'boolean'],
+            'orash.url' => ['required'],
             'orash.user_name' => ['required'],
-            'orash.password'  => ['required'],
-            'orash.code'      => ['required'],
+            'orash.password' => ['required'],
+            'orash.code' => ['required'],
         ], customAttributes: [
-            'mahak.status'    => trans('setting.configs.integration_sync.items.status.label'),
-            'mahak.url'       => trans('setting.configs.integration_sync.items.url.label'),
+            'mahak.status' => trans('setting.configs.integration_sync.items.status.label'),
+            'mahak.url' => trans('setting.configs.integration_sync.items.url.label'),
             'mahak.user_name' => trans('setting.configs.integration_sync.items.user_name.label'),
-            'mahak.password'  => trans('setting.configs.integration_sync.items.password.label'),
+            'mahak.password' => trans('setting.configs.integration_sync.items.password.label'),
             
-            'orash.status'    => trans('setting.configs.integration_sync.items.status.label'),
-            'orash.url'       => trans('setting.configs.integration_sync.items.url.label'),
+            'orash.status' => trans('setting.configs.integration_sync.items.status.label'),
+            'orash.url' => trans('setting.configs.integration_sync.items.url.label'),
             'orash.user_name' => trans('setting.configs.integration_sync.items.user_name.label'),
-            'orash.password'  => trans('setting.configs.integration_sync.items.password.label'),
-            'orash.code'      => trans('setting.configs.integration_sync.items.code.label'),
+            'orash.password' => trans('setting.configs.integration_sync.items.password.label'),
+            'orash.code' => trans('setting.configs.integration_sync.items.code.label'),
         ]);
     }
 }

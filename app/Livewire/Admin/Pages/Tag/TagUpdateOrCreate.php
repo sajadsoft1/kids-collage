@@ -46,12 +46,12 @@ class TagUpdateOrCreate extends Component
     protected function rules(): array
     {
         return [
-            'name'         => ['required', 'string', 'max:255'],
-            'description'  => ['nullable', 'string', 'max:255'],
-            'body'         => ['nullable', 'string'],
-            'type'         => ['nullable', 'string', Rule::in(TagTypeEnum::values())],
+            'name' => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string', 'max:255'],
+            'body' => ['nullable', 'string'],
+            'type' => ['nullable', 'string', Rule::in(TagTypeEnum::values())],
             'order_column' => ['nullable', 'integer'],
-            'image'        => ['nullable', 'image', 'mimes:jpeg,jpg,png', 'max:1024'],
+            'image' => ['nullable', 'image', 'mimes:jpeg,jpg,png', 'max:1024'],
         ];
     }
 
@@ -87,10 +87,10 @@ class TagUpdateOrCreate extends Component
     public function render(): View
     {
         return view('livewire.admin.pages.tag.tag-update-or-create', [
-            'edit_mode'          => $this->model->id,
-            'breadcrumbs'        => [
+            'edit_mode' => $this->model->id,
+            'breadcrumbs' => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link'  => route('admin.tag.index'), 'label' => trans('general.page.index.title', ['model' => trans('tag.model')])],
+                ['link' => route('admin.tag.index'), 'label' => trans('general.page.index.title', ['model' => trans('tag.model')])],
                 ['label' => trans('general.page.create.title', ['model' => trans('tag.model')])],
             ],
             'breadcrumbsActions' => [

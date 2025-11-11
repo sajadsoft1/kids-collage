@@ -33,9 +33,9 @@ enum BannerSizeEnum: string
     public function title(): string
     {
         return match ($this) {
-            self::S1X1  => '1x1',
+            self::S1X1 => '1x1',
             self::S16X9 => '16x9',
-            self::S4X3  => '4x3',
+            self::S4X3 => '4x3',
         };
     }
 

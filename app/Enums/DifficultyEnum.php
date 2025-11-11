@@ -15,46 +15,46 @@ enum DifficultyEnum: string
     public function title(): string
     {
         return match ($this) {
-            self::EASY   => 'آسان',
+            self::EASY => 'آسان',
             self::MEDIUM => 'متوسط',
-            self::HARD   => 'سخت',
+            self::HARD => 'سخت',
         };
     }
 
     public function color(): string
     {
         return match ($this) {
-            self::EASY   => 'success',
+            self::EASY => 'success',
             self::MEDIUM => 'warning',
-            self::HARD   => 'danger',
+            self::HARD => 'danger',
         };
     }
 
     public function bgColor(): string
     {
         return match ($this) {
-            self::EASY   => 'bg-green-100 text-green-800',
+            self::EASY => 'bg-green-100 text-green-800',
             self::MEDIUM => 'bg-yellow-100 text-yellow-800',
-            self::HARD   => 'bg-red-100 text-red-800',
+            self::HARD => 'bg-red-100 text-red-800',
         };
     }
 
     public function icon(): string
     {
         return match ($this) {
-            self::EASY   => 'heroicon-o-face-smile',
+            self::EASY => 'heroicon-o-face-smile',
             self::MEDIUM => 'heroicon-o-face-frown',
-            self::HARD   => 'heroicon-o-fire',
+            self::HARD => 'heroicon-o-fire',
         };
     }
 
     public function toArray(): array
     {
         return [
-            'value'   => $this->value,
-            'label'   => $this->title(),
-            'color'   => $this->color(),
-            'icon'    => $this->icon(),
+            'value' => $this->value,
+            'label' => $this->title(),
+            'color' => $this->color(),
+            'icon' => $this->icon(),
             'bgColor' => $this->bgColor(),
         ];
     }
@@ -62,9 +62,9 @@ enum DifficultyEnum: string
     public function suggestedScore(): float
     {
         return match ($this) {
-            self::EASY   => 1.0,
+            self::EASY => 1.0,
             self::MEDIUM => 2.0,
-            self::HARD   => 3.0,
+            self::HARD => 3.0,
         };
     }
 

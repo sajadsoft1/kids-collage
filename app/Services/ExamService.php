@@ -15,22 +15,22 @@ class ExamService
     public function create(array $data): Exam
     {
         $exam = Exam::create([
-            'title'             => $data['title'],
-            'description'       => $data['description'] ?? null,
-            'category_id'       => $data['category_id'] ?? null,
-            'type'              => $data['type'],
-            'total_score'       => $data['total_score'] ?? null,
-            'duration'          => $data['duration'] ?? null,
-            'pass_score'        => $data['pass_score'] ?? null,
-            'max_attempts'      => $data['max_attempts'] ?? null,
+            'title' => $data['title'],
+            'description' => $data['description'] ?? null,
+            'category_id' => $data['category_id'] ?? null,
+            'type' => $data['type'],
+            'total_score' => $data['total_score'] ?? null,
+            'duration' => $data['duration'] ?? null,
+            'pass_score' => $data['pass_score'] ?? null,
+            'max_attempts' => $data['max_attempts'] ?? null,
             'shuffle_questions' => $data['shuffle_questions'] ?? false,
-            'show_results'      => $data['show_results'] ?? 'after_submit',
-            'allow_review'      => $data['allow_review'] ?? true,
-            'settings'          => $data['settings'] ?? [],
-            'starts_at'         => $data['starts_at'] ?? null,
-            'ends_at'           => $data['ends_at'] ?? null,
-            'status'            => ExamStatusEnum::DRAFT,
-            'created_by'        => auth()->id(),
+            'show_results' => $data['show_results'] ?? 'after_submit',
+            'allow_review' => $data['allow_review'] ?? true,
+            'settings' => $data['settings'] ?? [],
+            'starts_at' => $data['starts_at'] ?? null,
+            'ends_at' => $data['ends_at'] ?? null,
+            'status' => ExamStatusEnum::DRAFT,
+            'created_by' => auth()->id(),
         ]);
 
         // اتصال تگ‌ها
@@ -45,20 +45,20 @@ class ExamService
     public function update(Exam $exam, array $data): Exam
     {
         $exam->update([
-            'title'             => $data['title'] ?? $exam->title,
-            'description'       => $data['description'] ?? $exam->description,
-            'category_id'       => $data['category_id'] ?? $exam->category_id,
-            'type'              => $data['type'] ?? $exam->type,
-            'total_score'       => $data['total_score'] ?? $exam->total_score,
-            'duration'          => $data['duration'] ?? $exam->duration,
-            'pass_score'        => $data['pass_score'] ?? $exam->pass_score,
-            'max_attempts'      => $data['max_attempts'] ?? $exam->max_attempts,
+            'title' => $data['title'] ?? $exam->title,
+            'description' => $data['description'] ?? $exam->description,
+            'category_id' => $data['category_id'] ?? $exam->category_id,
+            'type' => $data['type'] ?? $exam->type,
+            'total_score' => $data['total_score'] ?? $exam->total_score,
+            'duration' => $data['duration'] ?? $exam->duration,
+            'pass_score' => $data['pass_score'] ?? $exam->pass_score,
+            'max_attempts' => $data['max_attempts'] ?? $exam->max_attempts,
             'shuffle_questions' => $data['shuffle_questions'] ?? $exam->shuffle_questions,
-            'show_results'      => $data['show_results'] ?? $exam->show_results,
-            'allow_review'      => $data['allow_review'] ?? $exam->allow_review,
-            'settings'          => $data['settings'] ?? $exam->settings,
-            'starts_at'         => $data['starts_at'] ?? $exam->starts_at,
-            'ends_at'           => $data['ends_at'] ?? $exam->ends_at,
+            'show_results' => $data['show_results'] ?? $exam->show_results,
+            'allow_review' => $data['allow_review'] ?? $exam->allow_review,
+            'settings' => $data['settings'] ?? $exam->settings,
+            'starts_at' => $data['starts_at'] ?? $exam->starts_at,
+            'ends_at' => $data['ends_at'] ?? $exam->ends_at,
         ]);
 
         // به‌روزرسانی تگ‌ها
@@ -100,9 +100,9 @@ class ExamService
         $order ??= ($exam->questions()->max('exam_question.order') + 1);
 
         $exam->questions()->attach($question->id, [
-            'weight'          => (float) $weight,
-            'order'           => $order,
-            'is_required'     => true,
+            'weight' => (float) $weight,
+            'order' => $order,
+            'is_required' => true,
             'config_override' => $configOverride,
         ]);
 
@@ -190,9 +190,9 @@ class ExamService
             // کپی سوالات
             foreach ($exam->questions as $question) {
                 $newExam->questions()->attach($question->id, [
-                    'weight'          => $question->pivot->weight,
-                    'order'           => $question->pivot->order,
-                    'is_required'     => $question->pivot->is_required,
+                    'weight' => $question->pivot->weight,
+                    'order' => $question->pivot->order,
+                    'is_required' => $question->pivot->is_required,
                     'config_override' => $question->pivot->config_override,
                 ]);
             }

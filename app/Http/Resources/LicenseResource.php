@@ -28,14 +28,14 @@ class LicenseResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'          => $this->id,
-            'title'       => $this->title,
+            'id' => $this->id,
+            'title' => $this->title,
             'description' => $this->description,
-            'slug'        => $this->slug,
-            'view_count'  => $this->view_count,
-            'updated_at'  => $this->updated_at,
-            'created_at'  => $this->created_at,
-            'image'       => $this->resource->getFirstMediaUrl('image', Constants::RESOLUTION_854_480),
+            'slug' => $this->slug,
+            'view_count' => $this->view_count,
+            'updated_at' => $this->updated_at,
+            'created_at' => $this->created_at,
+            'image' => $this->resource->getFirstMediaUrl('image', Constants::RESOLUTION_854_480),
         ];
     }
 }

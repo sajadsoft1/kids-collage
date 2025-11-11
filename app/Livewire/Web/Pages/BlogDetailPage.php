@@ -21,12 +21,12 @@ class BlogDetailPage extends Component
                 ->orderBy('created_at', 'desc')
                 ->limit(3)
                 ->get(),
-            'categories'   => Category::query()
+            'categories' => Category::query()
                 ->where('published', 1)
                 ->orderBy('created_at', 'desc')
                 ->limit(3)
                 ->get(),
-            'tags'         => Tag::query()
+            'tags' => Tag::query()
                 ->orderBy('created_at', 'desc')
                 ->limit(3)
                 ->get(),

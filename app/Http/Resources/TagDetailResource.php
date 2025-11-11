@@ -29,9 +29,9 @@ class TagDetailResource extends JsonResource
         $resource = TagResource::make($this)->toArray($request);
 
         return array_merge($resource, [
-            'body'       => $this->body,
+            'body' => $this->body,
             'seo_option' => $this->seoOption,
-            'image'      => $this->resource->getFirstMediaUrl('image', Constants::RESOLUTION_720_SQUARE),
+            'image' => $this->resource->getFirstMediaUrl('image', Constants::RESOLUTION_720_SQUARE),
         ]);
     }
 }

@@ -45,9 +45,9 @@ final class AttendanceTable extends PowerGridComponent
     {
         return [
             [
-                'link'   => route('admin.attendance.create'),
-                'icon'   => 's-plus',
-                'label'  => trans(
+                'link' => route('admin.attendance.create'),
+                'icon' => 's-plus',
+                'label' => trans(
                     'general.page.create.title',
                     ['model' => trans('attendance.model')]
                 ),
@@ -69,7 +69,7 @@ final class AttendanceTable extends PowerGridComponent
                 'name',
                 'email',
             ],
-            'session.course'  => [
+            'session.course' => [
                 'title',
             ],
         ];

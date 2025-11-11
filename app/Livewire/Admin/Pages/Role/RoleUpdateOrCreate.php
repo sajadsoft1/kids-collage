@@ -34,9 +34,9 @@ class RoleUpdateOrCreate extends Component
     protected function rules(): array
     {
         return [
-            'name'          => 'required|string',
-            'description'   => 'nullable|string',
-            'permissions'   => 'nullable|array',
+            'name' => 'required|string',
+            'description' => 'nullable|string',
+            'permissions' => 'nullable|array',
             'permissions.*' => 'required|exists:permissions,id',
         ];
     }
@@ -76,8 +76,8 @@ class RoleUpdateOrCreate extends Component
     public function render(): View
     {
         return view('livewire.admin.pages.role.role-update-or-create', [
-            'edit_mode'          => $this->role->id,
-            'breadcrumbs'        => [
+            'edit_mode' => $this->role->id,
+            'breadcrumbs' => [
                 ['label' => $this->role->id ? 'آپدیت نقش' : 'ایجاد نقش'],
             ],
             'breadcrumbsActions' => [

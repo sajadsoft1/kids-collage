@@ -97,7 +97,7 @@ trait HasModalForm
             'toggle', 'checkbox' => false,
             'number' => 0,
             'select' => null,
-            default  => '',
+            default => '',
         };
     }
 
@@ -124,8 +124,8 @@ trait HasModalForm
                 $fieldRules[] = match ($field['type']) {
                     'toggle', 'checkbox' => 'boolean',
                     'number' => 'numeric',
-                    'email'  => 'email',
-                    default  => 'string',
+                    'email' => 'email',
+                    default => 'string',
                 };
             }
 

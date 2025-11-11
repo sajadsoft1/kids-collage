@@ -43,10 +43,10 @@ class AttendanceUpdateOrCreate extends Component
     {
         return [
             'enrollment_id' => 'required|exists:enrollments,id',
-            'session_id'    => 'required|exists:course_sessions,id',
-            'present'       => 'required|boolean',
-            'arrival_time'  => 'nullable|date',
-            'leave_time'    => 'nullable|date|after:arrival_time',
+            'session_id' => 'required|exists:course_sessions,id',
+            'present' => 'required|boolean',
+            'arrival_time' => 'nullable|date',
+            'leave_time' => 'nullable|date|after:arrival_time',
         ];
     }
 
@@ -88,12 +88,12 @@ class AttendanceUpdateOrCreate extends Component
     public function render(): View
     {
         return view('livewire.admin.pages.attendance.attendance-update-or-create', [
-            'edit_mode'          => $this->model->id,
-            'enrollments'        => Enrollment::with('user')->get()->map(fn ($item) => ['name' => $item->user->name, 'id' => $item->id])->toArray(),
-            'sessions'           => CourseSession::with('course')->get()->map(fn ($item) => ['name' => $item->course->title, 'id' => $item->id])->toArray(),
-            'breadcrumbs'        => [
+            'edit_mode' => $this->model->id,
+            'enrollments' => Enrollment::with('user')->get()->map(fn ($item) => ['name' => $item->user->name, 'id' => $item->id])->toArray(),
+            'sessions' => CourseSession::with('course')->get()->map(fn ($item) => ['name' => $item->course->title, 'id' => $item->id])->toArray(),
+            'breadcrumbs' => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link'  => route('admin.attendance.index'), 'label' => trans('general.page.index.title', ['model' => trans('attendance.model')])],
+                ['link' => route('admin.attendance.index'), 'label' => trans('general.page.index.title', ['model' => trans('attendance.model')])],
                 ['label' => trans('general.page.create.title', ['model' => trans('attendance.model')])],
             ],
             'breadcrumbsActions' => [

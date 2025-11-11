@@ -43,13 +43,13 @@ class BasePermissions
         $type = StringHelper::basename($this->model);
 
         return array_merge([
-            "{$type}.All"     => trans('permissions.All'),
-            "{$type}.Index"   => trans('permissions.Index'),
-            "{$type}.Show"    => trans('permissions.Show'),
-            "{$type}.Store"   => trans('permissions.Store'),
-            "{$type}.Update"  => trans('permissions.Update'),
-            "{$type}.Toggle"  => trans('permissions.Toggle'),
-            "{$type}.Delete"  => trans('permissions.Delete'),
+            "{$type}.All" => trans('permissions.All'),
+            "{$type}.Index" => trans('permissions.Index'),
+            "{$type}.Show" => trans('permissions.Show'),
+            "{$type}.Store" => trans('permissions.Store'),
+            "{$type}.Update" => trans('permissions.Update'),
+            "{$type}.Toggle" => trans('permissions.Toggle'),
+            "{$type}.Delete" => trans('permissions.Delete'),
             "{$type}.Restore" => trans('permissions.Restore'),
         ], $this->otherTranslations)[$type . '.' . $permission] ?? '';
     }

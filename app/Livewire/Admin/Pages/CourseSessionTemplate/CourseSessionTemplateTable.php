@@ -37,7 +37,7 @@ final class CourseSessionTemplateTable extends PowerGridComponent
     {
         return [
             ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-            ['link'  => route('admin.course-template.index'), 'label' => trans('general.page.index.title', ['model' => trans('coursetemplate.model')])],
+            ['link' => route('admin.course-template.index'), 'label' => trans('general.page.index.title', ['model' => trans('coursetemplate.model')])],
             ['label' => trans('general.page.index.title', ['model' => trans('courseSessionTemplate.model')])],
         ];
     }

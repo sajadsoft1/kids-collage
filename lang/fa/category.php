@@ -3,28 +3,28 @@
 declare(strict_types=1);
 
 return [
-    'model'         => 'دسته بندی',
-    'permissions'   => [
+    'model' => 'دسته بندی',
+    'permissions' => [
     ],
-    'exceptions'    => [
+    'exceptions' => [
         'not_allowed_to_delete_category_due_to_blogs' => 'از این دسته بندی در مقالات استفاده شده است و نمی توانید آنرا حذف کنید',
-        'not_allowed_to_delete_category_due_to_faqs'  => 'از این دسته بندی در سوالات پرتکرار استفاده شده است و نمی توانید آنرا حذف کنید',
+        'not_allowed_to_delete_category_due_to_faqs' => 'از این دسته بندی در سوالات پرتکرار استفاده شده است و نمی توانید آنرا حذف کنید',
     ],
-    'validations'   => [
+    'validations' => [
     ],
-    'enum'          => [
+    'enum' => [
         'type' => [
-            'blog'      => 'مقاله',
+            'blog' => 'مقاله',
             'portfolio' => 'نمونه کار',
-            'faq'       => 'سوال پرتکرار',
-            'bulletin'  => 'اطلاعیه',
-            'course'    => 'دوره',
-            'question'  => 'سوال',
-            'subject'   => 'موضوع',
+            'faq' => 'سوال پرتکرار',
+            'bulletin' => 'اطلاعیه',
+            'course' => 'دوره',
+            'question' => 'سوال',
+            'subject' => 'موضوع',
         ],
     ],
     'notifications' => [
     ],
-    'page'          => [
+    'page' => [
     ],
 ];

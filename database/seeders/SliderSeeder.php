@@ -15,12 +15,12 @@ class SliderSeeder extends Seeder
         $data = require database_path('seeders/data/karno.php');
         foreach ($data['slider'] as $row) {
             $model = StoreSliderAction::run([
-                'title'       => $row['title'],
+                'title' => $row['title'],
                 'description' => $row['position'],
-                'published'   => $row['published'],
-                'ordering'    => $row['ordering'],
-                'link'        => $row['link'],
-                'position'    => $row['position'],
+                'published' => $row['published'],
+                'ordering' => $row['ordering'],
+                'link' => $row['link'],
+                'position' => $row['position'],
             ]);
             $model->addMedia($row['path'])
                 ->preservingOriginal()

@@ -49,11 +49,11 @@ class NotificationSettingsExample
         // You can then loop through and send to each channel
         foreach ($enabledChannels as $channel) {
             match ($channel) {
-                'sms'      => $this->sendSmsNotification($user),
-                'email'    => $this->sendEmailNotification($user),
-                'push'     => $this->sendPushNotification($user),
+                'sms' => $this->sendSmsNotification($user),
+                'email' => $this->sendEmailNotification($user),
+                'push' => $this->sendPushNotification($user),
                 'database' => $this->sendDatabaseNotification($user),
-                default    => null,
+                default => null,
             };
         }
     }
@@ -65,9 +65,9 @@ class NotificationSettingsExample
         foreach (NotificationChannelEnum::cases() as $channel) {
             if ($user->profile?->shouldReceiveNotification($event, $channel)) {
                 match ($channel) {
-                    NotificationChannelEnum::SMS      => $this->sendSmsNotification($user),
-                    NotificationChannelEnum::EMAIL    => $this->sendEmailNotification($user),
-                    NotificationChannelEnum::PUSH     => $this->sendPushNotification($user),
+                    NotificationChannelEnum::SMS => $this->sendSmsNotification($user),
+                    NotificationChannelEnum::EMAIL => $this->sendEmailNotification($user),
+                    NotificationChannelEnum::PUSH => $this->sendPushNotification($user),
                     NotificationChannelEnum::DATABASE => $this->sendDatabaseNotification($user),
                 };
             }
@@ -91,16 +91,16 @@ class NotificationSettingsExample
 
         // Or update all settings at once
         $settings = [
-            'order_created'   => [
-                'sms'      => true,
-                'email'    => true,
-                'push'     => false,
+            'order_created' => [
+                'sms' => true,
+                'email' => true,
+                'push' => false,
                 'database' => true,
             ],
             'payment_success' => [
-                'sms'      => true,
-                'email'    => false,
-                'push'     => true,
+                'sms' => true,
+                'email' => false,
+                'push' => true,
                 'database' => true,
             ],
         ];

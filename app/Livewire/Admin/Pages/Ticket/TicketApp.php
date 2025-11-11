@@ -38,10 +38,10 @@ class TicketApp extends Component
     public bool $show_ticket_info = false;
 
     public array $newTicket = [
-        'subject'    => '',
+        'subject' => '',
         'department' => TicketDepartmentEnum::SALE->value,
-        'priority'   => TicketPriorityEnum::MEDIUM->value,
-        'body'       => '',
+        'priority' => TicketPriorityEnum::MEDIUM->value,
+        'body' => '',
     ];
 
     public function selectTicket($ticketId): void
@@ -75,8 +75,8 @@ class TicketApp extends Component
 
         $data = [
             'ticket_id' => $this->selected_ticket()->id,
-            'user_id'   => auth()->id(),
-            'message'   => $this->message,
+            'user_id' => auth()->id(),
+            'message' => $this->message,
         ];
 
         if ($this->file) {
@@ -91,15 +91,15 @@ class TicketApp extends Component
     public function submitNewTicket(): void
     {
         $payload = $this->validate([
-            'newTicket.subject'    => 'required|string|max:255',
+            'newTicket.subject' => 'required|string|max:255',
             'newTicket.department' => 'required|in:finance_and_administration,Sale,technical',
-            'newTicket.priority'   => 'required|int|in:' . collect(TicketPriorityEnum::formatedCases())->pluck('value'),
-            'newTicket.body'       => 'required|string',
+            'newTicket.priority' => 'required|int|in:' . collect(TicketPriorityEnum::formatedCases())->pluck('value'),
+            'newTicket.body' => 'required|string',
         ], attributes: [
-            'newTicket.subject'    => __('validation.attributes.subject'),
+            'newTicket.subject' => __('validation.attributes.subject'),
             'newTicket.department' => __('validation.attributes.department'),
-            'newTicket.priority'   => __('validation.attributes.priority'),
-            'newTicket.body'       => __('validation.attributes.body'),
+            'newTicket.priority' => __('validation.attributes.priority'),
+            'newTicket.body' => __('validation.attributes.body'),
         ]);
         $payload['newTicket']['user_id'] = auth()->id();
         StoreTicketAction::run($payload['newTicket']);
@@ -163,9 +163,9 @@ class TicketApp extends Component
         }
 
         return view('livewire.admin.pages.ticket.ticket-app', [
-            'tickets'            => $tickets,
-            'messages'           => $messages,
-            'breadcrumbs'        => [
+            'tickets' => $tickets,
+            'messages' => $messages,
+            'breadcrumbs' => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
             ],
             'breadcrumbsActions' => [

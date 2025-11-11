@@ -37,8 +37,8 @@ class KanbanBoardSeeder extends Seeder
             ['name' => 'Project Management'],
             [
                 'description' => 'Main project management board for tracking tasks and features',
-                'color'       => '#3B82F6',
-                'is_active'   => true,
+                'color' => '#3B82F6',
+                'is_active' => true,
             ]
         );
 
@@ -52,8 +52,8 @@ class KanbanBoardSeeder extends Seeder
             ['name' => 'Marketing Campaign'],
             [
                 'description' => 'Board for tracking marketing activities and campaigns',
-                'color'       => '#EC4899',
-                'is_active'   => true,
+                'color' => '#EC4899',
+                'is_active' => true,
             ]
         );
 

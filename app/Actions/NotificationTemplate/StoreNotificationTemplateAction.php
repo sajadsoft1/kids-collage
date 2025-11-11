@@ -36,12 +36,12 @@ class StoreNotificationTemplateAction
         return DB::transaction(function () use ($payload) {
             // Create the notification template
             $model = NotificationTemplate::create([
-                'name'             => $payload['name'],
-                'channel'          => $payload['channel'],
+                'name' => $payload['name'],
+                'channel' => $payload['channel'],
                 'message_template' => $payload['message_template'],
-                'languages'        => $payload['languages'] ?? [],
-                'inputs'           => $payload['inputs'] ?? [],
-                'published'        => $payload['published'] ?? false,
+                'languages' => $payload['languages'] ?? [],
+                'inputs' => $payload['inputs'] ?? [],
+                'published' => $payload['published'] ?? false,
             ]);
 
             return $model->refresh();

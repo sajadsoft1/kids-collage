@@ -18,15 +18,15 @@ class CategoryIndex extends Component
     public function render()
     {
         return view('livewire.admin.pages.category.category-index', [
-            'breadcrumbs'        => [
+            'breadcrumbs' => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
                 ['label' => trans('general.page.index.title', ['model' => trans('category.model')])],
             ],
             'breadcrumbsActions' => [
                 [
-                    'link'   => route('admin.category.create', ['type' => $this->type]),
-                    'icon'   => 's-plus',
-                    'label'  => trans(
+                    'link' => route('admin.category.create', ['type' => $this->type]),
+                    'icon' => 's-plus',
+                    'label' => trans(
                         'general.page.create.title',
                         ['model' => trans('category.model')]
                     ),

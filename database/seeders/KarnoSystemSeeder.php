@@ -41,11 +41,11 @@ class KarnoSystemSeeder extends Seeder
         foreach ($bulletins as $row) {
             try {
                 $bulletin = StoreBulletinAction::run([
-                    'title'       => $row['title'],
+                    'title' => $row['title'],
                     'description' => $row['description'],
-                    'published'   => $row['published'],
-                    'slug'        => \Illuminate\Support\Str::slug($row['title']), // Generate slug from title
-                    'image'       => $row['path'],
+                    'published' => $row['published'],
+                    'slug' => \Illuminate\Support\Str::slug($row['title']), // Generate slug from title
+                    'image' => $row['path'],
                 ]);
             } catch (Exception $e) {
                 // If bulletin creation fails, skip it
@@ -66,10 +66,10 @@ class KarnoSystemSeeder extends Seeder
         foreach ($licenses as $row) {
             try {
                 $license = StoreLicenseAction::run([
-                    'title'       => $row['title'],
+                    'title' => $row['title'],
                     'description' => $row['description'],
-                    'slug'        => \Illuminate\Support\Str::slug($row['title']), // Generate slug from title
-                    'image'       => $row['path'],
+                    'slug' => \Illuminate\Support\Str::slug($row['title']), // Generate slug from title
+                    'image' => $row['path'],
                 ]);
             } catch (Exception $e) {
                 // If license creation fails, skip it

@@ -48,9 +48,9 @@ final class BulletinTable extends PowerGridComponent
     {
         return [
             [
-                'link'   => route('admin.bulletin.create'),
-                'icon'   => 's-plus',
-                'label'  => trans(
+                'link' => route('admin.bulletin.create'),
+                'icon' => 's-plus',
+                'label' => trans(
                     'general.page.create.title',
                     ['model' => trans('bulletin.model')]
                 ),
@@ -68,7 +68,7 @@ final class BulletinTable extends PowerGridComponent
     public function relationSearch(): array
     {
         return [
-            'translations'          => [
+            'translations' => [
                 'value',
             ],
             'category.translations' => [

@@ -9,21 +9,21 @@ class ShortAnswerType extends AbstractQuestionType
     public function defaultConfig(): array
     {
         return [
-            'max_length'      => 500,
-            'case_sensitive'  => false,
+            'max_length' => 500,
+            'case_sensitive' => false,
             'trim_whitespace' => true,
-            'auto_grade'      => false, // آیا خودکار نمره‌دهی شود؟
+            'auto_grade' => false, // آیا خودکار نمره‌دهی شود؟
         ];
     }
 
     public function validationRules(): array
     {
         return [
-            'title'                               => ['required', 'string', 'max:2000'],
-            'body'                                => ['nullable', 'string'],
-            'default_score'                       => ['required', 'numeric', 'min:0'],
-            'correct_answer'                      => ['required', 'array'],
-            'correct_answer.acceptable_answers'   => ['required', 'array', 'min:1'],
+            'title' => ['required', 'string', 'max:2000'],
+            'body' => ['nullable', 'string'],
+            'default_score' => ['required', 'numeric', 'min:0'],
+            'correct_answer' => ['required', 'array'],
+            'correct_answer.acceptable_answers' => ['required', 'array', 'min:1'],
             'correct_answer.acceptable_answers.*' => ['required', 'string'],
         ];
     }

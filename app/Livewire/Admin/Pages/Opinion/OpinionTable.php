@@ -44,12 +44,12 @@ final class OpinionTable extends PowerGridComponent
     {
         return [
             [
-                'link'       => route('admin.opinion.create'),
-                'icon'       => 's-plus', 'label' => trans(
+                'link' => route('admin.opinion.create'),
+                'icon' => 's-plus', 'label' => trans(
                     'general.page.create.title',
                     ['model' => trans('opinion.model')]
                 ),
-                'access'     => auth()->user()->hasAnyPermission(PermissionsService::generatePermissionsByModel(Opinion::class, 'Store')),
+                'access' => auth()->user()->hasAnyPermission(PermissionsService::generatePermissionsByModel(Opinion::class, 'Store')),
             ],
         ];
     }

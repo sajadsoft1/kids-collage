@@ -79,13 +79,13 @@ class EvaluateExamRulesAction
         $value    = $condition['value'] ?? null;
 
         return match ($field) {
-            'user_type'          => $this->checkUserType($condition, $user),
-            'enrollment_date'    => $this->checkEnrollmentDate($condition, $user),
+            'user_type' => $this->checkUserType($condition, $user),
+            'enrollment_date' => $this->checkEnrollmentDate($condition, $user),
             'enrolled_in_course' => $this->checkEnrolledInCourse($condition, $user),
             'has_role_in_course' => $this->checkHasRoleInCourse($condition, $user),
-            'term_id'            => $this->checkTermId($condition, $user),
-            'created_at'         => $this->checkCreatedAt($condition, $user),
-            default              => true, // Unknown field, allow access
+            'term_id' => $this->checkTermId($condition, $user),
+            'created_at' => $this->checkCreatedAt($condition, $user),
+            default => true, // Unknown field, allow access
         };
     }
 
@@ -98,11 +98,11 @@ class EvaluateExamRulesAction
         $userType = $user->type->value;
 
         return match ($operator) {
-            'equals'     => $userType === $value,
+            'equals' => $userType === $value,
             'not_equals' => $userType !== $value,
-            'in'         => is_array($value) && in_array($userType, $value, true),
-            'not_in'     => is_array($value) && ! in_array($userType, $value, true),
-            default      => true,
+            'in' => is_array($value) && in_array($userType, $value, true),
+            'not_in' => is_array($value) && ! in_array($userType, $value, true),
+            default => true,
         };
     }
 
@@ -129,13 +129,13 @@ class EvaluateExamRulesAction
             $conditionDate  = Carbon::parse($value);
 
             $matches = match ($operator) {
-                'before'       => $enrollmentDate->lt($conditionDate),
-                'after'        => $enrollmentDate->gt($conditionDate),
-                'on'           => $enrollmentDate->isSameDay($conditionDate),
+                'before' => $enrollmentDate->lt($conditionDate),
+                'after' => $enrollmentDate->gt($conditionDate),
+                'on' => $enrollmentDate->isSameDay($conditionDate),
                 'before_or_on' => $enrollmentDate->lte($conditionDate),
-                'after_or_on'  => $enrollmentDate->gte($conditionDate),
-                'is_null'      => false,
-                default        => true,
+                'after_or_on' => $enrollmentDate->gte($conditionDate),
+                'is_null' => false,
+                default => true,
             };
 
             if ($matches) {
@@ -161,12 +161,12 @@ class EvaluateExamRulesAction
         }
 
         return match ($operator) {
-            'equals'     => in_array($value, $enrolledCourseIds, true),
+            'equals' => in_array($value, $enrolledCourseIds, true),
             'not_equals' => ! in_array($value, $enrolledCourseIds, true),
-            'in'         => is_array($value) && ! empty(array_intersect($value, $enrolledCourseIds)),
-            'not_in'     => is_array($value) && empty(array_intersect($value, $enrolledCourseIds)),
-            'is_null'    => false,
-            default      => true,
+            'in' => is_array($value) && ! empty(array_intersect($value, $enrolledCourseIds)),
+            'not_in' => is_array($value) && empty(array_intersect($value, $enrolledCourseIds)),
+            'is_null' => false,
+            default => true,
         };
     }
 
@@ -192,9 +192,9 @@ class EvaluateExamRulesAction
         }
 
         return match ($operator) {
-            'equals'     => false,
+            'equals' => false,
             'not_equals' => true,
-            default      => true,
+            default => true,
         };
     }
 
@@ -218,12 +218,12 @@ class EvaluateExamRulesAction
         }
 
         return match ($operator) {
-            'equals'     => in_array($value, $enrolledTermIds, true),
+            'equals' => in_array($value, $enrolledTermIds, true),
             'not_equals' => ! in_array($value, $enrolledTermIds, true),
-            'in'         => is_array($value) && ! empty(array_intersect($value, $enrolledTermIds)),
-            'not_in'     => is_array($value) && empty(array_intersect($value, $enrolledTermIds)),
-            'is_null'    => false,
-            default      => true,
+            'in' => is_array($value) && ! empty(array_intersect($value, $enrolledTermIds)),
+            'not_in' => is_array($value) && empty(array_intersect($value, $enrolledTermIds)),
+            'is_null' => false,
+            default => true,
         };
     }
 
@@ -241,13 +241,13 @@ class EvaluateExamRulesAction
         $conditionDate = Carbon::parse($value);
 
         return match ($operator) {
-            'before'       => $userCreatedAt->lt($conditionDate),
-            'after'        => $userCreatedAt->gt($conditionDate),
-            'on'           => $userCreatedAt->isSameDay($conditionDate),
+            'before' => $userCreatedAt->lt($conditionDate),
+            'after' => $userCreatedAt->gt($conditionDate),
+            'on' => $userCreatedAt->isSameDay($conditionDate),
             'before_or_on' => $userCreatedAt->lte($conditionDate),
-            'after_or_on'  => $userCreatedAt->gte($conditionDate),
-            'is_null'      => false,
-            default        => true,
+            'after_or_on' => $userCreatedAt->gte($conditionDate),
+            'is_null' => false,
+            default => true,
         };
     }
 }

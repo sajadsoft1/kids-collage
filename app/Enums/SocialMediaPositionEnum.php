@@ -15,7 +15,7 @@ enum SocialMediaPositionEnum: string
     public function title(): string
     {
         return match ($this) {
-            self::ALL    => __('socialMedia.enum.position.all'),
+            self::ALL => __('socialMedia.enum.position.all'),
             self::HEADER => __('socialMedia.enum.position.header'),
             self::FOOTER => __('socialMedia.enum.position.footer'),
         };

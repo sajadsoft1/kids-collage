@@ -46,7 +46,7 @@ class StorePageAction
             $this->syncTranslationAction->handle($model, Arr::only($payload, ['title', 'body']));
             $this->fileService->addMedia($model, Arr::get($payload, 'image'));
             $this->seoOptionService->create($model, [
-                'title'       => Arr::get($payload, 'title'),
+                'title' => Arr::get($payload, 'title'),
                 'description' => Arr::get($payload, 'body'),
             ]);
 

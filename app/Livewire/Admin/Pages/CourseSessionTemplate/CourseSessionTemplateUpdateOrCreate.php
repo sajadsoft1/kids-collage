@@ -53,12 +53,12 @@ class CourseSessionTemplateUpdateOrCreate extends Component
     protected function rules(): array
     {
         return [
-            'title'                   => 'required|string',
-            'description'             => 'required|string',
-            'order'                   => 'required|integer|min:1',
-            'duration_minutes'        => 'required|integer|min:1',
-            'type'                    => 'required|in:' . implode(',', SessionType::values()),
-            'resources'               => 'nullable|array',
+            'title' => 'required|string',
+            'description' => 'required|string',
+            'order' => 'required|integer|min:1',
+            'duration_minutes' => 'required|integer|min:1',
+            'type' => 'required|in:' . implode(',', SessionType::values()),
+            'resources' => 'nullable|array',
             'resources.*.resource_id' => 'required|integer|exists:resources,id|distinct',
         ];
     }
@@ -115,11 +115,11 @@ class CourseSessionTemplateUpdateOrCreate extends Component
     public function render(): View
     {
         return view('livewire.admin.pages.courseSessionTemplate.courseSessionTemplate-update-or-create', [
-            'edit_mode'          => $this->model->id,
-            'breadcrumbs'        => [
+            'edit_mode' => $this->model->id,
+            'breadcrumbs' => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link'  => route('admin.course-template.index'), 'label' => trans('general.page.index.title', ['model' => trans('coursetemplate.model')])],
-                ['link'  => route('admin.course-session-template.index', ['courseTemplate' => $this->courseTemplate->id]), 'label' => $this->courseTemplate->title],
+                ['link' => route('admin.course-template.index'), 'label' => trans('general.page.index.title', ['model' => trans('coursetemplate.model')])],
+                ['link' => route('admin.course-session-template.index', ['courseTemplate' => $this->courseTemplate->id]), 'label' => $this->courseTemplate->title],
                 ['label' => trans('general.page.create.title', ['model' => trans('courseSessionTemplate.model')])],
             ],
             'breadcrumbsActions' => [

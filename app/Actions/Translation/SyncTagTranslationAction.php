@@ -24,7 +24,7 @@ class SyncTagTranslationAction
                 $value = Arr::get($payload, $column, request()->input($column));
                 if ( ! empty($value)) {
                     $model->customTranslations()->updateOrCreate([
-                        'key'    => $column,
+                        'key' => $column,
                         'locale' => $locale,
                     ], [
                         'value' => $value,

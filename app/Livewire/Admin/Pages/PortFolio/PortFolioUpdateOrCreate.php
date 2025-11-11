@@ -58,17 +58,17 @@ class PortFolioUpdateOrCreate extends Component
     protected function rules(): array
     {
         return [
-            'title'          => ['required', 'string', 'max:255'],
-            'description'    => ['required', 'string'],
-            'body'           => ['required', 'string'],
+            'title' => ['required', 'string', 'max:255'],
+            'description' => ['required', 'string'],
+            'body' => ['required', 'string'],
             'execution_date' => ['required', 'date'],
-            'creator_id'     => ['nullable'],
-            'category_id'    => ['required', 'exists:categories,id,type,portfolio'],
-            'image'          => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
-            'tags'           => ['nullable', 'array'],
-            'tags.*'         => ['required', 'string', 'max:255'],
-            'published'      => ['required', 'boolean'],
-            'published_at'   => [
+            'creator_id' => ['nullable'],
+            'category_id' => ['required', 'exists:categories,id,type,portfolio'],
+            'image' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
+            'tags' => ['nullable', 'array'],
+            'tags.*' => ['required', 'string', 'max:255'],
+            'published' => ['required', 'boolean'],
+            'published_at' => [
                 'nullable',
                 'date',
                 function ($attribute, $value, $fail) {
@@ -113,10 +113,10 @@ class PortFolioUpdateOrCreate extends Component
     public function render(): View
     {
         return view('livewire.admin.pages.portFolio.portFolio-update-or-create', [
-            'edit_mode'          => $this->model->id,
-            'breadcrumbs'        => [
+            'edit_mode' => $this->model->id,
+            'breadcrumbs' => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link'  => route('admin.portFolio.index'), 'label' => trans('general.page.index.title', ['model' => trans('portFolio.model')])],
+                ['link' => route('admin.portFolio.index'), 'label' => trans('general.page.index.title', ['model' => trans('portFolio.model')])],
                 ['label' => trans('general.page.create.title', ['model' => trans('portFolio.model')])],
             ],
             'breadcrumbsActions' => [

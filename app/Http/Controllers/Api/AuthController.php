@@ -61,7 +61,7 @@ class AuthController extends Controller
 
         return Response::data([
             'token' => $dto->getToken(),
-            'user'  => SimpleUserResource::make($dto->getUser()),
+            'user' => SimpleUserResource::make($dto->getUser()),
         ]);
     }
 

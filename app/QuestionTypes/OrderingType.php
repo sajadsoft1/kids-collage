@@ -9,8 +9,8 @@ class OrderingType extends AbstractQuestionType
     public function defaultConfig(): array
     {
         return [
-            'min_items'    => 2,
-            'max_items'    => 10,
+            'min_items' => 2,
+            'max_items' => 10,
             'scoring_type' => 'exact', // exact, partial, adjacent
         ];
     }
@@ -20,18 +20,18 @@ class OrderingType extends AbstractQuestionType
         $config = $this->getConfig();
 
         return [
-            'title'               => ['required', 'string', 'max:2000'],
-            'body'                => ['nullable', 'string'],
-            'default_score'       => ['required', 'numeric', 'min:0'],
+            'title' => ['required', 'string', 'max:2000'],
+            'body' => ['nullable', 'string'],
+            'default_score' => ['required', 'numeric', 'min:0'],
 
-            'options'             => [
+            'options' => [
                 'required',
                 'array',
                 "min:{$config['min_items']}",
                 "max:{$config['max_items']}",
             ],
-            'options.*.content'   => ['required', 'string'],
-            'options.*.order'     => ['required', 'integer', 'distinct'],
+            'options.*.content' => ['required', 'string'],
+            'options.*.order' => ['required', 'integer', 'distinct'],
 
             'config.scoring_type' => ['nullable', 'in:exact,partial,adjacent'],
         ];

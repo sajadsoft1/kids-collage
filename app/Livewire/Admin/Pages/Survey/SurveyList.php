@@ -23,7 +23,7 @@ class SurveyList extends Component
     public string $viewMode = 'accessible';
 
     protected $queryString = [
-        'page'     => ['except' => 1],
+        'page' => ['except' => 1],
         'viewMode' => ['except' => 'accessible'],
     ];
 
@@ -118,11 +118,11 @@ class SurveyList extends Component
             : [];
 
         return view('livewire.admin.pages.survey.survey-list', [
-            'surveys'            => $surveys,
-            'breadcrumbs'        => $breadcrumbs,
+            'surveys' => $surveys,
+            'breadcrumbs' => $breadcrumbs,
             'breadcrumbsActions' => $breadcrumbsActions,
-            'viewModeOptions'    => $this->viewModeOptions(),
-            'canCreateSurvey'    => $canCreateSurvey,
+            'viewModeOptions' => $this->viewModeOptions(),
+            'canCreateSurvey' => $canCreateSurvey,
         ]);
     }
 
@@ -151,12 +151,12 @@ class SurveyList extends Component
 
         if ($attemptStatus === AttemptStatusEnum::IN_PROGRESS) {
             return [
-                'code'           => 'in_progress',
-                'label'          => 'در حال انجام',
-                'badge_class'    => 'bg-warning/20 text-warning',
-                'action_label'   => 'ادامه',
+                'code' => 'in_progress',
+                'label' => 'در حال انجام',
+                'badge_class' => 'bg-warning/20 text-warning',
+                'action_label' => 'ادامه',
                 'action_enabled' => true,
-                'helper'         => 'می‌توانید پاسخ‌گویی به این نظر سنجی را ادامه دهید.',
+                'helper' => 'می‌توانید پاسخ‌گویی به این نظر سنجی را ادامه دهید.',
             ];
         }
 
@@ -166,12 +166,12 @@ class SurveyList extends Component
             $retake = in_array($attemptStatus, [AttemptStatusEnum::COMPLETED, AttemptStatusEnum::ABANDONED], true);
 
             return [
-                'code'           => 'available',
-                'label'          => $retake ? 'قابل شروع مجدد' : 'قابل شروع',
-                'badge_class'    => 'bg-primary/10 text-primary',
-                'action_label'   => $retake ? 'شروع مجدد' : 'شروع',
+                'code' => 'available',
+                'label' => $retake ? 'قابل شروع مجدد' : 'قابل شروع',
+                'badge_class' => 'bg-primary/10 text-primary',
+                'action_label' => $retake ? 'شروع مجدد' : 'شروع',
                 'action_enabled' => true,
-                'helper'         => $retake
+                'helper' => $retake
                     ? 'می‌توانید پاسخ‌های جدیدی برای این نظر سنجی ثبت کنید.'
                     : 'این نظر سنجی برای شما فعال است.',
             ];
@@ -179,44 +179,44 @@ class SurveyList extends Component
 
         if ($attemptStatus === AttemptStatusEnum::COMPLETED) {
             return [
-                'code'           => 'completed',
-                'label'          => 'تکمیل شده',
-                'badge_class'    => 'bg-success/15 text-success',
-                'action_label'   => null,
+                'code' => 'completed',
+                'label' => 'تکمیل شده',
+                'badge_class' => 'bg-success/15 text-success',
+                'action_label' => null,
                 'action_enabled' => false,
-                'helper'         => 'پاسخ‌های شما ثبت شده است.',
+                'helper' => 'پاسخ‌های شما ثبت شده است.',
             ];
         }
 
         if ($attemptStatus === AttemptStatusEnum::EXPIRED) {
             return [
-                'code'           => 'expired',
-                'label'          => 'منقضی شده',
-                'badge_class'    => 'bg-error/15 text-error',
-                'action_label'   => null,
+                'code' => 'expired',
+                'label' => 'منقضی شده',
+                'badge_class' => 'bg-error/15 text-error',
+                'action_label' => null,
                 'action_enabled' => false,
-                'helper'         => 'مهلت پاسخ‌دهی به این نظر سنجی به پایان رسیده است.',
+                'helper' => 'مهلت پاسخ‌دهی به این نظر سنجی به پایان رسیده است.',
             ];
         }
 
         if ($attemptStatus === AttemptStatusEnum::ABANDONED) {
             return [
-                'code'           => 'abandoned',
-                'label'          => 'رها شده',
-                'badge_class'    => 'bg-warning/15 text-warning',
-                'action_label'   => null,
+                'code' => 'abandoned',
+                'label' => 'رها شده',
+                'badge_class' => 'bg-warning/15 text-warning',
+                'action_label' => null,
                 'action_enabled' => false,
-                'helper'         => 'پاسخ‌گویی نیمه‌کاره رها شده است.',
+                'helper' => 'پاسخ‌گویی نیمه‌کاره رها شده است.',
             ];
         }
 
         return [
-            'code'           => 'locked',
-            'label'          => 'غیرفعال',
-            'badge_class'    => 'bg-base-200 text-base-content/70',
-            'action_label'   => null,
+            'code' => 'locked',
+            'label' => 'غیرفعال',
+            'badge_class' => 'bg-base-200 text-base-content/70',
+            'action_label' => null,
             'action_enabled' => false,
-            'helper'         => 'در حال حاضر امکان شرکت در این نظر سنجی را ندارید.',
+            'helper' => 'در حال حاضر امکان شرکت در این نظر سنجی را ندارید.',
         ];
     }
 
@@ -248,8 +248,8 @@ class SurveyList extends Component
     {
         return [
             'accessible' => 'نظر سنجی‌های مربوط به من',
-            'created'    => 'نظر سنجی‌های ساخته شده توسط من',
-            'all'        => 'همه نظر سنجی‌ها',
+            'created' => 'نظر سنجی‌های ساخته شده توسط من',
+            'all' => 'همه نظر سنجی‌ها',
         ];
     }
 }

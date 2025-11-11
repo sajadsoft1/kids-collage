@@ -41,7 +41,7 @@ class TrueFalse extends Component
     protected function getDefaultConfig(): array
     {
         return [
-            'true_label'  => 'درست',
+            'true_label' => 'درست',
             'false_label' => 'غلط',
         ];
     }
@@ -56,7 +56,7 @@ class TrueFalse extends Component
     {
         if ($this->questionIndex !== null) {
             $this->dispatch('configUpdated', [
-                'index'  => $this->questionIndex,
+                'index' => $this->questionIndex,
                 'config' => $this->config,
             ]);
         }
@@ -66,7 +66,7 @@ class TrueFalse extends Component
     {
         if ($this->questionIndex !== null) {
             $this->dispatch('correctAnswerUpdated', [
-                'index'          => $this->questionIndex,
+                'index' => $this->questionIndex,
                 'correct_answer' => $this->correct_answer,
             ]);
         }

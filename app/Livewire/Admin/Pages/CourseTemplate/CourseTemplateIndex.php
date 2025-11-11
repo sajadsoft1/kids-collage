@@ -21,7 +21,7 @@ class CourseTemplateIndex extends Component
     public function render(): View
     {
         return view('livewire.admin.pages.course-template.course-template-index', [
-            'breadcrumbs'        => [
+            'breadcrumbs' => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
                 ['label' => trans('general.page.index.title', ['model' => trans('courseTemplate.model')])],
             ],

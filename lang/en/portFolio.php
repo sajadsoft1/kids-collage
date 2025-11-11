@@ -3,17 +3,17 @@
 declare(strict_types=1);
 
 return [
-    'model'         => 'Portfolio',
-    'permissions'   => [
+    'model' => 'Portfolio',
+    'permissions' => [
     ],
-    'exceptions'    => [
+    'exceptions' => [
     ],
-    'validations'   => [
+    'validations' => [
     ],
-    'enum'          => [
+    'enum' => [
     ],
     'notifications' => [
     ],
-    'page'          => [
+    'page' => [
     ],
 ];

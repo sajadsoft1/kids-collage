@@ -107,10 +107,10 @@ class UserUpdateOrCreate extends Component
     {
         $routeName                = request()->route()?->getName();
         $this->detected_user_type = match (true) {
-            str_starts_with($routeName, 'admin.parent.')   => UserTypeEnum::PARENT,
+            str_starts_with($routeName, 'admin.parent.') => UserTypeEnum::PARENT,
             str_starts_with($routeName, 'admin.employee.') => UserTypeEnum::EMPLOYEE,
-            str_starts_with($routeName, 'admin.teacher.')  => UserTypeEnum::TEACHER,
-            default                                        => UserTypeEnum::USER, // Regular user or admin.user routes
+            str_starts_with($routeName, 'admin.teacher.') => UserTypeEnum::TEACHER,
+            default => UserTypeEnum::USER, // Regular user or admin.user routes
         };
 
         return $this->detected_user_type;
@@ -121,10 +121,10 @@ class UserUpdateOrCreate extends Component
     {
         $routeName                 = request()->route()?->getName();
         $this->detected_route_name = match (true) {
-            str_starts_with($routeName, 'admin.parent.')   => 'admin.parent',
+            str_starts_with($routeName, 'admin.parent.') => 'admin.parent',
             str_starts_with($routeName, 'admin.employee.') => 'admin.employee',
-            str_starts_with($routeName, 'admin.teacher.')  => 'admin.teacher',
-            default                                        => 'admin.user',
+            str_starts_with($routeName, 'admin.teacher.') => 'admin.teacher',
+            default => 'admin.user',
         };
 
         return $this->detected_route_name;
@@ -133,53 +133,53 @@ class UserUpdateOrCreate extends Component
     protected function rules(): array
     {
         return [
-            'name'                   => 'required|string|max:255',
-            'family'                 => 'required|string|max:255',
-            'email'                  => 'required|email|unique:users,email,' . $this->user->id,
-            'mobile'                 => [
+            'name' => 'required|string|max:255',
+            'family' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $this->user->id,
+            'mobile' => [
                 'required',
                 'regex:/^(0|\+98|98)9[0-9]{9}$/',  // ✅ Now includes `/` delimiters
                 'unique:users,mobile,' . $this->user->id,
             ],
-            'status'                 => 'required',
-            'birth_date'             => 'required|date',
-            'selected_rules'         => 'nullable|array',
-            'selected_rules.*'       => 'exists:roles,id',
-            'avatar'                 => [
+            'status' => 'required',
+            'birth_date' => 'required|date',
+            'selected_rules' => 'nullable|array',
+            'selected_rules.*' => 'exists:roles,id',
+            'avatar' => [
                 'nullable',
                 'image',
                 'mimes:jpeg,png,jpg,gif,svg',
                 'max:2048', // 2MB Max
             ],
-            'national_card'          => [
+            'national_card' => [
                 'nullable',
                 'image',
                 'mimes:jpeg,png,jpg,gif,svg',
                 'max:2048', // 2MB Max
             ],
-            'birth_certificate'      => [
+            'birth_certificate' => [
                 'nullable',
                 'image',
                 'mimes:jpeg,png,jpg,gif,svg',
                 'max:2048', // 2MB Max
             ],
-            'national_code'          => 'nullable|string|max:255',
-            'gender'                 => 'nullable|string|in:' . implode(',', GenderEnum::values()),
-            'religion'               => 'nullable|string|in:' . implode(',', ReligionEnum::values()),
-            'address'                => 'nullable|string|max:255',
-            'phone'                  => 'nullable|string|max:255',
-            'father_name'            => 'nullable|string|max:255',
-            'father_phone'           => 'nullable|string|max:255',
-            'mother_name'            => 'nullable|string|max:255',
-            'mother_phone'           => 'nullable|string|max:255',
-            'salary'                 => 'nullable|numeric|min:0',
-            'benefit'                => 'nullable|numeric|min:0',
+            'national_code' => 'nullable|string|max:255',
+            'gender' => 'nullable|string|in:' . implode(',', GenderEnum::values()),
+            'religion' => 'nullable|string|in:' . implode(',', ReligionEnum::values()),
+            'address' => 'nullable|string|max:255',
+            'phone' => 'nullable|string|max:255',
+            'father_name' => 'nullable|string|max:255',
+            'father_phone' => 'nullable|string|max:255',
+            'mother_name' => 'nullable|string|max:255',
+            'mother_phone' => 'nullable|string|max:255',
+            'salary' => 'nullable|numeric|min:0',
+            'benefit' => 'nullable|numeric|min:0',
             'cooperation_start_date' => 'nullable|date',
-            'cooperation_end_date'   => 'nullable|date|after_or_equal:cooperation_start_date',
-            'father_id'              => 'nullable|exists:users,id',
-            'mother_id'              => 'nullable|exists:users,id',
-            'children_id'            => 'nullable|array',
-            'children_id.*'          => 'exists:users,id',
+            'cooperation_end_date' => 'nullable|date|after_or_equal:cooperation_start_date',
+            'father_id' => 'nullable|exists:users,id',
+            'mother_id' => 'nullable|exists:users,id',
+            'children_id' => 'nullable|array',
+            'children_id.*' => 'exists:users,id',
         ];
     }
 
@@ -219,8 +219,8 @@ class UserUpdateOrCreate extends Component
     public function render(): View
     {
         return view('livewire.admin.pages.user.user-update-or-create', [
-            'edit_mode'          => $this->user->id,
-            'breadcrumbs'        => [
+            'edit_mode' => $this->user->id,
+            'breadcrumbs' => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
                 ['link' => route($this->detected_route_name . '.index'), 'label' => trans('general.page.index.title', ['model' => $this->detected_user_type->title()])],
                 ['label' => $this->user->id
@@ -231,7 +231,7 @@ class UserUpdateOrCreate extends Component
             'breadcrumbsActions' => [
                 ['link' => route($this->detected_route_name . '.index'), 'icon' => 's-arrow-left'],
             ],
-            'male_parents'       => User::query()->where('type', UserTypeEnum::PARENT->value)
+            'male_parents' => User::query()->where('type', UserTypeEnum::PARENT->value)
                 ->whereHas('profile', fn ($q) => $q->where('gender', GenderEnum::MALE->value))
                 ->get()->map(function (User $user) {
                     return [
@@ -239,7 +239,7 @@ class UserUpdateOrCreate extends Component
                         'value' => $user->id,
                     ];
                 }),
-            'female_parents'     => User::query()->where('type', UserTypeEnum::PARENT->value)
+            'female_parents' => User::query()->where('type', UserTypeEnum::PARENT->value)
                 ->whereHas('profile', fn ($q) => $q->where('gender', GenderEnum::FEMALE->value))
                 ->get()->map(function (User $user) {
                     return [
@@ -247,7 +247,7 @@ class UserUpdateOrCreate extends Component
                         'value' => $user->id,
                     ];
                 }),
-            'childrens'          => User::query()->where('type', UserTypeEnum::USER->value)->get()->map(function (User $user) {
+            'childrens' => User::query()->where('type', UserTypeEnum::USER->value)->get()->map(function (User $user) {
                 return [
                     'label' => $user->full_name . ' (' . $user->mobile . ')',
                     'value' => $user->id,

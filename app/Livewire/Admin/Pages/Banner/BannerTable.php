@@ -44,12 +44,12 @@ final class BannerTable extends PowerGridComponent
     {
         return [
             [
-                'link'       => route('admin.banner.create'),
-                'icon'       => 's-plus', 'label' => trans(
+                'link' => route('admin.banner.create'),
+                'icon' => 's-plus', 'label' => trans(
                     'general.page.create.title',
                     ['model' => trans('banner.model')]
                 ),
-                'access'     => auth()->user()->hasAnyPermission(PermissionsService::generatePermissionsByModel(Banner::class, 'Store')),
+                'access' => auth()->user()->hasAnyPermission(PermissionsService::generatePermissionsByModel(Banner::class, 'Store')),
             ],
         ];
     }

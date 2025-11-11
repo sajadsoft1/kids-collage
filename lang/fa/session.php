@@ -3,18 +3,18 @@
 declare(strict_types=1);
 
 return [
-    'model'       => 'جلسه',
+    'model' => 'جلسه',
     'permissions' => [
     ],
-    'exceptions'  => [
+    'exceptions' => [
     ],
     'validations' => [
     ],
-    'enum'        => [
+    'enum' => [
         'type' => [
-            'in_person'  => 'حضوری',
-            'online'     => 'آنلاین',
-            'hybrid'     => 'هایبرید',
+            'in_person' => 'حضوری',
+            'online' => 'آنلاین',
+            'hybrid' => 'هایبرید',
             'self_paced' => 'فروش آنلاین',
         ],
     ],

@@ -32,7 +32,7 @@ class StoreQuestionSubjectAction
     {
         return DB::transaction(function () use ($payload) {
             $model =  QuestionSubject::create([
-                'ordering'    => QuestionSubject::max('ordering') + 1,
+                'ordering' => QuestionSubject::max('ordering') + 1,
                 'category_id' => Arr::get($payload, 'category_id'),
             ]);
             $this->syncTranslationAction->handle($model, Arr::only($payload, ['title', 'description']));

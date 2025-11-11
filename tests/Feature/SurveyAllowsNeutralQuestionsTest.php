@@ -24,49 +24,49 @@ class SurveyAllowsNeutralQuestionsTest extends TestCase
         $this->actingAs($user);
 
         $payload = [
-            'title'       => 'Feedback Survey',
+            'title' => 'Feedback Survey',
             'description' => 'Tell us what you think.',
-            'type'        => ExamTypeEnum::SURVEY->value,
-            'starts_at'   => Carbon::now()->addDay()->format('Y-m-d H:i:s'),
-            'ends_at'     => Carbon::now()->addDays(2)->format('Y-m-d H:i:s'),
-            'status'      => ExamStatusEnum::DRAFT->value,
-            'rules'       => [
+            'type' => ExamTypeEnum::SURVEY->value,
+            'starts_at' => Carbon::now()->addDay()->format('Y-m-d H:i:s'),
+            'ends_at' => Carbon::now()->addDays(2)->format('Y-m-d H:i:s'),
+            'status' => ExamStatusEnum::DRAFT->value,
+            'rules' => [
                 'group_logic' => 'or',
-                'groups'      => [
+                'groups' => [
                     [
-                        'logic'      => 'and',
+                        'logic' => 'and',
                         'conditions' => [
                             [
-                                'field'    => 'enrollment_date',
+                                'field' => 'enrollment_date',
                                 'operator' => 'after',
-                                'value'    => '2024-01-01',
+                                'value' => '2024-01-01',
                             ],
                         ],
                     ],
                 ],
             ],
-            'questions'   => [
+            'questions' => [
                 [
-                    'type'           => QuestionTypeEnum::SINGLE_CHOICE->value,
-                    'title'          => 'How satisfied are you with our program?',
-                    'body'           => null,
-                    'options'        => [
+                    'type' => QuestionTypeEnum::SINGLE_CHOICE->value,
+                    'title' => 'How satisfied are you with our program?',
+                    'body' => null,
+                    'options' => [
                         ['content' => 'Very satisfied', 'is_correct' => false, 'order' => 1],
                         ['content' => 'Satisfied', 'is_correct' => false, 'order' => 2],
                     ],
-                    'config'         => ['has_correct_answer' => false],
+                    'config' => ['has_correct_answer' => false],
                     'correct_answer' => [],
                 ],
                 [
-                    'type'           => QuestionTypeEnum::MULTIPLE_CHOICE->value,
-                    'title'          => 'Which areas should we improve?',
-                    'body'           => null,
-                    'options'        => [
+                    'type' => QuestionTypeEnum::MULTIPLE_CHOICE->value,
+                    'title' => 'Which areas should we improve?',
+                    'body' => null,
+                    'options' => [
                         ['content' => 'Communication', 'is_correct' => false, 'order' => 1],
                         ['content' => 'Scheduling', 'is_correct' => false, 'order' => 2],
                         ['content' => 'Facilities', 'is_correct' => false, 'order' => 3],
                     ],
-                    'config'         => ['has_correct_answer' => false],
+                    'config' => ['has_correct_answer' => false],
                     'correct_answer' => [],
                 ],
             ],

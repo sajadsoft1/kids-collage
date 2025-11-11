@@ -16,8 +16,8 @@ enum TicketDepartmentEnum: string
     {
         return match ($this) {
             self::FINANCE_AND_ADMINISTRATION => __('ticket.enum.department.finance_and_administration'),
-            self::SALE                       => __('ticket.enum.department.Sale'),
-            self::TECHNICAL                  => __('ticket.enum.department.technical'),
+            self::SALE => __('ticket.enum.department.Sale'),
+            self::TECHNICAL => __('ticket.enum.department.technical'),
         };
     }
     

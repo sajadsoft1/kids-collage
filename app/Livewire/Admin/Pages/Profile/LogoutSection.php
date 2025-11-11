@@ -41,18 +41,18 @@ class LogoutSection extends Component
         $agent = new Agent;
 
         return [
-            'ip'               => request()->ip(),
-            'user_agent'       => request()->userAgent(),
-            'browser'          => $agent->browser(),
-            'browser_version'  => $agent->version($agent->browser()),
-            'platform'         => $agent->platform(),
+            'ip' => request()->ip(),
+            'user_agent' => request()->userAgent(),
+            'browser' => $agent->browser(),
+            'browser_version' => $agent->version($agent->browser()),
+            'platform' => $agent->platform(),
             'platform_version' => $agent->version($agent->platform()),
-            'device'           => $this->getDeviceType($agent),
-            'is_mobile'        => $agent->isMobile(),
-            'is_tablet'        => $agent->isTablet(),
-            'is_desktop'       => $agent->isDesktop(),
-            'session_id'       => Session::getId(),
-            'last_activity'    => now(),
+            'device' => $this->getDeviceType($agent),
+            'is_mobile' => $agent->isMobile(),
+            'is_tablet' => $agent->isTablet(),
+            'is_desktop' => $agent->isDesktop(),
+            'session_id' => Session::getId(),
+            'last_activity' => now(),
         ];
     }
 
@@ -90,12 +90,12 @@ class LogoutSection extends Component
     public function getBrowserIcon(string $browser): string
     {
         return match (strtolower($browser)) {
-            'chrome'  => 'o-globe-alt',
+            'chrome' => 'o-globe-alt',
             'firefox' => 'o-globe-alt',
-            'safari'  => 'o-globe-alt',
-            'edge'    => 'o-globe-alt',
-            'opera'   => 'o-globe-alt',
-            default   => 'o-globe-alt',
+            'safari' => 'o-globe-alt',
+            'edge' => 'o-globe-alt',
+            'opera' => 'o-globe-alt',
+            default => 'o-globe-alt',
         };
     }
 

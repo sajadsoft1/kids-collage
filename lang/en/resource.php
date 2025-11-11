@@ -3,34 +3,34 @@
 declare(strict_types=1);
 
 return [
-    'model'               => 'Resource',
-    'type'                => 'Resource Type',
-    'attached_to'         => 'Attached To',
-    'url'                 => 'URL',
-    'file'                => 'File',
-    'order'               => 'Display Order',
-    'is_public'           => 'Is Public',
-    'description'         => 'Description',
-    'permissions'         => [
+    'model' => 'Resource',
+    'type' => 'Resource Type',
+    'attached_to' => 'Attached To',
+    'url' => 'URL',
+    'file' => 'File',
+    'order' => 'Display Order',
+    'is_public' => 'Is Public',
+    'description' => 'Description',
+    'permissions' => [
     ],
-    'exceptions'          => [
+    'exceptions' => [
     ],
-    'validations'         => [
+    'validations' => [
     ],
-    'enum'                => [
-        'pdf'   => 'PDF Document',
+    'enum' => [
+        'pdf' => 'PDF Document',
         'video' => 'Video',
         'image' => 'Image',
         'audio' => 'Audio',
-        'file'  => 'File',
-        'link'  => 'Link',
+        'file' => 'File',
+        'link' => 'Link',
     ],
-    'notifications'       => [
+    'notifications' => [
     ],
-    'page'                => [
+    'page' => [
     ],
-    'attached_resources'  => 'Attached Resources',
-    'add_relationship'    => 'Add Relationship',
-    'no_relationships'    => 'No relationships defined',
+    'attached_resources' => 'Attached Resources',
+    'add_relationship' => 'Add Relationship',
+    'no_relationships' => 'No relationships defined',
     'click_add_to_create' => 'Click the add button to create a new relationship',
 ];

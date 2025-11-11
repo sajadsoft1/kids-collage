@@ -3,30 +3,30 @@
 declare(strict_types=1);
 
 return [
-    'model'         => 'بورد',
-    'exceptions'    => [
+    'model' => 'بورد',
+    'exceptions' => [
     ],
-    'validations'   => [
+    'validations' => [
     ],
-    'enum'          => [
+    'enum' => [
     ],
     'notifications' => [
     ],
-    'page'          => [
+    'page' => [
     ],
-    'board_list'    => [
-        'title'         => 'بوردها',
-        'create'        => 'افزودن بورد',
+    'board_list' => [
+        'title' => 'بوردها',
+        'create' => 'افزودن بورد',
         'search_boards' => 'جستجوی بوردها',
 
-        'card'          => [
+        'card' => [
             'card_admin' => 'مدیر: :name',
-            'cards'      => 'کارت ها',
-            'columns'    => 'ستون ها',
+            'cards' => 'کارت ها',
+            'columns' => 'ستون ها',
         ],
     ],
-    'kanban'        => [
-        'title'       => 'کانبان',
+    'kanban' => [
+        'title' => 'کانبان',
         'create_card' => 'افزودن کارت',
     ],
 ];

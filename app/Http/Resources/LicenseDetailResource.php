@@ -32,7 +32,7 @@ class LicenseDetailResource extends JsonResource
 
         return array_merge($resource, [
             'seo_option' => $this->seoOption,
-            'image'      => $this->resource->getFirstMediaUrl('image', Constants::RESOLUTION_1280_720),
+            'image' => $this->resource->getFirstMediaUrl('image', Constants::RESOLUTION_1280_720),
         ]);
     }
 }

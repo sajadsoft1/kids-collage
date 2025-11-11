@@ -44,9 +44,9 @@ final class ClientTable extends PowerGridComponent
     {
         return [
             [
-                'link'   => route('admin.client.create'),
-                'icon'   => 's-plus',
-                'label'  => trans(
+                'link' => route('admin.client.create'),
+                'icon' => 's-plus',
+                'label' => trans(
                     'general.page.create.title',
                     ['model' => trans('client.model')]
                 ),

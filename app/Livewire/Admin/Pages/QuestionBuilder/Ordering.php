@@ -53,7 +53,7 @@ class Ordering extends Component
     {
         $this->options[] = [
             'content' => '',
-            'order'   => count($this->options) + 1,
+            'order' => count($this->options) + 1,
         ];
         $this->dispatchOptions();
     }
@@ -102,7 +102,7 @@ class Ordering extends Component
     {
         if ($this->questionIndex !== null) {
             $this->dispatch('optionsUpdated', [
-                'index'   => $this->questionIndex,
+                'index' => $this->questionIndex,
                 'options' => $this->options,
             ]);
         }
@@ -112,7 +112,7 @@ class Ordering extends Component
     {
         if ($this->questionIndex !== null) {
             $this->dispatch('configUpdated', [
-                'index'  => $this->questionIndex,
+                'index' => $this->questionIndex,
                 'config' => $this->config,
             ]);
         }

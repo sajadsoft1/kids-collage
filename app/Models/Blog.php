@@ -67,9 +67,9 @@ class Blog extends Model implements HasMedia
     ];
 
     protected $casts = [
-        'published'    => BooleanEnum::class,
+        'published' => BooleanEnum::class,
         'published_at' => 'datetime',
-        'languages'    => 'array',
+        'languages' => 'array',
     ];
 
     /** Model Configuration -------------------------------------------------------------------------- */

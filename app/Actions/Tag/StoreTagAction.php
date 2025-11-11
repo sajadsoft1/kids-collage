@@ -50,11 +50,11 @@ class StoreTagAction
             $description=Arr::get($payload, 'description');
             $body       =Arr::get($payload, 'body');
             $this->seoOptionService->create($tag, [
-                'title'       => $title,
+                'title' => $title,
                 'description' => $description]);
             $this->syncTagTranslationAction->handle($tag, [
                 'description' => $description,
-                'body'        => $body,
+                'body' => $body,
             ]);
 
             $this->fileService->addMedia($tag, Arr::get($payload, 'image'));

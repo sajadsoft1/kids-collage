@@ -45,9 +45,9 @@ final class FaqTable extends PowerGridComponent
     {
         return [
             [
-                'link'   => route('admin.faq.create'),
-                'icon'   => 's-plus',
-                'label'  => trans(
+                'link' => route('admin.faq.create'),
+                'icon' => 's-plus',
+                'label' => trans(
                     'general.page.create.title',
                     ['model' => trans('faq.model')]
                 ),

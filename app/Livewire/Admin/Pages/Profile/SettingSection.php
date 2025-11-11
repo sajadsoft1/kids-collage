@@ -81,7 +81,7 @@ class SettingSection extends Component
 
             logger()->error('Failed to save notification settings', [
                 'user_id' => $this->user->id,
-                'error'   => $e->getMessage(),
+                'error' => $e->getMessage(),
             ]);
         }
     }

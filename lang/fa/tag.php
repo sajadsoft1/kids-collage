@@ -3,18 +3,18 @@
 declare(strict_types=1);
 
 return [
-    'model'         => 'تگ',
-    'permissions'   => [
+    'model' => 'تگ',
+    'permissions' => [
     ],
-    'exceptions'    => [
+    'exceptions' => [
         'not_allowed_to_delete' => 'تگ مورد نظر قابل حذف شدن نیست',
     ],
-    'validations'   => [
+    'validations' => [
     ],
-    'enum'          => [
+    'enum' => [
     ],
     'notifications' => [
     ],
-    'page'          => [
+    'page' => [
     ],
 ];

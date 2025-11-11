@@ -93,7 +93,7 @@ class QuestionSelector extends Component
             ->latest();
 
         return view('livewire.admin.pages.exam.question-selector', [
-            'questions'        => $query->paginate(10),
+            'questions' => $query->paginate(10),
             'currentQuestions' => $this->exam->questions,
         ]);
     }

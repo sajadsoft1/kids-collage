@@ -52,8 +52,8 @@ class SingleChoice extends Component
     protected function getDefaultConfig(): array
     {
         return [
-            'shuffle_options'    => false,
-            'show_explanation'   => false,
+            'shuffle_options' => false,
+            'show_explanation' => false,
             'has_correct_answer' => true,
         ];
     }
@@ -61,9 +61,9 @@ class SingleChoice extends Component
     public function addOption(): void
     {
         $this->options[] = [
-            'content'    => '',
+            'content' => '',
             'is_correct' => false,
-            'order'      => count($this->options) + 1,
+            'order' => count($this->options) + 1,
         ];
         $this->dispatchOptions();
     }
@@ -103,7 +103,7 @@ class SingleChoice extends Component
     {
         if ($this->questionIndex !== null) {
             $this->dispatch('optionsUpdated', [
-                'index'   => $this->questionIndex,
+                'index' => $this->questionIndex,
                 'options' => $this->options,
             ]);
         }
@@ -115,7 +115,7 @@ class SingleChoice extends Component
             $this->config['has_correct_answer'] = $this->hasCorrectAnswer;
 
             $this->dispatch('configUpdated', [
-                'index'  => $this->questionIndex,
+                'index' => $this->questionIndex,
                 'config' => $this->config,
             ]);
         }

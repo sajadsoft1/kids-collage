@@ -42,8 +42,8 @@ class DashboardIndex extends Component
             // Dispatch event to update all widgets with new date range
             $this->dispatch('dashboardDateRangeUpdated', [
                 'startDate' => $this->startDate,
-                'endDate'   => $this->endDate,
-                'period'    => $this->selectedPeriod,
+                'endDate' => $this->endDate,
+                'period' => $this->selectedPeriod,
             ]);
         }
     }
@@ -52,8 +52,8 @@ class DashboardIndex extends Component
     public function render()
     {
         return view('livewire.admin.pages.dashboard.dashboard-index', [
-            'startDate'      => $this->startDate,
-            'endDate'        => $this->endDate,
+            'startDate' => $this->startDate,
+            'endDate' => $this->endDate,
             'selectedPeriod' => $this->selectedPeriod,
         ]);
     }

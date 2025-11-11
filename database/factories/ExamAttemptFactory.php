@@ -26,36 +26,36 @@ class ExamAttemptFactory extends Factory
             : null;
 
         return [
-            'exam_id'      => Exam::where('status', ExamStatusEnum::PUBLISHED->value)->inRandomOrder()->first()->id,
-            'user_id'      => User::where('type', UserTypeEnum::USER->value)->inRandomOrder()->first()->id,
-            'started_at'   => $startedAt,
+            'exam_id' => Exam::where('status', ExamStatusEnum::PUBLISHED->value)->inRandomOrder()->first()->id,
+            'user_id' => User::where('type', UserTypeEnum::USER->value)->inRandomOrder()->first()->id,
+            'started_at' => $startedAt,
             'completed_at' => $completedAt,
-            'total_score'  => $completedAt ? fake()->randomFloat(2, 0, 100) : null,
-            'percentage'   => $completedAt ? fake()->randomFloat(2, 0, 100) : null,
-            'status'       => $status,
-            'ip_address'   => fake()->ipv4(),
-            'user_agent'   => fake()->userAgent(),
-            'metadata'     => [],
+            'total_score' => $completedAt ? fake()->randomFloat(2, 0, 100) : null,
+            'percentage' => $completedAt ? fake()->randomFloat(2, 0, 100) : null,
+            'status' => $status,
+            'ip_address' => fake()->ipv4(),
+            'user_agent' => fake()->userAgent(),
+            'metadata' => [],
         ];
     }
 
     public function completed(): static
     {
         return $this->state(fn (array $attributes) => [
-            'status'       => AttemptStatusEnum::COMPLETED,
+            'status' => AttemptStatusEnum::COMPLETED,
             'completed_at' => now(),
-            'total_score'  => fake()->randomFloat(2, 50, 100),
-            'percentage'   => fake()->randomFloat(2, 50, 100),
+            'total_score' => fake()->randomFloat(2, 50, 100),
+            'percentage' => fake()->randomFloat(2, 50, 100),
         ]);
     }
 
     public function inProgress(): static
     {
         return $this->state(fn (array $attributes) => [
-            'status'       => AttemptStatusEnum::IN_PROGRESS,
+            'status' => AttemptStatusEnum::IN_PROGRESS,
             'completed_at' => null,
-            'total_score'  => null,
-            'percentage'   => null,
+            'total_score' => null,
+            'percentage' => null,
         ]);
     }
 }

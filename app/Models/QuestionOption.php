@@ -23,8 +23,8 @@ class QuestionOption extends Model
 
     protected $casts = [
         'is_correct' => 'boolean',
-        'order'      => 'integer',
-        'metadata'   => 'array',
+        'order' => 'integer',
+        'metadata' => 'array',
     ];
 
     /** Model Relations -------------------------------------------------------------------------- */

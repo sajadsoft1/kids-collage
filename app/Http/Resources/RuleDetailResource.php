@@ -24,8 +24,8 @@ class RuleDetailResource extends JsonResource
     {
         return [
             'title' => $this->title,
-            'body'  => $this->body,
-            'slug'  => $this->slug,
+            'body' => $this->body,
+            'slug' => $this->slug,
         ];
     }
 }

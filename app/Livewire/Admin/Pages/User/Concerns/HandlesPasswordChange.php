@@ -82,7 +82,7 @@ trait HandlesPasswordChange
     protected function passwordRules(): array
     {
         return [
-            'password'              => ['required', 'confirmed', Password::min(8)],
+            'password' => ['required', 'confirmed', Password::min(8)],
             'password_confirmation' => ['required'],
         ];
     }
@@ -90,7 +90,7 @@ trait HandlesPasswordChange
     protected function validationAttributes(): array
     {
         return [
-            'password'              => trans('validation.attributes.password'),
+            'password' => trans('validation.attributes.password'),
             'password_confirmation' => trans('validation.attributes.password_confirmation'),
         ];
     }

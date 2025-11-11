@@ -31,9 +31,9 @@ class Ticket extends Model
     ];
 
     protected $casts = [
-        'status'     => TicketStatusEnum::class,
+        'status' => TicketStatusEnum::class,
         'department' => TicketDepartmentEnum::class,
-        'priority'   => TicketPriorityEnum::class,
+        'priority' => TicketPriorityEnum::class,
     ];
 
     public static function boot(): void

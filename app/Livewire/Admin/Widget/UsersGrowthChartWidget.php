@@ -34,8 +34,8 @@ class UsersGrowthChartWidget extends Component
             $monthName  = $monthStart->format('M');
 
             $data[$monthName] = [
-                'users'   => User::whereBetween('created_at', [$monthStart, $monthEnd])->count(),
-                'blogs'   => Blog::whereBetween('created_at', [$monthStart, $monthEnd])->count(),
+                'users' => User::whereBetween('created_at', [$monthStart, $monthEnd])->count(),
+                'blogs' => Blog::whereBetween('created_at', [$monthStart, $monthEnd])->count(),
                 'tickets' => Ticket::whereBetween('created_at', [$monthStart, $monthEnd])->count(),
             ];
         }

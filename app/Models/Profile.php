@@ -37,13 +37,13 @@ class Profile extends Model
     ];
 
     protected $casts = [
-        'gender'                 => GenderEnum::class,
-        'religion'               => ReligionEnum::class,
-        'id_number'              => 'integer',
-        'birth_date'             => 'date',
+        'gender' => GenderEnum::class,
+        'religion' => ReligionEnum::class,
+        'id_number' => 'integer',
+        'birth_date' => 'date',
         'cooperation_start_date' => 'date',
-        'cooperation_end_date'   => 'date',
-        'extra_attributes'       => SchemalessAttributes::class,
+        'cooperation_end_date' => 'date',
+        'extra_attributes' => SchemalessAttributes::class,
     ];
 
     /** Check if user should receive notification for a specific event and channel */

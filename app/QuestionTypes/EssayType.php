@@ -18,8 +18,8 @@ class EssayType extends AbstractQuestionType
     public function validationRules(): array
     {
         return [
-            'title'         => ['required', 'string', 'max:2000'],
-            'body'          => ['nullable', 'string'],
+            'title' => ['required', 'string', 'max:2000'],
+            'body' => ['nullable', 'string'],
             'default_score' => ['required', 'numeric', 'min:0'],
         ];
     }

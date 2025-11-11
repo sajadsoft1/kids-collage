@@ -96,10 +96,10 @@ class StoreSurveyAction
             // Get QuestionType handler class
             $handlerClass = $questionType->handler();
             $tempQuestion = new Question([
-                'type'               => $questionData['type'],
-                'config'             => $questionData['config'] ?? [],
+                'type' => $questionData['type'],
+                'config' => $questionData['config'] ?? [],
                 'is_survey_question' => true,
-                'default_score'      => 0,
+                'default_score' => 0,
             ]);
 
             /** @var AbstractQuestionType $questionTypeHandler */
@@ -107,21 +107,21 @@ class StoreSurveyAction
 
             // Prepare question data with default values
             $questionPayload = [
-                'type'               => $questionData['type'],
-                'title'              => $questionData['title'],
-                'body'               => $questionData['body'] ?? null,
-                'explanation'        => $questionData['explanation'] ?? null,
-                'default_score'      => 0,
-                'config'             => array_merge(
+                'type' => $questionData['type'],
+                'title' => $questionData['title'],
+                'body' => $questionData['body'] ?? null,
+                'explanation' => $questionData['explanation'] ?? null,
+                'default_score' => 0,
+                'config' => array_merge(
                     $questionTypeHandler->defaultConfig(),
                     $questionData['config'] ?? []
                 ),
-                'options'            => $questionData['options'] ?? [],
-                'correct_answer'     => $questionData['correct_answer'] ?? [],
+                'options' => $questionData['options'] ?? [],
+                'correct_answer' => $questionData['correct_answer'] ?? [],
                 'is_survey_question' => true,
-                'is_active'          => true,
-                'is_public'          => false,
-                'created_by'         => Auth::id(),
+                'is_active' => true,
+                'is_public' => false,
+                'created_by' => Auth::id(),
             ];
 
             // Validate using QuestionType validation rules
@@ -141,12 +141,12 @@ class StoreSurveyAction
 
             // Merge system fields that are not in validation rules
             $validatedData = array_merge($validatedData, [
-                'type'               => $questionData['type'],
-                'default_score'      => 0,
+                'type' => $questionData['type'],
+                'default_score' => 0,
                 'is_survey_question' => true,
-                'is_active'          => true,
-                'is_public'          => false,
-                'created_by'         => Auth::id(),
+                'is_active' => true,
+                'is_public' => false,
+                'created_by' => Auth::id(),
             ]);
 
             // Extract options before storing question (options are stored separately)
@@ -165,9 +165,9 @@ class StoreSurveyAction
 
             // Attach question to exam
             $exam->questions()->attach($question->id, [
-                'weight'          => 1,
-                'order'           => $index + 1,
-                'is_required'     => true,
+                'weight' => 1,
+                'order' => $index + 1,
+                'is_required' => true,
                 'config_override' => null,
             ]);
         }
@@ -196,11 +196,11 @@ class StoreSurveyAction
             }
 
             $question->options()->create([
-                'content'    => $optionData['content'] ?? '',
-                'type'       => $optionData['type'] ?? 'text',
+                'content' => $optionData['content'] ?? '',
+                'type' => $optionData['type'] ?? 'text',
                 'is_correct' => $optionData['is_correct'] ?? false,
-                'order'      => $optionData['order'] ?? 0,
-                'metadata'   => $optionData['metadata'] ?? [],
+                'order' => $optionData['order'] ?? 0,
+                'metadata' => $optionData['metadata'] ?? [],
             ]);
         }
     }

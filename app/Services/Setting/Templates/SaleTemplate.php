@@ -63,45 +63,45 @@ class SaleTemplate extends BaseTemplate
     public function validate(Setting $setting, array $payload = []): array
     {
         return $this->makeValidator($payload, [
-            'order'                                              => ['required', 'array'],
-            'order.get_quantity_from_accounting'                 => ['required', 'boolean'],
-            'order.order_return_days_limit'                      => ['required', 'numeric'],
-            'order.expiration_days_limit'                        => ['required', 'numeric'],
-            'order.need_to_approve_by_storekeeper'               => ['required', 'boolean'],
+            'order' => ['required', 'array'],
+            'order.get_quantity_from_accounting' => ['required', 'boolean'],
+            'order.order_return_days_limit' => ['required', 'numeric'],
+            'order.expiration_days_limit' => ['required', 'numeric'],
+            'order.need_to_approve_by_storekeeper' => ['required', 'boolean'],
             
-            'cart'                                               => ['required', 'array'],
-            'cart.cart_capacity'                                 => ['required', 'numeric'],
+            'cart' => ['required', 'array'],
+            'cart.cart_capacity' => ['required', 'numeric'],
             
-            'discount'                                           => ['required', 'array'],
+            'discount' => ['required', 'array'],
             'discount.apply_discount_code_only_for_cash_payment' => ['required', 'boolean'],
             
-            'payment'                                            => ['required', 'array'],
-            'payment.credit_card_deposit'                        => ['required', 'boolean'],
+            'payment' => ['required', 'array'],
+            'payment.credit_card_deposit' => ['required', 'boolean'],
             
-            'shipping'                                           => ['required', 'array'],
-            'shipping.free_shipping'                             => ['required', 'numeric'],
+            'shipping' => ['required', 'array'],
+            'shipping.free_shipping' => ['required', 'numeric'],
             
-            'target'                                             => ['required', 'array'],
-            'target.monthly'                                     => ['required', 'numeric', 'min:1'],
-            'target.semi_annual'                                 => ['required', 'numeric', 'min:1'],
-            'target.yearly'                                      => ['required', 'numeric', 'min:1'],
+            'target' => ['required', 'array'],
+            'target.monthly' => ['required', 'numeric', 'min:1'],
+            'target.semi_annual' => ['required', 'numeric', 'min:1'],
+            'target.yearly' => ['required', 'numeric', 'min:1'],
         ], customAttributes: [
-            'order.get_quantity_from_accounting'                 => trans('setting.configs.sale.items.get_quantity_from_accounting.label'),
-            'order.order_return_days_limit'                      => trans('setting.configs.sale.items.order_return_days_limit.label'),
-            'order.expiration_days_limit'                        => trans('setting.configs.sale.items.expiration_days_limit.label'),
-            'order.need_to_approve_by_storekeeper'               => trans('setting.configs.sale.items.need_to_approve_by_storekeeper.label'),
+            'order.get_quantity_from_accounting' => trans('setting.configs.sale.items.get_quantity_from_accounting.label'),
+            'order.order_return_days_limit' => trans('setting.configs.sale.items.order_return_days_limit.label'),
+            'order.expiration_days_limit' => trans('setting.configs.sale.items.expiration_days_limit.label'),
+            'order.need_to_approve_by_storekeeper' => trans('setting.configs.sale.items.need_to_approve_by_storekeeper.label'),
             
-            'cart.cart_capacity'                                 => trans('setting.configs.sale.items.cart_capacity.label'),
+            'cart.cart_capacity' => trans('setting.configs.sale.items.cart_capacity.label'),
             
             'discount.apply_discount_code_only_for_cash_payment' => trans('setting.configs.sale.items.apply_discount_code_only_for_cash_payment.label'),
             
-            'payment.credit_card_deposit'                        => trans('setting.configs.sale.items.credit_card_deposit.label'),
+            'payment.credit_card_deposit' => trans('setting.configs.sale.items.credit_card_deposit.label'),
             
-            'shipping.free_shipping'                             => trans('setting.configs.sale.items.free_shipping.label'),
+            'shipping.free_shipping' => trans('setting.configs.sale.items.free_shipping.label'),
             
-            'target.monthly'                                     => trans('setting.configs.product.items.show_sku.label'),
-            'target.semi_annual'                                 => trans('setting.configs.product.items.show_sku.label'),
-            'target.yearly'                                      => trans('setting.configs.product.items.show_sku.label'),
+            'target.monthly' => trans('setting.configs.product.items.show_sku.label'),
+            'target.semi_annual' => trans('setting.configs.product.items.show_sku.label'),
+            'target.yearly' => trans('setting.configs.product.items.show_sku.label'),
         ]);
     }
 }

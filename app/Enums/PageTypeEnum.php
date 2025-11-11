@@ -14,7 +14,7 @@ enum PageTypeEnum: string
     public function title(?string $locale = null): string
     {
         return match ($this) {
-            self::RULES    => __('page.enum.type.rules', locale: $locale),
+            self::RULES => __('page.enum.type.rules', locale: $locale),
             self::ABOUT_US => __('page.enum.type.about-us', locale: $locale),
         };
     }

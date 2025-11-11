@@ -38,10 +38,10 @@ enum CardStatusEnum: string
     public function title(): string
     {
         return match ($this) {
-            self::DRAFT     => __('kanban.status.draft'),
-            self::ACTIVE    => __('kanban.status.active'),
+            self::DRAFT => __('kanban.status.draft'),
+            self::ACTIVE => __('kanban.status.active'),
             self::COMPLETED => __('kanban.status.completed'),
-            self::ARCHIVED  => __('kanban.status.archived'),
+            self::ARCHIVED => __('kanban.status.archived'),
         };
     }
 
@@ -51,16 +51,16 @@ enum CardStatusEnum: string
             'value' => $this->value,
             'label' => $this->title(),
             'color' => match ($this) {
-                self::DRAFT     => 'neutral',
-                self::ACTIVE    => 'primary',
+                self::DRAFT => 'neutral',
+                self::ACTIVE => 'primary',
                 self::COMPLETED => 'success',
-                self::ARCHIVED  => 'error',
+                self::ARCHIVED => 'error',
             },
-            'icon'  => match ($this) {
-                self::DRAFT     => 'o-document',
-                self::ACTIVE    => 'o-play',
+            'icon' => match ($this) {
+                self::DRAFT => 'o-document',
+                self::ACTIVE => 'o-play',
                 self::COMPLETED => 'o-check-circle',
-                self::ARCHIVED  => 'o-archive-box',
+                self::ARCHIVED => 'o-archive-box',
             },
         ];
     }

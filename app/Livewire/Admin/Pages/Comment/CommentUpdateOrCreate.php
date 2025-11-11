@@ -45,20 +45,20 @@ class CommentUpdateOrCreate extends Component
             ->get()
             ->map(function ($admin) {
                 return [
-                    'id'   => $admin->id,
+                    'id' => $admin->id,
                     'name' => $admin->name,
                 ];
             })
             ->toArray();
         $this->object_values=Blog::query()->get()->map(function ($object) {
             return [
-                'id'    => $object->id,
+                'id' => $object->id,
                 'title' => $object->title,
             ];
         })->toArray();
         $this->morphable_id=$this->object_values[0]['id'];
         $this->objects     =[[
-            'key'   => Blog::class,
+            'key' => Blog::class,
             'value' => trans('blog.model'),
         ],
         ];
@@ -73,7 +73,7 @@ class CommentUpdateOrCreate extends Component
             $this->morphable_type = $this->model->morphable_type;
             $this->object_values  = $this->morphable_type::query()->get()->map(function ($object) {
                 return [
-                    'id'    => $object->id,
+                    'id' => $object->id,
                     'title' => $object->title ?? $object->name,
                 ];
             })->toArray();
@@ -86,14 +86,14 @@ class CommentUpdateOrCreate extends Component
     protected function rules(): array
     {
         return [
-            'published'      => ['required', 'boolean'],
-            'user_id'        => ['required', 'exists:users,id'],
-            'admin_id'       => ['nullable', 'exists:users,id'],
-            'parent_id'      => ['nullable'],
-            'comment'        => ['required', 'string', 'min:3'],
-            'admin_note'     => ['nullable', 'string'],
+            'published' => ['required', 'boolean'],
+            'user_id' => ['required', 'exists:users,id'],
+            'admin_id' => ['nullable', 'exists:users,id'],
+            'parent_id' => ['nullable'],
+            'comment' => ['required', 'string', 'min:3'],
+            'admin_note' => ['nullable', 'string'],
             'morphable_type' => ['required'],
-            'morphable_id'   => ['required'],
+            'morphable_id' => ['required'],
         ];
     }
 
@@ -101,7 +101,7 @@ class CommentUpdateOrCreate extends Component
     {
         $this->object_values=$this->morphable_type::query()->get()->map(function ($object) {
             return [
-                'id'    => $object->id,
+                'id' => $object->id,
                 'title' => $object->title ?? $object->name,
             ];
         })->toArray();
@@ -136,10 +136,10 @@ class CommentUpdateOrCreate extends Component
     public function render(): View
     {
         return view('livewire.admin.pages.comment.comment-update-or-create', [
-            'edit_mode'          => $this->model->id,
-            'breadcrumbs'        => [
+            'edit_mode' => $this->model->id,
+            'breadcrumbs' => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link'  => route('admin.comment.index'), 'label' => trans('general.page.index.title', ['model' => trans('comment.model')])],
+                ['link' => route('admin.comment.index'), 'label' => trans('general.page.index.title', ['model' => trans('comment.model')])],
                 ['label' => trans('general.page.create.title', ['model' => trans('comment.model')])],
             ],
             'breadcrumbsActions' => [

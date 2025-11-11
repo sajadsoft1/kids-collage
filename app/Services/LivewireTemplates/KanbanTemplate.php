@@ -93,13 +93,13 @@ class KanbanTemplate extends Component
     public function styles(): array
     {
         return [
-            'wrapper'       => 'w-full h-full flex space-x-4 overflow-x-auto',
+            'wrapper' => 'w-full h-full flex space-x-4 overflow-x-auto',
             'statusWrapper' => 'h-full flex-1',
-            'status'        => 'bg-blue-200 rounded px-2 flex flex-col h-full',
-            'statusHeader'  => 'p-2 text-sm text-gray-700',
-            'statusFooter'  => '',
+            'status' => 'bg-blue-200 rounded px-2 flex flex-col h-full',
+            'statusHeader' => 'p-2 text-sm text-gray-700',
+            'statusFooter' => '',
             'statusRecords' => 'space-y-2 p-2 flex-1 overflow-y-auto',
-            'record'        => 'shadow bg-white p-2 rounded border',
+            'record' => 'shadow bg-white p-2 rounded border',
             'recordContent' => 'w-full',
         ];
     }
@@ -126,9 +126,9 @@ class KanbanTemplate extends Component
 
         return view($this->statusBoardView)
             ->with([
-                'records'  => $records,
+                'records' => $records,
                 'statuses' => $statuses,
-                'styles'   => $styles,
+                'styles' => $styles,
             ]);
     }
 }

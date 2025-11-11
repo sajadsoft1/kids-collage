@@ -36,14 +36,14 @@ class PublishContentJob implements ShouldQueue
             $this->publishContent();
 
             Log::info('Content published successfully', [
-                'model'        => get_class($this->content),
-                'id'           => $this->content->id,
+                'model' => get_class($this->content),
+                'id' => $this->content->id,
                 'published_at' => now()->toDateTimeString(),
             ]);
         } catch (Exception $e) {
             Log::error('Failed to publish content', [
                 'model' => get_class($this->content),
-                'id'    => $this->content->id,
+                'id' => $this->content->id,
                 'error' => $e->getMessage(),
             ]);
 
@@ -55,7 +55,7 @@ class PublishContentJob implements ShouldQueue
     private function publishContent(): void
     {
         $this->content->update([
-            'published'    => true,
+            'published' => true,
             'published_at' => now(),
         ]);
     }
@@ -65,7 +65,7 @@ class PublishContentJob implements ShouldQueue
     {
         Log::error('Content publishing job failed', [
             'model' => get_class($this->content),
-            'id'    => $this->content->id,
+            'id' => $this->content->id,
             'error' => $exception->getMessage(),
         ]);
     }

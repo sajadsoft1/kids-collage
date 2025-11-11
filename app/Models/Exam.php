@@ -50,17 +50,17 @@ class Exam extends Model
     ];
 
     protected $casts = [
-        'type'              => ExamTypeEnum::class,
-        'status'            => ExamStatusEnum::class,
-        'total_score'       => 'decimal:2',
-        'pass_score'        => 'decimal:2',
-        'duration'          => 'integer',
-        'max_attempts'      => 'integer',
+        'type' => ExamTypeEnum::class,
+        'status' => ExamStatusEnum::class,
+        'total_score' => 'decimal:2',
+        'pass_score' => 'decimal:2',
+        'duration' => 'integer',
+        'max_attempts' => 'integer',
         'shuffle_questions' => 'boolean',
-        'allow_review'      => 'boolean',
-        'settings'          => 'array',
-        'starts_at'         => 'datetime',
-        'ends_at'           => 'datetime',
+        'allow_review' => 'boolean',
+        'settings' => 'array',
+        'starts_at' => 'datetime',
+        'ends_at' => 'datetime',
     ];
 
     /** Model Relations -------------------------------------------------------------------------- */
@@ -292,13 +292,13 @@ class Exam extends Model
             ->get();
 
         return [
-            'total_attempts'       => $this->attempts()->count(),
+            'total_attempts' => $this->attempts()->count(),
             'in_progress_attempts' => $this->attempts()->where('status', 'in_progress')->count(),
-            'completed_attempts'   => $completedAttempts->count(),
-            'average_score'        => $completedAttempts->avg('total_score') ?? 0,
-            'highest_score'        => $completedAttempts->max('total_score') ?? 0,
-            'lowest_score'         => $completedAttempts->min('total_score') ?? 0,
-            'pass_rate'            => $this->pass_score && $completedAttempts->count() > 0
+            'completed_attempts' => $completedAttempts->count(),
+            'average_score' => $completedAttempts->avg('total_score') ?? 0,
+            'highest_score' => $completedAttempts->max('total_score') ?? 0,
+            'lowest_score' => $completedAttempts->min('total_score') ?? 0,
+            'pass_rate' => $this->pass_score && $completedAttempts->count() > 0
                 ? round(($completedAttempts->where('total_score', '>=', $this->pass_score)->count() / $completedAttempts->count()) * 100, 2)
                 : null,
         ];

@@ -41,9 +41,9 @@ class Attendance extends Model
     ];
 
     protected $casts = [
-        'present'      => 'boolean',
+        'present' => 'boolean',
         'arrival_time' => 'datetime',
-        'leave_time'   => 'datetime',
+        'leave_time' => 'datetime',
     ];
 
     /** Get the enrollment for this attendance. */
@@ -172,10 +172,10 @@ class Attendance extends Model
     public function markPresent(?\Carbon\Carbon $arrivalTime = null, ?\Carbon\Carbon $leaveTime = null): bool
     {
         return $this->update([
-            'present'      => true,
+            'present' => true,
             'arrival_time' => $arrivalTime ?? now(),
-            'leave_time'   => $leaveTime,
-            'excuse_note'  => null,
+            'leave_time' => $leaveTime,
+            'excuse_note' => null,
         ]);
     }
 
@@ -183,10 +183,10 @@ class Attendance extends Model
     public function markAbsent(?string $excuse = null): bool
     {
         return $this->update([
-            'present'      => false,
+            'present' => false,
             'arrival_time' => null,
-            'leave_time'   => null,
-            'excuse_note'  => $excuse,
+            'leave_time' => null,
+            'excuse_note' => $excuse,
         ]);
     }
 

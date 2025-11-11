@@ -49,26 +49,26 @@ class ProductTemplate extends BaseTemplate
     public function validate(Setting $setting, array $payload = []): array
     {
         return $this->makeValidator($payload, [
-            'product_title'                                                  => ['required', 'array'],
-            'product_title.show_sku'                                         => ['required', 'boolean'],
-            'product_title.show_attribute'                                   => ['required', 'boolean'],
-            'product_title.show_brand'                                       => ['required', 'boolean'],
-            'product_title.show_category'                                    => ['required', 'boolean'],
+            'product_title' => ['required', 'array'],
+            'product_title.show_sku' => ['required', 'boolean'],
+            'product_title.show_attribute' => ['required', 'boolean'],
+            'product_title.show_brand' => ['required', 'boolean'],
+            'product_title.show_category' => ['required', 'boolean'],
             
-            'product_price'                                                  => ['required', 'array'],
-            'product_price.show_out_of_stock_products_price'                 => ['required', 'boolean'],
+            'product_price' => ['required', 'array'],
+            'product_price.show_out_of_stock_products_price' => ['required', 'boolean'],
             
-            'product_detail'                                                 => ['required', 'array'],
+            'product_detail' => ['required', 'array'],
             'product_detail.show_number_of_added_to_carts_in_product_detail' => ['required', 'boolean'],
-            'product_detail.show_number_of_sold_in_product_detail'           => ['required', 'boolean'],
+            'product_detail.show_number_of_sold_in_product_detail' => ['required', 'boolean'],
         ], customAttributes: [
-            'product_title.show_sku'                                         => trans('setting.configs.product.items.show_sku.label'),
-            'product_title.show_attribute'                                   => trans('setting.configs.product.items.show_attribute.label'),
-            'product_title.show_brand'                                       => trans('setting.configs.product.items.show_brand.label'),
-            'product_title.show_category'                                    => trans('setting.configs.product.items.show_category.label'),
-            'product_price.show_out_of_stock_products_price'                 => trans('setting.configs.product.items.show_out_of_stock_products_price.label'),
+            'product_title.show_sku' => trans('setting.configs.product.items.show_sku.label'),
+            'product_title.show_attribute' => trans('setting.configs.product.items.show_attribute.label'),
+            'product_title.show_brand' => trans('setting.configs.product.items.show_brand.label'),
+            'product_title.show_category' => trans('setting.configs.product.items.show_category.label'),
+            'product_price.show_out_of_stock_products_price' => trans('setting.configs.product.items.show_out_of_stock_products_price.label'),
             'product_detail.show_number_of_added_to_carts_in_product_detail' => trans('setting.configs.product.items.show_number_of_added_to_carts_in_product_detail.label'),
-            'product_detail.show_number_of_sold_in_product_detail'           => trans('setting.configs.product.items.show_number_of_sold_in_product_detail.label'),
+            'product_detail.show_number_of_sold_in_product_detail' => trans('setting.configs.product.items.show_number_of_sold_in_product_detail.label'),
         ]);
     }
     

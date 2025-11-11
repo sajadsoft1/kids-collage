@@ -32,18 +32,18 @@ class FaqResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'          => $this->id,
-            'title'       => $this->title,
+            'id' => $this->id,
+            'title' => $this->title,
             'description' => $this->description,
-            'category'    => $this->whenLoaded('category', fn () => CategoryResource::make($this->category)),
-            'favorite'    => $this->favorite->toArray(),
-            'ordering'    => $this->ordering,
-            'languages'   => $this->languages,
-            'like_count'  => $this->like_count,
-            'view_count'  => $this->view_count,
-            'published'   => $this->published->toArray(),
-            'created_at'  => $this->created_at,
-            'updated_at'  => $this->updated_at,
+            'category' => $this->whenLoaded('category', fn () => CategoryResource::make($this->category)),
+            'favorite' => $this->favorite->toArray(),
+            'ordering' => $this->ordering,
+            'languages' => $this->languages,
+            'like_count' => $this->like_count,
+            'view_count' => $this->view_count,
+            'published' => $this->published->toArray(),
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ];
     }
 }

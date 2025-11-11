@@ -55,10 +55,10 @@ class CourseSessionTemplate extends Model
     ];
 
     protected $casts = [
-        'order'            => 'integer',
+        'order' => 'integer',
         'duration_minutes' => 'integer',
-        'type'             => SessionType::class,
-        'languages'        => 'array',
+        'type' => SessionType::class,
+        'languages' => 'array',
     ];
 
     /** Get the course template that owns this session template. */

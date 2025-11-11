@@ -31,7 +31,7 @@ class QuestionSubject extends Model
 
     protected $casts = [
         'languages' => 'array',
-        'ordering'  => 'integer',
+        'ordering' => 'integer',
     ];
 
     /**

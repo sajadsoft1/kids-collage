@@ -19,11 +19,11 @@ class EnrollmentFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id'          => User::where('type', UserTypeEnum::USER->value)->inRandomOrder()->first()->id,
-            'course_id'        => Course::where('status', CourseStatusEnum::ACTIVE->value)->inRandomOrder()->first()->id,
-            'order_item_id'    => null,
-            'status'           => EnrollmentStatusEnum::PENDING->value,
-            'enrolled_at'      => now(),
+            'user_id' => User::where('type', UserTypeEnum::USER->value)->inRandomOrder()->first()->id,
+            'course_id' => Course::where('status', CourseStatusEnum::ACTIVE->value)->inRandomOrder()->first()->id,
+            'order_item_id' => null,
+            'status' => EnrollmentStatusEnum::PENDING->value,
+            'enrolled_at' => now(),
             'progress_percent' => 0,
         ];
     }

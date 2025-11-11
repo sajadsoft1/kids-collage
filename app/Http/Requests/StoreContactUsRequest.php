@@ -29,10 +29,10 @@ class StoreContactUsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'    => ['required', 'string', 'max:255', 'min:3'],
+            'name' => ['required', 'string', 'max:255', 'min:3'],
             'subject' => ['required', 'string', 'max:255', 'min:3'],
-            'email'   => ['email', 'max:255', Rule::when(isset($this->mobile), ['nullable']), Rule::when( ! isset($this->mobile), ['required'])],
-            'mobile'  => ['numeric', Rule::when(isset($this->email), ['nullable']), Rule::when( ! isset($this->email), ['required'])],
+            'email' => ['email', 'max:255', Rule::when(isset($this->mobile), ['nullable']), Rule::when( ! isset($this->mobile), ['required'])],
+            'mobile' => ['numeric', Rule::when(isset($this->email), ['nullable']), Rule::when( ! isset($this->email), ['required'])],
             'comment' => ['required', 'string', 'max:10000'],
         ];
     }

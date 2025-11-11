@@ -44,10 +44,10 @@ class Page extends Model implements HasMedia
     ];
 
     protected $casts = [
-        'type'             => PageTypeEnum::class,
-        'languages'        => 'array',
+        'type' => PageTypeEnum::class,
+        'languages' => 'array',
         'extra_attributes' => 'array',
-        'deletable'        => YesNoEnum::class,
+        'deletable' => YesNoEnum::class,
     ];
 
     /** Model Configuration -------------------------------------------------------------------------- */

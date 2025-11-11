@@ -59,10 +59,10 @@ enum CourseStatusEnum: string
     public function title(): string
     {
         return match ($this) {
-            self::DRAFT     => trans('course.enum.status.draft'),
+            self::DRAFT => trans('course.enum.status.draft'),
             self::SCHEDULED => trans('course.enum.status.scheduled'),
-            self::ACTIVE    => trans('course.enum.status.active'),
-            self::FINISHED  => trans('course.enum.status.finished'),
+            self::ACTIVE => trans('course.enum.status.active'),
+            self::FINISHED => trans('course.enum.status.finished'),
             self::CANCELLED => trans('course.enum.status.cancelled'),
         };
     }

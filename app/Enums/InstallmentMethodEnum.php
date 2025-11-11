@@ -14,7 +14,7 @@ enum InstallmentMethodEnum: string
     public function title(): string
     {
         return match ($this) {
-            self::ONLINE  => 'ONLINE',
+            self::ONLINE => 'ONLINE',
             self::OFFLINE => 'OFFLINE',
         };
     }

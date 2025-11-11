@@ -55,12 +55,12 @@ class BannerUpdateOrCreate extends Component
     protected function rules(): array
     {
         return [
-            'title'        => 'required|string',
-            'description'  => 'nullable|string',
-            'published'    => 'required',
+            'title' => 'required|string',
+            'description' => 'nullable|string',
+            'published' => 'required',
             'published_at' => 'required_if:published,false|nullable|date',
-            'size'         => ['required', Rule::in(BannerSizeEnum::values())],
-            'image'        => ['image', 'max:2048', $this->size != $this->oldSize ? 'required' : 'nullable'], // 1MB Max
+            'size' => ['required', Rule::in(BannerSizeEnum::values())],
+            'image' => ['image', 'max:2048', $this->size != $this->oldSize ? 'required' : 'nullable'], // 1MB Max
         ];
     }
 
@@ -73,10 +73,10 @@ class BannerUpdateOrCreate extends Component
     protected function calculateRatio(string $size): float
     {
         return match ($size) {
-            BannerSizeEnum::S1X1->value  => 1,
+            BannerSizeEnum::S1X1->value => 1,
             BannerSizeEnum::S16X9->value => 16 / 9,
-            BannerSizeEnum::S4X3->value  => 4 / 3,
-            default                      => 1,
+            BannerSizeEnum::S4X3->value => 4 / 3,
+            default => 1,
         };
     }
 
@@ -109,10 +109,10 @@ class BannerUpdateOrCreate extends Component
     public function render(): View
     {
         return view('livewire.admin.pages.banner.banner-update-or-create', [
-            'edit_mode'          => $this->model->id,
-            'breadcrumbs'        => [
+            'edit_mode' => $this->model->id,
+            'breadcrumbs' => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link'  => route('admin.banner.index'), 'label' => trans('general.page.index.title', ['model' => trans('banner.model')])],
+                ['link' => route('admin.banner.index'), 'label' => trans('general.page.index.title', ['model' => trans('banner.model')])],
                 ['label' => trans('general.page.create.title', ['model' => trans('banner.model')])],
             ],
             'breadcrumbsActions' => [

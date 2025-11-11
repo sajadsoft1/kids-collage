@@ -18,12 +18,12 @@ enum CategoryTypeEnum: string
     public function title(): string
     {
         return match ($this) {
-            self::BLOG      => trans('category.enum.type.blog'),
+            self::BLOG => trans('category.enum.type.blog'),
             self::PORTFOLIO => trans('category.enum.type.portfolio'),
-            self::FAQ       => trans('category.enum.type.faq'),
-            self::BULLETIN  => trans('category.enum.type.bulletin'),
-            self::COURSE    => trans('category.enum.type.course'),
-            self::QUESTION  => trans('category.enum.type.question'),
+            self::FAQ => trans('category.enum.type.faq'),
+            self::BULLETIN => trans('category.enum.type.bulletin'),
+            self::COURSE => trans('category.enum.type.course'),
+            self::QUESTION => trans('category.enum.type.question'),
         };
     }
 

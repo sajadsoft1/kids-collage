@@ -68,7 +68,7 @@ class PopularBlogsWidget extends Component
     {
         $params = http_build_query([
             'start_date' => $this->start_date,
-            'end_date'   => $this->end_date,
+            'end_date' => $this->end_date,
         ]);
 
         return route('admin.blog.index') . '?' . $params;

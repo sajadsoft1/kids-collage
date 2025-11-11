@@ -13,7 +13,7 @@ enum CommentTypeEnum: string
     public function title(): string
     {
         return match ($this) {
-            self::NORMAL  => trans('comment.enum.type.normal'),
+            self::NORMAL => trans('comment.enum.type.normal'),
             self::SPECIAL => trans('comment.enum.type.special'),
         };
     }

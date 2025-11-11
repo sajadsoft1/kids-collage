@@ -48,8 +48,8 @@ class UpdatePasswordSection extends Component
     protected function rules(): array
     {
         return [
-            'current_password'      => 'required|current_password',
-            'password'              => [
+            'current_password' => 'required|current_password',
+            'password' => [
                 'required',
                 'string',
                 'min:8',
@@ -64,13 +64,13 @@ class UpdatePasswordSection extends Component
     protected function messages(): array
     {
         return [
-            'current_password.required'         => 'وارد کردن رمز عبور فعلی الزامی است',
+            'current_password.required' => 'وارد کردن رمز عبور فعلی الزامی است',
             'current_password.current_password' => 'رمز عبور فعلی صحیح نیست',
-            'password.required'                 => 'وارد کردن رمز عبور جدید الزامی است',
-            'password.min'                      => 'رمز عبور باید حداقل 8 کاراکتر باشد',
-            'password.confirmed'                => 'تایید رمز عبور مطابقت ندارد',
-            'password.regex'                    => 'رمز عبور باید شامل حروف، اعداد و حداقل یک کاراکتر خاص (@$!%*#?&) باشد',
-            'password_confirmation.required'    => 'تایید رمز عبور الزامی است',
+            'password.required' => 'وارد کردن رمز عبور جدید الزامی است',
+            'password.min' => 'رمز عبور باید حداقل 8 کاراکتر باشد',
+            'password.confirmed' => 'تایید رمز عبور مطابقت ندارد',
+            'password.regex' => 'رمز عبور باید شامل حروف، اعداد و حداقل یک کاراکتر خاص (@$!%*#?&) باشد',
+            'password_confirmation.required' => 'تایید رمز عبور الزامی است',
         ];
     }
 
@@ -101,7 +101,7 @@ class UpdatePasswordSection extends Component
 
             logger()->error('Failed to update user password', [
                 'user_id' => $this->user->id,
-                'error'   => $e->getMessage(),
+                'error' => $e->getMessage(),
             ]);
         }
     }

@@ -58,10 +58,10 @@ class Card extends Model
     ];
 
     protected $casts = [
-        'card_type'        => CardTypeEnum::class,
-        'priority'         => PriorityEnum::class,
-        'status'           => CardStatusEnum::class,
-        'due_date'         => 'date',
+        'card_type' => CardTypeEnum::class,
+        'priority' => PriorityEnum::class,
+        'status' => CardStatusEnum::class,
+        'due_date' => 'date',
         'extra_attributes' => 'array',
     ];
 

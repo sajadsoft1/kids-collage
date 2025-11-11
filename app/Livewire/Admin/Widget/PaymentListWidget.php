@@ -98,15 +98,15 @@ class PaymentListWidget extends Component
             });
 
         return [
-            'total'   => (clone $baseQuery)->count(),
+            'total' => (clone $baseQuery)->count(),
             'pending' => (clone $baseQuery)->where('status', PaymentStatusEnum::PENDING)->count(),
-            'paid'    => (clone $baseQuery)->where('status', PaymentStatusEnum::PAID)->count(),
-            'failed'  => (clone $baseQuery)->where('status', PaymentStatusEnum::FAILED)->count(),
-            'amount'  => [
-                'total'   => (clone $baseQuery)->sum('amount'),
+            'paid' => (clone $baseQuery)->where('status', PaymentStatusEnum::PAID)->count(),
+            'failed' => (clone $baseQuery)->where('status', PaymentStatusEnum::FAILED)->count(),
+            'amount' => [
+                'total' => (clone $baseQuery)->sum('amount'),
                 'pending' => (clone $baseQuery)->where('status', PaymentStatusEnum::PENDING)->sum('amount'),
-                'paid'    => (clone $baseQuery)->where('status', PaymentStatusEnum::PAID)->sum('amount'),
-                'failed'  => (clone $baseQuery)->where('status', PaymentStatusEnum::FAILED)->sum('amount'),
+                'paid' => (clone $baseQuery)->where('status', PaymentStatusEnum::PAID)->sum('amount'),
+                'failed' => (clone $baseQuery)->where('status', PaymentStatusEnum::FAILED)->sum('amount'),
             ],
         ];
     }
@@ -127,8 +127,8 @@ class PaymentListWidget extends Component
             });
 
         return [
-            'online'       => (clone $baseQuery)->where('type', PaymentTypeEnum::ONLINE)->count(),
-            'cash'         => (clone $baseQuery)->where('type', PaymentTypeEnum::CASH)->count(),
+            'online' => (clone $baseQuery)->where('type', PaymentTypeEnum::ONLINE)->count(),
+            'cash' => (clone $baseQuery)->where('type', PaymentTypeEnum::CASH)->count(),
             'card_to_card' => (clone $baseQuery)->where('type', PaymentTypeEnum::CARD_TO_CARD)->count(),
         ];
     }
@@ -159,8 +159,8 @@ class PaymentListWidget extends Component
     {
         return match ($status) {
             PaymentStatusEnum::PENDING => 'badge-warning',
-            PaymentStatusEnum::PAID    => 'badge-success',
-            PaymentStatusEnum::FAILED  => 'badge-error',
+            PaymentStatusEnum::PAID => 'badge-success',
+            PaymentStatusEnum::FAILED => 'badge-error',
         };
     }
 
@@ -168,8 +168,8 @@ class PaymentListWidget extends Component
     public function getTypeIcon(PaymentTypeEnum $type): string
     {
         return match ($type) {
-            PaymentTypeEnum::ONLINE       => 'o-credit-card',
-            PaymentTypeEnum::CASH         => 'o-banknotes',
+            PaymentTypeEnum::ONLINE => 'o-credit-card',
+            PaymentTypeEnum::CASH => 'o-banknotes',
             PaymentTypeEnum::CARD_TO_CARD => 'o-arrow-path-rounded-square',
         };
     }
@@ -185,10 +185,10 @@ class PaymentListWidget extends Component
     {
         $params = http_build_query([
             'start_date' => $this->start_date,
-            'end_date'   => $this->end_date,
-            'status'     => $this->status,
-            'type'       => $this->type,
-            'user_id'    => $this->user_id,
+            'end_date' => $this->end_date,
+            'status' => $this->status,
+            'type' => $this->type,
+            'user_id' => $this->user_id,
         ]);
 
         return route('admin.payment.index') . '?' . $params;

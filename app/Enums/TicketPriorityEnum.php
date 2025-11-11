@@ -17,9 +17,9 @@ enum TicketPriorityEnum: int
     {
         return match ($this) {
             self::CRITICAL => __('ticket.enum.priority.critical'),
-            self::HIGH     => __('ticket.enum.priority.high'),
-            self::MEDIUM   => __('ticket.enum.priority.medium'),
-            self::LOW      => __('ticket.enum.priority.low'),
+            self::HIGH => __('ticket.enum.priority.high'),
+            self::MEDIUM => __('ticket.enum.priority.medium'),
+            self::LOW => __('ticket.enum.priority.low'),
         };
     }
     

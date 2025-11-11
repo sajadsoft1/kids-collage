@@ -23,10 +23,10 @@ readonly class SettingService
         ]);
         
         $value = [
-            'key'   => $enum->value,
+            'key' => $enum->value,
             'value' => [
                 [
-                    'key'   => $key,
+                    'key' => $key,
                     'value' => $value,
                 ],
             ],
@@ -128,12 +128,12 @@ readonly class SettingService
         }, $template);
 
         return [
-            'id'    => $setting->id,
-            'uuid'  => $setting->uuid,
-            'key'   => $setting->key,
+            'id' => $setting->id,
+            'uuid' => $setting->uuid,
+            'key' => $setting->key,
             'label' => $settingEnum?->title(),
-            'help'  => $settingEnum?->help(),
-            'rows'  => $template,
+            'help' => $settingEnum?->help(),
+            'rows' => $template,
         ];
     }
     

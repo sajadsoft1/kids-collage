@@ -14,7 +14,7 @@ class DataSettingAction
     public function handle(): array
     {
         return [
-            'templates'  => SettingEnum::values(),
+            'templates' => SettingEnum::values(),
             'extra_data' => config('extra_enum.setting'),
         ];
     }

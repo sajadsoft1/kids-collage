@@ -108,7 +108,7 @@ class BlogController extends Controller
                 'limit' => $request->input('limit', 1),
             ])->paginate($request->input('page_limit', 1))->toResourceCollection(BlogResource::class),
             [
-                'sort'   => [
+                'sort' => [
                     ['label' => '', 'value' => 'id'],
                     ['label' => trans('blog.sort.most_view'), 'value' => 'view'],
                     ['label' => trans('blog.sort.most_comment'), 'value' => 'comment'],
@@ -171,7 +171,7 @@ class BlogController extends Controller
     {
         return Response::dataWithAdditional(
             $this->query([
-                'limit'       => $request->input('limit', 1),
+                'limit' => $request->input('limit', 1),
                 'category_id' => $category->id,
             ])->paginate($request->input('page_limit', 1))->toResourceCollection(BlogResource::class),
             [
@@ -230,7 +230,7 @@ class BlogController extends Controller
         return Response::dataWithAdditional(
             $this->query([
                 'limit' => $request->input('limit', 1),
-                'tag'   => $tag,
+                'tag' => $tag,
             ])->paginate($request->input('page_limit', 1))->toResourceCollection(BlogResource::class),
             [
                 'aaa' => 'bbbb',
@@ -339,9 +339,9 @@ class BlogController extends Controller
         $tags         =Tag::blogTags();
 
         return Response::data([
-            'banners'      => BannerResource::collection($banners),
+            'banners' => BannerResource::collection($banners),
             'relatedBlogs' => BlogResource::collection($relatedBlogs),
-            'tags'         => TagResource::collection($tags),
+            'tags' => TagResource::collection($tags),
         ]);
     }
 
@@ -367,10 +367,10 @@ class BlogController extends Controller
         $tags         =Tag::blogTags();
 
         return Response::data([
-            'banners'     => BannerResource::collection($banners),
+            'banners' => BannerResource::collection($banners),
             'popularBlog' => BlogResource::collection($popularBlog),
-            'Categories'  => CategoryResource::collection($categories),
-            'tags'        => TagResource::collection($tags),
+            'Categories' => CategoryResource::collection($categories),
+            'tags' => TagResource::collection($tags),
         ]);
     }
 }

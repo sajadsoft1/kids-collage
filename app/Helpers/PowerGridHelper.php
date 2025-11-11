@@ -156,7 +156,7 @@ class PowerGridHelper
             ->slot(self::iconDelete())
             ->attributes([
                 'wire:confirm' => trans('general.are_you_shure_to_delete_record'),
-                'class'        => 'btn btn-square md:btn-sm btn-xs',
+                'class' => 'btn btn-square md:btn-sm btn-xs',
             ])
             ->can(Auth::user()?->hasAnyPermission(PermissionsService::generatePermissionsByModel($row::class, 'Delete')) ?? false)
             ->dispatch('force-delete', ['rowId' => $row->id])
@@ -175,9 +175,9 @@ class PowerGridHelper
     public static function fieldFormated($row, $field = 'default', $icon = ['yes' => '', 'no' => '']): View
     {
         return view('admin.datatable-shared.field-formated', [
-            'row'   => $row,
+            'row' => $row,
             'field' => $field,
-            'icon'  => $icon,
+            'icon' => $icon,
         ]);
     }
 

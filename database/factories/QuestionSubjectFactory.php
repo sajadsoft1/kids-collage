@@ -16,7 +16,7 @@ class QuestionSubjectFactory extends Factory
     public function definition(): array
     {
         return [
-            'languages'   => [app()->getLocale()],
+            'languages' => [app()->getLocale()],
             'category_id' => Category::where('type', CategoryTypeEnum::QUESTION->value)->first()->id,
         ];
     }
@@ -27,13 +27,13 @@ class QuestionSubjectFactory extends Factory
             $model->translations()->createMany([
                 [
                     'locale' => app()->getLocale(),
-                    'key'    => 'title',
-                    'value'  => $this->faker->word(),
+                    'key' => 'title',
+                    'value' => $this->faker->word(),
                 ],
                 [
                     'locale' => app()->getLocale(),
-                    'key'    => 'description',
-                    'value'  => $this->faker->realText,
+                    'key' => 'description',
+                    'value' => $this->faker->realText,
                 ],
             ]);
         });

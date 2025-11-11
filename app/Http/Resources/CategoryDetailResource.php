@@ -38,12 +38,12 @@ class CategoryDetailResource extends JsonResource
         $resource = CategoryResource::make($this)->toArray($request);
 
         return array_merge($resource, [
-            'body'       => $this->body,
-            'ordering'   => $this->ordering,
-            'languages'  => $this->languages,
-            'children'   => $this->whenLoaded('children', fn () => CategoryResource::collection($this->children)),
+            'body' => $this->body,
+            'ordering' => $this->ordering,
+            'languages' => $this->languages,
+            'children' => $this->whenLoaded('children', fn () => CategoryResource::collection($this->children)),
             'seo_option' => $this->seoOption,
-            'image'      => $this->resource->getFirstMediaUrl('image', Constants::RESOLUTION_720_SQUARE),
+            'image' => $this->resource->getFirstMediaUrl('image', Constants::RESOLUTION_720_SQUARE),
             'view_count' => $this->view_count,
         ]);
     }

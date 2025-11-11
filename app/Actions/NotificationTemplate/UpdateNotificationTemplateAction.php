@@ -36,12 +36,12 @@ class UpdateNotificationTemplateAction
         return DB::transaction(function () use ($notificationTemplate, $payload) {
             // Update the notification template
             $notificationTemplate->update([
-                'name'             => $payload['name'],
-                'channel'          => $payload['channel'],
+                'name' => $payload['name'],
+                'channel' => $payload['channel'],
                 'message_template' => $payload['message_template'],
-                'languages'        => $payload['languages'] ?? [],
-                'inputs'           => $payload['inputs'] ?? [],
-                'published'        => $payload['published'] ?? false,
+                'languages' => $payload['languages'] ?? [],
+                'inputs' => $payload['inputs'] ?? [],
+                'published' => $payload['published'] ?? false,
             ]);
 
             return $notificationTemplate->refresh();

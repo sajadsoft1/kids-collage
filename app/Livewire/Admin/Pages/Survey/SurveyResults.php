@@ -38,18 +38,18 @@ class SurveyResults extends Component
     public function render(): View
     {
         return view('livewire.admin.pages.survey.survey-results', [
-            'breadcrumbs'        => [
+            'breadcrumbs' => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link'  => route('admin.survey.index'), 'label' => trans('_menu.survey_management')],
+                ['link' => route('admin.survey.index'), 'label' => trans('_menu.survey_management')],
                 ['label' => 'نتایج نظر سنجی'],
             ],
             'breadcrumbsActions' => [
                 ['link' => route('admin.survey.index'), 'icon' => 's-arrow-left'],
             ],
-            'summary'            => $this->summary,
-            'questionBreakdown'  => $this->questionBreakdown,
-            'recentAttempts'     => $this->recentAttempts,
-            'exam'               => $this->exam,
+            'summary' => $this->summary,
+            'questionBreakdown' => $this->questionBreakdown,
+            'recentAttempts' => $this->recentAttempts,
+            'exam' => $this->exam,
         ]);
     }
 
@@ -88,17 +88,17 @@ class SurveyResults extends Component
             : 0;
 
         $this->summary = [
-            'total_attempts'          => $totalAttempts,
-            'unique_participants'     => $uniqueParticipants,
-            'completed_attempts'      => $completedAttempts->count(),
-            'in_progress_attempts'    => $inProgressAttempts->count(),
-            'abandoned_attempts'      => $abandonedAttempts->count(),
-            'completion_rate'         => $totalAttempts > 0
+            'total_attempts' => $totalAttempts,
+            'unique_participants' => $uniqueParticipants,
+            'completed_attempts' => $completedAttempts->count(),
+            'in_progress_attempts' => $inProgressAttempts->count(),
+            'abandoned_attempts' => $abandonedAttempts->count(),
+            'completion_rate' => $totalAttempts > 0
                 ? round(($completedAttempts->count() / $totalAttempts) * 100, 1)
                 : 0,
             'average_completion_time' => $this->formatDuration($averageCompletionSeconds),
-            'average_questions'       => $avgQuestionsAnswered,
-            'last_response_at'        => optional($attempts->flatMap->answers->sortByDesc('answered_at')->first()?->answered_at)
+            'average_questions' => $avgQuestionsAnswered,
+            'last_response_at' => optional($attempts->flatMap->answers->sortByDesc('answered_at')->first()?->answered_at)
                 ?->format('Y-m-d H:i'),
         ];
 
@@ -121,10 +121,10 @@ class SurveyResults extends Component
                 })->count();
 
                 return [
-                    'id'         => $option->id,
-                    'content'    => $option->content,
+                    'id' => $option->id,
+                    'content' => $option->content,
                     'selections' => $count,
-                    'ratio'      => $responsesCount > 0
+                    'ratio' => $responsesCount > 0
                         ? round(($count / $responsesCount) * 100, 1)
                         : 0,
                     'is_correct' => (bool) $option->is_correct,
@@ -132,16 +132,16 @@ class SurveyResults extends Component
             })->sortByDesc('selections')->values()->all();
 
             return [
-                'id'               => $question->id,
-                'title'            => $question->title,
-                'body'             => $question->body,
-                'type'             => $question->type->value,
-                'responses_count'  => $responsesCount,
-                'skipped_count'    => max(0, $attemptsCount - $responsesCount),
-                'options'          => $optionStats,
-                'most_selected'    => $optionStats[0] ?? null,
+                'id' => $question->id,
+                'title' => $question->title,
+                'body' => $question->body,
+                'type' => $question->type->value,
+                'responses_count' => $responsesCount,
+                'skipped_count' => max(0, $attemptsCount - $responsesCount),
+                'options' => $optionStats,
+                'most_selected' => $optionStats[0] ?? null,
                 'show_explanation' => $question->config['show_explanation'] ?? false,
-                'explanation'      => $question->explanation,
+                'explanation' => $question->explanation,
             ];
         })->toArray();
 
@@ -152,12 +152,12 @@ class SurveyResults extends Component
                 $user = $attempt->user;
 
                 return [
-                    'participant'        => $user?->full_name
+                    'participant' => $user?->full_name
                         ?? $user?->name
                         ?? ($user?->email ? explode('@', $user->email)[0] : 'کاربر ناشناس'),
-                    'completed_at'       => optional($attempt->completed_at)?->format('Y-m-d H:i'),
+                    'completed_at' => optional($attempt->completed_at)?->format('Y-m-d H:i'),
                     'questions_answered' => $attempt->answers->count(),
-                    'progress'           => $attempt->getProgressPercentage(),
+                    'progress' => $attempt->getProgressPercentage(),
                 ];
             })
             ->values()

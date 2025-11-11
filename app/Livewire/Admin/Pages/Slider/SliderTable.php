@@ -44,9 +44,9 @@ final class SliderTable extends PowerGridComponent
     {
         return [
             [
-                'link'   => route('admin.slider.create'),
-                'icon'   => 's-plus',
-                'label'  => trans(
+                'link' => route('admin.slider.create'),
+                'icon' => 's-plus',
+                'label' => trans(
                     'general.page.create.title',
                     ['model' => trans('slider.model')]
                 ),

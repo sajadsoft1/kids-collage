@@ -38,16 +38,16 @@ class Question extends Model
     ];
 
     protected $casts = [
-        'type'               => QuestionTypeEnum::class,
-        'difficulty'         => DifficultyEnum::class,
-        'default_score'      => 'decimal:2',
-        'config'             => 'array',
-        'correct_answer'     => 'array',
-        'metadata'           => 'array',
-        'is_active'          => 'boolean',
-        'is_public'          => 'boolean',
+        'type' => QuestionTypeEnum::class,
+        'difficulty' => DifficultyEnum::class,
+        'default_score' => 'decimal:2',
+        'config' => 'array',
+        'correct_answer' => 'array',
+        'metadata' => 'array',
+        'is_active' => 'boolean',
+        'is_public' => 'boolean',
         'is_survey_question' => 'boolean',
-        'usage_count'        => 'integer',
+        'usage_count' => 'integer',
     ];
 
     public function scopeActive($query)
@@ -199,14 +199,14 @@ class Question extends Model
         $correctAnswers = $answers->where('is_correct', true)->count();
 
         return [
-            'total_answers'     => $totalAnswers,
-            'correct_answers'   => $correctAnswers,
+            'total_answers' => $totalAnswers,
+            'correct_answers' => $correctAnswers,
             'incorrect_answers' => $totalAnswers - $correctAnswers,
-            'success_rate'      => $totalAnswers > 0
+            'success_rate' => $totalAnswers > 0
                 ? round(($correctAnswers / $totalAnswers) * 100, 2)
                 : 0,
-            'average_score'     => $answers->avg('score') ?? 0,
-            'average_time'      => $answers->avg('time_spent') ?? 0,
+            'average_score' => $answers->avg('score') ?? 0,
+            'average_time' => $answers->avg('time_spent') ?? 0,
         ];
     }
 }

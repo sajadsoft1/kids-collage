@@ -46,7 +46,7 @@ class ContactUsUpdateOrCreate extends Component
     {
         return [
             'admin_note' => 'nullable|string',
-            'follow_up'  => 'required|boolean',
+            'follow_up' => 'required|boolean',
         ];
     }
 
@@ -80,10 +80,10 @@ class ContactUsUpdateOrCreate extends Component
     public function render(): View
     {
         return view('livewire.admin.pages.contactUs.contactUs-update-or-create', [
-            'edit_mode'          => $this->model->id,
-            'breadcrumbs'        => [
+            'edit_mode' => $this->model->id,
+            'breadcrumbs' => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link'  => route('admin.contact-us.index'), 'label' => trans('general.page.index.title', ['model' => trans('contactUs.model')])],
+                ['link' => route('admin.contact-us.index'), 'label' => trans('general.page.index.title', ['model' => trans('contactUs.model')])],
                 ['label' => trans('general.page.create.title', ['model' => trans('contactUs.model')])],
             ],
             'breadcrumbsActions' => [

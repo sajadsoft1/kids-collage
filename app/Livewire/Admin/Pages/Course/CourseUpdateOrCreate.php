@@ -77,17 +77,17 @@ class CourseUpdateOrCreate extends Component
     protected function rules(): array
     {
         return [
-            'title'       => 'required|string|max:255|min:2',
+            'title' => 'required|string|max:255|min:2',
             'description' => 'required|string|max:255',
-            'body'        => 'required|string',
+            'body' => 'required|string',
             'category_id' => 'required|exists:categories,id',
-            'teacher_id'  => 'required|exists:users,id',
-            'capacity'    => 'nullable|integer|min:1',
-            'price'       => 'required|numeric|min:0',
-            'type'        => 'required|string',
-            'room_id'     => 'nullable|exists:rooms,id',
-            'image'       => 'nullable|file|mimes:png,jpg,jpeg|max:4096',
-            'tags'        => 'nullable|array',
+            'teacher_id' => 'required|exists:users,id',
+            'capacity' => 'nullable|integer|min:1',
+            'price' => 'required|numeric|min:0',
+            'type' => 'required|string',
+            'room_id' => 'nullable|exists:rooms,id',
+            'image' => 'nullable|file|mimes:png,jpg,jpeg|max:4096',
+            'tags' => 'nullable|array',
         ];
     }
 
@@ -124,10 +124,10 @@ class CourseUpdateOrCreate extends Component
     public function render(): View
     {
         return view('livewire.admin.pages.course.course-update-or-create', [
-            'edit_mode'          => $this->model->id,
-            'breadcrumbs'        => [
+            'edit_mode' => $this->model->id,
+            'breadcrumbs' => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link'  => route('admin.course.index', ['courseTemplate' => $this->courseTemplate->id]), 'label' => trans('general.page.index.title', ['model' => trans('course.model')])],
+                ['link' => route('admin.course.index', ['courseTemplate' => $this->courseTemplate->id]), 'label' => trans('general.page.index.title', ['model' => trans('course.model')])],
                 ['label' => $this->model->id ? trans('general.page.edit.title', ['model' => trans('course.model')]) : trans('general.page.create.title', ['model' => trans('course.model')])],
             ],
             'breadcrumbsActions' => [

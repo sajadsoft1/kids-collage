@@ -34,7 +34,7 @@ class Essay extends Component
     {
         if ($this->questionIndex !== null) {
             $this->dispatch('configUpdated', [
-                'index'  => $this->questionIndex,
+                'index' => $this->questionIndex,
                 'config' => $this->config,
             ]);
         }

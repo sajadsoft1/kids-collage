@@ -33,8 +33,8 @@ enum TermStatus: string
     public function title(): string
     {
         return match ($this) {
-            self::DRAFT    => 'پیش‌نویس',
-            self::ACTIVE   => 'فعال',
+            self::DRAFT => 'پیش‌نویس',
+            self::ACTIVE => 'فعال',
             self::FINISHED => 'تمام شده',
         };
     }

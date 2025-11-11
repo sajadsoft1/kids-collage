@@ -69,11 +69,11 @@ class Certificate extends Model
     public function getGradeDescriptionAttribute(): string
     {
         return match ($this->grade) {
-            'A'     => 'Excellent (90-100%)',
-            'B'     => 'Good (80-89%)',
-            'C'     => 'Satisfactory (70-79%)',
-            'D'     => 'Passing (60-69%)',
-            'F'     => 'Failing (Below 60%)',
+            'A' => 'Excellent (90-100%)',
+            'B' => 'Good (80-89%)',
+            'C' => 'Satisfactory (70-79%)',
+            'D' => 'Passing (60-69%)',
+            'F' => 'Failing (Below 60%)',
             default => 'Unknown Grade',
         };
     }
@@ -82,11 +82,11 @@ class Certificate extends Model
     public function getGradeColorAttribute(): string
     {
         return match ($this->grade) {
-            'A'     => 'green',
-            'B'     => 'blue',
-            'C'     => 'yellow',
-            'D'     => 'orange',
-            'F'     => 'red',
+            'A' => 'green',
+            'B' => 'blue',
+            'C' => 'yellow',
+            'D' => 'orange',
+            'F' => 'red',
             default => 'gray',
         };
     }
@@ -110,9 +110,9 @@ class Certificate extends Model
     {
         $data = [
             'enrollment_id' => $this->enrollment_id,
-            'user_id'       => $this->enrollment->user_id,
-            'course_id'     => $this->enrollment->course_id,
-            'issue_date'    => $this->issue_date->toISOString(),
+            'user_id' => $this->enrollment->user_id,
+            'course_id' => $this->enrollment->course_id,
+            'issue_date' => $this->issue_date->toISOString(),
         ];
 
         return hash('sha256', json_encode($data) . config('app.key'));
@@ -123,7 +123,7 @@ class Certificate extends Model
     {
         return route('certificates.verify', [
             'certificate' => $this->id,
-            'hash'        => $this->signature_hash,
+            'hash' => $this->signature_hash,
         ]);
     }
 
@@ -132,7 +132,7 @@ class Certificate extends Model
     {
         return route('certificates.download', [
             'certificate' => $this->id,
-            'hash'        => $this->signature_hash,
+            'hash' => $this->signature_hash,
         ]);
     }
 
@@ -292,14 +292,14 @@ class Certificate extends Model
     public static function getStatistics(): array
     {
         return [
-            'total'      => static::count(),
-            'recent'     => static::recent()->count(),
-            'by_grade'   => static::selectRaw('grade, COUNT(*) as count')
+            'total' => static::count(),
+            'recent' => static::recent()->count(),
+            'by_grade' => static::selectRaw('grade, COUNT(*) as count')
                 ->groupBy('grade')
                 ->pluck('count', 'grade')
                 ->toArray(),
             'this_month' => static::issuedBetween(now()->startOfMonth(), now()->endOfMonth())->count(),
-            'this_year'  => static::issuedBetween(now()->startOfYear(), now()->endOfYear())->count(),
+            'this_year' => static::issuedBetween(now()->startOfYear(), now()->endOfYear())->count(),
         ];
     }
 }

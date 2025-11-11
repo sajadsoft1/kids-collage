@@ -33,18 +33,18 @@ class CourseTemplateResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'            => $this->id,
-            'title'         => $this->title,
-            'description'   => $this->description,
-            'slug'          => $this->slug,
-            'level'         => $this->level->toArray(),
+            'id' => $this->id,
+            'title' => $this->title,
+            'description' => $this->description,
+            'slug' => $this->slug,
+            'level' => $this->level->toArray(),
             'prerequisites' => $this->prerequisites,
             'is_self_paced' => $this->is_self_paced,
-            'type'          => $this->type->toArray(),
-            'view_count'    => $this->view_count,
-            'updated_at'    => $this->updated_at,
-            'created_at'    => $this->created_at,
-            'image'         => $this->resource->getFirstMediaUrl('image', Constants::RESOLUTION_854_480),
+            'type' => $this->type->toArray(),
+            'view_count' => $this->view_count,
+            'updated_at' => $this->updated_at,
+            'created_at' => $this->created_at,
+            'image' => $this->resource->getFirstMediaUrl('image', Constants::RESOLUTION_854_480),
             'session_count' => $this->sessionTemplates()->count(),
         ];
     }

@@ -50,20 +50,20 @@ class CourseRuner extends Component
     {
         $this->courseTemplate = $courseTemplate;
         $this->sessions       = $courseTemplate->sessionTemplates()->orderBy('order')->get()->map(fn ($session) => [
-            'id'                 => $session->id,
+            'id' => $session->id,
             'course_template_id' => $session->course_template_id,
-            'order'              => $session->order,
-            'title'              => $session->title,
-            'description'        => $session->description,
-            'duration_minutes'   => $session->duration_minutes,
-            'type'               => SessionType::ONLINE->value,
-            'date'               => null,
-            'start_time'         => $this->start_time,
-            'end_time'           => Carbon::createFromFormat('H:i', $this->start_time)
+            'order' => $session->order,
+            'title' => $session->title,
+            'description' => $session->description,
+            'duration_minutes' => $session->duration_minutes,
+            'type' => SessionType::ONLINE->value,
+            'date' => null,
+            'start_time' => $this->start_time,
+            'end_time' => Carbon::createFromFormat('H:i', $this->start_time)
                 ->addMinutes($session->duration_minutes)
                 ->format('H:i'),
-            'room_id'            => 0,
-            'link'               => 'https://meet.google.com',
+            'room_id' => 0,
+            'link' => 'https://meet.google.com',
         ])->toArray();
     }
 
@@ -174,13 +174,13 @@ class CourseRuner extends Component
                 // Check if current day is in selected week days
                 if (in_array((string) $dayOfWeek, $week_days)) {
                     $generatedDates[] = [
-                        'date'       => $currentDate->format('Y-m-d'),
-                        'day_name'   => $this->dayNames[(string) $dayOfWeek] ?? 'نامشخص',
+                        'date' => $currentDate->format('Y-m-d'),
+                        'day_name' => $this->dayNames[(string) $dayOfWeek] ?? 'نامشخص',
                         'start_time' => $start_time,
-                        'end_time'   => Carbon::createFromFormat('H:i', $start_time)
+                        'end_time' => Carbon::createFromFormat('H:i', $start_time)
                             ->addMinutes($this->courseTemplate->sessionTemplates->first()->duration_minutes)
                             ->format('H:i'),
-                        'formatted'  => $currentDate->format('Y/m/d') . ' (' . ($this->dayNames[(string) $dayOfWeek] ?? 'نامشخص') . ') - ' . $start_time . ' تا ' . Carbon::createFromFormat('H:i', $start_time)
+                        'formatted' => $currentDate->format('Y/m/d') . ' (' . ($this->dayNames[(string) $dayOfWeek] ?? 'نامشخص') . ') - ' . $start_time . ' تا ' . Carbon::createFromFormat('H:i', $start_time)
                             ->addMinutes($this->courseTemplate->sessionTemplates->first()->duration_minutes)
                             ->format('H:i'),
                     ];
@@ -250,16 +250,16 @@ class CourseRuner extends Component
         $term = Term::find($this->term);
 
         $this->validate([
-            'capacity'    => 'required|integer|min:1',
-            'price'       => 'required|integer|min:0',
-            'status'      => 'required|in:' . collect(CourseStatusEnum::runerOptions())->pluck('value')->implode(','),
-            'term'        => 'required|integer|min:1',
-            'teacher'     => 'required|integer|min:1|exists:users,id',
-            'room'        => 'required|integer|min:1|exists:rooms,id',
-            'start_date'  => ['required', 'date_format:Y-m-d', 'after_or_equal:' . $term->start_date],
-            'end_date'    => ['required', 'date_format:Y-m-d', 'before_or_equal:' . $term->end_date],
-            'start_time'  => 'required|date_format:H:i',
-            'week_days'   => 'required|array',
+            'capacity' => 'required|integer|min:1',
+            'price' => 'required|integer|min:0',
+            'status' => 'required|in:' . collect(CourseStatusEnum::runerOptions())->pluck('value')->implode(','),
+            'term' => 'required|integer|min:1',
+            'teacher' => 'required|integer|min:1|exists:users,id',
+            'room' => 'required|integer|min:1|exists:rooms,id',
+            'start_date' => ['required', 'date_format:Y-m-d', 'after_or_equal:' . $term->start_date],
+            'end_date' => ['required', 'date_format:Y-m-d', 'before_or_equal:' . $term->end_date],
+            'start_time' => 'required|date_format:H:i',
+            'week_days' => 'required|array',
             'week_days.*' => 'required|integer|min:1',
         ]);
     }
@@ -267,16 +267,16 @@ class CourseRuner extends Component
     public function validateStep3(): void
     {
         $this->validate([
-            'sessions'                    => 'required|array',
-            'sessions.*.title'            => 'required|string|max:255',
-            'sessions.*.description'      => 'required|string',
+            'sessions' => 'required|array',
+            'sessions.*.title' => 'required|string|max:255',
+            'sessions.*.description' => 'required|string',
             'sessions.*.duration_minutes' => 'required|integer|min:1',
-            'sessions.*.type'             => 'required|in:' . collect(SessionType::options())->pluck('value')->implode(','),
-            'sessions.*.room_id'          => 'required|integer|min:1|exists:rooms,id',
-            'sessions.*.link'             => 'required|url',
-            'sessions.*.date'             => 'required|date',
-            'sessions.*.start_time'       => 'required|date_format:H:i',
-            'sessions.*.end_time'         => 'required|date_format:H:i|after:start_time',
+            'sessions.*.type' => 'required|in:' . collect(SessionType::options())->pluck('value')->implode(','),
+            'sessions.*.room_id' => 'required|integer|min:1|exists:rooms,id',
+            'sessions.*.link' => 'required|url',
+            'sessions.*.date' => 'required|date',
+            'sessions.*.start_time' => 'required|date_format:H:i',
+            'sessions.*.end_time' => 'required|date_format:H:i|after:start_time',
         ]);
     }
 
@@ -285,20 +285,20 @@ class CourseRuner extends Component
     {
         // TODO: Implement course start logic
         StoreCourseAction::run($this->courseTemplate, [
-            'capacity'   => $this->capacity,
-            'price'      => $this->price,
-            'status'     => $this->status,
-            'term_id'    => $this->term,
+            'capacity' => $this->capacity,
+            'price' => $this->price,
+            'status' => $this->status,
+            'term_id' => $this->term,
             'teacher_id' => $this->teacher,
-            'sessions'   => collect($this->sessions)->map(fn ($session) => [
+            'sessions' => collect($this->sessions)->map(fn ($session) => [
                 'course_session_template_id' => $session['id'],
-                'date'                       => $session['date'],
-                'start_time'                 => $session['start_time'],
-                'end_time'                   => $session['end_time'],
-                'room_id'                    => $session['room_id'],
-                'meeting_link'               => $session['link'],
-                'session_type'               => $session['type'],
-                'status'                     => SessionStatus::PLANNED->value,
+                'date' => $session['date'],
+                'start_time' => $session['start_time'],
+                'end_time' => $session['end_time'],
+                'room_id' => $session['room_id'],
+                'meeting_link' => $session['link'],
+                'session_type' => $session['type'],
+                'status' => SessionStatus::PLANNED->value,
             ])->toArray(),
         ]);
 
@@ -311,18 +311,18 @@ class CourseRuner extends Component
     public function render()
     {
         return view('livewire.admin.pages.course.course-runer', [
-            'breadcrumbs'        => [
+            'breadcrumbs' => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link'  => route('admin.course-template.index'), 'label' => trans('general.page.index.title', ['model' => trans('courseTemplate.model')])],
+                ['link' => route('admin.course-template.index'), 'label' => trans('general.page.index.title', ['model' => trans('courseTemplate.model')])],
                 ['label' => $this->courseTemplate->title],
             ],
             'breadcrumbsActions' => [
                 ['link' => route('admin.course-template.index'), 'icon' => 's-arrow-left'],
             ],
-            'terms'              => Term::all()->map(fn ($term) => ['value' => $term->id, 'label' => $term->title]),
-            'teachers'           => User::where('type', UserTypeEnum::TEACHER->value)->get()->map(fn ($teacher) => ['value' => $teacher->id, 'label' => $teacher->name]),
-            'rooms'              => Room::all()->map(fn ($room) => ['value' => $room->id, 'label' => $room->name]),
-            'informations'       => [
+            'terms' => Term::all()->map(fn ($term) => ['value' => $term->id, 'label' => $term->title]),
+            'teachers' => User::where('type', UserTypeEnum::TEACHER->value)->get()->map(fn ($teacher) => ['value' => $teacher->id, 'label' => $teacher->name]),
+            'rooms' => Room::all()->map(fn ($room) => ['value' => $room->id, 'label' => $room->name]),
+            'informations' => [
                 [
                     'label' => trans('validation.attributes.category'),
                     'value' => $this->courseTemplate->category->title ?? 'N/A',
@@ -340,7 +340,7 @@ class CourseRuner extends Component
                     'value' => $this->courseTemplate->sessionTemplates()->count(),
                 ],
             ],
-            'prerequisites'      => $this->courseTemplate->prerequisites ? CourseTemplate::whereIn('id', $this->courseTemplate->prerequisites)->get()->map(fn ($prerequisite) => ['value' => $prerequisite->id, 'label' => $prerequisite->title]) : [],
+            'prerequisites' => $this->courseTemplate->prerequisites ? CourseTemplate::whereIn('id', $this->courseTemplate->prerequisites)->get()->map(fn ($prerequisite) => ['value' => $prerequisite->id, 'label' => $prerequisite->title]) : [],
         ]);
     }
 }

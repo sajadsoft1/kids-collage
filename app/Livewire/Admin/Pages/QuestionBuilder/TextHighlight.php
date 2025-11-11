@@ -42,7 +42,7 @@ class TextHighlight extends Component
     {
         return [
             'allow_multiple' => true,
-            'scoring_type'   => 'partial',
+            'scoring_type' => 'partial',
         ];
     }
 
@@ -63,7 +63,7 @@ class TextHighlight extends Component
     {
         if ($this->questionIndex !== null) {
             $this->dispatch('configUpdated', [
-                'index'  => $this->questionIndex,
+                'index' => $this->questionIndex,
                 'config' => $this->config,
             ]);
         }
@@ -73,7 +73,7 @@ class TextHighlight extends Component
     {
         if ($this->questionIndex !== null) {
             $this->dispatch('correctAnswerUpdated', [
-                'index'          => $this->questionIndex,
+                'index' => $this->questionIndex,
                 'correct_answer' => $this->correct_answer,
             ]);
         }

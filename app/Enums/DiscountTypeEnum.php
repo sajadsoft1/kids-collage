@@ -29,7 +29,7 @@ enum DiscountTypeEnum: string
     {
         return match ($this) {
             self::PERCENTAGE => trans('discount.enum.type.percentage'),
-            self::AMOUNT     => trans('discount.enum.type.amount'),
+            self::AMOUNT => trans('discount.enum.type.amount'),
         };
     }
 

@@ -32,7 +32,7 @@ class UpdateQuestionSubjectAction
     {
         return DB::transaction(function () use ($questionSubject, $payload) {
             $questionSubject->update([
-                'ordering'    => Arr::get($payload, 'ordering', $questionSubject->ordering),
+                'ordering' => Arr::get($payload, 'ordering', $questionSubject->ordering),
                 'category_id' => Arr::get($payload, 'category_id', $questionSubject->category_id),
             ]);
             $this->syncTranslationAction->handle($questionSubject, Arr::only($payload, ['title', 'description']));

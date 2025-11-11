@@ -56,56 +56,56 @@ class OrderCourseUpdateOrCreate extends Component
                 $course = $item->itemable;
 
                 return [
-                    'id'            => $item->id,
+                    'id' => $item->id,
                     'itemable_type' => $item->itemable_type,
-                    'itemable_id'   => $item->itemable_id,
-                    'price'         => $item->price,
+                    'itemable_id' => $item->itemable_id,
+                    'price' => $item->price,
                     'session_count' => $course->sessions()->count(),
-                    'teacher'       => $course->teacher->full_name,
-                    'quantity'      => $item->quantity,
+                    'teacher' => $course->teacher->full_name,
+                    'quantity' => $item->quantity,
                 ];
             })->toArray();
 
             // Load payments
             $this->payments = $this->model->payments->map(function ($payment) {
                 return [
-                    'id'               => $payment->id,
-                    'amount'           => $payment->amount,
-                    'type'             => $payment->type->value,
-                    'scheduled_date'   => $payment->scheduled_date?->toDateString(),
-                    'paid_at'          => $payment->paid_at?->toDateString(),
-                    'status'           => $payment->status->value ?? PaymentStatusEnum::PENDING->value,
+                    'id' => $payment->id,
+                    'amount' => $payment->amount,
+                    'type' => $payment->type->value,
+                    'scheduled_date' => $payment->scheduled_date?->toDateString(),
+                    'paid_at' => $payment->paid_at?->toDateString(),
+                    'status' => $payment->status->value ?? PaymentStatusEnum::PENDING->value,
                     'last_card_digits' => $payment->last_card_digits ?? '',
-                    'tracking_code'    => $payment->tracking_code ?? '',
-                    'note'             => $payment->note ?? '',
+                    'tracking_code' => $payment->tracking_code ?? '',
+                    'note' => $payment->note ?? '',
                 ];
             })->toArray();
         } else {
             // Initialize with one empty item
             $this->items = [
                 [
-                    'id'            => null,
+                    'id' => null,
                     'itemable_type' => Course::class,
-                    'itemable_id'   => 0,
-                    'price'         => 0,
+                    'itemable_id' => 0,
+                    'price' => 0,
                     'session_count' => 0,
-                    'teacher'       => '-',
-                    'quantity'      => 1,
+                    'teacher' => '-',
+                    'quantity' => 1,
                 ],
             ];
 
             // Initialize with one empty payment
             $this->payments = [
                 [
-                    'id'               => null,
-                    'amount'           => 0,
-                    'type'             => PaymentTypeEnum::CASH->value,
-                    'scheduled_date'   => now()->toDateString(),
-                    'paid_at'          => null,
-                    'status'           => PaymentStatusEnum::PENDING->value,
+                    'id' => null,
+                    'amount' => 0,
+                    'type' => PaymentTypeEnum::CASH->value,
+                    'scheduled_date' => now()->toDateString(),
+                    'paid_at' => null,
+                    'status' => PaymentStatusEnum::PENDING->value,
                     'last_card_digits' => '',
-                    'tracking_code'    => '',
-                    'note'             => '',
+                    'tracking_code' => '',
+                    'note' => '',
                 ],
             ];
         }
@@ -120,13 +120,13 @@ class OrderCourseUpdateOrCreate extends Component
     public function addItem(): void
     {
         $this->items[] = [
-            'id'            => null,
+            'id' => null,
             'itemable_type' => Course::class,
-            'itemable_id'   => 0,
-            'price'         => 0,
+            'itemable_id' => 0,
+            'price' => 0,
             'session_count' => 0,
-            'teacher'       => '-',
-            'quantity'      => 1,
+            'teacher' => '-',
+            'quantity' => 1,
         ];
     }
 
@@ -141,14 +141,14 @@ class OrderCourseUpdateOrCreate extends Component
     public function addPayment(): void
     {
         $this->payments[] = [
-            'id'               => null,
-            'amount'           => 0,
-            'type'             => PaymentTypeEnum::CASH->value,
-            'scheduled_date'   => now()->toDateString(),
-            'status'           => PaymentStatusEnum::PENDING->value,
+            'id' => null,
+            'amount' => 0,
+            'type' => PaymentTypeEnum::CASH->value,
+            'scheduled_date' => now()->toDateString(),
+            'status' => PaymentStatusEnum::PENDING->value,
             'last_card_digits' => '',
-            'tracking_code'    => '',
-            'note'             => '',
+            'tracking_code' => '',
+            'note' => '',
         ];
     }
 
@@ -181,26 +181,26 @@ class OrderCourseUpdateOrCreate extends Component
     protected function rules(): array
     {
         return [
-            'user_id'                     => ['required', 'exists:users,id'],
-            'status'                      => ['required', 'in:' . implode(',', OrderStatusEnum::values())],
-            'note'                        => ['nullable', 'string'],
-            'discount_code'               => ['nullable', 'string', 'exists:discounts,code'],
-            'discount_id'                 => ['nullable', 'integer', 'exists:discounts,id'],
-            'items'                       => ['required', 'array', 'min:1'],
-            'items.*.id'                  => ['nullable', 'integer'],
-            'items.*.itemable_type'       => ['required', 'string'],
-            'items.*.itemable_id'         => ['required', 'integer'],
-            'items.*.price'               => ['required', 'numeric', 'min:0'],
-            'items.*.quantity'            => ['required', 'integer', 'min:1'],
-            'payments'                    => ['required', 'array', 'min:1'],
-            'payments.*.id'               => ['nullable', 'integer'],
-            'payments.*.amount'           => ['required', 'numeric', 'min:0'],
-            'payments.*.type'             => ['required', 'in:' . implode(',', PaymentTypeEnum::values())],
-            'payments.*.scheduled_date'   => ['nullable', 'date'],
-            'payments.*.status'           => ['nullable', 'string'],
+            'user_id' => ['required', 'exists:users,id'],
+            'status' => ['required', 'in:' . implode(',', OrderStatusEnum::values())],
+            'note' => ['nullable', 'string'],
+            'discount_code' => ['nullable', 'string', 'exists:discounts,code'],
+            'discount_id' => ['nullable', 'integer', 'exists:discounts,id'],
+            'items' => ['required', 'array', 'min:1'],
+            'items.*.id' => ['nullable', 'integer'],
+            'items.*.itemable_type' => ['required', 'string'],
+            'items.*.itemable_id' => ['required', 'integer'],
+            'items.*.price' => ['required', 'numeric', 'min:0'],
+            'items.*.quantity' => ['required', 'integer', 'min:1'],
+            'payments' => ['required', 'array', 'min:1'],
+            'payments.*.id' => ['nullable', 'integer'],
+            'payments.*.amount' => ['required', 'numeric', 'min:0'],
+            'payments.*.type' => ['required', 'in:' . implode(',', PaymentTypeEnum::values())],
+            'payments.*.scheduled_date' => ['nullable', 'date'],
+            'payments.*.status' => ['nullable', 'string'],
             'payments.*.last_card_digits' => ['nullable', 'string', 'max:4'],
-            'payments.*.tracking_code'    => ['nullable', 'string'],
-            'payments.*.note'             => ['nullable', 'string'],
+            'payments.*.tracking_code' => ['nullable', 'string'],
+            'payments.*.note' => ['nullable', 'string'],
         ];
     }
 
@@ -208,12 +208,12 @@ class OrderCourseUpdateOrCreate extends Component
     {
         $validated = $this->validate();
         $payload   = [
-            'user_id'     => $validated['user_id'],
-            'status'      => $validated['status'] ?? OrderStatusEnum::PENDING->value,
-            'note'        => $validated['note'] ?? '',
+            'user_id' => $validated['user_id'],
+            'status' => $validated['status'] ?? OrderStatusEnum::PENDING->value,
+            'note' => $validated['note'] ?? '',
             'discount_id' => $this->discount_id,
-            'items'       => $validated['items'],
-            'payments'    => $validated['payments'],
+            'items' => $validated['items'],
+            'payments' => $validated['payments'],
         ];
         if ($this->model->id) {
             try {
@@ -353,18 +353,18 @@ class OrderCourseUpdateOrCreate extends Component
     public function render(): View
     {
         return view('livewire.admin.pages.order.order-course-update-or-create', [
-            'edit_mode'          => $this->model->id,
-            'breadcrumbs'        => [
+            'edit_mode' => $this->model->id,
+            'breadcrumbs' => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link'  => route('admin.order.index'), 'label' => trans('general.page.index.title', ['model' => trans('order.model')])],
+                ['link' => route('admin.order.index'), 'label' => trans('general.page.index.title', ['model' => trans('order.model')])],
                 ['label' => trans('general.page.create.title', ['model' => trans('order.model')])],
             ],
             'breadcrumbsActions' => [
                 ['link' => route('admin.order.index'), 'icon' => 's-arrow-left'],
             ],
-            'users'              => User::where('type', UserTypeEnum::USER->value)->get()->map(fn (User $user) => ['label' => $user->full_name, 'value' => $user->id]),
-            'courses'            => Course::query()->get()->map(fn (Course $course) => ['label' => $course->template->title, 'value' => $course->id]),
-            'itemableTypes'      => [
+            'users' => User::where('type', UserTypeEnum::USER->value)->get()->map(fn (User $user) => ['label' => $user->full_name, 'value' => $user->id]),
+            'courses' => Course::query()->get()->map(fn (Course $course) => ['label' => $course->template->title, 'value' => $course->id]),
+            'itemableTypes' => [
                 ['label' => 'Course', 'value' => Course::class],
                 ['label' => 'Enrollment', 'value' => Enrollment::class],
             ],

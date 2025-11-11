@@ -17,9 +17,9 @@ enum AttemptStatusEnum: string
     {
         return match ($this) {
             self::IN_PROGRESS => 'در حال انجام',
-            self::COMPLETED   => 'تکمیل شده',
-            self::ABANDONED   => 'رها شده',
-            self::EXPIRED     => 'منقضی شده',
+            self::COMPLETED => 'تکمیل شده',
+            self::ABANDONED => 'رها شده',
+            self::EXPIRED => 'منقضی شده',
         };
     }
 
@@ -27,9 +27,9 @@ enum AttemptStatusEnum: string
     {
         return match ($this) {
             self::IN_PROGRESS => 'آزمون در حال انجام است',
-            self::COMPLETED   => 'آزمون با موفقیت تکمیل شده',
-            self::ABANDONED   => 'آزمون توسط کاربر رها شده',
-            self::EXPIRED     => 'زمان آزمون به پایان رسیده',
+            self::COMPLETED => 'آزمون با موفقیت تکمیل شده',
+            self::ABANDONED => 'آزمون توسط کاربر رها شده',
+            self::EXPIRED => 'زمان آزمون به پایان رسیده',
         };
     }
 
@@ -37,9 +37,9 @@ enum AttemptStatusEnum: string
     {
         return match ($this) {
             self::IN_PROGRESS => 'info',
-            self::COMPLETED   => 'success',
-            self::ABANDONED   => 'warning',
-            self::EXPIRED     => 'danger',
+            self::COMPLETED => 'success',
+            self::ABANDONED => 'warning',
+            self::EXPIRED => 'danger',
         };
     }
 
@@ -47,9 +47,9 @@ enum AttemptStatusEnum: string
     {
         return match ($this) {
             self::IN_PROGRESS => 'bg-blue-100 text-blue-800',
-            self::COMPLETED   => 'bg-green-100 text-green-800',
-            self::ABANDONED   => 'bg-yellow-100 text-yellow-800',
-            self::EXPIRED     => 'bg-red-100 text-red-800',
+            self::COMPLETED => 'bg-green-100 text-green-800',
+            self::ABANDONED => 'bg-yellow-100 text-yellow-800',
+            self::EXPIRED => 'bg-red-100 text-red-800',
         };
     }
 
@@ -57,9 +57,9 @@ enum AttemptStatusEnum: string
     {
         return match ($this) {
             self::IN_PROGRESS => 'heroicon-o-clock',
-            self::COMPLETED   => 'heroicon-o-check-circle',
-            self::ABANDONED   => 'heroicon-o-x-circle',
-            self::EXPIRED     => 'heroicon-o-exclamation-circle',
+            self::COMPLETED => 'heroicon-o-check-circle',
+            self::ABANDONED => 'heroicon-o-x-circle',
+            self::EXPIRED => 'heroicon-o-exclamation-circle',
         };
     }
 

@@ -14,7 +14,7 @@ class QuestionCompetencySeeder extends Seeder
         $data = require database_path('seeders/data/karno_exam.php');
         foreach ($data['question_competency'] as $row) {
             StoreQuestionCompetencyAction::run([
-                'title'       => $row['title'],
+                'title' => $row['title'],
                 'description' => $row['description'],
             ]);
         }

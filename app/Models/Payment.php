@@ -34,9 +34,9 @@ class Payment extends Model
     ];
 
     protected $casts = [
-        'type'           => PaymentTypeEnum::class,
-        'status'         => PaymentStatusEnum::class,
-        'amount'         => 'float',
+        'type' => PaymentTypeEnum::class,
+        'status' => PaymentStatusEnum::class,
+        'amount' => 'float',
         'scheduled_date' => 'date',
     ];
 

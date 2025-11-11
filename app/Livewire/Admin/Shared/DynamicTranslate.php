@@ -28,7 +28,7 @@ class DynamicTranslate extends Component
         $this->model      = Utils::getEloquent($class)::find($id);
         $this->back_route = match ($class) {
             'courseSessionTemplate' => route('admin.course-session-template.index', ['courseTemplate' => $this->model->course_template_id]),
-            default                 => route('admin.' . Str::kebab($class) . '.index'),
+            default => route('admin.' . Str::kebab($class) . '.index'),
         };
         foreach (config('app.supported_locales') as $locale) {
             foreach ($this->model->translatable as $field) {
@@ -46,9 +46,9 @@ class DynamicTranslate extends Component
     protected function validationAttributes(): array
     {
         return [
-            'form.*.title'       => trans('validation.attributes.title'),
+            'form.*.title' => trans('validation.attributes.title'),
             'form.*.description' => trans('validation.attributes.description'),
-            'form.*.body'        => trans('validation.attributes.body'),
+            'form.*.body' => trans('validation.attributes.body'),
         ];
     }
 
@@ -59,7 +59,7 @@ class DynamicTranslate extends Component
                 foreach ($data as $locale => $form) {
                     foreach ($form as $key => $value) {
                         $this->model->translationsPure()->updateOrCreate([
-                            'key'    => $key,
+                            'key' => $key,
                             'locale' => $locale,
                         ], [
                             'value' => $value,
@@ -90,9 +90,9 @@ class DynamicTranslate extends Component
     public function render(): View
     {
         return view('livewire.admin.shared.dynamic-translate', [
-            'breadcrumbs'        => [
+            'breadcrumbs' => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link'  => $this->back_route, 'label' => trans('general.page.index.title', ['model' => trans($this->class . '.model')])],
+                ['link' => $this->back_route, 'label' => trans('general.page.index.title', ['model' => trans($this->class . '.model')])],
                 ['label' => $this->model->title],
             ],
             'breadcrumbsActions' => [

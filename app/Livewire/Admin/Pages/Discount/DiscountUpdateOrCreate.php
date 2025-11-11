@@ -62,18 +62,18 @@ class DiscountUpdateOrCreate extends Component
             : 'required|string|max:50|unique:discounts,code';
 
         return [
-            'code'                => $codeRule,
-            'type'                => 'required|in:' . implode(',', DiscountTypeEnum::values()),
-            'value'               => ['required', 'numeric', 'min:1', $this->type === DiscountTypeEnum::PERCENTAGE->value ? 'max:100' : 'max:5000000000'],
-            'user_id'             => 'nullable|exists:users,id',
-            'min_order_amount'    => 'required|numeric|min:0|max:5000000000',
+            'code' => $codeRule,
+            'type' => 'required|in:' . implode(',', DiscountTypeEnum::values()),
+            'value' => ['required', 'numeric', 'min:1', $this->type === DiscountTypeEnum::PERCENTAGE->value ? 'max:100' : 'max:5000000000'],
+            'user_id' => 'nullable|exists:users,id',
+            'min_order_amount' => 'required|numeric|min:0|max:5000000000',
             'max_discount_amount' => 'nullable|numeric|min:0|max:5000000000',
-            'usage_limit'         => 'nullable|integer|min:1|max:5000000',
-            'usage_per_user'      => 'required|integer|min:1',
-            'starts_at'           => 'nullable|date',
-            'expires_at'          => 'nullable|date|after:starts_at',
-            'is_active'           => 'required|boolean',
-            'description'         => 'nullable|string|max:500',
+            'usage_limit' => 'nullable|integer|min:1|max:5000000',
+            'usage_per_user' => 'required|integer|min:1',
+            'starts_at' => 'nullable|date',
+            'expires_at' => 'nullable|date|after:starts_at',
+            'is_active' => 'required|boolean',
+            'description' => 'nullable|string|max:500',
         ];
     }
 
@@ -110,17 +110,17 @@ class DiscountUpdateOrCreate extends Component
     public function render(): View
     {
         return view('livewire.admin.pages.discount.discount-update-or-create', [
-            'edit_mode'          => $this->model->id,
-            'breadcrumbs'        => [
+            'edit_mode' => $this->model->id,
+            'breadcrumbs' => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link'  => route('admin.discount.index'), 'label' => trans('general.page.index.title', ['model' => trans('discount.model')])],
+                ['link' => route('admin.discount.index'), 'label' => trans('general.page.index.title', ['model' => trans('discount.model')])],
                 ['label' => trans('general.page.create.title', ['model' => trans('discount.model')])],
             ],
             'breadcrumbsActions' => [
                 ['link' => route('admin.discount.index'), 'icon' => 's-arrow-left'],
             ],
-            'users'              => User::where('type', UserTypeEnum::USER->value)->get()->map(fn (User $user) => ['label' => $user->full_name, 'value' => $user->id]),
-            'discountTypes'      => collect(DiscountTypeEnum::cases())->map(fn ($type) => ['label' => $type->title(), 'value' => $type->value]),
+            'users' => User::where('type', UserTypeEnum::USER->value)->get()->map(fn (User $user) => ['label' => $user->full_name, 'value' => $user->id]),
+            'discountTypes' => collect(DiscountTypeEnum::cases())->map(fn ($type) => ['label' => $type->title(), 'value' => $type->value]),
         ]);
     }
 }

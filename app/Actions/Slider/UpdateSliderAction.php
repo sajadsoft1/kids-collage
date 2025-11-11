@@ -55,7 +55,7 @@ class UpdateSliderAction
             foreach (Arr::get($payload, 'roles', []) as $role) {
                 foreach ($role['value'] as $morphId) {
                     $newReferences[] = [
-                        'morphable_id'   => $morphId,
+                        'morphable_id' => $morphId,
                         'morphable_type' => $role['type'],
                     ];
                 }

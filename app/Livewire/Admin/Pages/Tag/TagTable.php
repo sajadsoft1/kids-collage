@@ -43,9 +43,9 @@ final class TagTable extends PowerGridComponent
     {
         return [
             [
-                'link'   => route('admin.tag.create'),
-                'icon'   => 's-plus',
-                'label'  => trans(
+                'link' => route('admin.tag.create'),
+                'icon' => 's-plus',
+                'label' => trans(
                     'general.page.create.title',
                     ['model' => trans('tag.model')]
                 ),

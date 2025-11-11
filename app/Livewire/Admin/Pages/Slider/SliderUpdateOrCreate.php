@@ -52,7 +52,7 @@ class SliderUpdateOrCreate extends Component
             $this->roles        = $this->model->references
                 ->groupBy('morphable_type')
                 ->map(fn ($references, $type) => [
-                    'type'  => $type,
+                    'type' => $type,
                     'value' => $references->pluck('morphable_id')->toArray(),
                 ])
                 ->values()
@@ -67,21 +67,21 @@ class SliderUpdateOrCreate extends Component
     protected function rules(): array
     {
         return [
-            'title'         => ['required', 'string'],
-            'description'   => ['required', 'string'],
-            'published'     => ['required', 'boolean'],
-            'ordering'      => ['required', 'numeric'],
-            'published_at'  => [
+            'title' => ['required', 'string'],
+            'description' => ['required', 'string'],
+            'published' => ['required', 'boolean'],
+            'ordering' => ['required', 'numeric'],
+            'published_at' => [
                 'nullable',
                 'date',
             ],
-            'expired_at'    => ['nullable', 'required_if:has_timer,true', 'date', 'after:now'],
-            'link'          => ['nullable', 'url'],
-            'has_timer'     => ['nullable', 'boolean'],
-            'timer_start'   => ['nullable', 'required_if:has_timer,true', 'date', 'before:expired_at'],
-            'image'         => ['image', 'max:2048', isset($this->model->id) ? 'nullable' : 'required'], // 2MB Max
-            'roles'         => ['nullable', 'array'],
-            'roles.*.type'  => ['required', 'string'],
+            'expired_at' => ['nullable', 'required_if:has_timer,true', 'date', 'after:now'],
+            'link' => ['nullable', 'url'],
+            'has_timer' => ['nullable', 'boolean'],
+            'timer_start' => ['nullable', 'required_if:has_timer,true', 'date', 'before:expired_at'],
+            'image' => ['image', 'max:2048', isset($this->model->id) ? 'nullable' : 'required'], // 2MB Max
+            'roles' => ['nullable', 'array'],
+            'roles.*.type' => ['required', 'string'],
             'roles.*.value' => ['required', 'array'],
         ];
     }
@@ -121,7 +121,7 @@ class SliderUpdateOrCreate extends Component
     public function addRole(): void
     {
         $this->roles[] = [
-            'type'  => 'role',
+            'type' => 'role',
             'value' => [],
         ];
     }
@@ -129,17 +129,17 @@ class SliderUpdateOrCreate extends Component
     public function render(): View
     {
         return view('livewire.admin.pages.slider.slider-update-or-create', [
-            'edit_mode'          => $this->model->id,
-            'reference_type'     => [
+            'edit_mode' => $this->model->id,
+            'reference_type' => [
                 ['id' => '', 'name' => 'Please select reference type'],
                 ['id' => Category::class, 'name' => 'Category'],
                 ['id' => Tag::class, 'name' => 'Tag'],
             ],
-            'categories'         => Category::all()->map(fn ($category) => ['id' => $category->id, 'name' => $category->title]),
-            'tags'               => Tag::all()->map(fn ($tag) => ['id' => $tag->id, 'name' => $tag->name]),
-            'breadcrumbs'        => [
+            'categories' => Category::all()->map(fn ($category) => ['id' => $category->id, 'name' => $category->title]),
+            'tags' => Tag::all()->map(fn ($tag) => ['id' => $tag->id, 'name' => $tag->name]),
+            'breadcrumbs' => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link'  => route('admin.slider.index'), 'label' => trans('general.page.index.title', ['model' => trans('slider.model')])],
+                ['link' => route('admin.slider.index'), 'label' => trans('general.page.index.title', ['model' => trans('slider.model')])],
                 ['label' => trans('general.page.create.title', ['model' => trans('slider.model')])],
             ],
             'breadcrumbsActions' => [

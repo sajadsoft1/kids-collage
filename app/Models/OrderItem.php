@@ -40,7 +40,7 @@ class OrderItem extends Model
     ];
 
     protected $casts = [
-        'price'    => 'decimal:2',
+        'price' => 'decimal:2',
         'quantity' => 'integer',
     ];
 
@@ -115,8 +115,8 @@ class OrderItem extends Model
     {
         return match ($this->itemable_type) {
             Enrollment::class => 'Course Enrollment',
-            Course::class     => 'Course',
-            default           => 'Unknown Item',
+            Course::class => 'Course',
+            default => 'Unknown Item',
         };
     }
 
@@ -294,11 +294,11 @@ class OrderItem extends Model
         });
 
         return [
-            'total_sales'         => $query->sum(DB::raw('price * quantity')),
-            'total_items'         => $query->sum('quantity'),
+            'total_sales' => $query->sum(DB::raw('price * quantity')),
+            'total_items' => $query->sum('quantity'),
             'average_order_value' => $query->avg(DB::raw('price * quantity')),
-            'course_enrollments'  => $query->where('itemable_type', Enrollment::class)->count(),
-            'courses_sold'        => $query->where('itemable_type', Course::class)->count(),
+            'course_enrollments' => $query->where('itemable_type', Enrollment::class)->count(),
+            'courses_sold' => $query->where('itemable_type', Course::class)->count(),
         ];
     }
 }

@@ -16,11 +16,11 @@ class LicenseSeeder extends Seeder
         $data = require database_path('seeders/data/karno.php');
         foreach ($data['license'] as $row) {
             $model = StoreLicenseAction::run([
-                'title'       => $row['title'],
+                'title' => $row['title'],
                 'description' => $row['description'],
-                'view_count'  => $row['view_count'] ?? 0,
-                'languages'   => $row['languages'],
-                'slug'        => $row['slug'] ?? \Illuminate\Support\Str::slug($row['title']),
+                'view_count' => $row['view_count'] ?? 0,
+                'languages' => $row['languages'],
+                'slug' => $row['slug'] ?? \Illuminate\Support\Str::slug($row['title']),
             ]);
 
             try {

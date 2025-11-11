@@ -16,8 +16,8 @@ enum InstallmentStatusEnum: string
     {
         return match ($this) {
             self::PENDING => 'PENDING',
-            self::PAID    => 'PAID',
-            self::FAILED  => 'FAILED',
+            self::PAID => 'PAID',
+            self::FAILED => 'FAILED',
         };
     }
 

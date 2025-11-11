@@ -45,8 +45,8 @@ class StoreTicketAction
             $this->fileService->addMedia($model, Arr::get($payload, 'image'));
             $this->ticketMessageAction->handle([
                 'ticket_id' => $model->id,
-                'user_id'   => Arr::get($payload, 'user_id'),
-                'message'   => Arr::get($payload, 'body'),
+                'user_id' => Arr::get($payload, 'user_id'),
+                'message' => Arr::get($payload, 'body'),
             ]);
 
             return $model->refresh();

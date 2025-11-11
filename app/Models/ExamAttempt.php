@@ -25,16 +25,16 @@ class ExamAttempt extends Model
     ];
 
     protected $casts = [
-        'status'       => AttemptStatusEnum::class,
-        'started_at'   => 'datetime',
+        'status' => AttemptStatusEnum::class,
+        'started_at' => 'datetime',
         'completed_at' => 'datetime',
-        'total_score'  => 'decimal:2',
-        'percentage'   => 'decimal:2',
-        'metadata'     => 'array',
+        'total_score' => 'decimal:2',
+        'percentage' => 'decimal:2',
+        'metadata' => 'array',
     ];
 
     protected $attributes = [
-        'status'   => 'in_progress',
+        'status' => 'in_progress',
         'metadata' => '{}',
     ];
 
@@ -111,13 +111,13 @@ class ExamAttempt extends Model
         return $this->answers()->updateOrCreate(
             ['question_id' => $question->id],
             [
-                'answer_data'          => $answerData,
-                'score'                => $score,
-                'max_score'            => $weight,
-                'is_correct'           => $isCorrect,
+                'answer_data' => $answerData,
+                'score' => $score,
+                'max_score' => $weight,
+                'is_correct' => $isCorrect,
                 'is_partially_correct' => $isPartiallyCorrect,
-                'time_spent'           => $timeSpent,
-                'answered_at'          => now(),
+                'time_spent' => $timeSpent,
+                'answered_at' => now(),
             ]
         );
     }
@@ -131,9 +131,9 @@ class ExamAttempt extends Model
 
         $this->update([
             'completed_at' => now(),
-            'status'       => AttemptStatusEnum::COMPLETED,
-            'total_score'  => $totalScore,
-            'percentage'   => $percentage,
+            'status' => AttemptStatusEnum::COMPLETED,
+            'total_score' => $totalScore,
+            'percentage' => $percentage,
         ]);
     }
 
@@ -145,7 +145,7 @@ class ExamAttempt extends Model
     public function expire(): void
     {
         $this->update([
-            'status'       => AttemptStatusEnum::EXPIRED,
+            'status' => AttemptStatusEnum::EXPIRED,
             'completed_at' => now(),
         ]);
     }
@@ -219,16 +219,16 @@ class ExamAttempt extends Model
         $answers = $this->answers;
 
         return [
-            'total_questions'    => $this->getTotalQuestionsCount(),
+            'total_questions' => $this->getTotalQuestionsCount(),
             'answered_questions' => $this->getAnsweredQuestionsCount(),
-            'correct_answers'    => $answers->where('is_correct', true)->count(),
-            'incorrect_answers'  => $answers->where('is_correct', false)->count(),
-            'partially_correct'  => $answers->where('is_partially_correct', true)->count(),
-            'total_score'        => $this->total_score,
-            'max_score'          => $this->exam->total_score,
-            'percentage'         => $this->percentage,
-            'passed'             => $this->isPassed(),
-            'time_spent'         => $this->getElapsedTime(),
+            'correct_answers' => $answers->where('is_correct', true)->count(),
+            'incorrect_answers' => $answers->where('is_correct', false)->count(),
+            'partially_correct' => $answers->where('is_partially_correct', true)->count(),
+            'total_score' => $this->total_score,
+            'max_score' => $this->exam->total_score,
+            'percentage' => $this->percentage,
+            'passed' => $this->isPassed(),
+            'time_spent' => $this->getElapsedTime(),
         ];
     }
 

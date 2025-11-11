@@ -38,9 +38,9 @@ enum CourseLevelEnum: string
     public function title(): string
     {
         return match ($this) {
-            self::BIGGINER     => trans('course.enum.level.bigginer'),
-            self::NORMAL       => trans('course.enum.level.normal'),
-            self::ADVANCE      => trans('course.enum.level.advance'),
+            self::BIGGINER => trans('course.enum.level.bigginer'),
+            self::NORMAL => trans('course.enum.level.normal'),
+            self::ADVANCE => trans('course.enum.level.advance'),
             self::INTERMEDIATE => trans('course.enum.level.intermediate'),
         };
     }

@@ -38,7 +38,7 @@ class DefaultOptionTemplate extends BaseTemplate
         $keys = collect($this->template($setting))->pluck('key')->toArray();
 
         return $this->makeValidator($payload['value'], [
-            '*.key'   => ['required', Rule::in($keys)],
+            '*.key' => ['required', Rule::in($keys)],
             '*.value' => ['required'],
         ]);
     }

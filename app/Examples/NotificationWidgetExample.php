@@ -56,9 +56,9 @@ class NotificationWidgetExample
             public function toArray($notifiable): array
             {
                 return [
-                    'title'   => 'عنوان اعلان',
+                    'title' => 'عنوان اعلان',
                     'message' => 'پیام اعلان شما',
-                    'link'    => route('admin.dashboard'),
+                    'link' => route('admin.dashboard'),
                 ];
             }
         });
@@ -100,7 +100,7 @@ class NotificationWidgetExample
             public function toArray($notifiable): array
             {
                 return [
-                    'title'   => 'اعلان جدید',
+                    'title' => 'اعلان جدید',
                     'message' => 'شما یک اعلان جدید دریافت کردید',
                 ];
             }
@@ -173,8 +173,8 @@ class NotificationWidgetExample
     public function widgetParameters(): array
     {
         return [
-            'user'      => null,     // User instance (default: auth()->user())
-            'limit'     => 10,       // Number of notifications to show
+            'user' => null,     // User instance (default: auth()->user())
+            'limit' => 10,       // Number of notifications to show
             'show_read' => false,    // Show read notifications
         ];
     }
@@ -184,12 +184,12 @@ class NotificationWidgetExample
     {
         return [
             'markAsRead($notificationId)' => 'Mark single notification as read',
-            'markAllAsRead()'             => 'Mark all notifications as read',
-            'deleteNotification($id)'     => 'Delete single notification',
-            'deleteAllRead()'             => 'Delete all read notifications',
-            'toggleShowRead()'            => 'Toggle showing read notifications',
-            'filterByType($type)'         => 'Filter by notification type',
-            'refreshNotifications()'      => 'Refresh notification list',
+            'markAllAsRead()' => 'Mark all notifications as read',
+            'deleteNotification($id)' => 'Delete single notification',
+            'deleteAllRead()' => 'Delete all read notifications',
+            'toggleShowRead()' => 'Toggle showing read notifications',
+            'filterByType($type)' => 'Filter by notification type',
+            'refreshNotifications()' => 'Refresh notification list',
         ];
     }
 }

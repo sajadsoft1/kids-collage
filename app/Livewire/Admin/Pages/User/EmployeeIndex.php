@@ -13,15 +13,15 @@ class EmployeeIndex extends Component
     public function render()
     {
         return view('livewire.admin.pages.user.employee-index', [
-            'breadcrumbs'        => [
+            'breadcrumbs' => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
                 ['label' => trans('general.page.index.title', ['model' => trans('user.employee')])],
             ],
             'breadcrumbsActions' => [
                 [
-                    'link'   => route('admin.employee.create'),
-                    'icon'   => 's-plus',
-                    'label'  => trans(
+                    'link' => route('admin.employee.create'),
+                    'icon' => 's-plus',
+                    'label' => trans(
                         'general.page.create.title',
                         ['model' => trans('user.employee')]
                     ),

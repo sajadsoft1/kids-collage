@@ -16,10 +16,10 @@ class OpinionSeeder extends Seeder
         foreach ($data['opinion'] as $row) {
             $model= StoreOpinionAction::run([
                 'published' => $row['published'],
-                'ordering'  => $row['ordering'],
-                'company'   => $row['company'],
+                'ordering' => $row['ordering'],
+                'company' => $row['company'],
                 'user_name' => $row['user_name'],
-                'comment'   => $row['comment'],
+                'comment' => $row['comment'],
             ]);
             $model->addMedia($row['path'])
                 ->preservingOriginal()

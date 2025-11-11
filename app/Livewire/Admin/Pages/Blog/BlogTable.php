@@ -49,9 +49,9 @@ final class BlogTable extends PowerGridComponent
     {
         return [
             [
-                'link'   => route('admin.blog.create'),
-                'icon'   => 's-plus',
-                'label'  => trans(
+                'link' => route('admin.blog.create'),
+                'icon' => 's-plus',
+                'label' => trans(
                     'general.page.create.title',
                     ['model' => trans('blog.model')]
                 ),
@@ -68,7 +68,7 @@ final class BlogTable extends PowerGridComponent
     public function relationSearch(): array
     {
         return [
-            'translations'          => [
+            'translations' => [
                 'value',
             ],
             'category.translations' => [

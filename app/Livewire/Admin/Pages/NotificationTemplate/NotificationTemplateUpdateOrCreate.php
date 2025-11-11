@@ -53,7 +53,7 @@ class NotificationTemplateUpdateOrCreate extends Component
         // Setup language options from config
         $supportedLocales      = config('locales.supported', ['en', 'fa']);
         $this->languageOptions = collect($supportedLocales)->map(fn ($locale) => [
-            'id'   => $locale,
+            'id' => $locale,
             'name' => trans('general.languages.' . $locale),
         ])->toArray();
 
@@ -72,12 +72,12 @@ class NotificationTemplateUpdateOrCreate extends Component
     protected function rules(): array
     {
         return [
-            'name'             => 'required|string|max:255|min:2',
-            'channel'          => 'required|string|in:sms,email,notification',
+            'name' => 'required|string|max:255|min:2',
+            'channel' => 'required|string|in:sms,email,notification',
             'message_template' => 'required|string|min:10',
-            'languages'        => 'nullable|array',
-            'inputs'           => 'nullable|array',
-            'published'        => 'required|boolean',
+            'languages' => 'nullable|array',
+            'inputs' => 'nullable|array',
+            'published' => 'required|boolean',
         ];
     }
 
@@ -112,10 +112,10 @@ class NotificationTemplateUpdateOrCreate extends Component
     public function render(): View
     {
         return view('livewire.admin.pages.notificationTemplate.notificationTemplate-update-or-create', [
-            'edit_mode'          => $this->model->id,
-            'breadcrumbs'        => [
+            'edit_mode' => $this->model->id,
+            'breadcrumbs' => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link'  => route('admin.notification-template.index'), 'label' => trans('general.page.index.title', ['model' => trans('notificationTemplate.model')])],
+                ['link' => route('admin.notification-template.index'), 'label' => trans('general.page.index.title', ['model' => trans('notificationTemplate.model')])],
                 ['label' => trans('general.page.create.title', ['model' => trans('notificationTemplate.model')])],
             ],
             'breadcrumbsActions' => [

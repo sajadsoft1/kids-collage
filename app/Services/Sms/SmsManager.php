@@ -181,16 +181,16 @@ class SmsManager
                     if ($driver instanceof DeliveryReportFetcher) {
                         $report    = $driver->fetchDeliveryReport((string) $record->provider_message_id);
                         $results[] = [
-                            'phone'               => $phone,
+                            'phone' => $phone,
                             'provider_message_id' => $record->provider_message_id,
-                            'status'              => $report['status'] ?? 'unknown',
+                            'status' => $report['status'] ?? 'unknown',
                         ];
                     }
                 } catch (Throwable $e) {
                     $results[] = [
-                        'phone'               => $phone,
+                        'phone' => $phone,
                         'provider_message_id' => $record->provider_message_id,
-                        'error'               => $e->getMessage(),
+                        'error' => $e->getMessage(),
                     ];
                 }
             }
@@ -249,13 +249,13 @@ class SmsManager
 
                 foreach ($phoneNumbers as $phoneNumber) {
                     $record = SmsModel::create([
-                        'driver'                   => $driverName,
-                        'template'                 => $this->templateText,
-                        'inputs'                   => $this->inputs,
-                        'phone'                    => $phoneNumber,
-                        'message'                  => $message,
+                        'driver' => $driverName,
+                        'template' => $this->templateText,
+                        'inputs' => $this->inputs,
+                        'phone' => $phoneNumber,
+                        'message' => $message,
                         'notification_template_id' => $this->notificationTemplateId,
-                        'status'                   => SmsSendStatusEnum::PENDING,
+                        'status' => SmsSendStatusEnum::PENDING,
                     ]);
 
                     $driver->send($phoneNumber, $message);

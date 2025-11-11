@@ -3,21 +3,21 @@
 declare(strict_types=1);
 
 return [
-    'model'         => 'Model',
-    'permissions'   => [
+    'model' => 'Model',
+    'permissions' => [
     ],
-    'exceptions'    => [
+    'exceptions' => [
     ],
-    'validations'   => [
+    'validations' => [
     ],
-    'enum'          => [
+    'enum' => [
         'type' => [
-            'normal'  => 'Normal',
+            'normal' => 'Normal',
             'special' => 'Special',
         ],
     ],
     'notifications' => [
     ],
-    'page'          => [
+    'page' => [
     ],
 ];

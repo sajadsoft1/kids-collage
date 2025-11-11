@@ -36,7 +36,7 @@ class FaqUpdateOrCreate extends Component
         $this->model     = $faq;
         $this->categories=Category::where('published', true)->where('type', CategoryTypeEnum::FAQ->value)->get()->map(function ($category) {
             return [
-                'id'    => $category->id,
+                'id' => $category->id,
                 'title' => $category->title,
             ];
         })->toArray();
@@ -58,12 +58,12 @@ class FaqUpdateOrCreate extends Component
     protected function rules(): array
     {
         return [
-            'title'        => 'required|string',
-            'description'  => 'required|string',
-            'published'    => 'required',
-            'favorite'     => 'required',
-            'ordering'     => 'required',
-            'category_id'  => 'required',
+            'title' => 'required|string',
+            'description' => 'required|string',
+            'published' => 'required',
+            'favorite' => 'required',
+            'ordering' => 'required',
+            'category_id' => 'required',
             'published_at' => 'required_if:published,false|nullable|date',
         ];
     }
@@ -98,10 +98,10 @@ class FaqUpdateOrCreate extends Component
     public function render(): View
     {
         return view('livewire.admin.pages.faq.faq-update-or-create', [
-            'edit_mode'          => $this->model->id,
-            'breadcrumbs'        => [
+            'edit_mode' => $this->model->id,
+            'breadcrumbs' => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link'  => route('admin.faq.index'), 'label' => trans('general.page.index.title', ['model' => trans('faq.model')])],
+                ['link' => route('admin.faq.index'), 'label' => trans('general.page.index.title', ['model' => trans('faq.model')])],
                 ['label' => trans('general.page.create.title', ['model' => trans('faq.model')])],
             ],
             'breadcrumbsActions' => [

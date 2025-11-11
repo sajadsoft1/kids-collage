@@ -40,10 +40,10 @@ class Banner extends Model implements HasMedia
     ];
 
     protected $casts = [
-        'published'    => BooleanEnum::class,
-        'size'         => BannerSizeEnum::class,
+        'published' => BooleanEnum::class,
+        'size' => BannerSizeEnum::class,
         'published_at' => 'date',
-        'languages'    => 'array',
+        'languages' => 'array',
     ];
 
     /** Model Configuration -------------------------------------------------------------------------- */

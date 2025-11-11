@@ -29,10 +29,10 @@ class ExamAttemptService
         }
 
         $attempt = ExamAttempt::create([
-            'exam_id'    => $exam->id,
-            'user_id'    => $user->id,
+            'exam_id' => $exam->id,
+            'user_id' => $user->id,
             'started_at' => now(),
-            'status'     => AttemptStatusEnum::IN_PROGRESS,
+            'status' => AttemptStatusEnum::IN_PROGRESS,
             'ip_address' => request()->ip(),
             'user_agent' => request()->userAgent(),
         ]);
@@ -104,12 +104,12 @@ class ExamAttemptService
     public function getProgress(ExamAttempt $attempt): array
     {
         return [
-            'total_questions'     => $attempt->getTotalQuestionsCount(),
-            'answered_questions'  => $attempt->getAnsweredQuestionsCount(),
+            'total_questions' => $attempt->getTotalQuestionsCount(),
+            'answered_questions' => $attempt->getAnsweredQuestionsCount(),
             'remaining_questions' => $attempt->getRemainingQuestionsCount(),
             'progress_percentage' => $attempt->getProgressPercentage(),
-            'remaining_time'      => $attempt->getRemainingTime(),
-            'elapsed_time'        => $attempt->getElapsedTime(),
+            'remaining_time' => $attempt->getRemainingTime(),
+            'elapsed_time' => $attempt->getElapsedTime(),
         ];
     }
 
@@ -130,10 +130,10 @@ class ExamAttemptService
         ?string $feedback = null
     ): \App\Models\UserAnswer {
         $answer->update([
-            'score'                => min($score, $answer->max_score),
-            'is_correct'           => $score >= $answer->max_score,
+            'score' => min($score, $answer->max_score),
+            'is_correct' => $score >= $answer->max_score,
             'is_partially_correct' => $score > 0 && $score < $answer->max_score,
-            'reviewed_at'          => now(),
+            'reviewed_at' => now(),
         ]);
 
         // به‌روزرسانی نمره کل attempt
@@ -145,7 +145,7 @@ class ExamAttemptService
 
         $attempt->update([
             'total_score' => $totalScore,
-            'percentage'  => $percentage,
+            'percentage' => $percentage,
         ]);
 
         return $answer->fresh();

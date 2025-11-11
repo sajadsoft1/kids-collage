@@ -30,9 +30,9 @@ class ExamCompleted implements ShouldBroadcast
     public function broadcastWith(): array
     {
         return [
-            'attempt_id'   => $this->attempt->id,
-            'total_score'  => $this->attempt->total_score,
-            'percentage'   => $this->attempt->percentage,
+            'attempt_id' => $this->attempt->id,
+            'total_score' => $this->attempt->total_score,
+            'percentage' => $this->attempt->percentage,
             'completed_at' => $this->attempt->completed_at,
         ];
     }

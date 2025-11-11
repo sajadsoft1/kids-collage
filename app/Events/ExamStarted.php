@@ -34,8 +34,8 @@ class ExamStarted implements ShouldBroadcast
     {
         return [
             'attempt_id' => $this->attempt->id,
-            'exam_id'    => $this->attempt->exam_id,
-            'user_id'    => $this->attempt->user_id,
+            'exam_id' => $this->attempt->exam_id,
+            'user_id' => $this->attempt->user_id,
             'started_at' => $this->attempt->started_at,
         ];
     }

@@ -14,9 +14,9 @@ enum ReligionEnum: string
     public function title()
     {
         return match ($this) {
-            self::ISLAM        => 'اسلام',
+            self::ISLAM => 'اسلام',
             self::CHRISTIANITY => 'مسیحیت',
-            self::OTHER        => 'دیگری'
+            self::OTHER => 'دیگری'
         };
     }
 

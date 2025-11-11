@@ -59,8 +59,8 @@ final class LicenseTable extends PowerGridComponent
     {
         return [
             [
-                'link'  => route('admin.license.create'),
-                'icon'  => 's-plus',
+                'link' => route('admin.license.create'),
+                'icon' => 's-plus',
                 'label' => trans(
                     'general.page.create.title',
                     ['model' => trans('license.model')]

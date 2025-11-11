@@ -3,26 +3,26 @@
 declare(strict_types=1);
 
 return [
-    'model'         => 'آزمون',
-    'permissions'   => [
+    'model' => 'آزمون',
+    'permissions' => [
     ],
-    'exceptions'    => [
+    'exceptions' => [
     ],
-    'validations'   => [
+    'validations' => [
     ],
-    'enum'          => [
+    'enum' => [
     ],
     'notifications' => [
     ],
-    'page'          => [
-        'builder'=>[
-            'group'=>[
-                'rules'=>[
-                    'and'=>'و (AND)',
-                    'or'=>'یا (OR)',
-                ]
+    'page' => [
+        'builder' => [
+            'group' => [
+                'rules' => [
+                    'and' => 'و (AND)',
+                    'or' => 'یا (OR)',
+                ],
             ],
-            'remove_group'=> 'حذف گروه'
-        ]
+            'remove_group' => 'حذف گروه',
+        ],
     ],
 ];
