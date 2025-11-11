@@ -11,7 +11,6 @@ use App\Traits\PowerGridHelperTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Support\Str;
-use Jenssegers\Agent\Agent;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Mary\Traits\Toast;
@@ -29,33 +28,9 @@ final class NotificationTable extends PowerGridComponent
     public string $tableName     = 'index_notification_datatable';
     public string $sortDirection = 'desc';
 
-    public function setUp(): array
+    public function boot(): void
     {
-        $setup = [
-            PowerGrid::header()
-                ->includeViewOnTop('components.admin.shared.bread-crumbs')
-                ->showSearchInput(),
-
-            PowerGrid::footer()
-                ->showPerPage()
-                ->showRecordCount(),
-        ];
-
-        if ((new Agent)->isMobile()) {
-            $setup[] = PowerGrid::responsive()
-                ->fixedColumns('id', 'title');
-        }
-
-        return $setup;
-    }
-
-    protected function queryString(): array
-    {
-        return [
-            'search' => ['except' => ''],
-            'page'   => ['except' => 1],
-            ...$this->powerGridQueryString(),
-        ];
+        $this->fixedColumns = ['id', 'title'];
     }
 
     #[Computed(persist: true)]

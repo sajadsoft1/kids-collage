@@ -15,7 +15,6 @@ use App\Traits\PowerGridHelperTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
-use Jenssegers\Agent\Agent;
 use Livewire\Attributes\Computed;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
@@ -35,35 +34,9 @@ final class CourseTable extends PowerGridComponent
     /** Livewire events for course lifecycle buttons */
     protected $listeners = ['course-publish' => 'publishCourse', 'course-finish' => 'finishCourse'];
 
-    public function setUp(): array
+    public function boot(): void
     {
-        $this->persist(['columns'], prefix: auth()->id ?? '');
-        $setup = [
-            PowerGrid::header()
-                ->includeViewOnTop('components.admin.shared.bread-crumbs')
-                ->showToggleColumns()
-                ->showSearchInput(),
-
-            PowerGrid::footer()
-                ->showPerPage()
-                ->showRecordCount(),
-        ];
-
-        if ((new Agent)->isMobile()) {
-            $setup[] = PowerGrid::responsive()
-                ->fixedColumns('id', 'title', 'teacher', 'actions');
-        }
-
-        return $setup;
-    }
-
-    protected function queryString(): array
-    {
-        return [
-            'search' => ['except' => ''],
-            'page'   => ['except' => 1],
-            ...$this->powerGridQueryString(),
-        ];
+        $this->fixedColumns = ['id', 'title', 'teacher', 'actions'];
     }
 
     #[Computed(persist: true)]
@@ -205,7 +178,7 @@ final class CourseTable extends PowerGridComponent
                 ->route('admin.course.edit', ['courseTemplate' => $this->courseTemplate->id, 'course' => $row->id], '_self')
                 ->navigate()
                 ->tooltip(trans('datatable.buttons.edit')),
-            
+
             PowerGridHelper::btnDelete($row),
         ];
     }

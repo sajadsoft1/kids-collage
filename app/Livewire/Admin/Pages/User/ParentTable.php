@@ -13,8 +13,6 @@ use App\Services\Permissions\PermissionsService;
 use App\Traits\PowerGridHelperTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
-use Jenssegers\Agent\Agent;
-use Livewire\Attributes\Computed;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
@@ -30,40 +28,17 @@ final class ParentTable extends PowerGridComponent
     public string $tableName     = 'parent-index-h9omkb-table';
     public string $sortDirection = 'desc';
 
-    public function setUp(): array
+    public function boot(): void
     {
-        $setup = [
-            PowerGrid::header()
-                ->showSearchInput()
-                ->includeViewOnBottom('livewire.admin.pages.user.partials.change-password-modal'),
-
-            PowerGrid::footer()
-                ->showPerPage()
-                ->showRecordCount(),
-        ];
-
-        if ((new Agent)->isMobile()) {
-            $setup[] = PowerGrid::responsive()->fixedColumns('id', 'name', 'actions');
-        }
-
-        return $setup;
+        $this->fixedColumns = ['id', 'name', 'actions'];
     }
 
-    #[Computed(persist: true)]
-    public function breadcrumbs(): array
+    protected function afterPowerGridSetUp(array &$setup): void
     {
-        return [
-            ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-            ['label' => trans('general.page.index.title', ['model' => trans('user.parent')])],
-        ];
-    }
-
-    #[Computed(persist: true)]
-    public function breadcrumbsActions(): array
-    {
-        return [
-            ['link' => route('admin.parent.create'), 'icon' => 's-plus', 'label' => trans('general.page.create.title', ['model' => trans('user.parent')])],
-        ];
+        $setup[0] = PowerGrid::header()
+            ->showToggleColumns()
+            ->showSearchInput()
+            ->includeViewOnBottom('livewire.admin.pages.user.partials.change-password-modal');
     }
 
     public function datasource(): Builder

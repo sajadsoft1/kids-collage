@@ -12,7 +12,6 @@ use App\Traits\HasModalForm;
 use App\Traits\PowerGridHelperTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\View\View;
-use Jenssegers\Agent\Agent;
 use Livewire\Attributes\Computed;
 use Mary\Traits\Toast;
 use PowerComponents\LivewirePowerGrid\Button;
@@ -29,24 +28,14 @@ final class QuestionSubjectTable extends PowerGridComponent
     public string $tableName     = 'index_questionSubject_datatable';
     public string $sortDirection = 'desc';
 
-    public function setUp(): array
+    public function boot(): void
     {
-        $setup = [
-            PowerGrid::header()
-                ->includeViewOnTop('components.admin.shared.bread-crumbs')
-                ->showSearchInput(),
+        $this->fixedColumns = ['id', 'title', 'actions'];
+    }
 
-            PowerGrid::footer()
-                ->showPerPage()
-                ->showRecordCount()
-                ->includeViewOnBottom('components.admin.shared.modal-form'),
-        ];
-
-        if ((new Agent)->isMobile()) {
-            $setup[] = PowerGrid::responsive()->fixedColumns('id', 'title', 'actions');
-        }
-
-        return $setup;
+    protected function afterPowerGridSetUp(array &$setup): void
+    {
+        $setup[1]->includeViewOnBottom('components.admin.shared.modal-form');
     }
 
     protected function modalFields(): array
@@ -58,7 +47,7 @@ final class QuestionSubjectTable extends PowerGridComponent
                 'label'       => trans('validation.attributes.title'),
                 'placeholder' => trans('validation.attributes.title'),
                 'required'    => true,
-                'rules'=>'required|min:3'
+                'rules'       => 'required|min:3',
             ],
             [
                 'name'        => 'description',

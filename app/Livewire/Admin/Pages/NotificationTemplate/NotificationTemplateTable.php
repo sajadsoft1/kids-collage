@@ -10,7 +10,6 @@ use App\Models\NotificationTemplate;
 use App\Traits\PowerGridHelperTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\View\View;
-use Jenssegers\Agent\Agent;
 use Livewire\Attributes\Computed;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
@@ -31,24 +30,9 @@ final class NotificationTemplateTable extends PowerGridComponent
     public string $tableName     = 'index_notificationTemplate_datatable';
     public string $sortDirection = 'desc';
 
-    /** Configure PowerGrid setup */
-    public function setUp(): array
+    public function boot(): void
     {
-        $setup = [
-            PowerGrid::header()
-                ->includeViewOnTop('components.admin.shared.bread-crumbs')
-                ->showSearchInput(),
-
-            PowerGrid::footer()
-                ->showPerPage()
-                ->showRecordCount(),
-        ];
-
-        if ((new Agent)->isMobile()) {
-            $setup[] = PowerGrid::responsive()->fixedColumns('id', 'name', 'actions');
-        }
-
-        return $setup;
+        $this->fixedColumns = ['id', 'name', 'actions'];
     }
 
     /** Breadcrumb navigation items */

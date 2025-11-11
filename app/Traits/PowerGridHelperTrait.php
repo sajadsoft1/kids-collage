@@ -5,10 +5,42 @@ declare(strict_types=1);
 namespace App\Traits;
 
 use App\Helpers\StringHelper;
+use Jenssegers\Agent\Agent;
 use Livewire\Attributes\On;
+use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 
 trait PowerGridHelperTrait
 {
+    public array $fixedColumns = ['title', 'actions'];
+
+    public function setUp(): array
+    {
+        $this->beforePowerGridSetUp();
+        // The persist feature saves the state of columns, sorting, and filters so they can be reused in the future when the Table is loaded again.
+        $this->persist(tableItems: ['columns'], prefix: auth()->id ?? '');
+        $setup = [
+            PowerGrid::header()
+                ->includeViewOnTop('components.admin.shared.bread-crumbs')
+                ->showToggleColumns()
+                ->showSearchInput(),
+
+            PowerGrid::footer()
+                ->showPerPage()
+                ->showRecordCount(),
+        ];
+
+        $this->afterPowerGridSetUp($setup);
+
+        if ((new Agent)->isMobile()) {
+            $setup[] = PowerGrid::responsive()->fixedColumns(...$this->fixedColumns);
+        }
+
+        return $setup;
+    }
+
+    protected function beforePowerGridSetUp(): void {}
+
+    protected function afterPowerGridSetUp(array &$setup): void {}
     //    public function rendering(): void
     //    {
     //        $this->js("
@@ -51,5 +83,19 @@ trait PowerGridHelperTrait
          Livewire.dispatch("force-delete", { rowId: ' . $rowId . ' });
          }
          })');
+    }
+
+    protected function queryString(): array
+    {
+        $paginationQueryString = $this->queryStringHandlesPagination();
+
+        $paginationQueryString['paginators.page'] ??= ['as' => 'page', 'history' => true, 'keep' => false];
+        $paginationQueryString['paginators.page']['except'] = 1;
+
+        return [
+            ...$paginationQueryString,
+            'search' => ['except' => ''],
+            ...$this->powerGridQueryString(),
+        ];
     }
 }

@@ -9,7 +9,6 @@ use App\Models\ContactUs;
 use App\Traits\PowerGridHelperTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\View\View;
-use Jenssegers\Agent\Agent;
 use Livewire\Attributes\Computed;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
@@ -23,34 +22,14 @@ final class ContactUsTable extends PowerGridComponent
     public string $tableName     = 'index_contact-us_datatable';
     public string $sortDirection = 'desc';
 
-    public function setUp(): array
+    public function boot(): void
     {
-        $this->persist(['columns'], prefix: auth()->id ?? '');
-        $setup = [
-            PowerGrid::header()
-                ->includeViewOnTop('components.admin.shared.bread-crumbs')
-                ->showToggleColumns()
-                ->showSearchInput(),
-
-            PowerGrid::footer()
-                ->showPerPage()
-                ->showRecordCount(),
-        ];
-
-        if ((new Agent)->isMobile()) {
-            $setup[] = PowerGrid::responsive()->fixedColumns('id', 'actions');
-        }
-
-        return $setup;
+        $this->fixedColumns = ['id', 'actions'];
     }
 
-    protected function queryString(): array
+    protected function afterPowerGridSetUp(array &$setup): void
     {
-        return [
-            'search' => ['except' => ''],
-            'page'   => ['except' => 1],
-            ...$this->powerGridQueryString(),
-        ];
+        $setup[0]->showToggleColumns();
     }
 
     #[Computed(persist: true)]

@@ -11,7 +11,6 @@ use App\Services\QuestionService;
 use App\Traits\PowerGridHelperTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\View\View;
-use Jenssegers\Agent\Agent;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use PowerComponents\LivewirePowerGrid\Column;
@@ -26,23 +25,9 @@ final class QuestionTable extends PowerGridComponent
     public string $tableName     = 'index_question_datatable';
     public string $sortDirection = 'desc';
 
-    public function setUp(): array
+    public function boot(): void
     {
-        $setup = [
-            PowerGrid::header()
-                ->includeViewOnTop('components.admin.shared.bread-crumbs')
-                ->showSearchInput(),
-
-            PowerGrid::footer()
-                ->showPerPage()
-                ->showRecordCount(),
-        ];
-
-        if ((new Agent)->isMobile()) {
-            $setup[] = PowerGrid::responsive()->fixedColumns('id', 'title', 'actions');
-        }
-
-        return $setup;
+        $this->fixedColumns = ['id', 'title', 'actions'];
     }
 
     #[Computed(persist: true)]

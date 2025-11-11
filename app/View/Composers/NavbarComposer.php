@@ -246,6 +246,7 @@ class NavbarComposer
             [
                 'icon'     => 'o-document-text',
                 'title'    => trans('_menu.exam_management'),
+                'access'   => config('app.env') === 'local',
                 'sub_menu' => [
                     [
                         'icon'       => 'o-document-text',
