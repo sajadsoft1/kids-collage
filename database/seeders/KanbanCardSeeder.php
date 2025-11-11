@@ -27,9 +27,9 @@ class KanbanCardSeeder extends Seeder
         $this->command->info('🎯 Creating Kanban cards...');
 
         // Get boards and users
-        $projectBoard   = Board::where('name', 'Project Management')->first();
+        $projectBoard = Board::where('name', 'Project Management')->first();
         $marketingBoard = Board::where('name', 'Marketing Campaign')->first();
-        $developer      = User::where('email', 'developer@gmail.com')->first();
+        $developer = User::where('email', 'developer@gmail.com')->first();
 
         if ( ! $projectBoard || ! $marketingBoard || ! $developer) {
             $this->command->error('Required boards or users not found. Please run previous seeders first.');
@@ -43,7 +43,7 @@ class KanbanCardSeeder extends Seeder
         // Create cards for Marketing Campaign board
         $this->createMarketingCards($marketingBoard, $developer);
 
-        $projectCardCount   = $projectBoard->cards()->count();
+        $projectCardCount = $projectBoard->cards()->count();
         $marketingCardCount = $marketingBoard->cards()->count();
 
         $this->command->info("✅ Created cards for Project Management board ({$projectCardCount} cards)");

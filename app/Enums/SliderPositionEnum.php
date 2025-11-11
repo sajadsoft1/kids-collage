@@ -8,7 +8,7 @@ enum SliderPositionEnum: string
 {
     use EnumToArray;
 
-    case TOP    = 'top';
+    case TOP = 'top';
     case MIDDLE = 'middle';
     case BOTTOM = 'bottom';
 

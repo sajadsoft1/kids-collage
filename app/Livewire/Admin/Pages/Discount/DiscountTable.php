@@ -22,7 +22,7 @@ final class DiscountTable extends PowerGridComponent
 {
     use PowerGridHelperTrait;
 
-    public string $tableName     = 'index_discount_datatable';
+    public string $tableName = 'index_discount_datatable';
     public string $sortDirection = 'desc';
 
     public function boot(): void

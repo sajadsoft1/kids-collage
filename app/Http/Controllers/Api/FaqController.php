@@ -174,9 +174,9 @@ class FaqController extends Controller
      */
     public function data(): JsonResponse
     {
-        $banners      = Banner::latestBanner();
-        $categories   =Category::faqCategories();
-        $tags         =Tag::faqTags();
+        $banners = Banner::latestBanner();
+        $categories = Category::faqCategories();
+        $tags = Tag::faqTags();
 
         return Response::data(
             [

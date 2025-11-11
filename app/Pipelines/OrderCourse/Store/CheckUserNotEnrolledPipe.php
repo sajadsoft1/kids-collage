@@ -18,7 +18,7 @@ class CheckUserNotEnrolledPipe implements OrderCourseInterface
             return $next($dto);
         }
 
-        $user  = $dto->getUser();
+        $user = $dto->getUser();
         $items = $dto->getItems();
 
         // Check each course item

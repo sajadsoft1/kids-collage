@@ -19,9 +19,9 @@ class ShortAnswer extends Component
 
     public function mount(Question $question, string $value = '', bool $disabled = false, bool $showCorrect = false): void
     {
-        $this->question    = $question;
-        $this->value       = $value;
-        $this->disabled    = $disabled;
+        $this->question = $question;
+        $this->value = $value;
+        $this->disabled = $disabled;
         $this->showCorrect = $showCorrect;
     }
 

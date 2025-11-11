@@ -14,8 +14,8 @@ class CourseSeeder extends Seeder
     /** Run the database seeds. */
     public function run(): void
     {
-        $data     = require database_path('seeders/data/karno_lms.php');
-        $row      = $data['course_template'][0];
+        $data = require database_path('seeders/data/karno_lms.php');
+        $row = $data['course_template'][0];
         $template = StoreCourseTemplateAction::run([
             'slug' => StringHelper::slug($row['title']),
             'title' => $row['title'],

@@ -1111,7 +1111,7 @@ class NavbarComposer
 
             // Numeric keys with associative array definition
             if (is_array($value)) {
-                $model   = $value['model'] ?? null;
+                $model = $value['model'] ?? null;
                 $actions = $value['actions'] ?? ($value['action'] ?? null);
 
                 if (is_string($model) && class_exists($model) && $actions !== null) {

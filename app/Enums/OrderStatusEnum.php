@@ -8,10 +8,10 @@ enum OrderStatusEnum: string
 {
     use EnumToArray;
 
-    case PENDING    = 'pending';
+    case PENDING = 'pending';
     case PROCESSING = 'processing';
-    case COMPLETED  = 'completed';
-    case CANCELLED  = 'cancelled';
+    case COMPLETED = 'completed';
+    case CANCELLED = 'cancelled';
 
     public static function courseOptions(): array
     {

@@ -21,7 +21,7 @@ final class PortFolioTable extends PowerGridComponent
 {
     use PowerGridHelperTrait;
 
-    public string $tableName     = 'index_portFolio_datatable';
+    public string $tableName = 'index_portFolio_datatable';
     public string $sortDirection = 'desc';
 
     public function boot(): void

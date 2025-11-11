@@ -8,7 +8,7 @@ enum YesNoEnum: int
 {
     use EnumToArray;
     case YES = 1;
-    case NO  = 0;
+    case NO = 0;
 
     public static function options(): array
     {

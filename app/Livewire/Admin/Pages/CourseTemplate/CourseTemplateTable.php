@@ -22,7 +22,7 @@ use PowerComponents\LivewirePowerGrid\PowerGridFields;
 final class CourseTemplateTable extends PowerGridComponent
 {
     use PowerGridHelperTrait;
-    public string $tableName     = 'index_courseTemplate_datatable';
+    public string $tableName = 'index_courseTemplate_datatable';
     public string $sortDirection = 'desc';
 
     public function boot(): void

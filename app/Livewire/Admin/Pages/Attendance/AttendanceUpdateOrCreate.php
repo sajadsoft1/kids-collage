@@ -21,10 +21,10 @@ class AttendanceUpdateOrCreate extends Component
 
     public Attendance $model;
     public int $enrollment_id = 0;
-    public int $session_id    = 0;
-    public bool $present      = false;
-    public $arrival_time      = '';
-    public $leave_time        = '';
+    public int $session_id = 0;
+    public bool $present = false;
+    public $arrival_time = '';
+    public $leave_time = '';
 
     public function mount(Attendance $attendance): void
     {
@@ -32,10 +32,10 @@ class AttendanceUpdateOrCreate extends Component
 
         if ($this->model->id) {
             $this->enrollment_id = $this->model->enrollment_id;
-            $this->session_id    = $this->model->session_id;
-            $this->present       = $this->model->present;
-            $this->arrival_time  = $this->model->arrival_time?->format('Y-m-d\TH:i');
-            $this->leave_time    = $this->model->leave_time?->format('Y-m-d\TH:i');
+            $this->session_id = $this->model->session_id;
+            $this->present = $this->model->present;
+            $this->arrival_time = $this->model->arrival_time?->format('Y-m-d\TH:i');
+            $this->leave_time = $this->model->leave_time?->format('Y-m-d\TH:i');
         }
     }
 

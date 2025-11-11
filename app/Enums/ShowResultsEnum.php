@@ -8,10 +8,10 @@ enum ShowResultsEnum: string
 {
     use EnumToArray;
 
-    case IMMEDIATE    = 'immediate';
+    case IMMEDIATE = 'immediate';
     case AFTER_SUBMIT = 'after_submit';
-    case MANUAL       = 'manual';
-    case NEVER        = 'never';
+    case MANUAL = 'manual';
+    case NEVER = 'never';
 
     public function title(): string
     {

@@ -42,7 +42,7 @@ class NotificationListWidget extends Component
             $this->user = $authUser;
         }
 
-        $this->limit     = $limit;
+        $this->limit = $limit;
         $this->show_read = $show_read;
     }
 

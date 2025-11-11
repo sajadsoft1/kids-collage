@@ -24,18 +24,18 @@ class CourseRuner extends Component
     use Toast;
 
     public CourseTemplate $courseTemplate;
-    public int $runningStep   = 1;
-    public int $capacity      = 10;
-    public int $price         = 100000;
-    public string $status     = CourseStatusEnum::DRAFT->value;
-    public int $term          = 0;
-    public int $teacher       = 0;
-    public int $room          = 0;
+    public int $runningStep = 1;
+    public int $capacity = 10;
+    public int $price = 100000;
+    public string $status = CourseStatusEnum::DRAFT->value;
+    public int $term = 0;
+    public int $teacher = 0;
+    public int $room = 0;
     public string $start_date = '';
-    public string $end_date   = '';
+    public string $end_date = '';
     public string $start_time = '16:00';
-    public array $week_days   = [];
-    public array $dayNames    = [
+    public array $week_days = [];
+    public array $dayNames = [
         '1' => 'شنبه',
         '2' => 'یکشنبه',
         '3' => 'دوشنبه',
@@ -49,7 +49,7 @@ class CourseRuner extends Component
     public function mount(CourseTemplate $courseTemplate): void
     {
         $this->courseTemplate = $courseTemplate;
-        $this->sessions       = $courseTemplate->sessionTemplates()->orderBy('order')->get()->map(fn ($session) => [
+        $this->sessions = $courseTemplate->sessionTemplates()->orderBy('order')->get()->map(fn ($session) => [
             'id' => $session->id,
             'course_template_id' => $session->course_template_id,
             'order' => $session->order,
@@ -112,14 +112,14 @@ class CourseRuner extends Component
 
     public function updatedTerm($value): void
     {
-        $term             = Term::find($value);
+        $term = Term::find($value);
         $this->start_date = $term->start_date->format('Y-m-d');
-        $this->end_date   = $term->end_date->format('Y-m-d');
+        $this->end_date = $term->end_date->format('Y-m-d');
     }
 
     public function updatedRoom($value): void
     {
-        $this->room     = $value;
+        $this->room = $value;
         $this->sessions = collect($this->sessions)->map(function ($session) use ($value) {
             $session['room_id'] = $value;
 
@@ -157,7 +157,7 @@ class CourseRuner extends Component
     {
         try {
             $startDate = Carbon::createFromFormat('Y-m-d', $start_date);
-            $endDate   = Carbon::createFromFormat('Y-m-d', $end_date);
+            $endDate = Carbon::createFromFormat('Y-m-d', $end_date);
 
             // Validate date range
             if ($startDate->gt($endDate)) {
@@ -165,7 +165,7 @@ class CourseRuner extends Component
             }
 
             $generatedDates = [];
-            $currentDate    = $startDate->copy();
+            $currentDate = $startDate->copy();
 
             // Generate dates for each week day in the range
             while ($currentDate->lte($endDate)) {
@@ -195,7 +195,7 @@ class CourseRuner extends Component
 
             // Get the required number of sessions from course template
             $sessionCount = count($this->sessions);
-            $dateCount    = count($generatedDates);
+            $dateCount = count($generatedDates);
             if ($dateCount < $sessionCount) {
                 return "تعداد جلسات ({$sessionCount}) بیشتر از تعداد تاریخ‌های موجود ({$dateCount}) است";
             }
@@ -204,9 +204,9 @@ class CourseRuner extends Component
             $limitedDates = array_slice($generatedDates, 0, $sessionCount);
             // Update sessions with generated dates
             $this->sessions = collect($this->sessions)->map(function ($session, $index) use ($limitedDates) {
-                $session['date']       = $limitedDates[$index]['date'];
+                $session['date'] = $limitedDates[$index]['date'];
                 $session['start_time'] = $limitedDates[$index]['start_time'];
-                $session['end_time']   = $limitedDates[$index]['end_time'];
+                $session['end_time'] = $limitedDates[$index]['end_time'];
 
                 return $session;
             })->toArray();

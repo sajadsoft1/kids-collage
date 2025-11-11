@@ -21,12 +21,12 @@ class CategoryUpdateOrCreate extends Component
     use CrudHelperTrait, Toast, WithFileUploads;
 
     public Category $model;
-    public ?string $title       = '';
+    public ?string $title = '';
     public ?string $description = '';
-    public bool $published      = false;
-    public ?string $body        = '';
+    public bool $published = false;
+    public ?string $body = '';
     #[Url]
-    public ?string $type        = CategoryTypeEnum::BLOG->value;
+    public ?string $type = CategoryTypeEnum::BLOG->value;
     public $image;
     public ?int $parent_id = null;
 
@@ -35,12 +35,12 @@ class CategoryUpdateOrCreate extends Component
         $this->model = $category;
 
         if ($this->model->id) {
-            $this->title       = $this->model->title;
+            $this->title = $this->model->title;
             $this->description = $this->model->description;
-            $this->body        = $this->model->body;
-            $this->type        = $this->model->type->value;
-            $this->published   = (bool) $this->model->published->value;
-            $this->parent_id   = $this->model->parent_id;
+            $this->body = $this->model->body;
+            $this->type = $this->model->type->value;
+            $this->published = (bool) $this->model->published->value;
+            $this->parent_id = $this->model->parent_id;
         }
     }
 

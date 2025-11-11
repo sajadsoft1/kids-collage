@@ -58,7 +58,7 @@ class PowerGridHelper
     }
 
     /** Public Powergrid Buttons -------------------------------------------------------------------------- */
-    public static function btnShow(mixed $row, ?string $param=null): Button
+    public static function btnShow(mixed $row, ?string $param = null): Button
     {
         $param = $param ?: Str::kebab(StringHelper::basename($row::class));
 
@@ -71,7 +71,7 @@ class PowerGridHelper
             ->tooltip(trans('datatable.buttons.show'));
     }
 
-    public static function btnEdit(mixed $row, ?string $param=null): Button
+    public static function btnEdit(mixed $row, ?string $param = null): Button
     {
         $param = $param ?: Str::kebab(StringHelper::basename($row::class));
 
@@ -148,7 +148,7 @@ class PowerGridHelper
             ->tooltip('تغییر رمز عبور');
     }
 
-    public static function btnDelete(mixed $row, ?string $param=null): Button
+    public static function btnDelete(mixed $row, ?string $param = null): Button
     {
         $param = $param ?: Str::kebab(StringHelper::basename($row::class));
 
@@ -201,7 +201,7 @@ class PowerGridHelper
         return $row->created_at;
     }
 
-    public static function fieldDateFormated($row, string $field='created_at'): string
+    public static function fieldDateFormated($row, string $field = 'created_at'): string
     {
         return jdate($row->{$field})->format('%A, %d %B %Y');
     }

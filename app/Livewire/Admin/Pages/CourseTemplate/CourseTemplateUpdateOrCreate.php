@@ -28,25 +28,25 @@ class CourseTemplateUpdateOrCreate extends Component
     use CrudHelperTrait , Toast, WithFileUploads;
 
     public CourseTemplate $model;
-    public string $selectedTab       = 'informations-tab';
-    public string $title             = '';
-    public string $description       = '';
-    public string $body              = '';
-    public string $type              = CourseTypeEnum::IN_PERSON->value;
-    public string $level             = CourseLevelEnum::BIGGINER->value;
-    public array $categories         = [];
-    public array $tags               = [];
-    public int $category_id          = 0;
-    public bool $is_self_paced       = false;
-    public array $prerequisitesList  = [];
-    public array $prerequisites      = [];
-    public int $sessions_count       = 2;
+    public string $selectedTab = 'informations-tab';
+    public string $title = '';
+    public string $description = '';
+    public string $body = '';
+    public string $type = CourseTypeEnum::IN_PERSON->value;
+    public string $level = CourseLevelEnum::BIGGINER->value;
+    public array $categories = [];
+    public array $tags = [];
+    public int $category_id = 0;
+    public bool $is_self_paced = false;
+    public array $prerequisitesList = [];
+    public array $prerequisites = [];
+    public int $sessions_count = 2;
     public $image;
-    public array $sessions          = [];
+    public array $sessions = [];
 
     public function mount(CourseTemplate $courseTemplate): void
     {
-        $this->model      = $courseTemplate;
+        $this->model = $courseTemplate;
         $this->categories = Category::where('type', CategoryTypeEnum::COURSE)
             ->where('published', BooleanEnum::ENABLE)
             ->get()
@@ -57,16 +57,16 @@ class CourseTemplateUpdateOrCreate extends Component
         if ($this->model->id) {
             $this->sessions_count = $this->model->sessionTemplates()->count() ?: 1;
 
-            $this->title         = $this->model->title;
-            $this->description   = $this->model->description;
-            $this->body          = $this->model->body;
-            $this->type          = $this->model->type->value;
-            $this->level         = $this->model->level->value;
+            $this->title = $this->model->title;
+            $this->description = $this->model->description;
+            $this->body = $this->model->body;
+            $this->type = $this->model->type->value;
+            $this->level = $this->model->level->value;
             $this->prerequisites = $this->model->prerequisites;
             $this->is_self_paced = $this->model->is_self_paced;
-            $this->category_id   = $this->model->category_id;
-            $this->tags          = $this->model->tags()->pluck('name')->toArray();
-            $this->sessions      = $this->model->sessionTemplates->map(fn ($item) => [
+            $this->category_id = $this->model->category_id;
+            $this->tags = $this->model->tags()->pluck('name')->toArray();
+            $this->sessions = $this->model->sessionTemplates->map(fn ($item) => [
                 'order' => $item->order,
                 'title' => $item->title,
                 'description' => $item->description,

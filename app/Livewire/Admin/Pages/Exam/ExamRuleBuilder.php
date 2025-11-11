@@ -29,8 +29,8 @@ class ExamRuleBuilder extends Component
         'user_type' => [
             'equals' => 'برابر با',
             'not_equals' => 'مخالف با',
-            'in' => 'یکی از',
-            'not_in' => 'هیچکدام از',
+            // 'in' => 'یکی از',
+            // 'not_in' => 'هیچکدام از',
         ],
         'enrollment_date' => [
             'before' => 'قبل از',
@@ -43,8 +43,8 @@ class ExamRuleBuilder extends Component
         'enrolled_in_course' => [
             'equals' => 'برابر با',
             'not_equals' => 'مخالف با',
-            'in' => 'یکی از',
-            'not_in' => 'هیچکدام از',
+            // 'in' => 'یکی از',
+            // 'not_in' => 'هیچکدام از',
             'is_null' => 'ثبت نام نشده',
         ],
         'has_role_in_course' => [
@@ -54,8 +54,8 @@ class ExamRuleBuilder extends Component
         'term_id' => [
             'equals' => 'برابر با',
             'not_equals' => 'مخالف با',
-            'in' => 'یکی از',
-            'not_in' => 'هیچکدام از',
+            // 'in' => 'یکی از',
+            // 'not_in' => 'هیچکدام از',
             'is_null' => 'تعریف نشده',
         ],
         'created_at' => [
@@ -139,21 +139,18 @@ class ExamRuleBuilder extends Component
 
     public function getOperatorsForField(string $field): array
     {
-        return $this->availableOperators[$field] ?? [];
+        return collect($this->availableOperators[$field] ?? [])->map(fn ($label, $key) => [
+            'value' => $key,
+            'label' => $label,
+        ])->toArray();
     }
 
     public function getFieldOptions(): array
     {
-        $options = [];
-
-        foreach ($this->availableFields as $value => $label) {
-            $options[] = [
-                'value' => $value,
-                'label' => $label,
-            ];
-        }
-
-        return $options;
+        return collect($this->availableFields)->map(fn ($label, $key) => [
+            'value' => $key,
+            'label' => $label,
+        ])->toArray();
     }
 
     public function getCourses(): array
@@ -161,18 +158,23 @@ class ExamRuleBuilder extends Component
         return Course::with('term')
             ->get()
             ->map(fn ($course) => [
-                'id' => $course->id,
-                'name' => $course->title . ' (' . ($course->term->title ?? 'بدون ترم') . ')',
+                'value' => $course->id,
+                'label' => $course->title . ' (' . ($course->term->title ?? 'بدون ترم') . ')',
             ])
             ->toArray();
+    }
+
+    public function getRoles(): array
+    {
+        return UserTypeEnum::options();
     }
 
     public function getTerms(): array
     {
         return Term::all()
             ->map(fn ($term) => [
-                'id' => $term->id,
-                'name' => $term->title,
+                'value' => $term->id,
+                'label' => $term->title,
             ])
             ->toArray();
     }

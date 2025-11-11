@@ -9,10 +9,10 @@ use Illuminate\Support\Str;
 
 class BasePermissions
 {
-    protected string $model       = '';
+    protected string $model = '';
     protected ?string $groupTitle = null;
 
-    protected array $permissions       = [
+    protected array $permissions = [
         'All',
         'Index',
         'Show',

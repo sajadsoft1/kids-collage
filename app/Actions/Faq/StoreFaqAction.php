@@ -34,7 +34,7 @@ class StoreFaqAction
     public function handle(array $payload): Faq
     {
         return DB::transaction(function () use ($payload) {
-            $model =  Faq::create(Arr::except($payload, ['title', 'description']));
+            $model = Faq::create(Arr::except($payload, ['title', 'description']));
             $this->syncTranslationAction->handle($model, Arr::only($payload, ['title', 'description']));
 
             return $model->refresh();

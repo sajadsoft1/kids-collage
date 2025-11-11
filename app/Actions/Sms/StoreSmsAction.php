@@ -29,7 +29,7 @@ class StoreSmsAction
     public function handle(array $payload): Sms
     {
         return DB::transaction(function () use ($payload) {
-            $model =  Sms::create($payload);
+            $model = Sms::create($payload);
             $this->syncTranslationAction->handle($model, Arr::only($payload, ['title', 'description']));
 
             return $model->refresh();

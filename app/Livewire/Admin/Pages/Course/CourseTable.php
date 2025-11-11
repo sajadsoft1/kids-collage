@@ -28,7 +28,7 @@ final class CourseTable extends PowerGridComponent
     use PowerGridHelperTrait;
     public CourseTemplate $courseTemplate;
 
-    public string $tableName     = 'index_course_datatable';
+    public string $tableName = 'index_course_datatable';
     public string $sortDirection = 'desc';
 
     /** Livewire events for course lifecycle buttons */

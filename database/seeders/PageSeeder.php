@@ -14,7 +14,7 @@ class PageSeeder extends Seeder
     {
         $data = require database_path('seeders/data/karno.php');
         foreach ($data['about_us'] as $row) {
-            $page=StorePageAction::run([
+            $page = StorePageAction::run([
                 'slug' => $row['slug'],
                 'title' => $row['title'],
                 'body' => $row['body'],
@@ -32,7 +32,7 @@ class PageSeeder extends Seeder
                 ->toMediaCollection('image');
         }
         foreach ($data['rules'] as $row) {
-            $page=StorePageAction::run([
+            $page = StorePageAction::run([
                 'slug' => $row['slug'],
                 'title' => $row['title'],
                 'body' => $row['body'],

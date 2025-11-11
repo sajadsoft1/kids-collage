@@ -20,7 +20,7 @@ class CheckPaymentsTotalPipe implements OrderCourseInterface
         );
 
         $paymentsTotal = $dto->getPayments()->where('status', '!=', PaymentStatusEnum::FAILED->value)->sum('amount');
-        $totalAmount   = $dto->getTotalAmount();
+        $totalAmount = $dto->getTotalAmount();
 
         abort_if(
             abs($paymentsTotal - $totalAmount) > 0.01,

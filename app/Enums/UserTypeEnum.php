@@ -7,28 +7,28 @@ namespace App\Enums;
 enum UserTypeEnum: string
 {
     use EnumToArray;
-    case TEACHER   = 'teacher';
-    case EMPLOYEE  = 'employee';
-    case PARENT    ='parent';
-    case USER      = 'user';
+    case TEACHER = 'teacher';
+    case EMPLOYEE = 'employee';
+    case PARENT = 'parent';
+    case USER = 'user';
 
     public static function options(): array
     {
         return [
             [
-                'label' => trans('user.type_enums.teacher'),
+                'label' => self::TEACHER->title(),
                 'value' => self::TEACHER->value,
             ],
             [
-                'label' => trans('user.type_enums.employee'),
+                'label' => self::EMPLOYEE->title(),
                 'value' => self::EMPLOYEE->value,
             ],
             [
-                'label' => trans('user.type_enums.parent'),
+                'label' => self::PARENT->title(),
                 'value' => self::PARENT->value,
             ],
             [
-                'label' => trans('user.type_enums.user'),
+                'label' => self::USER->title(),
                 'value' => self::USER->value,
             ],
         ];
@@ -38,11 +38,11 @@ enum UserTypeEnum: string
     {
         return [
             [
-                'label' => trans('user.type_enums.employee'),
+                'label' => self::EMPLOYEE->title(),
                 'value' => self::EMPLOYEE->value,
             ],
             [
-                'label' => trans('user.type_enums.teacher'),
+                'label' => self::TEACHER->title(),
                 'value' => self::TEACHER->value,
             ],
         ];

@@ -21,33 +21,33 @@ class PortFolioUpdateOrCreate extends Component
     use CrudHelperTrait, Toast, WithFileUploads;
 
     public PortFolio $model;
-    public ?string $title       = '';
+    public ?string $title = '';
     public ?string $description = '';
-    public ?string $body        = '';
+    public ?string $body = '';
 
-    public bool $published         = false;
-    public ?string $published_at   = '';
-    public int $category_id        = 1;
-    public ?int $creator_id        = 1;
-    public array $categories       = [];
+    public bool $published = false;
+    public ?string $published_at = '';
+    public int $category_id = 1;
+    public ?int $creator_id = 1;
+    public array $categories = [];
     public ?string $execution_date = '';
     public $image;
 
     public function mount(PortFolio $portFolio): void
     {
-        $this->model      = $portFolio;
+        $this->model = $portFolio;
         $this->categories = Category::where('type', CategoryTypeEnum::PORTFOLIO->value)->get()->map(fn ($item) => ['name' => $item->title, 'id' => $item->id])->toArray();
 
         if ($this->model->id) {
-            $this->title       = $this->model->title;
+            $this->title = $this->model->title;
             $this->description = $this->model->description;
-            $this->body        = $this->model->body;
+            $this->body = $this->model->body;
 
             $this->category_id = $this->model->category_id;
-            $this->creator_id  = $this->model->creator_id;
+            $this->creator_id = $this->model->creator_id;
 
-            $this->published      = (bool) $this->model->published->value;
-            $this->published_at   = $this->setPublishedAt($this->model->published_at);
+            $this->published = (bool) $this->model->published->value;
+            $this->published_at = $this->setPublishedAt($this->model->published_at);
             $this->execution_date = $this->setPublishedAt($this->model->execution_date);
         } else {
             // For new portfolios, ensure published is properly initialized

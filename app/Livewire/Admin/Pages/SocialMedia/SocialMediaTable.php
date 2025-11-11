@@ -20,7 +20,7 @@ use PowerComponents\LivewirePowerGrid\PowerGridFields;
 final class SocialMediaTable extends PowerGridComponent
 {
     use PowerGridHelperTrait;
-    public string $tableName     = 'index_socialMedia_datatable';
+    public string $tableName = 'index_socialMedia_datatable';
     public string $sortDirection = 'desc';
 
     public function boot(): void

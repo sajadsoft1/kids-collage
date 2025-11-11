@@ -22,36 +22,36 @@ class DiscountUpdateOrCreate extends Component
     use Toast;
 
     public Discount $model;
-    public string $code                  = '';
-    public string $type                  = DiscountTypeEnum::PERCENTAGE->value;
-    public float $value                  = 0;
-    public ?int $user_id                 = null;
-    public float $min_order_amount       = 0;
-    public ?float $max_discount_amount   = null;
-    public ?int $usage_limit             = null;
-    public int $usage_per_user           = 1;
-    public ?string $starts_at            = null;
-    public ?string $expires_at           = null;
-    public bool $is_active               = true;
-    public string $description           = '';
+    public string $code = '';
+    public string $type = DiscountTypeEnum::PERCENTAGE->value;
+    public float $value = 0;
+    public ?int $user_id = null;
+    public float $min_order_amount = 0;
+    public ?float $max_discount_amount = null;
+    public ?int $usage_limit = null;
+    public int $usage_per_user = 1;
+    public ?string $starts_at = null;
+    public ?string $expires_at = null;
+    public bool $is_active = true;
+    public string $description = '';
 
     public function mount(Discount $discount): void
     {
         $this->model = $discount;
         if ($this->model->id) {
-            $this->code                = $this->model->code;
-            $type                      = $this->model->type;
-            $this->type                = $type instanceof DiscountTypeEnum ? $type->value : $type;
-            $this->value               = $this->model->value;
-            $this->user_id             = $this->model->user_id;
-            $this->min_order_amount    = $this->model->min_order_amount;
+            $this->code = $this->model->code;
+            $type = $this->model->type;
+            $this->type = $type instanceof DiscountTypeEnum ? $type->value : $type;
+            $this->value = $this->model->value;
+            $this->user_id = $this->model->user_id;
+            $this->min_order_amount = $this->model->min_order_amount;
             $this->max_discount_amount = $this->model->max_discount_amount;
-            $this->usage_limit         = $this->model->usage_limit;
-            $this->usage_per_user      = $this->model->usage_per_user;
-            $this->starts_at           = $this->model->starts_at?->format('Y-m-d\TH:i');
-            $this->expires_at          = $this->model->expires_at?->format('Y-m-d\TH:i');
-            $this->is_active           = (bool) $this->model->is_active->value;
-            $this->description         = $this->model->description ?? '';
+            $this->usage_limit = $this->model->usage_limit;
+            $this->usage_per_user = $this->model->usage_per_user;
+            $this->starts_at = $this->model->starts_at?->format('Y-m-d\TH:i');
+            $this->expires_at = $this->model->expires_at?->format('Y-m-d\TH:i');
+            $this->is_active = (bool) $this->model->is_active->value;
+            $this->description = $this->model->description ?? '';
         }
     }
 

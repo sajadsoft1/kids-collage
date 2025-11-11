@@ -16,17 +16,17 @@ class QuestionOptionUpdateOrCreate extends Component
     use Toast;
 
     public QuestionOption $model;
-    public string $title       = '';
+    public string $title = '';
     public string $description = '';
-    public bool $published     = false;
+    public bool $published = false;
 
     public function mount(QuestionOption $questionOption): void
     {
         $this->model = $questionOption;
         if ($this->model->id) {
-            $this->title       = $this->model->title;
+            $this->title = $this->model->title;
             $this->description = $this->model->description;
-            $this->published   = $this->model->published->value;
+            $this->published = $this->model->published->value;
         }
     }
 

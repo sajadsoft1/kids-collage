@@ -8,7 +8,7 @@ enum OrderTypeEnum: string
 {
     use EnumToArray;
 
-    case COURSE      = 'course';
+    case COURSE = 'course';
 
     public function title(): string
     {

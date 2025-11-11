@@ -26,7 +26,7 @@ class ErrorHelper
         }
 
         // Ensure the first error exists and has a value
-        $firstError   = reset($flattenedErrors);
+        $firstError = reset($flattenedErrors);
         $errorMessage = $message ?? ($firstError ?? 'Validation failed.');
 
         throw new HttpResponseException(response()->json([

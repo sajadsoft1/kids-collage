@@ -22,7 +22,7 @@ use PowerComponents\LivewirePowerGrid\PowerGridFields;
 final class QuestionTable extends PowerGridComponent
 {
     use PowerGridHelperTrait;
-    public string $tableName     = 'index_question_datatable';
+    public string $tableName = 'index_question_datatable';
     public string $sortDirection = 'desc';
 
     public function boot(): void
@@ -113,7 +113,7 @@ final class QuestionTable extends PowerGridComponent
     #[On('force-delete')]
     public function forceDelete($rowId): void
     {
-        $question   = Question::findOrFail($rowId);
+        $question = Question::findOrFail($rowId);
         $this->authorize('delete', $question);
 
         $this->dispatch('question-deleted');

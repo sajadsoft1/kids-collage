@@ -32,7 +32,7 @@ class StoreTermAction
     public function handle(array $payload): Term
     {
         return DB::transaction(function () use ($payload) {
-            $model =  Term::create(Arr::only($payload, ['start_date', 'end_date', 'status']));
+            $model = Term::create(Arr::only($payload, ['start_date', 'end_date', 'status']));
             $this->syncTranslationAction->handle($model, Arr::only($payload, ['title', 'description']));
 
             return $model->refresh();

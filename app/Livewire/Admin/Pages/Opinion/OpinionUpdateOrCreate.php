@@ -21,29 +21,29 @@ class OpinionUpdateOrCreate extends Component
     use WithFileUploads;
 
     public Opinion $model;
-    public string $user_name       = '';
-    public string $comment         = '';
-    public string $company         = '';
-    public bool $published         = false;
-    public int $ordering           = 1;
-    public ?string $published_at   = '';
+    public string $user_name = '';
+    public string $comment = '';
+    public string $company = '';
+    public bool $published = false;
+    public int $ordering = 1;
+    public ?string $published_at = '';
     public $image;
     public $video;
 
     public function mount(Opinion $opinion): void
     {
-        $this->model   = $opinion;
-        $this->ordering=Opinion::query()->count() + 1;
+        $this->model = $opinion;
+        $this->ordering = Opinion::query()->count() + 1;
         if ($this->model->id) {
-            $this->user_name    = $this->model->user_name;
-            $this->comment      = $this->model->comment;
-            $this->company      = $this->model->company;
-            $this->published    = (bool) $this->model->published->value;
-            $this->ordering     = $this->model->ordering;
+            $this->user_name = $this->model->user_name;
+            $this->comment = $this->model->comment;
+            $this->company = $this->model->company;
+            $this->published = (bool) $this->model->published->value;
+            $this->ordering = $this->model->ordering;
             $this->published_at = $this->model->published_at?->format('Y-m-d');
         } else {
             // For new opinions, ensure published is properly initialized
-            $this->published    = false;
+            $this->published = false;
             $this->published_at = now()->format('Y-m-d');
         }
     }

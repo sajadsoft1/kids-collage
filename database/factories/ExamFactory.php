@@ -16,7 +16,7 @@ class ExamFactory extends Factory
 
     public function definition(): array
     {
-        $type       = fake()->randomElement(ExamTypeEnum::cases());
+        $type = fake()->randomElement(ExamTypeEnum::cases());
         $totalScore = $type === ExamTypeEnum::SCORED ? fake()->numberBetween(50, 200) : null;
 
         return [

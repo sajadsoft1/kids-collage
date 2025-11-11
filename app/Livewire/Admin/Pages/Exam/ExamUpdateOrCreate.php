@@ -16,11 +16,11 @@ class ExamUpdateOrCreate extends Component
     use Toast;
 
     public Exam $model;
-    public string $title       = '';
+    public string $title = '';
     public string $description = '';
-    public bool $published     = false;
+    public bool $published = false;
     public string $selectedTab = 'basic';
-    public array $rules        = [
+    public array $rules = [
         'groups' => [],
         'group_logic' => 'or',
     ];
@@ -29,10 +29,10 @@ class ExamUpdateOrCreate extends Component
     {
         $this->model = $exam;
         if ($this->model->id) {
-            $this->title       = $this->model->title;
+            $this->title = $this->model->title;
             $this->description = $this->model->description;
-            $this->published   = $this->model->published->value;
-            $this->rules       = $this->model->getRules() ?? [
+            $this->published = $this->model->published->value;
+            $this->rules = $this->model->getRules() ?? [
                 'groups' => [],
                 'group_logic' => 'or',
             ];
@@ -50,7 +50,7 @@ class ExamUpdateOrCreate extends Component
 
     public function submit(): void
     {
-        $payload          = $this->validate();
+        $payload = $this->validate();
         $payload['rules'] = $this->rules;
 
         if ($this->model->id) {

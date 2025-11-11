@@ -8,12 +8,12 @@ use Livewire\Component;
 
 class Essay extends Component
 {
-    public array $config        = [];
-    public ?int $questionIndex  = null;
+    public array $config = [];
+    public ?int $questionIndex = null;
 
     public function mount(array $config = [], ?int $questionIndex = null): void
     {
-        $this->config        = array_merge($this->getDefaultConfig(), $config);
+        $this->config = array_merge($this->getDefaultConfig(), $config);
         $this->questionIndex = $questionIndex;
         // Sync initial data
         $this->syncData();

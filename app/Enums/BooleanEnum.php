@@ -9,7 +9,7 @@ enum BooleanEnum: int
     use EnumToArray;
 
     case DISABLE = 0;
-    case ENABLE  = 1;
+    case ENABLE = 1;
 
     public static function options(): array
     {

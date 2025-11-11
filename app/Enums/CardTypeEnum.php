@@ -8,14 +8,14 @@ enum CardTypeEnum: string
 {
     use EnumToArray;
 
-    case NOTE    = 'note';
-    case TASK    = 'task';
-    case BUG     = 'bug';
+    case NOTE = 'note';
+    case TASK = 'task';
+    case BUG = 'bug';
     case FEATURE = 'feature';
-    case CALL    = 'call';
+    case CALL = 'call';
     case MEETING = 'meeting';
-    case EMAIL   = 'email';
-    case OTHER   = 'other';
+    case EMAIL = 'email';
+    case OTHER = 'other';
 
     public static function options(): array
     {

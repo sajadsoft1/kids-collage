@@ -30,7 +30,7 @@ class EssayType extends AbstractQuestionType
             return false;
         }
 
-        $config    = $this->getConfig();
+        $config = $this->getConfig();
         $wordCount = str_word_count(strip_tags($answer));
 
         return $wordCount >= $config['min_words']

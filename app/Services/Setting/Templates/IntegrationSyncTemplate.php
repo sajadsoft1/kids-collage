@@ -19,7 +19,7 @@ class IntegrationSyncTemplate extends BaseTemplate
     public function template(Setting $setting): array
     {
         $this->setting = $setting;
-        $options       = BooleanEnum::options();
+        $options = BooleanEnum::options();
         
         $mahakStatus = $this->selectOption($options, $setting->extra_attributes->get('mahak.status', true));
         $orashStatus = $this->selectOption($options, $setting->extra_attributes->get('orash.status', true));

@@ -7,7 +7,7 @@ namespace App\Enums;
 enum CommentTypeEnum: string
 {
     use EnumToArray;
-    case NORMAL  = 'normal';
+    case NORMAL = 'normal';
     case SPECIAL = 'special';
 
     public function title(): string

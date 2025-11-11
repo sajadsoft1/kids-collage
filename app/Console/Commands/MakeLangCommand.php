@@ -29,14 +29,14 @@ class MakeLangCommand extends Command
     /** Execute the console command. */
     public function handle()
     {
-        $active_languages=['en', 'fa'];
-        $model           = $this->argument('model');
-        $model           = Str::studly($model);
+        $active_languages = ['en', 'fa'];
+        $model = $this->argument('model');
+        $model = Str::studly($model);
 
         // lang
         foreach ($active_languages as $activeLang) {
             $content_lang = file_get_contents(__DIR__ . '/stubs/lang-' . $activeLang . '.php.stub');
-            $path         = base_path('lang/' . $activeLang);
+            $path = base_path('lang/' . $activeLang);
 
             if ( ! is_dir($path) && ! mkdir($path, 0775) && ! is_dir($path)) {
                 throw new RuntimeException(sprintf('Directory "%s" was not created', $path));

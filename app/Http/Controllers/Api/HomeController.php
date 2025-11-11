@@ -72,13 +72,13 @@ class HomeController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $extraData=[
+        $extraData = [
             'teachers_count' => User::teachers()->count(),
             'courses_count' => Course::all()->count(),
             'students_count' => User::studentCont(),
             'experience' => 10,
         ];
-        $data= [
+        $data = [
             'sliders' => SliderResource::collection(Slider::latestSliders()),
             'banners' => BannerResource::collection(Banner::latestBanner()),
             'teachers' => UserResource::collection(User::teachers()),

@@ -8,7 +8,7 @@ enum PageTypeEnum: string
 {
     use EnumToArray;
 
-    case RULES    = 'rules';
+    case RULES = 'rules';
     case ABOUT_US = 'about-us';
 
     public function title(?string $locale = null): string

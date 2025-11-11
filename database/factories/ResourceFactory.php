@@ -49,7 +49,7 @@ class ResourceFactory extends Factory
         }
 
         if ($type === ResourceType::VIDEO) {
-            $attributes['duration']       = $this->faker->numberBetween(60, 3600); // 1 minute to 1 hour
+            $attributes['duration'] = $this->faker->numberBetween(60, 3600); // 1 minute to 1 hour
             $attributes['thumbnail_path'] = '/storage/thumbnails/' . $this->faker->uuid() . '.jpg';
         }
 

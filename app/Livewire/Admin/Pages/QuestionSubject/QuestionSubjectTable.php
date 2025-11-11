@@ -25,7 +25,7 @@ final class QuestionSubjectTable extends PowerGridComponent
     use HasModalForm;
     use PowerGridHelperTrait;
     use Toast;
-    public string $tableName     = 'index_questionSubject_datatable';
+    public string $tableName = 'index_questionSubject_datatable';
     public string $sortDirection = 'desc';
 
     public function boot(): void

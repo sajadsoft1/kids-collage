@@ -7,9 +7,9 @@ namespace App\Enums;
 enum ReligionEnum: string
 {
     use EnumToArray;
-    case ISLAM        = 'islam';
+    case ISLAM = 'islam';
     case CHRISTIANITY = 'christianity';
-    case OTHER        = 'other';
+    case OTHER = 'other';
 
     public function title()
     {

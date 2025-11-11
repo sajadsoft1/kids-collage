@@ -8,10 +8,10 @@ enum CardStatusEnum: string
 {
     use EnumToArray;
 
-    case DRAFT     = 'draft';
-    case ACTIVE    = 'active';
+    case DRAFT = 'draft';
+    case ACTIVE = 'active';
     case COMPLETED = 'completed';
-    case ARCHIVED  = 'archived';
+    case ARCHIVED = 'archived';
 
     public static function options(): array
     {

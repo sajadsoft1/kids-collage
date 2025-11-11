@@ -31,7 +31,7 @@ class StoreQuestionSubjectAction
     public function handle(array $payload): QuestionSubject
     {
         return DB::transaction(function () use ($payload) {
-            $model =  QuestionSubject::create([
+            $model = QuestionSubject::create([
                 'ordering' => QuestionSubject::max('ordering') + 1,
                 'category_id' => Arr::get($payload, 'category_id'),
             ]);

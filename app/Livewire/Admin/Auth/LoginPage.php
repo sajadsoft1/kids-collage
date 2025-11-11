@@ -14,7 +14,7 @@ use Livewire\Component;
 
 class LoginPage extends Component
 {
-    public string $email    = '';
+    public string $email = '';
     public string $password = '';
 
     protected function rules(): array

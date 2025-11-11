@@ -34,7 +34,7 @@ class MakeActionCommand extends Command
     public function handle(): int
     {
         $model = Str::studly($this->argument('model'));
-        $type  = $this->option('type');
+        $type = $this->option('type');
 
         if (empty($type)) {
             $this->error('❌ Action type is required. Use --type option.');

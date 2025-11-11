@@ -8,9 +8,9 @@ enum BannerSizeEnum: string
 {
     use EnumToArray;
 
-    case S1X1  = '1x1';
+    case S1X1 = '1x1';
     case S16X9 = '16x9';
-    case S4X3  = '4x3';
+    case S4X3 = '4x3';
 
     public static function getSizes(): array
     {

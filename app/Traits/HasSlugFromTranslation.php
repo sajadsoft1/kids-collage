@@ -26,7 +26,7 @@ trait HasSlugFromTranslation
     public function uniqueSlug(string $slug): string
     {
         $originalSlug = $slug;
-        $i            = 1;
+        $i = 1;
 
         while ($this->where('slug', $slug)->withTrashed()->exists()) {
             $slug = $originalSlug . '-' . $i++;

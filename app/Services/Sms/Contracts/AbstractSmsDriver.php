@@ -21,10 +21,10 @@ abstract class AbstractSmsDriver implements SmsDriver
             return $template;
         }
 
-        $search  = [];
+        $search = [];
         $replace = [];
         foreach ($inputs as $key => $value) {
-            $search[]  = '{' . (string) $key . '}';
+            $search[] = '{' . (string) $key . '}';
             $replace[] = (string) $value;
         }
 

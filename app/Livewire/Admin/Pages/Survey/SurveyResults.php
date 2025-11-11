@@ -69,16 +69,16 @@ class SurveyResults extends Component
             ->latest()
             ->get();
 
-        $totalAttempts      = $attempts->count();
-        $completedAttempts  = $attempts->where('status', AttemptStatusEnum::COMPLETED);
+        $totalAttempts = $attempts->count();
+        $completedAttempts = $attempts->where('status', AttemptStatusEnum::COMPLETED);
         $inProgressAttempts = $attempts->where('status', AttemptStatusEnum::IN_PROGRESS);
-        $abandonedAttempts  = $attempts->whereIn('status', [
+        $abandonedAttempts = $attempts->whereIn('status', [
             AttemptStatusEnum::ABANDONED,
             AttemptStatusEnum::EXPIRED,
         ]);
 
-        $uniqueParticipants   = $attempts->pluck('user_id')->filter()->unique()->count();
-        $totalResponses       = $attempts->flatMap->answers->count();
+        $uniqueParticipants = $attempts->pluck('user_id')->filter()->unique()->count();
+        $totalResponses = $attempts->flatMap->answers->count();
         $avgQuestionsAnswered = $totalAttempts > 0
             ? round($totalResponses / $totalAttempts, 1)
             : 0;
@@ -103,14 +103,14 @@ class SurveyResults extends Component
         ];
 
         $answersGrouped = $attempts->flatMap->answers->groupBy('question_id');
-        $attemptsCount  = max($totalAttempts, 1);
+        $attemptsCount = max($totalAttempts, 1);
 
         $this->questionBreakdown = $this->exam->questions->map(function ($question) use (
             $answersGrouped,
             $attemptsCount
         ) {
             /** @var \Illuminate\Support\Collection $responses */
-            $responses      = $answersGrouped->get($question->id, collect());
+            $responses = $answersGrouped->get($question->id, collect());
             $responsesCount = $responses->count();
 
             $optionStats = $question->options->map(function ($option) use ($responses, $responsesCount) {
@@ -184,9 +184,9 @@ class SurveyResults extends Component
             return '-';
         }
 
-        $hours   = intdiv($seconds, 3600);
+        $hours = intdiv($seconds, 3600);
         $minutes = intdiv($seconds % 3600, 60);
-        $secs    = $seconds % 60;
+        $secs = $seconds % 60;
 
         if ($hours > 0) {
             return sprintf('%02d:%02d:%02d', $hours, $minutes, $secs);

@@ -26,7 +26,7 @@ final class QuestionCompetencyTable extends PowerGridComponent
     use PowerGridHelperTrait;
     use Toast;
 
-    public string $tableName     = 'index_questionCompetency_datatable';
+    public string $tableName = 'index_questionCompetency_datatable';
     public string $sortDirection = 'desc';
 
     public function boot(): void

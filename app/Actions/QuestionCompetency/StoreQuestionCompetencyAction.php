@@ -30,7 +30,7 @@ class StoreQuestionCompetencyAction
     public function handle(array $payload): QuestionCompetency
     {
         return DB::transaction(function () use ($payload) {
-            $model =  QuestionCompetency::create([
+            $model = QuestionCompetency::create([
                 'ordering' => QuestionCompetency::max('ordering') + 1,
             ]);
             $this->syncTranslationAction->handle($model, Arr::only($payload, ['title', 'description']));

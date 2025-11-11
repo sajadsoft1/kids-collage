@@ -29,7 +29,7 @@ class StoreSeoOptionAction
     public function handle(array $payload): SeoOption
     {
         return DB::transaction(function () use ($payload) {
-            $model =  SeoOption::create($payload);
+            $model = SeoOption::create($payload);
             $this->syncTranslationAction->handle($model, Arr::only($payload, ['title', 'description']));
 
             return $model->refresh();

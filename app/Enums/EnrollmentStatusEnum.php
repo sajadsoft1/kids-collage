@@ -7,8 +7,8 @@ namespace App\Enums;
 enum EnrollmentStatusEnum: string
 {
     case PENDING = 'pending';
-    case PAID    = 'paid';
-    case ACTIVE  = 'active';
+    case PAID = 'paid';
+    case ACTIVE = 'active';
     case DROPPED = 'dropped';
 
     public function title(): string

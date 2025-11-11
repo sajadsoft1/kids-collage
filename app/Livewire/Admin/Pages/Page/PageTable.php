@@ -22,7 +22,7 @@ final class PageTable extends PowerGridComponent
 {
     use PowerGridHelperTrait;
 
-    public string $tableName     = 'index_page_datatable';
+    public string $tableName = 'index_page_datatable';
     public string $sortDirection = 'desc';
 
     public function boot(): void

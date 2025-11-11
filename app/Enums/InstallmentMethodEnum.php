@@ -8,8 +8,8 @@ enum InstallmentMethodEnum: string
 {
     use EnumToArray;
 
-    case ONLINE      = 'online';
-    case OFFLINE     = 'offline';
+    case ONLINE = 'online';
+    case OFFLINE = 'offline';
 
     public function title(): string
     {

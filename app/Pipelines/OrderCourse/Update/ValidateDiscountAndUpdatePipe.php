@@ -13,12 +13,12 @@ class ValidateDiscountAndUpdatePipe implements OrderCourseInterface
 {
     public function handle(OrderCourseDTO $dto, Closure $next): OrderCourseDTO
     {
-        $order         = $dto->getOrder();
+        $order = $dto->getOrder();
         $newDiscountId = $dto->getFromPayload('discount_id');
         $oldDiscountId = $order?->discount_id;
 
         // Calculate a pure amount from items (use new items if provided, otherwise use existing)
-        $items      = $dto->getItems()->isNotEmpty() ? $dto->getItems() : collect($order?->items->toArray());
+        $items = $dto->getItems()->isNotEmpty() ? $dto->getItems() : collect($order?->items->toArray());
         $pureAmount = $items->sum(fn ($item) => (is_array($item) ? ($item['price'] ?? 0) : $item->price) * (is_array($item) ? ($item['quantity'] ?? 1) : $item->quantity));
 
         $dto->setPureAmount($pureAmount);

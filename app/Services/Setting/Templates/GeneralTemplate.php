@@ -20,8 +20,8 @@ class GeneralTemplate extends BaseTemplate
     public function template(Setting $setting): array
     {
         $this->setting = $setting;
-        $options       = BooleanEnum::options();
-        $media         = $this->setting->getFirstMedia('logo');
+        $options = BooleanEnum::options();
+        $media = $this->setting->getFirstMedia('logo');
 
         return [
             $this->recordComplex('website', [

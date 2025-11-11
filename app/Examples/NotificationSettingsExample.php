@@ -111,7 +111,7 @@ class NotificationSettingsExample
     public function viaChannels(User $user): array
     {
         $channels = [];
-        $event    = NotificationEventEnum::ORDER_CREATED;
+        $event = NotificationEventEnum::ORDER_CREATED;
 
         if ($user->profile?->shouldReceiveNotification($event, NotificationChannelEnum::SMS)) {
             $channels[] = 'sms';

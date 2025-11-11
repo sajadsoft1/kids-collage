@@ -25,7 +25,7 @@ final class NotificationTable extends PowerGridComponent
 {
     use PowerGridHelperTrait,Toast;
 
-    public string $tableName     = 'index_notification_datatable';
+    public string $tableName = 'index_notification_datatable';
     public string $sortDirection = 'desc';
 
     public function boot(): void

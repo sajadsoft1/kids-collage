@@ -61,8 +61,8 @@ trait PowerGridHelperTrait
     public function forceDelete($rowId): void
     {
         $modelClass = StringHelper::basename($this->datasource()->getModel()::class);
-        $action     = resolve('\\App\\Actions\\' . $modelClass . '\\Delete' . $modelClass . 'Action');
-        $model      = $this->datasource()->getModel()::where('id', $rowId)->first();
+        $action = resolve('\\App\\Actions\\' . $modelClass . '\\Delete' . $modelClass . 'Action');
+        $model = $this->datasource()->getModel()::where('id', $rowId)->first();
         $action::run($model);
     }
 

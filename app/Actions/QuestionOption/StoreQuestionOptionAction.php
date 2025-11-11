@@ -29,7 +29,7 @@ class StoreQuestionOptionAction
     public function handle(array $payload): QuestionOption
     {
         return DB::transaction(function () use ($payload) {
-            $model =  QuestionOption::create($payload);
+            $model = QuestionOption::create($payload);
             $this->syncTranslationAction->handle($model, Arr::only($payload, ['title', 'description']));
 
             return $model->refresh();

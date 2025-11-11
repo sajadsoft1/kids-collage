@@ -17,18 +17,18 @@ class RoleUpdateOrCreate extends Component
     use Toast;
 
     public Role $role;
-    public ?int $edit_mode      = null;
-    public ?string $name        = '';
+    public ?int $edit_mode = null;
+    public ?string $name = '';
     public ?string $description = '';
-    public array $permissions   = [];
+    public array $permissions = [];
 
     public function mount(Role $role): void
     {
-        $this->role        = $role->load('permissions');
-        $this->name        = $role->name;
+        $this->role = $role->load('permissions');
+        $this->name = $role->name;
         $this->description = $role->description;
         $this->permissions = $role->permissions->pluck('id')->map(fn ($id) => (int) $id)->toArray();
-        $this->edit_mode   = $role->id;
+        $this->edit_mode = $role->id;
     }
 
     protected function rules(): array

@@ -8,12 +8,12 @@ enum CategoryTypeEnum: string
 {
     use EnumToArray;
 
-    case BLOG      = 'blog';
+    case BLOG = 'blog';
     case PORTFOLIO = 'portfolio';
-    case FAQ       = 'faq';
-    case BULLETIN  = 'bulletin';
-    case COURSE    = 'course';
-    case QUESTION  = 'question';
+    case FAQ = 'faq';
+    case BULLETIN = 'bulletin';
+    case COURSE = 'course';
+    case QUESTION = 'question';
 
     public function title(): string
     {

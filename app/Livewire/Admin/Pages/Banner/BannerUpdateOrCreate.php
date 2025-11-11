@@ -24,13 +24,13 @@ class BannerUpdateOrCreate extends Component
     use WithFileUploads;
 
     public Banner $model;
-    public string $title         = '';
-    public ?string $description  = '';
-    public string $size          = BannerSizeEnum::S1X1->value;
-    public ?string $oldSize      =BannerSizeEnum::S1X1->value;
-    public bool $published       = false;
+    public string $title = '';
+    public ?string $description = '';
+    public string $size = BannerSizeEnum::S1X1->value;
+    public ?string $oldSize = BannerSizeEnum::S1X1->value;
+    public bool $published = false;
     public ?string $published_at = '';
-    public float $ratio          = 1;
+    public float $ratio = 1;
 
     public $image;
 
@@ -38,17 +38,17 @@ class BannerUpdateOrCreate extends Component
     {
         $this->model = $banner;
         if ($this->model->id) {
-            $this->title        = $this->model->title;
-            $this->description  = $this->model->description;
-            $this->published    = (bool) $this->model->published->value;
-            $this->size         = $this->model->size->value;
-            $this->oldSize      = $this->model->size->value;
+            $this->title = $this->model->title;
+            $this->description = $this->model->description;
+            $this->published = (bool) $this->model->published->value;
+            $this->size = $this->model->size->value;
+            $this->oldSize = $this->model->size->value;
             $this->published_at = $this->model->published_at?->format(Constants::DEFAULT_DATE_FORMAT);
-            $this->ratio        = $this->calculateRatio($this->size);
+            $this->ratio = $this->calculateRatio($this->size);
         } else {
             // For new banners, ensure published is properly initialized
             $this->published = false;
-            $this->ratio     = 1;
+            $this->ratio = 1;
         }
     }
 
@@ -82,7 +82,7 @@ class BannerUpdateOrCreate extends Component
 
     public function submit(): void
     {
-        $payload =$this->validate();
+        $payload = $this->validate();
         if ($this->model->id) {
             try {
                 UpdateBannerAction::run($this->model, $payload);

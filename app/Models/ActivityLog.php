@@ -75,7 +75,7 @@ class ActivityLog extends Model
         $description = $this->description;
 
         if ($this->causer) {
-            $causerName  = $this->causer->name ?? 'Unknown User';
+            $causerName = $this->causer->name ?? 'Unknown User';
             $description = "{$causerName}: {$description}";
         }
 

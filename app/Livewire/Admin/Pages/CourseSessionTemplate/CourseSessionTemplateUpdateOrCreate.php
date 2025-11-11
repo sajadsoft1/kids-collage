@@ -22,22 +22,22 @@ class CourseSessionTemplateUpdateOrCreate extends Component
 
     public CourseTemplate $courseTemplate;
     public CourseSessionTemplate $model;
-    public string $title         = '';
-    public string $description   = '';
-    public int $order            = 0;
+    public string $title = '';
+    public string $description = '';
+    public int $order = 0;
     public int $duration_minutes = 0;
-    public string $type          = SessionType::IN_PERSON->value;
-    public array $resources      = [];
+    public string $type = SessionType::IN_PERSON->value;
+    public array $resources = [];
 
     public function mount(CourseSessionTemplate $courseSessionTemplate): void
     {
         $this->model = $courseSessionTemplate;
         if ($this->model->id) {
-            $this->title            = $this->model->title;
-            $this->description      = $this->model->description;
-            $this->order            = $this->model->order;
+            $this->title = $this->model->title;
+            $this->description = $this->model->description;
+            $this->order = $this->model->order;
             $this->duration_minutes = $this->model->duration_minutes;
-            $this->type             = $this->model->type->value;
+            $this->type = $this->model->type->value;
 
             // Load existing resources
             $this->resources = $this->model->resources->map(function (Resource $resourceItem) {
@@ -87,7 +87,7 @@ class CourseSessionTemplateUpdateOrCreate extends Component
             );
         } else {
             $payload['course_template_id'] = $this->courseTemplate->id;
-            $sessionTemplate               = StoreCourseSessionTemplateAction::run($payload);
+            $sessionTemplate = StoreCourseSessionTemplateAction::run($payload);
 
             // Attach resources to pivot table
             $sessionTemplate->resources()->attach($resourceIds);

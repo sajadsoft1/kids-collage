@@ -7,9 +7,9 @@ namespace App\Enums;
 enum SessionType: string
 {
     use EnumToArray;
-    case IN_PERSON  = 'in-person';
-    case ONLINE     = 'online';
-    case HYBRID     = 'hybrid';
+    case IN_PERSON = 'in-person';
+    case ONLINE = 'online';
+    case HYBRID = 'hybrid';
     case SELF_PACED = 'self-paced';
 
     public static function options(): array

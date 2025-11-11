@@ -8,9 +8,9 @@ enum PriorityEnum: string
 {
     use EnumToArray;
 
-    case LOW    = 'low';
+    case LOW = 'low';
     case MEDIUM = 'medium';
-    case HIGH   = 'high';
+    case HIGH = 'high';
     case URGENT = 'urgent';
 
     public static function options(): array

@@ -8,12 +8,12 @@ enum ResourceType: string
 {
     use EnumToArray;
 
-    case PDF   = 'pdf';
+    case PDF = 'pdf';
     case VIDEO = 'video';
     case IMAGE = 'image';
     case AUDIO = 'audio';
-    case FILE  = 'file';
-    case LINK  = 'link';
+    case FILE = 'file';
+    case LINK = 'link';
 
     public static function options(): array
     {

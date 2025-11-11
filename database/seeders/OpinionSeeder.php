@@ -14,7 +14,7 @@ class OpinionSeeder extends Seeder
     {
         $data = require database_path('seeders/data/karno.php');
         foreach ($data['opinion'] as $row) {
-            $model= StoreOpinionAction::run([
+            $model = StoreOpinionAction::run([
                 'published' => $row['published'],
                 'ordering' => $row['ordering'],
                 'company' => $row['company'],

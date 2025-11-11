@@ -24,7 +24,7 @@ class KanbanBoardSeeder extends Seeder
 
         // Get users for board ownership
         $developer = User::where('email', 'developer@gmail.com')->first();
-        $admin     = User::where('email', 'admin@example.com')->first();
+        $admin = User::where('email', 'admin@example.com')->first();
 
         if ( ! $developer || ! $admin) {
             $this->command->error('Required users not found. Please run KanbanUserSeeder first.');

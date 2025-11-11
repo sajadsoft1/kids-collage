@@ -8,7 +8,7 @@ enum TicketStatusEnum: string
 {
     use EnumToArray;
 
-    case OPEN  = 'open';
+    case OPEN = 'open';
     case CLOSE = 'close';
 
     public function title(): string

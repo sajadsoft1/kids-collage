@@ -7,7 +7,7 @@ namespace App\Enums;
 enum GenderEnum: string
 {
     use EnumToArray;
-    case MALE   = 'male';
+    case MALE = 'male';
     case FEMALE = 'female';
 
     public function title()

@@ -77,18 +77,18 @@ class UpdateInformationSection extends Component
     /** Load user data into form properties */
     public function loadUserData(): void
     {
-        $this->name   = $this->user->name;
+        $this->name = $this->user->name;
         $this->family = $this->user->family;
-        $this->email  = $this->user->email;
+        $this->email = $this->user->email;
         $this->mobile = $this->user->mobile;
 
         if ($this->user->profile) {
             $this->national_code = $this->user->profile->national_code;
-            $this->birth_date    = $this->user->profile->birth_date;
-            $this->gender        = $this->user->profile->gender?->value;
-            $this->address       = $this->user->profile->address;
-            $this->phone         = $this->user->profile->phone;
-            $this->religion      = $this->user->profile->religion?->value;
+            $this->birth_date = $this->user->profile->birth_date;
+            $this->gender = $this->user->profile->gender?->value;
+            $this->address = $this->user->profile->address;
+            $this->phone = $this->user->profile->phone;
+            $this->religion = $this->user->profile->religion?->value;
         }
     }
 

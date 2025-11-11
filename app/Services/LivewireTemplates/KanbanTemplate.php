@@ -50,15 +50,15 @@ class KanbanTemplate extends Component
         $recordClickEnabled = false,
         $extras = []
     ): void {
-        $this->sortable                = $sortable ?? false;
+        $this->sortable = $sortable ?? false;
         $this->sortableBetweenStatuses = $sortableBetweenStatuses ?? false;
 
-        $this->statusBoardView       = $statusBoardView ?? 'templates.kanban.kanban-board';
-        $this->statusView            = $statusView ?? 'templates.kanban.status';
-        $this->recordView            = $recordView ?? 'templates.kanban.record';
-        $this->sortableView          = $sortableView ?? 'templates.kanban.sortable';
+        $this->statusBoardView = $statusBoardView ?? 'templates.kanban.kanban-board';
+        $this->statusView = $statusView ?? 'templates.kanban.status';
+        $this->recordView = $recordView ?? 'templates.kanban.record';
+        $this->sortableView = $sortableView ?? 'templates.kanban.sortable';
         $this->beforeStatusBoardView = $beforeStatusBoardView ?? null;
-        $this->afterStatusBoardView  = $afterStatusBoardView ?? null;
+        $this->afterStatusBoardView = $afterStatusBoardView ?? null;
 
         $this->ghostClass = $ghostClass ?? 'bg-indigo-100';
 
@@ -114,9 +114,9 @@ class KanbanTemplate extends Component
 
         $statuses = $statuses
             ->map(function ($status) use ($records) {
-                $status['group']           = $this->getId();
+                $status['group'] = $this->getId();
                 $status['statusRecordsId'] = "{$this->getId()}-{$status['id']}";
-                $status['records']         = $records
+                $status['records'] = $records
                     ->filter(function ($record) use ($status) {
                         return $this->isRecordInStatus($record, $status);
                     });

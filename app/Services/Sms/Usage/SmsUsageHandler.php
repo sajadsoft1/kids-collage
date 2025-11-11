@@ -34,7 +34,7 @@ class SmsUsageHandler
         $config = [];
         if (property_exists($driver, 'config')) {
             /** @var array $cfg */
-            $cfg    = $driver->config;
+            $cfg = $driver->config;
             $config = is_array($cfg) ? $cfg : [];
         }
 

@@ -8,8 +8,8 @@ use Livewire\Component;
 
 class TextHighlight extends Component
 {
-    public array $config        = [];
-    public ?int $questionIndex  = null;
+    public array $config = [];
+    public ?int $questionIndex = null;
 
     public array $correct_answer = [
         'selections' => [],
@@ -17,7 +17,7 @@ class TextHighlight extends Component
 
     public function mount(array $config = [], ?array $correct_answer = null, ?int $questionIndex = null): void
     {
-        $this->config        = array_merge($this->getDefaultConfig(), $config);
+        $this->config = array_merge($this->getDefaultConfig(), $config);
         $this->questionIndex = $questionIndex;
         if ($correct_answer !== null) {
             $this->correct_answer = $correct_answer;

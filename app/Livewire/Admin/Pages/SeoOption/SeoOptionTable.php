@@ -19,7 +19,7 @@ use PowerComponents\LivewirePowerGrid\PowerGridFields;
 final class SeoOptionTable extends PowerGridComponent
 {
     use PowerGridHelperTrait;
-    public string $tableName     = 'index_seoOption_datatable';
+    public string $tableName = 'index_seoOption_datatable';
     public string $sortDirection = 'desc';
 
     public function boot(): void

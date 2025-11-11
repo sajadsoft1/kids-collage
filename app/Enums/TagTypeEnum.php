@@ -7,7 +7,7 @@ namespace App\Enums;
 enum TagTypeEnum: string
 {
     use EnumToArray;
-    case SPECIAL   = 'special';
+    case SPECIAL = 'special';
 
     public function title(): string
     {

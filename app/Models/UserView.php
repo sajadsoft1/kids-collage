@@ -13,7 +13,7 @@ class UserView extends Model
     use HasUser, MorphAttributesTrait;
 
     public const UPDATED_AT = null;
-    protected $table        = 'user_views';
+    protected $table = 'user_views';
 
     protected $fillable = [
         'user_id',

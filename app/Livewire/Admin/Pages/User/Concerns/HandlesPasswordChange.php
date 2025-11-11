@@ -33,9 +33,9 @@ trait HandlesPasswordChange
             return;
         }
 
-        $this->passwordUser            = $user;
-        $this->password                = '';
-        $this->password_confirmation   = '';
+        $this->passwordUser = $user;
+        $this->password = '';
+        $this->password_confirmation = '';
         $this->showChangePasswordModal = true;
 
         $this->resetValidation();

@@ -22,7 +22,7 @@ final class ClientTable extends PowerGridComponent
 {
     use PowerGridHelperTrait;
 
-    public string $tableName     = 'index_client_datatable';
+    public string $tableName = 'index_client_datatable';
     public string $sortDirection = 'desc';
 
     public function boot(): void

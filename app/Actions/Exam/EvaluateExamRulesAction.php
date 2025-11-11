@@ -29,7 +29,7 @@ class EvaluateExamRulesAction
     /** Evaluate rule conditions against user. */
     protected function evaluateRules(array $rules, User $user): bool
     {
-        $groups     = $rules['groups'] ?? [];
+        $groups = $rules['groups'] ?? [];
         $groupLogic = $rules['group_logic'] ?? 'or';
 
         if (empty($groups)) {
@@ -40,7 +40,7 @@ class EvaluateExamRulesAction
 
         foreach ($groups as $group) {
             $conditions = $group['conditions'] ?? [];
-            $logic      = $group['logic'] ?? 'and';
+            $logic = $group['logic'] ?? 'and';
 
             if (empty($conditions)) {
                 $groupResults[] = true;
@@ -74,9 +74,9 @@ class EvaluateExamRulesAction
     /** Check a single condition against user. */
     protected function checkCondition(array $condition, User $user): bool
     {
-        $field    = $condition['field'] ?? '';
+        $field = $condition['field'] ?? '';
         $operator = $condition['operator'] ?? '';
-        $value    = $condition['value'] ?? null;
+        $value = $condition['value'] ?? null;
 
         return match ($field) {
             'user_type' => $this->checkUserType($condition, $user),
@@ -93,7 +93,7 @@ class EvaluateExamRulesAction
     protected function checkUserType(array $condition, User $user): bool
     {
         $operator = $condition['operator'] ?? '';
-        $value    = $condition['value'] ?? '';
+        $value = $condition['value'] ?? '';
 
         $userType = $user->type->value;
 
@@ -110,7 +110,7 @@ class EvaluateExamRulesAction
     protected function checkEnrollmentDate(array $condition, User $user): bool
     {
         $operator = $condition['operator'] ?? '';
-        $value    = $condition['value'] ?? '';
+        $value = $condition['value'] ?? '';
 
         // Get user's enrollments
         $enrollments = $user->enrollments;
@@ -126,7 +126,7 @@ class EvaluateExamRulesAction
             }
 
             $enrollmentDate = Carbon::parse($enrollment->enrolled_at);
-            $conditionDate  = Carbon::parse($value);
+            $conditionDate = Carbon::parse($value);
 
             $matches = match ($operator) {
                 'before' => $enrollmentDate->lt($conditionDate),
@@ -150,7 +150,7 @@ class EvaluateExamRulesAction
     protected function checkEnrolledInCourse(array $condition, User $user): bool
     {
         $operator = $condition['operator'] ?? '';
-        $value    = $condition['value'] ?? null;
+        $value = $condition['value'] ?? null;
 
         $enrolledCourseIds = $user->enrollments()
             ->pluck('course_id')
@@ -174,7 +174,7 @@ class EvaluateExamRulesAction
     protected function checkHasRoleInCourse(array $condition, User $user): bool
     {
         $operator = $condition['operator'] ?? '';
-        $value    = $condition['value'] ?? '';
+        $value = $condition['value'] ?? '';
 
         // For students: check enrollments
         if ($value === 'student') {
@@ -202,7 +202,7 @@ class EvaluateExamRulesAction
     protected function checkTermId(array $condition, User $user): bool
     {
         $operator = $condition['operator'] ?? '';
-        $value    = $condition['value'] ?? null;
+        $value = $condition['value'] ?? null;
 
         // Get term IDs from user's enrollments
         $enrolledTermIds = $user->enrollments()
@@ -231,7 +231,7 @@ class EvaluateExamRulesAction
     protected function checkCreatedAt(array $condition, User $user): bool
     {
         $operator = $condition['operator'] ?? '';
-        $value    = $condition['value'] ?? '';
+        $value = $condition['value'] ?? '';
 
         if ( ! $user->created_at) {
             return $operator === 'is_null';

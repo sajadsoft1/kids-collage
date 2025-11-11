@@ -8,18 +8,18 @@ use Livewire\Component;
 
 class SingleChoice extends Component
 {
-    public array $options         = [];
-    public array $config          = [];
-    public ?int $questionIndex    = null;
+    public array $options = [];
+    public array $config = [];
+    public ?int $questionIndex = null;
     public bool $hasCorrectAnswer = true;
 
     public function mount(array $options = [], array $config = [], ?int $questionIndex = null, ?bool $hasCorrectAnswer = null): void
     {
-        $mergedConfig             = array_merge($this->getDefaultConfig(), $config);
-        $this->options            = empty($options) ? $this->getDefaultOptions() : $options;
-        $this->config             = $mergedConfig;
-        $this->hasCorrectAnswer   = $hasCorrectAnswer ?? (bool) ($mergedConfig['has_correct_answer'] ?? true);
-        $this->questionIndex      = $questionIndex;
+        $mergedConfig = array_merge($this->getDefaultConfig(), $config);
+        $this->options = empty($options) ? $this->getDefaultOptions() : $options;
+        $this->config = $mergedConfig;
+        $this->hasCorrectAnswer = $hasCorrectAnswer ?? (bool) ($mergedConfig['has_correct_answer'] ?? true);
+        $this->questionIndex = $questionIndex;
 
         if ( ! $this->hasCorrectAnswer) {
             $this->clearCorrectFlags();

@@ -6,8 +6,8 @@ namespace App\Enums;
 
 enum SessionStatus: string
 {
-    case PLANNED   = 'planned';
-    case DONE      = 'done';
+    case PLANNED = 'planned';
+    case DONE = 'done';
     case CANCELLED = 'cancelled';
 
     public function title(): string

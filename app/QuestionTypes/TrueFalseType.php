@@ -32,7 +32,7 @@ class TrueFalseType extends AbstractQuestionType
 
     public function calculateScore(mixed $answer): float
     {
-        $answer        = filter_var($answer, FILTER_VALIDATE_BOOLEAN);
+        $answer = filter_var($answer, FILTER_VALIDATE_BOOLEAN);
         $correctAnswer = $this->question->correct_answer['value'] ?? false;
 
         return $answer === $correctAnswer ? $this->getWeight() : 0;

@@ -29,7 +29,7 @@ class UpdateSettingAction
     public function handle(Setting $setting, array $payload)
     {
         return DB::transaction(function () use ($setting, $payload) {
-            $media           = null;
+            $media = null;
             $currentSettings = $this->settingService::get(SettingEnum::from($setting->key));
             
             foreach ($currentSettings as $key => &$currentSetting) {

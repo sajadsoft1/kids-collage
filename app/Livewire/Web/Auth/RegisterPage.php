@@ -15,12 +15,12 @@ class RegisterPage extends Component
 {
     use Toast;
 
-    public string $name                  = '';
-    public string $family                = '';
-    public string $email                 = '';
-    public string $password              = '';
+    public string $name = '';
+    public string $family = '';
+    public string $email = '';
+    public string $password = '';
     public string $password_confirmation = '';
-    public bool $terms_accepted          = false;
+    public bool $terms_accepted = false;
 
     protected function rules(): array
     {

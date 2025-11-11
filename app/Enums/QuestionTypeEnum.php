@@ -8,25 +8,25 @@ enum QuestionTypeEnum: string
 {
     use EnumToArray;
 
-    case SINGLE_CHOICE         = 'single_choice';
-    case MULTIPLE_CHOICE       = 'multiple_choice';
-    case SINGLE_CHOICE_IMAGE   = 'single_choice_image';
+    case SINGLE_CHOICE = 'single_choice';
+    case MULTIPLE_CHOICE = 'multiple_choice';
+    case SINGLE_CHOICE_IMAGE = 'single_choice_image';
     case MULTIPLE_CHOICE_IMAGE = 'multiple_choice_image';
 
-    case TRUE_FALSE   = 'true_false';
+    case TRUE_FALSE = 'true_false';
     case SHORT_ANSWER = 'short_answer';
-    case ESSAY        = 'essay';
+    case ESSAY = 'essay';
 
     case ORDERING = 'ordering';
     case MATCHING = 'matching';
 
-    case DRAG_AND_DROP  = 'drag_and_drop';
+    case DRAG_AND_DROP = 'drag_and_drop';
     case TEXT_HIGHLIGHT = 'text_highlight';
-    case TEXT_SELECT    = 'text_select';
-    case WORD_CHOICE    = 'word_choice';
+    case TEXT_SELECT = 'text_select';
+    case WORD_CHOICE = 'word_choice';
 
-    case BOW_TIE  = 'bow_tie';
-    case MATRIX   = 'matrix';
+    case BOW_TIE = 'bow_tie';
+    case MATRIX = 'matrix';
     case HOT_SPOT = 'hot_spot';
 
     public static function surveyTypesFormatedCases(): array

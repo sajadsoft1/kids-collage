@@ -21,7 +21,7 @@ class LicenseUpdateOrCreate extends Component
     use Toast, WithFileUploads;
 
     public License $model;
-    public ?string $title       = '';
+    public ?string $title = '';
     public ?string $description = '';
     public $image;
 
@@ -29,7 +29,7 @@ class LicenseUpdateOrCreate extends Component
     {
         $this->model = $license;
         if ($this->model->id) {
-            $this->title       = $this->model->title;
+            $this->title = $this->model->title;
             $this->description = $this->model->description;
         }
     }

@@ -14,11 +14,11 @@ enum RoleEnum: string
 {
     use EnumToArray;
 
-    case DEVELOPER   = 'developer';
-    case ADMIN       = 'admin';
-    case TEACHER     = 'teacher';
-    case PARENT      ='parent';
-    case USER        = 'user';
+    case DEVELOPER = 'developer';
+    case ADMIN = 'admin';
+    case TEACHER = 'teacher';
+    case PARENT = 'parent';
+    case USER = 'user';
 
     public function title(): string
     {

@@ -21,23 +21,23 @@ class CommentUpdateOrCreate extends Component
     use Toast;
 
     public Comment $model;
-    public string $title       = '';
+    public string $title = '';
     public string $description = '';
-    public bool $published     = false;
-    public int $user_id        =1;
+    public bool $published = false;
+    public int $user_id = 1;
     public ?int $admin_id;
     public ?int $parent_id;
-    public string $comment       = '';
-    public ?string $admin_note   = '';
-    public array $admins         = [];
-    public array $objects        = [];
-    public string $morphable_type=Blog::class;
-    public array $object_values  =[];
-    public ?int $morphable_id    =1;
+    public string $comment = '';
+    public ?string $admin_note = '';
+    public array $admins = [];
+    public array $objects = [];
+    public string $morphable_type = Blog::class;
+    public array $object_values = [];
+    public ?int $morphable_id = 1;
 
     public function mount(Comment $comment): void
     {
-        $this->model  = $comment;
+        $this->model = $comment;
         $this->admins = User::where(function ($query) {
             $query->whereHas('permissions')
                 ->orWhereHas('roles.permissions');
@@ -50,28 +50,28 @@ class CommentUpdateOrCreate extends Component
                 ];
             })
             ->toArray();
-        $this->object_values=Blog::query()->get()->map(function ($object) {
+        $this->object_values = Blog::query()->get()->map(function ($object) {
             return [
                 'id' => $object->id,
                 'title' => $object->title,
             ];
         })->toArray();
-        $this->morphable_id=$this->object_values[0]['id'];
-        $this->objects     =[[
+        $this->morphable_id = $this->object_values[0]['id'];
+        $this->objects = [[
             'key' => Blog::class,
             'value' => trans('blog.model'),
         ],
         ];
         if ($this->model->id) {
-            $this->published      = (bool) $this->model->published->value;
-            $this->user_id        = $this->model->user_id;
-            $this->admin_id       = $this->model->admin_id;
-            $this->parent_id      = $this->model->parent_id;
-            $this->comment        = $this->model->comment;
-            $this->admin_note     = $this->model->admin_note;
-            $this->morphable_id   = $this->model->morphable_id;
+            $this->published = (bool) $this->model->published->value;
+            $this->user_id = $this->model->user_id;
+            $this->admin_id = $this->model->admin_id;
+            $this->parent_id = $this->model->parent_id;
+            $this->comment = $this->model->comment;
+            $this->admin_note = $this->model->admin_note;
+            $this->morphable_id = $this->model->morphable_id;
             $this->morphable_type = $this->model->morphable_type;
-            $this->object_values  = $this->morphable_type::query()->get()->map(function ($object) {
+            $this->object_values = $this->morphable_type::query()->get()->map(function ($object) {
                 return [
                     'id' => $object->id,
                     'title' => $object->title ?? $object->name,
@@ -99,7 +99,7 @@ class CommentUpdateOrCreate extends Component
 
     public function updatedmorphableType($value)
     {
-        $this->object_values=$this->morphable_type::query()->get()->map(function ($object) {
+        $this->object_values = $this->morphable_type::query()->get()->map(function ($object) {
             return [
                 'id' => $object->id,
                 'title' => $object->title ?? $object->name,

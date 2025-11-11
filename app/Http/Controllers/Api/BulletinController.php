@@ -134,10 +134,10 @@ class BulletinController extends Controller
      */
     public function indexExtraData()
     {
-        $latestBulletin  = Bulletin::latestBulletin();
-        $banners         = Banner::latestBanner();
-        $categories      =Category::bulletinCategories();
-        $tags            =Tag::bulletinTags();
+        $latestBulletin = Bulletin::latestBulletin();
+        $banners = Banner::latestBanner();
+        $categories = Category::bulletinCategories();
+        $tags = Tag::bulletinTags();
 
         return Response::data([
             'banners' => BannerResource::collection($banners),
@@ -192,7 +192,7 @@ class BulletinController extends Controller
     public function extraShowData(Bulletin $bulletin)
     {
         $relatedBulletins = $bulletin->relatedBulletin($bulletin);
-        $banners          = Banner::latestBanner();
+        $banners = Banner::latestBanner();
 
         return Response::data([
             'banners' => BannerResource::collection($banners),
@@ -297,7 +297,7 @@ class BulletinController extends Controller
     public function indexByTag(Request $request, string $value): JsonResponse
     {
         $locale = app()->getLocale();
-        $tag    = SpatieTag::where("slug->{$locale}", $value)->firstOrFail();
+        $tag = SpatieTag::where("slug->{$locale}", $value)->firstOrFail();
 
         return Response::dataWithAdditional(
             $this->query([

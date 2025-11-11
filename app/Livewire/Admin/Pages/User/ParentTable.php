@@ -25,7 +25,7 @@ final class ParentTable extends PowerGridComponent
     use HandlesPasswordChange;
     use PowerGridHelperTrait;
 
-    public string $tableName     = 'parent-index-h9omkb-table';
+    public string $tableName = 'parent-index-h9omkb-table';
     public string $sortDirection = 'desc';
 
     public function boot(): void

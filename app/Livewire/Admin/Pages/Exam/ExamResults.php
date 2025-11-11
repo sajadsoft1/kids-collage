@@ -9,7 +9,7 @@ use Livewire\Component;
 class ExamResults extends Component
 {
     public ExamAttempt $attempt;
-    public $results     = [];
+    public $results = [];
     public $showAnswers = false;
 
     public function mount(ExamAttempt $attempt, ExamAttemptService $service)

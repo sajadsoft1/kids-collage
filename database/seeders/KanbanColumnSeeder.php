@@ -22,7 +22,7 @@ class KanbanColumnSeeder extends Seeder
         $this->command->info('📊 Creating Kanban columns...');
 
         // Get boards
-        $projectBoard   = Board::where('name', 'Project Management')->first();
+        $projectBoard = Board::where('name', 'Project Management')->first();
         $marketingBoard = Board::where('name', 'Marketing Campaign')->first();
 
         if ( ! $projectBoard || ! $marketingBoard) {
@@ -116,7 +116,7 @@ class KanbanColumnSeeder extends Seeder
             );
         }
 
-        $projectColumnCount   = $projectBoard->columns()->count();
+        $projectColumnCount = $projectBoard->columns()->count();
         $marketingColumnCount = $marketingBoard->columns()->count();
 
         $this->command->info("✅ Created columns for Project Management board ({$projectColumnCount} columns)");

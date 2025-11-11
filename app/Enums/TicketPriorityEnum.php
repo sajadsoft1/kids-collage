@@ -9,9 +9,9 @@ enum TicketPriorityEnum: int
     use EnumToArray;
     
     case CRITICAL = 4;      // فوری
-    case HIGH     = 3;      // بالا
-    case MEDIUM   = 2;      // متوسط
-    case LOW      = 1;      // پایین
+    case HIGH = 3;      // بالا
+    case MEDIUM = 2;      // متوسط
+    case LOW = 1;      // پایین
     
     public function title(): string
     {

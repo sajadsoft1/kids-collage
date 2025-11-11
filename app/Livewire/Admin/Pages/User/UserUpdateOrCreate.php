@@ -29,60 +29,60 @@ class UserUpdateOrCreate extends Component
     public $avatar;
     public $national_card;
     public $birth_certificate;
-    public ?string $name                         = '';
-    public ?string $family                       = '';
-    public ?string $email                        = '';
-    public ?string $mobile                       = '';
-    public ?Carbon $birth_date                   = null;
-    public ?string $national_code                = '';
-    public ?string $gender                       = GenderEnum::MALE->value;
-    public ?string $address                      = '';
-    public ?string $phone                        = '';
-    public ?string $father_name                  = '';
-    public ?string $father_phone                 = '';
-    public ?string $mother_name                  = '';
-    public ?string $mother_phone                 = '';
-    public ?int $father_id                       = null;
-    public ?int $mother_id                       = null;
-    public array $children_id                    = [];
-    public ?float $salary                        = 0;
-    public ?float $benefit                       = 0;
-    public ?Carbon $cooperation_start_date       = null;
-    public ?Carbon $cooperation_end_date         = null;
-    public ?string $religion                     = ReligionEnum::ISLAM->value;
-    public bool $status                          = true;
-    public array $rules                          = [];
-    public array $selected_rules                 = [];
-    public UserTypeEnum $detected_user_type      = UserTypeEnum::USER;
-    public string $detected_route_name           = 'admin.user';
+    public ?string $name = '';
+    public ?string $family = '';
+    public ?string $email = '';
+    public ?string $mobile = '';
+    public ?Carbon $birth_date = null;
+    public ?string $national_code = '';
+    public ?string $gender = GenderEnum::MALE->value;
+    public ?string $address = '';
+    public ?string $phone = '';
+    public ?string $father_name = '';
+    public ?string $father_phone = '';
+    public ?string $mother_name = '';
+    public ?string $mother_phone = '';
+    public ?int $father_id = null;
+    public ?int $mother_id = null;
+    public array $children_id = [];
+    public ?float $salary = 0;
+    public ?float $benefit = 0;
+    public ?Carbon $cooperation_start_date = null;
+    public ?Carbon $cooperation_end_date = null;
+    public ?string $religion = ReligionEnum::ISLAM->value;
+    public bool $status = true;
+    public array $rules = [];
+    public array $selected_rules = [];
+    public UserTypeEnum $detected_user_type = UserTypeEnum::USER;
+    public string $detected_route_name = 'admin.user';
 
     public function mount(User $user): void
     {
         $this->getCurrentUserType();
         $this->getRoutePrefix();
 
-        $this->user  = $user;
+        $this->user = $user;
         $this->rules = Role::all()->map(fn ($item) => ['name' => $item->name, 'id' => $item->id])->toArray();
         if ($this->user->id) {
-            $this->name                   = $this->user->name;
-            $this->family                 = $this->user->family;
-            $this->email                  = $this->user->email;
-            $this->mobile                 = $this->user->mobile;
-            $this->status                 = (bool) $this->user->status->value;
-            $this->gender                 = $this->user->profile?->gender?->value;
-            $this->birth_date             = $this->user->profile?->birth_date;
-            $this->national_code          = $this->user->profile?->national_code;
-            $this->address                = $this->user->profile?->address;
-            $this->phone                  = $this->user->profile?->phone;
-            $this->father_name            = $this->user->profile?->father_name;
-            $this->father_phone           = $this->user->profile?->father_phone;
-            $this->mother_name            = $this->user->profile?->mother_name;
-            $this->mother_phone           = $this->user->profile?->mother_phone;
-            $this->religion               = $this->user->profile?->religion?->value;
-            $this->salary                 = $this->user->profile?->salary;
-            $this->benefit                = $this->user->profile?->benefit;
+            $this->name = $this->user->name;
+            $this->family = $this->user->family;
+            $this->email = $this->user->email;
+            $this->mobile = $this->user->mobile;
+            $this->status = (bool) $this->user->status->value;
+            $this->gender = $this->user->profile?->gender?->value;
+            $this->birth_date = $this->user->profile?->birth_date;
+            $this->national_code = $this->user->profile?->national_code;
+            $this->address = $this->user->profile?->address;
+            $this->phone = $this->user->profile?->phone;
+            $this->father_name = $this->user->profile?->father_name;
+            $this->father_phone = $this->user->profile?->father_phone;
+            $this->mother_name = $this->user->profile?->mother_name;
+            $this->mother_phone = $this->user->profile?->mother_phone;
+            $this->religion = $this->user->profile?->religion?->value;
+            $this->salary = $this->user->profile?->salary;
+            $this->benefit = $this->user->profile?->benefit;
             $this->cooperation_start_date = $this->user->profile?->cooperation_start_date;
-            $this->cooperation_end_date   = $this->user->profile?->cooperation_end_date;
+            $this->cooperation_end_date = $this->user->profile?->cooperation_end_date;
 
             if ($this->detected_user_type === UserTypeEnum::USER) {
                 $this->father_id = $this->user->father()?->id;
@@ -105,7 +105,7 @@ class UserUpdateOrCreate extends Component
      */
     public function getCurrentUserType(): UserTypeEnum
     {
-        $routeName                = request()->route()?->getName();
+        $routeName = request()->route()?->getName();
         $this->detected_user_type = match (true) {
             str_starts_with($routeName, 'admin.parent.') => UserTypeEnum::PARENT,
             str_starts_with($routeName, 'admin.employee.') => UserTypeEnum::EMPLOYEE,
@@ -119,7 +119,7 @@ class UserUpdateOrCreate extends Component
     /** Get the appropriate route name for the current user type */
     public function getRoutePrefix(): string
     {
-        $routeName                 = request()->route()?->getName();
+        $routeName = request()->route()?->getName();
         $this->detected_route_name = match (true) {
             str_starts_with($routeName, 'admin.parent.') => 'admin.parent',
             str_starts_with($routeName, 'admin.employee.') => 'admin.employee',
@@ -186,9 +186,9 @@ class UserUpdateOrCreate extends Component
     /** @throws RandomException */
     public function submit(): void
     {
-        $payload          = $this->validate();
+        $payload = $this->validate();
         $payload['rules'] = $payload['selected_rules'];
-        $payload['type']  = $this->detected_user_type->value;
+        $payload['type'] = $this->detected_user_type->value;
 
         if ($this->user->id) {
             try {
@@ -202,7 +202,7 @@ class UserUpdateOrCreate extends Component
             }
         } else {
             $payload['id_number'] = now()->format('Y') . now()->format('m') . random_int(10000, 99999);
-            $payload['password']  = Hash::make($this->mobile);
+            $payload['password'] = Hash::make($this->mobile);
 
             try {
                 StoreUserAction::run($payload);

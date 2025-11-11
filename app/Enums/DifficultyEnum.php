@@ -8,9 +8,9 @@ enum DifficultyEnum: string
 {
     use EnumToArray;
 
-    case EASY   = 'easy';
+    case EASY = 'easy';
     case MEDIUM = 'medium';
-    case HARD   = 'hard';
+    case HARD = 'hard';
 
     public function title(): string
     {

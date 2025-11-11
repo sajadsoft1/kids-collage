@@ -14,7 +14,7 @@ class FaqSeeder extends Seeder
     /** Run the database seeds. */
     public function run(): void
     {
-        $data     = require database_path('seeders/data/karno.php');
+        $data = require database_path('seeders/data/karno.php');
         $category = StoreCategoryAction::run([
             'slug' => 'faq' . random_int(1, 500000),
             'title' => $data['categories'][0]['title'],

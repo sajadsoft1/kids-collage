@@ -16,8 +16,8 @@ use Livewire\Attributes\On;
 trait HasModalForm
 {
     // Modal properties
-    public bool $showModal  = false;
-    public ?int $editingId  = null;
+    public bool $showModal = false;
+    public ?int $editingId = null;
     public array $modalData = [];
 
     /**
@@ -60,14 +60,14 @@ trait HasModalForm
     {
         $this->resetModalData();
         $modelClass = $this->getModelClass();
-        $model      = $modelClass::findOrFail($id);
+        $model = $modelClass::findOrFail($id);
 
         $this->editingId = $id;
 
         // پر کردن داده‌ها از مدل
         foreach ($this->modalFields() as $field) {
             $fieldName = $field['name'];
-            $value     = $model->{$fieldName};
+            $value = $model->{$fieldName};
 
             // اگر فیلد یک Enum باشه، مقدارش رو بگیر
             if (is_object($value) && enum_exists($value::class)) {
@@ -140,7 +140,7 @@ trait HasModalForm
     {
         try {
             $validated = $this->validate();
-            $payload   = $validated['modalData'];
+            $payload = $validated['modalData'];
         } catch (\Illuminate\Validation\ValidationException $e) {
             // تبدیل پیام‌های خطا از فرمت modalData.title به modalData.title
             foreach ($e->errors() as $key => $messages) {
@@ -152,8 +152,8 @@ trait HasModalForm
 
         if ($this->editingId) {
             // بروزرسانی
-            $modelClass   = $this->getModelClass();
-            $model        = $modelClass::findOrFail($this->editingId);
+            $modelClass = $this->getModelClass();
+            $model = $modelClass::findOrFail($this->editingId);
             $updateAction = $this->getUpdateActionClass();
             $updateAction::run($model, $payload);
 
@@ -224,7 +224,7 @@ trait HasModalForm
 
             // تلاش برای دریافت ترجمه
             $translationKey = 'validation.attributes.' . $lastSegment;
-            $translated     = trans($translationKey);
+            $translated = trans($translationKey);
 
             // اگر ترجمه برابر با کلید بود (یعنی ترجمه پیدا نشد)، از کلید اصلی استفاده کن
             return ($translated !== $translationKey) ? $translated : $lastSegment;

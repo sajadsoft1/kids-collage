@@ -89,7 +89,7 @@ class CourseSessionTemplate extends Model
     /** Get formatted duration string. */
     public function getFormattedDurationAttribute(): string
     {
-        $hours   = floor($this->duration_minutes / 60);
+        $hours = floor($this->duration_minutes / 60);
         $minutes = $this->duration_minutes % 60;
 
         if ($hours > 0) {

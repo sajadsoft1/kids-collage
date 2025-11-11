@@ -77,7 +77,7 @@ class Attendance extends Model
             return null;
         }
 
-        $hours   = floor($duration / 60);
+        $hours = floor($duration / 60);
         $minutes = $duration % 60;
 
         if ($hours > 0) {

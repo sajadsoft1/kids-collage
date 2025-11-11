@@ -15,7 +15,7 @@ readonly class SettingService
 {
     public static function set(SettingEnum $enum, string $key, mixed $value): Setting
     {
-        $class   = self::getSettingTemplateClass($enum->value);
+        $class = self::getSettingTemplateClass($enum->value);
         $setting = Setting::createOrFirst([
             'key' => $enum->value,
         ], [
@@ -69,7 +69,7 @@ readonly class SettingService
             $filterKeys = [];
         }
         
-        $template    = self::getSettingTemplateClass($setting->key)->template($setting);
+        $template = self::getSettingTemplateClass($setting->key)->template($setting);
         $settingEnum = SettingEnum::tryFrom($setting->key);
         
         if ( ! empty($filterKeys)) {
@@ -144,7 +144,7 @@ readonly class SettingService
         ], [
             'permissions' => ['Shared.Admin'],
         ]);
-        $class   = self::getSettingTemplateClass($setting->key);
+        $class = self::getSettingTemplateClass($setting->key);
         $updated = $class->update($setting, $payload);
 
         return $class->template($updated);

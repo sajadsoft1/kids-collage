@@ -24,19 +24,19 @@ class BlogUpdateOrCreate extends Component
     use Toast, WithFileUploads;
 
     public Blog $model;
-    public ?string $title           = '';
-    public ?string $description     = '';
-    public ?string $body            = '';
-    public bool $published          = false;
-    public $published_at            = '';
-    public array $categories        = [];
-    public array $tags              = [];
-    public int $category_id         = 1;
+    public ?string $title = '';
+    public ?string $description = '';
+    public ?string $body = '';
+    public bool $published = false;
+    public $published_at = '';
+    public array $categories = [];
+    public array $tags = [];
+    public int $category_id = 1;
     public $image;
 
     public function mount(Blog $blog): void
     {
-        $this->model      = $blog;
+        $this->model = $blog;
         $this->categories = Category::where('type', CategoryTypeEnum::BLOG)
             ->where('published', BooleanEnum::ENABLE)
             ->get()
@@ -44,13 +44,13 @@ class BlogUpdateOrCreate extends Component
 
         $this->published_at = now()->format('Y-m-d');
         if ($this->model->id) {
-            $this->title        = $this->model->title;
-            $this->description  = $this->model->description;
-            $this->body         = $this->model->body;
-            $this->published    = $this->model->published->asBoolean();
+            $this->title = $this->model->title;
+            $this->description = $this->model->description;
+            $this->body = $this->model->body;
+            $this->published = $this->model->published->asBoolean();
             $this->published_at = $this->model->published_at;
-            $this->category_id  = $this->model->category_id;
-            $this->tags         = $this->model->tags()->pluck('name')->toArray();
+            $this->category_id = $this->model->category_id;
+            $this->tags = $this->model->tags()->pluck('name')->toArray();
         }
     }
 

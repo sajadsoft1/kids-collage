@@ -21,18 +21,18 @@ class ClientUpdateOrCreate extends Component
     use WithFileUploads;
 
     public Client $model;
-    public string $title        = '';
-    public string $description  = '';
-    public bool $published      = false;
-    public ?string $link        ='';
+    public string $title = '';
+    public string $description = '';
+    public bool $published = false;
+    public ?string $link = '';
     public $image;
 
     public function mount(Client $client): void
     {
         $this->model = $client;
         if ($this->model->id) {
-            $this->title     = $this->model->title;
-            $this->link      = $this->model->link;
+            $this->title = $this->model->title;
+            $this->link = $this->model->link;
             $this->published = (bool) $this->model->published->value;
         }
     }

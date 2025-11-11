@@ -13,21 +13,21 @@ use Livewire\Component;
 
 class LatestTicketsWidget extends Component
 {
-    public ?int $userId        = null;
-    public int $limit          = 10;
+    public ?int $userId = null;
+    public int $limit = 10;
     public ?string $start_date = null;
-    public ?string $end_date   = null;
-    public string $status      = '';
-    public string $department  = '';
+    public ?string $end_date = null;
+    public string $status = '';
+    public string $department = '';
 
     /** Initialize the widget with default values */
     public function mount(int $limit = 10, ?string $start_date = null, ?string $end_date = null, ?string $status = null, ?string $department = null, ?int $userId = null): void
     {
-        $this->userId     = $userId;
-        $this->limit      = $limit;
+        $this->userId = $userId;
+        $this->limit = $limit;
         $this->start_date = $start_date ?? Carbon::now()->subDays(30)->format('Y-m-d');
-        $this->end_date   = $end_date ?? Carbon::now()->format('Y-m-d');
-        $this->status     = $status ?? '';
+        $this->end_date = $end_date ?? Carbon::now()->format('Y-m-d');
+        $this->status = $status ?? '';
         $this->department = $department ?? '';
     }
 

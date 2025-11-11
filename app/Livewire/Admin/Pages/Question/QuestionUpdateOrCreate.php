@@ -35,13 +35,13 @@ class QuestionUpdateOrCreate extends Component
     public $explanation;
     public $difficulty;
     public $default_score = 1;
-    public $tags          = [];
+    public $tags = [];
 
     // Dynamic based on type
-    public $options        = [];
-    public $config         = [];
+    public $options = [];
+    public $config = [];
     public $correct_answer = [];
-    public $metadata       = [];
+    public $metadata = [];
     public Question $model;
 
     public function mount(Question $question): void
@@ -93,11 +93,11 @@ class QuestionUpdateOrCreate extends Component
         // Add dynamic rules based on question type
         if ($this->type) {
             $typeEnum = QuestionTypeEnum::from($this->type);
-            $handler  = $typeEnum->handler();
+            $handler = $typeEnum->handler();
 
             // Create temporary question for validation
             $tempQuestion = new Question(['type' => $typeEnum]);
-            $typeHandler  = new $handler($tempQuestion);
+            $typeHandler = new $handler($tempQuestion);
 
             $typeRules = $typeHandler->validationRules();
 

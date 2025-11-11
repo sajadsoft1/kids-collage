@@ -92,17 +92,17 @@ class OrderItem extends Model
     public function getItemDescriptionAttribute(): string
     {
         if ($this->itemable_type === Enrollment::class) {
-            $course   = $this->itemable->course;
+            $course = $this->itemable->course;
             $template = $course->courseTemplate;
-            $term     = $course->term;
+            $term = $course->term;
             
             return "Enrollment in {$template->title} for {$term->title}";
         }
 
         if ($this->itemable_type === Course::class) {
-            $course   = $this->itemable;
+            $course = $this->itemable;
             $template = $course->courseTemplate;
-            $term     = $course->term;
+            $term = $course->term;
             
             return "{$template->title} - {$term->title}";
         }
@@ -212,7 +212,7 @@ class OrderItem extends Model
     {
         if ($this->isCourseEnrollment()) {
             $enrollment = $this->enrollment;
-            $course     = $enrollment->course;
+            $course = $enrollment->course;
             
             // Check if course is in early bird period
             if ($course->isEarlyBirdPeriod()) {

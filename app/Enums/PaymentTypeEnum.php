@@ -8,8 +8,8 @@ enum PaymentTypeEnum: string
 {
     use EnumToArray;
 
-    case ONLINE       = 'online';
-    case CASH         = 'cash';
+    case ONLINE = 'online';
+    case CASH = 'cash';
     case CARD_TO_CARD = 'card_to_card';
 
     public static function options(): array

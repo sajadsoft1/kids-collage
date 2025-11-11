@@ -67,8 +67,8 @@ class SmsIrDriver extends AbstractSmsDriver implements DeliveryReportFetcher, Pi
             ]);
 
             $statusCode = $response->getStatusCode();
-            $body       = (string) $response->getBody();
-            $data       = json_decode($body, true);
+            $body = (string) $response->getBody();
+            $data = json_decode($body, true);
 
             if ($statusCode !== 200 && $statusCode !== 201) {
                 $errorMessage = $this->parseErrorResponse($data);
@@ -130,8 +130,8 @@ class SmsIrDriver extends AbstractSmsDriver implements DeliveryReportFetcher, Pi
             ]);
 
             $statusCode = $response->getStatusCode();
-            $body       = (string) $response->getBody();
-            $data       = json_decode($body, true);
+            $body = (string) $response->getBody();
+            $data = json_decode($body, true);
 
             if ($statusCode !== 200 && $statusCode !== 201) {
                 $errorMessage = $this->parseErrorResponse($data);
@@ -193,8 +193,8 @@ class SmsIrDriver extends AbstractSmsDriver implements DeliveryReportFetcher, Pi
             ]);
 
             $statusCode = $response->getStatusCode();
-            $body       = (string) $response->getBody();
-            $data       = json_decode($body, true);
+            $body = (string) $response->getBody();
+            $data = json_decode($body, true);
 
             return $statusCode === 200
                 && isset($data['status'])
@@ -228,8 +228,8 @@ class SmsIrDriver extends AbstractSmsDriver implements DeliveryReportFetcher, Pi
             ]);
 
             $statusCode = $response->getStatusCode();
-            $body       = (string) $response->getBody();
-            $data       = json_decode($body, true);
+            $body = (string) $response->getBody();
+            $data = json_decode($body, true);
 
             if ($statusCode !== 200) {
                 Log::warning('SMS.ir delivery report failed', [

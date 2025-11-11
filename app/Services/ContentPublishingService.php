@@ -25,7 +25,7 @@ class ContentPublishingService
     /** Discover models that use HasScheduledPublishing trait */
     private function discoverPublishableModels(): array
     {
-        $models     = [];
+        $models = [];
         $modelsPath = app_path('Models');
 
         if ( ! File::exists($modelsPath)) {
@@ -69,7 +69,7 @@ class ContentPublishingService
         $allScheduled = collect();
 
         foreach ($this->publishableModels as $modelClass) {
-            $scheduled    = $this->getScheduledForModel($modelClass);
+            $scheduled = $this->getScheduledForModel($modelClass);
             $allScheduled = $allScheduled->merge($scheduled);
         }
 
@@ -180,7 +180,7 @@ class ContentPublishingService
 
             // Check which scopes are available on the model
             $hasPublishedScope = method_exists($modelClass, 'scopePublished');
-            $hasDraftScope     = method_exists($modelClass, 'scopeDraft');
+            $hasDraftScope = method_exists($modelClass, 'scopeDraft');
 
             $stats[$modelName] = [
                 'total' => $modelClass::count(),

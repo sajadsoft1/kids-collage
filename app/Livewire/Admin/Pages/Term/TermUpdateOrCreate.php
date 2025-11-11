@@ -20,21 +20,21 @@ class TermUpdateOrCreate extends Component
     use Toast;
 
     public Term $model;
-    public string $title       = '';
+    public string $title = '';
     public string $description = '';
-    public $start_date         = '';
-    public $end_date           = '';
-    public string $status      = '';
+    public $start_date = '';
+    public $end_date = '';
+    public string $status = '';
 
     public function mount(Term $term): void
     {
         $this->model = $term;
         if ($this->model->id) {
-            $this->title            = $this->model->title;
-            $this->description      = $this->model->description;
-            $this->start_date       = $this->model->start_date->format('Y-m-d');
-            $this->end_date         = $this->model->end_date->format(Constants::DEFAULT_DATE_FORMAT);
-            $this->status           = $this->model->status->value;
+            $this->title = $this->model->title;
+            $this->description = $this->model->description;
+            $this->start_date = $this->model->start_date->format('Y-m-d');
+            $this->end_date = $this->model->end_date->format(Constants::DEFAULT_DATE_FORMAT);
+            $this->status = $this->model->status->value;
         }
     }
 

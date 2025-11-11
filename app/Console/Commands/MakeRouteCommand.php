@@ -34,7 +34,7 @@ class MakeRouteCommand extends Command
         $model = Str::studly($model);
 
         //         route admin
-        $stub        = __DIR__ . '/stubs/route-admin' . ($this->option('simple') ? '-simple' : '') . '.php.stub';
+        $stub = __DIR__ . '/stubs/route-admin' . ($this->option('simple') ? '-simple' : '') . '.php.stub';
         $route_admin = file_get_contents($stub);
         $route_admin = str_replace(
             [

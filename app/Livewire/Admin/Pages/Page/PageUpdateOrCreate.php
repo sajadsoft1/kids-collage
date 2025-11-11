@@ -23,8 +23,8 @@ class PageUpdateOrCreate extends Component
 
     public Page $model;
     public ?string $title = '';
-    public ?string $body  = '';
-    public ?string $type  = PageTypeEnum::RULES->value;
+    public ?string $body = '';
+    public ?string $type = PageTypeEnum::RULES->value;
     public $image;
 
     public function mount(Page $page): void
@@ -32,8 +32,8 @@ class PageUpdateOrCreate extends Component
         $this->model = $page;
         if ($this->model->id) {
             $this->title = $this->model->title;
-            $this->body  = $this->model->body;
-            $this->type  = $this->model->type->value;
+            $this->body = $this->model->body;
+            $this->type = $this->model->type->value;
         }
     }
 

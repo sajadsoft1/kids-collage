@@ -23,7 +23,7 @@ final class TeammateTable extends PowerGridComponent
 {
     use PowerGridHelperTrait;
 
-    public string $tableName     = 'index_teammate_datatable';
+    public string $tableName = 'index_teammate_datatable';
     public string $sortDirection = 'desc';
 
     public function setUp(): array

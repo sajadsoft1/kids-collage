@@ -34,7 +34,7 @@ class MakeControllerCommand extends Command
 
         $content_controller = file_get_contents(__DIR__ . '/stubs/controller.php.stub');
         $content_controller = $this->string_model_replace($model, $content_controller);
-        $path               = base_path('app/Http/Controllers/Api/');
+        $path = base_path('app/Http/Controllers/Api/');
 
         if ( ! file_exists($path . '/' . $model . 'Controller.php')) {
             File::put($path . '/' . $model . 'Controller.php', $content_controller);

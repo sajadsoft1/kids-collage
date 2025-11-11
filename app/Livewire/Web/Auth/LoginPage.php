@@ -14,9 +14,9 @@ class LoginPage extends Component
 {
     use Toast;
 
-    public string $email    = '';
+    public string $email = '';
     public string $password = '';
-    public bool $remember   = false;
+    public bool $remember = false;
 
     protected function rules(): array
     {

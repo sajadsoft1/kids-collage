@@ -8,14 +8,14 @@ use Livewire\Component;
 
 class Ordering extends Component
 {
-    public array $options       = [];
-    public array $config        = [];
-    public ?int $questionIndex  = null;
+    public array $options = [];
+    public array $config = [];
+    public ?int $questionIndex = null;
 
     public function mount(array $options = [], array $config = [], ?int $questionIndex = null): void
     {
-        $this->options       = empty($options) ? $this->getDefaultOptions() : $options;
-        $this->config        = array_merge($this->getDefaultConfig(), $config);
+        $this->options = empty($options) ? $this->getDefaultOptions() : $options;
+        $this->config = array_merge($this->getDefaultConfig(), $config);
         $this->questionIndex = $questionIndex;
         // Sync initial data
         $this->syncData();

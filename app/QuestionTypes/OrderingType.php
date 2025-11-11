@@ -68,11 +68,11 @@ class OrderingType extends AbstractQuestionType
             case 'adjacent':
                 // نمره بر اساس جفت‌های مجاور صحیح
                 $correctPairs = 0;
-                $totalPairs   = count($correctOrder) - 1;
+                $totalPairs = count($correctOrder) - 1;
 
                 for ($i = 0; $i < $totalPairs; $i++) {
                     $currentIndex = array_search($correctOrder[$i], $answer);
-                    $nextIndex    = array_search($correctOrder[$i + 1], $answer);
+                    $nextIndex = array_search($correctOrder[$i + 1], $answer);
 
                     if ($currentIndex !== false && $nextIndex !== false && $nextIndex === $currentIndex + 1) {
                         $correctPairs++;

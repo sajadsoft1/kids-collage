@@ -98,9 +98,9 @@ class CardFlow extends Model
     /** Evaluate a single condition against a card. */
     private function evaluateCondition(array $condition, Card $card): bool
     {
-        $field    = $condition['field'] ?? '';
+        $field = $condition['field'] ?? '';
         $operator = $condition['operator'] ?? '';
-        $value    = $condition['value'] ?? '';
+        $value = $condition['value'] ?? '';
 
         return match ($field) {
             'priority' => $this->compareValues($card->priority->value, $operator, $value),
@@ -135,7 +135,7 @@ class CardFlow extends Model
             return $operator === 'is_null';
         }
 
-        $cardDateTime      = \Carbon\Carbon::parse($cardDate);
+        $cardDateTime = \Carbon\Carbon::parse($cardDate);
         $conditionDateTime = \Carbon\Carbon::parse($conditionValue);
 
         return match ($operator) {
@@ -151,9 +151,9 @@ class CardFlow extends Model
     /** Compare extra attributes. */
     private function compareExtraAttributes(Card $card, array $condition): bool
     {
-        $key      = $condition['key'] ?? '';
+        $key = $condition['key'] ?? '';
         $operator = $condition['operator'] ?? '';
-        $value    = $condition['value'] ?? '';
+        $value = $condition['value'] ?? '';
 
         $cardValue = $card->getExtraAttribute($key);
 

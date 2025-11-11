@@ -257,8 +257,8 @@ class Course extends Model
     public function getFormattedSessionDurationAttribute(): string
     {
         $duration = $this->session_duration;
-        $hours    = floor($duration / 60);
-        $minutes  = $duration % 60;
+        $hours = floor($duration / 60);
+        $minutes = $duration % 60;
 
         if ($hours > 0) {
             return $minutes > 0 ? "{$hours}h {$minutes}m" : "{$hours}h";
@@ -366,8 +366,8 @@ class Course extends Model
     protected function createScheduledSessions(): void
     {
         $sessionTemplates = $this->template->sessionTemplates;
-        $currentDate      = $this->term->start_date->copy();
-        $endDate          = $this->term->end_date;
+        $currentDate = $this->term->start_date->copy();
+        $endDate = $this->term->end_date;
 
         foreach ($sessionTemplates as $template) {
             // Find the next available date based on days_of_week

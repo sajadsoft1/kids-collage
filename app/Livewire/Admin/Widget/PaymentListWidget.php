@@ -47,12 +47,12 @@ class PaymentListWidget extends Component
         ?string $type = null,
         ?User $user = null
     ): void {
-        $this->limit      = $limit;
+        $this->limit = $limit;
         $this->start_date = $start_date ?? Carbon::now()->subDays(30)->format('Y-m-d');
-        $this->end_date   = $end_date ?? Carbon::now()->format('Y-m-d');
-        $this->status     = $status ?? '';
-        $this->type       = $type ?? '';
-        $this->user_id    = $user?->id;
+        $this->end_date = $end_date ?? Carbon::now()->format('Y-m-d');
+        $this->status = $status ?? '';
+        $this->type = $type ?? '';
+        $this->user_id = $user?->id;
     }
 
     /** Get latest payments */
@@ -148,10 +148,10 @@ class PaymentListWidget extends Component
     /** Reset all filters */
     public function resetFilters(): void
     {
-        $this->status     = '';
-        $this->type       = '';
+        $this->status = '';
+        $this->type = '';
         $this->start_date = Carbon::now()->subDays(30)->format('Y-m-d');
-        $this->end_date   = Carbon::now()->format('Y-m-d');
+        $this->end_date = Carbon::now()->format('Y-m-d');
     }
 
     /** Get status badge class */

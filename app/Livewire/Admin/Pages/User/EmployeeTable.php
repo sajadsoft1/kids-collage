@@ -26,7 +26,7 @@ final class EmployeeTable extends PowerGridComponent
     use HandlesPasswordChange;
     use PowerGridHelperTrait;
 
-    public string $tableName     = 'employee-index-h9omkb-table';
+    public string $tableName = 'employee-index-h9omkb-table';
     public string $sortDirection = 'desc';
 
     public function boot(): void

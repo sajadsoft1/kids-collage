@@ -9,7 +9,7 @@ enum DiscountTypeEnum: string
     use EnumToArray;
 
     case PERCENTAGE = 'percentage';
-    case AMOUNT     = 'amount';
+    case AMOUNT = 'amount';
 
     public static function options(): array
     {

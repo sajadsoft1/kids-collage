@@ -171,13 +171,13 @@ class Question extends Model
 
     public function duplicate(): self
     {
-        $newQuestion              = $this->replicate();
-        $newQuestion->title       = $this->title . ' (کپی)';
+        $newQuestion = $this->replicate();
+        $newQuestion->title = $this->title . ' (کپی)';
         $newQuestion->usage_count = 0;
         $newQuestion->save();
 
         foreach ($this->options as $option) {
-            $newOption              = $option->replicate();
+            $newOption = $option->replicate();
             $newOption->question_id = $newQuestion->id;
             $newOption->save();
         }
@@ -195,7 +195,7 @@ class Question extends Model
             ->whereNotNull('is_correct')
             ->get();
 
-        $totalAnswers   = $answers->count();
+        $totalAnswers = $answers->count();
         $correctAnswers = $answers->where('is_correct', true)->count();
 
         return [

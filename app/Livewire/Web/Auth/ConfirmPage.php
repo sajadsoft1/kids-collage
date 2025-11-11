@@ -13,10 +13,10 @@ class ConfirmPage extends Component
 {
     use Toast;
 
-    public string $email      = '';
-    public string $code       = '';
+    public string $email = '';
+    public string $code = '';
     public bool $codeVerified = false;
-    public ?User $user        = null;
+    public ?User $user = null;
 
     protected function rules(): array
     {

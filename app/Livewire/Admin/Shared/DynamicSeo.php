@@ -23,45 +23,45 @@ class DynamicSeo extends Component
     public string $tabSelected = 'config-tab';
     public mixed $model;
     public string $class;
-    public string $back_route  = '';
-    public array $dates        = [];
+    public string $back_route = '';
+    public array $dates = [];
 
     // config
-    public ?string $slug            = '';
-    public ?string $seo_title       = '';
+    public ?string $slug = '';
+    public ?string $seo_title = '';
     public ?string $seo_description = '';
-    public ?string $canonical       = '';
-    public ?string $old_url         = '';
-    public ?string $redirect_to     = '';
-    public ?string $robots_meta     = SeoRobotsMetaEnum::INDEX_FOLLOW->value;
+    public ?string $canonical = '';
+    public ?string $old_url = '';
+    public ?string $redirect_to = '';
+    public ?string $robots_meta = SeoRobotsMetaEnum::INDEX_FOLLOW->value;
 
     // charts
-    public array $viewsChart                    = [];
-    public array $expandedComments              = [];
-    public $viewsChartSelectedMonth             = 6;
+    public array $viewsChart = [];
+    public array $expandedComments = [];
+    public $viewsChartSelectedMonth = 6;
 
-    public array $commentsChart              = [];
-    public $commentsChartSelectedMonth       = 6;
+    public array $commentsChart = [];
+    public $commentsChartSelectedMonth = 6;
 
-    public array $wishesChart              = [];
-    public $wishesChartSelectedMonth       = 6;
+    public array $wishesChart = [];
+    public $wishesChartSelectedMonth = 6;
 
     public function mount(string $class, int $id): void
     {
         // abort_if( ! config('custom-modules.seo'), 403);
-        $this->class           = $class;
-        $this->model           = Utils::getEloquent($class)::find($id);
-        $this->back_route      = match ($class) {
+        $this->class = $class;
+        $this->model = Utils::getEloquent($class)::find($id);
+        $this->back_route = match ($class) {
             'courseSessionTemplate' => route('admin.course-session-template.index', ['courseTemplate' => $this->model->course_template_id]),
             default => route('admin.' . Str::kebab($class) . '.index'),
         };
-        $this->slug            = $this->model->slug;
-        $this->seo_title       = $this->model->seoOption->title;
+        $this->slug = $this->model->slug;
+        $this->seo_title = $this->model->seoOption->title;
         $this->seo_description = $this->model->seoOption->description;
-        $this->canonical       = $this->model->seoOption->canonical;
-        $this->old_url         = $this->model->seoOption->old_url;
-        $this->redirect_to     = $this->model->seoOption->redirect_to;
-        $this->robots_meta     = $this->model->seoOption->robots_meta->value;
+        $this->canonical = $this->model->seoOption->canonical;
+        $this->old_url = $this->model->seoOption->old_url;
+        $this->redirect_to = $this->model->seoOption->redirect_to;
+        $this->robots_meta = $this->model->seoOption->robots_meta->value;
 
         $this->loadViewsChartData();
         $this->loadCommentsChartData();
@@ -133,7 +133,7 @@ class DynamicSeo extends Component
     private function chartGenerator(Builder $baseQuery, string $chartType = 'bar', int $month = 3): array
     {
         $startDate = now()->subMonths($month)->startOfMonth();
-        $wishes    = $baseQuery
+        $wishes = $baseQuery
             ->where('created_at', '>=', $startDate)
             ->selectRaw('DATE_FORMAT(created_at, "%Y-%m") as month, COUNT(*) as count')
             ->groupBy('month')
@@ -141,11 +141,11 @@ class DynamicSeo extends Component
             ->get();
 
         $labels = [];
-        $data   = [];
+        $data = [];
         foreach (CarbonPeriod::create($startDate, '1 month', now()->startOfMonth()) as $date) {
             $monthLabel = $date->format('Y-m');
-            $labels[]   = $monthLabel;
-            $data[]     = $wishes->firstWhere('month', $monthLabel)?->count ?? 0;
+            $labels[] = $monthLabel;
+            $data[] = $wishes->firstWhere('month', $monthLabel)?->count ?? 0;
         }
 
         return [
@@ -191,7 +191,7 @@ class DynamicSeo extends Component
 
     public function onSubmit(): void
     {
-        $payload =  $this->validate();
+        $payload = $this->validate();
 
         $this->model->seoOption->update([
             'title' => $payload['seo_title'],

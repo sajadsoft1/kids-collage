@@ -25,7 +25,7 @@ class BoardList extends Component
 {
     use WithPagination;
 
-    public bool $showBoardModal  = false;
+    public bool $showBoardModal = false;
     public bool $showDeleteModal = false;
     public ?Board $selectedBoard = null;
     public ?Board $boardToDelete = null;
@@ -131,7 +131,7 @@ class BoardList extends Component
         if ($this->selectedBoard) {
             $this->selectedBoard->update($this->boardForm);
             $this->showBoardModal = false;
-            $this->selectedBoard  = null;
+            $this->selectedBoard = null;
 
             $this->dispatch('board-updated', message: __('kanban.messages.board_updated'));
         }
@@ -143,7 +143,7 @@ class BoardList extends Component
         if ($this->boardToDelete) {
             $this->boardToDelete->delete();
             $this->showDeleteModal = false;
-            $this->boardToDelete   = null;
+            $this->boardToDelete = null;
 
             $this->dispatch('board-deleted', message: __('kanban.messages.board_deleted'));
         }
@@ -153,7 +153,7 @@ class BoardList extends Component
     public function editBoard(Board $board): void
     {
         $this->selectedBoard = $board;
-        $this->boardForm     = [
+        $this->boardForm = [
             'name' => $board->name,
             'description' => $board->description,
             'color' => $board->color,
@@ -165,7 +165,7 @@ class BoardList extends Component
     /** Confirm board deletion. */
     public function confirmDelete(Board $board): void
     {
-        $this->boardToDelete   = $board;
+        $this->boardToDelete = $board;
         $this->showDeleteModal = true;
     }
 

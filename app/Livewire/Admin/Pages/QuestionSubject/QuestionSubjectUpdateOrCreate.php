@@ -16,17 +16,17 @@ class QuestionSubjectUpdateOrCreate extends Component
     use Toast;
 
     public QuestionSubject $model;
-    public string $title       = '';
+    public string $title = '';
     public string $description = '';
-    public bool $published     = false;
+    public bool $published = false;
 
     public function mount(QuestionSubject $questionSubject): void
     {
         $this->model = $questionSubject;
         if ($this->model->id) {
-            $this->title       = $this->model->title;
+            $this->title = $this->model->title;
             $this->description = $this->model->description;
-            $this->published   = $this->model->published->value;
+            $this->published = $this->model->published->value;
         }
     }
 

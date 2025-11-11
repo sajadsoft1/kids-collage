@@ -23,7 +23,7 @@ final class AttendanceTable extends PowerGridComponent
 {
     use PowerGridHelperTrait;
 
-    public string $tableName     = 'index_attendance_datatable';
+    public string $tableName = 'index_attendance_datatable';
     public string $sortDirection = 'desc';
 
     public function boot(): void

@@ -23,7 +23,7 @@ final class FaqTable extends PowerGridComponent
 {
     use PowerGridHelperTrait;
 
-    public string $tableName     = 'index_faq_datatable';
+    public string $tableName = 'index_faq_datatable';
     public string $sortDirection = 'desc';
 
     public function boot(): void

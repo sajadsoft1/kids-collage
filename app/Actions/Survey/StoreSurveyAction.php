@@ -43,12 +43,14 @@ class StoreSurveyAction
     public function handle(array $payload): Exam
     {
         return DB::transaction(function () use ($payload) {
-            $rules     = $payload['rules'] ?? null;
+            $rules = $payload['rules'] ?? null;
             $questions = $payload['questions'] ?? [];
 
             unset($payload['rules'], $payload['questions']);
 
-            $payload['created_by'] ??= Auth::id();
+            $payload['created_by'] = Auth::id();
+            $payload['max_attempts'] = 1;
+            $payload['settings'] = [];
 
             $model = Exam::create($payload);
 
@@ -125,7 +127,7 @@ class StoreSurveyAction
             ];
 
             // Validate using QuestionType validation rules
-            $validationRules    = $questionTypeHandler->validationRules();
+            $validationRules = $questionTypeHandler->validationRules();
             $validationMessages = $questionTypeHandler->validationMessages();
 
             $validator = Validator::make($questionPayload, $validationRules, $validationMessages);

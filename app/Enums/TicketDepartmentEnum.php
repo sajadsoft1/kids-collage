@@ -9,8 +9,8 @@ enum TicketDepartmentEnum: string
     use EnumToArray;
     
     case FINANCE_AND_ADMINISTRATION = 'finance_and_administration';   // مالی و اداری
-    case SALE                       = 'Sale';                         // فروش
-    case TECHNICAL                  = 'technical';                    // فنی
+    case SALE = 'Sale';                         // فروش
+    case TECHNICAL = 'technical';                    // فنی
     
     public function title(): string
     {

@@ -8,9 +8,9 @@ enum ExamStatusEnum: string
 {
     use EnumToArray;
 
-    case DRAFT     = 'draft';
+    case DRAFT = 'draft';
     case PUBLISHED = 'published';
-    case ARCHIVED  = 'archived';
+    case ARCHIVED = 'archived';
 
     public function title(): string
     {

@@ -26,15 +26,15 @@ class TicketApp extends Component
 
     public $selectedTicketId;
     public $filter_department = '';
-    public $search_ticket     = '';
-    public $message           = '';
-    public $department        = '';
-    public $perPage           = 15; // تعداد پیام‌ها در هر صفحه
-    public $messagesPage      = 1;  // صفحه فعلی پیام‌ها
-    public $file              = null;
-    public $uploading         = false;
+    public $search_ticket = '';
+    public $message = '';
+    public $department = '';
+    public $perPage = 15; // تعداد پیام‌ها در هر صفحه
+    public $messagesPage = 1;  // صفحه فعلی پیام‌ها
+    public $file = null;
+    public $uploading = false;
 
-    public bool $show_new_modal   = false;
+    public bool $show_new_modal = false;
     public bool $show_ticket_info = false;
 
     public array $newTicket = [
@@ -47,7 +47,7 @@ class TicketApp extends Component
     public function selectTicket($ticketId): void
     {
         $this->selectedTicketId = $ticketId;
-        $this->messagesPage     = 1; // ریست صفحه پیام‌ها
+        $this->messagesPage = 1; // ریست صفحه پیام‌ها
         $this->reset('message');
     }
 

@@ -47,7 +47,7 @@ class TextHighlightType extends AbstractQuestionType
     public function calculateScore(mixed $answer): float
     {
         $correctSelections = $this->question->correct_answer['selections'] ?? [];
-        $userSelections    = $answer['selections'] ?? [];
+        $userSelections = $answer['selections'] ?? [];
 
         $config = $this->getConfig();
         $weight = $this->getWeight();

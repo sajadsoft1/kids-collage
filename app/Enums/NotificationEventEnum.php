@@ -9,38 +9,38 @@ enum NotificationEventEnum: string
     use EnumToArray;
 
     // Authentication Events
-    case AUTH_REGISTER        = 'auth_register';
-    case AUTH_CONFIRM         = 'auth_confirm';
+    case AUTH_REGISTER = 'auth_register';
+    case AUTH_CONFIRM = 'auth_confirm';
     case AUTH_FORGOT_PASSWORD = 'auth_forgot_password';
-    case AUTH_WELCOME         = 'auth_welcome';
+    case AUTH_WELCOME = 'auth_welcome';
 
     // Order Events
-    case ORDER_CREATED   = 'order_created';
-    case ORDER_PAID      = 'order_paid';
+    case ORDER_CREATED = 'order_created';
+    case ORDER_PAID = 'order_paid';
     case ORDER_CANCELLED = 'order_cancelled';
 
     // Payment Events
     case PAYMENT_SUCCESS = 'payment_success';
-    case PAYMENT_FAILED  = 'payment_failed';
+    case PAYMENT_FAILED = 'payment_failed';
 
     // Enrollment Events
-    case ENROLLMENT_CREATED  = 'enrollment_created';
+    case ENROLLMENT_CREATED = 'enrollment_created';
     case ENROLLMENT_APPROVED = 'enrollment_approved';
     case ENROLLMENT_REJECTED = 'enrollment_rejected';
 
     // Course Events
     case COURSE_SESSION_REMINDER = 'course_session_reminder';
-    case COURSE_SESSION_STARTED  = 'course_session_started';
-    case COURSE_SESSION_ENDED    = 'course_session_ended';
+    case COURSE_SESSION_STARTED = 'course_session_started';
+    case COURSE_SESSION_ENDED = 'course_session_ended';
 
     // Ticket Events
-    case TICKET_CREATED  = 'ticket_created';
-    case TICKET_REPLIED  = 'ticket_replied';
+    case TICKET_CREATED = 'ticket_created';
+    case TICKET_REPLIED = 'ticket_replied';
     case TICKET_RESOLVED = 'ticket_resolved';
 
     // General Events
-    case ANNOUNCEMENT      = 'announcement';
-    case SYSTEM_ALERT      = 'system_alert';
+    case ANNOUNCEMENT = 'announcement';
+    case SYSTEM_ALERT = 'system_alert';
     case BIRTHDAY_REMINDER = 'birthday_reminder';
 
     public function title(): string

@@ -12,9 +12,9 @@ class ExamTaker extends Component
     public Exam $exam;
     public ?ExamAttempt $attempt = null;
     public $currentQuestionIndex = 0;
-    public $questions            = [];
-    public $answers              = [];
-    public $timeRemaining        = null;
+    public $questions = [];
+    public $answers = [];
+    public $timeRemaining = null;
 
     protected $listeners = [
         'answerChanged' => 'handleAnswerChanged',
@@ -109,7 +109,7 @@ class ExamTaker extends Component
     public function render()
     {
         $currentQuestion = $this->questions[$this->currentQuestionIndex] ?? null;
-        $progress        = app(ExamAttemptService::class)->getProgress($this->attempt);
+        $progress = app(ExamAttemptService::class)->getProgress($this->attempt);
 
         return view('livewire.admin.pages.exam.exam-taker', [
             'currentQuestion' => $currentQuestion,

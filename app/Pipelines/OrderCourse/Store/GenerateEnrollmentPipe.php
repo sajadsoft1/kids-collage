@@ -15,7 +15,7 @@ class GenerateEnrollmentPipe implements OrderCourseInterface
     public function handle(OrderCourseDTO $dto, Closure $next): OrderCourseDTO
     {
         $order = $dto->getOrder();
-        $user  = $dto->getUser();
+        $user = $dto->getUser();
 
         if ( ! $order) {
             return $next($dto);

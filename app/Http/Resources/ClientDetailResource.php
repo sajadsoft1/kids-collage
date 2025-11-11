@@ -25,7 +25,7 @@ class ClientDetailResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
-        $resource= ClientResource::make($this)->toArray($request);
+        $resource = ClientResource::make($this)->toArray($request);
 
         return array_merge($resource, [
             'seo_option' => $this->seoOption,

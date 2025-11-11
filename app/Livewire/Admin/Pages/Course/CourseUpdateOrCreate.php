@@ -29,26 +29,26 @@ class CourseUpdateOrCreate extends Component
 
     public CourseTemplate $courseTemplate;
     public Course $model;
-    public ?string $title        = '';
-    public ?string $description  = '';
-    public ?string $body         = '';
-    public array $categories     = [];
-    public array $teachers       = [];
-    public array $rooms          = [];
-    public array $tags           = [];
-    public int $category_id      = 1;
-    public int $teacher_id       = 1;
-    public ?int $capacity        = null;
-    public float $price          = 0;
-    public string $type          = '';
-    public ?int $room_id         = null;
+    public ?string $title = '';
+    public ?string $description = '';
+    public ?string $body = '';
+    public array $categories = [];
+    public array $teachers = [];
+    public array $rooms = [];
+    public array $tags = [];
+    public int $category_id = 1;
+    public int $teacher_id = 1;
+    public ?int $capacity = null;
+    public float $price = 0;
+    public string $type = '';
+    public ?int $room_id = null;
     public $image;
 
     public function mount(CourseTemplate $courseTemplate, Course $course): void
     {
         $this->courseTemplate = $courseTemplate;
-        $this->model          = $course;
-        $this->categories     = Category::where('type', CategoryTypeEnum::COURSE->value)
+        $this->model = $course;
+        $this->categories = Category::where('type', CategoryTypeEnum::COURSE->value)
             ->where('published', BooleanEnum::ENABLE->value)
             ->get()
             ->map(fn ($category) => ['value' => $category->id, 'label' => $category->title])->toArray();
@@ -61,16 +61,16 @@ class CourseUpdateOrCreate extends Component
 
         if ($this->model->id) {
             // dd($this->courseTemplate->toArray(), $this->model->toArray());
-            $this->title         = $this->courseTemplate->title;
-            $this->description   = $this->courseTemplate->description;
-            $this->body          = $this->courseTemplate->body;
-            $this->category_id   = $this->courseTemplate->category_id ?? $this->category_id;
-            $this->teacher_id    = $this->model->teacher_id;
-            $this->capacity      = $this->model->capacity;
-            $this->price         = (float) $this->model->price;
-            $this->type          = $this->courseTemplate->type->value;
-            $this->room_id       = $this->model->room_id;
-            $this->tags          = $this->courseTemplate->tags()->pluck('name')->toArray();
+            $this->title = $this->courseTemplate->title;
+            $this->description = $this->courseTemplate->description;
+            $this->body = $this->courseTemplate->body;
+            $this->category_id = $this->courseTemplate->category_id ?? $this->category_id;
+            $this->teacher_id = $this->model->teacher_id;
+            $this->capacity = $this->model->capacity;
+            $this->price = (float) $this->model->price;
+            $this->type = $this->courseTemplate->type->value;
+            $this->room_id = $this->model->room_id;
+            $this->tags = $this->courseTemplate->tags()->pluck('name')->toArray();
         }
     }
 
@@ -107,7 +107,7 @@ class CourseUpdateOrCreate extends Component
         } else {
             $payload['teacher_id'] = $payload['teacher_id'];
             // category_id stored on course is legacy; keep if needed in actions or remove later
-            $payload['languages']  = [app()->getLocale()];
+            $payload['languages'] = [app()->getLocale()];
 
             try {
                 StoreCourseAction::run($payload);

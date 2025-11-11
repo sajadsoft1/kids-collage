@@ -21,7 +21,7 @@ class SettingList extends Component
 
     public Collection $settings;
 
-    public $detail     = [];
+    public $detail = [];
     public array $data = [];
     private SettingService $settingService;
 
@@ -30,7 +30,7 @@ class SettingList extends Component
         $this->settingService = $settingService;
 
         $customOrder = ['integration_sync', 'notification', 'sale'];
-        $cases       = collect($customOrder)
+        $cases = collect($customOrder)
             ->map(fn ($key, $i) => "WHEN `key` = ? THEN {$i}")
             ->implode(' ');
         $orderByRaw = "CASE {$cases} ELSE " . count($customOrder) . ' END';
@@ -91,8 +91,8 @@ class SettingList extends Component
 
     private function findDetailKey(string $errorKey): string
     {
-        $parts   = explode('.', $errorKey); // Split the key into parts
-        $rowKey  = $parts[0];              // First part (e.g., "company")
+        $parts = explode('.', $errorKey); // Split the key into parts
+        $rowKey = $parts[0];              // First part (e.g., "company")
         $itemKey = $parts[1] ?? null;     // Second part (e.g., "postal_code")
 
         foreach ($this->detail['rows'] as $rowIndex => $row) {

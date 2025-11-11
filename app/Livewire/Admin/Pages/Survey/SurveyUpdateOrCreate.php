@@ -10,6 +10,7 @@ use App\Actions\Survey\UpdateSurveyAction;
 use App\Enums\ExamStatusEnum;
 use App\Enums\ExamTypeEnum;
 use App\Enums\QuestionTypeEnum;
+use App\Enums\UserTypeEnum;
 use App\Models\Exam;
 use App\Traits\CrudHelperTrait;
 use Illuminate\Support\Facades\Auth;
@@ -23,13 +24,13 @@ class SurveyUpdateOrCreate extends Component
     use CrudHelperTrait,Toast;
 
     public Exam $model;
-    public string $title       = '';
+    public string $title = '';
     public string $description = '';
     public string $selectedTab = 'basic';
-    public ?string $starts_at  = null;
-    public ?string $ends_at    = null;
-    public string $status      = 'draft';
-    public array $rules        = [
+    public ?string $starts_at = null;
+    public ?string $ends_at = null;
+    public string $status = 'draft';
+    public array $rules = [
         'groups' => [],
         'group_logic' => 'or',
     ];
@@ -37,16 +38,16 @@ class SurveyUpdateOrCreate extends Component
 
     public function mount(Exam $exam): void
     {
-        $this->model       = $exam;
+        $this->model = $exam;
         $this->model->type = ExamTypeEnum::SURVEY;
 
         if ($this->model->id) {
-            $this->title       = $this->model->title;
+            $this->title = $this->model->title;
             $this->description = $this->model->description ?? '';
-            $this->starts_at   = $this->model->starts_at?->format('Y-m-d');
-            $this->ends_at     = $this->model->ends_at?->format('Y-m-d');
-            $this->status      = $this->model->status->value;
-            $this->rules       = $this->model->getRules() ?? [
+            $this->starts_at = $this->model->starts_at?->format('Y-m-d');
+            $this->ends_at = $this->model->ends_at?->format('Y-m-d');
+            $this->status = $this->model->status->value;
+            $this->rules = $this->model->getRules() ?? [
                 'groups' => [],
                 'group_logic' => 'or',
             ];
@@ -78,101 +79,63 @@ class SurveyUpdateOrCreate extends Component
                 })
                 ->toArray();
         } else {
-            // Set demo survey data as provided in the sample array, with improved question text.
-
-            $this->title       = 'Cupiditate sequi vel';
-            $this->description = 'Deleniti facere ea d';
-            $this->starts_at   = '2025-11-03T00:00';
-            $this->ends_at     = '2025-11-05T00:00';
-            $this->status      = ExamStatusEnum::DRAFT->value;
-
-            $this->rules = [
-                'group_logic' => 'or',
-                'groups' => [
-                    [
-                        'logic' => 'and',
-                        'conditions' => [
-                            [
-                                'field' => 'enrollment_date',
-                                'operator' => 'after',
-                                'value' => '2025-11-03',
-                            ],
-                        ],
-                    ],
-                ],
-            ];
-
-            $this->questions = [
-                [
-                    'type' => QuestionTypeEnum::SINGLE_CHOICE->value,
-                    'title' => 'کدام یک از موارد زیر بیشترین تأثیر را در موفقیت حرفه‌ای دارد؟',
-                    'body' => 'لطفا بهترین گزینه را انتخاب کنید.',
-                    'explanation' => 'پاسخ صحیح بر اساس تحقیقات علمی اثبات شده است.',
-                    'options' => [
-                        [
-                            'content' => 'گزینه 1',
-                            'type' => 'text',
-                            'is_correct' => true,
-                            'order' => 1,
-                            'metadata' => [],
-                        ],
-                        [
-                            'content' => 'گزینه 2',
-                            'type' => 'text',
-                            'is_correct' => false,
-                            'order' => 2,
-                            'metadata' => [],
-                        ],
-                    ],
-                    'config' => [
-                        'shuffle_options' => true,
-                        'show_explanation' => true,
-                    ],
-                    'correct_answer' => [1],
-                ],
-                [
-                    'type' => QuestionTypeEnum::MULTIPLE_CHOICE->value,
-                    'title' => 'به نظر شما کدام گزینه‌ها به بهبود سلامت جسمانی کمک می‌کند؟',
-                    'body' => 'تمام گزینه‌های صحیح را انتخاب نمایید.',
-                    'explanation' => 'چندین پاسخ می‌تواند صحیح باشد.',
-                    'options' => [
-                        [
-                            'content' => 'گزینه 1',
-                            'type' => 'text',
-                            'is_correct' => true,
-                            'order' => 1,
-                            'metadata' => [],
-                        ],
-                        [
-                            'content' => 'گزینه 2',
-                            'type' => 'text',
-                            'is_correct' => true,
-                            'order' => 2,
-                            'metadata' => [],
-                        ],
-                        [
-                            'content' => 'گزینه 3',
-                            'type' => 'text',
-                            'is_correct' => false,
-                            'order' => 3,
-                            'metadata' => [],
-                        ],
-                        [
-                            'content' => 'گزینه 4',
-                            'type' => 'text',
-                            'is_correct' => false,
-                            'order' => 4,
-                            'metadata' => [],
-                        ],
-                    ],
-                    'config' => [
-                        'scoring_type' => 'all_or_nothing',
-                        'shuffle_options' => true,
-                    ],
-                    'correct_answer' => [1, 2],
-                ],
-            ];
+            $this->getDemoSurveyData();
         }
+    }
+
+    private function getDemoSurveyData(): void
+    {
+        $this->title = '';
+        $this->description = '';
+        $this->starts_at = now()->format('Y-m-d');
+        $this->ends_at = now()->addDays(7)->format('Y-m-d');
+        $this->status = ExamStatusEnum::DRAFT->value;
+
+        $this->rules = [
+            'group_logic' => 'or',
+            'groups' => [
+                [
+                    'logic' => 'and',
+                    'conditions' => [
+                        [
+                            'field' => 'user_type',
+                            'operator' => 'equals',
+                            'value' => UserTypeEnum::USER->value,
+                        ],
+                    ],
+                ],
+            ],
+        ];
+
+        $this->questions = [
+            [
+                'type' => QuestionTypeEnum::SINGLE_CHOICE->value,
+                'title' => 'آیا از کیفیت آموزش رضایت دارید؟',
+                'body' => 'این نظرسنجی صرفا برای بهبود آموزش و ارزیابی کیفیت آموزش است.',
+                'explanation' => 'لطفا برای پاسخ به این سوال تمام طول دوره را ارزیابی کنید',
+                'options' => [
+                    [
+                        'content' => 'بله',
+                        'type' => 'text',
+                        'is_correct' => false,
+                        'order' => 1,
+                        'metadata' => [],
+                    ],
+                    [
+                        'content' => 'خیر',
+                        'type' => 'text',
+                        'is_correct' => false,
+                        'order' => 2,
+                        'metadata' => [],
+                    ],
+                ],
+                'config' => [
+                    'shuffle_options' => true,
+                    'show_explanation' => true,
+                ],
+                'correct_answer' => [],
+            ],
+        ];
     }
 
     public function addQuestion(): void
@@ -207,17 +170,17 @@ class SurveyUpdateOrCreate extends Component
     public function moveQuestion(int $index, string $direction): void
     {
         if ($direction === 'up' && $index > 0) {
-            $temp                                   = $this->questions[$index];
-            $this->questions[$index]                = $this->questions[$index - 1];
-            $this->questions[$index - 1]            = $temp;
-            $this->questions[$index]['order']       = $index + 1;
-            $this->questions[$index - 1]['order']   = $index;
+            $temp = $this->questions[$index];
+            $this->questions[$index] = $this->questions[$index - 1];
+            $this->questions[$index - 1] = $temp;
+            $this->questions[$index]['order'] = $index + 1;
+            $this->questions[$index - 1]['order'] = $index;
         } elseif ($direction === 'down' && $index < count($this->questions) - 1) {
-            $temp                                   = $this->questions[$index];
-            $this->questions[$index]                = $this->questions[$index + 1];
-            $this->questions[$index + 1]            = $temp;
-            $this->questions[$index]['order']       = $index + 1;
-            $this->questions[$index + 1]['order']   = $index + 2;
+            $temp = $this->questions[$index];
+            $this->questions[$index] = $this->questions[$index + 1];
+            $this->questions[$index + 1] = $temp;
+            $this->questions[$index]['order'] = $index + 1;
+            $this->questions[$index + 1]['order'] = $index + 2;
         }
     }
 
@@ -275,9 +238,9 @@ class SurveyUpdateOrCreate extends Component
 
     public function submit(): void
     {
-        $payload           = $this->validate();
-        $payload['rules']  = $this->rules;
-        $payload['type']   = ExamTypeEnum::SURVEY->value;
+        $payload = $this->validate();
+        $payload['rules'] = $this->rules;
+        $payload['type'] = ExamTypeEnum::SURVEY->value;
 
         if ( ! $this->model->id) {
             $payload['created_by'] = Auth::id();
@@ -307,7 +270,7 @@ class SurveyUpdateOrCreate extends Component
         } else {
             // Include questions in payload for new surveys
             $payload['questions'] = $this->questions;
-            $exam                 = StoreSurveyAction::run($payload);
+            $exam = StoreSurveyAction::run($payload);
         }
 
         $this->success(

@@ -182,8 +182,8 @@ class ExamService
     public function duplicate(Exam $exam): Exam
     {
         return DB::transaction(function () use ($exam) {
-            $newExam         = $exam->replicate();
-            $newExam->title  = $exam->title . ' (کپی)';
+            $newExam = $exam->replicate();
+            $newExam->title = $exam->title . ' (کپی)';
             $newExam->status = ExamStatusEnum::DRAFT;
             $newExam->save();
 

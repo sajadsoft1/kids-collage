@@ -25,20 +25,20 @@ class ContactUsUpdateOrCreate extends Component
     public string $mobile;
     public string $comment;
     public ?string $admin_note;
-    public int $follow_up=YesNoEnum::NO->value;
+    public int $follow_up = YesNoEnum::NO->value;
 
-    public bool $published   = false;
+    public bool $published = false;
 
     public function mount(ContactUs $contactUs): void
     {
         $this->model = $contactUs;
         if ($this->model->id) {
-            $this->name       = $this->model->name;
-            $this->email      = $this->model->email;
-            $this->mobile     = $this->model->mobile;
-            $this->comment    = $this->model->comment;
+            $this->name = $this->model->name;
+            $this->email = $this->model->email;
+            $this->mobile = $this->model->mobile;
+            $this->comment = $this->model->comment;
             $this->admin_note = $this->model->admin_note;
-            $this->follow_up  = $this->model->follow_up->value;
+            $this->follow_up = $this->model->follow_up->value;
         }
     }
 

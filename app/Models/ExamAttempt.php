@@ -92,15 +92,15 @@ class ExamAttempt extends Model
         mixed $answerData,
         ?int $timeSpent = null
     ): UserAnswer {
-        $score              = null;
-        $isCorrect          = null;
+        $score = null;
+        $isCorrect = null;
         $isPartiallyCorrect = null;
 
         $weight = $this->exam->getQuestionWeight($question);
 
         if ($this->exam->isScored()) {
-            $handler   = $question->typeHandler();
-            $score     = $question->scoreAnswer($answerData, $weight);
+            $handler = $question->typeHandler();
+            $score = $question->scoreAnswer($answerData, $weight);
             $isCorrect = $score >= $weight;
 
             if ($handler->supportsPartialCredit() && $score > 0 && $score < $weight) {
@@ -152,7 +152,7 @@ class ExamAttempt extends Model
 
     public function getProgressPercentage(): float
     {
-        $totalQuestions    = $this->exam->questions()->count();
+        $totalQuestions = $this->exam->questions()->count();
         $answeredQuestions = $this->answers()->count();
 
         return $totalQuestions > 0
@@ -182,7 +182,7 @@ class ExamAttempt extends Model
         }
 
         $endTime = $this->started_at->addMinutes($this->exam->duration);
-        $now     = now();
+        $now = now();
 
         if ($now->greaterThan($endTime)) {
             return 0;

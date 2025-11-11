@@ -8,9 +8,9 @@ enum InstallmentStatusEnum: string
 {
     use EnumToArray;
 
-    case PENDING  = 'pending';
-    case PAID     = 'paid';
-    case FAILED   = 'failed';
+    case PENDING = 'pending';
+    case PAID = 'paid';
+    case FAILED = 'failed';
 
     public function title(): string
     {

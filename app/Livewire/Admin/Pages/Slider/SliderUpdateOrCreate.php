@@ -24,15 +24,15 @@ class SliderUpdateOrCreate extends Component
     use WithFileUploads;
 
     public Slider $model;
-    public ?string $title        = '';
-    public ?string $description  = '';
-    public int $ordering         = 1;
+    public ?string $title = '';
+    public ?string $description = '';
+    public int $ordering = 1;
     public ?string $published_at = null;
-    public ?string $expired_at   = null;
-    public ?string $link         = '';
-    public int $has_timer        = 0;
-    public ?string $timer_start  = null;
-    public bool $published       = false;
+    public ?string $expired_at = null;
+    public ?string $link = '';
+    public int $has_timer = 0;
+    public ?string $timer_start = null;
+    public bool $published = false;
     public $image;
     public $roles = [];
 
@@ -40,16 +40,16 @@ class SliderUpdateOrCreate extends Component
     {
         $this->model = $slider;
         if ($this->model->id) {
-            $this->title        = $this->model->title;
-            $this->description  = $this->model->description;
-            $this->published    = (bool) $this->model->published->value;
-            $this->ordering     = $this->model->ordering;
+            $this->title = $this->model->title;
+            $this->description = $this->model->description;
+            $this->published = (bool) $this->model->published->value;
+            $this->ordering = $this->model->ordering;
             $this->published_at = $this->model->published_at?->format(Constants::DEFAULT_DATE_FORMAT_SMART_TIME);
-            $this->expired_at   = $this->model->expired_at?->format(Constants::DEFAULT_DATE_FORMAT_SMART_TIME);
-            $this->link         = $this->model->link;
-            $this->has_timer    = $this->model->has_timer->value;
-            $this->timer_start  = $this->model->timer_start?->format(Constants::DEFAULT_DATE_FORMAT_SMART_TIME);
-            $this->roles        = $this->model->references
+            $this->expired_at = $this->model->expired_at?->format(Constants::DEFAULT_DATE_FORMAT_SMART_TIME);
+            $this->link = $this->model->link;
+            $this->has_timer = $this->model->has_timer->value;
+            $this->timer_start = $this->model->timer_start?->format(Constants::DEFAULT_DATE_FORMAT_SMART_TIME);
+            $this->roles = $this->model->references
                 ->groupBy('morphable_type')
                 ->map(fn ($references, $type) => [
                     'type' => $type,
@@ -59,7 +59,7 @@ class SliderUpdateOrCreate extends Component
                 ->toArray();
         } else {
             // For new sliders, ensure published is properly initialized
-            $this->published  = true;
+            $this->published = true;
             $this->expired_at = now()->addMonths(2)->format(Constants::DEFAULT_DATE_FORMAT);
         }
     }

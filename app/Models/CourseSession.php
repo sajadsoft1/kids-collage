@@ -203,8 +203,8 @@ class CourseSession extends Model
     public function getFormattedDurationAttribute(): string
     {
         $duration = $this->duration;
-        $hours    = floor($duration / 60);
-        $minutes  = $duration % 60;
+        $hours = floor($duration / 60);
+        $minutes = $duration % 60;
 
         if ($hours > 0) {
             return $minutes > 0 ? "{$hours}h {$minutes}m" : "{$hours}h";

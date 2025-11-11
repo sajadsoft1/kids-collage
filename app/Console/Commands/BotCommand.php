@@ -31,8 +31,8 @@ class BotCommand extends Command
     /** Execute the console command. */
     public function handle(): int
     {
-        $model   = Str::studly($this->argument('model'));
-        $simple  = (bool) $this->option('simple');
+        $model = Str::studly($this->argument('model'));
+        $simple = (bool) $this->option('simple');
 
         Artisan::call('app:model ' . $model);
 
@@ -87,7 +87,7 @@ class BotCommand extends Command
             $content
         );
 
-        $destDir  = base_path('app/Livewire/Admin/Pages/' . $model);
+        $destDir = base_path('app/Livewire/Admin/Pages/' . $model);
         if ( ! is_dir($destDir)) {
             mkdir($destDir, 0775, true);
         }

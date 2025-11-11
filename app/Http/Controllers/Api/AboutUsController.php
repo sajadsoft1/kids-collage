@@ -133,7 +133,7 @@ class AboutUsController extends Controller
      */
     public function getAbout()
     {
-        $teachers=User::teachers();
+        $teachers = User::teachers();
 
         return Response::data(
             [

@@ -19,18 +19,18 @@ class NotificationTemplate extends BaseTemplate
     public function template(Setting $setting): array
     {
         $this->setting = $setting;
-        $options       = BooleanEnum::options();
+        $options = BooleanEnum::options();
         
-        $orderCreateSmsValue          = $this->selectOption($options, $setting->extra_attributes->get('order_create.sms', true));
-        $orderCreateEmailValue        = $this->selectOption($options, $setting->extra_attributes->get('order_create.email', true));
+        $orderCreateSmsValue = $this->selectOption($options, $setting->extra_attributes->get('order_create.sms', true));
+        $orderCreateEmailValue = $this->selectOption($options, $setting->extra_attributes->get('order_create.email', true));
         $orderCreateNotificationValue = $this->selectOption($options, $setting->extra_attributes->get('order_create.notification', true));
         
-        $chatCreateSmsValue          = $this->selectOption($options, $setting->extra_attributes->get('chat_create.sms', true));
-        $chatCreateEmailValue        = $this->selectOption($options, $setting->extra_attributes->get('chat_create.email', true));
+        $chatCreateSmsValue = $this->selectOption($options, $setting->extra_attributes->get('chat_create.sms', true));
+        $chatCreateEmailValue = $this->selectOption($options, $setting->extra_attributes->get('chat_create.email', true));
         $chatCreateNotificationValue = $this->selectOption($options, $setting->extra_attributes->get('chat_create.notification', true));
         
-        $userCreateSmsValue          = $this->selectOption($options, $setting->extra_attributes->get('user_create.sms', true));
-        $userCreateEmailValue        = $this->selectOption($options, $setting->extra_attributes->get('user_create.email', true));
+        $userCreateSmsValue = $this->selectOption($options, $setting->extra_attributes->get('user_create.sms', true));
+        $userCreateEmailValue = $this->selectOption($options, $setting->extra_attributes->get('user_create.email', true));
         $userCreateNotificationValue = $this->selectOption($options, $setting->extra_attributes->get('user_create.notification', true));
         
         return [

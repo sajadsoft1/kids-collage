@@ -56,7 +56,7 @@ class Profile extends Model
             return true;
         }
 
-        $eventKey   = $event->value;
+        $eventKey = $event->value;
         $channelKey = $channel->value;
 
         // Check if the specific event and channel combination is enabled
@@ -79,7 +79,7 @@ class Profile extends Model
     /** Enable notification for a specific event and channel */
     public function enableNotification(NotificationEventEnum $event, NotificationChannelEnum $channel): void
     {
-        $settings                                 = $this->getNotificationSettings();
+        $settings = $this->getNotificationSettings();
         $settings[$event->value][$channel->value] = true;
         $this->updateNotificationSettings($settings);
     }
@@ -87,7 +87,7 @@ class Profile extends Model
     /** Disable notification for a specific event and channel */
     public function disableNotification(NotificationEventEnum $event, NotificationChannelEnum $channel): void
     {
-        $settings                                 = $this->getNotificationSettings();
+        $settings = $this->getNotificationSettings();
         $settings[$event->value][$channel->value] = false;
         $this->updateNotificationSettings($settings);
     }
@@ -95,7 +95,7 @@ class Profile extends Model
     /** Get enabled channels for a specific event */
     public function getEnabledChannelsForEvent(NotificationEventEnum $event): array
     {
-        $settings      = $this->getNotificationSettings();
+        $settings = $this->getNotificationSettings();
         $eventSettings = $settings[$event->value] ?? [];
 
         $enabledChannels = [];

@@ -24,21 +24,21 @@ class TagUpdateOrCreate extends Component
     use WithFileUploads;
 
     public Tag $model;
-    public ?string $name         = '';
-    public ?string $description  = '';
-    public ?string $body         = '';
-    public ?string $type         = '';
-    public $image                = '';
-    public ?int $order_column    = 1;
+    public ?string $name = '';
+    public ?string $description = '';
+    public ?string $body = '';
+    public ?string $type = '';
+    public $image = '';
+    public ?int $order_column = 1;
 
     public function mount(Tag $tag): void
     {
         $this->model = $tag;
         if ($this->model->id) {
-            $this->name         = $this->model->getTranslation('name', app()->getLocale());
-            $this->description  = $this->model->description;
-            $this->body         = $this->model->body;
-            $this->type         = $this->model->type;
+            $this->name = $this->model->getTranslation('name', app()->getLocale());
+            $this->description = $this->model->description;
+            $this->body = $this->model->body;
+            $this->type = $this->model->type;
             $this->order_column = $this->model->order_column;
         }
     }

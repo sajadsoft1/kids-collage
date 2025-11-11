@@ -38,7 +38,7 @@ class StoreTeammateAction
     public function handle(array $payload): Teammate
     {
         return DB::transaction(function () use ($payload) {
-            $model =  Teammate::create(Arr::except($payload, ['title', 'description', 'bio', 'image']));
+            $model = Teammate::create(Arr::except($payload, ['title', 'description', 'bio', 'image']));
             $this->syncTranslationAction->handle($model, Arr::only($payload, ['title', 'description', 'bio']));
             foreach (config('extra_enums.teammate') as $key => $item) {
                 $model->extra_attributes->set($key, Arr::get($payload, $key));

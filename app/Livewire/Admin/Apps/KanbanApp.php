@@ -31,14 +31,14 @@ use Livewire\Attributes\On;
 class KanbanApp extends KanbanTemplate
 {
     public Board $board;
-    public ?Card $selectedCard          = null;
-    public bool $showBoardModal         = false;
-    public bool $showCreateCardModal    = false;
-    public bool $showEditCardModal      = false;
-    public bool $showCardModal          = false;
-    public bool $showColumnModal        = false;
-    public bool $showFlowModal          = false;
-    public bool $showHistoryModal       = false;
+    public ?Card $selectedCard = null;
+    public bool $showBoardModal = false;
+    public bool $showCreateCardModal = false;
+    public bool $showEditCardModal = false;
+    public bool $showCardModal = false;
+    public bool $showColumnModal = false;
+    public bool $showFlowModal = false;
+    public bool $showHistoryModal = false;
 
     public array $cardForm = [
         'title' => '',
@@ -76,11 +76,11 @@ class KanbanApp extends KanbanTemplate
         parent::afterMount($extras);
 
         // Enable record clicking and sorting
-        $this->sortable                   = true;
-        $this->sortableBetweenStatuses    = true;
-        $this->recordClickEnabled         = true;
-        $this->beforeStatusBoardView      = 'livewire.admin.apps.kanban-header';
-        $this->afterStatusBoardView       = 'livewire.admin.apps.kanban-footer';
+        $this->sortable = true;
+        $this->sortableBetweenStatuses = true;
+        $this->recordClickEnabled = true;
+        $this->beforeStatusBoardView = 'livewire.admin.apps.kanban-header';
+        $this->afterStatusBoardView = 'livewire.admin.apps.kanban-footer';
 
         // Set board from extras if provided
         if (isset($extras['board'])) {
@@ -199,19 +199,19 @@ class KanbanApp extends KanbanTemplate
 
     public function onRecordClick($recordId): void
     {
-        $this->selectedCard  = Card::with(['column', 'assignees', 'reviewers', 'watchers'])->find($recordId);
+        $this->selectedCard = Card::with(['column', 'assignees', 'reviewers', 'watchers'])->find($recordId);
         $this->showCardModal = true;
     }
 
     public function styles(): array
     {
-        $baseStyles                  = parent::styles();
-        $baseStyles['wrapper']       = 'w-full flex flex-1 space-x-4 overflow-x-auto py-5 px-2';
+        $baseStyles = parent::styles();
+        $baseStyles['wrapper'] = 'w-full flex flex-1 space-x-4 overflow-x-auto py-5 px-2';
         $baseStyles['statusWrapper'] = 'min-w-[320px] max-w-full flex-1 shadow-lg h-auto gap-y-2';
-        $baseStyles['status']        = 'rounded flex flex-col flex-1 gap-2';
-        $baseStyles['record']        = 'shadow-sm bg-white p-2 rounded border text-sm text-gray-800';
+        $baseStyles['status'] = 'rounded flex flex-col flex-1 gap-2';
+        $baseStyles['record'] = 'shadow-sm bg-white p-2 rounded border text-sm text-gray-800';
         $baseStyles['statusRecords'] = 'space-y-2 px-1 pt-2 pb-2';
-        $baseStyles['ghost']         = 'bg-gray-400';
+        $baseStyles['ghost'] = 'bg-gray-400';
 
         return $baseStyles;
     }
@@ -399,6 +399,6 @@ class KanbanApp extends KanbanTemplate
     public function switchToEditModal(): void
     {
         $this->showEditCardModal = true;
-        $this->showCardModal     = false;
+        $this->showCardModal = false;
     }
 }

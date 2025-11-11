@@ -137,7 +137,7 @@ class ExamAttemptService
         ]);
 
         // به‌روزرسانی نمره کل attempt
-        $attempt    = $answer->attempt;
+        $attempt = $answer->attempt;
         $totalScore = $attempt->exam->calculateAttemptScore($attempt);
         $percentage = $attempt->exam->total_score > 0
             ? ($totalScore / $attempt->exam->total_score) * 100

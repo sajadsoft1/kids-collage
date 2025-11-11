@@ -225,7 +225,7 @@ class BlogController extends Controller
     public function indexByTag(Request $request, string $value): JsonResponse
     {
         $locale = app()->getLocale();
-        $tag    = SpatieTag::where("slug->{$locale}", $value)->firstOrFail();
+        $tag = SpatieTag::where("slug->{$locale}", $value)->firstOrFail();
 
         return Response::dataWithAdditional(
             $this->query([
@@ -335,8 +335,8 @@ class BlogController extends Controller
     public function extraData(Blog $blog)
     {
         $relatedBlogs = $blog->relatedBlogs($blog);
-        $banners      = Banner::latestBanner();
-        $tags         =Tag::blogTags();
+        $banners = Banner::latestBanner();
+        $tags = Tag::blogTags();
 
         return Response::data([
             'banners' => BannerResource::collection($banners),
@@ -361,10 +361,10 @@ class BlogController extends Controller
      */
     public function data()
     {
-        $popularBlog  = Blog::popularBlogs();
-        $banners      = Banner::latestBanner();
-        $categories   =Category::BlogCategories();
-        $tags         =Tag::blogTags();
+        $popularBlog = Blog::popularBlogs();
+        $banners = Banner::latestBanner();
+        $categories = Category::BlogCategories();
+        $tags = Tag::blogTags();
 
         return Response::data([
             'banners' => BannerResource::collection($banners),

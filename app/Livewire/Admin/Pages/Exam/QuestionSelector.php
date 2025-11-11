@@ -11,10 +11,10 @@ class QuestionSelector extends Component
     use WithPagination;
 
     public Exam $exam;
-    public $search            = '';
-    public $typeFilter        = '';
+    public $search = '';
+    public $typeFilter = '';
     public $selectedQuestions = [];
-    public $weights           = [];
+    public $weights = [];
 
     public function mount(Exam $exam)
     {
@@ -50,7 +50,7 @@ class QuestionSelector extends Component
                 $weight
             );
 
-            $this->selectedQuestions[]  = $questionId;
+            $this->selectedQuestions[] = $questionId;
             $this->weights[$questionId] = $weight;
         }
 

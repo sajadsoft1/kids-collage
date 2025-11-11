@@ -20,7 +20,7 @@ use PowerComponents\LivewirePowerGrid\PowerGridFields;
 final class LicenseTable extends PowerGridComponent
 {
     use PowerGridHelperTrait;
-    public string $tableName     = 'index_license_datatable';
+    public string $tableName = 'index_license_datatable';
     public string $sortDirection = 'desc';
 
     public function setUp(): array

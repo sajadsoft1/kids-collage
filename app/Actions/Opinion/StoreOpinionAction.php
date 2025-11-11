@@ -36,7 +36,7 @@ class StoreOpinionAction
     public function handle(array $payload): Opinion
     {
         return DB::transaction(function () use ($payload) {
-            $model =  Opinion::create(Arr::except($payload, ['image']));
+            $model = Opinion::create(Arr::except($payload, ['image']));
             $this->fileService->addMedia($model, Arr::get($payload, 'image'), 'image');
             $this->fileService->addMedia($model, Arr::get($payload, 'video'), 'video');
 

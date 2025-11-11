@@ -17,22 +17,22 @@ class DynamicTranslate extends Component
 
     public mixed $model;
     public string $translate_modal_tab = 'fa';
-    public array $form                 = [];
-    public string $back_route          = '';
-    public array $rules                = [];
+    public array $form = [];
+    public string $back_route = '';
+    public array $rules = [];
     public string $class;
 
     public function mount(string $class, int $id)
     {
-        $this->class      = $class;
-        $this->model      = Utils::getEloquent($class)::find($id);
+        $this->class = $class;
+        $this->model = Utils::getEloquent($class)::find($id);
         $this->back_route = match ($class) {
             'courseSessionTemplate' => route('admin.course-session-template.index', ['courseTemplate' => $this->model->course_template_id]),
             default => route('admin.' . Str::kebab($class) . '.index'),
         };
         foreach (config('app.supported_locales') as $locale) {
             foreach ($this->model->translatable as $field) {
-                $this->form[$locale][$field]                   = $this->model->translationsPure()->where('key', $field)->where('locale', $locale)->first()->value ?? '';
+                $this->form[$locale][$field] = $this->model->translationsPure()->where('key', $field)->where('locale', $locale)->first()->value ?? '';
                 $this->rules['form.' . $locale . '.' . $field] = 'required|string';
             }
         }

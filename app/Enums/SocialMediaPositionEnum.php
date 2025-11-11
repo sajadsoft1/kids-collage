@@ -8,7 +8,7 @@ enum SocialMediaPositionEnum: string
 {
     use EnumToArray;
     
-    case ALL    = 'all';
+    case ALL = 'all';
     case HEADER = 'header';
     case FOOTER = 'footer';
     

@@ -26,9 +26,9 @@ class PermissionsService
 
     public static function generatePermissionsByModel(string $model, ...$permissions): array
     {
-        $res    = ['Shared.Admin'];
+        $res = ['Shared.Admin'];
         $prefix = StringHelper::basename($model);
-        $res[]  = $prefix . '.' . 'All';
+        $res[] = $prefix . '.' . 'All';
         foreach ($permissions as $permission) {
             $res[] = $prefix . '.' . Str::studly($permission);
         }

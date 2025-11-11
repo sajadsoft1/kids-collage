@@ -107,9 +107,9 @@ class MultipleChoiceType extends AbstractQuestionType
         }
 
         // نمره‌دهی جزئی
-        $selectedCorrect   = count(array_intersect($answer, $correctIds));
+        $selectedCorrect = count(array_intersect($answer, $correctIds));
         $selectedIncorrect = count(array_diff($answer, $correctIds));
-        $totalCorrect      = count($correctIds);
+        $totalCorrect = count($correctIds);
 
         // فرمول: (صحیح انتخاب شده - غلط انتخاب شده) / کل صحیح
         $score = ($selectedCorrect - $selectedIncorrect) / $totalCorrect;

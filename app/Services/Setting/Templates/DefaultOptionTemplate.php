@@ -13,7 +13,7 @@ class DefaultOptionTemplate extends BaseTemplate
 {
     public function template(Setting $setting): array
     {
-        $this->setting     = $setting;
+        $this->setting = $setting;
         $this->settingEnum = SettingEnum::from($setting->key);
         
         $options = [

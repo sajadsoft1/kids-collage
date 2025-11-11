@@ -8,9 +8,9 @@ enum NotificationChannelEnum: string
 {
     use EnumToArray;
 
-    case SMS      = 'sms';
-    case EMAIL    = 'email';
-    case PUSH     = 'push';
+    case SMS = 'sms';
+    case EMAIL = 'email';
+    case PUSH = 'push';
     case DATABASE = 'database';
 
     public function title(): string

@@ -24,12 +24,12 @@ class ResourceUpdateOrCreate extends Component
     use WithFileUploads;
 
     public Resource $model;
-    public string $title       = '';
+    public string $title = '';
     public string $description = '';
-    public ?string $type       = null;
-    public string $path        = '';
-    public int $is_public      = 1;
-    public int $order          = 1;
+    public ?string $type = null;
+    public string $path = '';
+    public int $is_public = 1;
+    public int $order = 1;
     public $file;
     public array $relationships = [];
 
@@ -37,12 +37,12 @@ class ResourceUpdateOrCreate extends Component
     {
         $this->model = $resource;
         if ($this->model->id) {
-            $this->title       = $this->model->title;
+            $this->title = $this->model->title;
             $this->description = $this->model->description;
-            $this->type        = $this->model->type->value;
-            $this->path        = $this->model->path;
-            $this->is_public   = (int) $this->model->is_public;
-            $this->order       = $this->model->order;
+            $this->type = $this->model->type->value;
+            $this->path = $this->model->path;
+            $this->is_public = (int) $this->model->is_public;
+            $this->order = $this->model->order;
 
             // Load existing relationships
             $this->relationships = $this->model->courseSessionTemplates->map(function ($template) {

@@ -22,9 +22,9 @@ class SingleChoice extends Component
 
     public function mount(Question $question, ?int $value = null, bool $disabled = false, bool $showCorrect = false): void
     {
-        $this->question    = $question;
-        $this->selected    = $value;
-        $this->disabled    = $disabled;
+        $this->question = $question;
+        $this->selected = $value;
+        $this->disabled = $disabled;
         $this->showCorrect = $showCorrect;
 
         $this->options = $question->options;

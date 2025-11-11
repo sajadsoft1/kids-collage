@@ -149,8 +149,8 @@ class Card extends Model
     /** Set a specific extra attribute. */
     public function setExtraAttribute(string $key, mixed $value): void
     {
-        $attributes             = $this->extra_attributes ?? [];
-        $attributes[$key]       = $value;
+        $attributes = $this->extra_attributes ?? [];
+        $attributes[$key] = $value;
         $this->extra_attributes = $attributes;
     }
 }

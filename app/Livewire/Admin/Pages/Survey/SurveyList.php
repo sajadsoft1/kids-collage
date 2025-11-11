@@ -112,7 +112,7 @@ class SurveyList extends Component
             ['label' => trans('_menu.survey_management')],
         ];
 
-        $canCreateSurvey    = $user->can('create', Exam::class);
+        $canCreateSurvey = $user->can('create', Exam::class);
         $breadcrumbsActions = $canCreateSurvey
             ? [['link' => route('admin.survey.create'), 'icon' => 's-plus', 'label' => 'ایجاد نظر سنجی جدید']]
             : [];

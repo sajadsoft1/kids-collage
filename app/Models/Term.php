@@ -122,7 +122,7 @@ class Term extends Model
             return 100.0;
         }
 
-        $totalDays   = $this->duration_days;
+        $totalDays = $this->duration_days;
         $elapsedDays = now()->diffInDays($this->start_date);
 
         return min(100.0, ($elapsedDays / $totalDays) * 100);
@@ -138,7 +138,7 @@ class Term extends Model
     public function getAcademicYearAttribute(): string
     {
         $startYear = $this->start_date->year;
-        $endYear   = $this->end_date->year;
+        $endYear = $this->end_date->year;
 
         if ($startYear === $endYear) {
             return (string) $startYear;

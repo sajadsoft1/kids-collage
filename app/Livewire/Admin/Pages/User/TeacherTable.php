@@ -25,7 +25,7 @@ final class TeacherTable extends PowerGridComponent
     use HandlesPasswordChange;
     use PowerGridHelperTrait;
 
-    public string $tableName     = 'teacher-index-h9omkb-table';
+    public string $tableName = 'teacher-index-h9omkb-table';
     public string $sortDirection = 'desc';
 
     public function boot(): void

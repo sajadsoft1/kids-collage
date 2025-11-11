@@ -27,16 +27,16 @@ class NotificationTemplateUpdateOrCreate extends Component
     public NotificationTemplate $model;
 
     // Form fields
-    public string $name               = '';
-    public string $channel            = 'sms';
-    public string $message_template   = '';
-    public array $languages           = [];
-    public array $inputs              = [];
-    public bool $published            = false;
+    public string $name = '';
+    public string $channel = 'sms';
+    public string $message_template = '';
+    public array $languages = [];
+    public array $inputs = [];
+    public bool $published = false;
 
     // Available options
-    public array $channelOptions      = [];
-    public array $languageOptions     = [];
+    public array $channelOptions = [];
+    public array $languageOptions = [];
 
     /** Mount the component with the notification template model */
     public function mount(NotificationTemplate $notificationTemplate): void
@@ -51,7 +51,7 @@ class NotificationTemplateUpdateOrCreate extends Component
         ];
 
         // Setup language options from config
-        $supportedLocales      = config('locales.supported', ['en', 'fa']);
+        $supportedLocales = config('locales.supported', ['en', 'fa']);
         $this->languageOptions = collect($supportedLocales)->map(fn ($locale) => [
             'id' => $locale,
             'name' => trans('general.languages.' . $locale),
@@ -59,12 +59,12 @@ class NotificationTemplateUpdateOrCreate extends Component
 
         // Populate fields if editing
         if ($this->model->id) {
-            $this->name             = $this->model->name ?? '';
-            $this->channel          = $this->model->channel ?? 'sms';
+            $this->name = $this->model->name ?? '';
+            $this->channel = $this->model->channel ?? 'sms';
             $this->message_template = $this->model->message_template ?? '';
-            $this->languages        = $this->model->languages ?? [];
-            $this->inputs           = $this->model->inputs ?? [];
-            $this->published        = $this->model->published->asBoolean();
+            $this->languages = $this->model->languages ?? [];
+            $this->inputs = $this->model->inputs ?? [];
+            $this->published = $this->model->published->asBoolean();
         }
     }
 

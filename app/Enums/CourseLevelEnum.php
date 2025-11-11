@@ -8,9 +8,9 @@ enum CourseLevelEnum: string
 {
     use EnumToArray;
 
-    case BIGGINER     = 'bigginer';
-    case NORMAL       = 'normal';
-    case ADVANCE      = 'advance';
+    case BIGGINER = 'bigginer';
+    case NORMAL = 'normal';
+    case ADVANCE = 'advance';
     case INTERMEDIATE = 'intermediate';
 
     public static function options(): array

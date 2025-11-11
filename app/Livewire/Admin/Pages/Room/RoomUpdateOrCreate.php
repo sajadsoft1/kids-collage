@@ -19,17 +19,17 @@ class RoomUpdateOrCreate extends Component
     use Toast;
 
     public Room $model;
-    public string $name        = '';
-    public string $location    = '';
-    public int $capacity       = 0;
+    public string $name = '';
+    public string $location = '';
+    public int $capacity = 0;
 
     public function mount(Room $room): void
     {
         $this->model = $room;
         if ($this->model->id) {
-            $this->name        = $this->model->name;
-            $this->location    = $this->model->location;
-            $this->capacity    = $this->model->capacity;
+            $this->name = $this->model->name;
+            $this->location = $this->model->location;
+            $this->capacity = $this->model->capacity;
         }
     }
 

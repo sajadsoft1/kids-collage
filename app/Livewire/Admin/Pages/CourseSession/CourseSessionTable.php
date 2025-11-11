@@ -25,7 +25,7 @@ final class CourseSessionTable extends PowerGridComponent
     public CourseTemplate $courseTemplate;
     public Course $course;
 
-    public string $tableName     = 'index_courseSession_datatable';
+    public string $tableName = 'index_courseSession_datatable';
     public string $sortDirection = 'desc';
 
     public function boot(): void

@@ -156,8 +156,8 @@ class Enrollment extends Model
             return null;
         }
 
-        $daysPerPercent         = $this->days_since_enrollment / $this->progress_percent;
-        $remainingPercent       = 100 - $this->progress_percent;
+        $daysPerPercent = $this->days_since_enrollment / $this->progress_percent;
+        $remainingPercent = 100 - $this->progress_percent;
         $estimatedDaysRemaining = $daysPerPercent * $remainingPercent;
 
         return now()->addDays((int) $estimatedDaysRemaining);
@@ -232,7 +232,7 @@ class Enrollment extends Model
     protected function calculateGrade(): string
     {
         $attendanceGrade = $this->attendance_percentage;
-        $progressGrade   = $this->progress_percent;
+        $progressGrade = $this->progress_percent;
 
         $overallGrade = ($attendanceGrade + $progressGrade) / 2;
 

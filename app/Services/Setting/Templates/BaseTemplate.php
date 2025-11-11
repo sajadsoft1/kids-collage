@@ -12,13 +12,13 @@ use Illuminate\Support\Facades\Validator;
 
 abstract class BaseTemplate
 {
-    protected const TEXT   = 'text';
+    protected const TEXT = 'text';
     protected const NUMBER = 'number';
     protected const SELECT = 'select';
-    protected const FILE   = 'file';
+    protected const FILE = 'file';
     protected ?Setting $setting;
     protected ?SettingEnum $settingEnum;
-    protected string $_prefix    = 'extra_attributes.';
+    protected string $_prefix = 'extra_attributes.';
     private bool $checkCondition = true;
     
     abstract public function template(Setting $setting): array;
@@ -84,7 +84,7 @@ abstract class BaseTemplate
         array $services = []
     ): array {
         $translationKey = $this->settingEnum->value;
-        $result         = [
+        $result = [
             'key' => $key,
             'default' => $default_value,
             'label' => transOrNull('setting.configs.' . $translationKey . '.items.' . $key . '.label'),

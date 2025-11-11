@@ -19,7 +19,7 @@ class SaleTemplate extends BaseTemplate
     public function template(Setting $setting): array
     {
         $this->setting = $setting;
-        $options       = BooleanEnum::options();
+        $options = BooleanEnum::options();
         
         // values
         $value1 = $this->selectOption($options, $this->setting->extra_attributes->get('payment.credit_card_deposit', true));

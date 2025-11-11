@@ -23,7 +23,7 @@ final class CategoryTable extends PowerGridComponent
 
     public string $type = CategoryTypeEnum::BLOG->value;
 
-    public string $tableName     = 'index_category_datatable';
+    public string $tableName = 'index_category_datatable';
     public string $sortDirection = 'desc';
 
     public function boot(): void

@@ -6,10 +6,10 @@ namespace App\Enums;
 
 enum CourseStatusEnum: string
 {
-    case DRAFT     = 'draft';
+    case DRAFT = 'draft';
     case SCHEDULED = 'scheduled';
-    case ACTIVE    = 'active';
-    case FINISHED  = 'finished';
+    case ACTIVE = 'active';
+    case FINISHED = 'finished';
     case CANCELLED = 'cancelled';
 
     public static function runerOptions(): array

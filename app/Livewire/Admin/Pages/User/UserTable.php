@@ -24,7 +24,7 @@ final class UserTable extends PowerGridComponent
     use HandlesPasswordChange;
     use PowerGridHelperTrait;
 
-    public string $tableName     = 'user-index-h9omkb-table';
+    public string $tableName = 'user-index-h9omkb-table';
     public string $sortDirection = 'desc';
 
     public function boot(): void

@@ -23,10 +23,10 @@ class MultipleChoice extends Component
 
     public function mount(Question $question, ?array $value = null, bool $disabled = false, bool $showCorrect = false): void
     {
-        $this->question        = $question;
+        $this->question = $question;
         $this->selectedOptions = $value ? array_values($value) : [];
-        $this->disabled        = $disabled;
-        $this->showCorrect     = $showCorrect;
+        $this->disabled = $disabled;
+        $this->showCorrect = $showCorrect;
 
         $this->options = $question->options;
 

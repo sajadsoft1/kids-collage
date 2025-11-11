@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 class ParentChild extends Pivot
 {
     public $timestamps = false;
-    protected $table   = 'parent_child';
+    protected $table = 'parent_child';
 
     protected $fillable = [
         'parent_id',

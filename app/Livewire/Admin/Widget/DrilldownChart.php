@@ -8,7 +8,7 @@ use Livewire\Component;
 
 class DrilldownChart extends Component
 {
-    public array $chartData   = [];
+    public array $chartData = [];
     public array $breadcrumbs = [];
 
     public function mount()
@@ -35,7 +35,7 @@ class DrilldownChart extends Component
         if ($index === null) {
             $this->loadLevel();
         } else {
-            $targetId          = $this->breadcrumbs[$index - 1] ?? null;
+            $targetId = $this->breadcrumbs[$index - 1] ?? null;
             $this->breadcrumbs = array_slice($this->breadcrumbs, 0, $index);
             $this->loadLevel($targetId);
         }
@@ -103,21 +103,21 @@ class DrilldownChart extends Component
 
         if (str_contains($id, 'week-')) {
             $parts = explode('-', $id);
-            $week  = end($parts);
+            $week = end($parts);
 
             return "هفته {$week}";
         }
 
         if (str_contains($id, 'day-')) {
             $parts = explode('-', $id);
-            $day   = end($parts);
+            $day = end($parts);
 
             return "روز {$day}";
         }
 
         if (str_contains($id, 'hour-')) {
             $parts = explode('-', $id);
-            $hour  = end($parts);
+            $hour = end($parts);
 
             return "{$hour}:00";
         }

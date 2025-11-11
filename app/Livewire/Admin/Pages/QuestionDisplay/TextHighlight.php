@@ -20,9 +20,9 @@ class TextHighlight extends Component
 
     public function mount(Question $question, ?array $value = null, bool $disabled = false, bool $showCorrect = false): void
     {
-        $this->question    = $question;
-        $this->value       = $value ?? ['selections' => []];
-        $this->disabled    = $disabled;
+        $this->question = $question;
+        $this->value = $value ?? ['selections' => []];
+        $this->disabled = $disabled;
         $this->showCorrect = $showCorrect;
     }
 

@@ -19,9 +19,9 @@ class TrueFalse extends Component
 
     public function mount(Question $question, ?bool $value = null, bool $disabled = false, bool $showCorrect = false): void
     {
-        $this->question    = $question;
-        $this->selected    = $value;
-        $this->disabled    = $disabled;
+        $this->question = $question;
+        $this->selected = $value;
+        $this->disabled = $disabled;
         $this->showCorrect = $showCorrect;
     }
 

@@ -65,8 +65,8 @@ class KavenegarDriver extends AbstractSmsDriver implements DeliveryReportFetcher
             ]);
 
             $statusCode = $response->getStatusCode();
-            $body       = (string) $response->getBody();
-            $data       = json_decode($body, true);
+            $body = (string) $response->getBody();
+            $data = json_decode($body, true);
 
             if ($statusCode !== 200) {
                 $errorMessage = $this->parseErrorResponse($data);
@@ -126,8 +126,8 @@ class KavenegarDriver extends AbstractSmsDriver implements DeliveryReportFetcher
             ]);
 
             $statusCode = $response->getStatusCode();
-            $body       = (string) $response->getBody();
-            $data       = json_decode($body, true);
+            $body = (string) $response->getBody();
+            $data = json_decode($body, true);
 
             if ($statusCode !== 200) {
                 $errorMessage = $this->parseErrorResponse($data);
@@ -186,8 +186,8 @@ class KavenegarDriver extends AbstractSmsDriver implements DeliveryReportFetcher
             $response = $this->client->get($url, ['timeout' => 10]);
 
             $statusCode = $response->getStatusCode();
-            $body       = (string) $response->getBody();
-            $data       = json_decode($body, true);
+            $body = (string) $response->getBody();
+            $data = json_decode($body, true);
 
             return $statusCode === 200
                 && isset($data['return']['status'])
@@ -223,8 +223,8 @@ class KavenegarDriver extends AbstractSmsDriver implements DeliveryReportFetcher
             ]);
 
             $statusCode = $response->getStatusCode();
-            $body       = (string) $response->getBody();
-            $data       = json_decode($body, true);
+            $body = (string) $response->getBody();
+            $data = json_decode($body, true);
 
             if ($statusCode !== 200) {
                 Log::warning('Kavenegar delivery report failed', [
@@ -236,7 +236,7 @@ class KavenegarDriver extends AbstractSmsDriver implements DeliveryReportFetcher
             }
 
             if (isset($data['entries'][0])) {
-                $entry  = $data['entries'][0];
+                $entry = $data['entries'][0];
                 $status = $this->mapKavenegarStatus((int) ($entry['status'] ?? 0));
 
                 return [

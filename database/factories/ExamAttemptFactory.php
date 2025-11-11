@@ -19,7 +19,7 @@ class ExamAttemptFactory extends Factory
     public function definition(): array
     {
         $startedAt = fake()->dateTimeBetween('-1 month', 'now');
-        $status    = fake()->randomElement(AttemptStatusEnum::cases());
+        $status = fake()->randomElement(AttemptStatusEnum::cases());
 
         $completedAt = $status->isFinished()
             ? fake()->dateTimeBetween($startedAt, 'now')

@@ -21,11 +21,11 @@ class TeammateUpdateOrCreate extends Component
     use WithFileUploads;
 
     public Teammate $model;
-    public string $title        = '';
+    public string $title = '';
     public ?string $description = '';
-    public ?string $bio         = '';
-    public string $position     = '';
-    public ?string $email       = '';
+    public ?string $bio = '';
+    public string $position = '';
+    public ?string $email = '';
     public ?string $birthday;
     public bool $published = false;
     public $image;
@@ -35,13 +35,13 @@ class TeammateUpdateOrCreate extends Component
     {
         $this->model = $teammate;
         if ($this->model->id) {
-            $this->title       = $this->model->title;
+            $this->title = $this->model->title;
             $this->description = $this->model->description;
-            $this->position    = $this->model->position;
-            $this->email       = $this->model->extra_attributes->get('email');
-            $this->birthday    = $this->setPublishedAt($this->model->birthday);
-            $this->bio         = $this->model->bio;
-            $this->published   = (bool) $this->model->published->value;
+            $this->position = $this->model->position;
+            $this->email = $this->model->extra_attributes->get('email');
+            $this->birthday = $this->setPublishedAt($this->model->birthday);
+            $this->bio = $this->model->bio;
+            $this->published = (bool) $this->model->published->value;
         }
     }
 

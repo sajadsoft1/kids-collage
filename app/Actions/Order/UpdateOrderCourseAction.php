@@ -53,7 +53,7 @@ class UpdateOrderCourseAction
     {
         return DB::transaction(function () use ($order, $payload) {
             $payload['order_id'] = $order->id;
-            $dto                 = new OrderCourseDTO($payload);
+            $dto = new OrderCourseDTO($payload);
 
             $result = app(Pipeline::class)
                 ->send($dto)

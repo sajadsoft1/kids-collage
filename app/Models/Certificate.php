@@ -182,8 +182,8 @@ class Certificate extends Model
     public function getCourseDurationAttribute(): string
     {
         $totalMinutes = $this->courseTemplate->total_duration;
-        $hours        = floor($totalMinutes / 60);
-        $minutes      = $totalMinutes % 60;
+        $hours = floor($totalMinutes / 60);
+        $minutes = $totalMinutes % 60;
 
         if ($hours > 0) {
             return $minutes > 0 ? "{$hours} hours {$minutes} minutes" : "{$hours} hours";

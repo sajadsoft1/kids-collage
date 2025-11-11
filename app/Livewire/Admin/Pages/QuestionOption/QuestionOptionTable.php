@@ -19,7 +19,7 @@ use PowerComponents\LivewirePowerGrid\PowerGridFields;
 final class QuestionOptionTable extends PowerGridComponent
 {
     use PowerGridHelperTrait;
-    public string $tableName     = 'index_questionOption_datatable';
+    public string $tableName = 'index_questionOption_datatable';
     public string $sortDirection = 'desc';
 
     public function boot(): void

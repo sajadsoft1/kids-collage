@@ -22,32 +22,32 @@ class FaqUpdateOrCreate extends Component
     use Toast;
 
     public Faq $model;
-    public ?string $title        = '';
-    public ?string $description  = '';
-    public bool $published       = false;
-    public bool $favorite        = false;
-    public int $ordering         = 1;
+    public ?string $title = '';
+    public ?string $description = '';
+    public bool $published = false;
+    public bool $favorite = false;
+    public int $ordering = 1;
     public ?string $published_at = '';
     public ?int $category_id;
     public array $categories;
 
     public function mount(Faq $faq): void
     {
-        $this->model     = $faq;
-        $this->categories=Category::where('published', true)->where('type', CategoryTypeEnum::FAQ->value)->get()->map(function ($category) {
+        $this->model = $faq;
+        $this->categories = Category::where('published', true)->where('type', CategoryTypeEnum::FAQ->value)->get()->map(function ($category) {
             return [
                 'id' => $category->id,
                 'title' => $category->title,
             ];
         })->toArray();
-        $this->category_id=count($this->categories) > 0 ? $this->categories[0]['id'] : null;
+        $this->category_id = count($this->categories) > 0 ? $this->categories[0]['id'] : null;
         if ($this->model->id) {
-            $this->title        = $this->model->title;
-            $this->description  = $this->model->description;
-            $this->published    = (bool) $this->model->published->value;
-            $this->favorite     = (bool) $this->model->favorite->value;
-            $this->ordering     = $this->model->ordering;
-            $this->category_id  = $this->model->category_id;
+            $this->title = $this->model->title;
+            $this->description = $this->model->description;
+            $this->published = (bool) $this->model->published->value;
+            $this->favorite = (bool) $this->model->favorite->value;
+            $this->ordering = $this->model->ordering;
+            $this->category_id = $this->model->category_id;
             $this->published_at = $this->model->published_at?->format(Constants::DEFAULT_DATE_FORMAT);
         } else {
             // For new faqs, ensure published is properly initialized
