@@ -24,12 +24,6 @@
                     <x-select :label="trans('notificationTemplate.fields.locale')" wire:model="locale" :options="$localeOptions" option-label="name"
                         option-value="id" required />
 
-                    <!-- Template Name -->
-                    <x-input :label="trans('notificationTemplate.fields.name')" wire:model.blur="name" required />
-
-                    <!-- Icon -->
-                    <x-input :label="trans('notificationTemplate.fields.icon')" wire:model.blur="icon" :hint="trans('notificationTemplate.hints.icon')" />
-
                     <!-- Subject (Email only hint) -->
                     <x-input :label="trans('notificationTemplate.fields.subject')" wire:model.blur="subject" :hint="trans('notificationTemplate.hints.subject')" />
 

@@ -14,8 +14,6 @@ return new class extends Migration {
             $table->string('event')->index();
             $table->string('channel');
             $table->string('locale', 12)->default('fa');
-            $table->string('name');
-            $table->string('icon')->nullable();
             $table->string('subject')->nullable();
             $table->string('title')->nullable();
             $table->string('subtitle')->nullable();

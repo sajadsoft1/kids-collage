@@ -35,8 +35,6 @@ class NotificationTemplateUpdateOrCreate extends Component
     public string $event = '';
     public string $channel = '';
     public string $locale = '';
-    public string $name = '';
-    public ?string $icon = null;
     public ?string $subject = null;
     public ?string $title = null;
     public ?string $subtitle = null;
@@ -71,8 +69,6 @@ class NotificationTemplateUpdateOrCreate extends Component
             'event' => ['required', Rule::in($eventValues)],
             'channel' => ['required', Rule::in($channelValues)],
             'locale' => ['required', Rule::in($localeValues)],
-            'name' => 'required|string|max:255|min:2',
-            'icon' => 'nullable|string|max:64',
             'subject' => 'nullable|string|max:255',
             'title' => 'nullable|string|max:255',
             'subtitle' => 'nullable|string|max:255',
@@ -103,8 +99,6 @@ class NotificationTemplateUpdateOrCreate extends Component
             'event' => $payload['event'],
             'channel' => $payload['channel'],
             'locale' => $payload['locale'],
-            'name' => $payload['name'],
-            'icon' => $payload['icon'] ?? null,
             'subject' => $payload['subject'] ?? null,
             'title' => $payload['title'] ?? null,
             'subtitle' => $payload['subtitle'] ?? null,
@@ -176,8 +170,6 @@ class NotificationTemplateUpdateOrCreate extends Component
         $this->event = $this->model->event ?? $this->eventOptions[0]['id'] ?? '';
         $this->channel = $this->model->channel ?? $this->channelOptions[0]['id'] ?? '';
         $this->locale = $this->model->locale ?? $this->localeOptions[0]['id'] ?? '';
-        $this->name = $this->model->name ?? '';
-        $this->icon = $this->model->icon ?? null;
         $this->subject = $this->model->subject ?? null;
         $this->title = $this->model->title ?? null;
         $this->subtitle = $this->model->subtitle ?? null;

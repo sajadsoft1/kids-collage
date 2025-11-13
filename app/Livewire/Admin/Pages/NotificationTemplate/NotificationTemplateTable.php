@@ -72,7 +72,6 @@ final class NotificationTemplateTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('id')
-            ->add('name')
             ->add('event_label', fn (NotificationTemplate $row) => NotificationEventEnum::tryFrom($row->event)?->title() ?? $row->event)
             ->add('channel_label', fn (NotificationTemplate $row) => NotificationChannelEnum::tryFrom($row->channel)?->title() ?? $row->channel)
             ->add('locale')
@@ -98,12 +97,7 @@ final class NotificationTemplateTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make(trans('validation.attributes.name'), 'name')
-                ->sortable()
-                ->searchable(),
-
-            Column::make(trans('notificationTemplate.fields.is_active'), 'is_active')
-                ->toggleable(),
+            Column::make(trans('notificationTemplate.fields.is_active'), 'is_active')->sortable(),
 
             PowerGridHelper::columnCreatedAT(),
             PowerGridHelper::columnAction(),

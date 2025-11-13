@@ -16,8 +16,6 @@ class NotificationTemplate extends Model
         'event',
         'channel',
         'locale',
-        'name',
-        'icon',
         'subject',
         'title',
         'subtitle',
