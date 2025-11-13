@@ -10,16 +10,21 @@ enum NotificationChannelEnum: string
 
     case SMS = 'sms';
     case EMAIL = 'email';
-    case PUSH = 'push';
     case DATABASE = 'database';
+    case FIREBASE = 'firebase';
+    case TELEGRAM = 'telegram';
+    case WHATSAPP = 'whatsapp';
+    case PUSH = 'push';
 
     public function title(): string
     {
         return match ($this) {
             self::SMS => 'پیامک',
             self::EMAIL => 'ایمیل',
-            self::PUSH => 'پوش نوتیفیکیشن',
             self::DATABASE => 'نوتیفیکیشن داخلی',
+            self::FIREBASE, self::PUSH => 'پوش نوتیفیکیشن',
+            self::TELEGRAM => 'تلگرام',
+            self::WHATSAPP => 'واتس‌اپ',
         };
     }
 
@@ -28,8 +33,10 @@ enum NotificationChannelEnum: string
         return match ($this) {
             self::SMS => 'o-chat-bubble-left-right',
             self::EMAIL => 'o-envelope',
-            self::PUSH => 'o-bell-alert',
             self::DATABASE => 'o-bell',
+            self::FIREBASE, self::PUSH => 'o-bell-alert',
+            self::TELEGRAM => 'o-paper-airplane',
+            self::WHATSAPP => 'o-chat-bubble-left-ellipsis',
         };
     }
 
@@ -38,8 +45,30 @@ enum NotificationChannelEnum: string
         return match ($this) {
             self::SMS => 'ارسال پیامک به شماره موبایل',
             self::EMAIL => 'ارسال ایمیل به آدرس پست الکترونیک',
-            self::PUSH => 'ارسال نوتیفیکیشن به دستگاه موبایل',
             self::DATABASE => 'ذخیره نوتیفیکیشن در سیستم',
+            self::FIREBASE, self::PUSH => 'ارسال اعلان از طریق سرویس پوش (Firebase)',
+            self::TELEGRAM => 'ارسال پیام از طریق ربات تلگرام',
+            self::WHATSAPP => 'ارسال پیام از طریق واتس‌اپ',
+        };
+    }
+
+    public function isFutureChannel(): bool
+    {
+        return match ($this) {
+            self::FIREBASE, self::TELEGRAM, self::WHATSAPP, self::PUSH => true,
+            default => false,
+        };
+    }
+
+    public function driverBinding(): string
+    {
+        return match ($this) {
+            self::SMS => 'notifications.channels.sms',
+            self::EMAIL => 'notifications.channels.email',
+            self::DATABASE => 'notifications.channels.database',
+            self::FIREBASE, self::PUSH => 'notifications.channels.firebase',
+            self::TELEGRAM => 'notifications.channels.telegram',
+            self::WHATSAPP => 'notifications.channels.whatsapp',
         };
     }
 }

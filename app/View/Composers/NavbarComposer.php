@@ -19,6 +19,7 @@ use App\Models\Enrollment;
 use App\Models\Exam;
 use App\Models\Faq;
 use App\Models\License;
+use App\Models\NotificationTemplate;
 use App\Models\Opinion;
 use App\Models\Order;
 use App\Models\Page;
@@ -596,6 +597,15 @@ class NavbarComposer
                         'route_name' => 'admin.survey.index',
                         'access' => $this->checkPermission([
                             Exam::class => 'Index',
+                        ]),
+                    ],
+                    [
+                        'icon' => 'o-bolt',
+                        'params' => [],
+                        'title' => trans('_menu.notification_templates'),
+                        'route_name' => 'admin.notification-template.index',
+                        'access' => $this->checkPermission([
+                            NotificationTemplate::class => 'Index',
                         ]),
                     ],
 

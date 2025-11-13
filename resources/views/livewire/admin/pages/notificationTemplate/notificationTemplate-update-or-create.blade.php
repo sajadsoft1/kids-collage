@@ -1,6 +1,3 @@
-@php
-    use App\Enums\BooleanEnum;
-@endphp
 <form wire:submit="submit">
     <!-- Breadcrumbs -->
     <x-admin.shared.bread-crumbs :breadcrumbs="$breadcrumbs" :breadcrumbs-actions="$breadcrumbsActions" />
@@ -11,34 +8,48 @@
         <!-- Main Content Section (2 columns) -->
         <div class="grid grid-cols-1 col-span-2 gap-4">
 
-            <!-- Basic Information Card -->
+            <!-- Definitions Card -->
             <x-card :title="trans('general.page_sections.data')" shadow separator progress-indicator="submit">
                 <div class="grid grid-cols-1 gap-4">
 
+                    <!-- Event -->
+                    <x-select :label="trans('notificationTemplate.fields.event')" wire:model="event" :options="$eventOptions" option-label="name" option-value="id"
+                        searchable required />
+
+                    <!-- Channel -->
+                    <x-select :label="trans('notificationTemplate.fields.channel')" wire:model="channel" :options="$channelOptions" option-label="name"
+                        option-value="id" required />
+
+                    <!-- Locale -->
+                    <x-select :label="trans('notificationTemplate.fields.locale')" wire:model="locale" :options="$localeOptions" option-label="name"
+                        option-value="id" required />
+
                     <!-- Template Name -->
-                    <x-input :label="trans('validation.attributes.name')" wire:model.blur="name" :hint="trans('general.notification_template_hints.name')" required />
+                    <x-input :label="trans('notificationTemplate.fields.name')" wire:model.blur="name" required />
 
-                    <!-- Channel Selection -->
-                    <x-select :label="trans('validation.attributes.channel')" wire:model="channel" :options="$channelOptions" :hint="trans('general.notification_template_hints.channel')" required />
+                    <!-- Icon -->
+                    <x-input :label="trans('notificationTemplate.fields.icon')" wire:model.blur="icon" :hint="trans('notificationTemplate.hints.icon')" />
 
-                    <!-- Message Template (Textarea) -->
-                    <x-textarea :label="trans('validation.attributes.message_template')" wire:model.blur="message_template" :hint="trans('general.notification_template_hints.message_template')" rows="8"
-                        required />
+                    <!-- Subject (Email only hint) -->
+                    <x-input :label="trans('notificationTemplate.fields.subject')" wire:model.blur="subject" :hint="trans('notificationTemplate.hints.subject')" />
 
-                    <!-- Languages (Multi-select) -->
-                    <x-choices-offline :label="trans('validation.attributes.languages')" wire:model="languages" :options="$languageOptions" :hint="trans('general.notification_template_hints.languages')"
-                        searchable />
+                    <!-- Title -->
+                    <x-input :label="trans('notificationTemplate.fields.title')" wire:model.blur="title" />
 
-                    <!-- Template Variables/Inputs -->
-                    <div class="form-control">
-                        <label class="label">
-                            <span
-                                class="font-semibold label-text">{{ trans('validation.attributes.template_inputs') }}</span>
-                        </label>
-                        <x-tags wire:model="inputs" icon="o-variable" :hint="trans('general.notification_template_hints.inputs')" clearable />
-                        <div class="mt-1 text-sm text-gray-500">
-                            {{ trans('general.notification_template_hints.inputs_example') }}
-                        </div>
+                    <!-- Subtitle / Description -->
+                    <x-input :label="trans('notificationTemplate.fields.subtitle')" wire:model.blur="subtitle" />
+
+                    <!-- Body -->
+                    <x-textarea :label="trans('notificationTemplate.fields.body')" wire:model.defer="body" rows="8" />
+
+                    <!-- Placeholders -->
+                    <x-tags wire:model="placeholders" :label="trans('notificationTemplate.fields.placeholders')" icon="o-hashtag" :hint="trans('notificationTemplate.hints.placeholders')"
+                        clearable />
+
+                    <!-- CTA -->
+                    <div class="grid grid-cols-1 gap-3 md:grid-cols-2">
+                        <x-input :label="trans('notificationTemplate.fields.cta_label')" wire:model.blur="cta_label" />
+                        <x-input :label="trans('notificationTemplate.fields.cta_url')" wire:model.blur="cta_url" />
                     </div>
 
                 </div>
@@ -55,12 +66,12 @@
                     <div class="grid grid-cols-1 gap-4">
 
                         <!-- Published Toggle -->
-                        <x-toggle :label="trans('validation.attributes.published')" wire:model="published" :hint="trans('general.notification_template_hints.published')" right />
+                        <x-toggle :label="trans('notificationTemplate.fields.is_active')" wire:model="is_active" right />
 
                         <!-- Status Badge -->
                         <div class="flex gap-2 items-center">
                             <span class="text-sm font-medium">{{ trans('datatable.status') }}:</span>
-                            @if ($published)
+                            @if ($is_active)
                                 <span class="badge badge-success badge-sm">{{ trans('general.active') }}</span>
                             @else
                                 <span class="badge badge-ghost badge-sm">{{ trans('general.inactive') }}</span>
@@ -79,14 +90,10 @@
                             <h4 class="mb-2 font-semibold text-gray-700">{{ trans('general.available_variables') }}:
                             </h4>
                             <ul class="space-y-1 list-disc list-inside text-gray-600">
-                                <li><code class="px-1 bg-gray-100 rounded">{user_name}</code> -
-                                    {{ trans('general.variables.user_name') }}</li>
-                                <li><code class="px-1 bg-gray-100 rounded">{user_email}</code> -
-                                    {{ trans('general.variables.user_email') }}</li>
-                                <li><code class="px-1 bg-gray-100 rounded">{order_id}</code> -
-                                    {{ trans('general.variables.order_id') }}</li>
-                                <li><code class="px-1 bg-gray-100 rounded">{course_name}</code> -
-                                    {{ trans('general.variables.course_name') }}</li>
+                                @foreach ($placeholders as $placeholder)
+                                    <li><code class="px-1 bg-gray-100 rounded">{{ '{' . $placeholder . '}' }}</code>
+                                    </li>
+                                @endforeach
                             </ul>
                         </div>
 
@@ -94,7 +101,7 @@
                         <div class="pt-3 border-t">
                             <h4 class="mb-2 font-semibold text-gray-700">{{ trans('general.example') }}:</h4>
                             <div class="p-3 font-mono text-xs bg-gray-50 rounded">
-                                Hello {user_name}, your order #{order_id} has been confirmed.
+                                {{ trans('notificationTemplate.examples.body_hint') }}
                             </div>
                         </div>
 

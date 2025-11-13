@@ -66,10 +66,20 @@
                                     </div>
                                 </td>
                                 @foreach ($this->channels as $channel)
+                                    @php
+                                        $metadata = $channelMetadata[$event->value][$channel->value] ?? [];
+                                        $isTogglable = $metadata['togglable'] ?? false;
+                                    @endphp
                                     <td class="text-center">
-                                        <x-checkbox
-                                            wire:model="notificationSettings.{{ $event->value }}.{{ $channel->value }}"
-                                            wire:key="checkbox-{{ $event->value }}-{{ $channel->value }}" />
+                                        <div class="flex flex-col items-center gap-1">
+                                            <x-checkbox
+                                                wire:model="notificationSettings.{{ $event->value }}.{{ $channel->value }}"
+                                                wire:key="checkbox-{{ $event->value }}-{{ $channel->value }}"
+                                                :disabled="!$isTogglable" :label="false" />
+                                            @unless ($isTogglable)
+                                                <span class="text-[11px] text-gray-400">ثابت</span>
+                                            @endunless
+                                        </div>
                                     </td>
                                 @endforeach
                             </tr>

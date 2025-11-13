@@ -58,6 +58,7 @@ return [
     'order_management' => 'Order management',
     'payment_management' => 'Payment management',
     'installment_management' => 'Installment management',
+    'notification_templates' => 'Notification templates',
     'exam_management' => 'Exam Management',
     'exams' => 'Exams',
     'questions' => 'Questions',

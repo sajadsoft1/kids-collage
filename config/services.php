@@ -35,4 +35,17 @@ return [
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
     ],
+
+    'notifications' => [
+        'email' => [
+            'endpoint' => env('NOTIFICATION_EMAIL_ENDPOINT'),
+            'token' => env('NOTIFICATION_EMAIL_TOKEN'),
+            'timeout' => env('NOTIFICATION_EMAIL_TIMEOUT', 10),
+        ],
+        'sms' => [
+            'endpoint' => env('NOTIFICATION_SMS_ENDPOINT'),
+            'token' => env('NOTIFICATION_SMS_TOKEN'),
+            'timeout' => env('NOTIFICATION_SMS_TIMEOUT', 10),
+        ],
+    ],
 ];

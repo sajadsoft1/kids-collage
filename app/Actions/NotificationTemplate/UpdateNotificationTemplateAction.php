@@ -4,47 +4,48 @@ declare(strict_types=1);
 
 namespace App\Actions\NotificationTemplate;
 
-use App\Actions\Translation\SyncTranslationAction;
 use App\Models\NotificationTemplate;
-use Illuminate\Support\Facades\DB;
 use Lorisleiva\Actions\Concerns\AsAction;
-use Throwable;
 
 class UpdateNotificationTemplateAction
 {
     use AsAction;
 
-    public function __construct(
-        private readonly SyncTranslationAction $syncTranslationAction,
-    ) {}
-
     /**
      * Update an existing notification template
      *
      * @param array{
-     *     name:string,
+     *     event:string,
      *     channel:string,
-     *     message_template:string,
-     *     languages:array|null,
-     *     inputs:array|null,
-     *     published:bool
+     *     locale:string,
+     *     name:string,
+     *     icon:string|null,
+     *     subject:string|null,
+     *     title:string|null,
+     *     subtitle:string|null,
+     *     body:string|null,
+     *     cta:array<string,mixed>|null,
+     *     placeholders:array<int,string>|null,
+     *     is_active:bool
      * } $payload
-     * @throws Throwable
      */
     public function handle(NotificationTemplate $notificationTemplate, array $payload): NotificationTemplate
     {
-        return DB::transaction(function () use ($notificationTemplate, $payload) {
-            // Update the notification template
-            $notificationTemplate->update([
-                'name' => $payload['name'],
-                'channel' => $payload['channel'],
-                'message_template' => $payload['message_template'],
-                'languages' => $payload['languages'] ?? [],
-                'inputs' => $payload['inputs'] ?? [],
-                'published' => $payload['published'] ?? false,
-            ]);
+        $notificationTemplate->update([
+            'event' => $payload['event'],
+            'channel' => $payload['channel'],
+            'locale' => $payload['locale'],
+            'name' => $payload['name'],
+            'icon' => $payload['icon'] ?? null,
+            'subject' => $payload['subject'] ?? null,
+            'title' => $payload['title'] ?? null,
+            'subtitle' => $payload['subtitle'] ?? null,
+            'body' => $payload['body'] ?? null,
+            'cta' => $payload['cta'] ?? [],
+            'placeholders' => $payload['placeholders'] ?? [],
+            'is_active' => $payload['is_active'] ?? true,
+        ]);
 
-            return $notificationTemplate->refresh();
-        });
+        return $notificationTemplate->refresh();
     }
 }

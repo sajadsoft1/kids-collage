@@ -4,52 +4,34 @@ declare(strict_types=1);
 
 namespace App\Notifications\Auth;
 
-use App\Enums\NoificationTypeEnum;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Notification;
+use App\Enums\NotificationEventEnum;
+use App\Models\Profile;
+use App\Notifications\BaseNotification;
 
-class WelcomeNotification extends Notification implements ShouldQueue
+class WelcomeNotification extends BaseNotification
 {
-    use Queueable;
-
-    /** Create a new notification instance. */
-    public function __construct() {}
-
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @return array<int, string>
-     */
-    public function via(object $notifiable): array
+    public function __construct(private readonly ?Profile $profile = null)
     {
-        return ['mail', 'database'];
+        parent::__construct();
     }
 
-    /** Get the mail representation of the notification. */
-    public function toMail(object $notifiable): MailMessage
+    public function event(): NotificationEventEnum
     {
-        return (new MailMessage)
-            ->line('The introduction to the notification.')
-            ->action('Notification Action', url('/'))
-            ->line('Thank you for using our application!');
+        return NotificationEventEnum::AUTH_WELCOME;
     }
 
-    /**
-     * Get the array representation of the notification.
-     *
-     * @return array<string, mixed>
-     */
-    public function toArray(object $notifiable): array
+    /** @return array<string, mixed> */
+    protected function context(object $notifiable): array
     {
         return [
-            'type' => NoificationTypeEnum::AUTH_WELCOME->value,
-            'translations_field' => ['title', 'sub_title'],
-            'title' => 'notification.auth.welcome.title',
-            'sub_title' => 'notification.auth.welcome.sub_title',
-            'eloquent_id' => null,
-            'eloquent_type' => null,
+            'user_name' => $notifiable->name ?? $notifiable->full_name ?? null,
+            'message' => 'به خانواده کیدز کالج خوش آمدید!',
+            'action_url' => url('/dashboard'),
         ];
+    }
+
+    public function send(object $notifiable): void
+    {
+        $this->deliver($notifiable, $this->profile);
     }
 }
