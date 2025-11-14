@@ -138,6 +138,14 @@ final class NotificationTemplateTable extends PowerGridComponent
                 ->optionLabel('name')
                 ->optionValue('id'),
 
+            Filter::select('locale', 'locale')
+                ->dataSource([
+                    ['id' => 'fa', 'name' => 'فارسی'],
+                    ['id' => 'en', 'name' => 'انگلیسی'],
+                ])
+                ->optionLabel('name')
+                ->optionValue('id'),
+
             Filter::datepicker('created_at_formatted', 'created_at')
                 ->params([
                     'maxDate' => now(),

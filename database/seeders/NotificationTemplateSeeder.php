@@ -11,8 +11,12 @@ use Illuminate\Database\Seeder;
 
 class NotificationTemplateSeeder extends Seeder
 {
+    private array $templates = [];
+
     public function run(): void
     {
+        $this->loadTemplates();
+
         $blueprint = config('notification_channels');
         $defaultChannels = $blueprint['defaults']['channels'] ?? [];
         $overrides = $blueprint['events'] ?? [];
@@ -52,25 +56,69 @@ class NotificationTemplateSeeder extends Seeder
         }
     }
 
+    private function loadTemplates(): void
+    {
+        $templateFiles = [
+            'email_fa' => database_path('seeders/data/karno_notification_template_email_fa.php'),
+            'email_en' => database_path('seeders/data/karno_notification_template_email_en.php'),
+            'sms_fa' => database_path('seeders/data/karno_notification_template_sms_fa.php'),
+            'sms_en' => database_path('seeders/data/karno_notification_template_sms_en.php'),
+        ];
+
+        foreach ($templateFiles as $key => $file) {
+            if (file_exists($file)) {
+                $data = require $file;
+                $this->templates[$key] = $data['data'] ?? [];
+            }
+        }
+    }
+
+    private function getTemplate(NotificationEventEnum $event, NotificationChannelEnum $channel, string $locale): ?array
+    {
+        $templateKey = match ($channel) {
+            NotificationChannelEnum::EMAIL => $locale === 'fa' ? 'email_fa' : 'email_en',
+            NotificationChannelEnum::SMS => $locale   === 'fa' ? 'sms_fa' : 'sms_en',
+            default => null,
+        };
+
+        if ($templateKey === null || ! isset($this->templates[$templateKey])) {
+            return null;
+        }
+
+        foreach ($this->templates[$templateKey] as $template) {
+            if ($template['event'] === $event && $template['channel'] === $channel) {
+                return $template['data'][$locale] ?? null;
+            }
+        }
+
+        return null;
+    }
+
     private function buildPayload(NotificationEventEnum $event, NotificationChannelEnum $channel, string $locale): ?array
     {
-        $title = $this->title($event, $locale);
-        $subtitle = $this->subtitle($event, $locale);
-        $body = $this->body($event, $channel, $locale);
-        $placeholders = $this->placeholders($event);
+        $template = $this->getTemplate($event, $channel, $locale);
 
-        if ($title === null || $body === null) {
+        if ($template === null) {
+            return null;
+        }
+
+        $title = $template['title'] ?? $this->title($event, $locale);
+        $subtitle = $template['subtitle'] ?? $this->subtitle($event, $locale);
+        $body = $template['body'] ?? null;
+        $placeholders = $template['placeholders'] ?? $this->placeholders($event);
+        $cta = $template['cta'] ?? $this->cta($channel, $locale);
+        $subject = $template['subject'] ?? ($channel === NotificationChannelEnum::EMAIL ? $this->emailSubject($event, $locale) : null);
+
+        if ($body === null) {
             return null;
         }
 
         return [
-            'name' => sprintf('%s - %s (%s)', $title, $this->channelTitle($channel, $locale), strtoupper($locale)),
-            'icon' => $this->icon($event),
-            'subject' => $channel === NotificationChannelEnum::EMAIL ? $this->emailSubject($event, $locale) : null,
+            'subject' => $subject,
             'title' => in_array($channel, [NotificationChannelEnum::DATABASE, NotificationChannelEnum::EMAIL], true) ? $title : null,
             'subtitle' => $channel === NotificationChannelEnum::DATABASE ? $subtitle : null,
             'body' => $body,
-            'cta' => $this->cta($channel, $locale),
+            'cta' => $cta,
             'placeholders' => $placeholders,
             'is_active' => true,
         ];
@@ -81,12 +129,25 @@ class NotificationTemplateSeeder extends Seeder
         return match ($event) {
             NotificationEventEnum::AUTH_REGISTER => $locale           === 'fa' ? 'ثبت‌نام موفق' : 'Registration Completed',
             NotificationEventEnum::AUTH_CONFIRM => $locale            === 'fa' ? 'تایید حساب کاربری' : 'Account Verification',
+            NotificationEventEnum::AUTH_FORGOT_PASSWORD => $locale    === 'fa' ? 'بازیابی رمز عبور' : 'Password Reset',
             NotificationEventEnum::AUTH_WELCOME => $locale            === 'fa' ? 'خوش آمدید' : 'Welcome Aboard',
+            NotificationEventEnum::ORDER_CREATED => $locale           === 'fa' ? 'سفارش جدید' : 'New Order',
+            NotificationEventEnum::ORDER_PAID => $locale              === 'fa' ? 'پرداخت سفارش' : 'Order Paid',
+            NotificationEventEnum::ORDER_CANCELLED => $locale         === 'fa' ? 'لغو سفارش' : 'Order Cancelled',
+            NotificationEventEnum::PAYMENT_SUCCESS => $locale         === 'fa' ? 'پرداخت موفق' : 'Payment Successful',
+            NotificationEventEnum::PAYMENT_FAILED => $locale          === 'fa' ? 'پرداخت ناموفق' : 'Payment Failed',
+            NotificationEventEnum::ENROLLMENT_CREATED => $locale      === 'fa' ? 'ثبت‌نام در دوره' : 'Course Enrollment',
+            NotificationEventEnum::ENROLLMENT_APPROVED => $locale     === 'fa' ? 'تایید ثبت‌نام' : 'Enrollment Approved',
+            NotificationEventEnum::ENROLLMENT_REJECTED => $locale     === 'fa' ? 'رد ثبت‌نام' : 'Enrollment Rejected',
             NotificationEventEnum::COURSE_SESSION_REMINDER => $locale === 'fa' ? 'یادآوری جلسه دوره' : 'Course Session Reminder',
             NotificationEventEnum::COURSE_SESSION_STARTED => $locale  === 'fa' ? 'شروع جلسه دوره' : 'Course Session Started',
             NotificationEventEnum::COURSE_SESSION_ENDED => $locale    === 'fa' ? 'پایان جلسه دوره' : 'Course Session Ended',
+            NotificationEventEnum::TICKET_CREATED => $locale          === 'fa' ? 'تیکت جدید' : 'New Ticket',
+            NotificationEventEnum::TICKET_REPLIED => $locale          === 'fa' ? 'پاسخ به تیکت' : 'Ticket Reply',
+            NotificationEventEnum::TICKET_RESOLVED => $locale         === 'fa' ? 'حل تیکت' : 'Ticket Resolved',
             NotificationEventEnum::SYSTEM_ALERT => $locale            === 'fa' ? 'هشدار سیستم' : 'System Alert',
             NotificationEventEnum::ANNOUNCEMENT => $locale            === 'fa' ? 'اطلاعیه جدید' : 'New Announcement',
+            NotificationEventEnum::BIRTHDAY_REMINDER => $locale       === 'fa' ? 'تولدت مبارک!' : 'Happy Birthday!',
             default => $event->value,
         };
     }
@@ -96,12 +157,25 @@ class NotificationTemplateSeeder extends Seeder
         return match ($event) {
             NotificationEventEnum::AUTH_REGISTER => $locale           === 'fa' ? 'ثبت‌نام شما با موفقیت انجام شد.' : 'Your registration is complete.',
             NotificationEventEnum::AUTH_CONFIRM => $locale            === 'fa' ? 'کد تایید را وارد کنید تا حساب شما فعال شود.' : 'Use the verification code to activate your account.',
+            NotificationEventEnum::AUTH_FORGOT_PASSWORD => $locale    === 'fa' ? 'درخواست بازیابی رمز عبور شما' : 'Password reset request',
             NotificationEventEnum::AUTH_WELCOME => $locale            === 'fa' ? 'برای شروع وارد حساب کاربری خود شوید.' : 'Sign in to start exploring.',
+            NotificationEventEnum::ORDER_CREATED => $locale           === 'fa' ? 'سفارش شما با موفقیت ثبت شد' : 'Your order has been placed successfully',
+            NotificationEventEnum::ORDER_PAID => $locale              === 'fa' ? 'پرداخت سفارش شما با موفقیت انجام شد' : 'Your order payment has been completed',
+            NotificationEventEnum::ORDER_CANCELLED => $locale         === 'fa' ? 'سفارش شما لغو شد' : 'Your order has been cancelled',
+            NotificationEventEnum::PAYMENT_SUCCESS => $locale         === 'fa' ? 'پرداخت شما با موفقیت انجام شد' : 'Your payment has been completed',
+            NotificationEventEnum::PAYMENT_FAILED => $locale          === 'fa' ? 'پرداخت شما انجام نشد' : 'Your payment was not completed',
+            NotificationEventEnum::ENROLLMENT_CREATED => $locale      === 'fa' ? 'درخواست ثبت‌نام شما ثبت شد' : 'Your enrollment request has been submitted',
+            NotificationEventEnum::ENROLLMENT_APPROVED => $locale     === 'fa' ? 'ثبت‌نام شما در دوره تایید شد' : 'Your course enrollment has been approved',
+            NotificationEventEnum::ENROLLMENT_REJECTED => $locale     === 'fa' ? 'ثبت‌نام شما در دوره رد شد' : 'Your course enrollment has been rejected',
             NotificationEventEnum::COURSE_SESSION_REMINDER => $locale === 'fa' ? 'یادآوری جلسه پیش رو برای دوره شما.' : 'Upcoming session reminder for your course.',
             NotificationEventEnum::COURSE_SESSION_STARTED => $locale  === 'fa' ? 'جلسه آغاز شده است.' : 'Session is now live.',
             NotificationEventEnum::COURSE_SESSION_ENDED => $locale    === 'fa' ? 'جلسه به پایان رسید.' : 'Session has finished.',
+            NotificationEventEnum::TICKET_CREATED => $locale          === 'fa' ? 'تیکت شما با موفقیت ثبت شد' : 'Your ticket has been created successfully',
+            NotificationEventEnum::TICKET_REPLIED => $locale          === 'fa' ? 'پاسخ جدید به تیکت شما' : 'New reply to your ticket',
+            NotificationEventEnum::TICKET_RESOLVED => $locale         === 'fa' ? 'تیکت شما حل شد' : 'Your ticket has been resolved',
             NotificationEventEnum::SYSTEM_ALERT => $locale            === 'fa' ? 'لطفاً این هشدار را بررسی کنید.' : 'Please review this alert.',
             NotificationEventEnum::ANNOUNCEMENT => $locale            === 'fa' ? 'اطلاعیه جدید منتشر شد.' : 'A new announcement has been published.',
+            NotificationEventEnum::BIRTHDAY_REMINDER => $locale       === 'fa' ? '{{user_name}} عزیز، تولدت مبارک!' : 'Happy Birthday, {{user_name}}!',
             default => null,
         };
     }
@@ -113,63 +187,6 @@ class NotificationTemplateSeeder extends Seeder
         return $locale === 'fa'
             ? sprintf('کیدز کالج | %s', $title)
             : sprintf('Kids Collage | %s', $title);
-    }
-
-    private function body(NotificationEventEnum $event, NotificationChannelEnum $channel, string $locale): ?string
-    {
-        if ($channel === NotificationChannelEnum::SMS) {
-            return $this->smsBody($event, $locale);
-        }
-
-        return match ($event) {
-            NotificationEventEnum::COURSE_SESSION_REMINDER => $locale === 'fa'
-                ? 'سلام {{user_name}} عزیز، این یک یادآوری برای جلسه {{course_title}} در تاریخ {{session_date}} ساعت {{session_time}} است.'
-                : 'Hi {{user_name}}, this is a reminder for {{course_title}} on {{session_date}} at {{session_time}}.',
-            NotificationEventEnum::COURSE_SESSION_STARTED => $locale === 'fa'
-                ? 'جلسه {{course_title}} اکنون آغاز شده است. برای حضور از طریق لینک اقدام کنید: {{action_url}}'
-                : '{{course_title}} has just started. Join via {{action_url}}.',
-            NotificationEventEnum::COURSE_SESSION_ENDED => $locale === 'fa'
-                ? 'جلسه {{course_title}} به پایان رسید. می‌توانید جزئیات را در لینک زیر مشاهده کنید: {{action_url}}'
-                : '{{course_title}} has ended. Review the details here: {{action_url}}.',
-            NotificationEventEnum::SYSTEM_ALERT => $locale === 'fa'
-                ? 'هشدار سیستم: {{alert_message}}. برای مشاهده جزئیات از لینک زیر استفاده کنید: {{action_url}}'
-                : 'System alert: {{alert_message}}. See more information here: {{action_url}}.',
-            NotificationEventEnum::ANNOUNCEMENT => $locale === 'fa'
-                ? 'اعلان جدید: {{announcement_title}}. متن کامل: {{announcement_body}}'
-                : 'New announcement: {{announcement_title}}. Full text: {{announcement_body}}.',
-            NotificationEventEnum::AUTH_REGISTER => $locale === 'fa'
-                ? 'سلام {{user_name}} عزیز، ثبت‌نام شما تکمیل شد. برای ورود از لینک زیر استفاده کنید: {{action_url}}'
-                : 'Hi {{user_name}}, your registration is complete. Sign in here: {{action_url}}.',
-            NotificationEventEnum::AUTH_CONFIRM => $locale === 'fa'
-                ? 'سلام {{user_name}} عزیز، کد تایید شما {{verification_code}} است. در صورت نیاز می‌توانید از لینک زیر اقدام کنید: {{action_url}}'
-                : 'Hi {{user_name}}, your verification code is {{verification_code}}. Need help? Visit: {{action_url}}.',
-            NotificationEventEnum::AUTH_WELCOME => $locale === 'fa'
-                ? 'سلام {{user_name}} عزیز، به خانواده کیدز کالج خوش آمدید. برای شروع از لینک زیر استفاده کنید: {{action_url}}'
-                : 'Hi {{user_name}}, welcome to Kids Collage! Start here: {{action_url}}.',
-            default => $locale === 'fa' ? '{{message}}' : '{{message}}',
-        };
-    }
-
-    private function smsBody(NotificationEventEnum $event, string $locale): string
-    {
-        return match ($event) {
-            NotificationEventEnum::COURSE_SESSION_REMINDER => $locale === 'fa'
-                ? 'یادآوری جلسه {{course_title}} در تاریخ {{session_date}} ساعت {{session_time}}.'
-                : 'Reminder: {{course_title}} on {{session_date}} at {{session_time}}.',
-            NotificationEventEnum::SYSTEM_ALERT => $locale === 'fa'
-                ? 'هشدار سیستم: {{alert_message}}.'
-                : 'System alert: {{alert_message}}.',
-            NotificationEventEnum::AUTH_REGISTER => $locale === 'fa'
-                ? 'ثبت‌نام شما تکمیل شد. ورود: {{action_url}}'
-                : 'Registration done. Login: {{action_url}}',
-            NotificationEventEnum::AUTH_CONFIRM => $locale === 'fa'
-                ? 'کد تایید: {{verification_code}}'
-                : 'Verify code: {{verification_code}}',
-            NotificationEventEnum::AUTH_WELCOME => $locale === 'fa'
-                ? 'به کیدز کالج خوش آمدید!'
-                : 'Welcome to Kids Collage!',
-            default => $locale === 'fa' ? '{{message}}' : '{{message}}',
-        };
     }
 
     private function placeholders(NotificationEventEnum $event): array
@@ -186,51 +203,117 @@ class NotificationTemplateSeeder extends Seeder
                 'action_url',
                 'message',
             ],
+            NotificationEventEnum::AUTH_FORGOT_PASSWORD => [
+                'user_name',
+                'reset_password_url',
+            ],
             NotificationEventEnum::AUTH_WELCOME => [
                 'user_name',
                 'action_url',
                 'message',
+            ],
+            NotificationEventEnum::ORDER_CREATED => [
+                'user_name',
+                'order_number',
+                'order_amount',
+                'order_date',
+                'action_url',
+            ],
+            NotificationEventEnum::ORDER_PAID => [
+                'user_name',
+                'order_number',
+                'payment_amount',
+                'transaction_id',
+                'payment_date',
+                'action_url',
+            ],
+            NotificationEventEnum::ORDER_CANCELLED => [
+                'user_name',
+                'order_number',
+                'cancellation_reason',
+                'action_url',
+            ],
+            NotificationEventEnum::PAYMENT_SUCCESS => [
+                'user_name',
+                'payment_amount',
+                'transaction_id',
+                'payment_date',
+                'payment_method',
+                'action_url',
+            ],
+            NotificationEventEnum::PAYMENT_FAILED => [
+                'user_name',
+                'failure_reason',
+                'action_url',
+            ],
+            NotificationEventEnum::ENROLLMENT_CREATED => [
+                'user_name',
+                'course_title',
+                'action_url',
+            ],
+            NotificationEventEnum::ENROLLMENT_APPROVED => [
+                'user_name',
+                'course_title',
+                'action_url',
+            ],
+            NotificationEventEnum::ENROLLMENT_REJECTED => [
+                'user_name',
+                'course_title',
+                'rejection_reason',
+                'action_url',
             ],
             NotificationEventEnum::COURSE_SESSION_REMINDER => [
                 'user_name',
                 'course_title',
                 'session_date',
                 'session_time',
+                'session_duration',
                 'action_url',
             ],
             NotificationEventEnum::COURSE_SESSION_STARTED,
             NotificationEventEnum::COURSE_SESSION_ENDED => [
+                'user_name',
                 'course_title',
                 'action_url',
             ],
+            NotificationEventEnum::TICKET_CREATED => [
+                'user_name',
+                'ticket_number',
+                'ticket_subject',
+                'action_url',
+            ],
+            NotificationEventEnum::TICKET_REPLIED => [
+                'user_name',
+                'ticket_number',
+                'reply_message',
+                'action_url',
+            ],
+            NotificationEventEnum::TICKET_RESOLVED => [
+                'user_name',
+                'ticket_number',
+                'action_url',
+            ],
             NotificationEventEnum::SYSTEM_ALERT => [
+                'user_name',
+                'alert_title',
                 'alert_message',
                 'action_url',
             ],
             NotificationEventEnum::ANNOUNCEMENT => [
+                'user_name',
                 'announcement_title',
                 'announcement_body',
+                'action_url',
+            ],
+            NotificationEventEnum::BIRTHDAY_REMINDER => [
+                'user_name',
+                'birthday_gift',
                 'action_url',
             ],
             default => [
                 'message',
                 'action_url',
             ],
-        };
-    }
-
-    private function icon(NotificationEventEnum $event): ?string
-    {
-        return match ($event) {
-            NotificationEventEnum::AUTH_REGISTER => 'o-user-plus',
-            NotificationEventEnum::AUTH_CONFIRM => 'o-lock-closed',
-            NotificationEventEnum::AUTH_WELCOME => 'o-sparkles',
-            NotificationEventEnum::COURSE_SESSION_REMINDER => 'o-calendar-days',
-            NotificationEventEnum::COURSE_SESSION_STARTED => 'o-play-circle',
-            NotificationEventEnum::COURSE_SESSION_ENDED => 'o-check-circle',
-            NotificationEventEnum::SYSTEM_ALERT => 'o-exclamation-triangle',
-            NotificationEventEnum::ANNOUNCEMENT => 'o-megaphone',
-            default => 'o-bell',
         };
     }
 
@@ -244,15 +327,5 @@ class NotificationTemplateSeeder extends Seeder
             'label' => $locale === 'fa' ? 'مشاهده جزئیات' : 'View details',
             'url' => '{{action_url}}',
         ];
-    }
-
-    private function channelTitle(NotificationChannelEnum $channel, string $locale): string
-    {
-        return match ($channel) {
-            NotificationChannelEnum::SMS => $locale      === 'fa' ? 'پیامک' : 'SMS',
-            NotificationChannelEnum::EMAIL => $locale    === 'fa' ? 'ایمیل' : 'Email',
-            NotificationChannelEnum::DATABASE => $locale === 'fa' ? 'داخلی' : 'In-App',
-            default => ucfirst($channel->value),
-        };
     }
 }

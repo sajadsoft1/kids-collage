@@ -1,3 +1,6 @@
+@php
+    use App\Enums\NotificationChannelEnum;
+@endphp
 <form wire:submit="submit">
     <!-- Breadcrumbs -->
     <x-admin.shared.bread-crumbs :breadcrumbs="$breadcrumbs" :breadcrumbs-actions="$breadcrumbsActions" />
@@ -12,26 +15,30 @@
             <x-card :title="trans('general.page_sections.data')" shadow separator progress-indicator="submit">
                 <div class="grid grid-cols-1 gap-4">
 
-                    <!-- Event -->
-                    <x-select :label="trans('notificationTemplate.fields.event')" wire:model="event" :options="$eventOptions" option-label="name" option-value="id"
-                        searchable required />
+                    <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+                        <!-- Event -->
+                        <x-select :label="trans('notificationTemplate.fields.event')" wire:model="event" :options="$eventOptions" option-label="name"
+                            :placeholder="trans('general.please_select_an_option')" placeholder-value="" option-value="id" searchable required />
 
-                    <!-- Channel -->
-                    <x-select :label="trans('notificationTemplate.fields.channel')" wire:model="channel" :options="$channelOptions" option-label="name"
-                        option-value="id" required />
+                        <!-- Channel -->
+                        <x-select :label="trans('notificationTemplate.fields.channel')" wire:model="channel" :options="$channelOptions" option-label="name"
+                            :placeholder="trans('general.please_select_an_option')" placeholder-value="" option-value="id" required />
 
-                    <!-- Locale -->
-                    <x-select :label="trans('notificationTemplate.fields.locale')" wire:model="locale" :options="$localeOptions" option-label="name"
-                        option-value="id" required />
+                        <!-- Locale -->
+                        <x-select :label="trans('notificationTemplate.fields.locale')" wire:model="locale" :options="$localeOptions" option-label="name"
+                            :placeholder="trans('general.please_select_an_option')" placeholder-value="" option-value="id" required />
+                    </div>
+
 
                     <!-- Subject (Email only hint) -->
-                    <x-input :label="trans('notificationTemplate.fields.subject')" wire:model.blur="subject" :hint="trans('notificationTemplate.hints.subject')" />
+                    <x-input :label="trans('notificationTemplate.fields.subject')" wire:model.blur="subject" :hint="trans('notificationTemplate.hints.subject')" :hidden="$channel === NotificationChannelEnum::SMS->value" />
 
                     <!-- Title -->
-                    <x-input :label="trans('notificationTemplate.fields.title')" wire:model.blur="title" />
+                    <x-input :label="trans('notificationTemplate.fields.title')" wire:model.blur="title" :hidden="$channel === NotificationChannelEnum::SMS->value" />
 
                     <!-- Subtitle / Description -->
-                    <x-input :label="trans('notificationTemplate.fields.subtitle')" wire:model.blur="subtitle" />
+                    <x-input :label="trans('notificationTemplate.fields.subtitle')"
+                        wire:model.blur="subtitle":hidden="$channel === NotificationChannelEnum::SMS->value" />
 
                     <!-- Body -->
                     <x-textarea :label="trans('notificationTemplate.fields.body')" wire:model.defer="body" rows="8" />

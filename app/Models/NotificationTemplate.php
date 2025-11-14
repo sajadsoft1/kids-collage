@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\NotificationChannelEnum;
+use App\Enums\NotificationEventEnum;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -26,6 +28,9 @@ class NotificationTemplate extends Model
     ];
 
     protected $casts = [
+        'event' => NotificationEventEnum::class,
+        'channel' => NotificationChannelEnum::class,
+        'locale' => 'string',
         'cta' => 'array',
         'placeholders' => 'array',
         'is_active' => 'boolean',

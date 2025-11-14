@@ -32,8 +32,8 @@ class NotificationTemplateUpdateOrCreate extends Component
     public NotificationTemplate $model;
 
     /** Form fields */
-    public string $event = '';
-    public string $channel = '';
+    public ?string $event = null;
+    public ?string $channel = null;
     public string $locale = '';
     public ?string $subject = null;
     public ?string $title = null;
@@ -167,8 +167,8 @@ class NotificationTemplateUpdateOrCreate extends Component
 
     private function fillDefaults(): void
     {
-        $this->event = $this->model->event ?? $this->eventOptions[0]['id'] ?? '';
-        $this->channel = $this->model->channel ?? $this->channelOptions[0]['id'] ?? '';
+        $this->event = $this->model->event->value ?? $this->eventOptions[0]['id'] ?? null;
+        $this->channel = $this->model->channel->value ?? $this->channelOptions[0]['id'] ?? null;
         $this->locale = $this->model->locale ?? $this->localeOptions[0]['id'] ?? '';
         $this->subject = $this->model->subject ?? null;
         $this->title = $this->model->title ?? null;
