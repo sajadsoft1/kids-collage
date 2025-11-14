@@ -30,28 +30,34 @@
                     </div>
 
 
-                    <!-- Subject (Email only hint) -->
-                    <x-input :label="trans('notificationTemplate.fields.subject')" wire:model.blur="subject" :hint="trans('notificationTemplate.hints.subject')" :hidden="$channel === NotificationChannelEnum::SMS->value" />
+                    @if ($channel === NotificationChannelEnum::EMAIL->value)
+                        <!-- Subject (Email only hint) -->
+                        <x-input :label="trans('notificationTemplate.fields.subject')" wire:model.blur="subject" :hint="trans('notificationTemplate.hints.subject')" :hidden="$channel !== NotificationChannelEnum::EMAIL->value" />
+                    @endif
+                    @if (in_array($channel, [NotificationChannelEnum::EMAIL->value, NotificationChannelEnum::DATABASE->value]))
+                        <!-- Title -->
+                        <x-input :label="trans('notificationTemplate.fields.title')" wire:model.blur="title" />
 
-                    <!-- Title -->
-                    <x-input :label="trans('notificationTemplate.fields.title')" wire:model.blur="title" :hidden="$channel === NotificationChannelEnum::SMS->value" />
+                        <!-- Subtitle / Description -->
+                        <x-input :label="trans('notificationTemplate.fields.subtitle')" wire:model.blur="subtitle" />
+                    @endif
 
-                    <!-- Subtitle / Description -->
-                    <x-input :label="trans('notificationTemplate.fields.subtitle')"
-                        wire:model.blur="subtitle":hidden="$channel === NotificationChannelEnum::SMS->value" />
 
                     <!-- Body -->
-                    <x-textarea :label="trans('notificationTemplate.fields.body')" wire:model.defer="body" rows="8" />
+                    <x-textarea :label="trans('notificationTemplate.fields.body')" wire:model.defer="body" rows="8" :hint="trans('notificationTemplate.examples.body_hint')" />
 
                     <!-- Placeholders -->
-                    <x-tags wire:model="placeholders" :label="trans('notificationTemplate.fields.placeholders')" icon="o-hashtag" :hint="trans('notificationTemplate.hints.placeholders')"
+                    <x-tags wire:model.live="placeholders" :label="trans('notificationTemplate.fields.placeholders')" icon="o-hashtag" :hint="trans('notificationTemplate.hints.placeholders')"
                         clearable />
+                    <p> {{ collect($placeholders)->implode(', ') }} </p>
 
                     <!-- CTA -->
-                    <div class="grid grid-cols-1 gap-3 md:grid-cols-2">
-                        <x-input :label="trans('notificationTemplate.fields.cta_label')" wire:model.blur="cta_label" />
-                        <x-input :label="trans('notificationTemplate.fields.cta_url')" wire:model.blur="cta_url" />
-                    </div>
+                    @if ($channel === NotificationChannelEnum::EMAIL->value)
+                        <div class="grid grid-cols-1 gap-3 md:grid-cols-2">
+                            <x-input :label="trans('notificationTemplate.fields.cta_label')" wire:model.blur="cta_label" />
+                            <x-input :label="trans('notificationTemplate.fields.cta_url')" wire:model.blur="cta_url" />
+                        </div>
+                    @endif
 
                 </div>
             </x-card>
@@ -65,45 +71,20 @@
                 <!-- Publish Configuration Card -->
                 <x-card :title="trans('general.page_sections.publish_config')" shadow separator progress-indicator="submit">
                     <div class="grid grid-cols-1 gap-4">
-
-                        <!-- Published Toggle -->
                         <x-toggle :label="trans('notificationTemplate.fields.is_active')" wire:model="is_active" right />
-
-                        <!-- Status Badge -->
-                        <div class="flex gap-2 items-center">
-                            <span class="text-sm font-medium">{{ trans('datatable.status') }}:</span>
-                            @if ($is_active)
-                                <span class="badge badge-success badge-sm">{{ trans('general.active') }}</span>
-                            @else
-                                <span class="badge badge-ghost badge-sm">{{ trans('general.inactive') }}</span>
-                            @endif
-                        </div>
-
                     </div>
                 </x-card>
 
                 <!-- Template Information Card -->
-                <x-card :title="trans('general.page_sections.information')" shadow separator class="mt-5">
+                <x-card :title="trans('notificationTemplate.fields.available_variables')" shadow separator class="mt-5">
                     <div class="space-y-3 text-sm">
-
-                        <!-- Template Variables Info -->
                         <div>
-                            <h4 class="mb-2 font-semibold text-gray-700">{{ trans('general.available_variables') }}:
-                            </h4>
                             <ul class="space-y-1 list-disc list-inside text-gray-600">
                                 @foreach ($placeholders as $placeholder)
                                     <li><code class="px-1 bg-gray-100 rounded">{{ '{' . $placeholder . '}' }}</code>
                                     </li>
                                 @endforeach
                             </ul>
-                        </div>
-
-                        <!-- Usage Example -->
-                        <div class="pt-3 border-t">
-                            <h4 class="mb-2 font-semibold text-gray-700">{{ trans('general.example') }}:</h4>
-                            <div class="p-3 font-mono text-xs bg-gray-50 rounded">
-                                {{ trans('notificationTemplate.examples.body_hint') }}
-                            </div>
                         </div>
 
                     </div>

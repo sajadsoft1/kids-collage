@@ -6,6 +6,7 @@ namespace App\Actions\Ticket;
 
 use App\Actions\TicketMessage\StoreTicketMessageAction;
 use App\Models\Ticket;
+use App\Notifications\Ticket\TicketCreatedNotification;
 use App\Services\File\FileService;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -48,6 +49,11 @@ class StoreTicketAction
                 'user_id' => Arr::get($payload, 'user_id'),
                 'message' => Arr::get($payload, 'body'),
             ]);
+
+            $user = $model->user;
+            if ($user) {
+                $user->notify(new TicketCreatedNotification($model, $user->profile));
+            }
 
             return $model->refresh();
         });

@@ -72,8 +72,8 @@ final class NotificationTemplateTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('id')
-            ->add('event_label', fn (NotificationTemplate $row) => NotificationEventEnum::tryFrom($row->event)?->title() ?? $row->event)
-            ->add('channel_label', fn (NotificationTemplate $row) => NotificationChannelEnum::tryFrom($row->channel)?->title() ?? $row->channel)
+            ->add('event_label', fn (NotificationTemplate $row) => $row->event->title())
+            ->add('channel_label', fn (NotificationTemplate $row) => $row->channel->title())
             ->add('locale')
             ->add('is_active', fn (NotificationTemplate $row) => $row->is_active ? trans('general.active') : trans('general.inactive'))
             ->add('created_at_formatted', fn ($row) => PowerGridHelper::fieldCreatedAtFormated($row));

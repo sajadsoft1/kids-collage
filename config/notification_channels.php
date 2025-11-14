@@ -115,6 +115,57 @@ return [
                 ],
             ],
         ],
+
+        NotificationEventEnum::TICKET_CREATED->value => [
+            'channels' => [
+                NotificationChannelEnum::DATABASE->value => [
+                    'enabled' => true,
+                    'togglable' => false,
+                ],
+                NotificationChannelEnum::EMAIL->value => [
+                    'enabled' => true,
+                    'togglable' => true,
+                ],
+                NotificationChannelEnum::SMS->value => [
+                    'enabled' => false,
+                    'togglable' => true,
+                ],
+            ],
+        ],
+
+        NotificationEventEnum::TICKET_REPLIED->value => [
+            'channels' => [
+                NotificationChannelEnum::DATABASE->value => [
+                    'enabled' => true,
+                    'togglable' => false,
+                ],
+                NotificationChannelEnum::EMAIL->value => [
+                    'enabled' => true,
+                    'togglable' => true,
+                ],
+                NotificationChannelEnum::SMS->value => [
+                    'enabled' => false,
+                    'togglable' => true,
+                ],
+            ],
+        ],
+
+        NotificationEventEnum::TICKET_RESOLVED->value => [
+            'channels' => [
+                NotificationChannelEnum::DATABASE->value => [
+                    'enabled' => true,
+                    'togglable' => false,
+                ],
+                NotificationChannelEnum::EMAIL->value => [
+                    'enabled' => true,
+                    'togglable' => true,
+                ],
+                NotificationChannelEnum::SMS->value => [
+                    'enabled' => false,
+                    'togglable' => true,
+                ],
+            ],
+        ],
     ],
 
     /*

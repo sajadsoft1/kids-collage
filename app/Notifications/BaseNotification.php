@@ -103,8 +103,6 @@ abstract class BaseNotification extends Notification implements ShouldQueue
         ]);
 
         return array_filter([
-            'name' => $template->name,
-            'icon' => $template->icon,
             'subject' => $this->replace($template->subject, $placeholders, $context),
             'title' => $this->replace($template->title, $placeholders, $context),
             'subtitle' => $this->replace($template->subtitle, $placeholders, $context),

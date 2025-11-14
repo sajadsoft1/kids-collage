@@ -18,6 +18,7 @@ return [
         'cta_label' => 'متن دکمه',
         'cta_url' => 'لینک دکمه',
         'is_active' => 'فعال',
+        'available_variables' => 'متغیرهای در دسترس',
     ],
     'hints' => [
         'icon' => 'آیکون را به صورت کلاس Lucide یا Heroicon وارد کنید (مثلاً o-bell).',

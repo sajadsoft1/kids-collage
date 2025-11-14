@@ -74,7 +74,7 @@ class NotificationTemplateUpdateOrCreate extends Component
             'subtitle' => 'nullable|string|max:255',
             'body' => 'nullable|string',
             'placeholders' => 'array',
-            'placeholders.*' => 'string|max:255',
+            'placeholders.*' => 'string|max:255|distinct',
             'cta_label' => 'nullable|string|max:255',
             'cta_url' => 'nullable|url|max:2048',
             'is_active' => 'required|boolean',

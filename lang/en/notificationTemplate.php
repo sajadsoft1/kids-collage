@@ -18,6 +18,7 @@ return [
         'cta_label' => 'Button label',
         'cta_url' => 'Button link',
         'is_active' => 'Active',
+        'available_variables' => 'Available Variables',
     ],
     'hints' => [
         'icon' => 'Provide a Lucide/Heroicon class name (e.g. o-bell).',

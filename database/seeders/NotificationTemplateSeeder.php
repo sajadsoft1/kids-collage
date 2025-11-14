@@ -63,6 +63,8 @@ class NotificationTemplateSeeder extends Seeder
             'email_en' => database_path('seeders/data/karno_notification_template_email_en.php'),
             'sms_fa' => database_path('seeders/data/karno_notification_template_sms_fa.php'),
             'sms_en' => database_path('seeders/data/karno_notification_template_sms_en.php'),
+            'database_fa' => database_path('seeders/data/karno_notification_template_database_fa.php'),
+            'database_en' => database_path('seeders/data/karno_notification_template_database_en.php'),
         ];
 
         foreach ($templateFiles as $key => $file) {
@@ -76,8 +78,9 @@ class NotificationTemplateSeeder extends Seeder
     private function getTemplate(NotificationEventEnum $event, NotificationChannelEnum $channel, string $locale): ?array
     {
         $templateKey = match ($channel) {
-            NotificationChannelEnum::EMAIL => $locale === 'fa' ? 'email_fa' : 'email_en',
-            NotificationChannelEnum::SMS => $locale   === 'fa' ? 'sms_fa' : 'sms_en',
+            NotificationChannelEnum::EMAIL => $locale    === 'fa' ? 'email_fa' : 'email_en',
+            NotificationChannelEnum::SMS => $locale      === 'fa' ? 'sms_fa' : 'sms_en',
+            NotificationChannelEnum::DATABASE => $locale === 'fa' ? 'database_fa' : 'database_en',
             default => null,
         };
 
