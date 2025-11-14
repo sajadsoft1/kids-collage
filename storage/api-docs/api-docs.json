@@ -2495,6 +2495,34 @@
                 }
             }
         },
+        "/social-media/actives": {
+            "get": {
+                "tags": [
+                    "SocialMedia"
+                ],
+                "summary": "get active socialMedia list",
+                "description": "Returns list of socialMedia",
+                "operationId": "getActiveSocialMedias",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/teachers": {
             "get": {
                 "tags": [
@@ -4720,6 +4748,51 @@
                 },
                 "type": "object"
             },
+            "SocialMediaResource": {
+                "title": "SocialMediaResource",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "title": {
+                        "type": "string",
+                        "default": "Title"
+                    },
+                    "published": {
+                        "$ref": "#/components/schemas/YesNoEnum"
+                    },
+                    "link": {
+                        "type": "string",
+                        "default": "https://www.google.com"
+                    },
+                    "ordering": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "position": {
+                        "type": "string",
+                        "default": " Position"
+                    },
+                    "color": {
+                        "type": "string",
+                        "default": "#FFFFFF"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "image": {
+                        "type": "string",
+                        "default": "https://example.com/image.jpg"
+                    }
+                },
+                "type": "object"
+            },
             "TagDetailResource": {
                 "title": "TagDetailResource",
                 "properties": {
@@ -5191,6 +5264,10 @@
         {
             "name": "Rules",
             "description": "Rules"
+        },
+        {
+            "name": "SocialMedia",
+            "description": "SocialMedia"
         },
         {
             "name": "User",

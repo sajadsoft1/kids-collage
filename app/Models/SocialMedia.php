@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Enums\BooleanEnum;
 use App\Enums\SocialMediaPositionEnum;
+use App\Facades\SmartCache;
 use App\Helpers\Constants;
 use App\Traits\HasTranslationAuto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -64,7 +65,14 @@ class SocialMedia extends Model implements HasMedia
      * Model Attributes --------------------------------------------------------------------------
      */
 
-    /**
-     * Model Custom Methods --------------------------------------------------------------------------
-     */
+    /** Model Custom Methods -------------------------------------------------------------------------- */
+    public static function actives()
+    {
+        return SmartCache::for(__CLASS__)
+            ->key('home_clients')
+            ->remember(function () {
+                return self::where('published', true)
+                    ->get();
+            }, 3600);
+    }
 }
