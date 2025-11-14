@@ -37,9 +37,12 @@
                                   value="0"/>
                     </div>
 
-                    <x-admin.shared.smart-datetime :default-date="$start_date"
-                                                   :label="trans('validation.attributes.start_date')"/>
+                    <x-admin.shared.smart-datetime
+                        wire-property-name="start_date"
+                        :default-date="$start_date"
+                        :label="trans('validation.attributes.start_date')"/>
                     <x-admin.shared.smart-datetime :default-date="$end_date"
+                                                   wire-property-name="end_date"
                                                    :label="trans('validation.attributes.end_date')"/>
                     <x-input :label="trans('validation.attributes.price')" wire:model.blur="price"
                              :suffix="systemCurrency()" required/>

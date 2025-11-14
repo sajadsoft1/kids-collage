@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->string('slug')->unique();
             $table->string('location');
             $table->unsignedInteger('capacity');
-            $table->decimal('price', 10, 2)->default(0);
+            $table->unsignedBigInteger('price')->default(0);
             $table->boolean('published')->default(BooleanEnum::ENABLE->value);
             $table->text('languages')->nullable();
             $table->unsignedBigInteger('view_count')->default(0);
@@ -26,6 +26,7 @@ return new class extends Migration {
             $table->timestamp('end_date')->nullable();
             $table->timestamp('published_at')->index()->nullable();
             $table->boolean('is_online')->default(BooleanEnum::DISABLE->value);
+            $table->schemalessAttributes('extra_attributes');
             $table->timestamps();
         });
     }

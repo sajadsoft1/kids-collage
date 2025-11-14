@@ -65,15 +65,17 @@ class Event extends Model implements HasMedia
         'view_count',
         'comment_count',
         'wish_count',
+        'extra_attributes',
     ];
 
     protected $casts = [
-        'published'    => BooleanEnum::class,
-        'languages'    => 'array',
+        'published' => BooleanEnum::class,
+        'languages' => 'array',
         'published_at' => 'datetime',
-        'is_online'    => BooleanEnum::class,
-        'start_date'   => 'datetime',
-        'end_date'     => 'datetime',
+        'is_online' => BooleanEnum::class,
+        'start_date' => 'date',
+        'end_date' => 'date',
+        'extra_attributes' => 'array',
     ];
 
     /** Model Configuration -------------------------------------------------------------------------- */
