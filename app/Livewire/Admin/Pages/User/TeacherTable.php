@@ -7,12 +7,12 @@ namespace App\Livewire\Admin\Pages\User;
 use App\Enums\UserTypeEnum;
 use App\Helpers\Constants;
 use App\Helpers\PowerGridHelper;
+use App\Livewire\Admin\Pages\User\Concerns\HandlesPasswordChange;
 use App\Models\User;
 use App\Services\Permissions\PermissionsService;
 use App\Traits\PowerGridHelperTrait;
 use Illuminate\Database\Eloquent\Builder;
-use Jenssegers\Agent\Agent;
-use Livewire\Attributes\Computed;
+use Illuminate\Support\Facades\Auth;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
@@ -22,44 +22,23 @@ use PowerComponents\LivewirePowerGrid\PowerGridFields;
 
 final class TeacherTable extends PowerGridComponent
 {
+    use HandlesPasswordChange;
     use PowerGridHelperTrait;
 
-    public string $tableName     = 'teacher-index-h9omkb-table';
+    public string $tableName = 'teacher-index-h9omkb-table';
     public string $sortDirection = 'desc';
 
-    public function setUp(): array
+    public function boot(): void
     {
-        $setup = [
-            PowerGrid::header()
-                ->showSearchInput(),
-
-            PowerGrid::footer()
-                ->showPerPage()
-                ->showRecordCount(),
-        ];
-
-        if ((new Agent)->isMobile()) {
-            $setup[] = PowerGrid::responsive()->fixedColumns('id', 'name', 'actions');
-        }
-
-        return $setup;
+        $this->fixedColumns = ['id', 'name', 'actions'];
     }
 
-    #[Computed(persist: true)]
-    public function breadcrumbs(): array
+    protected function afterPowerGridSetUp(array &$setup): void
     {
-        return [
-            ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-            ['label' => trans('general.page.index.title', ['model' => trans('user.teacher')])],
-        ];
-    }
-
-    #[Computed(persist: true)]
-    public function breadcrumbsActions(): array
-    {
-        return [
-            ['link' => route('admin.teacher.create'), 'icon' => 's-plus', 'label' => trans('general.page.create.title', ['model' => trans('user.teacher')])],
-        ];
+        $setup[0] = PowerGrid::header()
+            ->showToggleColumns()
+            ->showSearchInput()
+            ->includeViewOnBottom('livewire.admin.pages.user.partials.change-password-modal');
     }
 
     public function datasource(): Builder
@@ -129,12 +108,13 @@ final class TeacherTable extends PowerGridComponent
     {
         return [
             PowerGridHelper::btnToggle($row, 'status'),
+            PowerGridHelper::btnChangePassword($row),
             Button::add('edit')
                 ->slot("<i class='fa fa-pencil'></i>")
                 ->attributes([
                     'class' => 'btn btn-square md:btn-sm btn-xs',
                 ])
-                ->can(auth()->user()->hasAnyPermission(PermissionsService::generatePermissionsByModel($row::class, 'Update')))
+                ->can(Auth::user()?->hasAnyPermission(PermissionsService::generatePermissionsByModel($row::class, 'Update')) ?? false)
                 ->route('admin.teacher.edit', ['user' => $row->id], '_self')
                 ->navigate()
                 ->tooltip(trans('datatable.buttons.edit')),

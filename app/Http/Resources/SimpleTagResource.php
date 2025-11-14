@@ -25,9 +25,9 @@ class SimpleTagResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'    => $this->id,
-            'name'  => $this->name,
-            'slug'  => $this->slug,
+            'id' => $this->id,
+            'name' => $this->name,
+            'slug' => $this->slug,
             'image' => $this->resource->getFirstMediaUrl('image', Constants::RESOLUTION_512_SQUARE),
         ];
     }

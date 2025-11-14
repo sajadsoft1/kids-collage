@@ -11,7 +11,6 @@ use App\Models\Discount;
 use App\Traits\PowerGridHelperTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\View\View;
-use Jenssegers\Agent\Agent;
 use Livewire\Attributes\Computed;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
@@ -23,26 +22,12 @@ final class DiscountTable extends PowerGridComponent
 {
     use PowerGridHelperTrait;
 
-    public string $tableName     = 'index_discount_datatable';
+    public string $tableName = 'index_discount_datatable';
     public string $sortDirection = 'desc';
 
-    public function setUp(): array
+    public function boot(): void
     {
-        $setup = [
-            PowerGrid::header()
-                     ->includeViewOnTop('components.admin.shared.bread-crumbs')
-                     ->showSearchInput(),
-
-            PowerGrid::footer()
-                     ->showPerPage()
-                     ->showRecordCount(),
-        ];
-
-        if ((new Agent)->isMobile()) {
-            $setup[] = PowerGrid::responsive()->fixedColumns('id', 'code', 'actions');
-        }
-
-        return $setup;
+        $this->fixedColumns = ['id', 'code', 'actions'];
     }
 
     #[Computed(persist: true)]
@@ -62,15 +47,6 @@ final class DiscountTable extends PowerGridComponent
         ];
     }
 
-    protected function queryString(): array
-    {
-        return [
-            'search' => ['except' => ''],
-            'page'   => ['except' => 1],
-            ...$this->powerGridQueryString(),
-        ];
-    }
-
     public function datasource(): Builder
     {
         return Discount::query()->with('user');
@@ -84,20 +60,20 @@ final class DiscountTable extends PowerGridComponent
     public function fields(): PowerGridFields
     {
         return PowerGrid::fields()
-                        ->add('id')
-                        ->add('code')
-                        ->add('type_formated', fn($row) => $row->type->title())
-                        ->add('value_formatted', fn($row) => $row->getFormattedValue())
-                        ->add('user_name', fn($row) => $row->user?->full_name ?? trans('discount.page.no_restrictions'))
-                        ->add('status', fn($row) => view('admin.datatable-shared.badge', [
-                            'color' => $row->getStatusText()['color'],
-                            'value' => $row->getStatusText()['label'],
-                        ]))
-                        ->add('used_count', fn($row) => $row->used_count . ($row->usage_limit ? ' / ' . $row->usage_limit : ''))
-                        ->add('is_active_formatted', fn($row) => view('admin.datatable-shared.badge',[
-                            'color' => $row->is_active->color(),
-                            'value' => $row->is_active->title(),
-                        ]));
+            ->add('id')
+            ->add('code')
+            ->add('type_formated', fn ($row) => $row->type->title())
+            ->add('value_formatted', fn ($row) => $row->getFormattedValue())
+            ->add('user_name', fn ($row) => $row->user?->full_name ?? trans('discount.page.no_restrictions'))
+            ->add('status', fn ($row) => view('admin.datatable-shared.badge', [
+                'color' => $row->getStatusText()['color'],
+                'value' => $row->getStatusText()['label'],
+            ]))
+            ->add('used_count', fn ($row) => $row->used_count . ($row->usage_limit ? ' / ' . $row->usage_limit : ''))
+            ->add('is_active_formatted', fn ($row) => view('admin.datatable-shared.badge', [
+                'color' => $row->is_active->color(),
+                'value' => $row->is_active->title(),
+            ]));
     }
 
     public function columns(): array
@@ -106,24 +82,24 @@ final class DiscountTable extends PowerGridComponent
             PowerGridHelper::columnId(),
 
             Column::make(trans('datatable.code'), 'code')
-                                                     ->sortable()
-                                                     ->searchable(),
+                ->sortable()
+                ->searchable(),
 
             Column::make(trans('discount.page.fields.type'), 'type_formated', 'type')
-                                                     ->sortable(),
+                ->sortable(),
 
             Column::make(trans('discount.page.fields.value'), 'value_formatted'),
 
             Column::make(trans('user.user'), 'user_name')
-                                                     ->sortable(),
+                ->sortable(),
 
             Column::make(trans('validation.attributes.status'), 'status'),
 
             Column::make(trans('discount.page.fields.usage_limit'), 'used_count')
-                                                     ->sortable(),
+                ->sortable(),
 
             Column::make(trans('course.enum.status.active'), 'is_active_formatted', 'is_active')
-                                                     ->sortable(),
+                ->sortable(),
 
             PowerGridHelper::columnCreatedAT(),
             PowerGridHelper::columnAction(),
@@ -133,16 +109,16 @@ final class DiscountTable extends PowerGridComponent
     public function filters(): array
     {
         return [
-//            Filter::enumSelect('type', 'type')
-//                ->datasource(DiscountTypeEnum::cases()),
-//
-//            Filter::enumSelect('is_active_formatted', 'is_active')
-//                ->datasource(BooleanEnum::cases()),
+            //            Filter::enumSelect('type', 'type')
+            //                ->datasource(DiscountTypeEnum::cases()),
+            //
+            //            Filter::enumSelect('is_active_formatted', 'is_active')
+            //                ->datasource(BooleanEnum::cases()),
 
-Filter::datepicker('created_at_formatted', 'created_at')
-      ->params([
-          'maxDate' => now(),
-      ]),
+            Filter::datepicker('created_at_formatted', 'created_at')
+                ->params([
+                    'maxDate' => now(),
+                ]),
         ];
     }
 

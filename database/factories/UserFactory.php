@@ -27,14 +27,14 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name'              => fake()->name(),
-            'family'            => fake()->lastName(),
-            'email'             => fake()->unique()->safeEmail(),
+            'name' => fake()->name(),
+            'family' => fake()->lastName(),
+            'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password'          => static::$password ??= Hash::make('password'),
-            'remember_token'    => Str::random(10),
-            'type'              => fake()->randomElement(UserTypeEnum::values()),
-            'status'            => fake()->boolean(),
+            'password' => static::$password ??= Hash::make('password'),
+            'remember_token' => Str::random(10),
+            'type' => fake()->randomElement(UserTypeEnum::values()),
+            'status' => fake()->boolean(),
         ];
     }
 
@@ -42,9 +42,9 @@ class UserFactory extends Factory
     {
         return $this->afterCreating(function (User $model) {
             $model->profile()->create([
-                'user_id'       => $model->id,
-                'gender'        => fake()->randomElement(GenderEnum::values()),
-                'birth_date'    => fake()->date(),
+                'user_id' => $model->id,
+                'gender' => fake()->randomElement(GenderEnum::values()),
+                'birth_date' => fake()->date(),
                 'national_code' => fake()->unique()->numerify('##########'),
             ]);
         });

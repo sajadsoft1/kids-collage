@@ -15,11 +15,11 @@ class CommentSeeder extends Seeder
         $data = require database_path('seeders/data/karno.php');
         foreach ($data['comment'] as $row) {
             StoreCommentAction::run([
-                'published'      => $row['published'],
-                'user_id'        => $row['user_id'],
-                'morphable_id'   => $row['morphable_id'],
+                'published' => $row['published'],
+                'user_id' => $row['user_id'],
+                'morphable_id' => $row['morphable_id'],
                 'morphable_type' => $row['morphable_type'],
-                'comment'        => $row['comment'],
+                'comment' => $row['comment'],
             ]);
         }
     }

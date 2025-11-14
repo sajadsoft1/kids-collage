@@ -13,7 +13,7 @@ class DefaultOptionTemplate extends BaseTemplate
 {
     public function template(Setting $setting): array
     {
-        $this->setting     = $setting;
+        $this->setting = $setting;
         $this->settingEnum = SettingEnum::from($setting->key);
         
         $options = [
@@ -38,7 +38,7 @@ class DefaultOptionTemplate extends BaseTemplate
         $keys = collect($this->template($setting))->pluck('key')->toArray();
 
         return $this->makeValidator($payload['value'], [
-            '*.key'   => ['required', Rule::in($keys)],
+            '*.key' => ['required', Rule::in($keys)],
             '*.value' => ['required'],
         ]);
     }

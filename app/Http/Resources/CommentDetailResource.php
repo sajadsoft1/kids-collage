@@ -35,9 +35,9 @@ class CommentDetailResource extends JsonResource
 
         return array_merge($resource, [
             'admin_note' => $this->admin_note,
-            'languages'  => $this->languages,
-            'parent'     => $this->whenLoaded('parent', fn () => SimpleCommentResource::make($this->parent)),
-            'children'   => $this->whenLoaded('children', fn () => SimpleCommentResource::collection($this->children)),
+            'languages' => $this->languages,
+            'parent' => $this->whenLoaded('parent', fn () => SimpleCommentResource::make($this->parent)),
+            'children' => $this->whenLoaded('children', fn () => SimpleCommentResource::collection($this->children)),
         ]);
     }
 }

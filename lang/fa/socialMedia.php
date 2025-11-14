@@ -3,22 +3,22 @@
 declare(strict_types=1);
 
 return [
-    'model'         => 'شبکه های اجتماعی',
-    'permissions'   => [
+    'model' => 'شبکه های اجتماعی',
+    'permissions' => [
     ],
-    'exceptions'    => [
+    'exceptions' => [
     ],
-    'validations'   => [
+    'validations' => [
     ],
-    'enum'          => [
+    'enum' => [
         'position' => [
-            'all'    => 'هردو',
+            'all' => 'هردو',
             'header' => 'هدر',
             'footer' => 'فوتر',
         ],
     ],
     'notifications' => [
     ],
-    'page'          => [
+    'page' => [
     ],
 ];

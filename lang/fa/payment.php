@@ -3,27 +3,27 @@
 declare(strict_types=1);
 
 return [
-    'model'         => 'پرداخت',
-    'permissions'   => [
+    'model' => 'پرداخت',
+    'permissions' => [
     ],
-    'exceptions'    => [
+    'exceptions' => [
     ],
-    'validations'   => [
+    'validations' => [
     ],
-    'enum'          => [
+    'enum' => [
         'status' => [
             'pending' => 'در انتظار پرداخت',
-            'paid'    => 'پرداخت شده',
-            'failed'  => 'ناموفق',
+            'paid' => 'پرداخت شده',
+            'failed' => 'ناموفق',
         ],
-        'type'   => [
-            'online'       => 'آنلاین',
-            'cash'         => 'نقدی',
+        'type' => [
+            'online' => 'آنلاین',
+            'cash' => 'نقدی',
             'card_to_card' => 'کارت به کارت',
         ],
     ],
     'notifications' => [
     ],
-    'page'          => [
+    'page' => [
     ],
 ];

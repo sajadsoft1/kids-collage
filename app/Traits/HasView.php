@@ -37,8 +37,8 @@ trait HasView
 
         if ( ! $exists) {
             $this->views()->create([
-                'user_id'    => auth()->id(),
-                'ip'         => request()->ip(),
+                'user_id' => auth()->id(),
+                'ip' => request()->ip(),
                 'collection' => 'website',
             ]);
 

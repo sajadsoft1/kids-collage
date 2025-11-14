@@ -14,16 +14,16 @@ use Livewire\Component;
 #[Isolate]
 class PopularBlogsWidget extends Component
 {
-    public int $limit          = 5;
+    public int $limit = 5;
     public ?string $start_date = null;
-    public ?string $end_date   = null;
+    public ?string $end_date = null;
 
     /** Initialize the widget with default values */
     public function mount(int $limit = 5, ?string $start_date = null, ?string $end_date = null): void
     {
-        $this->limit      = $limit;
+        $this->limit = $limit;
         $this->start_date = $start_date ?? Carbon::now()->subDays(30)->format('Y-m-d');
-        $this->end_date   = $end_date ?? Carbon::now()->format('Y-m-d');
+        $this->end_date = $end_date ?? Carbon::now()->format('Y-m-d');
     }
 
     /** Get the popular blogs */
@@ -68,7 +68,7 @@ class PopularBlogsWidget extends Component
     {
         $params = http_build_query([
             'start_date' => $this->start_date,
-            'end_date'   => $this->end_date,
+            'end_date' => $this->end_date,
         ]);
 
         return route('admin.blog.index') . '?' . $params;

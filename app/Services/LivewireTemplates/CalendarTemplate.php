@@ -40,10 +40,10 @@ class CalendarTemplate extends Component
     public $eventClickEnabled;
 
     protected $casts = [
-        'startsAt'     => 'date',
-        'endsAt'       => 'date',
+        'startsAt' => 'date',
+        'endsAt' => 'date',
         'gridStartsAt' => 'date',
-        'gridEndsAt'   => 'date',
+        'gridEndsAt' => 'date',
     ];
 
     public function mount(
@@ -65,7 +65,7 @@ class CalendarTemplate extends Component
         $extras = []
     ) {
         $this->weekStartsAt = $weekStartsAt ?? Carbon::SUNDAY;
-        $this->weekEndsAt   = $this->weekStartsAt == Carbon::SUNDAY
+        $this->weekEndsAt = $this->weekStartsAt == Carbon::SUNDAY
             ? Carbon::SATURDAY
             : collect([0, 1, 2, 3, 4, 5, 6])->get($this->weekStartsAt + 6 - 7);
 
@@ -73,7 +73,7 @@ class CalendarTemplate extends Component
         $initialMonth ??= Carbon::today()->month;
 
         $this->startsAt = Carbon::createFromDate($initialYear, $initialMonth, 1)->startOfDay();
-        $this->endsAt   = $this->startsAt->clone()->endOfMonth()->startOfDay();
+        $this->endsAt = $this->startsAt->clone()->endOfMonth()->startOfDay();
 
         $this->calculateGridStartsEnds();
 
@@ -84,7 +84,7 @@ class CalendarTemplate extends Component
         $this->dragAndDropEnabled = $dragAndDropEnabled;
         $this->dragAndDropClasses = $dragAndDropClasses ?? 'border border-blue-400 border-4';
 
-        $this->dayClickEnabled   = $dayClickEnabled;
+        $this->dayClickEnabled = $dayClickEnabled;
         $this->eventClickEnabled = $eventClickEnabled;
 
         $this->afterMount($extras);
@@ -100,13 +100,13 @@ class CalendarTemplate extends Component
         $beforeCalendarView = null,
         $afterCalendarView = null
     ) {
-        $this->calendarView  = $calendarView ?? 'templates.calendar.calendar-app';
-        $this->dayView       = $dayView ?? 'templates.calendar.day';
-        $this->eventView     = $eventView ?? 'templates.calendar.event';
+        $this->calendarView = $calendarView ?? 'templates.calendar.calendar-app';
+        $this->dayView = $dayView ?? 'templates.calendar.day';
+        $this->eventView = $eventView ?? 'templates.calendar.event';
         $this->dayOfWeekView = $dayOfWeekView ?? 'templates.calendar.day-of-week';
 
         $this->beforeCalendarView = $beforeCalendarView ?? null;
-        $this->afterCalendarView  = $afterCalendarView ?? null;
+        $this->afterCalendarView = $afterCalendarView ?? null;
     }
 
     public function setupPoll($pollMillis, $pollAction)
@@ -134,7 +134,7 @@ class CalendarTemplate extends Component
     public function goToCurrentMonth()
     {
         $this->startsAt = Carbon::today()->startOfMonth()->startOfDay();
-        $this->endsAt   = $this->startsAt->clone()->endOfMonth()->startOfDay();
+        $this->endsAt = $this->startsAt->clone()->endOfMonth()->startOfDay();
 
         $this->calculateGridStartsEnds();
     }
@@ -142,23 +142,23 @@ class CalendarTemplate extends Component
     public function calculateGridStartsEnds()
     {
         $this->gridStartsAt = $this->startsAt->clone()->startOfWeek($this->weekStartsAt);
-        $this->gridEndsAt   = $this->endsAt->clone()->endOfWeek($this->weekEndsAt);
+        $this->gridEndsAt = $this->endsAt->clone()->endOfWeek($this->weekEndsAt);
     }
 
     /** @throws Exception */
     public function monthGrid()
     {
         $firstDayOfGrid = $this->gridStartsAt;
-        $lastDayOfGrid  = $this->gridEndsAt;
+        $lastDayOfGrid = $this->gridEndsAt;
 
         $numbersOfWeeks = ceil($lastDayOfGrid->diffInWeeks($firstDayOfGrid, true));
-        $days           = ceil($lastDayOfGrid->diffInDays($firstDayOfGrid, true));
+        $days = ceil($lastDayOfGrid->diffInDays($firstDayOfGrid, true));
 
         if ($days % 7 != 0) {
             throw new Exception('Livewire Calendar not correctly configured. Check initial inputs.');
         }
 
-        $monthGrid  = collect();
+        $monthGrid = collect();
         $currentDay = $firstDayOfGrid->clone();
 
         while ( ! $currentDay->greaterThan($lastDayOfGrid)) {
@@ -203,9 +203,9 @@ class CalendarTemplate extends Component
 
         return view($this->calendarView)
             ->with([
-                'componentId'     => $this->getId(),
-                'monthGrid'       => $this->monthGrid(),
-                'events'          => $events,
+                'componentId' => $this->getId(),
+                'monthGrid' => $this->monthGrid(),
+                'events' => $events,
                 'getEventsForDay' => function ($day) use ($events) {
                     return $this->getEventsForDay($day, $events);
                 },

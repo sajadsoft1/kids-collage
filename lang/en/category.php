@@ -3,25 +3,25 @@
 declare(strict_types=1);
 
 return [
-    'model'         => 'Model',
-    'permissions'   => [
+    'model' => 'Model',
+    'permissions' => [
     ],
-    'exceptions'    => [
+    'exceptions' => [
         'not_allowed_to_delete_category_due_to_blogs' => 'This category is used for articles and you cannot delete it.',
-        'not_allowed_to_delete_category_due_to_faqs'  => 'This category is used for frequently asked questions and you cannot delete it.',
+        'not_allowed_to_delete_category_due_to_faqs' => 'This category is used for frequently asked questions and you cannot delete it.',
     ],
-    'validations'   => [
+    'validations' => [
     ],
-    'enum'          => [
+    'enum' => [
         'type' => [
-            'blog'      => 'Blog',
+            'blog' => 'Blog',
             'portfolio' => 'Portfolio',
-            'faq'       => 'FAQ',
-            'bulletin'  => 'Bulletin',
+            'faq' => 'FAQ',
+            'bulletin' => 'Bulletin',
         ],
     ],
     'notifications' => [
     ],
-    'page'          => [
+    'page' => [
     ],
 ];

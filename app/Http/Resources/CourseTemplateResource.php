@@ -9,12 +9,11 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use OpenApi\Annotations as OA;
 
-
 /**
  * @OA\Schema(
  *     schema="CourseTemplateResource",
  *     title="CourseTemplateResource",
- *     @OA\Property( property="id", type="integer", default="1"),
+ *     @OA\Property(property="id", type="integer", default="1"),
  *     @OA\Property(property="title", type="string", default="Title"),
  *     @OA\Property(property="description", type="string", default="Description"),
  *     @OA\Property(property="slug", type="string", default="title"),
@@ -31,24 +30,22 @@ use OpenApi\Annotations as OA;
  */
 class CourseTemplateResource extends JsonResource
 {
-
     public function toArray(Request $request): array
     {
         return [
-            'id'          => $this->id,
-            'title'       => $this->title,
+            'id' => $this->id,
+            'title' => $this->title,
             'description' => $this->description,
-            'slug'        => $this->slug,
-            'level'        => $this->level->toArray(),
-            'prerequisites'        => $this->prerequisites,
-            'is_self_paced'        => $this->is_self_paced,
-            'type'        => $this->type->toArray(),
-            'view_count'        => $this->view_count,
-            'updated_at'  => $this->updated_at,
-            'created_at'  => $this->created_at,
-            'image'         => $this->resource->getFirstMediaUrl('image', Constants::RESOLUTION_854_480),
-            'session_count'=>$this->sessionTemplates()->count(),
-
+            'slug' => $this->slug,
+            'level' => $this->level->toArray(),
+            'prerequisites' => $this->prerequisites,
+            'is_self_paced' => $this->is_self_paced,
+            'type' => $this->type->toArray(),
+            'view_count' => $this->view_count,
+            'updated_at' => $this->updated_at,
+            'created_at' => $this->created_at,
+            'image' => $this->resource->getFirstMediaUrl('image', Constants::RESOLUTION_854_480),
+            'session_count' => $this->sessionTemplates()->count(),
         ];
     }
 }

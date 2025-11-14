@@ -12,7 +12,6 @@ use App\Models\CourseTemplate;
 use App\Traits\PowerGridHelperTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\View\View;
-use Jenssegers\Agent\Agent;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
@@ -23,34 +22,19 @@ use PowerComponents\LivewirePowerGrid\PowerGridFields;
 final class CourseTemplateTable extends PowerGridComponent
 {
     use PowerGridHelperTrait;
-    public string $tableName     = 'index_courseTemplate_datatable';
+    public string $tableName = 'index_courseTemplate_datatable';
     public string $sortDirection = 'desc';
 
-    public function setUp(): array
+    public function boot(): void
     {
-        $setup = [
-            PowerGrid::header()
-                ->showSearchInput(),
-
-            PowerGrid::footer()
-                ->showPerPage()
-                ->showRecordCount(),
-        ];
-
-        if ((new Agent)->isMobile()) {
-            $setup[] = PowerGrid::responsive()->fixedColumns('id', 'title', 'actions');
-        }
-
-        return $setup;
+        $this->fixedColumns = ['id', 'title', 'actions'];
     }
 
-    protected function queryString(): array
+    protected function afterPowerGridSetUp(array &$setup): void
     {
-        return [
-            'search' => ['except' => ''],
-            'page'   => ['except' => 1],
-            ...$this->powerGridQueryString(),
-        ];
+        $setup[0] = PowerGrid::header()
+            ->showToggleColumns()
+            ->showSearchInput();
     }
 
     public function datasource(): Builder
@@ -127,14 +111,14 @@ final class CourseTemplateTable extends PowerGridComponent
                 ->tooltip(trans('coursetemplate.page.run_the_course_template')),
 
             Button::add('courses_list')
-                ->slot("<i class='fa fa-list'></i>")
+                ->slot("<i class='fa fa-book-open'></i>")
                 ->attributes(['class' => 'btn btn-square md:btn-sm btn-xs text-info'])
                 ->route('admin.course.index', ['courseTemplate' => $row->id], '_self')
                 ->navigate()
                 ->tooltip(trans('courseTemplate.page.course_list')),
 
             Button::add('courses_session_list')
-                ->slot("<i class='fa fa-list-tree'></i>")
+                ->slot("<i class='fa fa-list-ol'></i>")
                 ->attributes(['class' => 'btn btn-square md:btn-sm btn-xs text-info'])
                 ->route('admin.course-session-template.index', ['courseTemplate' => $row->id], '_self')
                 ->navigate()

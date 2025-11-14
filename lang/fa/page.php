@@ -3,22 +3,22 @@
 declare(strict_types=1);
 
 return [
-    'model'         => 'صفحه',
-    'permissions'   => [
+    'model' => 'صفحه',
+    'permissions' => [
     ],
-    'exceptions'    => [
+    'exceptions' => [
     ],
-    'validations'   => [
+    'validations' => [
     ],
-    'enum'          => [
+    'enum' => [
         'type' => [
-            'rules'    => 'قوانین',
+            'rules' => 'قوانین',
             'about-us' => 'درباره ما',
         ],
     ],
     'notifications' => [
         'you_cannot_delete_this_page' => 'شما نمی‌توانید این صفحه را حذف کنید.',
     ],
-    'page'          => [
+    'page' => [
     ],
 ];

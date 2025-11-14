@@ -9,6 +9,7 @@ use App\Actions\Ticket\ToggleTicketStatusAction;
 use App\Actions\TicketMessage\StoreTicketMessageAction;
 use App\Enums\TicketDepartmentEnum;
 use App\Enums\TicketPriorityEnum;
+use App\Enums\UserTypeEnum;
 use App\Models\Ticket;
 use App\Models\TicketMessage;
 use Illuminate\Database\Eloquent\Builder;
@@ -25,28 +26,28 @@ class TicketApp extends Component
 
     public $selectedTicketId;
     public $filter_department = '';
-    public $search_ticket     = '';
-    public $message           = '';
-    public $department        = '';
-    public $perPage           = 15; // تعداد پیام‌ها در هر صفحه
-    public $messagesPage      = 1;  // صفحه فعلی پیام‌ها
-    public $file              = null;
-    public $uploading         = false;
+    public $search_ticket = '';
+    public $message = '';
+    public $department = '';
+    public $perPage = 15; // تعداد پیام‌ها در هر صفحه
+    public $messagesPage = 1;  // صفحه فعلی پیام‌ها
+    public $file = null;
+    public $uploading = false;
 
-    public bool $show_new_modal   = false;
+    public bool $show_new_modal = false;
     public bool $show_ticket_info = false;
 
     public array $newTicket = [
-        'subject'    => '',
+        'subject' => '',
         'department' => TicketDepartmentEnum::SALE->value,
-        'priority'   => TicketPriorityEnum::MEDIUM->value,
-        'body'       => '',
+        'priority' => TicketPriorityEnum::MEDIUM->value,
+        'body' => '',
     ];
 
     public function selectTicket($ticketId): void
     {
         $this->selectedTicketId = $ticketId;
-        $this->messagesPage     = 1; // ریست صفحه پیام‌ها
+        $this->messagesPage = 1; // ریست صفحه پیام‌ها
         $this->reset('message');
     }
 
@@ -74,8 +75,8 @@ class TicketApp extends Component
 
         $data = [
             'ticket_id' => $this->selected_ticket()->id,
-            'user_id'   => auth()->id(),
-            'message'   => $this->message,
+            'user_id' => auth()->id(),
+            'message' => $this->message,
         ];
 
         if ($this->file) {
@@ -90,15 +91,15 @@ class TicketApp extends Component
     public function submitNewTicket(): void
     {
         $payload = $this->validate([
-            'newTicket.subject'    => 'required|string|max:255',
+            'newTicket.subject' => 'required|string|max:255',
             'newTicket.department' => 'required|in:finance_and_administration,Sale,technical',
-            'newTicket.priority'   => 'required|int|in:' . collect(TicketPriorityEnum::formatedCases())->pluck('value'),
-            'newTicket.body'       => 'required|string',
+            'newTicket.priority' => 'required|int|in:' . collect(TicketPriorityEnum::formatedCases())->pluck('value'),
+            'newTicket.body' => 'required|string',
         ], attributes: [
-            'newTicket.subject'    => __('validation.attributes.subject'),
+            'newTicket.subject' => __('validation.attributes.subject'),
             'newTicket.department' => __('validation.attributes.department'),
-            'newTicket.priority'   => __('validation.attributes.priority'),
-            'newTicket.body'       => __('validation.attributes.body'),
+            'newTicket.priority' => __('validation.attributes.priority'),
+            'newTicket.body' => __('validation.attributes.body'),
         ]);
         $payload['newTicket']['user_id'] = auth()->id();
         StoreTicketAction::run($payload['newTicket']);
@@ -116,6 +117,31 @@ class TicketApp extends Component
                 $query->where('name', 'like', '%' . $this->search_ticket . '%')
                     ->orWhere('family', 'like', '%' . $this->search_ticket . '%');
             }))
+            ->when(
+                auth()->user()->type === UserTypeEnum::PARENT,
+                function ($q) {
+                    $children = auth()->user()->children->pluck('id')->toArray();
+                    $q->whereIn('user_id', [...$children, auth()->id()]);
+                }
+            )
+            ->when(
+                auth()->user()->type === UserTypeEnum::TEACHER,
+                function ($q) {
+                    $q->where('user_id', auth()->id());
+                }
+            )
+            ->when(
+                auth()->user()->type === UserTypeEnum::EMPLOYEE,
+                function ($q) {
+                    $q->where('user_id', auth()->id());
+                }
+            )
+            ->when(
+                auth()->user()->type === UserTypeEnum::USER,
+                function ($q) {
+                    $q->where('user_id', auth()->id());
+                }
+            )
             ->latest()
             ->paginate(15);
 
@@ -137,9 +163,9 @@ class TicketApp extends Component
         }
 
         return view('livewire.admin.pages.ticket.ticket-app', [
-            'tickets'            => $tickets,
-            'messages'           => $messages,
-            'breadcrumbs'        => [
+            'tickets' => $tickets,
+            'messages' => $messages,
+            'breadcrumbs' => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
             ],
             'breadcrumbsActions' => [

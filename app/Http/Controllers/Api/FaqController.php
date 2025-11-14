@@ -152,7 +152,7 @@ class FaqController extends Controller
     {
         return Response::dataWithAdditional(
             $this->query([
-                'limit'       => $request->input('limit', 1),
+                'limit' => $request->input('limit', 1),
                 'category_id' => $category->id,
             ])->paginate($request->input('page_limit', 1))->toResourceCollection(FaqResource::class),
         );
@@ -174,15 +174,15 @@ class FaqController extends Controller
      */
     public function data(): JsonResponse
     {
-        $banners      = Banner::latestBanner();
-        $categories   =Category::faqCategories();
-        $tags         =Tag::faqTags();
+        $banners = Banner::latestBanner();
+        $categories = Category::faqCategories();
+        $tags = Tag::faqTags();
 
         return Response::data(
             [
-                'banners'    => BannerResource::collection($banners),
+                'banners' => BannerResource::collection($banners),
                 'Categories' => CategoryResource::collection($categories),
-                'tags'       => TagResource::collection($tags),
+                'tags' => TagResource::collection($tags),
             ]
         );
     }

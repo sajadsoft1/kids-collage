@@ -3,17 +3,17 @@
 declare(strict_types=1);
 
 return [
-    'model'         => 'مشتریان',
-    'permissions'   => [
+    'model' => 'مشتریان',
+    'permissions' => [
     ],
-    'exceptions'    => [
+    'exceptions' => [
     ],
-    'validations'   => [
+    'validations' => [
     ],
-    'enum'          => [
+    'enum' => [
     ],
     'notifications' => [
     ],
-    'page'          => [
+    'page' => [
     ],
 ];

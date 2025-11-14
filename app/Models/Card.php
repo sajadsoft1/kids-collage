@@ -58,10 +58,10 @@ class Card extends Model
     ];
 
     protected $casts = [
-        'card_type'        => CardTypeEnum::class,
-        'priority'         => PriorityEnum::class,
-        'status'           => CardStatusEnum::class,
-        'due_date'         => 'date',
+        'card_type' => CardTypeEnum::class,
+        'priority' => PriorityEnum::class,
+        'status' => CardStatusEnum::class,
+        'due_date' => 'date',
         'extra_attributes' => 'array',
     ];
 
@@ -149,8 +149,8 @@ class Card extends Model
     /** Set a specific extra attribute. */
     public function setExtraAttribute(string $key, mixed $value): void
     {
-        $attributes             = $this->extra_attributes ?? [];
-        $attributes[$key]       = $value;
+        $attributes = $this->extra_attributes ?? [];
+        $attributes[$key] = $value;
         $this->extra_attributes = $attributes;
     }
 }

@@ -31,17 +31,17 @@ class CategoryResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'             => $this->id,
-            'title'          => $this->title,
-            'description'    => $this->description,
-            'slug'           => $this->slug,
-            'published'      => $this->published->toArray(),
-            'type'           => $this->type->toArray(),
-            'parent'         => $this->whenLoaded('parent', fn () => SimpleCategoryResource::make($this->parent)),
+            'id' => $this->id,
+            'title' => $this->title,
+            'description' => $this->description,
+            'slug' => $this->slug,
+            'published' => $this->published->toArray(),
+            'type' => $this->type->toArray(),
+            'parent' => $this->whenLoaded('parent', fn () => SimpleCategoryResource::make($this->parent)),
             'children_count' => $this->whenLoaded('children', fn () => $this->children->count(), 0),
-            'image'          => $this->resource->getFirstMediaUrl('image', Constants::RESOLUTION_720_SQUARE),
-            'updated_at'     => $this->updated_at,
-            'created_at'     => $this->created_at,
+            'image' => $this->resource->getFirstMediaUrl('image', Constants::RESOLUTION_720_SQUARE),
+            'updated_at' => $this->updated_at,
+            'created_at' => $this->created_at,
         ];
     }
 }

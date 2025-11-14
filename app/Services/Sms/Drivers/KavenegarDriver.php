@@ -31,9 +31,9 @@ class KavenegarDriver extends AbstractSmsDriver implements DeliveryReportFetcher
         $this->config = $config;
         $this->client = new Client([
             'base_uri' => 'https://api.kavenegar.com/v1/',
-            'timeout'  => 30.0,
-            'headers'  => [
-                'Accept'       => 'application/json',
+            'timeout' => 30.0,
+            'headers' => [
+                'Accept' => 'application/json',
                 'Content-Type' => 'application/x-www-form-urlencoded',
             ],
         ]);
@@ -59,20 +59,20 @@ class KavenegarDriver extends AbstractSmsDriver implements DeliveryReportFetcher
             $response = $this->client->post($url, [
                 'form_params' => [
                     'receptor' => $phoneNumber,
-                    'message'  => $message,
-                    'sender'   => $this->config['sender'] ?? null,
+                    'message' => $message,
+                    'sender' => $this->config['sender'] ?? null,
                 ],
             ]);
 
             $statusCode = $response->getStatusCode();
-            $body       = (string) $response->getBody();
-            $data       = json_decode($body, true);
+            $body = (string) $response->getBody();
+            $data = json_decode($body, true);
 
             if ($statusCode !== 200) {
                 $errorMessage = $this->parseErrorResponse($data);
                 Log::error('Kavenegar send failed', [
-                    'phone'    => $phoneNumber,
-                    'status'   => $statusCode,
+                    'phone' => $phoneNumber,
+                    'status' => $statusCode,
                     'response' => $body,
                 ]);
 
@@ -89,7 +89,7 @@ class KavenegarDriver extends AbstractSmsDriver implements DeliveryReportFetcher
             throw $e;
         } catch (Throwable $e) {
             Log::error('Kavenegar connection error', [
-                'phone'     => $phoneNumber,
+                'phone' => $phoneNumber,
                 'exception' => $e->getMessage(),
             ]);
 
@@ -120,20 +120,20 @@ class KavenegarDriver extends AbstractSmsDriver implements DeliveryReportFetcher
             $response = $this->client->post($url, [
                 'form_params' => [
                     'receptor' => $phoneNumbers,
-                    'message'  => array_fill(0, count($phoneNumbers), $message),
-                    'sender'   => array_fill(0, count($phoneNumbers), $this->config['sender'] ?? ''),
+                    'message' => array_fill(0, count($phoneNumbers), $message),
+                    'sender' => array_fill(0, count($phoneNumbers), $this->config['sender'] ?? ''),
                 ],
             ]);
 
             $statusCode = $response->getStatusCode();
-            $body       = (string) $response->getBody();
-            $data       = json_decode($body, true);
+            $body = (string) $response->getBody();
+            $data = json_decode($body, true);
 
             if ($statusCode !== 200) {
                 $errorMessage = $this->parseErrorResponse($data);
                 Log::error('Kavenegar sendToGroup failed', [
-                    'phones'   => $phoneNumbers,
-                    'status'   => $statusCode,
+                    'phones' => $phoneNumbers,
+                    'status' => $statusCode,
                     'response' => $body,
                 ]);
 
@@ -149,7 +149,7 @@ class KavenegarDriver extends AbstractSmsDriver implements DeliveryReportFetcher
             throw $e;
         } catch (Throwable $e) {
             Log::error('Kavenegar group connection error', [
-                'phones'    => $phoneNumbers,
+                'phones' => $phoneNumbers,
                 'exception' => $e->getMessage(),
             ]);
 
@@ -186,8 +186,8 @@ class KavenegarDriver extends AbstractSmsDriver implements DeliveryReportFetcher
             $response = $this->client->get($url, ['timeout' => 10]);
 
             $statusCode = $response->getStatusCode();
-            $body       = (string) $response->getBody();
-            $data       = json_decode($body, true);
+            $body = (string) $response->getBody();
+            $data = json_decode($body, true);
 
             return $statusCode === 200
                 && isset($data['return']['status'])
@@ -219,30 +219,30 @@ class KavenegarDriver extends AbstractSmsDriver implements DeliveryReportFetcher
                 'form_params' => [
                     'messageid' => $providerMessageId,
                 ],
-                'timeout'     => 10,
+                'timeout' => 10,
             ]);
 
             $statusCode = $response->getStatusCode();
-            $body       = (string) $response->getBody();
-            $data       = json_decode($body, true);
+            $body = (string) $response->getBody();
+            $data = json_decode($body, true);
 
             if ($statusCode !== 200) {
                 Log::warning('Kavenegar delivery report failed', [
                     'message_id' => $providerMessageId,
-                    'status'     => $statusCode,
+                    'status' => $statusCode,
                 ]);
 
                 return ['status' => 'unknown', 'delivered_at' => null, 'raw' => null];
             }
 
             if (isset($data['entries'][0])) {
-                $entry  = $data['entries'][0];
+                $entry = $data['entries'][0];
                 $status = $this->mapKavenegarStatus((int) ($entry['status'] ?? 0));
 
                 return [
-                    'status'       => $status,
+                    'status' => $status,
                     'delivered_at' => $status === 'delivered' ? now()->toIso8601String() : null,
-                    'raw'          => $entry,
+                    'raw' => $entry,
                 ];
             }
 
@@ -250,7 +250,7 @@ class KavenegarDriver extends AbstractSmsDriver implements DeliveryReportFetcher
         } catch (Exception $e) {
             Log::warning('Kavenegar delivery report exception', [
                 'message_id' => $providerMessageId,
-                'exception'  => $e->getMessage(),
+                'exception' => $e->getMessage(),
             ]);
 
             return ['status' => 'unknown', 'delivered_at' => null, 'raw' => null];
@@ -269,7 +269,7 @@ class KavenegarDriver extends AbstractSmsDriver implements DeliveryReportFetcher
         return match ($statusCode) {
             1, 2 => 'pending',    // 1: در صف ارسال, 2: زمان‌بندی شده
             4, 5 => 'sent',       // 4: ارسال شده به مخابرات, 5: ارسال شده به مخابرات
-            10      => 'delivered',  // 10: رسیده به گیرنده
+            10 => 'delivered',  // 10: رسیده به گیرنده
             default => 'failed',  // Other codes indicate various failure states
         };
     }

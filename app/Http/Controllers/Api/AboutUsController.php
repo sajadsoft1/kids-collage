@@ -133,11 +133,11 @@ class AboutUsController extends Controller
      */
     public function getAbout()
     {
-        $teachers=User::teachers();
+        $teachers = User::teachers();
 
         return Response::data(
             [
-                'aboutUs'  => AboutUsDetailResource::make(Page::about()),
+                'aboutUs' => AboutUsDetailResource::make(Page::about()),
                 'teachers' => UserResource::collection($teachers),
             ]
         );

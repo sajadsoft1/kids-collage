@@ -26,11 +26,11 @@ class SimpleUserResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'     => $this->id,
-            'name'   => $this->name,
+            'id' => $this->id,
+            'name' => $this->name,
             'family' => $this->family,
             'mobile' => $this->mobile,
-            'image'  => $this->resource->getFirstMediaUrl('image', Constants::RESOLUTION_512_SQUARE),
+            'image' => $this->resource->getFirstMediaUrl('image', Constants::RESOLUTION_512_SQUARE),
         ];
     }
 }

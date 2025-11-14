@@ -20,8 +20,8 @@ class MakeLivewireViewsCommand extends Command
 
     public function handle()
     {
-        $model   = $this->argument('model');
-        $model   = Str::studly($model);
+        $model = $this->argument('model');
+        $model = Str::studly($model);
         $content = file_get_contents(__DIR__ . '/stubs/update-or-create.php.stub');
         $content = $this->string_model_replace($model, $content);
 

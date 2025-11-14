@@ -73,8 +73,8 @@ class SmsManager
     public function template(NotificationTemplate $template): self
     {
         $this->notificationTemplateId = $template->id;
-        $this->templateText           = (string) $template->message_template;
-        $this->inputs                 = array_merge($this->inputs, (array) $template->inputs);
+        $this->templateText = (string) $template->message_template;
+        $this->inputs = array_merge($this->inputs, (array) $template->inputs);
 
         return $this;
     }
@@ -179,18 +179,18 @@ class SmsManager
                 try {
                     $driver = $this->resolveDriver((string) $record->driver);
                     if ($driver instanceof DeliveryReportFetcher) {
-                        $report    = $driver->fetchDeliveryReport((string) $record->provider_message_id);
+                        $report = $driver->fetchDeliveryReport((string) $record->provider_message_id);
                         $results[] = [
-                            'phone'               => $phone,
+                            'phone' => $phone,
                             'provider_message_id' => $record->provider_message_id,
-                            'status'              => $report['status'] ?? 'unknown',
+                            'status' => $report['status'] ?? 'unknown',
                         ];
                     }
                 } catch (Throwable $e) {
                     $results[] = [
-                        'phone'               => $phone,
+                        'phone' => $phone,
                         'provider_message_id' => $record->provider_message_id,
-                        'error'               => $e->getMessage(),
+                        'error' => $e->getMessage(),
                     ];
                 }
             }
@@ -239,7 +239,7 @@ class SmsManager
     /** Send to all targets with failover and record tracking. */
     protected function sendToTargets(array $phoneNumbers, string $message): void
     {
-        $driverOrder   = $this->getDriverOrder();
+        $driverOrder = $this->getDriverOrder();
         $lastException = null;
 
         foreach ($driverOrder as $driverName) {
@@ -249,13 +249,13 @@ class SmsManager
 
                 foreach ($phoneNumbers as $phoneNumber) {
                     $record = SmsModel::create([
-                        'driver'                   => $driverName,
-                        'template'                 => $this->templateText,
-                        'inputs'                   => $this->inputs,
-                        'phone'                    => $phoneNumber,
-                        'message'                  => $message,
+                        'driver' => $driverName,
+                        'template' => $this->templateText,
+                        'inputs' => $this->inputs,
+                        'phone' => $phoneNumber,
+                        'message' => $message,
                         'notification_template_id' => $this->notificationTemplateId,
-                        'status'                   => SmsSendStatusEnum::PENDING,
+                        'status' => SmsSendStatusEnum::PENDING,
                     ]);
 
                     $driver->send($phoneNumber, $message);
@@ -281,10 +281,10 @@ class SmsManager
             return $template;
         }
 
-        $search  = [];
+        $search = [];
         $replace = [];
         foreach ($inputs as $key => $value) {
-            $search[]  = '{' . (string) $key . '}';
+            $search[] = '{' . (string) $key . '}';
             $replace[] = (string) $value;
         }
 
@@ -316,7 +316,7 @@ class SmsManager
      */
     protected function getDriverOrder(): array
     {
-        $default  = (string) config('sms.default');
+        $default = (string) config('sms.default');
         $failover = array_values(array_filter((array) config('sms.failover', [])));
 
         $order = array_values(array_unique(array_filter([$default, ...$failover])));
@@ -331,11 +331,11 @@ class SmsManager
     /** Reset builder state for reuse. */
     protected function reset(): void
     {
-        $this->toNumbers              = [];
-        $this->toUserIds              = [];
-        $this->messageText            = null;
-        $this->templateText           = null;
-        $this->inputs                 = [];
+        $this->toNumbers = [];
+        $this->toUserIds = [];
+        $this->messageText = null;
+        $this->templateText = null;
+        $this->inputs = [];
         $this->notificationTemplateId = null;
     }
 }

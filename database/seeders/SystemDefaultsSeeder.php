@@ -25,6 +25,7 @@ class SystemDefaultsSeeder extends Seeder
             AdminSeeder::class,           // Default admin user
             SettingSeeder::class,         // System settings
             PageSeeder::class,
+            NotificationTemplateSeeder::class,
         ]);
 
         $this->command->info('✅ System Defaults seeded successfully!');

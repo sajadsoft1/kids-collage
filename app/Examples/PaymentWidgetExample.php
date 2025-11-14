@@ -163,12 +163,12 @@ class PaymentWidgetExample
     public function availableParameters(): array
     {
         return [
-            'limit'      => 'Number of payments to show (default: 10)',
+            'limit' => 'Number of payments to show (default: 10)',
             'start_date' => 'Start date for filtering (default: 30 days ago)',
-            'end_date'   => 'End date for filtering (default: today)',
-            'status'     => 'Filter by status: "paid", "pending", "failed" (default: empty)',
-            'type'       => 'Filter by type: "online", "cash", "card_to_card" (default: empty)',
-            'user'       => 'User instance to filter payments (default: null)',
+            'end_date' => 'End date for filtering (default: today)',
+            'status' => 'Filter by status: "paid", "pending", "failed" (default: empty)',
+            'type' => 'Filter by type: "online", "cash", "card_to_card" (default: empty)',
+            'user' => 'User instance to filter payments (default: null)',
         ];
     }
 
@@ -176,21 +176,21 @@ class PaymentWidgetExample
     public function availableStatistics(): array
     {
         return [
-            'paymentStats'     => [
-                'total'   => 'Total payment count',
+            'paymentStats' => [
+                'total' => 'Total payment count',
                 'pending' => 'Pending payment count',
-                'paid'    => 'Paid payment count',
-                'failed'  => 'Failed payment count',
-                'amount'  => [
-                    'total'   => 'Total amount',
+                'paid' => 'Paid payment count',
+                'failed' => 'Failed payment count',
+                'amount' => [
+                    'total' => 'Total amount',
                     'pending' => 'Pending amount',
-                    'paid'    => 'Paid amount',
-                    'failed'  => 'Failed amount',
+                    'paid' => 'Paid amount',
+                    'failed' => 'Failed amount',
                 ],
             ],
             'paymentTypeStats' => [
-                'online'       => 'Online payment count',
-                'cash'         => 'Cash payment count',
+                'online' => 'Online payment count',
+                'cash' => 'Cash payment count',
                 'card_to_card' => 'Card-to-card payment count',
             ],
         ];
@@ -200,13 +200,13 @@ class PaymentWidgetExample
     public function availableMethods(): array
     {
         return [
-            'filterByStatus($status)'      => 'Filter payments by status',
-            'filterByType($type)'          => 'Filter payments by type',
-            'resetFilters()'               => 'Reset all filters to default',
+            'filterByStatus($status)' => 'Filter payments by status',
+            'filterByType($type)' => 'Filter payments by type',
+            'resetFilters()' => 'Reset all filters to default',
             'getStatusBadgeClass($status)' => 'Get CSS class for status badge',
-            'getTypeIcon($type)'           => 'Get icon name for payment type',
-            'formatCurrency($amount)'      => 'Format amount with currency',
-            'getMoreItemsUrl()'            => 'Get URL for viewing all payments',
+            'getTypeIcon($type)' => 'Get icon name for payment type',
+            'formatCurrency($amount)' => 'Format amount with currency',
+            'getMoreItemsUrl()' => 'Get URL for viewing all payments',
         ];
     }
 

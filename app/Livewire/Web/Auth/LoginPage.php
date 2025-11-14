@@ -14,14 +14,14 @@ class LoginPage extends Component
 {
     use Toast;
 
-    public string $email    = '';
+    public string $email = '';
     public string $password = '';
-    public bool $remember   = false;
+    public bool $remember = false;
 
     protected function rules(): array
     {
         return [
-            'email'    => 'required|email|exists:users,email',
+            'email' => 'required|email|exists:users,email',
             'password' => 'required|string|min:8',
         ];
     }
@@ -29,11 +29,11 @@ class LoginPage extends Component
     protected function messages(): array
     {
         return [
-            'email.required'    => trans('auth.email_required'),
-            'email.email'       => trans('auth.email_invalid'),
-            'email.exists'      => trans('auth.email_not_found'),
+            'email.required' => trans('auth.email_required'),
+            'email.email' => trans('auth.email_invalid'),
+            'email.exists' => trans('auth.email_not_found'),
             'password.required' => trans('auth.password_required'),
-            'password.min'      => trans('auth.password_min'),
+            'password.min' => trans('auth.password_min'),
         ];
     }
 

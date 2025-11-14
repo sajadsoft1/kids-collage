@@ -10,8 +10,8 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -55,10 +55,10 @@ class CourseSessionTemplate extends Model
     ];
 
     protected $casts = [
-        'order'            => 'integer',
+        'order' => 'integer',
         'duration_minutes' => 'integer',
-        'type'             => SessionType::class,
-        'languages'        => 'array',
+        'type' => SessionType::class,
+        'languages' => 'array',
     ];
 
     /** Get the course template that owns this session template. */
@@ -89,7 +89,7 @@ class CourseSessionTemplate extends Model
     /** Get formatted duration string. */
     public function getFormattedDurationAttribute(): string
     {
-        $hours   = floor($this->duration_minutes / 60);
+        $hours = floor($this->duration_minutes / 60);
         $minutes = $this->duration_minutes % 60;
 
         if ($hours > 0) {

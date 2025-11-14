@@ -28,8 +28,8 @@ class RoleApp extends Component
         return view(
             'livewire.admin.pages.role.role-app',
             data: [
-                'roles'              => Role::all(),
-                'breadcrumbs'        => [
+                'roles' => Role::all(),
+                'breadcrumbs' => [
                     ['link' => route('admin.dashboard'), 'icon' => 's-home'],
                     ['label' => trans('general.page.index.title', ['model' => trans('role.model')])],
                 ],

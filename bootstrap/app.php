@@ -48,8 +48,8 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         $middleware->alias([
-            'admin.panel'  => AdminPanelMiddleware::class,
-            'locale'       => LanguageMiddleware::class,
+            'admin.panel' => AdminPanelMiddleware::class,
+            'locale' => LanguageMiddleware::class,
             'locale.admin' => AdminLanguageMiddleware::class,
         ]);
     })
@@ -74,10 +74,10 @@ return Application::configure(basePath: dirname(__DIR__))
                 // Log the error for debugging
                 Log::error('Livewire Error: ' . $e->getMessage(), [
                     'exception' => get_class($e),
-                    'file'      => $e->getFile(),
-                    'line'      => $e->getLine(),
-                    'status'    => $statusCode,
-                    'url'       => $request->fullUrl(),
+                    'file' => $e->getFile(),
+                    'line' => $e->getLine(),
+                    'status' => $statusCode,
+                    'url' => $request->fullUrl(),
                 ]);
 
                 // Determine the message to show
@@ -85,16 +85,16 @@ return Application::configure(basePath: dirname(__DIR__))
 
                 if ( ! config('app.debug') && (empty($message) || $message === 'Server Error')) {
                     $message = match ($statusCode) {
-                        400     => __('درخواست نامعتبر است.'),
-                        403     => __('شما اجازه انجام این عملیات را ندارید.'),
-                        419     => __('نشست شما منقضی شده است.'),
-                        422     => __('اطلاعات ارسالی نامعتبر است.'),
+                        400 => __('درخواست نامعتبر است.'),
+                        403 => __('شما اجازه انجام این عملیات را ندارید.'),
+                        419 => __('نشست شما منقضی شده است.'),
+                        422 => __('اطلاعات ارسالی نامعتبر است.'),
                         default => __('خطایی رخ داده است. لطفاً دوباره تلاش کنید.'),
                     };
                 }
 
                 return response()->json([
-                    'message'   => $message,
+                    'message' => $message,
                     'exception' => config('app.debug') ? get_class($e) : null,
                 ], $statusCode);
             }

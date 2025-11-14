@@ -58,11 +58,11 @@ class Order extends Model
     ];
 
     protected $casts = [
-        'status'          => OrderStatusEnum::class,
-        'type'            => OrderTypeEnum::class,
-        'pure_amount'     => 'float',
+        'status' => OrderStatusEnum::class,
+        'type' => OrderTypeEnum::class,
+        'pure_amount' => 'float',
         'discount_amount' => 'float',
-        'total_amount'    => 'float',
+        'total_amount' => 'float',
     ];
 
     public function getActivitylogOptions(): LogOptions
@@ -187,16 +187,16 @@ class Order extends Model
 
             if ($discountResult['success']) {
                 $this->discount_amount = $discountResult['discount_amount'];
-                $this->total_amount    = $discountResult['final_amount'];
+                $this->total_amount = $discountResult['final_amount'];
             } else {
                 // Discount not valid, remove it
-                $this->discount_id     = null;
+                $this->discount_id = null;
                 $this->discount_amount = 0;
-                $this->total_amount    = $this->pure_amount;
+                $this->total_amount = $this->pure_amount;
             }
         } else {
             $this->discount_amount = 0;
-            $this->total_amount    = $this->pure_amount;
+            $this->total_amount = $this->pure_amount;
         }
 
         $this->save();
@@ -212,9 +212,9 @@ class Order extends Model
         $result = $discount->validateAndCalculate($this->pure_amount, $this->user_id);
 
         if ($result['success']) {
-            $this->discount_id     = $discount->id;
+            $this->discount_id = $discount->id;
             $this->discount_amount = $result['discount_amount'];
-            $this->total_amount    = $result['final_amount'];
+            $this->total_amount = $result['final_amount'];
             $this->save();
 
             return [
@@ -232,9 +232,9 @@ class Order extends Model
     /** Remove discount from order */
     public function removeDiscount(): void
     {
-        $this->discount_id     = null;
+        $this->discount_id = null;
         $this->discount_amount = 0;
-        $this->total_amount    = $this->pure_amount;
+        $this->total_amount = $this->pure_amount;
         $this->save();
     }
 

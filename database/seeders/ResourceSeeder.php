@@ -23,7 +23,7 @@ class ResourceSeeder extends Seeder
         }
         foreach ($courseTemplates as $template) {
             $courseSessionTemplateIds = $template->sessionTemplates()->pluck('id')->toArray();
-            $resource                 = Resource::factory()
+            $resource = Resource::factory()
                 ->count(1)
                 ->link()
                 ->create()

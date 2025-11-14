@@ -50,14 +50,14 @@ class Slider extends Model implements HasMedia
     ];
 
     protected $casts = [
-        'published'    => BooleanEnum::class,
-        'position'     => SliderPositionEnum::class,
-        'has_timer'    => YesNoEnum::class,
-        'languages'    => 'array',
-        'ordering'     => 'integer',
+        'published' => BooleanEnum::class,
+        'position' => SliderPositionEnum::class,
+        'has_timer' => YesNoEnum::class,
+        'languages' => 'array',
+        'ordering' => 'integer',
         'published_at' => 'date',
-        'expired_at'   => 'date',
-        'timer_start'  => 'date',
+        'expired_at' => 'date',
+        'timer_start' => 'date',
     ];
 
     /** Model Configuration -------------------------------------------------------------------------- */

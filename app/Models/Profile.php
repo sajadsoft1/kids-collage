@@ -8,6 +8,8 @@ use App\Enums\GenderEnum;
 use App\Enums\NotificationChannelEnum;
 use App\Enums\NotificationEventEnum;
 use App\Enums\ReligionEnum;
+use App\Support\Notifications\NotificationChannelRegistry;
+use App\Support\Notifications\NotificationPreferenceResolver;
 use App\Traits\HasUser;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\SchemalessAttributes\Casts\SchemalessAttributes;
@@ -37,30 +39,19 @@ class Profile extends Model
     ];
 
     protected $casts = [
-        'gender'                 => GenderEnum::class,
-        'religion'               => ReligionEnum::class,
-        'id_number'              => 'integer',
-        'birth_date'             => 'date',
+        'gender' => GenderEnum::class,
+        'religion' => ReligionEnum::class,
+        'id_number' => 'integer',
+        'birth_date' => 'date',
         'cooperation_start_date' => 'date',
-        'cooperation_end_date'   => 'date',
-        'extra_attributes'       => SchemalessAttributes::class,
+        'cooperation_end_date' => 'date',
+        'extra_attributes' => SchemalessAttributes::class,
     ];
 
     /** Check if user should receive notification for a specific event and channel */
     public function shouldReceiveNotification(NotificationEventEnum $event, NotificationChannelEnum $channel): bool
     {
-        $notificationSettings = $this->extra_attributes->get('notification_settings', []);
-
-        // If settings not configured, return true (default: send all notifications)
-        if (empty($notificationSettings)) {
-            return true;
-        }
-
-        $eventKey   = $event->value;
-        $channelKey = $channel->value;
-
-        // Check if the specific event and channel combination is enabled
-        return $notificationSettings[$eventKey][$channelKey] ?? false;
+        return app(NotificationPreferenceResolver::class)->shouldSend($this, $event, $channel);
     }
 
     /** Get all notification settings */
@@ -72,14 +63,39 @@ class Profile extends Model
     /** Update notification settings */
     public function updateNotificationSettings(array $settings): void
     {
-        $this->extra_attributes->set('notification_settings', $settings);
+        $registry = app(NotificationChannelRegistry::class);
+        $normalized = [];
+
+        foreach ($settings as $eventValue => $channels) {
+            $eventEnum = NotificationEventEnum::tryFrom($eventValue);
+
+            if ( ! $eventEnum || ! is_array($channels)) {
+                continue;
+            }
+
+            foreach ($channels as $channelValue => $enabled) {
+                $channelEnum = NotificationChannelEnum::tryFrom($channelValue);
+
+                if ( ! $channelEnum) {
+                    continue;
+                }
+
+                if ( ! $registry->isUserToggleable($eventEnum, $channelEnum)) {
+                    continue;
+                }
+
+                $normalized[$eventEnum->value][$channelEnum->value] = (bool) $enabled;
+            }
+        }
+
+        $this->extra_attributes->set('notification_settings', $normalized);
         $this->save();
     }
 
     /** Enable notification for a specific event and channel */
     public function enableNotification(NotificationEventEnum $event, NotificationChannelEnum $channel): void
     {
-        $settings                                 = $this->getNotificationSettings();
+        $settings = $this->getNotificationSettings();
         $settings[$event->value][$channel->value] = true;
         $this->updateNotificationSettings($settings);
     }
@@ -87,7 +103,7 @@ class Profile extends Model
     /** Disable notification for a specific event and channel */
     public function disableNotification(NotificationEventEnum $event, NotificationChannelEnum $channel): void
     {
-        $settings                                 = $this->getNotificationSettings();
+        $settings = $this->getNotificationSettings();
         $settings[$event->value][$channel->value] = false;
         $this->updateNotificationSettings($settings);
     }
@@ -95,16 +111,34 @@ class Profile extends Model
     /** Get enabled channels for a specific event */
     public function getEnabledChannelsForEvent(NotificationEventEnum $event): array
     {
-        $settings      = $this->getNotificationSettings();
-        $eventSettings = $settings[$event->value] ?? [];
+        return app(NotificationPreferenceResolver::class)
+            ->enabledChannels($this, $event)
+            ->map(static fn (NotificationChannelEnum $channel) => $channel->value)
+            ->toArray();
+    }
 
-        $enabledChannels = [];
-        foreach ($eventSettings as $channel => $enabled) {
-            if ($enabled) {
-                $enabledChannels[] = $channel;
-            }
-        }
+    /** Get merged notification configuration for an event */
+    public function notificationPreferences(NotificationEventEnum $event): array
+    {
+        $registry = app(NotificationChannelRegistry::class);
+        $resolver = app(NotificationPreferenceResolver::class);
 
-        return $enabledChannels;
+        return collect($registry->channelConfig($event))
+            ->mapWithKeys(function (array $config, string $channelValue) use ($event, $registry, $resolver) {
+                $channelEnum = NotificationChannelEnum::tryFrom($channelValue);
+
+                if ( ! $channelEnum) {
+                    return [];
+                }
+
+                return [
+                    $channelValue => [
+                        'enabled' => $resolver->shouldSend($this, $event, $channelEnum),
+                        'togglable' => $registry->isUserToggleable($event, $channelEnum),
+                        'default' => $registry->defaultState($event, $channelEnum),
+                    ],
+                ];
+            })
+            ->toArray();
     }
 }

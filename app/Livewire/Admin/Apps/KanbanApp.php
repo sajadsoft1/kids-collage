@@ -31,43 +31,43 @@ use Livewire\Attributes\On;
 class KanbanApp extends KanbanTemplate
 {
     public Board $board;
-    public ?Card $selectedCard          = null;
-    public bool $showBoardModal         = false;
-    public bool $showCreateCardModal    = false;
-    public bool $showEditCardModal      = false;
-    public bool $showCardModal          = false;
-    public bool $showColumnModal        = false;
-    public bool $showFlowModal          = false;
-    public bool $showHistoryModal       = false;
+    public ?Card $selectedCard = null;
+    public bool $showBoardModal = false;
+    public bool $showCreateCardModal = false;
+    public bool $showEditCardModal = false;
+    public bool $showCardModal = false;
+    public bool $showColumnModal = false;
+    public bool $showFlowModal = false;
+    public bool $showHistoryModal = false;
 
     public array $cardForm = [
-        'title'            => '',
-        'description'      => '',
-        'card_type'        => 'task',
-        'priority'         => 'medium',
-        'status'           => 'active',
-        'due_date'         => '',
-        'column_id'        => '',
-        'assignees'        => [],
-        'reviewers'        => [],
-        'watchers'         => [],
+        'title' => '',
+        'description' => '',
+        'card_type' => 'task',
+        'priority' => 'medium',
+        'status' => 'active',
+        'due_date' => '',
+        'column_id' => '',
+        'assignees' => [],
+        'reviewers' => [],
+        'watchers' => [],
         'extra_attributes' => [],
     ];
 
     public array $columnForm = [
-        'name'        => '',
+        'name' => '',
         'description' => '',
-        'color'       => '#6B7280',
-        'wip_limit'   => null,
-        'is_active'   => true,
+        'color' => '#6B7280',
+        'wip_limit' => null,
+        'is_active' => true,
     ];
 
     public array $flowForm = [
-        'name'           => '',
-        'description'    => '',
+        'name' => '',
+        'description' => '',
         'from_column_id' => '',
-        'to_column_id'   => '',
-        'is_active'      => true,
+        'to_column_id' => '',
+        'is_active' => true,
         'condition_json' => [],
     ];
 
@@ -76,11 +76,11 @@ class KanbanApp extends KanbanTemplate
         parent::afterMount($extras);
 
         // Enable record clicking and sorting
-        $this->sortable                   = true;
-        $this->sortableBetweenStatuses    = true;
-        $this->recordClickEnabled         = true;
-        $this->beforeStatusBoardView      = 'livewire.admin.apps.kanban-header';
-        $this->afterStatusBoardView       = 'livewire.admin.apps.kanban-footer';
+        $this->sortable = true;
+        $this->sortableBetweenStatuses = true;
+        $this->recordClickEnabled = true;
+        $this->beforeStatusBoardView = 'livewire.admin.apps.kanban-header';
+        $this->afterStatusBoardView = 'livewire.admin.apps.kanban-footer';
 
         // Set board from extras if provided
         if (isset($extras['board'])) {
@@ -102,11 +102,11 @@ class KanbanApp extends KanbanTemplate
             ->get()
             ->map(function ($column) {
                 return [
-                    'id'          => (string) $column->id,
-                    'title'       => $column->name,
-                    'color'       => $column->color,
-                    'wip_limit'   => $column->wip_limit,
-                    'wip_count'   => $column->cards_count, // Use the eager loaded count
+                    'id' => (string) $column->id,
+                    'title' => $column->name,
+                    'color' => $column->color,
+                    'wip_limit' => $column->wip_limit,
+                    'wip_count' => $column->cards_count, // Use the eager loaded count
                     'description' => $column->description,
                 ];
             });
@@ -125,19 +125,19 @@ class KanbanApp extends KanbanTemplate
             ->get()
             ->map(function ($card) {
                 return [
-                    'id'               => $card->id,
-                    'title'            => $card->title,
-                    'status'           => (string) $card->column_id,
-                    'description'      => $card->description,
-                    'card_type'        => $card->card_type->value,
-                    'priority'         => $card->priority->value,
-                    'status_enum'      => $card->status->value,
-                    'due_date'         => $card->due_date?->format('Y-m-d'),
-                    'is_overdue'       => $card->isOverdue(),
-                    'days_until_due'   => $card->getDaysUntilDue(),
-                    'assignees'        => $card->assignees->pluck('name')->toArray(),
-                    'reviewers'        => $card->reviewers->pluck('name')->toArray(),
-                    'watchers'         => $card->watchers->pluck('name')->toArray(),
+                    'id' => $card->id,
+                    'title' => $card->title,
+                    'status' => (string) $card->column_id,
+                    'description' => $card->description,
+                    'card_type' => $card->card_type->value,
+                    'priority' => $card->priority->value,
+                    'status_enum' => $card->status->value,
+                    'due_date' => $card->due_date?->format('Y-m-d'),
+                    'is_overdue' => $card->isOverdue(),
+                    'days_until_due' => $card->getDaysUntilDue(),
+                    'assignees' => $card->assignees->pluck('name')->toArray(),
+                    'reviewers' => $card->reviewers->pluck('name')->toArray(),
+                    'watchers' => $card->watchers->pluck('name')->toArray(),
                     'extra_attributes' => $card->extra_attributes,
                 ];
             });
@@ -171,15 +171,15 @@ class KanbanApp extends KanbanTemplate
 
                 // Create history record
                 CardHistory::create([
-                    'card_id'          => $card->id,
-                    'user_id'          => $user->id,
-                    'column_id'        => $statusId,
-                    'action'           => 'moved',
-                    'description'      => "Card moved from {$card->column->name} to {$statusId}",
+                    'card_id' => $card->id,
+                    'user_id' => $user->id,
+                    'column_id' => $statusId,
+                    'action' => 'moved',
+                    'description' => "Card moved from {$card->column->name} to {$statusId}",
                     'extra_attributes' => [
                         'from_column_id' => $fromColumnId,
-                        'to_column_id'   => $statusId,
-                        'moved_at'       => now()->toISOString(),
+                        'to_column_id' => $statusId,
+                        'moved_at' => now()->toISOString(),
                     ],
                 ]);
             });
@@ -189,8 +189,8 @@ class KanbanApp extends KanbanTemplate
             Log::error('Failed to move card', [
                 'record_id' => $recordId,
                 'status_id' => $statusId,
-                'error'     => $e->getMessage(),
-                'user_id'   => Auth::id(),
+                'error' => $e->getMessage(),
+                'user_id' => Auth::id(),
             ]);
 
             $this->dispatch('card-move-failed', message: __('kanban.messages.card_move_failed'));
@@ -199,19 +199,19 @@ class KanbanApp extends KanbanTemplate
 
     public function onRecordClick($recordId): void
     {
-        $this->selectedCard  = Card::with(['column', 'assignees', 'reviewers', 'watchers'])->find($recordId);
+        $this->selectedCard = Card::with(['column', 'assignees', 'reviewers', 'watchers'])->find($recordId);
         $this->showCardModal = true;
     }
 
     public function styles(): array
     {
-        $baseStyles                  = parent::styles();
-        $baseStyles['wrapper']       = 'w-full flex flex-1 space-x-4 overflow-x-auto py-5 px-2';
+        $baseStyles = parent::styles();
+        $baseStyles['wrapper'] = 'w-full flex flex-1 space-x-4 overflow-x-auto py-5 px-2';
         $baseStyles['statusWrapper'] = 'min-w-[320px] max-w-full flex-1 shadow-lg h-auto gap-y-2';
-        $baseStyles['status']        = 'rounded flex flex-col flex-1 gap-2';
-        $baseStyles['record']        = 'shadow-sm bg-white p-2 rounded border text-sm text-gray-800';
+        $baseStyles['status'] = 'rounded flex flex-col flex-1 gap-2';
+        $baseStyles['record'] = 'shadow-sm bg-white p-2 rounded border text-sm text-gray-800';
         $baseStyles['statusRecords'] = 'space-y-2 px-1 pt-2 pb-2';
-        $baseStyles['ghost']         = 'bg-gray-400';
+        $baseStyles['ghost'] = 'bg-gray-400';
 
         return $baseStyles;
     }
@@ -229,8 +229,8 @@ class KanbanApp extends KanbanTemplate
         } catch (Exception $e) {
             Log::error('Failed to update cards order', [
                 'ordered_ids' => $orderedIds,
-                'error'       => $e->getMessage(),
-                'user_id'     => Auth::id(),
+                'error' => $e->getMessage(),
+                'user_id' => Auth::id(),
             ]);
 
             throw $e;
@@ -271,28 +271,28 @@ class KanbanApp extends KanbanTemplate
     {
         try {
             $this->validate([
-                'cardForm.title'       => 'required|string|max:255',
+                'cardForm.title' => 'required|string|max:255',
                 'cardForm.description' => 'nullable|string',
-                'cardForm.card_type'   => 'required|string|in:' . implode(',', CardTypeEnum::values()),
-                'cardForm.priority'    => 'required|string|in:' . implode(',', PriorityEnum::values()),
-                'cardForm.status'      => 'required|string|in:' . implode(',', CardStatusEnum::values()),
-                'cardForm.due_date'    => 'nullable|date',
-                'cardForm.column_id'   => 'required|exists:columns,id',
+                'cardForm.card_type' => 'required|string|in:' . implode(',', CardTypeEnum::values()),
+                'cardForm.priority' => 'required|string|in:' . implode(',', PriorityEnum::values()),
+                'cardForm.status' => 'required|string|in:' . implode(',', CardStatusEnum::values()),
+                'cardForm.due_date' => 'nullable|date',
+                'cardForm.column_id' => 'required|exists:columns,id',
             ]);
 
             $user = Auth::user();
 
             DB::transaction(function () use ($user) {
                 $card = Card::create([
-                    'board_id'         => $this->board->id,
-                    'column_id'        => $this->cardForm['column_id'],
-                    'title'            => $this->cardForm['title'],
-                    'description'      => $this->cardForm['description'],
-                    'card_type'        => $this->cardForm['card_type'],
-                    'priority'         => $this->cardForm['priority'],
-                    'status'           => $this->cardForm['status'],
-                    'due_date'         => $this->cardForm['due_date'],
-                    'order'            => $this->getNextCardOrder($this->cardForm['column_id']),
+                    'board_id' => $this->board->id,
+                    'column_id' => $this->cardForm['column_id'],
+                    'title' => $this->cardForm['title'],
+                    'description' => $this->cardForm['description'],
+                    'card_type' => $this->cardForm['card_type'],
+                    'priority' => $this->cardForm['priority'],
+                    'status' => $this->cardForm['status'],
+                    'due_date' => $this->cardForm['due_date'],
+                    'order' => $this->getNextCardOrder($this->cardForm['column_id']),
                     'extra_attributes' => $this->cardForm['extra_attributes'],
                 ]);
 
@@ -301,11 +301,11 @@ class KanbanApp extends KanbanTemplate
 
                 // Create history record
                 CardHistory::create([
-                    'card_id'          => $card->id,
-                    'user_id'          => $user->id,
-                    'column_id'        => $card->column_id,
-                    'action'           => 'created',
-                    'description'      => 'Card created',
+                    'card_id' => $card->id,
+                    'user_id' => $user->id,
+                    'column_id' => $card->column_id,
+                    'action' => 'created',
+                    'description' => 'Card created',
                     'extra_attributes' => [
                         'created_by' => $user->id,
                         'created_at' => now()->toISOString(),
@@ -323,8 +323,8 @@ class KanbanApp extends KanbanTemplate
         } catch (Exception $e) {
             Log::error('Failed to create card', [
                 'card_form' => $this->cardForm,
-                'error'     => $e->getMessage(),
-                'user_id'   => Auth::id(),
+                'error' => $e->getMessage(),
+                'user_id' => Auth::id(),
             ]);
 
             $this->dispatch('card-creation-failed', message: __('kanban.messages.card_creation_failed'));
@@ -343,7 +343,7 @@ class KanbanApp extends KanbanTemplate
         $assignments = [
             'assignees' => 'assignee',
             'reviewers' => 'reviewer',
-            'watchers'  => 'watcher',
+            'watchers' => 'watcher',
         ];
 
         foreach ($assignments as $formKey => $role) {
@@ -357,16 +357,16 @@ class KanbanApp extends KanbanTemplate
     private function resetCardForm(): void
     {
         $this->cardForm = [
-            'title'            => '',
-            'description'      => '',
-            'card_type'        => 'task',
-            'priority'         => 'medium',
-            'status'           => 'active',
-            'due_date'         => '',
-            'column_id'        => '',
-            'assignees'        => [],
-            'reviewers'        => [],
-            'watchers'         => [],
+            'title' => '',
+            'description' => '',
+            'card_type' => 'task',
+            'priority' => 'medium',
+            'status' => 'active',
+            'due_date' => '',
+            'column_id' => '',
+            'assignees' => [],
+            'reviewers' => [],
+            'watchers' => [],
             'extra_attributes' => [],
         ];
     }
@@ -399,6 +399,6 @@ class KanbanApp extends KanbanTemplate
     public function switchToEditModal(): void
     {
         $this->showEditCardModal = true;
-        $this->showCardModal     = false;
+        $this->showCardModal = false;
     }
 }

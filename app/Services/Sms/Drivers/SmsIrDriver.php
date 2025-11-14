@@ -31,9 +31,9 @@ class SmsIrDriver extends AbstractSmsDriver implements DeliveryReportFetcher, Pi
         $this->config = $config;
         $this->client = new Client([
             'base_uri' => 'https://api.sms.ir/v1/',
-            'timeout'  => 30.0,
-            'headers'  => [
-                'Accept'       => 'application/json',
+            'timeout' => 30.0,
+            'headers' => [
+                'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
             ],
         ]);
@@ -58,23 +58,23 @@ class SmsIrDriver extends AbstractSmsDriver implements DeliveryReportFetcher, Pi
                 'headers' => [
                     'X-API-KEY' => $this->config['api_key'],
                 ],
-                'json'    => [
-                    'lineNumber'   => $this->config['sender'] ?? null,
-                    'messageText'  => $message,
-                    'mobiles'      => [$phoneNumber],
+                'json' => [
+                    'lineNumber' => $this->config['sender'] ?? null,
+                    'messageText' => $message,
+                    'mobiles' => [$phoneNumber],
                     'sendDateTime' => null,
                 ],
             ]);
 
             $statusCode = $response->getStatusCode();
-            $body       = (string) $response->getBody();
-            $data       = json_decode($body, true);
+            $body = (string) $response->getBody();
+            $data = json_decode($body, true);
 
             if ($statusCode !== 200 && $statusCode !== 201) {
                 $errorMessage = $this->parseErrorResponse($data);
                 Log::error('SMS.ir send failed', [
-                    'phone'    => $phoneNumber,
-                    'status'   => $statusCode,
+                    'phone' => $phoneNumber,
+                    'status' => $statusCode,
                     'response' => $body,
                 ]);
 
@@ -91,7 +91,7 @@ class SmsIrDriver extends AbstractSmsDriver implements DeliveryReportFetcher, Pi
             throw $e;
         } catch (Throwable $e) {
             Log::error('SMS.ir connection error', [
-                'phone'     => $phoneNumber,
+                'phone' => $phoneNumber,
                 'exception' => $e->getMessage(),
             ]);
 
@@ -121,23 +121,23 @@ class SmsIrDriver extends AbstractSmsDriver implements DeliveryReportFetcher, Pi
                 'headers' => [
                     'X-API-KEY' => $this->config['api_key'],
                 ],
-                'json'    => [
-                    'lineNumber'   => $this->config['sender'] ?? null,
-                    'messageText'  => $message,
-                    'mobiles'      => $phoneNumbers,
+                'json' => [
+                    'lineNumber' => $this->config['sender'] ?? null,
+                    'messageText' => $message,
+                    'mobiles' => $phoneNumbers,
                     'sendDateTime' => null,
                 ],
             ]);
 
             $statusCode = $response->getStatusCode();
-            $body       = (string) $response->getBody();
-            $data       = json_decode($body, true);
+            $body = (string) $response->getBody();
+            $data = json_decode($body, true);
 
             if ($statusCode !== 200 && $statusCode !== 201) {
                 $errorMessage = $this->parseErrorResponse($data);
                 Log::error('SMS.ir sendToGroup failed', [
-                    'phones'   => $phoneNumbers,
-                    'status'   => $statusCode,
+                    'phones' => $phoneNumbers,
+                    'status' => $statusCode,
                     'response' => $body,
                 ]);
 
@@ -153,7 +153,7 @@ class SmsIrDriver extends AbstractSmsDriver implements DeliveryReportFetcher, Pi
             throw $e;
         } catch (Throwable $e) {
             Log::error('SMS.ir group connection error', [
-                'phones'    => $phoneNumbers,
+                'phones' => $phoneNumbers,
                 'exception' => $e->getMessage(),
             ]);
 
@@ -193,8 +193,8 @@ class SmsIrDriver extends AbstractSmsDriver implements DeliveryReportFetcher, Pi
             ]);
 
             $statusCode = $response->getStatusCode();
-            $body       = (string) $response->getBody();
-            $data       = json_decode($body, true);
+            $body = (string) $response->getBody();
+            $data = json_decode($body, true);
 
             return $statusCode === 200
                 && isset($data['status'])
@@ -228,13 +228,13 @@ class SmsIrDriver extends AbstractSmsDriver implements DeliveryReportFetcher, Pi
             ]);
 
             $statusCode = $response->getStatusCode();
-            $body       = (string) $response->getBody();
-            $data       = json_decode($body, true);
+            $body = (string) $response->getBody();
+            $data = json_decode($body, true);
 
             if ($statusCode !== 200) {
                 Log::warning('SMS.ir delivery report failed', [
                     'message_id' => $providerMessageId,
-                    'status'     => $statusCode,
+                    'status' => $statusCode,
                 ]);
 
                 return ['status' => 'unknown', 'delivered_at' => null, 'raw' => null];
@@ -244,9 +244,9 @@ class SmsIrDriver extends AbstractSmsDriver implements DeliveryReportFetcher, Pi
                 $status = $this->mapSmsIrStatus((int) $data['data']['deliveryState']);
 
                 return [
-                    'status'       => $status,
+                    'status' => $status,
                     'delivered_at' => $status === 'delivered' ? now()->toIso8601String() : null,
-                    'raw'          => $data['data'],
+                    'raw' => $data['data'],
                 ];
             }
 
@@ -254,7 +254,7 @@ class SmsIrDriver extends AbstractSmsDriver implements DeliveryReportFetcher, Pi
         } catch (Exception $e) {
             Log::warning('SMS.ir delivery report exception', [
                 'message_id' => $providerMessageId,
-                'exception'  => $e->getMessage(),
+                'exception' => $e->getMessage(),
             ]);
 
             return ['status' => 'unknown', 'delivered_at' => null, 'raw' => null];
@@ -271,9 +271,9 @@ class SmsIrDriver extends AbstractSmsDriver implements DeliveryReportFetcher, Pi
     protected function mapSmsIrStatus(int $statusCode): string
     {
         return match ($statusCode) {
-            1       => 'delivered',  // رسیده به گوشی
-            3       => 'pending',    // پردازش در مخابرات
-            5       => 'sent',       // رسیده به مخابرات
+            1 => 'delivered',  // رسیده به گوشی
+            3 => 'pending',    // پردازش در مخابرات
+            5 => 'sent',       // رسیده به مخابرات
             2, 4, 6, 7 => 'failed', // نرسیده به گوشی, نرسیده به مخابرات, خطا, لیست سیاه
             default => 'unknown',
         };
@@ -289,34 +289,34 @@ class SmsIrDriver extends AbstractSmsDriver implements DeliveryReportFetcher, Pi
     protected function getErrorMessage(int $statusCode): string
     {
         return match ($statusCode) {
-            1       => 'عملیات با موفقیت انجام شد',
-            0       => 'مشکلی در سامانه رخ داده است',
-            10      => 'کلیدوب سرویس نامعتبر است',
-            11      => 'کلید وب سرویس غیرفعال است',
-            12      => 'کلیدوب‌ سرویس محدود به IP‌های تعریف شده می‌باشد',
-            13      => 'حساب کاربری غیر فعال است',
-            14      => 'حساب کاربری در حالت تعلیق قرار دارد',
-            20      => 'تعداد درخواست بیشتر از حد مجاز است',
-            101     => 'شماره خط نامعتبر میباشد',
-            102     => 'اعتبار کافی نمیباشد',
-            103     => 'درخواست شما دارای متن(های) خالی است',
-            104     => 'درخواست شما دارای موبایل(های) نادرست است',
-            105     => 'تعداد موبایل ها بیشتر از حد مجاز (100عدد) میباشد',
-            106     => 'تعداد متن ها بیشتر ازحد مجاز (100عدد) میباشد',
-            107     => 'لیست موبایل ها خالی میباشد',
-            108     => 'لیست متن ها خالی میباشد',
-            109     => 'زمان ارسال نامعتبر میباشد',
-            110     => 'تعداد شماره موبایل ها و تعداد متن ها برابر نیستند',
-            111     => 'با این شناسه ارسالی ثبت نشده است',
-            112     => 'رکوردی برای حذف یافت نشد',
-            113     => 'قالب یافت نشد',
-            114     => 'طول رشته مقدار پارامتر، بیش از حد مجاز (25 کاراکتر) می‌باشد',
-            115     => 'شماره موبایل(ها) در لیست سیاه سامانه می‌باشند',
-            116     => 'نام پارامتر نمی‌تواند خالی باشد',
-            117     => 'متن ارسال شده مورد تایید نمی‌باشد',
-            118     => 'تعداد پیام ها بیش از حد مجاز می باشد',
-            119     => 'به منظور استفاده از قالب‌ شخصی سازی شده پلن خود را ارتقا دهید',
-            123     => 'خط ارسال‌کننده نیاز به فعال‌سازی دارد',
+            1 => 'عملیات با موفقیت انجام شد',
+            0 => 'مشکلی در سامانه رخ داده است',
+            10 => 'کلیدوب سرویس نامعتبر است',
+            11 => 'کلید وب سرویس غیرفعال است',
+            12 => 'کلیدوب‌ سرویس محدود به IP‌های تعریف شده می‌باشد',
+            13 => 'حساب کاربری غیر فعال است',
+            14 => 'حساب کاربری در حالت تعلیق قرار دارد',
+            20 => 'تعداد درخواست بیشتر از حد مجاز است',
+            101 => 'شماره خط نامعتبر میباشد',
+            102 => 'اعتبار کافی نمیباشد',
+            103 => 'درخواست شما دارای متن(های) خالی است',
+            104 => 'درخواست شما دارای موبایل(های) نادرست است',
+            105 => 'تعداد موبایل ها بیشتر از حد مجاز (100عدد) میباشد',
+            106 => 'تعداد متن ها بیشتر ازحد مجاز (100عدد) میباشد',
+            107 => 'لیست موبایل ها خالی میباشد',
+            108 => 'لیست متن ها خالی میباشد',
+            109 => 'زمان ارسال نامعتبر میباشد',
+            110 => 'تعداد شماره موبایل ها و تعداد متن ها برابر نیستند',
+            111 => 'با این شناسه ارسالی ثبت نشده است',
+            112 => 'رکوردی برای حذف یافت نشد',
+            113 => 'قالب یافت نشد',
+            114 => 'طول رشته مقدار پارامتر، بیش از حد مجاز (25 کاراکتر) می‌باشد',
+            115 => 'شماره موبایل(ها) در لیست سیاه سامانه می‌باشند',
+            116 => 'نام پارامتر نمی‌تواند خالی باشد',
+            117 => 'متن ارسال شده مورد تایید نمی‌باشد',
+            118 => 'تعداد پیام ها بیش از حد مجاز می باشد',
+            119 => 'به منظور استفاده از قالب‌ شخصی سازی شده پلن خود را ارتقا دهید',
+            123 => 'خط ارسال‌کننده نیاز به فعال‌سازی دارد',
             default => 'خطای ناشناخته (کد: ' . $statusCode . ')',
         };
     }

@@ -12,7 +12,7 @@ return [
     |
     */
 
-    'default'                   => env('MULTILINGUAL_ROUTES_DEFAULT_LOCALE', config('app.fallback_locale')),
+    'default' => env('MULTILINGUAL_ROUTES_DEFAULT_LOCALE', config('app.fallback_locale')),
 
     /*
     |--------------------------------------------------------------------------
@@ -24,7 +24,7 @@ return [
     |
     */
 
-    'prefix_default'            => env('MULTILINGUAL_ROUTES_PREFIX_DEFAULT', false),
+    'prefix_default' => env('MULTILINGUAL_ROUTES_PREFIX_DEFAULT', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -36,7 +36,7 @@ return [
     |
     */
 
-    'prefix_default_home'       => env('MULTILINGUAL_ROUTES_PREFIX_DEFAULT_HOME', false),
+    'prefix_default_home' => env('MULTILINGUAL_ROUTES_PREFIX_DEFAULT_HOME', false),
 
     /*
     |--------------------------------------------------------------------------

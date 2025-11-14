@@ -8,13 +8,13 @@ enum PageTypeEnum: string
 {
     use EnumToArray;
 
-    case RULES    = 'rules';
+    case RULES = 'rules';
     case ABOUT_US = 'about-us';
 
     public function title(?string $locale = null): string
     {
         return match ($this) {
-            self::RULES    => __('page.enum.type.rules', locale: $locale),
+            self::RULES => __('page.enum.type.rules', locale: $locale),
             self::ABOUT_US => __('page.enum.type.about-us', locale: $locale),
         };
     }

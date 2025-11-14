@@ -15,41 +15,41 @@ class RegisterPage extends Component
 {
     use Toast;
 
-    public string $name                  = '';
-    public string $family                = '';
-    public string $email                 = '';
-    public string $password              = '';
+    public string $name = '';
+    public string $family = '';
+    public string $email = '';
+    public string $password = '';
     public string $password_confirmation = '';
-    public bool $terms_accepted          = false;
+    public bool $terms_accepted = false;
 
     protected function rules(): array
     {
         return [
-            'name'                  => 'required|string|min:2|max:255',
-            'family'                => 'required|string|min:2|max:255',
-            'email'                 => 'required|email|unique:users,email',
-            'password'              => 'required|string|min:8|confirmed',
+            'name' => 'required|string|min:2|max:255',
+            'family' => 'required|string|min:2|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:8|confirmed',
             'password_confirmation' => 'required|string',
-            'terms_accepted'        => 'required|accepted',
+            'terms_accepted' => 'required|accepted',
         ];
     }
 
     protected function messages(): array
     {
         return [
-            'name.required'                  => trans('auth.name_required'),
-            'name.min'                       => trans('auth.name_min'),
-            'family.required'                => trans('auth.family_required'),
-            'family.min'                     => trans('auth.family_min'),
-            'email.required'                 => trans('auth.email_required'),
-            'email.email'                    => trans('auth.email_invalid'),
-            'email.unique'                   => trans('auth.email_already_exists'),
-            'password.required'              => trans('auth.password_required'),
-            'password.min'                   => trans('auth.password_min'),
-            'password.confirmed'             => trans('auth.password_confirmation_mismatch'),
+            'name.required' => trans('auth.name_required'),
+            'name.min' => trans('auth.name_min'),
+            'family.required' => trans('auth.family_required'),
+            'family.min' => trans('auth.family_min'),
+            'email.required' => trans('auth.email_required'),
+            'email.email' => trans('auth.email_invalid'),
+            'email.unique' => trans('auth.email_already_exists'),
+            'password.required' => trans('auth.password_required'),
+            'password.min' => trans('auth.password_min'),
+            'password.confirmed' => trans('auth.password_confirmation_mismatch'),
             'password_confirmation.required' => trans('auth.password_confirmation_required'),
-            'terms_accepted.required'        => trans('auth.terms_required'),
-            'terms_accepted.accepted'        => trans('auth.terms_must_be_accepted'),
+            'terms_accepted.required' => trans('auth.terms_required'),
+            'terms_accepted.accepted' => trans('auth.terms_must_be_accepted'),
         ];
     }
 
@@ -59,11 +59,11 @@ class RegisterPage extends Component
         $this->validate();
 
         $user = User::create([
-            'name'     => $this->name,
-            'family'   => $this->family,
-            'email'    => $this->email,
+            'name' => $this->name,
+            'family' => $this->family,
+            'email' => $this->email,
             'password' => Hash::make($this->password),
-            'status'   => true,
+            'status' => true,
         ]);
 
         // Auto login after registration

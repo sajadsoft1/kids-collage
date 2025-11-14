@@ -21,7 +21,7 @@ class LicenseUpdateOrCreate extends Component
     use Toast, WithFileUploads;
 
     public License $model;
-    public ?string $title       = '';
+    public ?string $title = '';
     public ?string $description = '';
     public $image;
 
@@ -29,7 +29,7 @@ class LicenseUpdateOrCreate extends Component
     {
         $this->model = $license;
         if ($this->model->id) {
-            $this->title       = $this->model->title;
+            $this->title = $this->model->title;
             $this->description = $this->model->description;
         }
     }
@@ -37,9 +37,9 @@ class LicenseUpdateOrCreate extends Component
     protected function rules(): array
     {
         return [
-            'title'       => 'required|string|max:255|min:2',
+            'title' => 'required|string|max:255|min:2',
             'description' => 'required|string|max:255',
-            'image'       => 'nullable|file|mimes:png,jpg,jpeg|max:4096',
+            'image' => 'nullable|file|mimes:png,jpg,jpeg|max:4096',
         ];
     }
 
@@ -74,10 +74,10 @@ class LicenseUpdateOrCreate extends Component
     public function render(): View
     {
         return view('livewire.admin.pages.license.license-update-or-create', [
-            'edit_mode'          => $this->model->id,
-            'breadcrumbs'        => [
+            'edit_mode' => $this->model->id,
+            'breadcrumbs' => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link'  => route('admin.license.index'), 'label' => trans('general.page.index.title', ['model' => trans('license.model')])],
+                ['link' => route('admin.license.index'), 'label' => trans('general.page.index.title', ['model' => trans('license.model')])],
                 ['label' => trans('general.page.create.title', ['model' => trans('license.model')])],
             ],
             'breadcrumbsActions' => [

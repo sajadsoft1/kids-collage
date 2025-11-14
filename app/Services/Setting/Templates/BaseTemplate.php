@@ -12,13 +12,13 @@ use Illuminate\Support\Facades\Validator;
 
 abstract class BaseTemplate
 {
-    protected const TEXT   = 'text';
+    protected const TEXT = 'text';
     protected const NUMBER = 'number';
     protected const SELECT = 'select';
-    protected const FILE   = 'file';
+    protected const FILE = 'file';
     protected ?Setting $setting;
     protected ?SettingEnum $settingEnum;
-    protected string $_prefix    = 'extra_attributes.';
+    protected string $_prefix = 'extra_attributes.';
     private bool $checkCondition = true;
     
     abstract public function template(Setting $setting): array;
@@ -84,17 +84,17 @@ abstract class BaseTemplate
         array $services = []
     ): array {
         $translationKey = $this->settingEnum->value;
-        $result         = [
-            'key'     => $key,
+        $result = [
+            'key' => $key,
             'default' => $default_value,
-            'label'   => transOrNull('setting.configs.' . $translationKey . '.items.' . $key . '.label'),
-            'value'   => [
-                'type'  => $type,
+            'label' => transOrNull('setting.configs.' . $translationKey . '.items.' . $key . '.label'),
+            'value' => [
+                'type' => $type,
                 'value' => $value ?: ($this->setting->extra_attributes->get($key, $default_value)),
             ],
-            'hint'    => transOrNull('setting.configs.' . $translationKey . '.items.' . $key . '.hint'),
-            'help'    => transOrNull('setting.configs.' . $translationKey . '.items.' . $key . '.help'),
-            'ratio'   => $ratio,
+            'hint' => transOrNull('setting.configs.' . $translationKey . '.items.' . $key . '.hint'),
+            'help' => transOrNull('setting.configs.' . $translationKey . '.items.' . $key . '.help'),
+            'ratio' => $ratio,
         ];
         
         if ($options) {
@@ -132,10 +132,10 @@ abstract class BaseTemplate
         $translationKey .= '.';
         $result = [
             'complex' => true,
-            'key'     => $key,
-            'label'   => transOrNull('setting.configs.' . $translationKey . 'groups.' . $key . '.label'),
-            'items'   => $items,
-            'help'    => transOrNull('setting.configs.' . $translationKey . 'groups.' . $key . '.help'),
+            'key' => $key,
+            'label' => transOrNull('setting.configs.' . $translationKey . 'groups.' . $key . '.label'),
+            'items' => $items,
+            'help' => transOrNull('setting.configs.' . $translationKey . 'groups.' . $key . '.help'),
         ];
         
         if ( ! $this->checkCondition) {

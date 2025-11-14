@@ -16,19 +16,19 @@ return [
 
     //    'theme' => \PowerComponents\LivewirePowerGrid\Themes\Tailwind::class,
     //     'theme' => \PowerComponents\LivewirePowerGrid\Themes\DaisyUI::class,
-    'theme'                      => App\Lib\DaisyUI::class,
+    'theme' => App\Lib\DaisyUI::class,
     // 'theme' => \PowerComponents\LivewirePowerGrid\Themes\Bootstrap5::class,
 
-    'cache_ttl'                  => null,
+    'cache_ttl' => null,
 
-    'icon_resources'             => [
-        'paths'      => [
+    'icon_resources' => [
+        'paths' => [
             // 'default' => 'resources/views/components/icons',
             // 'outline' => 'vendor/wireui/wireui/resources/views/components/icons/outline',
             // 'solid'   => 'vendor/wireui/wireui/resources/views/components/icons/solid',
         ],
 
-        'allowed'    => [
+        'allowed' => [
             // 'pencil',
         ],
 
@@ -44,38 +44,38 @@ return [
     |
     */
 
-    'plugins'                    => [
+    'plugins' => [
         /*
          * https://flatpickr.js.org
          */
         'flatpickr' => [
-            'locale'  => 'fgwaga',
+            'locale' => 'fgwaga',
             'locales' => [
                 'pt_BR' => [
-                    'locale'     => 'pt',
+                    'locale' => 'pt',
                     'dateFormat' => 'd/m/Y H:i',
                     'enableTime' => true,
-                    'time_24hr'  => true,
+                    'time_24hr' => true,
                 ],
-                'fa'    => [
-                    'locale'         => 'fa',
-                    'dateFormat'     => 'Y/m/d',
-                    'enableTime'     => false,
-                    'time_24hr'      => false,
-                    'timezone'       => 'Asia/Tehran',
+                'fa' => [
+                    'locale' => 'fa',
+                    'dateFormat' => 'Y/m/d',
+                    'enableTime' => false,
+                    'time_24hr' => false,
+                    'timezone' => 'Asia/Tehran',
                     'firstDayOfWeek' => 1,
                 ],
             ],
         ],
 
-        'select'    => [
+        'select' => [
             'default' => 'tom',
 
             /*
              * TomSelect Options
              * https://tom-select.js.org
              */
-            'tom'     => [
+            'tom' => [
                 'plugins' => [
                     'clear_button' => [
                         'title' => 'Remove all selected options',
@@ -87,7 +87,7 @@ return [
              * Slim Select options
              * https://slimselectjs.com/
              */
-            'slim'    => [
+            'slim' => [
                 'settings' => [
                     'alwaysOpen' => false,
                 ],
@@ -107,7 +107,7 @@ return [
     |
     */
 
-    'filter'                     => 'outside',
+    'filter' => 'outside',
 
     /*
     |--------------------------------------------------------------------------
@@ -121,11 +121,11 @@ return [
     | The callback function must return an array with the attributes.
     */
 
-    'filter_attributes'          => [
+    'filter_attributes' => [
         'input_text' => PowerComponents\LivewirePowerGrid\FilterAttributes\InputText::class,
-        'boolean'    => PowerComponents\LivewirePowerGrid\FilterAttributes\Boolean::class,
-        'number'     => PowerComponents\LivewirePowerGrid\FilterAttributes\Number::class,
-        'select'     => PowerComponents\LivewirePowerGrid\FilterAttributes\Select::class,
+        'boolean' => PowerComponents\LivewirePowerGrid\FilterAttributes\Boolean::class,
+        'number' => PowerComponents\LivewirePowerGrid\FilterAttributes\Number::class,
+        'select' => PowerComponents\LivewirePowerGrid\FilterAttributes\Select::class,
     ],
 
     /*
@@ -140,7 +140,7 @@ return [
     |
     */
 
-    'persist_driver'             => 'cookies',
+    'persist_driver' => 'cookies',
 
     /*
     |--------------------------------------------------------------------------
@@ -150,11 +150,11 @@ return [
     |
     */
 
-    'exportable'                 => [
-        'default'      => 'openspout_v4',
+    'exportable' => [
+        'default' => 'openspout_v4',
         'openspout_v4' => [
             'xlsx' => PowerComponents\LivewirePowerGrid\Components\Exports\OpenSpout\v4\ExportToXLS::class,
-            'csv'  => PowerComponents\LivewirePowerGrid\Components\Exports\OpenSpout\v4\ExportToCsv::class,
+            'csv' => PowerComponents\LivewirePowerGrid\Components\Exports\OpenSpout\v4\ExportToCsv::class,
         ],
     ],
 

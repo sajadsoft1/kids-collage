@@ -21,6 +21,13 @@
                 <x-card :title="trans('general.page_sections.upload_image')" shadow separator progress-indicator="submit" class="">
                     <x-admin.shared.single-file-upload wire_model="image" :default_image="$model->getFirstMediaUrl('image', Constants::RESOLUTION_1280_400)" :crop_after_change="true" />
                 </x-card>
+                <x-card :title="trans('general.page_sections.upload_video')" shadow separator progress-indicator="submit" class="">
+                    <x-file wire:model="video" hint="MP4" accept="video/mp4" />
+                    @if ($model->getFirstMediaUrl('video'))
+                        <video src="{{ $model->getFirstMediaUrl('video') }}" class="object-cover w-full h-full"
+                            controls />
+                    @endif
+                </x-card>
                 <x-card :title="trans('general.page_sections.publish_config')" shadow separator progress-indicator="submit" class="mt-5">
                     <x-admin.shared.published-config :has-published-at="true" :default-date="$published_at" />
                 </x-card>

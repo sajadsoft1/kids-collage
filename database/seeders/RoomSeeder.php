@@ -17,7 +17,7 @@ class RoomSeeder extends Seeder
 
         foreach ($data['room'] as $roomData) {
             StoreRoomAction::run([
-                'name'     => $roomData['name'],
+                'name' => $roomData['name'],
                 'location' => $roomData['location'],
                 'capacity' => $roomData['capacity'],
             ]);

@@ -24,13 +24,13 @@ class BannerUpdateOrCreate extends Component
     use WithFileUploads;
 
     public Banner $model;
-    public string $title         = '';
-    public ?string $description  = '';
-    public string $size          = BannerSizeEnum::S1X1->value;
-    public ?string $oldSize      =BannerSizeEnum::S1X1->value;
-    public bool $published       = false;
+    public string $title = '';
+    public ?string $description = '';
+    public string $size = BannerSizeEnum::S1X1->value;
+    public ?string $oldSize = BannerSizeEnum::S1X1->value;
+    public bool $published = false;
     public ?string $published_at = '';
-    public float $ratio          = 1;
+    public float $ratio = 1;
 
     public $image;
 
@@ -38,49 +38,51 @@ class BannerUpdateOrCreate extends Component
     {
         $this->model = $banner;
         if ($this->model->id) {
-            $this->title        = $this->model->title;
-            $this->description  = $this->model->description;
-            $this->published    = (bool) $this->model->published->value;
-            $this->size         = $this->model->size->value;
-            $this->oldSize      = $this->model->size->value;
+            $this->title = $this->model->title;
+            $this->description = $this->model->description;
+            $this->published = (bool) $this->model->published->value;
+            $this->size = $this->model->size->value;
+            $this->oldSize = $this->model->size->value;
             $this->published_at = $this->model->published_at?->format(Constants::DEFAULT_DATE_FORMAT);
+            $this->ratio = $this->calculateRatio($this->size);
         } else {
             // For new banners, ensure published is properly initialized
             $this->published = false;
+            $this->ratio = 1;
         }
     }
 
     protected function rules(): array
     {
         return [
-            'title'        => 'required|string',
-            'description'  => 'nullable|string',
-            'published'    => 'required',
-            'published_at' => [
-                'nullable',
-                'date',
-
-            ],
-            'size'         => ['required', Rule::in(BannerSizeEnum::values())],
-            'image'        => ['image', 'max:2048', $this->size != $this->oldSize ? 'required' : 'nullable'], // 1MB Max
+            'title' => 'required|string',
+            'description' => 'nullable|string',
+            'published' => 'required',
+            'published_at' => 'required_if:published,false|nullable|date',
+            'size' => ['required', Rule::in(BannerSizeEnum::values())],
+            'image' => ['image', 'max:2048', $this->size != $this->oldSize ? 'required' : 'nullable'], // 1MB Max
         ];
     }
 
-    public function updatedSize($value)
+    public function updatedSize($value): void
     {
-        $this->image=null;
-        if ($value === BannerSizeEnum::S1X1->value) {
-            $this->ratio= 1;
-        } elseif ($value === BannerSizeEnum::S16X9->value) {
-            $this->ratio= 16 / 9;
-        } else {
-            $this->ratio= 4 / 3;
-        }
+        $this->image = null;
+        $this->ratio = $this->calculateRatio($value);
+    }
+
+    protected function calculateRatio(string $size): float
+    {
+        return match ($size) {
+            BannerSizeEnum::S1X1->value => 1,
+            BannerSizeEnum::S16X9->value => 16 / 9,
+            BannerSizeEnum::S4X3->value => 4 / 3,
+            default => 1,
+        };
     }
 
     public function submit(): void
     {
-        $payload =$this->validate();
+        $payload = $this->validate();
         if ($this->model->id) {
             try {
                 UpdateBannerAction::run($this->model, $payload);
@@ -107,10 +109,10 @@ class BannerUpdateOrCreate extends Component
     public function render(): View
     {
         return view('livewire.admin.pages.banner.banner-update-or-create', [
-            'edit_mode'          => $this->model->id,
-            'breadcrumbs'        => [
+            'edit_mode' => $this->model->id,
+            'breadcrumbs' => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link'  => route('admin.banner.index'), 'label' => trans('general.page.index.title', ['model' => trans('banner.model')])],
+                ['link' => route('admin.banner.index'), 'label' => trans('general.page.index.title', ['model' => trans('banner.model')])],
                 ['label' => trans('general.page.create.title', ['model' => trans('banner.model')])],
             ],
             'breadcrumbsActions' => [

@@ -8,12 +8,12 @@ enum SettingEnum: string
 {
     use EnumToArray;
 
-    case PRODUCT          = 'product';
-    case GENERAL          = 'general';
+    case PRODUCT = 'product';
+    case GENERAL = 'general';
     case INTEGRATION_SYNC = 'integration_sync';
-    case NOTIFICATION     = 'notification';
-    case SALE             = 'sale';
-    case SECURITY         = 'security';
+    case NOTIFICATION = 'notification';
+    case SALE = 'sale';
+    case SECURITY = 'security';
 
     public static function websiteSettings(): array
     {

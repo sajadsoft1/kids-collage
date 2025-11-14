@@ -8,13 +8,13 @@ enum TicketStatusEnum: string
 {
     use EnumToArray;
 
-    case OPEN  = 'open';
+    case OPEN = 'open';
     case CLOSE = 'close';
 
     public function title(): string
     {
         return match ($this) {
-            self::OPEN  => __('ticket.enum.status.open'),
+            self::OPEN => __('ticket.enum.status.open'),
             self::CLOSE => __('ticket.enum.status.close'),
         };
     }

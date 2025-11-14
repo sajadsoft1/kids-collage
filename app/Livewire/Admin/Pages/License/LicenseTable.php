@@ -20,7 +20,7 @@ use PowerComponents\LivewirePowerGrid\PowerGridFields;
 final class LicenseTable extends PowerGridComponent
 {
     use PowerGridHelperTrait;
-    public string $tableName     = 'index_license_datatable';
+    public string $tableName = 'index_license_datatable';
     public string $sortDirection = 'desc';
 
     public function setUp(): array
@@ -45,15 +45,6 @@ final class LicenseTable extends PowerGridComponent
         return $setup;
     }
 
-    protected function queryString(): array
-    {
-        return [
-            'search' => ['except' => ''],
-            'page'   => ['except' => 1],
-            ...$this->powerGridQueryString(),
-        ];
-    }
-
     #[Computed(persist: true)]
     public function breadcrumbs(): array
     {
@@ -68,8 +59,8 @@ final class LicenseTable extends PowerGridComponent
     {
         return [
             [
-                'link'  => route('admin.license.create'),
-                'icon'  => 's-plus',
+                'link' => route('admin.license.create'),
+                'icon' => 's-plus',
                 'label' => trans(
                     'general.page.create.title',
                     ['model' => trans('license.model')]

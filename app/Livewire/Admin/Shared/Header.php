@@ -16,8 +16,8 @@ class Header extends Component
 {
     use Toast;
 
-    public bool $notifications_drawer     = false;
-    public $nav_class                     = '';
+    public bool $notifications_drawer = false;
+    public $nav_class = '';
 
     public function mount(string $nav_class = ''): void
     {

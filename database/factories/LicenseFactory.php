@@ -17,9 +17,9 @@ class LicenseFactory extends Factory
         $title = $this->faker->sentence(3);
 
         return [
-            'slug'       => Str::slug($title),
+            'slug' => Str::slug($title),
             'view_count' => $this->faker->numberBetween(0, 1000),
-            'languages'  => [app()->getLocale()],
+            'languages' => [app()->getLocale()],
         ];
     }
 
@@ -29,13 +29,13 @@ class LicenseFactory extends Factory
             $model->translations()->createMany([
                 [
                     'locale' => app()->getLocale(),
-                    'key'    => 'title',
-                    'value'  => $this->faker->sentence(3),
+                    'key' => 'title',
+                    'value' => $this->faker->sentence(3),
                 ],
                 [
                     'locale' => app()->getLocale(),
-                    'key'    => 'description',
-                    'value'  => $this->faker->paragraph(2),
+                    'key' => 'description',
+                    'value' => $this->faker->paragraph(2),
                 ],
             ]);
         });

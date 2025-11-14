@@ -61,12 +61,12 @@ class LanguageMiddleware
      */
     private function redirectToLocalePrefix(Request $request): Response
     {
-        $lang     = session('locale', $this->fallbackLocale());
+        $lang = session('locale', $this->fallbackLocale());
         $segments = $request->segments();
         array_shift($segments); // Remove the invalid first segment
         array_unshift($segments, $lang); // Prepend the correct locale
         $newPath = '/' . implode('/', $segments);
-        $query   = $request->getQueryString();
+        $query = $request->getQueryString();
 
         return redirect($newPath . ($query ? '?' . $query : ''));
     }

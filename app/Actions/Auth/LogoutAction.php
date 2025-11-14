@@ -13,7 +13,7 @@ class LogoutAction
 
     public function handle(User $user): void
     {
-        $tokens =  $user->tokens->pluck('id');
+        $tokens = $user->tokens->pluck('id');
 
         // delete all tokens
         $user->tokens()->whereIn('id', $tokens)->delete();

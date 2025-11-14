@@ -85,7 +85,7 @@ class FileService
 
     public function uploadMedia($model, UploadedFile $file, string $collection = 'image', ?string $fileName = null): Media
     {
-        $disk       = config('media-library.disk_name');
+        $disk = config('media-library.disk_name');
         $mediaAdder = $model->addMedia($file);
 
         if ($fileName) {

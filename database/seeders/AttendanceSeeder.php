@@ -17,10 +17,10 @@ class AttendanceSeeder extends Seeder
         foreach ($data['attendance'] as $row) {
             $model = StoreAttendanceAction::run([
                 'enrollment_id' => $row['enrollment_id'],
-                'session_id'    => $row['session_id'],
-                'present'       => $row['present'],
-                'arrival_time'  => $row['arrival_time'],
-                'leave_time'    => $row['leave_time'],
+                'session_id' => $row['session_id'],
+                'present' => $row['present'],
+                'arrival_time' => $row['arrival_time'],
+                'leave_time' => $row['leave_time'],
             ]);
 
             try {

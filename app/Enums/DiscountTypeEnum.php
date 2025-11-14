@@ -9,7 +9,7 @@ enum DiscountTypeEnum: string
     use EnumToArray;
 
     case PERCENTAGE = 'percentage';
-    case AMOUNT     = 'amount';
+    case AMOUNT = 'amount';
 
     public static function options(): array
     {
@@ -29,7 +29,7 @@ enum DiscountTypeEnum: string
     {
         return match ($this) {
             self::PERCENTAGE => trans('discount.enum.type.percentage'),
-            self::AMOUNT     => trans('discount.enum.type.amount'),
+            self::AMOUNT => trans('discount.enum.type.amount'),
         };
     }
 

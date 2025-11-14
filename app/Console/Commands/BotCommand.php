@@ -18,9 +18,8 @@ class BotCommand extends Command
     protected $signature = 'app:bot
                 {model : Model name to generate components for}
                 {--except= : Except actions - (i=index,s=store,S=seeder,u=update,d=delete,f=factory,r=resource,R=request,c=controller,p=policy,y=Repository) - sample = isSu}
-                {--t|toggle : Add toggle action}
-                {--d|data : Add data action}
-                {--force : Overwrite existing files}';
+                {--force : Overwrite existing files}
+                {--simple : Use CRUD table with modal instead of UpdateOrCreate}';
 
     /**
      * The console command description.
@@ -32,8 +31,8 @@ class BotCommand extends Command
     /** Execute the console command. */
     public function handle(): int
     {
-        $model = $this->argument('model');
-        $model = Str::studly($model);
+        $model = Str::studly($this->argument('model'));
+        $simple = (bool) $this->option('simple');
 
         Artisan::call('app:model ' . $model);
 
@@ -49,11 +48,50 @@ class BotCommand extends Command
 
         Artisan::call('app:lang ' . $model);
 
-        Artisan::call('app:route ' . $model);
+        Artisan::call('app:route ' . $model . ($simple ? ' --simple' : ''));
 
         Artisan::call('app:datatable ' . $model);
-        Artisan::call('app:make-livewire-views ' . $model);
+
+        // When using simple CRUD with modal inside the datatable and both -d and -t are provided,
+        // replace the generated Table with a modal-enabled template and skip UpdateOrCreate views.
+        if ($simple) {
+            $this->useModalDatatableTemplate($model);
+        } else {
+            Artisan::call('app:make-livewire-views ' . $model);
+        }
 
         return Command::SUCCESS;
+    }
+
+    private function useModalDatatableTemplate(string $model): void
+    {
+        $stubPath = __DIR__ . '/stubs/datatable-with-modal.php.stub';
+        if ( ! file_exists($stubPath)) {
+            return;
+        }
+
+        $content = file_get_contents($stubPath);
+        $content = str_replace(
+            [
+                '{{model}}',
+                '{{cmodel}}',
+                '{{kmodel}}',
+                '{{smodel}}',
+            ],
+            [
+                $model,
+                Str::camel($model),
+                Str::kebab($model),
+                Str::snake($model),
+            ],
+            $content
+        );
+
+        $destDir = base_path('app/Livewire/Admin/Pages/' . $model);
+        if ( ! is_dir($destDir)) {
+            mkdir($destDir, 0775, true);
+        }
+
+        file_put_contents($destDir . '/' . $model . 'Table.php', $content);
     }
 }

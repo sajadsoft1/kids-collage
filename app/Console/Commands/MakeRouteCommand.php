@@ -17,7 +17,8 @@ class MakeRouteCommand extends Command
      * @var string
      */
     protected $signature = 'app:route
-    {model : Namespace action}';
+    {model : Namespace action}
+    {--simple : Generate only index route (no create/edit)}';
 
     /**
      * The console command description.
@@ -33,7 +34,8 @@ class MakeRouteCommand extends Command
         $model = Str::studly($model);
 
         //         route admin
-        $route_admin = file_get_contents(__DIR__ . '/stubs/route-admin.php.stub');
+        $stub = __DIR__ . '/stubs/route-admin' . ($this->option('simple') ? '-simple' : '') . '.php.stub';
+        $route_admin = file_get_contents($stub);
         $route_admin = str_replace(
             [
                 '{{model}}',

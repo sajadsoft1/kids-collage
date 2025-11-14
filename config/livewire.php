@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'class_namespace'       => 'App\\Livewire',
+    'class_namespace' => 'App\\Livewire',
 
     /*
     |---------------------------------------------------------------------------
@@ -27,7 +27,7 @@ return [
     |
     */
 
-    'view_path'             => resource_path('views/livewire'),
+    'view_path' => resource_path('views/livewire'),
 
     /*
     |---------------------------------------------------------------------------
@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'layout'                => 'components.layouts.modern',
+    'layout' => 'components.layouts.modern',
 
     /*
     |---------------------------------------------------------------------------
@@ -51,7 +51,7 @@ return [
     |
     */
 
-    'lazy_placeholder'      => null,
+    'lazy_placeholder' => null,
 
     /*
     |---------------------------------------------------------------------------
@@ -65,17 +65,17 @@ return [
     */
 
     'temporary_file_upload' => [
-        'disk'            => 'public',        // Example: 'local', 's3'              | Default: 'default'
-        'rules'           => null,       // Example: ['file', 'mimes:png,jpg']  | Default: ['required', 'file', 'max:12288'] (12MB)
-        'directory'       => 'livewire-tmp',   // Example: 'tmp'                      | Default: 'livewire-tmp'
-        'middleware'      => null,  // Example: 'throttle:5,1'             | Default: 'throttle:60,1'
-        'preview_mimes'   => [   // Supported file types for temporary pre-signed file URLs...
+        'disk' => 'public',        // Example: 'local', 's3'              | Default: 'default'
+        'rules' => null,       // Example: ['file', 'mimes:png,jpg']  | Default: ['required', 'file', 'max:12288'] (12MB)
+        'directory' => 'livewire-tmp',   // Example: 'tmp'                      | Default: 'livewire-tmp'
+        'middleware' => null,  // Example: 'throttle:5,1'             | Default: 'throttle:60,1'
+        'preview_mimes' => [   // Supported file types for temporary pre-signed file URLs...
             'png', 'gif', 'bmp', 'svg', 'wav', 'mp4',
             'mov', 'avi', 'wmv', 'mp3', 'm4a',
             'jpg', 'jpeg', 'mpga', 'webp', 'wma',
         ],
         'max_upload_time' => 5, // Max duration (in minutes) before an upload is invalidated...
-        'cleanup'         => true, // Should cleanup temporary uploads older than 24 hrs...
+        'cleanup' => true, // Should cleanup temporary uploads older than 24 hrs...
     ],
 
     /*
@@ -89,7 +89,7 @@ return [
     |
     */
 
-    'render_on_redirect'    => false,
+    'render_on_redirect' => false,
 
     /*
     |---------------------------------------------------------------------------
@@ -102,7 +102,7 @@ return [
     |
     */
 
-    'legacy_model_binding'  => false,
+    'legacy_model_binding' => false,
 
     /*
     |---------------------------------------------------------------------------
@@ -115,7 +115,7 @@ return [
     |
     */
 
-    'inject_assets'         => true,
+    'inject_assets' => true,
 
     /*
     |---------------------------------------------------------------------------
@@ -128,8 +128,8 @@ return [
     |
     */
 
-    'navigate'              => [
-        'show_progress_bar'  => true,
+    'navigate' => [
+        'show_progress_bar' => true,
         'progress_bar_color' => '#2299dd',
     ],
 
@@ -144,7 +144,7 @@ return [
     |
     */
 
-    'inject_morph_markers'  => true,
+    'inject_morph_markers' => true,
 
     /*
     |---------------------------------------------------------------------------
@@ -157,5 +157,5 @@ return [
     |
     */
 
-    'pagination_theme'      => 'tailwind',
+    'pagination_theme' => 'tailwind',
 ];

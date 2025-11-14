@@ -22,22 +22,22 @@ class CourseSessionTemplateUpdateOrCreate extends Component
 
     public CourseTemplate $courseTemplate;
     public CourseSessionTemplate $model;
-    public string $title         = '';
-    public string $description   = '';
-    public int $order            = 0;
+    public string $title = '';
+    public string $description = '';
+    public int $order = 0;
     public int $duration_minutes = 0;
-    public string $type          = SessionType::IN_PERSON->value;
-    public array $resources      = [];
+    public string $type = SessionType::IN_PERSON->value;
+    public array $resources = [];
 
     public function mount(CourseSessionTemplate $courseSessionTemplate): void
     {
         $this->model = $courseSessionTemplate;
         if ($this->model->id) {
-            $this->title            = $this->model->title;
-            $this->description      = $this->model->description;
-            $this->order            = $this->model->order;
+            $this->title = $this->model->title;
+            $this->description = $this->model->description;
+            $this->order = $this->model->order;
             $this->duration_minutes = $this->model->duration_minutes;
-            $this->type             = $this->model->type->value;
+            $this->type = $this->model->type->value;
 
             // Load existing resources
             $this->resources = $this->model->resources->map(function (Resource $resourceItem) {
@@ -53,12 +53,12 @@ class CourseSessionTemplateUpdateOrCreate extends Component
     protected function rules(): array
     {
         return [
-            'title'                   => 'required|string',
-            'description'             => 'required|string',
-            'order'                   => 'required|integer|min:1',
-            'duration_minutes'        => 'required|integer|min:1',
-            'type'                    => 'required|in:' . implode(',', SessionType::values()),
-            'resources'               => 'nullable|array',
+            'title' => 'required|string',
+            'description' => 'required|string',
+            'order' => 'required|integer|min:1',
+            'duration_minutes' => 'required|integer|min:1',
+            'type' => 'required|in:' . implode(',', SessionType::values()),
+            'resources' => 'nullable|array',
             'resources.*.resource_id' => 'required|integer|exists:resources,id|distinct',
         ];
     }
@@ -87,7 +87,7 @@ class CourseSessionTemplateUpdateOrCreate extends Component
             );
         } else {
             $payload['course_template_id'] = $this->courseTemplate->id;
-            $sessionTemplate               = StoreCourseSessionTemplateAction::run($payload);
+            $sessionTemplate = StoreCourseSessionTemplateAction::run($payload);
 
             // Attach resources to pivot table
             $sessionTemplate->resources()->attach($resourceIds);
@@ -115,11 +115,11 @@ class CourseSessionTemplateUpdateOrCreate extends Component
     public function render(): View
     {
         return view('livewire.admin.pages.courseSessionTemplate.courseSessionTemplate-update-or-create', [
-            'edit_mode'          => $this->model->id,
-            'breadcrumbs'        => [
+            'edit_mode' => $this->model->id,
+            'breadcrumbs' => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link'  => route('admin.course-template.index'), 'label' => trans('general.page.index.title', ['model' => trans('coursetemplate.model')])],
-                ['link'  => route('admin.course-session-template.index', ['courseTemplate' => $this->courseTemplate->id]), 'label' => $this->courseTemplate->title],
+                ['link' => route('admin.course-template.index'), 'label' => trans('general.page.index.title', ['model' => trans('coursetemplate.model')])],
+                ['link' => route('admin.course-session-template.index', ['courseTemplate' => $this->courseTemplate->id]), 'label' => $this->courseTemplate->title],
                 ['label' => trans('general.page.create.title', ['model' => trans('courseSessionTemplate.model')])],
             ],
             'breadcrumbsActions' => [

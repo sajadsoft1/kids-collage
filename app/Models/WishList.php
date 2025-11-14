@@ -19,8 +19,8 @@ class WishList extends Model
      * |--------------------------------------------------------------------------
      */
     public const UPDATED_AT = null;
-    protected $table        = 'user_wishlists';
-    protected $fillable     = [
+    protected $table = 'user_wishlists';
+    protected $fillable = [
         'user_id',
         'morphable_id',
         'morphable_type',

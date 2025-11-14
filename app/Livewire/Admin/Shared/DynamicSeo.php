@@ -23,42 +23,45 @@ class DynamicSeo extends Component
     public string $tabSelected = 'config-tab';
     public mixed $model;
     public string $class;
-    public string $back_route  = '';
-    public array $dates        = [];
+    public string $back_route = '';
+    public array $dates = [];
 
     // config
-    public ?string $slug            = '';
-    public ?string $seo_title       = '';
+    public ?string $slug = '';
+    public ?string $seo_title = '';
     public ?string $seo_description = '';
-    public ?string $canonical       = '';
-    public ?string $old_url         = '';
-    public ?string $redirect_to     = '';
-    public ?string $robots_meta     = SeoRobotsMetaEnum::INDEX_FOLLOW->value;
+    public ?string $canonical = '';
+    public ?string $old_url = '';
+    public ?string $redirect_to = '';
+    public ?string $robots_meta = SeoRobotsMetaEnum::INDEX_FOLLOW->value;
 
     // charts
-    public array $viewsChart                    = [];
-    public array $expandedComments              = [];
-    public $viewsChartSelectedMonth             = 6;
+    public array $viewsChart = [];
+    public array $expandedComments = [];
+    public $viewsChartSelectedMonth = 6;
 
-    public array $commentsChart              = [];
-    public $commentsChartSelectedMonth       = 6;
+    public array $commentsChart = [];
+    public $commentsChartSelectedMonth = 6;
 
-    public array $wishesChart              = [];
-    public $wishesChartSelectedMonth       = 6;
+    public array $wishesChart = [];
+    public $wishesChartSelectedMonth = 6;
 
     public function mount(string $class, int $id): void
     {
         // abort_if( ! config('custom-modules.seo'), 403);
-        $this->class           = $class;
-        $this->back_route      = 'admin.' . Str::kebab($class) . '.index';
-        $this->model           = Utils::getEloquent($class)::find($id);
-        $this->slug            = $this->model->slug;
-        $this->seo_title       = $this->model->seoOption->title;
+        $this->class = $class;
+        $this->model = Utils::getEloquent($class)::find($id);
+        $this->back_route = match ($class) {
+            'courseSessionTemplate' => route('admin.course-session-template.index', ['courseTemplate' => $this->model->course_template_id]),
+            default => route('admin.' . Str::kebab($class) . '.index'),
+        };
+        $this->slug = $this->model->slug;
+        $this->seo_title = $this->model->seoOption->title;
         $this->seo_description = $this->model->seoOption->description;
-        $this->canonical       = $this->model->seoOption->canonical;
-        $this->old_url         = $this->model->seoOption->old_url;
-        $this->redirect_to     = $this->model->seoOption->redirect_to;
-        $this->robots_meta     = $this->model->seoOption->robots_meta->value;
+        $this->canonical = $this->model->seoOption->canonical;
+        $this->old_url = $this->model->seoOption->old_url;
+        $this->redirect_to = $this->model->seoOption->redirect_to;
+        $this->robots_meta = $this->model->seoOption->robots_meta->value;
 
         $this->loadViewsChartData();
         $this->loadCommentsChartData();
@@ -130,7 +133,7 @@ class DynamicSeo extends Component
     private function chartGenerator(Builder $baseQuery, string $chartType = 'bar', int $month = 3): array
     {
         $startDate = now()->subMonths($month)->startOfMonth();
-        $wishes    = $baseQuery
+        $wishes = $baseQuery
             ->where('created_at', '>=', $startDate)
             ->selectRaw('DATE_FORMAT(created_at, "%Y-%m") as month, COUNT(*) as count')
             ->groupBy('month')
@@ -138,21 +141,21 @@ class DynamicSeo extends Component
             ->get();
 
         $labels = [];
-        $data   = [];
+        $data = [];
         foreach (CarbonPeriod::create($startDate, '1 month', now()->startOfMonth()) as $date) {
             $monthLabel = $date->format('Y-m');
-            $labels[]   = $monthLabel;
-            $data[]     = $wishes->firstWhere('month', $monthLabel)?->count ?? 0;
+            $labels[] = $monthLabel;
+            $data[] = $wishes->firstWhere('month', $monthLabel)?->count ?? 0;
         }
 
         return [
             'type' => $chartType,
             'data' => [
-                'labels'   => $labels,
+                'labels' => $labels,
                 'datasets' => [
                     [
                         'label' => '# of Items',
-                        'data'  => $data,
+                        'data' => $data,
                     ],
                 ],
             ],
@@ -176,25 +179,25 @@ class DynamicSeo extends Component
     protected function rules(): array
     {
         return [
-            'slug'            => ['required', 'max:255', 'unique:' . Str::plural($this->class) . ',slug,' . $this->model->id],
-            'seo_title'       => ['required', 'max:255'],
+            'slug' => ['required', 'max:255', 'unique:' . Str::plural($this->class) . ',slug,' . $this->model->id],
+            'seo_title' => ['required', 'max:255'],
             'seo_description' => ['required', 'max:500'],
-            'canonical'       => ['nullable', 'max:255', 'url'],
-            'old_url'         => ['nullable', 'max:255', 'url'],
-            'redirect_to'     => ['nullable', 'max:255', 'url'],
-            'robots_meta'     => ['required', 'in:' . implode(',', SeoRobotsMetaEnum::values())],
+            'canonical' => ['nullable', 'max:255', 'url'],
+            'old_url' => ['nullable', 'max:255', 'url'],
+            'redirect_to' => ['nullable', 'max:255', 'url'],
+            'robots_meta' => ['required', 'in:' . implode(',', SeoRobotsMetaEnum::values())],
         ];
     }
 
     public function onSubmit(): void
     {
-        $payload =  $this->validate();
+        $payload = $this->validate();
 
         $this->model->seoOption->update([
-            'title'       => $payload['seo_title'],
+            'title' => $payload['seo_title'],
             'description' => $payload['seo_description'],
-            'canonical'   => $payload['canonical'],
-            'old_url'     => $payload['old_url'],
+            'canonical' => $payload['canonical'],
+            'old_url' => $payload['old_url'],
             'redirect_to' => $payload['redirect_to'],
             'robots_meta' => SeoRobotsMetaEnum::from($payload['robots_meta']),
         ]);
@@ -207,21 +210,21 @@ class DynamicSeo extends Component
     public function render(): View
     {
         return view('livewire.admin.shared.dynamic-seo', [
-            'breadcrumbs'        => [
+            'breadcrumbs' => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link'  => route('admin.' . Str::kebab($this->class) . '.index'), 'label' => trans('general.page.index.title', ['model' => trans($this->class . '.model')])],
+                ['link' => $this->back_route, 'label' => trans('general.page.index.title', ['model' => trans($this->class . '.model')])],
                 ['label' => $this->model->title],
             ],
             'breadcrumbsActions' => [
-                ['link' => route('admin.' . Str::kebab($this->class) . '.index'), 'icon' => 's-arrow-left'],
+                ['link' => $this->back_route, 'icon' => 's-arrow-left'],
             ],
-            'viewsCount'         => $this->countGenerator($this->baseViewsQuery()),
-            'commentsCount'      => $this->countGenerator($this->baseCommentsQuery()),
-            'wishesCount'        => $this->countGenerator($this->baseWishesQuery()),
+            'viewsCount' => $this->countGenerator($this->baseViewsQuery()),
+            'commentsCount' => $this->countGenerator($this->baseCommentsQuery()),
+            'wishesCount' => $this->countGenerator($this->baseWishesQuery()),
 
-            'comments'           => $this->baseCommentsQuery()->paginate(15),
-            'views'              => $this->baseViewsQuery()->paginate(15),
-            'wishes'             => $this->baseWishesQuery()->paginate(15),
+            'comments' => $this->baseCommentsQuery()->paginate(15),
+            'views' => $this->baseViewsQuery()->paginate(15),
+            'wishes' => $this->baseWishesQuery()->paginate(15),
         ]);
     }
 }

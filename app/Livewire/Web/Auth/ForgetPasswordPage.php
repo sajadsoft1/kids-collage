@@ -13,7 +13,7 @@ class ForgetPasswordPage extends Component
 {
     use Toast;
 
-    public string $email   = '';
+    public string $email = '';
     public bool $emailSent = false;
 
     protected function rules(): array
@@ -27,8 +27,8 @@ class ForgetPasswordPage extends Component
     {
         return [
             'email.required' => trans('auth.email_required'),
-            'email.email'    => trans('auth.email_invalid'),
-            'email.exists'   => trans('auth.email_not_found'),
+            'email.email' => trans('auth.email_invalid'),
+            'email.exists' => trans('auth.email_not_found'),
         ];
     }
 

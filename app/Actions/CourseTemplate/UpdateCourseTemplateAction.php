@@ -55,9 +55,9 @@ class UpdateCourseTemplateAction
     {
         return DB::transaction(function () use ($courseTemplate, $payload) {
             $courseTemplate->update([
-                'category_id'   => $payload['category_id'] ?? null,
-                'level'         => $payload['level'] ?? CourseLevelEnum::BIGGINER->value,
-                'type'          => $payload['type'] ?? CourseTypeEnum::IN_PERSON->value,
+                'category_id' => $payload['category_id'] ?? null,
+                'level' => $payload['level'] ?? CourseLevelEnum::BIGGINER->value,
+                'type' => $payload['type'] ?? CourseTypeEnum::IN_PERSON->value,
                 'prerequisites' => $payload['prerequisites'] ?? [],
                 'is_self_paced' => $payload['is_self_paced'] ?? false,
             ]);

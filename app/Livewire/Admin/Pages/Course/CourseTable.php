@@ -15,7 +15,6 @@ use App\Traits\PowerGridHelperTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
-use Jenssegers\Agent\Agent;
 use Livewire\Attributes\Computed;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
@@ -29,41 +28,15 @@ final class CourseTable extends PowerGridComponent
     use PowerGridHelperTrait;
     public CourseTemplate $courseTemplate;
 
-    public string $tableName     = 'index_course_datatable';
+    public string $tableName = 'index_course_datatable';
     public string $sortDirection = 'desc';
 
     /** Livewire events for course lifecycle buttons */
     protected $listeners = ['course-publish' => 'publishCourse', 'course-finish' => 'finishCourse'];
 
-    public function setUp(): array
+    public function boot(): void
     {
-        $this->persist(['columns'], prefix: auth()->id ?? '');
-        $setup = [
-            PowerGrid::header()
-                ->includeViewOnTop('components.admin.shared.bread-crumbs')
-                ->showToggleColumns()
-                ->showSearchInput(),
-
-            PowerGrid::footer()
-                ->showPerPage()
-                ->showRecordCount(),
-        ];
-
-        if ((new Agent)->isMobile()) {
-            $setup[] = PowerGrid::responsive()
-                ->fixedColumns('id', 'title', 'teacher', 'actions');
-        }
-
-        return $setup;
-    }
-
-    protected function queryString(): array
-    {
-        return [
-            'search' => ['except' => ''],
-            'page'   => ['except' => 1],
-            ...$this->powerGridQueryString(),
-        ];
+        $this->fixedColumns = ['id', 'title', 'teacher', 'actions'];
     }
 
     #[Computed(persist: true)]
@@ -71,7 +44,7 @@ final class CourseTable extends PowerGridComponent
     {
         return [
             ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-            ['link'  => route('admin.course-template.index'), 'label' => trans('general.page.index.title', ['model' => trans('coursetemplate.model')])],
+            ['link' => route('admin.course-template.index'), 'label' => trans('general.page.index.title', ['model' => trans('coursetemplate.model')])],
             ['label' => trans('general.page.index.title', ['model' => trans('course.model')])],
         ];
     }
@@ -81,9 +54,9 @@ final class CourseTable extends PowerGridComponent
     {
         return [
             [
-                'link'   => route('admin.course.run', ['courseTemplate' => $this->courseTemplate->id]),
-                'icon'   => 's-plus',
-                'label'  => trans(
+                'link' => route('admin.course.run', ['courseTemplate' => $this->courseTemplate->id]),
+                'icon' => 's-plus',
+                'label' => trans(
                     'general.page.create.title',
                     ['model' => trans('course.model')]
                 ),
@@ -102,17 +75,17 @@ final class CourseTable extends PowerGridComponent
     public function relationSearch(): array
     {
         return [
-            'translations'          => [
+            'translations' => [
                 'value',
             ],
             'category.translations' => [
                 'value',
             ],
-            'teacher'               => [
+            'teacher' => [
                 'name',
                 'email',
             ],
-            'user'                  => [
+            'user' => [
                 'name',
                 'email',
             ],
@@ -205,7 +178,7 @@ final class CourseTable extends PowerGridComponent
                 ->route('admin.course.edit', ['courseTemplate' => $this->courseTemplate->id, 'course' => $row->id], '_self')
                 ->navigate()
                 ->tooltip(trans('datatable.buttons.edit')),
-            
+
             PowerGridHelper::btnDelete($row),
         ];
     }

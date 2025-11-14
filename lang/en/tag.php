@@ -3,18 +3,18 @@
 declare(strict_types=1);
 
 return [
-    'model'         => 'Tag',
-    'permissions'   => [
+    'model' => 'Tag',
+    'permissions' => [
     ],
-    'exceptions'    => [
+    'exceptions' => [
         'not_allowed_to_delete' => 'The desired tag cannot be deleted.',
     ],
-    'validations'   => [
+    'validations' => [
     ],
-    'enum'          => [
+    'enum' => [
     ],
     'notifications' => [
     ],
-    'page'          => [
+    'page' => [
     ],
 ];

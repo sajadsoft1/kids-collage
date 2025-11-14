@@ -19,32 +19,12 @@ use PowerComponents\LivewirePowerGrid\PowerGridFields;
 final class SeoOptionTable extends PowerGridComponent
 {
     use PowerGridHelperTrait;
-    public string $tableName     = 'index_seoOption_datatable';
+    public string $tableName = 'index_seoOption_datatable';
     public string $sortDirection = 'desc';
 
-    public function setUp(): array
+    public function boot(): void
     {
-        return [
-            PowerGrid::responsive()
-                ->fixedColumns('id', 'title'),
-
-            PowerGrid::header()
-                ->includeViewOnTop('components.admin.shared.bread-crumbs')
-                ->showSearchInput(),
-
-            PowerGrid::footer()
-                ->showPerPage()
-                ->showRecordCount(),
-        ];
-    }
-
-    protected function queryString(): array
-    {
-        return [
-            'search' => ['except' => ''],
-            'page'   => ['except' => 1],
-            ...$this->powerGridQueryString(),
-        ];
+        $this->fixedColumns = ['id', 'title'];
     }
 
     #[Computed(persist: true)]

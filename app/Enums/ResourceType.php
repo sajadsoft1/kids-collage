@@ -8,12 +8,12 @@ enum ResourceType: string
 {
     use EnumToArray;
 
-    case PDF   = 'pdf';
+    case PDF = 'pdf';
     case VIDEO = 'video';
     case IMAGE = 'image';
     case AUDIO = 'audio';
-    case FILE  = 'file';
-    case LINK  = 'link';
+    case FILE = 'file';
+    case LINK = 'link';
 
     public static function options(): array
     {
@@ -48,12 +48,12 @@ enum ResourceType: string
     public function title(): string
     {
         return match ($this) {
-            self::PDF   => 'PDF Document',
+            self::PDF => 'PDF Document',
             self::VIDEO => 'Video',
             self::IMAGE => 'Image',
             self::AUDIO => 'Audio',
-            self::FILE  => 'File',
-            self::LINK  => 'Link',
+            self::FILE => 'File',
+            self::LINK => 'Link',
         };
     }
 
@@ -76,12 +76,12 @@ enum ResourceType: string
     public function acceptedMimeTypes(): array
     {
         return match ($this) {
-            self::PDF   => ['application/pdf'],
+            self::PDF => ['application/pdf'],
             self::VIDEO => ['video/mp4', 'video/avi', 'video/mov', 'video/wmv', 'video/mkv'],
             self::IMAGE => ['image/jpeg', 'image/png', 'image/gif', 'image/webp'],
             self::AUDIO => ['audio/mp3', 'audio/wav', 'audio/ogg', 'audio/m4a'],
-            self::FILE  => ['application/zip', 'application/x-rar', 'text/plain', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'],
-            self::LINK  => [],
+            self::FILE => ['application/zip', 'application/x-rar', 'text/plain', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'],
+            self::LINK => [],
         };
     }
 }

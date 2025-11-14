@@ -24,7 +24,7 @@ class KanbanBoardSeeder extends Seeder
 
         // Get users for board ownership
         $developer = User::where('email', 'developer@gmail.com')->first();
-        $admin     = User::where('email', 'admin@example.com')->first();
+        $admin = User::where('email', 'admin@example.com')->first();
 
         if ( ! $developer || ! $admin) {
             $this->command->error('Required users not found. Please run KanbanUserSeeder first.');
@@ -37,8 +37,8 @@ class KanbanBoardSeeder extends Seeder
             ['name' => 'Project Management'],
             [
                 'description' => 'Main project management board for tracking tasks and features',
-                'color'       => '#3B82F6',
-                'is_active'   => true,
+                'color' => '#3B82F6',
+                'is_active' => true,
             ]
         );
 
@@ -52,8 +52,8 @@ class KanbanBoardSeeder extends Seeder
             ['name' => 'Marketing Campaign'],
             [
                 'description' => 'Board for tracking marketing activities and campaigns',
-                'color'       => '#EC4899',
-                'is_active'   => true,
+                'color' => '#EC4899',
+                'is_active' => true,
             ]
         );
 

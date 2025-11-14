@@ -4,6 +4,7 @@
 
 - ## Features
     - [SmartCache](/{{route}}/{{version}}/smart-cache)
+    - [Modal Form Trait](/{{route}}/{{version}}/modal-form-trait)
     - [Discount](/{{route}}/{{version}}/discount)
     - [Sms](/{{route}}/{{version}}/sms)
     - [Content Publishing](/{{route}}/{{version}}/content-publishing)

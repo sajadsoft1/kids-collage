@@ -9,12 +9,11 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use OpenApi\Annotations as OA;
 
-
 /**
  * @OA\Schema(
  *     schema="CourseResource",
  *     title="CourseResource",
- *     @OA\Property( property="id", type="integer", default="1"),
+ *     @OA\Property(property="id", type="integer", default="1"),
  *     @OA\Property(property="price", type="number", format="float", default="0.00"),
  *     @OA\Property(property="capacity", type="integer", default="30"),
  *     @OA\Property(property="updated_at", type="string", default="2024-08-19T07:26:07.000000Z"),
@@ -27,24 +26,22 @@ use OpenApi\Annotations as OA;
  */
 class CourseResource extends JsonResource
 {
-
     public function toArray(Request $request): array
     {
         return [
-            'id'          => $this->id,
-            'price'          => $this->price,
-            'capacity'          => $this->capacity,
-            'updated_at'  => $this->updated_at,
-            'created_at'  => $this->created_at,
-            'enrollments_count'=>$this->enrollments()->count(),
-            'sessions_count'=>$this->sessions()->count(),
-            'term'=>$this->whenLoaded('term',function (){
+            'id' => $this->id,
+            'price' => $this->price,
+            'capacity' => $this->capacity,
+            'updated_at' => $this->updated_at,
+            'created_at' => $this->created_at,
+            'enrollments_count' => $this->enrollments()->count(),
+            'sessions_count' => $this->sessions()->count(),
+            'term' => $this->whenLoaded('term', function () {
                 return TermResource::make($this->term);
             }),
-            'teacher'=>$this->whenLoaded('teacher',function (){
+            'teacher' => $this->whenLoaded('teacher', function () {
                 return UserResource::make($this->teacher);
             }),
-
         ];
     }
 }

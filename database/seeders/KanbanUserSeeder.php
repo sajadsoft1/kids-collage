@@ -25,10 +25,10 @@ class KanbanUserSeeder extends Seeder
         $developer = User::firstOrCreate(
             ['email' => 'developer@gmail.com'],
             [
-                'name'     => 'Admin',
-                'family'   => 'User',
+                'name' => 'Admin',
+                'family' => 'User',
                 'password' => bcrypt('password'),
-                'status'   => 1,
+                'status' => 1,
             ]
         );
 
@@ -36,10 +36,10 @@ class KanbanUserSeeder extends Seeder
         $admin = User::firstOrCreate(
             ['email' => 'admin@example.com'],
             [
-                'name'     => 'System',
-                'family'   => 'Administrator',
+                'name' => 'System',
+                'family' => 'Administrator',
                 'password' => bcrypt('password'),
-                'status'   => 1,
+                'status' => 1,
             ]
         );
 

@@ -52,7 +52,7 @@
                 </x-button>
             </x-slot:trigger>
             <x-menu-item :title="trans('_menu.setting')" :link="route('admin.setting')" />
-            <x-menu-item title="Logout" :link="route('admin.auth.logout')" />
+            <x-menu-item title="Logout" :link="route('admin.auth.logout')" no-wire-navigate="true" />
         </x-dropdown>
     </x-slot:actions>
 

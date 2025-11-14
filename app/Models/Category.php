@@ -49,9 +49,9 @@ class Category extends Model implements HasMedia
     ];
 
     protected $casts = [
-        'type'       => CategoryTypeEnum::class,
-        'published'  => BooleanEnum::class,
-        'languages'  => 'array',
+        'type' => CategoryTypeEnum::class,
+        'published' => BooleanEnum::class,
+        'languages' => 'array',
         'deleted_at' => 'datetime',
     ];
 

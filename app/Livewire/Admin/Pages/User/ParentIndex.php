@@ -13,15 +13,15 @@ class ParentIndex extends Component
     public function render()
     {
         return view('livewire.admin.pages.user.parent-index', [
-            'breadcrumbs'        => [
+            'breadcrumbs' => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
                 ['label' => trans('general.page.index.title', ['model' => trans('user.parent')])],
             ],
             'breadcrumbsActions' => [
                 [
-                    'link'   => route('admin.parent.create'),
-                    'icon'   => 's-plus',
-                    'label'  => trans(
+                    'link' => route('admin.parent.create'),
+                    'icon' => 's-plus',
+                    'label' => trans(
                         'general.page.create.title',
                         ['model' => trans('user.parent')]
                     ),

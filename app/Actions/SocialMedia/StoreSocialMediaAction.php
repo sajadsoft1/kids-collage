@@ -35,7 +35,7 @@ class StoreSocialMediaAction
     public function handle(array $payload): SocialMedia
     {
         return DB::transaction(function () use ($payload) {
-            $model =  SocialMedia::create(Arr::except($payload, ['title']));
+            $model = SocialMedia::create(Arr::except($payload, ['title']));
             $this->syncTranslationAction->handle($model, Arr::only($payload, ['title']));
             $this->fileService->addMedia($model, Arr::get($payload, 'image'));
 

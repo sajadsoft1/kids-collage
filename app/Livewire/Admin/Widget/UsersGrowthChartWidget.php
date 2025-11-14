@@ -25,17 +25,17 @@ class UsersGrowthChartWidget extends Component
     #[Computed]
     public function monthlyGrowthData()
     {
-        $data      = [];
+        $data = [];
         $startDate = Carbon::now()->subMonths($this->months - 1)->startOfMonth();
 
         for ($i = 0; $i < $this->months; $i++) {
             $monthStart = $startDate->copy()->addMonths($i);
-            $monthEnd   = $monthStart->copy()->endOfMonth();
-            $monthName  = $monthStart->format('M');
+            $monthEnd = $monthStart->copy()->endOfMonth();
+            $monthName = $monthStart->format('M');
 
             $data[$monthName] = [
-                'users'   => User::whereBetween('created_at', [$monthStart, $monthEnd])->count(),
-                'blogs'   => Blog::whereBetween('created_at', [$monthStart, $monthEnd])->count(),
+                'users' => User::whereBetween('created_at', [$monthStart, $monthEnd])->count(),
+                'blogs' => Blog::whereBetween('created_at', [$monthStart, $monthEnd])->count(),
                 'tickets' => Ticket::whereBetween('created_at', [$monthStart, $monthEnd])->count(),
             ];
         }

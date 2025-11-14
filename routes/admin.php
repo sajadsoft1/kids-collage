@@ -70,4 +70,10 @@ Route::group(['middleware' => ['admin.panel']], function () {
     require __DIR__ . '/admin/term.php';
     require __DIR__ . '/admin/ticket.php';
     require __DIR__ . '/admin/user.php';
+    require __DIR__ . '/admin/question.php';
+    require __DIR__ . '/admin/questionSubject.php';
+    require __DIR__ . '/admin/questionCompetency.php';
+    require __DIR__ . '/admin/questionOption.php';
+    require __DIR__ . '/admin/exam.php';
+    require __DIR__ . '/admin/survey.php';
 });

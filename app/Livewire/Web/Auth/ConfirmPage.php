@@ -13,16 +13,16 @@ class ConfirmPage extends Component
 {
     use Toast;
 
-    public string $email      = '';
-    public string $code       = '';
+    public string $email = '';
+    public string $code = '';
     public bool $codeVerified = false;
-    public ?User $user        = null;
+    public ?User $user = null;
 
     protected function rules(): array
     {
         return [
             'email' => 'required|email|exists:users,email',
-            'code'  => 'required|string|size:6',
+            'code' => 'required|string|size:6',
         ];
     }
 
@@ -30,10 +30,10 @@ class ConfirmPage extends Component
     {
         return [
             'email.required' => trans('auth.email_required'),
-            'email.email'    => trans('auth.email_invalid'),
-            'email.exists'   => trans('auth.email_not_found'),
-            'code.required'  => trans('auth.code_required'),
-            'code.size'      => trans('auth.code_size'),
+            'email.email' => trans('auth.email_invalid'),
+            'email.exists' => trans('auth.email_not_found'),
+            'code.required' => trans('auth.code_required'),
+            'code.size' => trans('auth.code_size'),
         ];
     }
 

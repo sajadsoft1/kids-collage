@@ -44,7 +44,7 @@ class Board extends Model
     ];
 
     protected $casts = [
-        'is_active'        => 'boolean',
+        'is_active' => 'boolean',
         'system_protected' => 'boolean',
     ];
 

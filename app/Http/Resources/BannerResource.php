@@ -31,16 +31,16 @@ class BannerResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'           => $this->id,
-            'title'        => $this->title,
-            'description'  => $this->description,
-            'size'         => $this->size->toArray(),
-            'click'        => $this->click,
-            'link'         => $this->link ? route('api.banner.view-counter', $this->id) : null,
+            'id' => $this->id,
+            'title' => $this->title,
+            'description' => $this->description,
+            'size' => $this->size->toArray(),
+            'click' => $this->click,
+            'link' => $this->link ? route('api.banner.view-counter', $this->id) : null,
             'published_at' => $this->published_at,
-            'updated_at'   => $this->updated_at,
-            'created_at'   => $this->created_at,
-            'image'        => $this->resource->getFirstMediaUrl('image', $this->resource->getPrimaryResolution()),
+            'updated_at' => $this->updated_at,
+            'created_at' => $this->created_at,
+            'image' => $this->resource->getFirstMediaUrl('image', $this->resource->getPrimaryResolution()),
         ];
     }
 }

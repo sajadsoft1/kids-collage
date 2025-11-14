@@ -19,7 +19,7 @@ class SecurityTemplate extends BaseTemplate
     public function template(Setting $setting): array
     {
         $this->setting = $setting;
-        $options       = BooleanEnum::options();
+        $options = BooleanEnum::options();
         
         $value1 = $this->selectOption($options, $this->setting->extra_attributes->get('captcha_handling', false));
         

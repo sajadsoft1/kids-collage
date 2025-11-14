@@ -21,11 +21,11 @@ class TeammateUpdateOrCreate extends Component
     use WithFileUploads;
 
     public Teammate $model;
-    public string $title        = '';
+    public string $title = '';
     public ?string $description = '';
-    public ?string $bio         = '';
-    public string $position     = '';
-    public ?string $email       = '';
+    public ?string $bio = '';
+    public string $position = '';
+    public ?string $email = '';
     public ?string $birthday;
     public bool $published = false;
     public $image;
@@ -35,28 +35,28 @@ class TeammateUpdateOrCreate extends Component
     {
         $this->model = $teammate;
         if ($this->model->id) {
-            $this->title       = $this->model->title;
+            $this->title = $this->model->title;
             $this->description = $this->model->description;
-            $this->position    = $this->model->position;
-            $this->email       = $this->model->extra_attributes->get('email');
-            $this->birthday    = $this->setPublishedAt($this->model->birthday);
-            $this->bio         = $this->model->bio;
-            $this->published   = (bool) $this->model->published->value;
+            $this->position = $this->model->position;
+            $this->email = $this->model->extra_attributes->get('email');
+            $this->birthday = $this->setPublishedAt($this->model->birthday);
+            $this->bio = $this->model->bio;
+            $this->published = (bool) $this->model->published->value;
         }
     }
 
     protected function rules(): array
     {
         return [
-            'title'       => 'required|string',
+            'title' => 'required|string',
             'description' => 'required|string',
-            'bio'         => ['nullable', 'string'],
-            'position'    => ['required', 'string'],
-            'birthday'    => ['required', 'date'],
-            'published'   => ['sometimes', 'boolean'],
-            'image'       => ['nullable', 'file', 'mimes:png,jpg,jpeg', 'max:2048'],
+            'bio' => ['nullable', 'string'],
+            'position' => ['required', 'string'],
+            'birthday' => ['required', 'date'],
+            'published' => ['sometimes', 'boolean'],
+            'image' => ['nullable', 'file', 'mimes:png,jpg,jpeg', 'max:2048'],
             //            'bio_image' => ['nullable', 'file', 'mimes:png,jpg,jpeg', 'max:2048'],
-            'email'       => ['nullable', 'email'],
+            'email' => ['nullable', 'email'],
         ];
     }
 
@@ -90,10 +90,10 @@ class TeammateUpdateOrCreate extends Component
     public function render(): View
     {
         return view('livewire.admin.pages.teammate.teammate-update-or-create', [
-            'edit_mode'          => $this->model->id,
-            'breadcrumbs'        => [
+            'edit_mode' => $this->model->id,
+            'breadcrumbs' => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link'  => route('admin.teammate.index'), 'label' => trans('general.page.index.title', ['model' => trans('teammate.model')])],
+                ['link' => route('admin.teammate.index'), 'label' => trans('general.page.index.title', ['model' => trans('teammate.model')])],
                 ['label' => trans('general.page.create.title', ['model' => trans('teammate.model')])],
             ],
             'breadcrumbsActions' => [

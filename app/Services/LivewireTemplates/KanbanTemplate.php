@@ -50,15 +50,15 @@ class KanbanTemplate extends Component
         $recordClickEnabled = false,
         $extras = []
     ): void {
-        $this->sortable                = $sortable ?? false;
+        $this->sortable = $sortable ?? false;
         $this->sortableBetweenStatuses = $sortableBetweenStatuses ?? false;
 
-        $this->statusBoardView       = $statusBoardView ?? 'templates.kanban.kanban-board';
-        $this->statusView            = $statusView ?? 'templates.kanban.status';
-        $this->recordView            = $recordView ?? 'templates.kanban.record';
-        $this->sortableView          = $sortableView ?? 'templates.kanban.sortable';
+        $this->statusBoardView = $statusBoardView ?? 'templates.kanban.kanban-board';
+        $this->statusView = $statusView ?? 'templates.kanban.status';
+        $this->recordView = $recordView ?? 'templates.kanban.record';
+        $this->sortableView = $sortableView ?? 'templates.kanban.sortable';
         $this->beforeStatusBoardView = $beforeStatusBoardView ?? null;
-        $this->afterStatusBoardView  = $afterStatusBoardView ?? null;
+        $this->afterStatusBoardView = $afterStatusBoardView ?? null;
 
         $this->ghostClass = $ghostClass ?? 'bg-indigo-100';
 
@@ -93,13 +93,13 @@ class KanbanTemplate extends Component
     public function styles(): array
     {
         return [
-            'wrapper'       => 'w-full h-full flex space-x-4 overflow-x-auto',
+            'wrapper' => 'w-full h-full flex space-x-4 overflow-x-auto',
             'statusWrapper' => 'h-full flex-1',
-            'status'        => 'bg-blue-200 rounded px-2 flex flex-col h-full',
-            'statusHeader'  => 'p-2 text-sm text-gray-700',
-            'statusFooter'  => '',
+            'status' => 'bg-blue-200 rounded px-2 flex flex-col h-full',
+            'statusHeader' => 'p-2 text-sm text-gray-700',
+            'statusFooter' => '',
             'statusRecords' => 'space-y-2 p-2 flex-1 overflow-y-auto',
-            'record'        => 'shadow bg-white p-2 rounded border',
+            'record' => 'shadow bg-white p-2 rounded border',
             'recordContent' => 'w-full',
         ];
     }
@@ -114,9 +114,9 @@ class KanbanTemplate extends Component
 
         $statuses = $statuses
             ->map(function ($status) use ($records) {
-                $status['group']           = $this->getId();
+                $status['group'] = $this->getId();
                 $status['statusRecordsId'] = "{$this->getId()}-{$status['id']}";
-                $status['records']         = $records
+                $status['records'] = $records
                     ->filter(function ($record) use ($status) {
                         return $this->isRecordInStatus($record, $status);
                     });
@@ -126,9 +126,9 @@ class KanbanTemplate extends Component
 
         return view($this->statusBoardView)
             ->with([
-                'records'  => $records,
+                'records' => $records,
                 'statuses' => $statuses,
-                'styles'   => $styles,
+                'styles' => $styles,
             ]);
     }
 }

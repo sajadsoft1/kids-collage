@@ -31,18 +31,18 @@ class CommentResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'             => $this->id,
+            'id' => $this->id,
             'morphable_type' => $this->morphable_type,
-            'morphable_id'   => $this->morphable_id,
-            'comment'        => $this->comment,
-            'published'      => $this->published->value,
-            'rate'           => $this->rate,
-            'suggest'        => $this->suggest->value,
-            'user'           => $this->whenLoaded('user', fn () => SimpleUserResource::make($this->user)),
-            'admin'          => $this->whenLoaded('admin', fn () => SimpleUserResource::make($this->admin)),
+            'morphable_id' => $this->morphable_id,
+            'comment' => $this->comment,
+            'published' => $this->published->value,
+            'rate' => $this->rate,
+            'suggest' => $this->suggest->value,
+            'user' => $this->whenLoaded('user', fn () => SimpleUserResource::make($this->user)),
+            'admin' => $this->whenLoaded('admin', fn () => SimpleUserResource::make($this->admin)),
             'children_count' => $this->whenLoaded('children', fn () => $this->children->count(), 0),
-            'updated_at'     => $this->updated_at,
-            'created_at'     => $this->created_at,
+            'updated_at' => $this->updated_at,
+            'created_at' => $this->created_at,
         ];
     }
 }

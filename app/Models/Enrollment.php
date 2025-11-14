@@ -50,8 +50,8 @@ class Enrollment extends Model
     ];
 
     protected $casts = [
-        'status'           => EnrollmentStatusEnum::class,
-        'enrolled_at'      => 'datetime',
+        'status' => EnrollmentStatusEnum::class,
+        'enrolled_at' => 'datetime',
         'progress_percent' => 'decimal:2',
     ];
 
@@ -156,8 +156,8 @@ class Enrollment extends Model
             return null;
         }
 
-        $daysPerPercent         = $this->days_since_enrollment / $this->progress_percent;
-        $remainingPercent       = 100 - $this->progress_percent;
+        $daysPerPercent = $this->days_since_enrollment / $this->progress_percent;
+        $remainingPercent = 100 - $this->progress_percent;
         $estimatedDaysRemaining = $daysPerPercent * $remainingPercent;
 
         return now()->addDays((int) $estimatedDaysRemaining);
@@ -167,9 +167,9 @@ class Enrollment extends Model
     public function updateProgress(float $newProgress): bool
     {
         $newProgress = max(0.0, min(100.0, $newProgress));
-        
+
         $updated = $this->update(['progress_percent' => $newProgress]);
-        
+
         if ($updated) {
             $this->logActivity('progress.updated', [
                 'old_progress' => $this->getOriginal('progress_percent'),
@@ -193,10 +193,10 @@ class Enrollment extends Model
     {
         return DB::transaction(function () {
             $updated = $this->update(['progress_percent' => 100.0]);
-            
+
             if ($updated) {
                 $this->logActivity('enrollment.completed');
-                
+
                 // Issue certificate if course is eligible
                 if ($this->course->courseTemplate->is_self_paced || $this->attendance_percentage >= 80) {
                     $this->issueCertificate();
@@ -215,10 +215,10 @@ class Enrollment extends Model
         }
 
         $certificate = $this->certificate()->create([
-            'issue_date'       => now(),
-            'grade'            => $this->calculateGrade(),
+            'issue_date' => now(),
+            'grade' => $this->calculateGrade(),
             'certificate_path' => $this->generateCertificatePath(),
-            'signature_hash'   => $this->generateSignatureHash(),
+            'signature_hash' => $this->generateSignatureHash(),
         ]);
 
         $this->logActivity('certificate.issued', [
@@ -232,8 +232,8 @@ class Enrollment extends Model
     protected function calculateGrade(): string
     {
         $attendanceGrade = $this->attendance_percentage;
-        $progressGrade   = $this->progress_percent;
-        
+        $progressGrade = $this->progress_percent;
+
         $overallGrade = ($attendanceGrade + $progressGrade) / 2;
 
         return match (true) {
@@ -241,7 +241,7 @@ class Enrollment extends Model
             $overallGrade >= 80 => 'B',
             $overallGrade >= 70 => 'C',
             $overallGrade >= 60 => 'D',
-            default             => 'F',
+            default => 'F',
         };
     }
 
@@ -258,9 +258,9 @@ class Enrollment extends Model
     {
         $data = [
             'enrollment_id' => $this->id,
-            'user_id'       => $this->user_id,
-            'course_id'     => $this->course_id,
-            'issue_date'    => now()->toISOString(),
+            'user_id' => $this->user_id,
+            'course_id' => $this->course_id,
+            'issue_date' => now()->toISOString(),
         ];
 
         return hash('sha256', json_encode($data) . config('app.key'));
@@ -270,11 +270,11 @@ class Enrollment extends Model
     public function logActivity(string $event, array $properties = []): ActivityLog
     {
         return $this->activityLogs()->create([
-            'event'       => $event,
-            'properties'  => $properties,
+            'event' => $event,
+            'properties' => $properties,
             'causer_type' => User::class,
-            'causer_id'   => \Illuminate\Support\Facades\Auth::id(),
-            'created_at'  => now(),
+            'causer_id' => \Illuminate\Support\Facades\Auth::id(),
+            'created_at' => now(),
         ]);
     }
 
@@ -283,7 +283,7 @@ class Enrollment extends Model
     {
         return DB::transaction(function () use ($reason) {
             $updated = $this->update(['status' => EnrollmentStatusEnum::DROPPED]);
-            
+
             if ($updated) {
                 $this->logActivity('enrollment.dropped', [
                     'reason' => $reason,
@@ -299,7 +299,7 @@ class Enrollment extends Model
     {
         return DB::transaction(function () {
             $updated = $this->update(['status' => EnrollmentStatusEnum::ACTIVE]);
-            
+
             if ($updated) {
                 $this->logActivity('enrollment.reactivated');
             }
@@ -354,5 +354,10 @@ class Enrollment extends Model
     public function scopeRecent($query, int $days = 30)
     {
         return $query->where('enrolled_at', '>=', now()->subDays($days));
+    }
+
+    public function order(): Order
+    {
+        return $this->orderItem->order;
     }
 }

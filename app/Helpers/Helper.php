@@ -150,13 +150,13 @@ if ( ! function_exists('systemCurrency')) {
     function systemCurrency()
     {
         return match (config('app.currency')) {
-            'IRR'   => 'ریال',
-            'IRT'   => 'تومان',
-            'USD'   => 'دلار',
-            'EUR'   => 'یورو',
-            'GBP'   => 'پوند',
-            'JPY'   => 'ین',
-            'CNY'   => 'یوان',
+            'IRR' => 'ریال',
+            'IRT' => 'تومان',
+            'USD' => 'دلار',
+            'EUR' => 'یورو',
+            'GBP' => 'پوند',
+            'JPY' => 'ین',
+            'CNY' => 'یوان',
             default => config('app.currency', 'ریال'),
         };
     }

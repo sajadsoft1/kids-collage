@@ -11,7 +11,6 @@ use App\Models\CourseTemplate;
 use App\Traits\PowerGridHelperTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\View\View;
-use Jenssegers\Agent\Agent;
 use Livewire\Attributes\Computed;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
@@ -25,26 +24,12 @@ final class CourseSessionTemplateTable extends PowerGridComponent
     use PowerGridHelperTrait;
     public CourseTemplate $courseTemplate;
 
-    public string $tableName     = 'index_courseSessionTemplate_datatable';
+    public string $tableName = 'index_courseSessionTemplate_datatable';
     public string $sortDirection = 'desc';
 
-    public function setUp(): array
+    public function boot(): void
     {
-        $setup = [
-            PowerGrid::header()
-                ->includeViewOnTop('components.admin.shared.bread-crumbs')
-                ->showSearchInput(),
-
-            PowerGrid::footer()
-                ->showPerPage()
-                ->showRecordCount(),
-        ];
-
-        if ((new Agent)->isMobile()) {
-            $setup[] = PowerGrid::responsive()->fixedColumns('id', 'title', 'actions');
-        }
-
-        return $setup;
+        $this->fixedColumns = ['id', 'title', 'actions'];
     }
 
     #[Computed(persist: true)]
@@ -52,7 +37,7 @@ final class CourseSessionTemplateTable extends PowerGridComponent
     {
         return [
             ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-            ['link'  => route('admin.course-template.index'), 'label' => trans('general.page.index.title', ['model' => trans('coursetemplate.model')])],
+            ['link' => route('admin.course-template.index'), 'label' => trans('general.page.index.title', ['model' => trans('coursetemplate.model')])],
             ['label' => trans('general.page.index.title', ['model' => trans('courseSessionTemplate.model')])],
         ];
     }

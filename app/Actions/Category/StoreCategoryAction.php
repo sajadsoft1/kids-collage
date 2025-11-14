@@ -30,6 +30,7 @@ class StoreCategoryAction
      *     published:bool,
      *     type:string,
      *     image:string,
+     *     parent_id:string,
      *     seo_title:string,
      *     seo_description:string,
      *     canonical:string,
@@ -43,7 +44,7 @@ class StoreCategoryAction
     public function handle(array $payload): Category
     {
         return DB::transaction(function () use ($payload) {
-            $model = Category::create(Arr::only($payload, ['slug', 'published', 'parent_id', 'type', 'ordering']));
+            $model = Category::create(Arr::only($payload, ['slug', 'published', 'type', 'ordering', 'parent_id']));
             $this->syncTranslationAction->handle($model, Arr::only($payload, ['title', 'description', 'body']));
             $this->seoOptionService->create($model, Arr::only($payload, ['title', 'description']));
             $this->fileService->addMedia($model, Arr::get($payload, 'image'));

@@ -3,12 +3,12 @@
 declare(strict_types=1);
 
 return [
-    'model'    => 'اعلان‌',
-    'models'   => 'اعلان‌ها',
+    'model' => 'اعلان‌',
+    'models' => 'اعلان‌ها',
     'read_all' => 'خواندن همه اعلان‌ها',
-    'auth'     => [
+    'auth' => [
         'welcome' => [
-            'title'     => 'تبریک',
+            'title' => 'تبریک',
             'sub_title' => 'به سامانه کارنووب خوش آمدید',
         ],
     ],

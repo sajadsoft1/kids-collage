@@ -24,15 +24,15 @@ class SliderUpdateOrCreate extends Component
     use WithFileUploads;
 
     public Slider $model;
-    public ?string $title        = '';
-    public ?string $description  = '';
-    public int $ordering         = 1;
+    public ?string $title = '';
+    public ?string $description = '';
+    public int $ordering = 1;
     public ?string $published_at = null;
-    public ?string $expired_at   = null;
-    public ?string $link         = '';
-    public int $has_timer        = 0;
-    public ?string $timer_start  = null;
-    public bool $published       = false;
+    public ?string $expired_at = null;
+    public ?string $link = '';
+    public int $has_timer = 0;
+    public ?string $timer_start = null;
+    public bool $published = false;
     public $image;
     public $roles = [];
 
@@ -40,26 +40,26 @@ class SliderUpdateOrCreate extends Component
     {
         $this->model = $slider;
         if ($this->model->id) {
-            $this->title        = $this->model->title;
-            $this->description  = $this->model->description;
-            $this->published    = (bool) $this->model->published->value;
-            $this->ordering     = $this->model->ordering;
+            $this->title = $this->model->title;
+            $this->description = $this->model->description;
+            $this->published = (bool) $this->model->published->value;
+            $this->ordering = $this->model->ordering;
             $this->published_at = $this->model->published_at?->format(Constants::DEFAULT_DATE_FORMAT_SMART_TIME);
-            $this->expired_at   = $this->model->expired_at?->format(Constants::DEFAULT_DATE_FORMAT_SMART_TIME);
-            $this->link         = $this->model->link;
-            $this->has_timer    = $this->model->has_timer->value;
-            $this->timer_start  = $this->model->timer_start?->format(Constants::DEFAULT_DATE_FORMAT_SMART_TIME);
-            $this->roles        = $this->model->references
+            $this->expired_at = $this->model->expired_at?->format(Constants::DEFAULT_DATE_FORMAT_SMART_TIME);
+            $this->link = $this->model->link;
+            $this->has_timer = $this->model->has_timer->value;
+            $this->timer_start = $this->model->timer_start?->format(Constants::DEFAULT_DATE_FORMAT_SMART_TIME);
+            $this->roles = $this->model->references
                 ->groupBy('morphable_type')
                 ->map(fn ($references, $type) => [
-                    'type'  => $type,
+                    'type' => $type,
                     'value' => $references->pluck('morphable_id')->toArray(),
                 ])
                 ->values()
                 ->toArray();
         } else {
             // For new sliders, ensure published is properly initialized
-            $this->published  = true;
+            $this->published = true;
             $this->expired_at = now()->addMonths(2)->format(Constants::DEFAULT_DATE_FORMAT);
         }
     }
@@ -67,21 +67,21 @@ class SliderUpdateOrCreate extends Component
     protected function rules(): array
     {
         return [
-            'title'         => ['required', 'string'],
-            'description'   => ['required', 'string'],
-            'published'     => ['required', 'boolean'],
-            'ordering'      => ['required', 'numeric'],
-            'published_at'  => [
+            'title' => ['required', 'string'],
+            'description' => ['required', 'string'],
+            'published' => ['required', 'boolean'],
+            'ordering' => ['required', 'numeric'],
+            'published_at' => [
                 'nullable',
                 'date',
             ],
-            'expired_at'    => ['nullable', 'required_if:has_timer,true', 'date', 'after:now'],
-            'link'          => ['nullable', 'url'],
-            'has_timer'     => ['nullable', 'boolean'],
-            'timer_start'   => ['nullable', 'required_if:has_timer,true', 'date', 'before:expired_at'],
-            'image'         => ['image', 'max:2048', isset($this->model->id) ? 'nullable' : 'required'], // 2MB Max
-            'roles'         => ['nullable', 'array'],
-            'roles.*.type'  => ['required', 'string'],
+            'expired_at' => ['nullable', 'required_if:has_timer,true', 'date', 'after:now'],
+            'link' => ['nullable', 'url'],
+            'has_timer' => ['nullable', 'boolean'],
+            'timer_start' => ['nullable', 'required_if:has_timer,true', 'date', 'before:expired_at'],
+            'image' => ['image', 'max:2048', isset($this->model->id) ? 'nullable' : 'required'], // 2MB Max
+            'roles' => ['nullable', 'array'],
+            'roles.*.type' => ['required', 'string'],
             'roles.*.value' => ['required', 'array'],
         ];
     }
@@ -121,7 +121,7 @@ class SliderUpdateOrCreate extends Component
     public function addRole(): void
     {
         $this->roles[] = [
-            'type'  => 'role',
+            'type' => 'role',
             'value' => [],
         ];
     }
@@ -129,17 +129,17 @@ class SliderUpdateOrCreate extends Component
     public function render(): View
     {
         return view('livewire.admin.pages.slider.slider-update-or-create', [
-            'edit_mode'          => $this->model->id,
-            'reference_type'     => [
+            'edit_mode' => $this->model->id,
+            'reference_type' => [
                 ['id' => '', 'name' => 'Please select reference type'],
                 ['id' => Category::class, 'name' => 'Category'],
                 ['id' => Tag::class, 'name' => 'Tag'],
             ],
-            'categories'         => Category::all()->map(fn ($category) => ['id' => $category->id, 'name' => $category->title]),
-            'tags'               => Tag::all()->map(fn ($tag) => ['id' => $tag->id, 'name' => $tag->name]),
-            'breadcrumbs'        => [
+            'categories' => Category::all()->map(fn ($category) => ['id' => $category->id, 'name' => $category->title]),
+            'tags' => Tag::all()->map(fn ($tag) => ['id' => $tag->id, 'name' => $tag->name]),
+            'breadcrumbs' => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link'  => route('admin.slider.index'), 'label' => trans('general.page.index.title', ['model' => trans('slider.model')])],
+                ['link' => route('admin.slider.index'), 'label' => trans('general.page.index.title', ['model' => trans('slider.model')])],
                 ['label' => trans('general.page.create.title', ['model' => trans('slider.model')])],
             ],
             'breadcrumbsActions' => [

@@ -48,7 +48,7 @@ class KarnoTeamSeeder extends Seeder
 
         foreach ($clients as $row) {
             $client = StoreClientAction::run([
-                'title'     => $row['title'],
+                'title' => $row['title'],
                 'languages' => $row['languages'],
             ]);
 
@@ -72,11 +72,11 @@ class KarnoTeamSeeder extends Seeder
 
         foreach ($teammates as $row) {
             $teammate = StoreTeammateAction::run([
-                'title'       => $row['title'],
+                'title' => $row['title'],
                 'description' => $row['description'],
-                'birthday'    => $row['birthday'],
-                'position'    => $row['position'],
-                'languages'   => $row['languages'],
+                'birthday' => $row['birthday'],
+                'position' => $row['position'],
+                'languages' => $row['languages'],
             ]);
 
             // Add images to the teammates
@@ -99,9 +99,9 @@ class KarnoTeamSeeder extends Seeder
 
         foreach ($contactUs as $row) {
             StoreContactUsAction::run([
-                'name'    => $row['name'],
-                'email'   => $row['email'],
-                'mobile'  => $row['mobile'],
+                'name' => $row['name'],
+                'email' => $row['email'],
+                'mobile' => $row['mobile'],
                 'comment' => $row['comment'],
             ]);
         }
@@ -117,11 +117,11 @@ class KarnoTeamSeeder extends Seeder
         foreach ($socialMedia as $row) {
             try {
                 $social = StoreSocialMediaAction::run([
-                    'title'    => $row['title'],
-                    'link'     => $row['link'],
+                    'title' => $row['title'],
+                    'link' => $row['link'],
                     'ordering' => $row['ordering'],
                     'position' => $row['position'],
-                    'image'    => $row['path'],
+                    'image' => $row['path'],
                 ]);
             } catch (Exception $e) {
                 // If social media creation fails, skip it

@@ -9,7 +9,7 @@ enum BooleanEnum: int
     use EnumToArray;
 
     case DISABLE = 0;
-    case ENABLE  = 1;
+    case ENABLE = 1;
 
     public static function options(): array
     {
@@ -29,7 +29,7 @@ enum BooleanEnum: int
     {
         return match ($this) {
             self::DISABLE => __('core.disable'),
-            self::ENABLE  => __('core.enable'),
+            self::ENABLE => __('core.enable'),
         };
     }
 
@@ -37,7 +37,7 @@ enum BooleanEnum: int
     {
         return match ($this) {
             self::DISABLE => 'error',
-            self::ENABLE  => 'success',
+            self::ENABLE => 'success',
         };
     }
 
@@ -54,7 +54,7 @@ enum BooleanEnum: int
     {
         return match ($this) {
             self::DISABLE => false,
-            self::ENABLE  => true,
+            self::ENABLE => true,
         };
     }
 }

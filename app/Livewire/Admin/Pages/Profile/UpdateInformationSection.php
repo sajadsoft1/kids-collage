@@ -77,18 +77,18 @@ class UpdateInformationSection extends Component
     /** Load user data into form properties */
     public function loadUserData(): void
     {
-        $this->name   = $this->user->name;
+        $this->name = $this->user->name;
         $this->family = $this->user->family;
-        $this->email  = $this->user->email;
+        $this->email = $this->user->email;
         $this->mobile = $this->user->mobile;
 
         if ($this->user->profile) {
             $this->national_code = $this->user->profile->national_code;
-            $this->birth_date    = $this->user->profile->birth_date;
-            $this->gender        = $this->user->profile->gender?->value;
-            $this->address       = $this->user->profile->address;
-            $this->phone         = $this->user->profile->phone;
-            $this->religion      = $this->user->profile->religion?->value;
+            $this->birth_date = $this->user->profile->birth_date;
+            $this->gender = $this->user->profile->gender?->value;
+            $this->address = $this->user->profile->address;
+            $this->phone = $this->user->profile->phone;
+            $this->religion = $this->user->profile->religion?->value;
         }
     }
 
@@ -96,20 +96,20 @@ class UpdateInformationSection extends Component
     protected function rules(): array
     {
         return [
-            'name'          => 'required|string|max:255',
-            'family'        => 'required|string|max:255',
-            'email'         => 'nullable|email|max:255|unique:users,email,' . $this->user->id,
-            'mobile'        => [
+            'name' => 'required|string|max:255',
+            'family' => 'required|string|max:255',
+            'email' => 'nullable|email|max:255|unique:users,email,' . $this->user->id,
+            'mobile' => [
                 'nullable',
                 'regex:/^(0|\+98|98)9[0-9]{9}$/',
                 'unique:users,mobile,' . $this->user->id,
             ],
             'national_code' => 'nullable|string|max:10|regex:/^[0-9]{10}$/',
-            'birth_date'    => 'nullable|date',
-            'gender'        => 'nullable|string|in:' . implode(',', GenderEnum::values()),
-            'address'       => 'nullable|string|max:500',
-            'phone'         => 'nullable|string|max:11|regex:/^0[0-9]{10}$/',
-            'religion'      => 'nullable|string|in:' . implode(',', ReligionEnum::values()),
+            'birth_date' => 'nullable|date',
+            'gender' => 'nullable|string|in:' . implode(',', GenderEnum::values()),
+            'address' => 'nullable|string|max:500',
+            'phone' => 'nullable|string|max:11|regex:/^0[0-9]{10}$/',
+            'religion' => 'nullable|string|in:' . implode(',', ReligionEnum::values()),
         ];
     }
 
@@ -138,7 +138,7 @@ class UpdateInformationSection extends Component
 
             logger()->error('Failed to update user information', [
                 'user_id' => $this->user->id,
-                'error'   => $e->getMessage(),
+                'error' => $e->getMessage(),
             ]);
         }
     }

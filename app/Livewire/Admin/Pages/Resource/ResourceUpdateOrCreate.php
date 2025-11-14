@@ -24,12 +24,12 @@ class ResourceUpdateOrCreate extends Component
     use WithFileUploads;
 
     public Resource $model;
-    public string $title       = '';
+    public string $title = '';
     public string $description = '';
-    public ?string $type       = null;
-    public string $path        = '';
-    public int $is_public      = 1;
-    public int $order          = 1;
+    public ?string $type = null;
+    public string $path = '';
+    public int $is_public = 1;
+    public int $order = 1;
     public $file;
     public array $relationships = [];
 
@@ -37,17 +37,17 @@ class ResourceUpdateOrCreate extends Component
     {
         $this->model = $resource;
         if ($this->model->id) {
-            $this->title       = $this->model->title;
+            $this->title = $this->model->title;
             $this->description = $this->model->description;
-            $this->type        = $this->model->type->value;
-            $this->path        = $this->model->path;
-            $this->is_public   = (int) $this->model->is_public;
-            $this->order       = $this->model->order;
+            $this->type = $this->model->type->value;
+            $this->path = $this->model->path;
+            $this->is_public = (int) $this->model->is_public;
+            $this->order = $this->model->order;
 
             // Load existing relationships
             $this->relationships = $this->model->courseSessionTemplates->map(function ($template) {
                 return [
-                    'course_template_id'         => $template->course_template_id,
+                    'course_template_id' => $template->course_template_id,
                     'course_session_template_id' => $template->id,
                 ];
             })->toArray();
@@ -65,14 +65,14 @@ class ResourceUpdateOrCreate extends Component
     protected function rules(): array
     {
         $rules = [
-            'title'                                      => 'required|string|max:255',
-            'description'                                => 'nullable|string',
-            'type'                                       => 'required|string|in:' . implode(',', ResourceType::values()),
-            'is_public'                                  => 'boolean',
-            'order'                                      => 'required|integer|min:0',
-            'relationships'                              => 'required|array|min:1',
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'type' => 'required|string|in:' . implode(',', ResourceType::values()),
+            'is_public' => 'boolean',
+            'order' => 'required|integer|min:0',
+            'relationships' => 'required|array|min:1',
             'relationships.*.course_session_template_id' => 'required|integer|exists:course_session_templates,id',
-            'relationships.*.course_template_id'         => 'required|integer|exists:course_templates,id',
+            'relationships.*.course_template_id' => 'required|integer|exists:course_templates,id',
         ];
 
         // Dynamic validation based on resource type
@@ -96,11 +96,11 @@ class ResourceUpdateOrCreate extends Component
 
         // Prepare payload for action
         $actionPayload = [
-            'title'       => $payload['title'],
+            'title' => $payload['title'],
             'description' => $payload['description'],
-            'type'        => ResourceType::from($payload['type'])->value,
-            'is_public'   => $payload['is_public'],
-            'order'       => $payload['order'],
+            'type' => ResourceType::from($payload['type'])->value,
+            'is_public' => $payload['is_public'],
+            'order' => $payload['order'],
         ];
 
         if ($this->type === ResourceType::LINK->value) {
@@ -151,7 +151,7 @@ class ResourceUpdateOrCreate extends Component
     public function addRelationship(): void
     {
         $this->relationships[] = [
-            'course_template_id'         => null,
+            'course_template_id' => null,
             'course_session_template_id' => null,
         ];
     }
@@ -172,8 +172,8 @@ class ResourceUpdateOrCreate extends Component
             ->select('id')
             ->get()
             ->map(fn ($template) => [
-                'value'    => $template->id,
-                'label'    => $template->title,
+                'value' => $template->id,
+                'label' => $template->title,
                 'disabled' => in_array($template->id, collect($this->relationships)->pluck('course_session_template_id')->toArray()),
             ])
             ->toArray();
@@ -182,16 +182,16 @@ class ResourceUpdateOrCreate extends Component
     public function render(): View
     {
         return view('livewire.admin.pages.resource.resource-update-or-create', [
-            'edit_mode'          => $this->model->id,
-            'breadcrumbs'        => [
+            'edit_mode' => $this->model->id,
+            'breadcrumbs' => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link'  => route('admin.resource.index'), 'label' => trans('general.page.index.title', ['model' => trans('resource.model')])],
+                ['link' => route('admin.resource.index'), 'label' => trans('general.page.index.title', ['model' => trans('resource.model')])],
                 ['label' => $this->model->id ? trans('general.page.edit.title', ['model' => trans('resource.model')]) : trans('general.page.create.title', ['model' => trans('resource.model')])],
             ],
             'breadcrumbsActions' => [
                 ['link' => route('admin.resource.index'), 'icon' => 's-arrow-left'],
             ],
-            'courseTemplates'    => CourseTemplate::select('id')->get()->map(fn ($template) => [
+            'courseTemplates' => CourseTemplate::select('id')->get()->map(fn ($template) => [
                 'value' => $template->id,
                 'label' => $template->title,
             ])->toArray(),

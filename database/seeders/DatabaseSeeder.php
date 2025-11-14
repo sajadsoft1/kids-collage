@@ -67,6 +67,9 @@ class DatabaseSeeder extends Seeder
 
         $this->command->info('🔑 Login credentials: developer@gmail.com / password');
 
+        // 7. Exam System — Exam management functionality.
+        $this->call(ExamSeeder::class);
+
         Artisan::call('optimize:clear');
     }
 }

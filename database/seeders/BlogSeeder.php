@@ -22,32 +22,28 @@ class BlogSeeder extends Seeder
     public function run(): void
     {
         $data = require database_path('seeders/data/karno.php');
-        $user = User::factory()->create([
-            'type' => UserTypeEnum::EMPLOYEE->value,
-        ]);
-        $user->addMedia(public_path('assets/web/img/teacher-1.jpg'))
-            ->preservingOriginal()
-            ->toMediaCollection('avatar');
+        $user = User::where('type', UserTypeEnum::EMPLOYEE)->first();
+
         foreach ($data['blogs'] as $row) {
             $blog = StoreBlogAction::run([
-                'slug'            => $row['slug'],
-                'title'           => $row['title'],
-                'description'     => $row['description'],
-                'body'            => $row['body'],
-                'category_id'     => $row['category_id'],
-                'user_id'         => $user->id,
-                'view_count'      => $row['view_count'],
-                'comment_count'   => $row['comment_count'],
-                'wish_count'      => $row['wish_count'],
-                'published'       => $row['published'],
-                'published_at'    => $row['published_at'],
-                'seo_title'       => $row['seo_options']['title'],
+                'slug' => $row['slug'],
+                'title' => $row['title'],
+                'description' => $row['description'],
+                'body' => $row['body'],
+                'category_id' => $row['category_id'],
+                'user_id' => $user->id,
+                'view_count' => $row['view_count'],
+                'comment_count' => $row['comment_count'],
+                'wish_count' => $row['wish_count'],
+                'published' => $row['published'],
+                'published_at' => $row['published_at'],
+                'seo_title' => $row['seo_options']['title'],
                 'seo_description' => $row['seo_options']['description'],
-                'canonical'       => $row['seo_options']['canonical'],
-                'old_url'         => $row['seo_options']['old_url'],
-                'redirect_to'     => $row['seo_options']['redirect_to'],
-                'robots_meta'     => $row['seo_options']['robots_meta'],
-                'tags'            => $row['tags'] ?? ['test1', 'test2'],
+                'canonical' => $row['seo_options']['canonical'],
+                'old_url' => $row['seo_options']['old_url'],
+                'redirect_to' => $row['seo_options']['redirect_to'],
+                'robots_meta' => $row['seo_options']['robots_meta'],
+                'tags' => $row['tags'] ?? ['test1', 'test2'],
             ]);
 
             // Add image for the blogs
@@ -82,8 +78,8 @@ class BlogSeeder extends Seeder
 
             foreach (range(1, 5) as $item) {
                 $blogCommentsRelation->create([
-                    'user_id'   => random_int(2, 12), // فرض بر این است که کاربران در دیتابیس موجود هستند
-                    'comment'   => $faker->randomElement($comments),
+                    'user_id' => User::inRandomOrder()->first()->id,
+                    'comment' => $faker->randomElement($comments),
                     'published' => true,
                 ]);
             }

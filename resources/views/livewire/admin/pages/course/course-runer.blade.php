@@ -28,9 +28,9 @@
                     <section>
                         <h3 class="mb-4 text-xl font-bold leading-snug text-slate-800">
                             {{ trans('general.page_sections.data') }}</h3>
-                        <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                        <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
                             @foreach ($informations as $information)
-                                <div class="flex items-center justify-between py-2 border-b border-slate-200">
+                                <div class="flex justify-between items-center py-2 border-b border-slate-200">
                                     <span class="text-sm font-medium text-slate-800">{{ $information['label'] }}</span>
                                     <span class="text-sm text-slate-600">{{ $information['value'] }}</span>
                                 </div>
@@ -43,10 +43,10 @@
                     <section>
                         <h3 class="mb-4 text-xl font-bold leading-snug text-slate-800">پیش‌نیازها</h3>
                         <div class="space-y-2">
-                            @forelse ($courseTemplate->prerequisites as $prerequisite)
+                            @forelse ($prerequisites as $prerequisite)
                                 <div class="flex items-center space-x-2">
                                     <x-icon name="o-check" class="w-4 h-4 text-green-500" />
-                                    <span class="text-sm text-slate-600">{{ $prerequisite }}</span>
+                                    <span class="text-sm text-slate-600">{{ $prerequisite['label'] }}</span>
                                 </div>
                             @empty
                                 <x-alert title="هیچ پیش‌نیازی تعریف نشده" icon="lucide.brain-cog"
@@ -60,7 +60,7 @@
                         <section>
                             <h3 class="mb-4 text-xl font-bold leading-snug text-slate-800">
                                 {{ trans('validation.attributes.description') }}</h3>
-                            <div class="prose max-w-none">
+                            <div class="max-w-none prose">
                                 {!! $courseTemplate->body !!}
                             </div>
                         </section>
@@ -85,7 +85,7 @@
 
                     <x-admin.shared.inline-input :label="trans('validation.attributes.price')" :info="trans('course.page.runer.price_info')">
                         <x-input class="text-sm text-slate-600 min-w-20 lg:min-w-32" wire:model="price" required
-                            min="0" icon="lucide.hand-coins" :suffix="systemCurrency()" />
+                            type="number" min="0" icon="lucide.hand-coins" :suffix="systemCurrency()" />
                     </x-admin.shared.inline-input>
 
                     <x-admin.shared.inline-input :label="trans('validation.attributes.status')" :info="trans('course.page.runer.status_info')">
@@ -138,7 +138,7 @@
 
                             <!-- Display selected days -->
                             @if (!empty($week_days))
-                                <div class="p-2 text-sm text-gray-600 rounded bg-gray-50">
+                                <div class="p-2 text-sm text-gray-600 bg-gray-50 rounded">
                                     <strong>روزهای انتخاب شده:</strong> {{ $this->formattedWeekDays }}
                                 </div>
                             @endif
@@ -164,15 +164,14 @@
                         <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
                             <x-datetime class="lg:min-w-60" wire:model="start_time" required type="time" inline
                                 :label="trans('validation.attributes.start_time')" />
-                            <x-datetime class="lg:min-w-60" wire:model="end_time" required type="time" inline
-                                :label="trans('validation.attributes.end_time')" />
                         </div>
                     </x-admin.shared.inline-input>
 
                     <x-admin.shared.inline-input :label="trans('validation.attributes.teacher_id')" :info="trans('course.page.runer.teacher_info')">
-                        <x-select class="text-sm text-slate-600 lg:min-w-60" wire:model="teacher" required
+                        <x-choices-offline class="text-sm text-slate-600 lg:min-w-60" wire:model="teacher" required
                             placeholder="{{ trans('course.validations.select_a_teacher') }}" placeholder-value="0"
-                            :options="$teachers" option-value="value" option-label="label" />
+                            single clearable searchable :options="$teachers" option-value="value"
+                            option-label="label" />
                     </x-admin.shared.inline-input>
 
                     <x-admin.shared.inline-input :label="trans('validation.attributes.room_id')" :info="trans('course.page.runer.room_info')">
@@ -182,23 +181,23 @@
                     </x-admin.shared.inline-input>
 
                     @if (is_array($this->dates_example))
-                        <div class="divider divider-center p-4 pb-2 text-xs opacity-60 tracking-wide">
+                        <div class="p-4 pb-2 text-xs tracking-wide opacity-60 divider divider-center">
                             {{ trans('course.page.runer.generated_sessions') }}
                         </div>
                         <ul class="list">
 
                             @foreach ($this->dates_example as $index => $date)
                                 <li class="list-row">
-                                    <div class="text-4xl font-thin opacity-30 tabular-nums">
+                                    <div class="text-4xl font-thin tabular-nums opacity-30">
                                         {{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}
                                     </div>
                                     <div class="list-col-grow">
                                         <div>{{ $date['date'] }}</div>
-                                        <div class="text-xs uppercase font-semibold opacity-60">
+                                        <div class="text-xs font-semibold uppercase opacity-60">
                                             {{ $date['day_name'] }}
                                         </div>
                                     </div>
-                                    <div class="text-xs uppercase font-semibold opacity-60">
+                                    <div class="text-xs font-semibold uppercase opacity-60">
                                         <div class="">{{ $date['start_time'] }}</div>
                                         <div class="">{{ $date['end_time'] }}</div>
                                     </div>
@@ -215,7 +214,7 @@
             </x-step>
             <x-step step="3" text="جلسات دوره" class="!px-0">
 
-                <div class="py-6 px-0 md:p-6 space-y-6">
+                <div class="px-0 py-6 space-y-6 md:p-6">
                     <div class="mb-6">
                         <h2 class="mb-2 text-2xl font-bold text-slate-800">جلسات دوره</h2>
                         <p class="text-sm text-slate-600">لیست تمام جلسات این دوره آموزشی</p>
@@ -224,17 +223,17 @@
                     <div class="space-y-4">
                         @foreach ($sessions as $index => $session)
                             <div
-                                class="p-3 md:p-6 transition-shadow bg-white border rounded-lg border-slate-200 hover:shadow-md">
+                                class="p-3 bg-white rounded-lg border transition-shadow md:p-6 border-slate-200 hover:shadow-md">
                                 <div class="flex items-start space-x-4">
                                     <!-- Session Number -->
                                     <div
-                                        class="hidden md:flex items-center justify-center w-12 h-12 text-xl font-bold text-center text-white rounded-full bg-primary">
+                                        class="hidden justify-center items-center w-12 h-12 text-xl font-bold text-center text-white rounded-full md:flex bg-primary">
                                         {{ $session['order'] }}
                                     </div>
 
                                     <!-- Session Content -->
                                     <div class="flex-1">
-                                        <div class="flex items-start justify-between mb-4">
+                                        <div class="flex justify-between items-start mb-4">
                                             <div>
                                                 <h3 class="mb-1 text-lg font-semibold text-slate-800">
                                                     {{ $session['title'] ?? 'جلسه ' . ($index + 1) }}
@@ -303,38 +302,38 @@
                     </div>
 
                     <!-- Course Summary Card -->
-                    <div class="p-6 border rounded-lg bg-gradient-to-r to-blue-50 from-primary/5 border-primary/20">
+                    <div class="p-6 bg-gradient-to-r to-blue-50 rounded-lg border from-primary/5 border-primary/20">
                         <div class="flex items-start space-x-4">
                             @if ($courseTemplate->getFirstMediaUrl('image'))
                                 <img src="{{ $courseTemplate->getFirstMediaUrl('image') }}"
                                     alt="{{ $courseTemplate->title }}"
-                                    class="hidden md:block object-cover w-20 h-20 rounded-lg">
+                                    class="hidden object-cover w-20 h-20 rounded-lg md:block">
                             @endif
                             <div class="flex-1">
-                                <h3 class="hidden md:block mb-2 text-xl font-bold text-slate-800">
+                                <h3 class="hidden mb-2 text-xl font-bold md:block text-slate-800">
                                     {{ $courseTemplate->title }}</h3>
-                                <p class="hidden md:block mb-4 text-sm text-slate-600">
+                                <p class="hidden mb-4 text-sm md:block text-slate-600">
                                     {{ $courseTemplate->description }}</p>
 
                                 <!-- Course Stats -->
                                 <div class="grid grid-cols-2 gap-4 md:grid-cols-4">
                                     <div class="text-center">
-                                        <div class="text-xl md:text-2xl font-bold text-primary">
+                                        <div class="text-xl font-bold md:text-2xl text-primary">
                                             {{ $courseTemplate->sessionTemplates->count() }}</div>
                                         <div class="text-xs text-slate-500">جلسه</div>
                                     </div>
                                     <div class="text-center">
-                                        <div class="text-xl md:text-2xl font-bold text-primary">
+                                        <div class="text-xl font-bold md:text-2xl text-primary">
                                             {{ $courseTemplate->type->title() ?? 'N/A' }}</div>
                                         <div class="text-xs text-slate-500">نوع</div>
                                     </div>
                                     <div class="text-center">
-                                        <div class="text-xl md:text-2xl font-bold text-primary">
+                                        <div class="text-xl font-bold md:text-2xl text-primary">
                                             {{ $courseTemplate->level->title() ?? 'N/A' }}</div>
                                         <div class="text-xs text-slate-500">سطح</div>
                                     </div>
                                     <div class="text-center">
-                                        <div class="text-xl md:text-2xl font-bold text-primary">
+                                        <div class="text-xl font-bold md:text-2xl text-primary">
                                             {{ $courseTemplate->category->title ?? 'N/A' }}</div>
                                         <div class="text-xs text-slate-500">دسته‌بندی</div>
                                     </div>
@@ -344,7 +343,7 @@
                     </div>
 
                     <!-- Course Checklist -->
-                    <div class="p-6 bg-white border rounded-lg border-slate-200">
+                    <div class="p-6 bg-white rounded-lg border border-slate-200">
                         <h3 class="mb-4 text-lg font-semibold text-slate-800">چک‌لیست آماده‌سازی</h3>
                         <div class="space-y-3">
                             <div class="flex items-center space-x-3">

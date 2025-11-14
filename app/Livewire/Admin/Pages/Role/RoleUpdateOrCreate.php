@@ -7,12 +7,9 @@ namespace App\Livewire\Admin\Pages\Role;
 use App\Actions\Role\StoreRoleAction;
 use App\Actions\Role\UpdateRoleAction;
 use App\Models\Role;
-use App\Services\Permissions\PermissionsService;
 use Illuminate\View\View;
-use Livewire\Attributes\On;
 use Livewire\Component;
 use Mary\Traits\Toast;
-use Spatie\Permission\Models\Permission;
 use Throwable;
 
 class RoleUpdateOrCreate extends Component
@@ -20,57 +17,29 @@ class RoleUpdateOrCreate extends Component
     use Toast;
 
     public Role $role;
-    public ?int $edit_mode      = null;
-    public ?string $name        = '';
+    public ?int $edit_mode = null;
+    public ?string $name = '';
     public ?string $description = '';
-    public array $permissions   = [];
+    public array $permissions = [];
 
     public function mount(Role $role): void
     {
-        $this->role        = $role->load('permissions');
-        $this->name        = $role->name;
+        $this->role = $role->load('permissions');
+        $this->name = $role->name;
         $this->description = $role->description;
         $this->permissions = $role->permissions->pluck('id')->map(fn ($id) => (int) $id)->toArray();
-        $this->edit_mode   = $role->id;
+        $this->edit_mode = $role->id;
     }
 
     protected function rules(): array
     {
         return [
-            'name'          => 'required|string',
-            'description'   => 'nullable|string',
-            'permissions'   => 'nullable|array',
+            'name' => 'required|string',
+            'description' => 'nullable|string',
+            'permissions' => 'nullable|array',
             'permissions.*' => 'required|exists:permissions,id',
         ];
     }
-
-    #[On('admin-selected')]
-    public function clearAllExceptAdmin(): void
-    {
-        $adminId           = Permission::where('name', 'Shared.Admin')->value('id');
-        $this->permissions = [$adminId]; // keep only Admin
-    }
-
-    //    public function toggleAllPermissions(): void
-    //    {
-    //        $allPermissions = $this->getAllPossiblePermissions(); // Your method
-    //        $this->permissions = count($this->permissions) === count($allPermissions)
-    //            ? []
-    //            : $allPermissions;
-    //    }
-    //
-    //    public function getAllPossiblePermissions(): array
-    //    {
-    //        $result = [];
-    //        foreach (PermissionsService::showPermissionsByService() as $arrayItem) {
-    //            foreach ($arrayItem['items'] as $item) {
-    //                $permissionId = Permission::where('name', $item['value'])->value('id');
-    //                $result[] = $permissionId;
-    //            }
-    //        }
-    //
-    //        return $result;
-    //    }
 
     public function submit(): void
     {
@@ -107,8 +76,8 @@ class RoleUpdateOrCreate extends Component
     public function render(): View
     {
         return view('livewire.admin.pages.role.role-update-or-create', [
-            'edit_mode'          => $this->role->id,
-            'breadcrumbs'        => [
+            'edit_mode' => $this->role->id,
+            'breadcrumbs' => [
                 ['label' => $this->role->id ? 'آپدیت نقش' : 'ایجاد نقش'],
             ],
             'breadcrumbsActions' => [

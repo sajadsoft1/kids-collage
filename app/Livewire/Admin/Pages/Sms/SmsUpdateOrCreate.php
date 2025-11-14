@@ -19,26 +19,26 @@ class SmsUpdateOrCreate extends Component
     use Toast;
 
     public Sms $model;
-    public string $title       = '';
+    public string $title = '';
     public string $description = '';
-    public bool $published     = false;
+    public bool $published = false;
 
     public function mount(Sms $sms): void
     {
         $this->model = $sms;
         if ($this->model->id) {
-            $this->title       = $this->model->title;
+            $this->title = $this->model->title;
             $this->description = $this->model->description;
-            $this->published   = $this->model->published->value;
+            $this->published = $this->model->published->value;
         }
     }
 
     protected function rules(): array
     {
         return [
-            'title'       => 'required|string',
+            'title' => 'required|string',
             'description' => 'required|string',
-            'published'   => 'required',
+            'published' => 'required',
         ];
     }
 
@@ -71,10 +71,10 @@ class SmsUpdateOrCreate extends Component
     public function render(): View
     {
         return view('livewire.admin.pages.sms.sms-update-or-create', [
-            'edit_mode'          => $this->model->id,
-            'breadcrumbs'        => [
+            'edit_mode' => $this->model->id,
+            'breadcrumbs' => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link'  => route('admin.sms.index'), 'label' => trans('general.page.index.title', ['model' => trans('sms.model')])],
+                ['link' => route('admin.sms.index'), 'label' => trans('general.page.index.title', ['model' => trans('sms.model')])],
                 ['label' => trans('general.page.create.title', ['model' => trans('sms.model')])],
             ],
             'breadcrumbsActions' => [

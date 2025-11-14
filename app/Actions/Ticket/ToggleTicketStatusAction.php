@@ -20,7 +20,7 @@ class ToggleTicketStatusAction
         return DB::transaction(function () use ($ticket) {
             if ($ticket->status === TicketStatusEnum::OPEN) {
                 return $ticket?->update([
-                    'status'    => TicketStatusEnum::CLOSE->value,
+                    'status' => TicketStatusEnum::CLOSE->value,
                     'closed_by' => auth()->id(),
                 ]);
             }

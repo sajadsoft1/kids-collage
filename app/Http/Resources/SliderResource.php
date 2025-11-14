@@ -35,20 +35,20 @@ class SliderResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'           => $this->id,
-            'title'        => $this->title,
-            'description'  => $this->description,
-            'link'         => $this->link,
-            'published'    => $this->published->toArray(),
-            'position'     => $this->position->toArray(),
-            'has_timer'    => $this->has_timer->toArray(),
+            'id' => $this->id,
+            'title' => $this->title,
+            'description' => $this->description,
+            'link' => $this->link,
+            'published' => $this->published->toArray(),
+            'position' => $this->position->toArray(),
+            'has_timer' => $this->has_timer->toArray(),
             'published_at' => $this->published_at,
-            'ordering'     => $this->ordering,
-            'expired_at'   => $this->expired_at,
-            'timer_start'  => $this->timer_start,
-            'updated_at'   => $this->updated_at,
-            'created_at'   => $this->created_at,
-            'image'        => $this->resource->getFirstMediaUrl('image', Constants::RESOLUTION_1280_400),
+            'ordering' => $this->ordering,
+            'expired_at' => $this->expired_at,
+            'timer_start' => $this->timer_start,
+            'updated_at' => $this->updated_at,
+            'created_at' => $this->created_at,
+            'image' => $this->resource->getFirstMediaUrl('image', Constants::RESOLUTION_1280_400),
         ];
     }
 }

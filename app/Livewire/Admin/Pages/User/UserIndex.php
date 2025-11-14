@@ -13,15 +13,15 @@ class UserIndex extends Component
     public function render()
     {
         return view('livewire.admin.pages.user.user-index', [
-            'breadcrumbs'        => [
+            'breadcrumbs' => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
                 ['label' => trans('general.page.index.title', ['model' => trans('user.user')])],
             ],
             'breadcrumbsActions' => [
                 [
-                    'link'   => route('admin.user.create'),
-                    'icon'   => 's-plus',
-                    'label'  => trans(
+                    'link' => route('admin.user.create'),
+                    'icon' => 's-plus',
+                    'label' => trans(
                         'general.page.create.title',
                         ['model' => trans('user.user')]
                     ),

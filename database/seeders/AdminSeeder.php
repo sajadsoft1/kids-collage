@@ -17,19 +17,19 @@ class AdminSeeder extends Seeder
     public function run(): void
     {
         StoreUserAction::run([
-            'name'                    => 'super',
-            'family'                  => 'admin',
-            'mobile'                  => '09100000000',
-            'password'                => 'password',
-            'type'                    => UserTypeEnum::EMPLOYEE->value,
-            'email'                   => 'developer@gmail.com',
-            'status'                  => true,
-            'gender'                  => GenderEnum::MALE->value,
-            'birthday'                => '1990-01-01',
-            'national_code'           => '1234567890',
-            'national_card_image'     => 'national_card_image.jpg',
+            'name' => 'super',
+            'family' => 'admin',
+            'mobile' => '09100000000',
+            'password' => 'password',
+            'type' => UserTypeEnum::EMPLOYEE->value,
+            'email' => 'developer@gmail.com',
+            'status' => true,
+            'gender' => GenderEnum::MALE->value,
+            'birthday' => '1990-01-01',
+            'national_code' => '1234567890',
+            'national_card_image' => 'national_card_image.jpg',
             'birth_certificate_image' => 'birth_certificate_image.jpg',
-            'roles'                   => [Role::where('name', RoleEnum::ADMIN->value)->first()->id],
+            'roles' => [Role::where('name', RoleEnum::ADMIN->value)->first()->id],
         ]);
     }
 }

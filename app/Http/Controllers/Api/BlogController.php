@@ -108,7 +108,7 @@ class BlogController extends Controller
                 'limit' => $request->input('limit', 1),
             ])->paginate($request->input('page_limit', 1))->toResourceCollection(BlogResource::class),
             [
-                'sort'   => [
+                'sort' => [
                     ['label' => '', 'value' => 'id'],
                     ['label' => trans('blog.sort.most_view'), 'value' => 'view'],
                     ['label' => trans('blog.sort.most_comment'), 'value' => 'comment'],
@@ -171,7 +171,7 @@ class BlogController extends Controller
     {
         return Response::dataWithAdditional(
             $this->query([
-                'limit'       => $request->input('limit', 1),
+                'limit' => $request->input('limit', 1),
                 'category_id' => $category->id,
             ])->paginate($request->input('page_limit', 1))->toResourceCollection(BlogResource::class),
             [
@@ -225,12 +225,12 @@ class BlogController extends Controller
     public function indexByTag(Request $request, string $value): JsonResponse
     {
         $locale = app()->getLocale();
-        $tag    = SpatieTag::where("slug->{$locale}", $value)->firstOrFail();
+        $tag = SpatieTag::where("slug->{$locale}", $value)->firstOrFail();
 
         return Response::dataWithAdditional(
             $this->query([
                 'limit' => $request->input('limit', 1),
-                'tag'   => $tag,
+                'tag' => $tag,
             ])->paginate($request->input('page_limit', 1))->toResourceCollection(BlogResource::class),
             [
                 'aaa' => 'bbbb',
@@ -335,13 +335,13 @@ class BlogController extends Controller
     public function extraData(Blog $blog)
     {
         $relatedBlogs = $blog->relatedBlogs($blog);
-        $banners      = Banner::latestBanner();
-        $tags         =Tag::blogTags();
+        $banners = Banner::latestBanner();
+        $tags = Tag::blogTags();
 
         return Response::data([
-            'banners'      => BannerResource::collection($banners),
+            'banners' => BannerResource::collection($banners),
             'relatedBlogs' => BlogResource::collection($relatedBlogs),
-            'tags'         => TagResource::collection($tags),
+            'tags' => TagResource::collection($tags),
         ]);
     }
 
@@ -361,16 +361,16 @@ class BlogController extends Controller
      */
     public function data()
     {
-        $popularBlog  = Blog::popularBlogs();
-        $banners      = Banner::latestBanner();
-        $categories   =Category::BlogCategories();
-        $tags         =Tag::blogTags();
+        $popularBlog = Blog::popularBlogs();
+        $banners = Banner::latestBanner();
+        $categories = Category::BlogCategories();
+        $tags = Tag::blogTags();
 
         return Response::data([
-            'banners'     => BannerResource::collection($banners),
+            'banners' => BannerResource::collection($banners),
             'popularBlog' => BlogResource::collection($popularBlog),
-            'Categories'  => CategoryResource::collection($categories),
-            'tags'        => TagResource::collection($tags),
+            'Categories' => CategoryResource::collection($categories),
+            'tags' => TagResource::collection($tags),
         ]);
     }
 }

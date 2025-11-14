@@ -24,17 +24,17 @@ class SmsUsageHandler
     public function ensureUsable(string $driverName, SmsDriver $driver): void
     {
         $requiredByDriver = match ($driverName) {
-            'kavenegar'    => ['token'],
-            'smsir'        => ['api_key'],
+            'kavenegar' => ['token'],
+            'smsir' => ['api_key'],
             'mellipayamac' => ['username', 'password'],
-            default        => [],
+            default => [],
         };
 
         // Use reflection to read the config property if exposed by drivers in a conventional way
         $config = [];
         if (property_exists($driver, 'config')) {
             /** @var array $cfg */
-            $cfg    = $driver->config;
+            $cfg = $driver->config;
             $config = is_array($cfg) ? $cfg : [];
         }
 

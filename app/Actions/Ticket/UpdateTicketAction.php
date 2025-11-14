@@ -52,8 +52,8 @@ class UpdateTicketAction
 
             $this->ticketMessageAction->handle([
                 'ticket_id' => $ticket->id,
-                'user_id'   => auth()->id(),
-                'message'   => Arr::get($payload, 'reply'),
+                'user_id' => auth()->id(),
+                'message' => Arr::get($payload, 'reply'),
             ]);
 
             return $ticket->refresh();

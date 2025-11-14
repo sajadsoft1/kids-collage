@@ -15,18 +15,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class SeoBuilder
 {
-    protected ?string $title       = null;
+    protected ?string $title = null;
     protected ?string $description = null;
-    protected array $keywords      = [];
-    protected array $images        = [];
-    protected string $type         = 'article';
-    protected ?string $url         = null;
-    protected ?string $canonical   = null;
-    protected array $hreflangs     = [];
-    protected array $extraMeta     = [];
+    protected array $keywords = [];
+    protected array $images = [];
+    protected string $type = 'article';
+    protected ?string $url = null;
+    protected ?string $canonical = null;
+    protected array $hreflangs = [];
+    protected array $extraMeta = [];
 
-    protected bool $withOpenGraph   = true;
-    protected bool $withJsonLd      = true;
+    protected bool $withOpenGraph = true;
+    protected bool $withJsonLd = true;
     protected bool $withJsonLdMulti = true;
 
     protected ?Model $model = null;
@@ -38,8 +38,8 @@ class SeoBuilder
      */
     public static function create(?Model $model = null): self
     {
-        $instance            = new static;
-        $instance->url       = request()->url();
+        $instance = new static;
+        $instance->url = request()->url();
         $instance->canonical = $instance->url;
         if ($model) {
             $instance->model = $model;
@@ -65,11 +65,11 @@ class SeoBuilder
      */
     public function blog(): self
     {
-        $model      = $this->model;
+        $model = $this->model;
         $this->type = 'article';
         $this->title ??= $model->title ?? null;
         $this->description ??= $model->description ?? $model->resume ?? null;
-        $this->images   = [$model->getFirstMediaUrl('image', Constants::RESOLUTION_854_480)];
+        $this->images = [$model->getFirstMediaUrl('image', Constants::RESOLUTION_854_480)];
         $this->keywords = $this->keywords ?: ($model->keywords ?? []);
 
         return $this;
@@ -81,7 +81,7 @@ class SeoBuilder
      */
     public function portfolio(): self
     {
-        $model      = $this->model;
+        $model = $this->model;
         $this->type = 'portfolio';
         $this->title ??= $model->title ?? null;
         $this->description ??= $model->description ?? null;

@@ -19,18 +19,18 @@ class NotificationTemplate extends BaseTemplate
     public function template(Setting $setting): array
     {
         $this->setting = $setting;
-        $options       = BooleanEnum::options();
+        $options = BooleanEnum::options();
         
-        $orderCreateSmsValue          = $this->selectOption($options, $setting->extra_attributes->get('order_create.sms', true));
-        $orderCreateEmailValue        = $this->selectOption($options, $setting->extra_attributes->get('order_create.email', true));
+        $orderCreateSmsValue = $this->selectOption($options, $setting->extra_attributes->get('order_create.sms', true));
+        $orderCreateEmailValue = $this->selectOption($options, $setting->extra_attributes->get('order_create.email', true));
         $orderCreateNotificationValue = $this->selectOption($options, $setting->extra_attributes->get('order_create.notification', true));
         
-        $chatCreateSmsValue          = $this->selectOption($options, $setting->extra_attributes->get('chat_create.sms', true));
-        $chatCreateEmailValue        = $this->selectOption($options, $setting->extra_attributes->get('chat_create.email', true));
+        $chatCreateSmsValue = $this->selectOption($options, $setting->extra_attributes->get('chat_create.sms', true));
+        $chatCreateEmailValue = $this->selectOption($options, $setting->extra_attributes->get('chat_create.email', true));
         $chatCreateNotificationValue = $this->selectOption($options, $setting->extra_attributes->get('chat_create.notification', true));
         
-        $userCreateSmsValue          = $this->selectOption($options, $setting->extra_attributes->get('user_create.sms', true));
-        $userCreateEmailValue        = $this->selectOption($options, $setting->extra_attributes->get('user_create.email', true));
+        $userCreateSmsValue = $this->selectOption($options, $setting->extra_attributes->get('user_create.sms', true));
+        $userCreateEmailValue = $this->selectOption($options, $setting->extra_attributes->get('user_create.email', true));
         $userCreateNotificationValue = $this->selectOption($options, $setting->extra_attributes->get('user_create.notification', true));
         
         return [
@@ -56,32 +56,32 @@ class NotificationTemplate extends BaseTemplate
     public function validate(Setting $setting, array $payload = []): array
     {
         return $this->makeValidator($payload, [
-            'order_create'              => ['required', 'array'],
-            'order_create.sms'          => ['required', 'boolean'],
-            'order_create.email'        => ['required', 'boolean'],
+            'order_create' => ['required', 'array'],
+            'order_create.sms' => ['required', 'boolean'],
+            'order_create.email' => ['required', 'boolean'],
             'order_create.notification' => ['required', 'boolean'],
             
-            'chat_create'               => ['required', 'array'],
-            'chat_create.sms'           => ['required', 'boolean'],
-            'chat_create.email'         => ['required', 'boolean'],
-            'chat_create.notification'  => ['required', 'boolean'],
+            'chat_create' => ['required', 'array'],
+            'chat_create.sms' => ['required', 'boolean'],
+            'chat_create.email' => ['required', 'boolean'],
+            'chat_create.notification' => ['required', 'boolean'],
             
-            'user_create'               => ['required', 'array'],
-            'user_create.sms'           => ['required', 'boolean'],
-            'user_create.email'         => ['required', 'boolean'],
-            'user_create.notification'  => ['required', 'boolean'],
+            'user_create' => ['required', 'array'],
+            'user_create.sms' => ['required', 'boolean'],
+            'user_create.email' => ['required', 'boolean'],
+            'user_create.notification' => ['required', 'boolean'],
         ], customAttributes: [
-            'order_create.sms'          => trans('setting.configs.notification.items.sms.label'),
-            'order_create.email'        => trans('setting.configs.notification.items.email.label'),
+            'order_create.sms' => trans('setting.configs.notification.items.sms.label'),
+            'order_create.email' => trans('setting.configs.notification.items.email.label'),
             'order_create.notification' => trans('setting.configs.notification.items.notification.label'),
             
-            'chat_create.sms'           => trans('setting.configs.notification.items.sms.label'),
-            'chat_create.email'         => trans('setting.configs.notification.items.email.label'),
-            'chat_create.notification'  => trans('setting.configs.notification.items.notification.label'),
+            'chat_create.sms' => trans('setting.configs.notification.items.sms.label'),
+            'chat_create.email' => trans('setting.configs.notification.items.email.label'),
+            'chat_create.notification' => trans('setting.configs.notification.items.notification.label'),
             
-            'user_create.sms'           => trans('setting.configs.notification.items.sms.label'),
-            'user_create.email'         => trans('setting.configs.notification.items.email.label'),
-            'user_create.notification'  => trans('setting.configs.notification.items.notification.label'),
+            'user_create.sms' => trans('setting.configs.notification.items.sms.label'),
+            'user_create.email' => trans('setting.configs.notification.items.email.label'),
+            'user_create.notification' => trans('setting.configs.notification.items.notification.label'),
         ]);
     }
 }

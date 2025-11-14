@@ -15,7 +15,7 @@ class GenerateEnrollmentPipe implements OrderCourseInterface
     public function handle(OrderCourseDTO $dto, Closure $next): OrderCourseDTO
     {
         $order = $dto->getOrder();
-        $user  = $dto->getUser();
+        $user = $dto->getUser();
 
         if ( ! $order) {
             return $next($dto);
@@ -33,16 +33,16 @@ class GenerateEnrollmentPipe implements OrderCourseInterface
                     // Update existing enrollment with new order_item_id
                     $existingEnrollment->update([
                         'order_item_id' => $item->id,
-                        'enrolled_at'   => $existingEnrollment->enrolled_at ?? now(),
+                        'enrolled_at' => $existingEnrollment->enrolled_at ?? now(),
                     ]);
                     $dto->setEnrollment($existingEnrollment);
                 } else {
                     // Create new enrollment
                     $enrollment = $user?->enrollments()->create([
-                        'course_id'     => $item->itemable_id,
-                        'status'        => EnrollmentStatusEnum::ACTIVE->value,
+                        'course_id' => $item->itemable_id,
+                        'status' => EnrollmentStatusEnum::ACTIVE->value,
                         'order_item_id' => $item->id,
-                        'enrolled_at'   => now(),
+                        'enrolled_at' => now(),
                     ]);
                     $dto->setEnrollment($enrollment);
                 }

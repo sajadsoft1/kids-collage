@@ -8,9 +8,9 @@ enum PaymentStatusEnum: string
 {
     use EnumToArray;
 
-    case PENDING  = 'pending';
-    case PAID     = 'paid';
-    case FAILED   = 'failed';
+    case PENDING = 'pending';
+    case PAID = 'paid';
+    case FAILED = 'failed';
 
     public static function options(): array
     {
@@ -34,8 +34,8 @@ enum PaymentStatusEnum: string
     {
         return match ($this) {
             self::PENDING => trans('payment.enum.status.pending'),
-            self::PAID    => trans('payment.enum.status.paid'),
-            self::FAILED  => trans('payment.enum.status.failed'),
+            self::PAID => trans('payment.enum.status.paid'),
+            self::FAILED => trans('payment.enum.status.failed'),
         };
     }
 
@@ -43,8 +43,8 @@ enum PaymentStatusEnum: string
     {
         return match ($this) {
             self::PENDING => 'warning',
-            self::PAID    => 'success',
-            self::FAILED  => 'danger',
+            self::PAID => 'success',
+            self::FAILED => 'danger',
         };
     }
 

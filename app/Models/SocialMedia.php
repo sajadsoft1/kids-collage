@@ -33,9 +33,9 @@ class SocialMedia extends Model implements HasMedia
         'published', 'link', 'ordering', 'position', 'color',
     ];
     protected $casts = [
-        'published'  => BooleanEnum::class,
-        'position'   => SocialMediaPositionEnum::class,
-        'ordering'   => 'integer',
+        'published' => BooleanEnum::class,
+        'position' => SocialMediaPositionEnum::class,
+        'ordering' => 'integer',
         'updated_at' => 'datetime',
         'created_at' => 'datetime',
     ];

@@ -13,7 +13,7 @@ use OpenApi\Annotations as OA;
  *     schema="StoreContactUsRequest",
  *     title="StoreContactUsRequest",
  *     type="object",
- *     required={"name", "comment","subject"},
+ *     required={"name", "comment", "subject"},
  *
  *     @OA\Property(property="name", type="string", default="ahmad dehestani"),
  *     @OA\Property(property="subject", type="string", default="test subject"),
@@ -29,10 +29,10 @@ class StoreContactUsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'    => ['required', 'string', 'max:255', 'min:3'],
-            'subject'    => ['required', 'string', 'max:255', 'min:3'],
-            'email'   => ['email', 'max:255', Rule::when(isset($this->mobile), ['nullable']), Rule::when( ! isset($this->mobile), ['required'])],
-            'mobile'  => ['numeric', Rule::when(isset($this->email), ['nullable']), Rule::when( ! isset($this->email), ['required'])],
+            'name' => ['required', 'string', 'max:255', 'min:3'],
+            'subject' => ['required', 'string', 'max:255', 'min:3'],
+            'email' => ['email', 'max:255', Rule::when(isset($this->mobile), ['nullable']), Rule::when( ! isset($this->mobile), ['required'])],
+            'mobile' => ['numeric', Rule::when(isset($this->email), ['nullable']), Rule::when( ! isset($this->email), ['required'])],
             'comment' => ['required', 'string', 'max:10000'],
         ];
     }

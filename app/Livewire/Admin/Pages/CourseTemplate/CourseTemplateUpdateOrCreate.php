@@ -28,25 +28,25 @@ class CourseTemplateUpdateOrCreate extends Component
     use CrudHelperTrait , Toast, WithFileUploads;
 
     public CourseTemplate $model;
-    public string $selectedTab       = 'informations-tab';
-    public string $title             = '';
-    public string $description       = '';
-    public string $body              = '';
-    public string $type              = CourseTypeEnum::IN_PERSON->value;
-    public string $level             = CourseLevelEnum::BIGGINER->value;
-    public array $categories         = [];
-    public array $tags               = [];
-    public int $category_id          = 0;
-    public bool $is_self_paced       = false;
-    public array $prerequisitesList  = [];
-    public array $prerequisites      = [];
-    public int $sessions_count       = 2;
+    public string $selectedTab = 'informations-tab';
+    public string $title = '';
+    public string $description = '';
+    public string $body = '';
+    public string $type = CourseTypeEnum::IN_PERSON->value;
+    public string $level = CourseLevelEnum::BIGGINER->value;
+    public array $categories = [];
+    public array $tags = [];
+    public int $category_id = 0;
+    public bool $is_self_paced = false;
+    public array $prerequisitesList = [];
+    public array $prerequisites = [];
+    public int $sessions_count = 2;
     public $image;
-    public array $sessions          = [];
+    public array $sessions = [];
 
     public function mount(CourseTemplate $courseTemplate): void
     {
-        $this->model      = $courseTemplate;
+        $this->model = $courseTemplate;
         $this->categories = Category::where('type', CategoryTypeEnum::COURSE)
             ->where('published', BooleanEnum::ENABLE)
             ->get()
@@ -57,21 +57,21 @@ class CourseTemplateUpdateOrCreate extends Component
         if ($this->model->id) {
             $this->sessions_count = $this->model->sessionTemplates()->count() ?: 1;
 
-            $this->title         = $this->model->title;
-            $this->description   = $this->model->description;
-            $this->body          = $this->model->body;
-            $this->type          = $this->model->type->value;
-            $this->level         = $this->model->level->value;
+            $this->title = $this->model->title;
+            $this->description = $this->model->description;
+            $this->body = $this->model->body;
+            $this->type = $this->model->type->value;
+            $this->level = $this->model->level->value;
             $this->prerequisites = $this->model->prerequisites;
             $this->is_self_paced = $this->model->is_self_paced;
-            $this->category_id   = $this->model->category_id;
-            $this->tags          = $this->model->tags()->pluck('name')->toArray();
-            $this->sessions      = $this->model->sessionTemplates->map(fn ($item) => [
-                'order'            => $item->order,
-                'title'            => $item->title,
-                'description'      => $item->description,
+            $this->category_id = $this->model->category_id;
+            $this->tags = $this->model->tags()->pluck('name')->toArray();
+            $this->sessions = $this->model->sessionTemplates->map(fn ($item) => [
+                'order' => $item->order,
+                'title' => $item->title,
+                'description' => $item->description,
                 'duration_minutes' => $item->duration_minutes ?? 60,
-                'type'             => $this->model->type->value,
+                'type' => $this->model->type->value,
             ])->toArray();
         } else {
             $this->updatedSessionsCount(10);
@@ -89,38 +89,46 @@ class CourseTemplateUpdateOrCreate extends Component
         $newSessions = [];
         foreach (range(0, $this->sessions_count - 1) as $index) {
             $newSessions[] = $oldSessions[$index] ?? [
-                'order'            => $index + 1,
-                'title'            => trans('courseTemplate.page.session_title_x', ['number' => $index + 1]),
-                'description'      => trans('courseTemplate.page.session_description_x', ['number' => $index + 1]),
+                'order' => $index + 1,
+                'title' => trans('courseTemplate.page.session_title_x', ['number' => $index + 1]),
+                'description' => trans('courseTemplate.page.session_description_x', ['number' => $index + 1]),
                 'duration_minutes' => 60,
-                'type'             => $this->type,
+                'type' => $this->type,
             ];
         }
 
         $this->sessions = $newSessions;
     }
 
+    public function updatedType($value): void
+    {
+        $this->sessions = array_map(fn ($session) => [
+            ...$session,
+            'type' => $value,
+        ], $this->sessions);
+    }
+
     protected function rules(): array
     {
         return [
-            'title'                       => 'required|string',
-            'description'                 => 'required|string',
-            'body'                        => 'required|string',
-            'type'                        => ['required', Rule::in(CourseTypeEnum::values())],
-            'level'                       => ['required', Rule::in(CourseLevelEnum::values())],
-            'is_self_paced'               => 'required|boolean',
-            'prerequisites'               => 'nullable|array',
-            'prerequisites.*'             => 'integer|exists:course_templates,id',
-            'category_id'                 => 'required|exists:categories,id,type,course',
-            'image'                       => 'nullable|file|mimes:png,jpg,jpeg|max:4096',
-            'tags'                        => 'nullable|array',
-            'tags.*'                      => 'string',
-            'sessions'                    => 'required|array|min:1',
-            'sessions.*.order'            => 'required|integer|min:1',
-            'sessions.*.title'            => 'required|string',
-            'sessions.*.description'      => 'nullable|string',
+            'title' => 'required|string',
+            'description' => 'required|string',
+            'body' => 'required|string',
+            'type' => ['required', Rule::in(CourseTypeEnum::values())],
+            'level' => ['required', Rule::in(CourseLevelEnum::values())],
+            'is_self_paced' => 'required|boolean',
+            'prerequisites' => 'nullable|array',
+            'prerequisites.*' => 'integer|exists:course_templates,id',
+            'category_id' => 'required|exists:categories,id,type,course',
+            'image' => 'nullable|file|mimes:png,jpg,jpeg|max:4096',
+            'tags' => 'nullable|array',
+            'tags.*' => 'string',
+            'sessions' => 'required|array|min:1',
+            'sessions.*.order' => 'required|integer|min:1',
+            'sessions.*.title' => 'required|string',
+            'sessions.*.description' => 'nullable|string',
             'sessions.*.duration_minutes' => 'required|integer|min:1',
-            'sessions.*.type'             => ['required', Rule::in(CourseTypeEnum::values())],
+            'sessions.*.type' => ['required', Rule::in(CourseTypeEnum::values())],
         ];
     }
 
@@ -139,7 +147,7 @@ class CourseTemplateUpdateOrCreate extends Component
                 $this->error($e->getMessage(), timeout: 5000);
             }
         } else {
-            $payload['slug'] = StringHelper::slug($this->title);
+            $payload['slug'] = $this->model->uniqueSlug(StringHelper::slug($this->title));
 
             try {
                 StoreCourseTemplateAction::run($payload);
@@ -156,10 +164,10 @@ class CourseTemplateUpdateOrCreate extends Component
     public function render(): View
     {
         return view('livewire.admin.pages.courseTemplate.courseTemplate-update-or-create', [
-            'edit_mode'          => $this->model->id,
-            'breadcrumbs'        => [
+            'edit_mode' => $this->model->id,
+            'breadcrumbs' => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link'  => route('admin.course-template.index'), 'label' => trans('general.page.index.title', ['model' => trans('courseTemplate.model')])],
+                ['link' => route('admin.course-template.index'), 'label' => trans('general.page.index.title', ['model' => trans('courseTemplate.model')])],
                 ['label' => trans('general.page.create.title', ['model' => trans('courseTemplate.model')])],
             ],
             'breadcrumbsActions' => [

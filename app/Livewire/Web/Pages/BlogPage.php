@@ -30,7 +30,7 @@ class BlogPage extends Component
             ->apply();
 
         return view('livewire.web.pages.blog-page', [
-            'blogs'        => Blog::query()
+            'blogs' => Blog::query()
                 ->where('published', 1)
                 ->orderBy('created_at', 'desc')
                 ->paginate(10),
@@ -39,12 +39,12 @@ class BlogPage extends Component
                 ->orderBy('created_at', 'desc')
                 ->limit(3)
                 ->get(),
-            'categories'   => Category::query()
+            'categories' => Category::query()
                 ->where('published', 1)
                 ->orderBy('created_at', 'desc')
                 ->limit(3)
                 ->get(),
-            'tags'         => Tag::query()
+            'tags' => Tag::query()
                 ->orderBy('created_at', 'desc')
                 ->limit(3)
                 ->get(),

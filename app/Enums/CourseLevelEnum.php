@@ -8,28 +8,28 @@ enum CourseLevelEnum: string
 {
     use EnumToArray;
 
-    case BIGGINER  = 'bigginer';
-    case NORMAL    = 'normal';
-    case ADVANCE   = 'advance';
+    case BIGGINER = 'bigginer';
+    case NORMAL = 'normal';
+    case ADVANCE = 'advance';
     case INTERMEDIATE = 'intermediate';
 
     public static function options(): array
     {
         return [
             [
-                'label' => 'BIGGINER',
+                'label' => self::BIGGINER->title(),
                 'value' => self::BIGGINER->value,
             ],
             [
-                'label' => 'NORMAL',
+                'label' => self::NORMAL->title(),
                 'value' => self::NORMAL->value,
             ],
             [
-                'label' => 'ADVANCE',
+                'label' => self::ADVANCE->title(),
                 'value' => self::ADVANCE->value,
             ],
             [
-                'label' => 'INTERMEDIATE',
+                'label' => self::INTERMEDIATE->title(),
                 'value' => self::INTERMEDIATE->value,
             ],
         ];
@@ -38,10 +38,10 @@ enum CourseLevelEnum: string
     public function title(): string
     {
         return match ($this) {
-            self::BIGGINER => 'bigginer',
-            self::NORMAL   => 'normal',
-            self::ADVANCE  => 'advance',
-            self::INTERMEDIATE => 'intermediate',
+            self::BIGGINER => trans('course.enum.level.bigginer'),
+            self::NORMAL => trans('course.enum.level.normal'),
+            self::ADVANCE => trans('course.enum.level.advance'),
+            self::INTERMEDIATE => trans('course.enum.level.intermediate'),
         };
     }
 

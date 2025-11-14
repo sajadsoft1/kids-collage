@@ -8,7 +8,7 @@ enum YesNoEnum: int
 {
     use EnumToArray;
     case YES = 1;
-    case NO  = 0;
+    case NO = 0;
 
     public static function options(): array
     {
@@ -28,7 +28,7 @@ enum YesNoEnum: int
     {
         return match ($this) {
             self::YES => trans('general.yes'),
-            self::NO  => trans('general.no'),
+            self::NO => trans('general.no'),
         };
     }
 
@@ -38,7 +38,7 @@ enum YesNoEnum: int
             'value' => (bool) $this->value,
             'label' => $this->title(),
             'color' => match ($this) {
-                self::NO  => 'error',
+                self::NO => 'error',
                 self::YES => 'success',
             },
         ];

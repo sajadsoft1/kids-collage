@@ -63,11 +63,11 @@ class Course extends Model
 
     protected $casts = [
         'course_template_id' => 'integer',
-        'term_id'            => 'integer',
-        'teacher_id'         => 'integer',
-        'price'              => 'float',
-        'capacity'           => 'integer',
-        'status'             => CourseStatusEnum::class,
+        'term_id' => 'integer',
+        'teacher_id' => 'integer',
+        'price' => 'float',
+        'capacity' => 'integer',
+        'status' => CourseStatusEnum::class,
     ];
 
     /** Get the course template that this course is based on. */
@@ -257,8 +257,8 @@ class Course extends Model
     public function getFormattedSessionDurationAttribute(): string
     {
         $duration = $this->session_duration;
-        $hours    = floor($duration / 60);
-        $minutes  = $duration % 60;
+        $hours = floor($duration / 60);
+        $minutes = $duration % 60;
 
         if ($hours > 0) {
             return $minutes > 0 ? "{$hours}h {$minutes}m" : "{$hours}h";
@@ -311,10 +311,10 @@ class Course extends Model
             }
 
             return $course->enrollments()->create([
-                'user_id'       => $userId,
+                'user_id' => $userId,
                 'order_item_id' => $orderItemId,
-                'status'        => 'pending',
-                'enrolled_at'   => now(),
+                'status' => 'pending',
+                'enrolled_at' => now(),
             ]);
         });
     }
@@ -351,13 +351,13 @@ class Course extends Model
         foreach ($sessionTemplates as $template) {
             $this->sessions()->create([
                 'session_template_id' => $template->id,
-                'date'                => null, // No specific date for self-paced
-                'start_time'          => null,
-                'end_time'            => null,
-                'room_id'             => null,
-                'meeting_link'        => null,
-                'status'              => 'planned',
-                'session_type'        => 'online',
+                'date' => null, // No specific date for self-paced
+                'start_time' => null,
+                'end_time' => null,
+                'room_id' => null,
+                'meeting_link' => null,
+                'status' => 'planned',
+                'session_type' => 'online',
             ]);
         }
     }
@@ -366,8 +366,8 @@ class Course extends Model
     protected function createScheduledSessions(): void
     {
         $sessionTemplates = $this->template->sessionTemplates;
-        $currentDate      = $this->term->start_date->copy();
-        $endDate          = $this->term->end_date;
+        $currentDate = $this->term->start_date->copy();
+        $endDate = $this->term->end_date;
 
         foreach ($sessionTemplates as $template) {
             // Find the next available date based on days_of_week
@@ -376,13 +376,13 @@ class Course extends Model
             if ($sessionDate) {
                 $this->sessions()->create([
                     'session_template_id' => $template->id,
-                    'date'                => $sessionDate,
-                    'start_time'          => $this->start_time,
-                    'end_time'            => $this->end_time,
-                    'room_id'             => $this->room_id,
-                    'meeting_link'        => $this->meeting_link,
-                    'status'              => 'planned',
-                    'session_type'        => $this->type->value,
+                    'date' => $sessionDate,
+                    'start_time' => $this->start_time,
+                    'end_time' => $this->end_time,
+                    'room_id' => $this->room_id,
+                    'meeting_link' => $this->meeting_link,
+                    'status' => 'planned',
+                    'session_type' => $this->type->value,
                 ]);
 
                 $currentDate = $sessionDate->addDay();

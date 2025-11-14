@@ -17,8 +17,8 @@ class UtilityController extends Controller
 
         // Redirect to the same page, but with the new locale in the URL.
         $previous = url()->previous();
-        $parsed   = parse_url($previous);
-        $path     = $parsed['path'] ?? '/';
+        $parsed = parse_url($previous);
+        $path = $parsed['path'] ?? '/';
         $segments = explode('/', ltrim($path, '/'));
 
         // Replace the first segment if it is a locale

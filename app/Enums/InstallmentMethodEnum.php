@@ -8,13 +8,13 @@ enum InstallmentMethodEnum: string
 {
     use EnumToArray;
 
-    case ONLINE      = 'online';
-    case OFFLINE     = 'offline';
+    case ONLINE = 'online';
+    case OFFLINE = 'offline';
 
     public function title(): string
     {
         return match ($this) {
-            self::ONLINE  => 'ONLINE',
+            self::ONLINE => 'ONLINE',
             self::OFFLINE => 'OFFLINE',
         };
     }

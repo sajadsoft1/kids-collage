@@ -4,54 +4,40 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Enums\BooleanEnum;
-use App\Traits\CLogsActivity;
+use App\Enums\NotificationChannelEnum;
+use App\Enums\NotificationEventEnum;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Activitylog\LogOptions;
 
 class NotificationTemplate extends Model
 {
-    use CLogsActivity;
     use HasFactory;
 
     protected $fillable = [
-        'published',
-        'languages',
-        'name',
+        'event',
         'channel',
-        'message_template',
-        'inputs',
+        'locale',
+        'subject',
+        'title',
+        'subtitle',
+        'body',
+        'cta',
+        'placeholders',
+        'is_active',
     ];
 
     protected $casts = [
-        'published' => BooleanEnum::class,
-        'languages' => 'array',
-        'inputs'    => 'array',
+        'event' => NotificationEventEnum::class,
+        'channel' => NotificationChannelEnum::class,
+        'locale' => 'string',
+        'cta' => 'array',
+        'placeholders' => 'array',
+        'is_active' => 'boolean',
     ];
 
-    /** Model Configuration -------------------------------------------------------------------------- */
-    public function getActivitylogOptions(): LogOptions
+    public function scopeActive(Builder $query): Builder
     {
-        return LogOptions::defaults()
-            ->logFillable()
-            ->logOnlyDirty()
-            ->dontSubmitEmptyLogs();
+        return $query->where('is_active', true);
     }
-
-    /**
-     * Model Relations --------------------------------------------------------------------------
-     */
-
-    /**
-     * Model Scope --------------------------------------------------------------------------
-     */
-
-    /**
-     * Model Attributes --------------------------------------------------------------------------
-     */
-
-    /**
-     * Model Custom Methods --------------------------------------------------------------------------
-     */
 }

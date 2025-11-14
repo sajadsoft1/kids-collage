@@ -101,7 +101,7 @@ class BulletinController extends Controller
                 'limit' => $request->input('limit'),
             ])->paginate($request->input('page_limit', 15))->toResourceCollection(BulletinResource::class),
             [
-                'sort'   => [
+                'sort' => [
                     ['label' => '', 'value' => 'id'],
                     ['label' => 'Most View', 'value' => 'view'],
                     ['label' => 'Most Comment', 'value' => 'comment'],
@@ -134,16 +134,16 @@ class BulletinController extends Controller
      */
     public function indexExtraData()
     {
-        $latestBulletin  = Bulletin::latestBulletin();
-        $banners         = Banner::latestBanner();
-        $categories      =Category::bulletinCategories();
-        $tags            =Tag::bulletinTags();
+        $latestBulletin = Bulletin::latestBulletin();
+        $banners = Banner::latestBanner();
+        $categories = Category::bulletinCategories();
+        $tags = Tag::bulletinTags();
 
         return Response::data([
-            'banners'        => BannerResource::collection($banners),
+            'banners' => BannerResource::collection($banners),
             'latestBulletin' => BulletinResource::collection($latestBulletin),
-            'Categories'     => CategoryResource::collection($categories),
-            'tags'           => TagResource::collection($tags),
+            'Categories' => CategoryResource::collection($categories),
+            'tags' => TagResource::collection($tags),
         ]);
     }
 
@@ -192,10 +192,10 @@ class BulletinController extends Controller
     public function extraShowData(Bulletin $bulletin)
     {
         $relatedBulletins = $bulletin->relatedBulletin($bulletin);
-        $banners          = Banner::latestBanner();
+        $banners = Banner::latestBanner();
 
         return Response::data([
-            'banners'          => BannerResource::collection($banners),
+            'banners' => BannerResource::collection($banners),
             'relatedBulletins' => BulletinResource::collection($relatedBulletins),
         ]);
     }
@@ -246,7 +246,7 @@ class BulletinController extends Controller
     {
         return Response::dataWithAdditional(
             $this->query([
-                'limit'       => $request->input('limit', 1),
+                'limit' => $request->input('limit', 1),
                 'category_id' => $category->id,
             ])->paginate($request->input('page_limit', 1))->toResourceCollection(BulletinResource::class),
         );
@@ -297,12 +297,12 @@ class BulletinController extends Controller
     public function indexByTag(Request $request, string $value): JsonResponse
     {
         $locale = app()->getLocale();
-        $tag    = SpatieTag::where("slug->{$locale}", $value)->firstOrFail();
+        $tag = SpatieTag::where("slug->{$locale}", $value)->firstOrFail();
 
         return Response::dataWithAdditional(
             $this->query([
                 'limit' => $request->input('limit', 1),
-                'tag'   => $tag,
+                'tag' => $tag,
             ])->paginate($request->input('page_limit', 1))->toResourceCollection(BulletinResource::class),
         );
     }

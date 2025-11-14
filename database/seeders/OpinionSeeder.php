@@ -14,17 +14,17 @@ class OpinionSeeder extends Seeder
     {
         $data = require database_path('seeders/data/karno.php');
         foreach ($data['opinion'] as $row) {
-            $model= StoreOpinionAction::run([
+            $model = StoreOpinionAction::run([
                 'published' => $row['published'],
-                'ordering'  => $row['ordering'],
-                'company'   => $row['company'],
+                'ordering' => $row['ordering'],
+                'company' => $row['company'],
                 'user_name' => $row['user_name'],
-                'comment'   => $row['comment'],
+                'comment' => $row['comment'],
             ]);
             $model->addMedia($row['path'])
                 ->preservingOriginal()
                 ->toMediaCollection('image');
-if(isset($row['video'])){
+            if (isset($row['video'])) {
                 $model->addMedia($row['video'])
                     ->preservingOriginal()
                     ->toMediaCollection('video');

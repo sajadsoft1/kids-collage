@@ -27,13 +27,13 @@ class ClientResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'         => $this->id,
-            'title'      => $this->title,
-            'link'       => $this->link,
-            'published'  => $this->published->toArray(),
+            'id' => $this->id,
+            'title' => $this->title,
+            'link' => $this->link,
+            'published' => $this->published->toArray(),
             'updated_at' => $this->updated_at,
             'created_at' => $this->created_at,
-            'image'      => $this->resource->getFirstMediaUrl('image', Constants::RESOLUTION_100_SQUARE),
+            'image' => $this->resource->getFirstMediaUrl('image', Constants::RESOLUTION_100_SQUARE),
         ];
     }
 }

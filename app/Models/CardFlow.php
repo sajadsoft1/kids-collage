@@ -98,18 +98,18 @@ class CardFlow extends Model
     /** Evaluate a single condition against a card. */
     private function evaluateCondition(array $condition, Card $card): bool
     {
-        $field    = $condition['field'] ?? '';
+        $field = $condition['field'] ?? '';
         $operator = $condition['operator'] ?? '';
-        $value    = $condition['value'] ?? '';
+        $value = $condition['value'] ?? '';
 
         return match ($field) {
-            'priority'         => $this->compareValues($card->priority->value, $operator, $value),
-            'card_type'        => $this->compareValues($card->card_type->value, $operator, $value),
-            'status'           => $this->compareValues($card->status->value, $operator, $value),
-            'due_date'         => $this->compareDates($card->due_date, $operator, $value),
-            'assignees_count'  => $this->compareValues($card->assignees()->count(), $operator, $value),
+            'priority' => $this->compareValues($card->priority->value, $operator, $value),
+            'card_type' => $this->compareValues($card->card_type->value, $operator, $value),
+            'status' => $this->compareValues($card->status->value, $operator, $value),
+            'due_date' => $this->compareDates($card->due_date, $operator, $value),
+            'assignees_count' => $this->compareValues($card->assignees()->count(), $operator, $value),
             'extra_attributes' => $this->compareExtraAttributes($card, $condition),
-            default            => true,
+            default => true,
         };
     }
 
@@ -117,14 +117,14 @@ class CardFlow extends Model
     private function compareValues(mixed $cardValue, string $operator, mixed $conditionValue): bool
     {
         return match ($operator) {
-            'equals'                => $cardValue == $conditionValue,
-            'not_equals'            => $cardValue != $conditionValue,
-            'contains'              => str_contains((string) $cardValue, (string) $conditionValue),
-            'greater_than'          => $cardValue > $conditionValue,
-            'less_than'             => $cardValue < $conditionValue,
+            'equals' => $cardValue == $conditionValue,
+            'not_equals' => $cardValue != $conditionValue,
+            'contains' => str_contains((string) $cardValue, (string) $conditionValue),
+            'greater_than' => $cardValue > $conditionValue,
+            'less_than' => $cardValue < $conditionValue,
             'greater_than_or_equal' => $cardValue >= $conditionValue,
-            'less_than_or_equal'    => $cardValue <= $conditionValue,
-            default                 => true,
+            'less_than_or_equal' => $cardValue <= $conditionValue,
+            default => true,
         };
     }
 
@@ -135,25 +135,25 @@ class CardFlow extends Model
             return $operator === 'is_null';
         }
 
-        $cardDateTime      = \Carbon\Carbon::parse($cardDate);
+        $cardDateTime = \Carbon\Carbon::parse($cardDate);
         $conditionDateTime = \Carbon\Carbon::parse($conditionValue);
 
         return match ($operator) {
-            'before'       => $cardDateTime->lt($conditionDateTime),
-            'after'        => $cardDateTime->gt($conditionDateTime),
-            'on'           => $cardDateTime->isSameDay($conditionDateTime),
+            'before' => $cardDateTime->lt($conditionDateTime),
+            'after' => $cardDateTime->gt($conditionDateTime),
+            'on' => $cardDateTime->isSameDay($conditionDateTime),
             'before_or_on' => $cardDateTime->lte($conditionDateTime),
-            'after_or_on'  => $cardDateTime->gte($conditionDateTime),
-            default        => true,
+            'after_or_on' => $cardDateTime->gte($conditionDateTime),
+            default => true,
         };
     }
 
     /** Compare extra attributes. */
     private function compareExtraAttributes(Card $card, array $condition): bool
     {
-        $key      = $condition['key'] ?? '';
+        $key = $condition['key'] ?? '';
         $operator = $condition['operator'] ?? '';
-        $value    = $condition['value'] ?? '';
+        $value = $condition['value'] ?? '';
 
         $cardValue = $card->getExtraAttribute($key);
 

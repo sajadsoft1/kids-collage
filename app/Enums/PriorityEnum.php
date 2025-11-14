@@ -8,9 +8,9 @@ enum PriorityEnum: string
 {
     use EnumToArray;
 
-    case LOW    = 'low';
+    case LOW = 'low';
     case MEDIUM = 'medium';
-    case HIGH   = 'high';
+    case HIGH = 'high';
     case URGENT = 'urgent';
 
     public static function options(): array
@@ -38,9 +38,9 @@ enum PriorityEnum: string
     public function title(): string
     {
         return match ($this) {
-            self::LOW    => __('kanban.priority.low'),
+            self::LOW => __('kanban.priority.low'),
             self::MEDIUM => __('kanban.priority.medium'),
-            self::HIGH   => __('kanban.priority.high'),
+            self::HIGH => __('kanban.priority.high'),
             self::URGENT => __('kanban.priority.urgent'),
         };
     }
@@ -51,15 +51,15 @@ enum PriorityEnum: string
             'value' => $this->value,
             'label' => $this->title(),
             'color' => match ($this) {
-                self::LOW    => 'success',
+                self::LOW => 'success',
                 self::MEDIUM => 'info',
-                self::HIGH   => 'warning',
+                self::HIGH => 'warning',
                 self::URGENT => 'error',
             },
-            'icon'  => match ($this) {
-                self::LOW    => 'o-arrow-down',
+            'icon' => match ($this) {
+                self::LOW => 'o-arrow-down',
                 self::MEDIUM => 'o-minus',
-                self::HIGH   => 'o-arrow-up',
+                self::HIGH => 'o-arrow-up',
                 self::URGENT => 'o-exclamation-triangle',
             },
         ];

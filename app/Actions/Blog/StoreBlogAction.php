@@ -41,7 +41,7 @@ class StoreBlogAction
     {
         return DB::transaction(function () use ($payload) {
             $payload['user_id'] = auth()->id();
-            $model              = Blog::create(Arr::only($payload, ['slug', 'published', 'published_at', 'category_id', 'user_id']));
+            $model = Blog::create(Arr::only($payload, ['slug', 'published', 'published_at', 'category_id', 'user_id']));
             $this->syncTranslationAction->handle($model, Arr::only($payload, ['title', 'description', 'body']));
             $this->seoOptionService->create($model, Arr::only($payload, ['title', 'description']));
             $this->fileService->addMedia($model, Arr::get($payload, 'image'));

@@ -7,7 +7,10 @@ namespace App\Livewire\Admin\Pages\Profile;
 use App\Enums\NotificationChannelEnum;
 use App\Enums\NotificationEventEnum;
 use App\Models\User;
+use App\Support\Notifications\NotificationChannelRegistry;
+use App\Support\Notifications\NotificationPreferenceResolver;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Mary\Traits\Toast;
 use Throwable;
@@ -22,6 +25,7 @@ class SettingSection extends Component
     public User $user;
 
     public array $notificationSettings = [];
+    public array $channelMetadata = [];
 
     /** Mount the component */
     public function mount(?User $user = null): void
@@ -29,7 +33,7 @@ class SettingSection extends Component
         if ($user?->id) {
             $this->user = $user;
         } else {
-            $authUser = auth()->user();
+            $authUser = Auth::user();
             if ( ! $authUser instanceof User) {
                 abort(401, 'Unauthorized');
             }
@@ -46,13 +50,18 @@ class SettingSection extends Component
             $this->user->profile()->create([]);
         }
 
-        $savedSettings = $this->user->profile->getNotificationSettings();
+        $registry = app(NotificationChannelRegistry::class);
+        $preferenceResolver = app(NotificationPreferenceResolver::class);
 
-        // Initialize all events and channels if not set
-        foreach (NotificationEventEnum::cases() as $event) {
-            foreach (NotificationChannelEnum::cases() as $channel) {
-                $this->notificationSettings[$event->value][$channel->value] =
-                    $savedSettings[$event->value][$channel->value] ?? true;
+        foreach ($this->availableEvents() as $event) {
+            foreach ($this->channels as $channel) {
+                $this->channelMetadata[$event->value][$channel->value] = [
+                    'togglable' => $registry->isUserToggleable($event, $channel),
+                    'default' => $registry->defaultState($event, $channel),
+                ];
+
+                $this->notificationSettings[$event->value][$channel->value] = $preferenceResolver
+                    ->shouldSend($this->user->profile, $event, $channel);
             }
         }
     }
@@ -65,7 +74,21 @@ class SettingSection extends Component
                 $this->user->profile()->create([]);
             }
 
-            $this->user->profile->updateNotificationSettings($this->notificationSettings);
+            $payload = [];
+
+            foreach ($this->availableEvents() as $event) {
+                foreach ($this->channels as $channel) {
+                    $togglable = $this->channelMetadata[$event->value][$channel->value]['togglable'] ?? false;
+
+                    if ( ! $togglable) {
+                        continue;
+                    }
+
+                    $payload[$event->value][$channel->value] = (bool) ($this->notificationSettings[$event->value][$channel->value] ?? false);
+                }
+            }
+
+            $this->user->profile->updateNotificationSettings($payload);
 
             $this->success(
                 title: 'تنظیمات با موفقیت ذخیره شد',
@@ -81,7 +104,7 @@ class SettingSection extends Component
 
             logger()->error('Failed to save notification settings', [
                 'user_id' => $this->user->id,
-                'error'   => $e->getMessage(),
+                'error' => $e->getMessage(),
             ]);
         }
     }
@@ -89,27 +112,23 @@ class SettingSection extends Component
     /** Enable all notifications */
     public function enableAll(): void
     {
-        foreach (NotificationEventEnum::cases() as $event) {
-            foreach (NotificationChannelEnum::cases() as $channel) {
-                $this->notificationSettings[$event->value][$channel->value] = true;
-            }
-        }
+        $this->applyToTogglableChannels(fn () => true);
     }
 
     /** Disable all notifications */
     public function disableAll(): void
     {
-        foreach (NotificationEventEnum::cases() as $event) {
-            foreach (NotificationChannelEnum::cases() as $channel) {
-                $this->notificationSettings[$event->value][$channel->value] = false;
-            }
-        }
+        $this->applyToTogglableChannels(fn () => false);
     }
 
     /** Toggle all channels for a specific event */
     public function toggleEvent(string $eventValue, bool $enabled): void
     {
-        foreach (NotificationChannelEnum::cases() as $channel) {
+        foreach ($this->channels as $channel) {
+            if ( ! ($this->channelMetadata[$eventValue][$channel->value]['togglable'] ?? false)) {
+                continue;
+            }
+
             $this->notificationSettings[$eventValue][$channel->value] = $enabled;
         }
     }
@@ -117,8 +136,12 @@ class SettingSection extends Component
     /** Enable only specific channel for all events */
     public function enableOnlyChannel(string $channelValue): void
     {
-        foreach (NotificationEventEnum::cases() as $event) {
-            foreach (NotificationChannelEnum::cases() as $channel) {
+        foreach ($this->availableEvents() as $event) {
+            foreach ($this->channels as $channel) {
+                if ( ! ($this->channelMetadata[$event->value][$channel->value]['togglable'] ?? false)) {
+                    continue;
+                }
+
                 $this->notificationSettings[$event->value][$channel->value] = ($channel->value === $channelValue);
             }
         }
@@ -127,7 +150,11 @@ class SettingSection extends Component
     /** Toggle all events for a specific channel */
     public function toggleChannel(string $channelValue, bool $enabled): void
     {
-        foreach (NotificationEventEnum::cases() as $event) {
+        foreach ($this->availableEvents() as $event) {
+            if ( ! ($this->channelMetadata[$event->value][$channelValue]['togglable'] ?? false)) {
+                continue;
+            }
+
             $this->notificationSettings[$event->value][$channelValue] = $enabled;
         }
     }
@@ -141,12 +168,34 @@ class SettingSection extends Component
     /** Get all channels */
     public function getChannelsProperty(): array
     {
-        return NotificationChannelEnum::cases();
+        return array_values(array_filter(
+            NotificationChannelEnum::cases(),
+            static fn (NotificationChannelEnum $channel) => ! $channel->isFutureChannel()
+        ));
     }
 
     /** Render the component */
     public function render(): View
     {
         return view('livewire.admin.pages.profile.setting-section');
+    }
+
+    private function applyToTogglableChannels(callable $callback): void
+    {
+        foreach ($this->availableEvents() as $event) {
+            foreach ($this->channels as $channel) {
+                if ( ! ($this->channelMetadata[$event->value][$channel->value]['togglable'] ?? false)) {
+                    continue;
+                }
+
+                $this->notificationSettings[$event->value][$channel->value] = (bool) $callback($event, $channel);
+            }
+        }
+    }
+
+    /** @return array<int, NotificationEventEnum> */
+    private function availableEvents(): array
+    {
+        return NotificationEventEnum::cases();
     }
 }

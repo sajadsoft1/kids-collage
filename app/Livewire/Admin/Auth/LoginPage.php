@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Livewire\Admin\Auth;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 use function Laravel\Prompts\error;
@@ -13,13 +14,13 @@ use Livewire\Component;
 
 class LoginPage extends Component
 {
-    public string $email    = '';
+    public string $email = '';
     public string $password = '';
 
     protected function rules(): array
     {
         return [
-            'email'    => 'required|email|exists:users,email',
+            'email' => 'required|email|exists:users,email',
             'password' => 'required|string|min:8',
         ];
     }
@@ -27,9 +28,9 @@ class LoginPage extends Component
     public function login()
     {
         $this->validate();
-        if (auth()->attemptWhen(
+        if (Auth::attemptWhen(
             ['email' => $this->email, 'password' => $this->password],
-            fn (User $user) => count($user->getRoleNames()) > 0,
+            fn (User $user) => true,
             true
         )) {
             return $this->redirect(route('admin.dashboard'), true);

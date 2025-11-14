@@ -44,17 +44,17 @@ class StoreTagAction
     {
         return DB::transaction(function () use ($payload) {
             $defaultLanguage = app()->getLocale();
-            $tag             = Tag::findOrCreate(Arr::get($payload, 'name'), locale: $defaultLanguage);
+            $tag = Tag::findOrCreate(Arr::get($payload, 'name'), locale: $defaultLanguage);
             $tag->update(['order_column' => Arr::get($payload, 'order_column', 1)]);
-            $title      =Arr::get($payload, 'name');
-            $description=Arr::get($payload, 'description');
-            $body       =Arr::get($payload, 'body');
+            $title = Arr::get($payload, 'name');
+            $description = Arr::get($payload, 'description');
+            $body = Arr::get($payload, 'body');
             $this->seoOptionService->create($tag, [
-                'title'       => $title,
+                'title' => $title,
                 'description' => $description]);
             $this->syncTagTranslationAction->handle($tag, [
                 'description' => $description,
-                'body'        => $body,
+                'body' => $body,
             ]);
 
             $this->fileService->addMedia($tag, Arr::get($payload, 'image'));

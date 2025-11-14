@@ -15,11 +15,11 @@ class ContactUsSeeder extends Seeder
         $data = require database_path('seeders/data/karno.php');
         foreach ($data['contact_us'] as $row) {
             StoreContactUsAction::run([
-                'name'    => $row['name'],
-                'email'   => $row['email'],
-                'mobile'  => $row['mobile'],
+                'name' => $row['name'],
+                'email' => $row['email'],
+                'mobile' => $row['mobile'],
                 'comment' => $row['comment'],
-                'subject' => $row['subject']??'test',
+                'subject' => $row['subject'] ?? 'test',
             ]);
         }
     }

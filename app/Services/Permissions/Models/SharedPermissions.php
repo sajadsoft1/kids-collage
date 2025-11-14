@@ -6,9 +6,9 @@ namespace App\Services\Permissions\Models;
 
 class SharedPermissions extends BasePermissions
 {
-    public const Admin             = 'Admin';
+    public const Admin = 'Admin';
     public const ReceiveNewUserSms = 'ReceiveNewUserSms';
-    protected string $model        = 'Shared';
+    protected string $model = 'Shared';
 
     public function __construct()
     {
@@ -16,9 +16,9 @@ class SharedPermissions extends BasePermissions
             'Admin',
             'ReceiveNewUserSms',
         ];
-        $this->groupTitle        = trans('permissions.shared');
+        $this->groupTitle = trans('permissions.shared');
         $this->otherTranslations = [
-            'Shared.Admin'             => 'Admin',
+            'Shared.Admin' => 'Admin',
             'Shared.ReceiveNewUserSms' => 'Receive New User SMS',
         ];
     }

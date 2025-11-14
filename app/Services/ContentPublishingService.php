@@ -25,7 +25,7 @@ class ContentPublishingService
     /** Discover models that use HasScheduledPublishing trait */
     private function discoverPublishableModels(): array
     {
-        $models     = [];
+        $models = [];
         $modelsPath = app_path('Models');
 
         if ( ! File::exists($modelsPath)) {
@@ -69,7 +69,7 @@ class ContentPublishingService
         $allScheduled = collect();
 
         foreach ($this->publishableModels as $modelClass) {
-            $scheduled    = $this->getScheduledForModel($modelClass);
+            $scheduled = $this->getScheduledForModel($modelClass);
             $allScheduled = $allScheduled->merge($scheduled);
         }
 
@@ -120,22 +120,22 @@ class ContentPublishingService
             $currentTime = now();
 
             $item->update([
-                'published'    => true,
+                'published' => true,
                 'published_at' => $currentTime,
             ]);
 
             Log::info('Content item published', [
-                'model'        => get_class($item),
-                'id'           => $item->id,
+                'model' => get_class($item),
+                'id' => $item->id,
                 'published_at' => $currentTime,
-                'timezone'     => config('app.timezone'),
+                'timezone' => config('app.timezone'),
             ]);
 
             return true;
         } catch (Exception $e) {
             Log::error('Failed to publish content item', [
                 'model' => get_class($item),
-                'id'    => $item->id,
+                'id' => $item->id,
                 'error' => $e->getMessage(),
             ]);
 
@@ -148,13 +148,13 @@ class ContentPublishingService
     {
         try {
             $item->update([
-                'published'    => false,
+                'published' => false,
                 'published_at' => $publishAt,
             ]);
 
             Log::info('Content item scheduled for publishing', [
-                'model'      => get_class($item),
-                'id'         => $item->id,
+                'model' => get_class($item),
+                'id' => $item->id,
                 'publish_at' => $publishAt,
             ]);
 
@@ -162,7 +162,7 @@ class ContentPublishingService
         } catch (Exception $e) {
             Log::error('Failed to schedule content item', [
                 'model' => get_class($item),
-                'id'    => $item->id,
+                'id' => $item->id,
                 'error' => $e->getMessage(),
             ]);
 
@@ -180,13 +180,13 @@ class ContentPublishingService
 
             // Check which scopes are available on the model
             $hasPublishedScope = method_exists($modelClass, 'scopePublished');
-            $hasDraftScope     = method_exists($modelClass, 'scopeDraft');
+            $hasDraftScope = method_exists($modelClass, 'scopeDraft');
 
             $stats[$modelName] = [
-                'total'       => $modelClass::count(),
-                'published'   => $hasPublishedScope ? $modelClass::published()->count() : 0,
+                'total' => $modelClass::count(),
+                'published' => $hasPublishedScope ? $modelClass::published()->count() : 0,
                 'unpublished' => $hasDraftScope ? $modelClass::draft()->count() : 0,
-                'scheduled'   => $modelClass::scheduledForPublishing()->count(),
+                'scheduled' => $modelClass::scheduledForPublishing()->count(),
             ];
         }
 

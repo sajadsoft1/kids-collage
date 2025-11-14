@@ -61,14 +61,14 @@ class CourseSession extends Model
     ];
 
     protected $casts = [
-        'course_id'                  => 'integer',
+        'course_id' => 'integer',
         'course_session_template_id' => 'integer',
-        'date'                       => 'date',
-        'start_time'                 => 'datetime:H:i:s',
-        'end_time'                   => 'datetime:H:i:s',
-        'room_id'                    => 'integer',
-        'status'                     => SessionStatus::class,
-        'session_type'               => SessionType::class,
+        'date' => 'date',
+        'start_time' => 'datetime:H:i:s',
+        'end_time' => 'datetime:H:i:s',
+        'room_id' => 'integer',
+        'status' => SessionStatus::class,
+        'session_type' => SessionType::class,
     ];
 
     /** Get the course that this session belongs to. */
@@ -203,8 +203,8 @@ class CourseSession extends Model
     public function getFormattedDurationAttribute(): string
     {
         $duration = $this->duration;
-        $hours    = floor($duration / 60);
-        $minutes  = $duration % 60;
+        $hours = floor($duration / 60);
+        $minutes = $duration % 60;
 
         if ($hours > 0) {
             return $minutes > 0 ? "{$hours}h {$minutes}m" : "{$hours}h";
@@ -249,7 +249,7 @@ class CourseSession extends Model
     public function cancel(?string $reason = null): bool
     {
         return $this->update([
-            'status'         => SessionStatus::CANCELLED,
+            'status' => SessionStatus::CANCELLED,
             'recording_link' => null, // Clear recording link if cancelled
         ]);
     }
@@ -258,9 +258,9 @@ class CourseSession extends Model
     public function reschedule(\Carbon\Carbon $newDate, ?\Carbon\Carbon $newStartTime = null, ?\Carbon\Carbon $newEndTime = null): bool
     {
         return $this->update([
-            'date'       => $newDate,
+            'date' => $newDate,
             'start_time' => $newStartTime ?? $this->start_time,
-            'end_time'   => $newEndTime ?? $this->end_time,
+            'end_time' => $newEndTime ?? $this->end_time,
         ]);
     }
 

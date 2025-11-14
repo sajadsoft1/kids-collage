@@ -22,8 +22,8 @@ trait HasViewTracking
 
         if ( ! $exists) {
             $model->views()->create([
-                'user_id'    => auth()->id(),
-                'ip'         => request()->ip(),
+                'user_id' => auth()->id(),
+                'ip' => request()->ip(),
                 'collection' => 'website',
             ]);
             $model->update([

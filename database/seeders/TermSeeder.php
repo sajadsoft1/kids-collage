@@ -15,11 +15,11 @@ class TermSeeder extends Seeder
 
         foreach ($data['term'] as $roomData) {
             StoreTermAction::run([
-                'title'       => $roomData['title'],
+                'title' => $roomData['title'],
                 'description' => $roomData['description'],
-                'start_date'  => $roomData['start_date'],
-                'end_date'    => $roomData['end_date'],
-                'status'      => $roomData['status'],
+                'start_date' => $roomData['start_date'],
+                'end_date' => $roomData['end_date'],
+                'status' => $roomData['status'],
             ]);
         }
     }

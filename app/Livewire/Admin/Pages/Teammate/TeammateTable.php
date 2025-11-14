@@ -23,7 +23,7 @@ final class TeammateTable extends PowerGridComponent
 {
     use PowerGridHelperTrait;
 
-    public string $tableName     = 'index_teammate_datatable';
+    public string $tableName = 'index_teammate_datatable';
     public string $sortDirection = 'desc';
 
     public function setUp(): array
@@ -47,15 +47,6 @@ final class TeammateTable extends PowerGridComponent
         return $setup;
     }
 
-    protected function queryString(): array
-    {
-        return [
-            'search' => ['except' => ''],
-            'page'   => ['except' => 1],
-            ...$this->powerGridQueryString(),
-        ];
-    }
-
     #[Computed(persist: true)]
     public function breadcrumbs(): array
     {
@@ -70,9 +61,9 @@ final class TeammateTable extends PowerGridComponent
     {
         return [
             [
-                'link'   => route('admin.teammate.create'),
-                'icon'   => 's-plus',
-                'label'  => trans(
+                'link' => route('admin.teammate.create'),
+                'icon' => 's-plus',
+                'label' => trans(
                     'general.page.create.title',
                     ['model' => trans('teammate.model')]
                 ),

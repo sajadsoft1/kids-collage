@@ -6,10 +6,10 @@ namespace App\Enums;
 
 enum CourseStatusEnum: string
 {
-    case DRAFT     = 'draft';
+    case DRAFT = 'draft';
     case SCHEDULED = 'scheduled';
-    case ACTIVE    = 'active';
-    case FINISHED  = 'finished';
+    case ACTIVE = 'active';
+    case FINISHED = 'finished';
     case CANCELLED = 'cancelled';
 
     public static function runerOptions(): array
@@ -19,10 +19,10 @@ enum CourseStatusEnum: string
                 'label' => self::DRAFT->title(),
                 'value' => self::DRAFT->value,
             ],
-            [
-                'label' => self::SCHEDULED->title(),
-                'value' => self::SCHEDULED->value,
-            ],
+            // [
+            //     'label' => self::SCHEDULED->title(),
+            //     'value' => self::SCHEDULED->value,
+            // ],
             [
                 'label' => self::ACTIVE->title(),
                 'value' => self::ACTIVE->value,
@@ -59,10 +59,10 @@ enum CourseStatusEnum: string
     public function title(): string
     {
         return match ($this) {
-            self::DRAFT     => trans('course.enum.status.draft'),
+            self::DRAFT => trans('course.enum.status.draft'),
             self::SCHEDULED => trans('course.enum.status.scheduled'),
-            self::ACTIVE    => trans('course.enum.status.active'),
-            self::FINISHED  => trans('course.enum.status.finished'),
+            self::ACTIVE => trans('course.enum.status.active'),
+            self::FINISHED => trans('course.enum.status.finished'),
             self::CANCELLED => trans('course.enum.status.cancelled'),
         };
     }

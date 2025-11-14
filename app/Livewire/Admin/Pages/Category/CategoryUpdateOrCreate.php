@@ -11,6 +11,7 @@ use App\Helpers\StringHelper;
 use App\Models\Category;
 use App\Traits\CrudHelperTrait;
 use Illuminate\View\View;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Mary\Traits\Toast;
@@ -20,34 +21,47 @@ class CategoryUpdateOrCreate extends Component
     use CrudHelperTrait, Toast, WithFileUploads;
 
     public Category $model;
-    public ?string $title       = '';
+    public ?string $title = '';
     public ?string $description = '';
-    public bool $published      = false;
-    public ?string $body        = '';
-    public ?string $type        = CategoryTypeEnum::BLOG->value;
+    public bool $published = false;
+    public ?string $body = '';
+    #[Url]
+    public ?string $type = CategoryTypeEnum::BLOG->value;
     public $image;
+    public ?int $parent_id = null;
 
     public function mount(Category $category): void
     {
         $this->model = $category;
 
         if ($this->model->id) {
-            $this->title       = $this->model->title;
+            $this->title = $this->model->title;
             $this->description = $this->model->description;
-            $this->body        = $this->model->body;
-            $this->type        = $this->model->type->value;
-            $this->published   = (bool) $this->model->published->value;
+            $this->body = $this->model->body;
+            $this->type = $this->model->type->value;
+            $this->published = (bool) $this->model->published->value;
+            $this->parent_id = $this->model->parent_id;
         }
     }
 
     protected function rules(): array
     {
         return [
-            'title'       => 'required|string',
+            'title' => 'required|string',
             'description' => 'required|string',
-            'published'   => 'required|boolean',
-            'type'        => 'required|string|in:' . implode(',', CategoryTypeEnum::values()),
-            'image'       => 'nullable|image|max:2048',
+            'body' => 'nullable|string',
+            'published' => 'required|boolean',
+            'type' => 'required|string|in:' . implode(',', CategoryTypeEnum::values()),
+            'image' => 'nullable|image|max:2048',
+            'parent_id' => [
+                'nullable',
+                'exists:categories,id',
+                function ($attribute, $value, $fail) {
+                    if ($value !== null && $this->model->id && (int) $value === $this->model->id) {
+                        $fail(trans('validation.custom.parent_id.not_self'));
+                    }
+                },
+            ],
         ];
     }
 
@@ -55,6 +69,7 @@ class CategoryUpdateOrCreate extends Component
     {
         $payload = $this->validate();
         if ($this->model->id) {
+            $payload['type'] = $this->model->type->value;
             UpdateCategoryAction::run($this->model, $payload);
             $this->success(
                 title: trans('general.model_has_updated_successfully', ['model' => trans('category.model')]),
@@ -73,15 +88,17 @@ class CategoryUpdateOrCreate extends Component
     public function render(): View
     {
         return view('livewire.admin.pages.category.category-update-or-create', [
-            'edit_mode'          => $this->model->id,
-            'breadcrumbs'        => [
+            'edit_mode' => $this->model->id,
+            'breadcrumbs' => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link'  => route('admin.category.index'), 'label' => trans('general.page.index.title', ['model' => trans('category.model')])],
+                ['link' => route('admin.category.index'), 'label' => trans('general.page.index.title', ['model' => trans('category.model')])],
                 ['label' => trans('general.page.create.title', ['model' => trans('category.model')])],
             ],
             'breadcrumbsActions' => [
-                ['link' => route('admin.category.index'), 'icon' => 's-arrow-left'],
+                ['link' => route('admin.category.index', ['type' => $this->type]), 'icon' => 's-arrow-left'],
             ],
+            'categories' => Category::where('type', $this->type)->where('parent_id', null)
+                ->where('id', '!=', $this->model->id)->get()->map(fn ($category) => ['id' => $category->id, 'title' => $category->title]),
         ]);
     }
 }

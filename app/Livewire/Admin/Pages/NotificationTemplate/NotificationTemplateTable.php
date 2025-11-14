@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Livewire\Admin\Pages\NotificationTemplate;
 
-use App\Enums\BooleanEnum;
+use App\Enums\NotificationChannelEnum;
+use App\Enums\NotificationEventEnum;
 use App\Helpers\PowerGridHelper;
 use App\Models\NotificationTemplate;
 use App\Traits\PowerGridHelperTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\View\View;
-use Jenssegers\Agent\Agent;
 use Livewire\Attributes\Computed;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
@@ -28,27 +28,12 @@ final class NotificationTemplateTable extends PowerGridComponent
 {
     use PowerGridHelperTrait;
 
-    public string $tableName     = 'index_notificationTemplate_datatable';
+    public string $tableName = 'index_notificationTemplate_datatable';
     public string $sortDirection = 'desc';
 
-    /** Configure PowerGrid setup */
-    public function setUp(): array
+    public function boot(): void
     {
-        $setup = [
-            PowerGrid::header()
-                ->includeViewOnTop('components.admin.shared.bread-crumbs')
-                ->showSearchInput(),
-
-            PowerGrid::footer()
-                ->showPerPage()
-                ->showRecordCount(),
-        ];
-
-        if ((new Agent)->isMobile()) {
-            $setup[] = PowerGrid::responsive()->fixedColumns('id', 'name', 'actions');
-        }
-
-        return $setup;
+        $this->fixedColumns = ['id', 'name', 'actions'];
     }
 
     /** Breadcrumb navigation items */
@@ -87,17 +72,10 @@ final class NotificationTemplateTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('id')
-            ->add('name')
-            ->add('channel', function ($row) {
-                return match ($row->channel) {
-                    'sms'          => '<span class="badge badge-primary badge-sm">' . trans('general.channels.sms') . '</span>',
-                    'email'        => '<span class="badge badge-info badge-sm">' . trans('general.channels.email') . '</span>',
-                    'notification' => '<span class="badge badge-accent badge-sm">' . trans('general.channels.notification') . '</span>',
-                    default        => $row->channel,
-                };
-            })
-            ->add('channel_text', fn ($row) => trans('general.channels.' . $row->channel))
-            ->add('published_formated', fn ($row) => PowerGridHelper::fieldPublishedAtFormated($row))
+            ->add('event_label', fn (NotificationTemplate $row) => NotificationEventEnum::tryFrom($row->event)?->title() ?? $row->event)
+            ->add('channel_label', fn (NotificationTemplate $row) => NotificationChannelEnum::tryFrom($row->channel)?->title() ?? $row->channel)
+            ->add('locale')
+            ->add('is_active', fn (NotificationTemplate $row) => $row->is_active ? trans('general.active') : trans('general.inactive'))
             ->add('created_at_formatted', fn ($row) => PowerGridHelper::fieldCreatedAtFormated($row));
     }
 
@@ -107,15 +85,20 @@ final class NotificationTemplateTable extends PowerGridComponent
         return [
             PowerGridHelper::columnId(),
 
-            Column::make(trans('validation.attributes.name'), 'name')
+            Column::make(trans('notificationTemplate.fields.event'), 'event_label', 'event')
                 ->sortable()
                 ->searchable(),
 
-            Column::make(trans('validation.attributes.channel'), 'channel', 'channel_text')
+            Column::make(trans('notificationTemplate.fields.channel'), 'channel_label', 'channel')
                 ->sortable()
                 ->searchable(),
 
-            PowerGridHelper::columnPublished(),
+            Column::make(trans('notificationTemplate.fields.locale'), 'locale')
+                ->sortable()
+                ->searchable(),
+
+            Column::make(trans('notificationTemplate.fields.is_active'), 'is_active')->sortable(),
+
             PowerGridHelper::columnCreatedAT(),
             PowerGridHelper::columnAction(),
         ];
@@ -124,18 +107,44 @@ final class NotificationTemplateTable extends PowerGridComponent
     /** Define table filters */
     public function filters(): array
     {
+        $eventOptions = collect(NotificationEventEnum::cases())->map(fn (NotificationEventEnum $event) => [
+            'id' => $event->value,
+            'name' => $event->title(),
+        ]);
+
+        $channelOptions = collect(NotificationChannelEnum::cases())
+            ->filter(fn (NotificationChannelEnum $channel) => ! $channel->isFutureChannel())
+            ->map(fn (NotificationChannelEnum $channel) => [
+                'id' => $channel->value,
+                'name' => $channel->title(),
+            ]);
+
         return [
-            Filter::select('channel_text', 'channel')
+            Filter::select('event', 'event')
+                ->dataSource($eventOptions->toArray())
+                ->optionLabel('name')
+                ->optionValue('id'),
+
+            Filter::select('channel', 'channel')
+                ->dataSource($channelOptions->toArray())
+                ->optionLabel('name')
+                ->optionValue('id'),
+
+            Filter::select('is_active', 'is_active')
                 ->dataSource([
-                    ['id' => 'sms', 'name' => trans('general.channels.sms')],
-                    ['id' => 'email', 'name' => trans('general.channels.email')],
-                    ['id' => 'notification', 'name' => trans('general.channels.notification')],
+                    ['id' => 1, 'name' => trans('general.active')],
+                    ['id' => 0, 'name' => trans('general.inactive')],
                 ])
                 ->optionLabel('name')
                 ->optionValue('id'),
 
-            Filter::enumSelect('published_formated', 'published')
-                ->datasource(BooleanEnum::cases()),
+            Filter::select('locale', 'locale')
+                ->dataSource([
+                    ['id' => 'fa', 'name' => 'فارسی'],
+                    ['id' => 'en', 'name' => 'انگلیسی'],
+                ])
+                ->optionLabel('name')
+                ->optionValue('id'),
 
             Filter::datepicker('created_at_formatted', 'created_at')
                 ->params([
@@ -148,7 +157,7 @@ final class NotificationTemplateTable extends PowerGridComponent
     public function actions(NotificationTemplate $row): array
     {
         return [
-            PowerGridHelper::btnToggle($row),
+            // PowerGridHelper::btnToggle($row, 'is_active'),
             PowerGridHelper::btnEdit($row),
             PowerGridHelper::btnDelete($row),
         ];

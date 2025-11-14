@@ -12,7 +12,7 @@ class AuthDTO
 {
     use HasMessageBag, HasPayload;
 
-    private ?User $user    = null;
+    private ?User $user = null;
     private ?string $token = null;
 
     public function __construct($payload = [])

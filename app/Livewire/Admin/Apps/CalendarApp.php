@@ -14,16 +14,16 @@ class CalendarApp extends CalendarTemplate
     {
         return collect([
             [
-                'id'          => 1,
-                'title'       => 'Breakfast',
+                'id' => 1,
+                'title' => 'Breakfast',
                 'description' => 'Pancakes! 🥞',
-                'date'        => Carbon::today(),
+                'date' => Carbon::today(),
             ],
             [
-                'id'          => 2,
-                'title'       => 'Meeting with Pamela',
+                'id' => 2,
+                'title' => 'Meeting with Pamela',
                 'description' => 'Work stuff',
-                'date'        => Carbon::tomorrow(),
+                'date' => Carbon::tomorrow(),
             ],
         ]);
     }

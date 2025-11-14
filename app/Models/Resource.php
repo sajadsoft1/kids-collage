@@ -51,9 +51,9 @@ class Resource extends Model implements HasMedia
     ];
 
     protected $casts = [
-        'type'      => ResourceType::class,
+        'type' => ResourceType::class,
         'is_public' => 'bool',
-        'order'     => 'integer',
+        'order' => 'integer',
     ];
 
     /** Model Configuration -------------------------------------------------------------------------- */
@@ -139,8 +139,8 @@ class Resource extends Model implements HasMedia
         // Implementation would depend on your storage driver
         // This is a placeholder for the actual signed URL generation
         return route('resources.signed', [
-            'resource'  => $this->id,
-            'expires'   => now()->addMinutes($expirationMinutes)->timestamp,
+            'resource' => $this->id,
+            'expires' => now()->addMinutes($expirationMinutes)->timestamp,
             'signature' => $this->generateSignature($expirationMinutes),
         ]);
     }

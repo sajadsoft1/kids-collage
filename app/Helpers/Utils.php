@@ -11,7 +11,7 @@ class Utils
     public static function getEloquent(string $type): ?string
     {
         $reference = Str::studly($type);
-        $model     = 'App\\Models\\' . $reference;
+        $model = 'App\\Models\\' . $reference;
 
         return match ($type) {
             default => $model,

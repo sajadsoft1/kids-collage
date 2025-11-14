@@ -8,10 +8,10 @@ enum OrderStatusEnum: string
 {
     use EnumToArray;
 
-    case PENDING    = 'pending';
+    case PENDING = 'pending';
     case PROCESSING = 'processing';
-    case COMPLETED  = 'completed';
-    case CANCELLED  = 'cancelled';
+    case COMPLETED = 'completed';
+    case CANCELLED = 'cancelled';
 
     public static function courseOptions(): array
     {
@@ -56,10 +56,10 @@ enum OrderStatusEnum: string
     public function title(): string
     {
         return match ($this) {
-            self::PENDING    => trans('order.enum.status.pending'),
+            self::PENDING => trans('order.enum.status.pending'),
             self::PROCESSING => trans('order.enum.status.processing'),
-            self::COMPLETED  => trans('order.enum.status.completed'),
-            self::CANCELLED  => trans('order.enum.status.cancelled'),
+            self::COMPLETED => trans('order.enum.status.completed'),
+            self::CANCELLED => trans('order.enum.status.cancelled'),
         };
     }
 

@@ -17,21 +17,21 @@ class OrderCourseDTO
 {
     use HasMessageBag, HasPayload;
 
-    private ?User $user                 = null;
-    private ?Order $order               = null;
-    private ?Course $course             = null;
-    private ?Discount $discount         = null;
-    private ?Enrollment $enrollment     = null;
+    private ?User $user = null;
+    private ?Order $order = null;
+    private ?Course $course = null;
+    private ?Discount $discount = null;
+    private ?Enrollment $enrollment = null;
     private Collection $items;
     private Collection $payments;
-    private float $pureAmount     = 0;
+    private float $pureAmount = 0;
     private float $discountAmount = 0;
-    private float $totalAmount    = 0;
+    private float $totalAmount = 0;
 
     public function __construct($payload = [])
     {
-        $this->payload  = $payload;
-        $this->items    = collect($payload['items'] ?? []);
+        $this->payload = $payload;
+        $this->items = collect($payload['items'] ?? []);
         $this->payments = collect($payload['payments'] ?? []);
     }
 

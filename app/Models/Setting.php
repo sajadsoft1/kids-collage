@@ -30,7 +30,7 @@ class Setting extends Model implements HasMedia
 
     protected $casts = [
         'permissions' => 'array',
-        'show'        => 'boolean',
+        'show' => 'boolean',
     ];
 
     /**

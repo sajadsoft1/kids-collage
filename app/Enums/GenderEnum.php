@@ -7,13 +7,13 @@ namespace App\Enums;
 enum GenderEnum: string
 {
     use EnumToArray;
-    case MALE   = 'male';
+    case MALE = 'male';
     case FEMALE = 'female';
 
     public function title()
     {
         return match ($this) {
-            self::MALE   => 'مرد',
+            self::MALE => 'مرد',
             self::FEMALE => 'زن'
         };
     }

@@ -40,11 +40,11 @@ trait HasMessageBag
     public function getHighOrderedMessage(): string
     {
         $message = '';
-        $order   = 0;
+        $order = 0;
         foreach ($this->messages as $msg) {
             if ($msg['order'] > $order) {
                 $message = $msg['message'];
-                $order   = $msg['order'];
+                $order = $msg['order'];
             }
         }
 

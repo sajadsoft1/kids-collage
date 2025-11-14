@@ -32,15 +32,15 @@ class UserResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'         => $this->id,
-            'name'       => $this->name,
-            'family'     => $this->family,
-            'mobile'     => $this->mobile,
-            'email'      => $this->email,
-            'status'     => $this->status->value,
-            'type'       => $this->type->toArray(),
-            'avatar'     => $this->resource->getFirstMediaUrl('avatar', Constants::RESOLUTION_100_SQUARE),
-            'roles'      => $this->whenLoaded('roles', fn () => $this->roles->pluck('name')),
+            'id' => $this->id,
+            'name' => $this->name,
+            'family' => $this->family,
+            'mobile' => $this->mobile,
+            'email' => $this->email,
+            'status' => $this->status->value,
+            'type' => $this->type->toArray(),
+            'avatar' => $this->resource->getFirstMediaUrl('avatar', Constants::RESOLUTION_100_SQUARE),
+            'roles' => $this->whenLoaded('roles', fn () => $this->roles->pluck('name')),
             'updated_at' => $this->updated_at,
             'created_at' => $this->created_at,
         ];

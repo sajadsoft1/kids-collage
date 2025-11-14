@@ -3,17 +3,17 @@
 declare(strict_types=1);
 
 return [
-    'model'         => 'سوالات پرتکرار',
-    'permissions'   => [
+    'model' => 'سوالات پرتکرار',
+    'permissions' => [
     ],
-    'exceptions'    => [
+    'exceptions' => [
     ],
-    'validations'   => [
+    'validations' => [
     ],
-    'enum'          => [
+    'enum' => [
     ],
     'notifications' => [
     ],
-    'page'          => [
+    'page' => [
     ],
 ];

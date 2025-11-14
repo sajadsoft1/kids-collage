@@ -23,8 +23,8 @@ class PageUpdateOrCreate extends Component
 
     public Page $model;
     public ?string $title = '';
-    public ?string $body  = '';
-    public ?string $type  = PageTypeEnum::RULES->value;
+    public ?string $body = '';
+    public ?string $type = PageTypeEnum::RULES->value;
     public $image;
 
     public function mount(Page $page): void
@@ -32,8 +32,8 @@ class PageUpdateOrCreate extends Component
         $this->model = $page;
         if ($this->model->id) {
             $this->title = $this->model->title;
-            $this->body  = $this->model->body;
-            $this->type  = $this->model->type->value;
+            $this->body = $this->model->body;
+            $this->type = $this->model->type->value;
         }
     }
 
@@ -41,8 +41,8 @@ class PageUpdateOrCreate extends Component
     {
         return [
             'title' => 'required|string|max:255',
-            'body'  => 'required|string',
-            'type'  => 'required|string|in:' . implode(',', PageTypeEnum::values()),
+            'body' => 'required|string',
+            'type' => 'required|string|in:' . implode(',', PageTypeEnum::values()),
             'image' => 'nullable|file|mimes:jpg,jpeg,png|max:2048',
         ];
     }
@@ -79,10 +79,10 @@ class PageUpdateOrCreate extends Component
     public function render(): View
     {
         return view('livewire.admin.pages.page.page-update-or-create', [
-            'edit_mode'          => $this->model->id,
-            'breadcrumbs'        => [
+            'edit_mode' => $this->model->id,
+            'breadcrumbs' => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link'  => route('admin.page.index'), 'label' => trans('general.page.index.title', ['model' => trans('page.model')])],
+                ['link' => route('admin.page.index'), 'label' => trans('general.page.index.title', ['model' => trans('page.model')])],
                 ['label' => trans('general.page.create.title', ['model' => trans('page.model')])],
             ],
             'breadcrumbsActions' => [

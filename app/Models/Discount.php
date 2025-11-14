@@ -67,16 +67,16 @@ class Discount extends Model
     ];
 
     protected $casts = [
-        'type'                => DiscountTypeEnum::class,
-        'value'               => 'float',
-        'min_order_amount'    => 'float',
+        'type' => DiscountTypeEnum::class,
+        'value' => 'float',
+        'min_order_amount' => 'float',
         'max_discount_amount' => 'float',
-        'usage_limit'         => 'integer',
-        'usage_per_user'      => 'integer',
-        'used_count'          => 'integer',
-        'starts_at'           => 'datetime',
-        'expires_at'          => 'datetime',
-        'is_active'           => BooleanEnum::class,
+        'usage_limit' => 'integer',
+        'usage_per_user' => 'integer',
+        'used_count' => 'integer',
+        'starts_at' => 'datetime',
+        'expires_at' => 'datetime',
+        'is_active' => BooleanEnum::class,
     ];
 
     public function getActivitylogOptions(): LogOptions
@@ -227,7 +227,7 @@ class Discount extends Model
 
         $discountAmount = match ($this->type) {
             DiscountTypeEnum::PERCENTAGE => ($orderAmount * $this->value) / 100,
-            DiscountTypeEnum::AMOUNT     => $this->value,
+            DiscountTypeEnum::AMOUNT => $this->value,
         };
 
         // Apply maximum discount cap for percentage type
@@ -289,7 +289,7 @@ class Discount extends Model
     {
         return match ($this->type) {
             DiscountTypeEnum::PERCENTAGE => $this->value . '%',
-            DiscountTypeEnum::AMOUNT     => StringHelper::toCurrency($this->value),
+            DiscountTypeEnum::AMOUNT => StringHelper::toCurrency($this->value),
         };
     }
 
@@ -298,35 +298,35 @@ class Discount extends Model
     {
         if ( ! $this->is_active) {
             return [
-                'label'=> trans('discount.enum.status.inactive'),
-                'color'=> 'danger',
+                'label' => trans('discount.enum.status.inactive'),
+                'color' => 'danger',
             ];
         }
 
         if ($this->hasReachedLimit()) {
             return [
-                'label'=> trans('discount.enum.status.limit'),
-                'color'=> 'danger',
+                'label' => trans('discount.enum.status.limit'),
+                'color' => 'danger',
             ];
         }
 
         if ($this->isExpired()) {
             return [
-                'label'=> trans('discount.enum.status.expired'),
-                'color'=> 'danger',
+                'label' => trans('discount.enum.status.expired'),
+                'color' => 'danger',
             ];
         }
 
         if ($this->starts_at && $this->starts_at->isFuture()) {
             return [
-                'label'=> trans('discount.enum.status.furure'),
-                'color'=> 'secondary',
+                'label' => trans('discount.enum.status.furure'),
+                'color' => 'secondary',
             ];
         }
 
         return [
-            'label'=> trans('discount.enum.status.active'),
-            'color'=> 'success',
+            'label' => trans('discount.enum.status.active'),
+            'color' => 'success',
         ];
     }
 
@@ -339,20 +339,20 @@ class Discount extends Model
     {
         if ( ! $this->canBeApplied($orderAmount, $userId)) {
             return [
-                'success'         => false,
-                'message'         => $this->getInvalidReason($orderAmount, $userId),
+                'success' => false,
+                'message' => $this->getInvalidReason($orderAmount, $userId),
                 'discount_amount' => 0,
-                'final_amount'    => $orderAmount,
+                'final_amount' => $orderAmount,
             ];
         }
 
         $discountAmount = $this->calculateDiscount($orderAmount);
 
         return [
-            'success'         => true,
-            'message'         => 'Discount applied successfully',
+            'success' => true,
+            'message' => 'Discount applied successfully',
             'discount_amount' => $discountAmount,
-            'final_amount'    => $orderAmount - $discountAmount,
+            'final_amount' => $orderAmount - $discountAmount,
         ];
     }
 

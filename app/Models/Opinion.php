@@ -43,11 +43,11 @@ class Opinion extends Model implements HasMedia
     ];
 
     protected $casts = [
-        'published'    => BooleanEnum::class,
+        'published' => BooleanEnum::class,
         'published_at' => 'datetime',
-        'created_at'   => 'datetime',
-        'updated_at'   => 'datetime',
-        'deleted_at'   => 'datetime',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'deleted_at' => 'datetime',
     ];
 
     /** Model Configuration -------------------------------------------------------------------------- */

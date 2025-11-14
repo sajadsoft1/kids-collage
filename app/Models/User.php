@@ -45,10 +45,10 @@ class User extends Authenticatable implements HasMedia
     ];
 
     protected $casts = [
-        'email_verified_at'  => 'datetime',
+        'email_verified_at' => 'datetime',
         'mobile_verified_at' => 'datetime',
-        'status'             => BooleanEnum::class,
-        'type'               => UserTypeEnum::class,
+        'status' => BooleanEnum::class,
+        'type' => UserTypeEnum::class,
     ];
 
     /** Model Configuration -------------------------------------------------------------------------- */

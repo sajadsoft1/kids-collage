@@ -3,27 +3,27 @@
 declare(strict_types=1);
 
 return [
-    'model'         => 'مقاله',
-    'permissions'   => [
+    'model' => 'مقاله',
+    'permissions' => [
     ],
-    'exceptions'    => [
+    'exceptions' => [
     ],
-    'validations'   => [
+    'validations' => [
     ],
-    'enum'          => [
+    'enum' => [
     ],
     'notifications' => [
     ],
-    'page'          => [
+    'page' => [
     ],
-    'sort'          => [
-        'most_view'    => 'بیشترین بازدید',
+    'sort' => [
+        'most_view' => 'بیشترین بازدید',
         'most_comment' => 'بیشترین نظر',
-        'most_wish'    => 'بیشترین علاقه مندی',
+        'most_wish' => 'بیشترین علاقه مندی',
     ],
-    'filter'        => [
-        'last_week'  => 'هفته گذشته',
+    'filter' => [
+        'last_week' => 'هفته گذشته',
         'last_month' => 'ماه گذشته',
-        'last_year'  => 'سال گذشته',
+        'last_year' => 'سال گذشته',
     ],
 ];

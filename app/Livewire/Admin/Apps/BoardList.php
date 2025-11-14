@@ -25,17 +25,17 @@ class BoardList extends Component
 {
     use WithPagination;
 
-    public bool $showBoardModal  = false;
+    public bool $showBoardModal = false;
     public bool $showDeleteModal = false;
     public ?Board $selectedBoard = null;
     public ?Board $boardToDelete = null;
 
     // Form data
     public array $boardForm = [
-        'name'        => '',
+        'name' => '',
         'description' => '',
-        'color'       => '#3B82F6',
-        'is_active'   => true,
+        'color' => '#3B82F6',
+        'is_active' => true,
     ];
 
     // Search and filters
@@ -96,9 +96,9 @@ class BoardList extends Component
     public function createBoard(): void
     {
         $this->validate([
-            'boardForm.name'        => 'required|string|max:255',
+            'boardForm.name' => 'required|string|max:255',
             'boardForm.description' => 'nullable|string',
-            'boardForm.color'       => 'required|string|regex:/^#[0-9A-F]{6}$/i',
+            'boardForm.color' => 'required|string|regex:/^#[0-9A-F]{6}$/i',
         ]);
 
         $user = Auth::user();
@@ -123,15 +123,15 @@ class BoardList extends Component
     public function updateBoard(): void
     {
         $this->validate([
-            'boardForm.name'        => 'required|string|max:255',
+            'boardForm.name' => 'required|string|max:255',
             'boardForm.description' => 'nullable|string',
-            'boardForm.color'       => 'required|string|regex:/^#[0-9A-F]{6}$/i',
+            'boardForm.color' => 'required|string|regex:/^#[0-9A-F]{6}$/i',
         ]);
 
         if ($this->selectedBoard) {
             $this->selectedBoard->update($this->boardForm);
             $this->showBoardModal = false;
-            $this->selectedBoard  = null;
+            $this->selectedBoard = null;
 
             $this->dispatch('board-updated', message: __('kanban.messages.board_updated'));
         }
@@ -143,7 +143,7 @@ class BoardList extends Component
         if ($this->boardToDelete) {
             $this->boardToDelete->delete();
             $this->showDeleteModal = false;
-            $this->boardToDelete   = null;
+            $this->boardToDelete = null;
 
             $this->dispatch('board-deleted', message: __('kanban.messages.board_deleted'));
         }
@@ -153,11 +153,11 @@ class BoardList extends Component
     public function editBoard(Board $board): void
     {
         $this->selectedBoard = $board;
-        $this->boardForm     = [
-            'name'        => $board->name,
+        $this->boardForm = [
+            'name' => $board->name,
             'description' => $board->description,
-            'color'       => $board->color,
-            'is_active'   => $board->is_active,
+            'color' => $board->color,
+            'is_active' => $board->is_active,
         ];
         $this->showBoardModal = true;
     }
@@ -165,7 +165,7 @@ class BoardList extends Component
     /** Confirm board deletion. */
     public function confirmDelete(Board $board): void
     {
-        $this->boardToDelete   = $board;
+        $this->boardToDelete = $board;
         $this->showDeleteModal = true;
     }
 
@@ -195,10 +195,10 @@ class BoardList extends Component
     private function resetBoardForm(): void
     {
         $this->boardForm = [
-            'name'        => '',
+            'name' => '',
             'description' => '',
-            'color'       => '#3B82F6',
-            'is_active'   => true,
+            'color' => '#3B82F6',
+            'is_active' => true,
         ];
         $this->selectedBoard = null;
     }

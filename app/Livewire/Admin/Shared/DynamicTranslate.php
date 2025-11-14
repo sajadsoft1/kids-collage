@@ -17,19 +17,22 @@ class DynamicTranslate extends Component
 
     public mixed $model;
     public string $translate_modal_tab = 'fa';
-    public array $form                 = [];
-    public string $back_route          = '';
-    public array $rules                = [];
+    public array $form = [];
+    public string $back_route = '';
+    public array $rules = [];
     public string $class;
 
     public function mount(string $class, int $id)
     {
-        $this->class      = $class;
-        $this->back_route = 'admin.' . Str::kebab($class) . '.index';
-        $this->model      = Utils::getEloquent($class)::find($id);
+        $this->class = $class;
+        $this->model = Utils::getEloquent($class)::find($id);
+        $this->back_route = match ($class) {
+            'courseSessionTemplate' => route('admin.course-session-template.index', ['courseTemplate' => $this->model->course_template_id]),
+            default => route('admin.' . Str::kebab($class) . '.index'),
+        };
         foreach (config('app.supported_locales') as $locale) {
             foreach ($this->model->translatable as $field) {
-                $this->form[$locale][$field]                   = $this->model->translationsPure()->where('key', $field)->where('locale', $locale)->first()->value ?? '';
+                $this->form[$locale][$field] = $this->model->translationsPure()->where('key', $field)->where('locale', $locale)->first()->value ?? '';
                 $this->rules['form.' . $locale . '.' . $field] = 'required|string';
             }
         }
@@ -43,9 +46,9 @@ class DynamicTranslate extends Component
     protected function validationAttributes(): array
     {
         return [
-            'form.*.title'       => trans('validation.attributes.title'),
+            'form.*.title' => trans('validation.attributes.title'),
             'form.*.description' => trans('validation.attributes.description'),
-            'form.*.body'        => trans('validation.attributes.body'),
+            'form.*.body' => trans('validation.attributes.body'),
         ];
     }
 
@@ -56,7 +59,7 @@ class DynamicTranslate extends Component
                 foreach ($data as $locale => $form) {
                     foreach ($form as $key => $value) {
                         $this->model->translationsPure()->updateOrCreate([
-                            'key'    => $key,
+                            'key' => $key,
                             'locale' => $locale,
                         ], [
                             'value' => $value,
@@ -67,7 +70,7 @@ class DynamicTranslate extends Component
             }
             $this->success(
                 title: trans('general.translation_has_updated_successfully'),
-                redirectTo: route($this->back_route)
+                redirectTo: $this->back_route
             );
         } catch (ValidationException $e) {
             foreach (config('app.supported_locales') as $locale) {
@@ -87,13 +90,13 @@ class DynamicTranslate extends Component
     public function render(): View
     {
         return view('livewire.admin.shared.dynamic-translate', [
-            'breadcrumbs'        => [
+            'breadcrumbs' => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link'  => route('admin.' . Str::kebab($this->class) . '.index'), 'label' => trans('general.page.index.title', ['model' => trans($this->class . '.model')])],
+                ['link' => $this->back_route, 'label' => trans('general.page.index.title', ['model' => trans($this->class . '.model')])],
                 ['label' => $this->model->title],
             ],
             'breadcrumbsActions' => [
-                ['link' => route('admin.' . Str::kebab($this->class) . '.index'), 'icon' => 's-arrow-left'],
+                ['link' => $this->back_route, 'icon' => 's-arrow-left'],
             ],
         ]);
     }

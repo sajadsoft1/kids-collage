@@ -3,23 +3,23 @@
 declare(strict_types=1);
 
 return [
-    'model'         => 'ثبت نام',
-    'permissions'   => [
+    'model' => 'ثبت نام',
+    'permissions' => [
     ],
-    'exceptions'    => [
+    'exceptions' => [
     ],
-    'validations'   => [
+    'validations' => [
     ],
-    'enum'          => [
+    'enum' => [
         'status' => [
             'pending' => 'در انتظار',
-            'paid'    => 'پرداخت شده',
-            'active'  => 'فعال',
+            'paid' => 'پرداخت شده',
+            'active' => 'فعال',
             'dropped' => 'لغو شده',
         ],
     ],
     'notifications' => [
     ],
-    'page'          => [
+    'page' => [
     ],
 ];

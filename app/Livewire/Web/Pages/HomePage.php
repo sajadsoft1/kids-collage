@@ -33,11 +33,11 @@ class HomePage extends Component
             ->apply();
 
         return view('livewire.web.pages.home-page', [
-            'sliders'    => Slider::where('published', true)
+            'sliders' => Slider::where('published', true)
                 ->orderByDesc('id')
                 ->get(),
 
-            'faqs'       => Faq::where('published', true)
+            'faqs' => Faq::where('published', true)
                 ->where('favorite', true)
                 ->orderByDesc('ordering')
                 ->get(),
@@ -46,17 +46,17 @@ class HomePage extends Component
                 ->limit(3)
                 ->get(),
 
-            'blogs'      => Blog::where('published', true)
+            'blogs' => Blog::where('published', true)
                 ->orderByDesc('published_at')
                 ->limit(10)
                 ->get(),
 
-            'opinions'   => Opinion::where('published', true)
+            'opinions' => Opinion::where('published', true)
                 ->orderByDesc('created_at')
                 ->limit(3)
                 ->get(),
 
-            'teachers'   => User::limit(3)->get(),
+            'teachers' => User::limit(3)->get(),
         ])
             ->layout('components.layouts.web');
     }

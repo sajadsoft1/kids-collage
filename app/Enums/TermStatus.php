@@ -8,8 +8,8 @@ enum TermStatus: string
 {
     use EnumToArray;
 
-    case DRAFT    = 'draft';
-    case ACTIVE   = 'active';
+    case DRAFT = 'draft';
+    case ACTIVE = 'active';
     case FINISHED = 'finished';
 
     public static function options(): array
@@ -33,8 +33,8 @@ enum TermStatus: string
     public function title(): string
     {
         return match ($this) {
-            self::DRAFT    => 'پیش‌نویس',
-            self::ACTIVE   => 'فعال',
+            self::DRAFT => 'پیش‌نویس',
+            self::ACTIVE => 'فعال',
             self::FINISHED => 'تمام شده',
         };
     }

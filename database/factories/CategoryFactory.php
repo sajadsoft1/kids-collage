@@ -15,7 +15,7 @@ class CategoryFactory extends Factory
     public function definition(): array
     {
         return [
-            'slug'      => $this->faker->slug,
+            'slug' => $this->faker->slug,
             'published' => true,
             'languages' => [app()->getLocale()],
         ];
@@ -27,22 +27,22 @@ class CategoryFactory extends Factory
             $category->translations()->createMany([
                 [
                     'locale' => app()->getLocale(),
-                    'key'    => 'title',
-                    'value'  => $this->slugToText($category->slug),
+                    'key' => 'title',
+                    'value' => $this->slugToText($category->slug),
                 ],
                 [
                     'locale' => app()->getLocale(),
-                    'key'    => 'description',
-                    'value'  => $this->faker->realText,
+                    'key' => 'description',
+                    'value' => $this->faker->realText,
                 ],
             ]);
 
             // Add Seo options
             $category->seoOption()->create([
-                'title'       => $this->slugToText($category->slug),
+                'title' => $this->slugToText($category->slug),
                 'description' => $this->faker->realText,
-                'canonical'   => $this->faker->url,
-                'old_url'     => $this->faker->url,
+                'canonical' => $this->faker->url,
+                'old_url' => $this->faker->url,
                 'redirect_to' => $this->faker->url,
                 'robots_meta' => $this->faker->randomElement(SeoRobotsMetaEnum::values()),
             ]);

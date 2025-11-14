@@ -7,13 +7,13 @@ namespace App\Enums;
 enum CommentTypeEnum: string
 {
     use EnumToArray;
-    case NORMAL  = 'normal';
+    case NORMAL = 'normal';
     case SPECIAL = 'special';
 
     public function title(): string
     {
         return match ($this) {
-            self::NORMAL  => trans('comment.enum.type.normal'),
+            self::NORMAL => trans('comment.enum.type.normal'),
             self::SPECIAL => trans('comment.enum.type.special'),
         };
     }

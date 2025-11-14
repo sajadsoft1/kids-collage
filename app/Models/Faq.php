@@ -46,13 +46,13 @@ class Faq extends Model
     ];
 
     protected $casts = [
-        'published'    => BooleanEnum::class,
+        'published' => BooleanEnum::class,
         'published_at' => 'date',
-        'favorite'     => YesNoEnum::class,
-        'deletable'    => YesNoEnum::class,
-        'languages'    => 'array',
-        'created_at'   => 'date',
-        'updated_at'   => 'date',
+        'favorite' => YesNoEnum::class,
+        'deletable' => YesNoEnum::class,
+        'languages' => 'array',
+        'created_at' => 'date',
+        'updated_at' => 'date',
     ];
 
     /** Model Configuration -------------------------------------------------------------------------- */

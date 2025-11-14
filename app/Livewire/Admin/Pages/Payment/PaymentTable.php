@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Livewire\Admin\Pages\Payment;
 
+use App\Enums\UserTypeEnum;
 use App\Helpers\PowerGridHelper;
 use App\Helpers\StringHelper;
 use App\Models\Payment;
 use App\Traits\PowerGridHelperTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\View\View;
-use Jenssegers\Agent\Agent;
 use Livewire\Attributes\Computed;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
@@ -21,35 +21,12 @@ use PowerComponents\LivewirePowerGrid\PowerGridFields;
 final class PaymentTable extends PowerGridComponent
 {
     use PowerGridHelperTrait;
-    public string $tableName     = 'index_payment_datatable';
+    public string $tableName = 'index_payment_datatable';
     public string $sortDirection = 'desc';
 
-    public function setUp(): array
+    public function boot(): void
     {
-        $setup = [
-            PowerGrid::header()
-                ->includeViewOnTop('components.admin.shared.bread-crumbs')
-                ->showSearchInput(),
-
-            PowerGrid::footer()
-                ->showPerPage()
-                ->showRecordCount(),
-        ];
-
-        if ((new Agent)->isMobile()) {
-            $setup[] = PowerGrid::responsive()->fixedColumns('id', 'title', 'actions');
-        }
-
-        return $setup;
-    }
-
-    protected function queryString(): array
-    {
-        return [
-            'search' => ['except' => ''],
-            'page'   => ['except' => 1],
-            ...$this->powerGridQueryString(),
-        ];
+        $this->fixedColumns = ['id', 'title', 'actions'];
     }
 
     #[Computed(persist: true)]
@@ -71,7 +48,32 @@ final class PaymentTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Payment::query();
+        return Payment::query()
+            ->when(
+                auth()->user()->type === UserTypeEnum::PARENT,
+                function ($q) {
+                    $children = auth()->user()->children->pluck('id')->toArray();
+                    $q->whereIn('user_id', [...$children, auth()->id()]);
+                }
+            )
+            ->when(
+                auth()->user()->type === UserTypeEnum::TEACHER,
+                function ($q) {
+                    $q->where('user_id', auth()->id());
+                }
+            )
+            ->when(
+                auth()->user()->type === UserTypeEnum::EMPLOYEE,
+                function ($q) {
+                    $q->where('user_id', auth()->id());
+                }
+            )
+            ->when(
+                auth()->user()->type === UserTypeEnum::USER,
+                function ($q) {
+                    $q->where('user_id', auth()->id());
+                }
+            );
     }
 
     public function relationSearch(): array

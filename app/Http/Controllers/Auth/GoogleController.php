@@ -32,11 +32,11 @@ class GoogleController extends Controller
             if ( ! $user) {
                 // Create new user
                 $user = User::create([
-                    'name'              => $googleUser->getName() ?: explode(' ', $googleUser->getName())[0] ?? 'User',
-                    'family'            => $googleUser->getName() ? (explode(' ', $googleUser->getName())[1] ?? '') : '',
-                    'email'             => $googleUser->getEmail(),
-                    'password'          => Hash::make(uniqid()), // Generate random password
-                    'status'            => true,
+                    'name' => $googleUser->getName() ?: explode(' ', $googleUser->getName())[0] ?? 'User',
+                    'family' => $googleUser->getName() ? (explode(' ', $googleUser->getName())[1] ?? '') : '',
+                    'email' => $googleUser->getEmail(),
+                    'password' => Hash::make(uniqid()), // Generate random password
+                    'status' => true,
                     'email_verified_at' => now(), // Google users are pre-verified
                 ]);
             }

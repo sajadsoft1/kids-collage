@@ -36,16 +36,16 @@ class StoreCourseSessionAction
     {
         return DB::transaction(function () use ($payload) {
             $model = CourseSession::create([
-                'course_id'                  => $payload['course_id'],
+                'course_id' => $payload['course_id'],
                 'course_session_template_id' => $payload['course_session_template_id'],
-                'date'                       => $payload['date'] ?? null,
-                'start_time'                 => $payload['start_time'] ?? null,
-                'end_time'                   => $payload['end_time'] ?? null,
-                'room_id'                    => $payload['room_id'] ?? null,
-                'meeting_link'               => $payload['meeting_link'] ?? null,
-                'recording_link'             => $payload['recording_link'] ?? null,
-                'status'                     => $payload['status'] ?? SessionStatus::PLANNED->value,
-                'session_type'               => $payload['session_type'] ?? SessionType::IN_PERSON->value,
+                'date' => $payload['date'] ?? null,
+                'start_time' => $payload['start_time'] ?? null,
+                'end_time' => $payload['end_time'] ?? null,
+                'room_id' => $payload['room_id'] ?? null,
+                'meeting_link' => $payload['meeting_link'] ?? null,
+                'recording_link' => $payload['recording_link'] ?? null,
+                'status' => $payload['status'] ?? SessionStatus::PLANNED->value,
+                'session_type' => $payload['session_type'] ?? SessionType::IN_PERSON->value,
             ]);
 
             return $model->refresh();

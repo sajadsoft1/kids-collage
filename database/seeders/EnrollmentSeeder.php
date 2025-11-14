@@ -16,10 +16,10 @@ class EnrollmentSeeder extends Seeder
         $data = require database_path('seeders/data/karno.php');
         foreach ($data['enrollment'] as $row) {
             $model = StoreEnrollmentAction::run([
-                'user_id'     => $row['user_id'],
-                'course_id'   => $row['course_id'],
+                'user_id' => $row['user_id'],
+                'course_id' => $row['course_id'],
                 'enroll_date' => $row['enroll_date'],
-                'status'      => $row['status'],
+                'status' => $row['status'],
             ]);
 
             try {

@@ -21,7 +21,7 @@ class SettingList extends Component
 
     public Collection $settings;
 
-    public $detail     = [];
+    public $detail = [];
     public array $data = [];
     private SettingService $settingService;
 
@@ -30,7 +30,7 @@ class SettingList extends Component
         $this->settingService = $settingService;
 
         $customOrder = ['integration_sync', 'notification', 'sale'];
-        $cases       = collect($customOrder)
+        $cases = collect($customOrder)
             ->map(fn ($key, $i) => "WHEN `key` = ? THEN {$i}")
             ->implode(' ');
         $orderByRaw = "CASE {$cases} ELSE " . count($customOrder) . ' END';
@@ -68,7 +68,7 @@ class SettingList extends Component
         });
         $sendData = [
             'template' => $this->detail['key'],
-            'value'    => $sendData,
+            'value' => $sendData,
         ];
 
         try {
@@ -91,8 +91,8 @@ class SettingList extends Component
 
     private function findDetailKey(string $errorKey): string
     {
-        $parts   = explode('.', $errorKey); // Split the key into parts
-        $rowKey  = $parts[0];              // First part (e.g., "company")
+        $parts = explode('.', $errorKey); // Split the key into parts
+        $rowKey = $parts[0];              // First part (e.g., "company")
         $itemKey = $parts[1] ?? null;     // Second part (e.g., "postal_code")
 
         foreach ($this->detail['rows'] as $rowIndex => $row) {
@@ -126,19 +126,19 @@ class SettingList extends Component
     public function render(): View
     {
         return view('livewire.admin.pages.setting.setting-list', [
-            'breadcrumbs'        => [
+            'breadcrumbs' => [
                 ['link' => route('admin.dashboard'), 'icon' => 's-home'],
                 ['label' => trans('datatable.setting')],
             ],
             'breadcrumbsActions' => [
             ],
-            'iconMap'            => [
-                'general'          => 'lucide.sidebar',
-                'product'          => 'lucide.box',
-                'security'         => 'lucide.lock',
+            'iconMap' => [
+                'general' => 'lucide.sidebar',
+                'product' => 'lucide.box',
+                'security' => 'lucide.lock',
                 'integration_sync' => 'lucide.folder-sync',
-                'notification'     => 'lucide.message-square-share',
-                'sale'             => 'lucide.shopping-cart',
+                'notification' => 'lucide.message-square-share',
+                'sale' => 'lucide.shopping-cart',
             ],
         ]);
     }

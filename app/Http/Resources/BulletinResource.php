@@ -33,19 +33,19 @@ class BulletinResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'            => $this->id,
-            'title'         => $this->title,
-            'description'   => $this->description,
-            'slug'          => $this->slug,
-            'published'     => $this->published->toArray(),
-            'published_at'  => $this->published_at,
-            'image'         => $this->resource->getFirstMediaUrl('image', Constants::RESOLUTION_854_480),
-            'view_count'    => $this->view_count,
+            'id' => $this->id,
+            'title' => $this->title,
+            'description' => $this->description,
+            'slug' => $this->slug,
+            'published' => $this->published->toArray(),
+            'published_at' => $this->published_at,
+            'image' => $this->resource->getFirstMediaUrl('image', Constants::RESOLUTION_854_480),
+            'view_count' => $this->view_count,
             'comment_count' => $this->comment_count,
-            'wish_count'    => $this->wish_count,
-            'updated_at'    => $this->updated_at,
-            'created_at'    => $this->created_at,
-            'category'      => $this->whenLoaded('category', fn () => CategoryResource::make($this->category)),
+            'wish_count' => $this->wish_count,
+            'updated_at' => $this->updated_at,
+            'created_at' => $this->created_at,
+            'category' => $this->whenLoaded('category', fn () => CategoryResource::make($this->category)),
         ];
     }
 }

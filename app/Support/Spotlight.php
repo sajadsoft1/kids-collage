@@ -45,10 +45,10 @@ class Spotlight
             ->get()
             ->map(function (User $user) {
                 return [
-                    'avatar'      => $user->avatar,
-                    'name'        => $user->name,
+                    'avatar' => $user->avatar,
+                    'name' => $user->name,
                     'description' => $user->email,
-                    'link'        => route('admin.user.edit', $user->id),
+                    'link' => route('admin.user.edit', $user->id),
                 ];
             })
             ->toArray();
@@ -68,10 +68,10 @@ class Spotlight
             ->get()
             ->map(function (Blog $blog) {
                 return [
-                    'icon'        => Blade::render("<x-icon name='o-document-text' class='w-11 h-11 p-2 bg-info/10 rounded-full' />"),
-                    'name'        => $blog->title,
+                    'icon' => Blade::render("<x-icon name='o-document-text' class='w-11 h-11 p-2 bg-info/10 rounded-full' />"),
+                    'name' => $blog->title,
                     'description' => 'Blog post',
-                    'link'        => route('admin.blog.edit', $blog->id),
+                    'link' => route('admin.blog.edit', $blog->id),
                 ];
             })
             ->toArray();
@@ -90,10 +90,10 @@ class Spotlight
             ->get()
             ->map(function (Category $category) {
                 return [
-                    'icon'        => Blade::render("<x-icon name='o-folder' class='w-11 h-11 p-2 bg-success/10 rounded-full' />"),
-                    'name'        => $category->name,
+                    'icon' => Blade::render("<x-icon name='o-folder' class='w-11 h-11 p-2 bg-success/10 rounded-full' />"),
+                    'name' => $category->name,
                     'description' => 'Category',
-                    'link'        => route('admin.category.edit', $category->id),
+                    'link' => route('admin.category.edit', $category->id),
                 ];
             })
             ->toArray();
@@ -104,28 +104,28 @@ class Spotlight
     {
         $actions = [
             [
-                'name'        => 'Dashboard',
+                'name' => 'Dashboard',
                 'description' => 'Go to dashboard',
-                'icon'        => Blade::render("<x-icon name='o-home' class='w-11 h-11 p-2 bg-primary/10 rounded-full' />"),
-                'link'        => route('admin.dashboard'),
+                'icon' => Blade::render("<x-icon name='o-home' class='w-11 h-11 p-2 bg-primary/10 rounded-full' />"),
+                'link' => route('admin.dashboard'),
             ],
             [
-                'name'        => 'Create Blog',
+                'name' => 'Create Blog',
                 'description' => 'Create a new blog post',
-                'icon'        => Blade::render("<x-icon name='o-plus' class='w-11 h-11 p-2 bg-success/10 rounded-full' />"),
-                'link'        => route('admin.blog.create'),
+                'icon' => Blade::render("<x-icon name='o-plus' class='w-11 h-11 p-2 bg-success/10 rounded-full' />"),
+                'link' => route('admin.blog.create'),
             ],
             [
-                'name'        => 'Create Category',
+                'name' => 'Create Category',
                 'description' => 'Create a new category',
-                'icon'        => Blade::render("<x-icon name='o-folder-plus' class='w-11 h-11 p-2 bg-warning/10 rounded-full' />"),
-                'link'        => route('admin.category.create'),
+                'icon' => Blade::render("<x-icon name='o-folder-plus' class='w-11 h-11 p-2 bg-warning/10 rounded-full' />"),
+                'link' => route('admin.category.create'),
             ],
             [
-                'name'        => 'Create User',
+                'name' => 'Create User',
                 'description' => 'Create a new user',
-                'icon'        => Blade::render("<x-icon name='o-user-plus' class='w-11 h-11 p-2 bg-info/10 rounded-full' />"),
-                'link'        => route('admin.user.create'),
+                'icon' => Blade::render("<x-icon name='o-user-plus' class='w-11 h-11 p-2 bg-info/10 rounded-full' />"),
+                'link' => route('admin.user.create'),
             ],
         ];
 
