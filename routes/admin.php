@@ -76,4 +76,5 @@ Route::group(['middleware' => ['admin.panel']], function () {
     require __DIR__ . '/admin/questionOption.php';
     require __DIR__ . '/admin/exam.php';
     require __DIR__ . '/admin/survey.php';
+    require __DIR__ . '/admin/event.php';
 });
