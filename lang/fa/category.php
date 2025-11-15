@@ -21,6 +21,7 @@ return [
             'course' => 'دوره',
             'question' => 'سوال',
             'subject' => 'موضوع',
+            'event'     => 'رویداد',
         ],
     ],
     'notifications' => [

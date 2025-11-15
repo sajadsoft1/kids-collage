@@ -16,6 +16,7 @@ use App\Models\ContactUs;
 use App\Models\Course;
 use App\Models\Discount;
 use App\Models\Enrollment;
+use App\Models\Event;
 use App\Models\Exam;
 use App\Models\Faq;
 use App\Models\License;
@@ -226,11 +227,12 @@ class NavbarComposer
                     ],
                     [
                         'icon' => 'o-calendar-days',
-                        'badge' => trans('_menu.future_module'),
                         'title' => trans('_menu.events_management'),
-                        'route_name' => 'admin.feature-module',
+                        'route_name' => 'admin.event.index',
                         'params' => ['module' => 'events'],
-                        'access' => $this->hasAccessToModule('education.events'),
+                        'access' => $this->checkPermission([
+                            Event::class => 'Index',
+                        ]),
                     ],
                     [
                         'icon' => 'o-calendar',
