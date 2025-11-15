@@ -6,9 +6,11 @@ namespace App\Support\Notifications\Drivers;
 
 use App\Enums\NotificationChannelEnum;
 use App\Enums\NotificationEventEnum;
+use App\Mail\NotificationMail;
 use App\Support\Notifications\Contracts\NotificationChannelDriver;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Throwable;
 
 class EmailChannelDriver implements NotificationChannelDriver
 {
@@ -22,47 +24,33 @@ class EmailChannelDriver implements NotificationChannelDriver
         $recipient = $this->resolveRecipient($notifiable, $context);
 
         if ( ! $recipient) {
-            Log::warning('Email recipient could not be resolved for notification.', [
-                'event' => $event->value,
-                'notifiable' => $notifiable::class,
-            ]);
-
             return [
                 'status' => 'skipped',
                 'reason' => 'recipient_missing',
             ];
         }
 
-        $endpoint = config('services.notifications.email.endpoint');
-
-        if ( ! $endpoint) {
-            Log::warning('Email notification endpoint is not configured.');
+        try {
+            $mailable = new NotificationMail($payload);
+            Mail::to($recipient)->send($mailable);
 
             return [
-                'status' => 'skipped',
-                'reason' => 'endpoint_missing',
+                'status' => 'sent',
+                'recipient' => $recipient,
+            ];
+        } catch (Throwable $throwable) {
+            Log::error('Failed to send email notification', [
+                'event' => $event->value,
+                'recipient' => $recipient,
+                'error' => $throwable->getMessage(),
+                'trace' => $throwable->getTraceAsString(),
+            ]);
+
+            return [
+                'status' => 'failed',
+                'error' => $throwable->getMessage(),
             ];
         }
-
-        $requestPayload = [
-            'to' => $recipient,
-            'subject' => $payload['subject'] ?? null,
-            'body' => $payload['body'] ?? $payload['title'] ?? '',
-            'meta' => [
-                'event' => $event->value,
-                'channel' => $this->channel()->value,
-            ],
-        ];
-
-        $response = Http::withHeaders($this->headers('email'))
-            ->timeout((int) config('services.notifications.email.timeout', 10))
-            ->post($endpoint, $requestPayload);
-
-        return [
-            'status' => $response->successful() ? 'queued' : 'failed',
-            'http_code' => $response->status(),
-            'body' => $response->json(),
-        ];
     }
 
     private function resolveRecipient(object $notifiable, array $context): ?string
@@ -84,16 +72,5 @@ class EmailChannelDriver implements NotificationChannelDriver
         }
 
         return $notifiable->email ?? null;
-    }
-
-    /** @return array<string, string> */
-    private function headers(string $channel): array
-    {
-        $token = config("services.notifications.{$channel}.token");
-
-        return array_filter([
-            'Authorization' => $token ? 'Bearer ' . $token : null,
-            'Accept' => 'application/json',
-        ]);
     }
 }

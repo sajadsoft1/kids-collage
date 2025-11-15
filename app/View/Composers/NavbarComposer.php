@@ -247,7 +247,7 @@ class NavbarComposer
             [
                 'icon' => 'o-document-text',
                 'title' => trans('_menu.exam_management'),
-                'access' => config('app.env') === 'local' && false,
+                'access' => config('app.env') === 'local',
                 'sub_menu' => [
                     [
                         'icon' => 'o-document-text',
@@ -278,6 +278,16 @@ class NavbarComposer
                             Question::class => 'Index',
                         ]),
                     ],
+                    // [
+                    //     'icon' => 'o-book-open',
+                    //     'params' => [],
+                    //     'exact' => true,
+                    //     'title' => trans('_menu.question_subjects'),
+                    //     'route_name' => 'admin.question-subject.index',
+                    //     'access' => $this->checkPermission([
+                    //         Question::class => 'Index',
+                    //     ]),
+                    // ],
                     [
                         'icon' => 'o-star',
                         'params' => [],

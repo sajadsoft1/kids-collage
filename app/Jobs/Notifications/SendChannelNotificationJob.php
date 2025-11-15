@@ -30,14 +30,14 @@ abstract class SendChannelNotificationJob implements ShouldQueue
      * @param array<string, mixed> $context
      */
     public function __construct(
-        protected readonly int $logId,
-        protected readonly string $eventValue,
-        protected readonly string $notifiableType,
-        protected readonly string|int|null $notifiableId,
-        protected readonly array $payload,
-        protected readonly array $context = [],
+        protected int $logId,
+        protected string $eventValue,
+        protected string $notifiableType,
+        protected string|int|null $notifiableId,
+        protected array $payload,
+        protected array $context = [],
     ) {
-        $this->onQueue(config('notification_channels.defaults.queue', 'notifications'));
+        // $this->onQueue(config('notification_channels.defaults.queue', 'notifications'));
     }
 
     abstract protected function channel(): NotificationChannelEnum;

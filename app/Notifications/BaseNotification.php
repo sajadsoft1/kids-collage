@@ -22,7 +22,8 @@ abstract class BaseNotification extends Notification implements ShouldQueue
 
     public function __construct()
     {
-        $this->onQueue(config('notification_channels.defaults.queue', 'notifications'));
+        // استفاده از صف پیش‌فرض - اگر نیاز به صف جداگانه دارید، queue worker را با --queue=notifications اجرا کنید
+        // $this->onQueue(config('notification_channels.defaults.queue', 'notifications'));
     }
 
     abstract public function event(): NotificationEventEnum;
@@ -35,17 +36,20 @@ abstract class BaseNotification extends Notification implements ShouldQueue
 
     public function via(object $notifiable): array
     {
-        return [];
+        // اضافه کردن 'database' برای اینکه Laravel notification را در صف قرار دهد و از toArray() استفاده کند
+        // سیستم custom از deliver() استفاده می‌کند که خودش notification را ذخیره می‌کند
+        return ['database'];
     }
 
     /** @return array<string, string> */
     public function viaQueues(): array
     {
-        $queue = config('notification_channels.defaults.queue', 'notifications');
+        // استفاده از صف پیش‌فرض - اگر نیاز به صف جداگانه دارید، از onQueue() در constructor استفاده کنید
+        // $queue = config('notification_channels.defaults.queue', 'notifications');
 
         return [
-            'mail' => $queue,
-            'database' => $queue,
+            'mail' => 'default',
+            'database' => 'default',
         ];
     }
 
