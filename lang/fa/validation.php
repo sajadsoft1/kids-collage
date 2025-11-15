@@ -314,5 +314,6 @@ return [
         'parent_id' => 'دسته بندی والد',
         'explanation' => 'توضیح',
         'is_online' => 'آیا آنلاین است؟',
+        'person' => 'نفر',
     ],
 ];

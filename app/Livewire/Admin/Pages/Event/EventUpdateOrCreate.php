@@ -53,6 +53,10 @@ class EventUpdateOrCreate extends Component
             $this->capacity = $this->model->capacity;
             $this->is_online = $this->model->is_online->asBoolean();
             $this->tags = $this->model->tags()->pluck('name')->toArray();
+        } else {
+            $this->published_at = Carbon::now();
+            $this->start_date = Carbon::now();
+            $this->end_date = Carbon::now();
         }
     }
 
@@ -89,7 +93,6 @@ class EventUpdateOrCreate extends Component
         } else {
             $payload['slug'] = StringHelper::slug($this->title);
             $payload['category_id'] = $category->id;
-            $payload['published_at'] = $published_at ?? Carbon::now();
             StoreEventAction::run($payload);
             $this->success(
                 title: trans('general.model_has_stored_successfully', ['model' => trans('event.model')]),
