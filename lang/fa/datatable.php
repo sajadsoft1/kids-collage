@@ -101,4 +101,6 @@ return [
     'due_date' => 'تاریخ سررسید',
     'method' => 'روش',
     'transaction_id' => 'شناسه تراکنش',
+    'online' => 'آنلاین',
+    'offline' => 'حضوری',
 ];
