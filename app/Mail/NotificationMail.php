@@ -9,6 +9,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\App;
 
 class NotificationMail extends Mailable
 {
@@ -30,6 +31,8 @@ class NotificationMail extends Mailable
 
     public function content(): Content
     {
+        $locale = $this->payload['meta']['locale'] ?? App::getLocale();
+
         return new Content(
             markdown: 'mail.notification',
             with: [
@@ -37,6 +40,7 @@ class NotificationMail extends Mailable
                 'subtitle' => $this->payload['subtitle'] ?? null,
                 'body' => $this->payload['body'] ?? null,
                 'cta' => $this->payload['cta'] ?? null,
+                'rtl' => $this->payload['rtl'] ?? $locale === 'fa',
             ],
         );
     }

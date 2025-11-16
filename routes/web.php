@@ -76,6 +76,19 @@ use Illuminate\Support\Facades\Route;
 // Route::multilingual('sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 // Route::multilingual('sitemap-article.xml', [SitemapController::class, 'article'])->name('sitemap-article');
 
+Route::get('test', function () {
+    return new App\Mail\NotificationMail([
+        'title' => 'New Notification',
+        'subtitle' => 'This is a subtitle',
+        'body' => 'This is a body',
+        'rtl' => true,
+        'cta' => [
+            'url' => 'https://www.google.com',
+            'label' => 'Click here',
+        ],
+    ]);
+});
+
 // laravel not found route
 Route::fallback(function () {
     return redirect('/admin');
