@@ -33,7 +33,7 @@ class LoginPage extends Component
             fn (User $user) => true,
             true
         )) {
-            return $this->redirect(route('admin.dashboard'), true);
+            return $this->redirect(route('admin.dashboard'), false);
         }
         // add error validation for field email
         $this->addError('email', 'شما دسترسی لازم برای ورود به پنل را ندارید');

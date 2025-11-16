@@ -114,5 +114,14 @@ return Application::configure(basePath: dirname(__DIR__))
             });
 
         $schedule->command('telescope:prune --hours=48')->daily();
+
+        if (env('BACKUP_ENABLED', false)) {
+            $schedule->exec('/scripts/backup.sh')
+                     ->daily()
+                     ->at(env('BACKUP_TIME', '02:00'))
+                     ->onOneServer()
+                     ->emailOutputOnFailure(env('MAIL_FROM_ADDRESS','sajadsoft12gmail.com'));
+        }
+
     })
     ->create();
