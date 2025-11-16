@@ -6,6 +6,7 @@ namespace App\Actions\ContactUs;
 
 use App\Actions\Translation\SyncTranslationAction;
 use App\Models\ContactUs;
+use App\Services\Sms\SmsManager;
 use Illuminate\Support\Facades\DB;
 use Lorisleiva\Actions\Concerns\AsAction;
 use Throwable;
@@ -30,7 +31,10 @@ class StoreContactUsAction
     public function handle(array $payload): ContactUs
     {
         return DB::transaction(function () use ($payload) {
-            return ContactUs::create($payload)->refresh();
+            $model = ContactUs::create($payload)->refresh();
+            app(SmsManager::class)->send(SmsTemplateEnum::CONTACT_US_CREATED, $model);
+
+            return $model;
         });
     }
 }

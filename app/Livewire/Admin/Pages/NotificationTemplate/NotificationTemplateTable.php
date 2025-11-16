@@ -51,7 +51,6 @@ final class NotificationTemplateTable extends PowerGridComponent
     public function breadcrumbsActions(): array
     {
         return [
-            ['link' => route('admin.notification-template.create'), 'icon' => 's-plus', 'label' => trans('general.page.create.title', ['model' => trans('general.notification_template')])],
         ];
     }
 
@@ -159,7 +158,7 @@ final class NotificationTemplateTable extends PowerGridComponent
         return [
             // PowerGridHelper::btnToggle($row, 'is_active'),
             PowerGridHelper::btnEdit($row),
-            PowerGridHelper::btnDelete($row),
+            // PowerGridHelper::btnDelete($row),
         ];
     }
 
@@ -167,7 +166,6 @@ final class NotificationTemplateTable extends PowerGridComponent
     public function noDataLabel(): string|View
     {
         return view('admin.datatable-shared.empty-table', [
-            'link' => route('admin.notification-template.create'),
         ]);
     }
 }

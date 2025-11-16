@@ -1,5 +1,6 @@
 @php
     use App\Enums\NotificationChannelEnum;
+    use App\Enums\NotificationEventEnum;
 @endphp
 <form wire:submit="submit">
     <!-- Breadcrumbs -->
@@ -16,17 +17,18 @@
                 <div class="grid grid-cols-1 gap-4">
 
                     <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-                        <!-- Event -->
-                        <x-select :label="trans('notificationTemplate.fields.event')" wire:model="event" :options="$eventOptions" option-label="name"
-                            :placeholder="trans('general.please_select_an_option')" placeholder-value="" option-value="id" searchable required />
-
-                        <!-- Channel -->
-                        <x-select :label="trans('notificationTemplate.fields.channel')" wire:model="channel" :options="$channelOptions" option-label="name"
-                            :placeholder="trans('general.please_select_an_option')" placeholder-value="" option-value="id" required />
-
-                        <!-- Locale -->
-                        <x-select :label="trans('notificationTemplate.fields.locale')" wire:model="locale" :options="$localeOptions" option-label="name"
-                            :placeholder="trans('general.please_select_an_option')" placeholder-value="" option-value="id" required />
+                        <div class="flex flex-col gap-2 bg-base-200 p-2 rounded-md text-center">
+                            <strong class="text-content">{{ trans('notificationTemplate.fields.event') }}:</strong>
+                            <p>{{ NotificationEventEnum::from($event)->title() }}</p>
+                        </div>
+                        <div class="flex flex-col gap-2 bg-base-200 p-2 rounded-md text-center">
+                            <strong class="text-content">{{ trans('notificationTemplate.fields.channel') }}:</strong>
+                            <p>{{ NotificationChannelEnum::from($channel)->title() }}</p>
+                        </div>
+                        <div class="flex flex-col gap-2 bg-base-200 p-2 rounded-md text-center">
+                            <strong class="text-content">{{ trans('notificationTemplate.fields.locale') }}:</strong>
+                            <p>{{ $locale }}</p>
+                        </div>
                     </div>
 
 
@@ -44,12 +46,11 @@
 
 
                     <!-- Body -->
-                    <x-textarea :label="trans('notificationTemplate.fields.body')" wire:model.defer="body" rows="8" :hint="trans('notificationTemplate.examples.body_hint')" />
-
-                    <!-- Placeholders -->
-                    <x-tags wire:model.live="placeholders" :label="trans('notificationTemplate.fields.placeholders')" icon="o-hashtag" :hint="trans('notificationTemplate.hints.placeholders')"
-                        clearable />
-                    <p> {{ collect($placeholders)->implode(', ') }} </p>
+                    @if ($channel === NotificationChannelEnum::EMAIL->value)
+                        <x-admin.shared.tinymce wire:model.defer="body" />
+                    @else
+                        <x-textarea :label="trans('notificationTemplate.fields.body')" wire:model.defer="body" :hint="trans('notificationTemplate.examples.body_hint')" />
+                    @endif
 
                     <!-- CTA -->
                     @if ($channel === NotificationChannelEnum::EMAIL->value)

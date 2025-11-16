@@ -86,7 +86,7 @@ class NavbarComposer
                 'params' => [],
                 'title' => trans('_menu.notifications'),
                 'route_name' => 'admin.notification.index',
-                'access' => false,
+                'access' => app()->environment('local'),
             ],
             [
                 'icon' => 'o-user-circle',
@@ -101,7 +101,7 @@ class NavbarComposer
                 'params' => [],
                 'title' => trans('_menu.calendar'),
                 'route_name' => 'admin.app.calendar',
-                'access' => false,
+                'access' => app()->environment('local'),
             ],
 
             // Education Management

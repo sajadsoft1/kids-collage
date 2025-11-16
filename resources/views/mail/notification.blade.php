@@ -375,7 +375,7 @@
                                                                     <td valign="middle" width="100%"
                                                                         style="text-align: center; font-family: 'Open Sans', Helvetica, Arial, sans-serif; font-size: 13px; color: rgb(95, 106, 116); line-height: 24px; font-weight: 400;"
                                                                         class="fullCenter">
-                                                                        {!! nl2br(e($body)) !!}
+                                                                        {!! $body !!}
                                                                     </td>
                                                                 </tr>
                                                             </table>
