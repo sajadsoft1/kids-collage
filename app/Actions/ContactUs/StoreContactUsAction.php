@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Actions\ContactUs;
 
 use App\Actions\Translation\SyncTranslationAction;
+use App\Enums\SmsTemplateEnum;
 use App\Models\ContactUs;
 use App\Services\Sms\SmsManager;
 use Illuminate\Support\Facades\DB;
@@ -32,7 +33,7 @@ class StoreContactUsAction
     {
         return DB::transaction(function () use ($payload) {
             $model = ContactUs::create($payload)->refresh();
-            app(SmsManager::class)->send(SmsTemplateEnum::CONTACT_US_CREATED, $model);
+            // app(SmsManager::class)->send(SmsTemplateEnum::CONTACT_US_CREATED, $model);
 
             return $model;
         });
