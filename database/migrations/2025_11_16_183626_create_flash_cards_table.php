@@ -10,10 +10,11 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('question_subjects', function (Blueprint $table) {
+        Schema::create('flash_cards', function (Blueprint $table) {
             $table->id();
-            $table->integer('ordering')->default(1);
-            $table->boolean('published')->default(BooleanEnum::ENABLE->value);
+            $table->boolean('favorite')->default(BooleanEnum::ENABLE->value);
+            $table->longText('front')->nullable();
+            $table->longText('back')->nullable();
             $table->text('languages')->nullable();
             $table->timestamps();
         });
@@ -21,6 +22,6 @@ return new class extends Migration {
 
     public function down(): void
     {
-        Schema::dropIfExists('question_subjects');
+        Schema::dropIfExists('flash_cards');
     }
 };

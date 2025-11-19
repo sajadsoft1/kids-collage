@@ -61,6 +61,7 @@ return [
     'content' => 'محتوا',
     'feature' => 'ماژول',
     'future_module' => 'به زودی',
+    'flashcard' => 'فلش کارت',
 
     // CRM Modules
     'leads_management' => 'مدیریت سرنخ‌ها',
@@ -93,6 +94,7 @@ return [
     'questions' => 'سوالات',
     'question_subjects' => 'موضوعات سوالات',
     'question_competencies' => 'شایستگی‌های سوالات',
+    'question_system' => 'سیستم سوالات',
     'report_cards' => 'کارنامه',
     'certificates_management' => 'گواهینامه‌ها',
     'curriculum_management' => 'برنامه درسی',
