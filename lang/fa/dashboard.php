@@ -154,4 +154,35 @@ return [
             'custom' => 'محدوده سفارشی',
         ],
     ],
+
+    'student' => [
+        'stats' => [
+            'total_courses' => 'کل دوره ها',
+            'active_courses' => 'دوره های فعال',
+            'certificates' => 'گواهینامه ها',
+            'total_courses_tooltip' => 'مجموع دوره های ثبت نام شده',
+            'active_courses_tooltip' => 'دوره های در حال انجام',
+            'certificates_tooltip' => 'گواهینامه های دریافت شده',
+        ],
+    ],
+
+    'parent' => [
+        'stats' => [
+            'total_children' => 'کل فرزندان',
+            'active_courses' => 'دوره های فعال',
+            'total_children_tooltip' => 'مجموع فرزندان ثبت شده',
+            'active_courses_tooltip' => 'دوره های فعال فرزندان',
+        ],
+    ],
+
+    'teacher' => [
+        'stats' => [
+            'total_classes' => 'کل کلاس ها',
+            'active_classes' => 'کلاس های فعال',
+            'today_sessions' => 'جلسات امروز',
+            'total_classes_tooltip' => 'مجموع کلاس های تدریس',
+            'active_classes_tooltip' => 'کلاس های در حال برگزاری',
+            'today_sessions_tooltip' => 'جلسات امروز',
+        ],
+    ],
 ];

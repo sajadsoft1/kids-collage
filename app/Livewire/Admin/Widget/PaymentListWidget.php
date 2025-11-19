@@ -38,6 +38,8 @@ class PaymentListWidget extends Component
 
     public ?int $user_id = null;
 
+    public ?array $user_ids = null;
+
     /** Mount the component */
     public function mount(
         int $limit = 10,
@@ -45,14 +47,27 @@ class PaymentListWidget extends Component
         ?string $end_date = null,
         ?string $status = null,
         ?string $type = null,
-        ?User $user = null
+        ?User $user = null,
+        ?int $user_id = null,
+        ?array $user_ids = null
     ): void {
         $this->limit = $limit;
         $this->start_date = $start_date ?? Carbon::now()->subDays(30)->format('Y-m-d');
         $this->end_date = $end_date ?? Carbon::now()->format('Y-m-d');
         $this->status = $status ?? '';
         $this->type = $type ?? '';
-        $this->user_id = $user?->id;
+        $this->user_id = $user_id ?? $user?->id;
+        $this->user_ids = $user_ids;
+    }
+
+    /** Get user IDs for filtering */
+    private function getUserIds(): ?array
+    {
+        if ($this->user_id) {
+            return [$this->user_id];
+        }
+
+        return $this->user_ids;
     }
 
     /** Get latest payments */
@@ -73,8 +88,8 @@ class PaymentListWidget extends Component
             ->when($this->type, function (Builder $query) {
                 $query->where('type', $this->type);
             })
-            ->when($this->user_id, function (Builder $query) {
-                $query->where('user_id', $this->user_id);
+            ->when($this->getUserIds(), function (Builder $query, array $userIds) {
+                $query->whereIn('user_id', $userIds);
             })
             ->latest('created_at')
             ->limit($this->limit);
@@ -93,8 +108,8 @@ class PaymentListWidget extends Component
             ->when($this->end_date, function (Builder $query) {
                 $query->whereDate('created_at', '<=', $this->end_date);
             })
-            ->when($this->user_id, function (Builder $query) {
-                $query->where('user_id', $this->user_id);
+            ->when($this->getUserIds(), function (Builder $query, array $userIds) {
+                $query->whereIn('user_id', $userIds);
             });
 
         return [
@@ -122,8 +137,8 @@ class PaymentListWidget extends Component
             ->when($this->end_date, function (Builder $query) {
                 $query->whereDate('created_at', '<=', $this->end_date);
             })
-            ->when($this->user_id, function (Builder $query) {
-                $query->where('user_id', $this->user_id);
+            ->when($this->getUserIds(), function (Builder $query, array $userIds) {
+                $query->whereIn('user_id', $userIds);
             });
 
         return [
@@ -183,13 +198,14 @@ class PaymentListWidget extends Component
     /** Get the URL for viewing more items */
     public function getMoreItemsUrl(): string
     {
-        $params = http_build_query([
+        $params = http_build_query(array_filter([
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
             'status' => $this->status,
             'type' => $this->type,
             'user_id' => $this->user_id,
-        ]);
+            'user_ids' => $this->user_ids,
+        ]));
 
         return route('admin.payment.index') . '?' . $params;
     }

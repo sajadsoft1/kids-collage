@@ -3,7 +3,7 @@
     <livewire:admin.pages.dashboard.dashboard-header :startDate="$startDate" :endDate="$endDate" />
 
     <!-- Statistics Cards -->
-    {{-- <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <x-stat title="Messages" value="44" icon="o-envelope" tooltip="Hello" color="text-primary" />
 
         <x-stat title="Sales" description="This month" value="22.124" icon="o-arrow-trending-up" tooltip-bottom="There" />
@@ -13,7 +13,7 @@
 
         <x-stat title="Sales" description="This month" value="22.124" icon="o-arrow-trending-down"
             class="text-orange-500" color="text-pink-500" tooltip-right="Gosh!" />
-    </div> --}}
+    </div>
 
     <!-- Widgets Grid -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">

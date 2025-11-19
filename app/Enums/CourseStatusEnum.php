@@ -82,4 +82,15 @@ enum CourseStatusEnum: string
             self::DRAFT, self::FINISHED, self::CANCELLED => false,
         };
     }
+
+    public function color(): string
+    {
+        return match ($this) {
+            self::DRAFT => 'secondary',
+            self::SCHEDULED => 'info',
+            self::ACTIVE => 'success',
+            self::FINISHED => 'neutral',
+            self::CANCELLED => 'error',
+        };
+    }
 }

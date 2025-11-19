@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @property int                 $id
  * @property int                 $enrollment_id
- * @property int                 $session_id
+ * @property int                 $course_session_id
  * @property bool                $present
  * @property \Carbon\Carbon|null $arrival_time
  * @property \Carbon\Carbon|null $leave_time
@@ -33,7 +33,7 @@ class Attendance extends Model
 
     protected $fillable = [
         'enrollment_id',
-        'session_id',
+        'course_session_id',
         'present',
         'arrival_time',
         'leave_time',
@@ -55,7 +55,7 @@ class Attendance extends Model
     /** Get the session for this attendance. */
     public function session(): BelongsTo
     {
-        return $this->belongsTo(CourseSession::class);
+        return $this->belongsTo(CourseSession::class, 'course_session_id');
     }
 
     /** Get the duration of attendance in minutes. */
@@ -72,7 +72,7 @@ class Attendance extends Model
     public function getFormattedDurationAttribute(): ?string
     {
         $duration = $this->duration;
-        
+
         if ( ! $duration) {
             return null;
         }
@@ -268,7 +268,7 @@ class Attendance extends Model
     /** Scope for attendances by session. */
     public function scopeBySession($query, int $sessionId)
     {
-        return $query->where('session_id', $sessionId);
+        return $query->where('course_session_id', $sessionId);
     }
 
     /** Scope for attendances by date range. */
