@@ -19,6 +19,7 @@ use App\Models\Enrollment;
 use App\Models\Event;
 use App\Models\Exam;
 use App\Models\Faq;
+use App\Models\FlashCard;
 use App\Models\License;
 use App\Models\NotificationTemplate;
 use App\Models\Opinion;
@@ -27,6 +28,7 @@ use App\Models\Page;
 use App\Models\Payment;
 use App\Models\PortFolio;
 use App\Models\Question;
+use App\Models\QuestionSystem;
 use App\Models\Resource;
 use App\Models\Role;
 use App\Models\Room;
@@ -167,6 +169,15 @@ class NavbarComposer
                             Resource::class => 'Index',
                         ]),
                     ],
+                    [
+                        'icon' => 'o-video-camera',
+                        'params' => [],
+                        'title' => trans('_menu.flashcard'),
+                        'route_name' => 'admin.flash-card.index',
+                        'access' => $this->checkPermission([
+                            FlashCard::class => 'Index',
+                        ]),
+                    ],
 
                     // Future Education Modules
                     [
@@ -298,6 +309,16 @@ class NavbarComposer
                         'route_name' => 'admin.question-competency.index',
                         'access' => $this->checkPermission([
                             Question::class => 'Index',
+                        ]),
+                    ],
+                    [
+                        'icon' => 'o-star',
+                        'params' => [],
+                        'exact' => true,
+                        'title' => trans('_menu.question_system'),
+                        'route_name' => 'admin.question-system.index',
+                        'access' => $this->checkPermission([
+                            QuestionSystem::class => 'Index',
                         ]),
                     ],
                 ],

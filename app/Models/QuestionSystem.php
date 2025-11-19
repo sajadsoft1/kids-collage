@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\BooleanEnum;
+use App\Traits\HasCategory;
 use App\Traits\HasTranslationAuto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,8 +14,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $title
  * @property string $description
  */
-class QuestionSubject extends Model
+class QuestionSystem extends Model
 {
+    use HasCategory;
     use HasFactory;
     use HasTranslationAuto;
 
@@ -22,11 +25,14 @@ class QuestionSubject extends Model
     ];
 
     protected $fillable = [
-        'ordering',
+        'published',
         'languages',
+        'ordering',
+        'category_id',
     ];
 
     protected $casts = [
+        'published' => BooleanEnum::class,
         'languages' => 'array',
         'ordering' => 'integer',
     ];
