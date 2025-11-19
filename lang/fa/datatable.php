@@ -103,4 +103,6 @@ return [
     'transaction_id' => 'شناسه تراکنش',
     'online' => 'آنلاین',
     'offline' => 'حضوری',
+    'yes' => 'بله',
+    'no' => 'خیر',
 ];

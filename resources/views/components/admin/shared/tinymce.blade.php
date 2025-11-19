@@ -1,5 +1,6 @@
 @props([
     'config' => [],
+    'label' => trans('validation.attributes.body'),
 ])
 
 @php
@@ -24,5 +25,6 @@
 @endphp
 
 <div class="{{ $attributes->get('class:div') }}">
-    <x-editor :label="trans('validation.attributes.body')" {{ $attributes }} disk="tinymce" :config="$mergedConfig" />
+    <x-editor :label="$label" {{ $attributes }} disk="tinymce"
+              :config="$mergedConfig"/>
 </div>

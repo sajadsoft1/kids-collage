@@ -20,8 +20,9 @@ return [
             'bulletin' => 'اطلاعیه',
             'course' => 'دوره',
             'question' => 'سوال',
+            'question_system' => 'سیستم سوالات',
             'subject' => 'موضوع',
-            'event'     => 'رویداد',
+            'event' => 'رویداد',
         ],
     ],
     'notifications' => [

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\BooleanEnum;
 use App\Traits\HasTranslationAuto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,23 +13,25 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $title
  * @property string $description
  */
-class QuestionSubject extends Model
+class FlashCard extends Model
 {
     use HasFactory;
     use HasTranslationAuto;
 
     public array $translatable = [
-        'title', 'description',
+        'title',
     ];
 
     protected $fillable = [
-        'ordering',
+        'favorite',
         'languages',
+        'front',
+        'back',
     ];
 
     protected $casts = [
+        'favorite' => BooleanEnum::class,
         'languages' => 'array',
-        'ordering' => 'integer',
     ];
 
     /**
