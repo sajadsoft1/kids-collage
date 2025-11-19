@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-use App\Enums\CategoryTypeEnum;
+use App\Enums\BooleanEnum;
 use App\Enums\QuestionTypeEnum;
-use App\Models\Category;
 
 return [
     'question_competency' => [
@@ -17,7 +16,8 @@ return [
         [
             'title' => 'مهارتی',
             'description' => 'توضیحات مهارتی',
-            'category_id' => Category::where('type', CategoryTypeEnum::QUESTION->value)->first()->id,
+            'ordering' => 1,
+            'published' => BooleanEnum::ENABLE->value,
         ],
     ],
     'question' => [

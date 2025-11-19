@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
-use App\Enums\CategoryTypeEnum;
-use App\Models\Category;
+use App\Enums\BooleanEnum;
 use App\Models\QuestionSubject;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -17,7 +16,8 @@ class QuestionSubjectFactory extends Factory
     {
         return [
             'languages' => [app()->getLocale()],
-            'category_id' => Category::where('type', CategoryTypeEnum::QUESTION->value)->first()->id,
+            'ordering' => fake()->numberBetween(1, 100),
+            'published' => BooleanEnum::ENABLE->value,
         ];
     }
 

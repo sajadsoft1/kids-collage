@@ -85,7 +85,8 @@ class TeacherScheduleWidget extends Component
             'date' => $this->date,
         ]));
 
-        return route('admin.course-session.index') . '?' . $params;
+        return '#';
+        // return route('admin.course-session.index') . '?' . $params;
     }
 
     /** Render the component */

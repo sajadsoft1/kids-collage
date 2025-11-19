@@ -48,8 +48,8 @@
                             </div>
                         </x-slot:sub-value>
                         <x-slot:actions>
-                            <x-button icon="o-eye" class="btn-sm"
-                                link="{{ route('admin.enrollment.show', $enrollment->id) }}" />
+                            {{-- <x-button icon="o-eye" class="btn-sm"
+                                link="{{ route('admin.enrollment.show', $enrollment->id) }}" /> --}}
                         </x-slot:actions>
                     </x-list-item>
                 @endforeach

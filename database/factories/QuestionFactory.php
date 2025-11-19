@@ -23,9 +23,9 @@ class QuestionFactory extends Factory
 
         return [
             'type' => $type,
-            'category_id' => Category::where('type', CategoryTypeEnum::QUESTION->value)->first()->id,
-            'subject_id' => QuestionSubject::where('category_id', Category::where('type', CategoryTypeEnum::QUESTION->value)->first()->id)->inRandomOrder()->first()->id,
-            'competency_id' => QuestionCompetency::inRandomOrder()->first()->id,
+            'category_id' => Category::where('type', CategoryTypeEnum::QUESTION->value)->first()?->id,
+            'subject_id' => QuestionSubject::inRandomOrder()->first()?->id,
+            'competency_id' => QuestionCompetency::inRandomOrder()->first()?->id,
             'title' => fake()->sentence() . '?',
             'body' => fake()->optional()->paragraph(),
             'explanation' => fake()->optional()->paragraph(),

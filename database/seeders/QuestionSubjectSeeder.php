@@ -16,7 +16,8 @@ class QuestionSubjectSeeder extends Seeder
             StoreQuestionSubjectAction::run([
                 'title' => $row['title'],
                 'description' => $row['description'],
-                'category_id' => $row['category_id'],
+                'ordering' => $row['ordering'],
+                'published' => $row['published'],
             ]);
         }
     }

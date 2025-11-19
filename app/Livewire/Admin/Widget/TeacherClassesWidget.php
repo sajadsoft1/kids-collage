@@ -87,7 +87,8 @@ class TeacherClassesWidget extends Component
             'teacher_id' => $this->teacher_id,
         ]));
 
-        return route('admin.course.index') . '?' . $params;
+        return '#';
+        // return route('admin.course.index') . '?' . $params;
     }
 
     /** Render the component */
