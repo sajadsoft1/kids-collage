@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Livewire\Admin\Pages\FlashCard;
 
-use App\Actions\FlashCard\MovieInLeitnerBoxAction;
 use App\Actions\FlashCard\StoreFlashCardAction;
 use App\Actions\FlashCard\UpdateFlashCardAction;
 use App\Models\FlashCard;
@@ -47,15 +46,11 @@ class FlashCardUpdateOrCreate extends Component
     {
         $payload = $this->validate();
         if ($this->model->id) {
-            MovieInLeitnerBoxAction::run([
-                'flash_card_id' => $this->model->id,
-                'correct' => true,
-            ]);
-            //            UpdateFlashCardAction::run($this->model, $payload);
-            //            $this->success(
-            //                title: trans('general.model_has_updated_successfully', ['model' => trans('flashCard.model')]),
-            //                redirectTo: route('admin.flash-card.index')
-            //            );
+            UpdateFlashCardAction::run($this->model, $payload);
+            $this->success(
+                title: trans('general.model_has_updated_successfully', ['model' => trans('flashCard.model')]),
+                redirectTo: route('admin.flash-card.index')
+            );
         } else {
             StoreFlashCardAction::run($payload);
             $this->success(
