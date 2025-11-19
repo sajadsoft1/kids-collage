@@ -16,16 +16,23 @@ class StoreAttendanceAction
     /**
      * @param array{
      *     enrollment_id:int,
-     *     session_id:int,
+     *     course_session_id:int,
      *     present:bool,
      *     arrival_time:string|null,
-     *     leave_time:string|null
+     *     leave_time:string|null,
+     *     excuse_note?:string|null
      * } $payload
      * @throws Throwable
      */
     public function handle(array $payload): Attendance
     {
         return DB::transaction(function () use ($payload) {
+            // Support both session_id (legacy) and course_session_id
+            if (isset($payload['session_id']) && ! isset($payload['course_session_id'])) {
+                $payload['course_session_id'] = $payload['session_id'];
+                unset($payload['session_id']);
+            }
+
             $model = Attendance::create($payload);
 
             return $model->refresh();

@@ -25,8 +25,8 @@ class LmsSeeder extends Seeder
             RoomSeeder::class,
             CourseSeeder::class,
             ResourceSeeder::class,
-            // EnrollmentSeeder::class,
-            // AttendanceSeeder::class,
+            EnrollmentSeeder::class,
+            AttendanceSeeder::class,
         ]);
 
         $this->command->info('✅ LMS seeded successfully!');
