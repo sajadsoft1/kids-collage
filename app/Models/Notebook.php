@@ -4,17 +4,15 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Enums\BooleanEnum;
 use App\Traits\HasUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property string $title
  * @property string $description
  */
-class FlashCard extends Model
+class Notebook extends Model
 {
     use HasFactory;
     use HasUser;
@@ -22,26 +20,24 @@ class FlashCard extends Model
     protected $fillable = [
         'user_id',
         'title',
-        'favorite',
+        'body',
+        'tags',
         'languages',
-        'front',
-        'back',
     ];
 
     protected $casts = [
-        'favorite' => BooleanEnum::class,
         'languages' => 'array',
+        'tags' => 'array',
     ];
 
     /**
      * Model Configuration --------------------------------------------------------------------------
      */
 
-    /** Model Relations -------------------------------------------------------------------------- */
-    public function leitnerLogs(): HasMany
-    {
-        return $this->hasMany(LeitnerBox::class);
-    }
+    /**
+     * Model Relations --------------------------------------------------------------------------
+     */
+
     /**
      * Model Scope --------------------------------------------------------------------------
      */

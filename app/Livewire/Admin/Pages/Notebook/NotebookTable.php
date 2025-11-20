@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Livewire\Admin\Pages\FlashCard;
+namespace App\Livewire\Admin\Pages\Notebook;
 
 use App\Enums\BooleanEnum;
 use App\Enums\UserTypeEnum;
 use App\Helpers\PowerGridHelper;
-use App\Models\FlashCard;
+use App\Models\Notebook;
 use App\Traits\PowerGridHelperTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\View\View;
@@ -19,10 +19,10 @@ use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 
-final class FlashCardTable extends PowerGridComponent
+final class NotebookTable extends PowerGridComponent
 {
     use PowerGridHelperTrait;
-    public string $tableName = 'index_flashCard_datatable';
+    public string $tableName = 'index_notebook_datatable';
     public string $sortDirection = 'desc';
 
     public function setUp(): array
@@ -49,7 +49,7 @@ final class FlashCardTable extends PowerGridComponent
     {
         return [
             ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-            ['label' => trans('general.page.index.title', ['model' => trans('flashCard.model')])],
+            ['label' => trans('general.page.index.title', ['model' => trans('notebook.model')])],
         ];
     }
 
@@ -57,13 +57,13 @@ final class FlashCardTable extends PowerGridComponent
     public function breadcrumbsActions(): array
     {
         return [
-            ['link' => route('admin.flash-card.create'), 'icon' => 's-plus', 'label' => trans('general.page.create.title', ['model' => trans('flashCard.model')])],
+            ['link' => route('admin.notebook.create'), 'icon' => 's-plus', 'label' => trans('general.page.create.title', ['model' => trans('notebook.model')])],
         ];
     }
 
     public function datasource(): Builder
     {
-        return FlashCard::query()->when(
+        return Notebook::query()->when(
             auth()->user()->type === UserTypeEnum::PARENT,
             function ($q) {
                 $children = auth()->user()->children->pluck('id')->toArray();
@@ -97,7 +97,6 @@ final class FlashCardTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('id')
-            ->add('favorite_formated', fn ($row) => $row->favorite == BooleanEnum::ENABLE ? trans('datatable.yes') : trans('datatable.no'))
             ->add('created_at_formatted', fn ($row) => PowerGridHelper::fieldCreatedAtFormated($row));
     }
 
@@ -106,7 +105,6 @@ final class FlashCardTable extends PowerGridComponent
         return [
             PowerGridHelper::columnId(),
             Column::make(trans('datatable.title'), 'title'),
-            Column::make(trans('datatable.favorite'), 'favorite_formated'),
             PowerGridHelper::columnCreatedAT(),
             PowerGridHelper::columnAction(),
         ];
@@ -125,7 +123,7 @@ final class FlashCardTable extends PowerGridComponent
         ];
     }
 
-    public function actions(FlashCard $row): array
+    public function actions(Notebook $row): array
     {
         return [
             PowerGridHelper::btnToggle($row),
@@ -137,7 +135,7 @@ final class FlashCardTable extends PowerGridComponent
     public function noDataLabel(): string|View
     {
         return view('admin.datatable-shared.empty-table', [
-            'link' => route('admin.flash-card.create'),
+            'link' => route('admin.notebook.create'),
         ]);
     }
 }

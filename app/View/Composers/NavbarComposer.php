@@ -178,6 +178,15 @@ class NavbarComposer
                             FlashCard::class => 'Index',
                         ]),
                     ],
+                    [
+                        'icon' => 'o-video-camera',
+                        'params' => [],
+                        'title' => trans('_menu.my_notebook'),
+                        'route_name' => 'admin.notebook.index',
+                        'access' => $this->checkPermission([
+                            FlashCard::class => 'Index',
+                        ]),
+                    ],
 
                     // Future Education Modules
                     [
