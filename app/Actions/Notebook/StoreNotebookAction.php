@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\FlashCard;
+namespace App\Actions\Notebook;
 
-use App\Models\FlashCard;
+use App\Models\Notebook;
 use Illuminate\Support\Facades\DB;
 use Lorisleiva\Actions\Concerns\AsAction;
 use Throwable;
 
-class StoreFlashCardAction
+class StoreNotebookAction
 {
     use AsAction;
 
@@ -19,19 +19,18 @@ class StoreFlashCardAction
     /**
      * @param array{
      *     title:string,
-     *     front:string,
-     *     back:string,
-     *     favorite:bool
+     *     body:string,
+     *     tags:array
      * } $payload
      * @throws Throwable
      */
-    public function handle(array $payload): FlashCard
+    public function handle(array $payload): Notebook
     {
         return DB::transaction(function () use ($payload) {
             $payload['user_id'] = auth()->user()->id;
-            $model = FlashCard::create($payload);
+            $model = Notebook::create($payload);
 
-            return $model->refresh();
+            return $model;
         });
     }
 }

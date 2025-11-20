@@ -79,4 +79,5 @@ Route::group(['middleware' => ['admin.panel']], function () {
     require __DIR__ . '/admin/survey.php';
     require __DIR__ . '/admin/event.php';
     require __DIR__ . '/admin/flashCard.php';
+    require __DIR__ . '/admin/notebook.php';
 });

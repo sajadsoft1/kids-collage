@@ -7,12 +7,14 @@ namespace App\Livewire\Admin\Pages\FlashCard;
 use App\Actions\FlashCard\StoreFlashCardAction;
 use App\Actions\FlashCard\UpdateFlashCardAction;
 use App\Models\FlashCard;
+use App\Traits\CrudHelperTrait;
 use Illuminate\View\View;
 use Livewire\Component;
 use Mary\Traits\Toast;
 
 class FlashCardUpdateOrCreate extends Component
 {
+    use CrudHelperTrait;
     use Toast;
 
     public FlashCard $model;

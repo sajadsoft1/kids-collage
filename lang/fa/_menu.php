@@ -62,6 +62,7 @@ return [
     'feature' => 'ماژول',
     'future_module' => 'به زودی',
     'flashcard' => 'فلش کارت',
+    'my_notebook' => 'یادداشت های من',
 
     // CRM Modules
     'leads_management' => 'مدیریت سرنخ‌ها',
