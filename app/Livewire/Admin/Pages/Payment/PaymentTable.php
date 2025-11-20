@@ -8,6 +8,7 @@ use App\Enums\UserTypeEnum;
 use App\Helpers\PowerGridHelper;
 use App\Helpers\StringHelper;
 use App\Models\Payment;
+use App\Services\Permissions\PermissionsService;
 use App\Traits\PowerGridHelperTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\View\View;
@@ -42,7 +43,12 @@ final class PaymentTable extends PowerGridComponent
     public function breadcrumbsActions(): array
     {
         return [
-            ['link' => route('admin.payment.create'), 'icon' => 's-plus', 'label' => trans('general.page.create.title', ['model' => trans('payment.model')])],
+            [
+                'link' => route('admin.payment.create'),
+                'icon' => 's-plus',
+                'label' => trans('general.page.create.title', ['model' => trans('payment.model')]),
+                'access' => auth()->user()->hasAnyPermission(PermissionsService::generatePermissionsByModel(Payment::class, 'Store')),
+            ],
         ];
     }
 
@@ -106,13 +112,15 @@ final class PaymentTable extends PowerGridComponent
     {
         return [
             PowerGridHelper::columnId(),
-            Column::make(trans('validation.attributes.username'), 'user_formated', 'user_id'),
+            Column::make(trans('validation.attributes.username'), 'user_formated', 'user_id')
+                ->hidden(in_array(auth()->user()->type, [UserTypeEnum::USER, UserTypeEnum::PARENT])),
             Column::make(trans('validation.attributes.order_id'), 'order_number', 'order_id'),
             Column::make(trans('validation.attributes.type'), 'type_formated', 'type')->sortable(),
             Column::make(trans('validation.attributes.status'), 'status_formated', 'status')->sortable(),
             Column::make(trans('validation.attributes.amount'), 'amount_formated', 'amount')->sortable(),
             Column::make(trans('validation.attributes.scheduled_date'), 'scheduled_date_formatted', 'scheduled_date')->sortable(),
-            PowerGridHelper::columnAction(),
+            PowerGridHelper::columnAction()
+                ->hidden(in_array(auth()->user()->type, [UserTypeEnum::USER, UserTypeEnum::PARENT])),
         ];
     }
 

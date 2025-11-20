@@ -6,6 +6,7 @@ return [
     'show' => 'نمایش',
     'create' => 'ایجاد',
     'edit' => 'ویرایش',
+    'results' => 'نتایج',
     'delete' => 'حذف',
     'back' => 'بازگشت',
     'submit' => 'ثبت',

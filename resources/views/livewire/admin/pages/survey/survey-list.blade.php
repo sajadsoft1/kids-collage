@@ -60,22 +60,20 @@
 
                 <div class="flex flex-col gap-3 mt-4">
                     @if ($survey->user_state['action_enabled'] ?? false)
-                        <button wire:click="take({{ $survey->id }})" class="w-full btn btn-primary btn-sm"
-                            wire:loading.attr="disabled">
-                            {{ $survey->user_state['action_label'] }}
-                        </button>
+                        <x-button wire:click="take({{ $survey->id }})" class="w-full btn btn-primary btn-sm" spinner
+                            wire:target="take({{ $survey->id }})" wire:loading.attr="disabled" :label="$survey->user_state['action_label']" />
                     @endif
 
                     <div class="flex gap-3">
                         @can('update', $survey)
-                            <button wire:click="edit({{ $survey->id }})" class="flex-1 btn btn-outline btn-sm">
-                                ویرایش
-                            </button>
+                            <x-button wire:click="edit({{ $survey->id }})" class="flex-1 btn btn-outline btn-sm"
+                                wire:target="edit({{ $survey->id }})" wire:loading.attr="disabled" spinner
+                                :label="trans('general.edit')" />
                         @endcan
                         @can('update', $survey)
-                            <button wire:click="results({{ $survey->id }})" class="flex-1 btn btn-outline btn-sm">
-                                نتایج
-                            </button>
+                            <x-button wire:click="results({{ $survey->id }})" class="flex-1 btn btn-outline btn-sm"
+                                wire:target="results({{ $survey->id }})" wire:loading.attr="disabled" spinner
+                                :label="trans('general.results')" />
                         @endcan
                     </div>
                 </div>
