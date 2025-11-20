@@ -48,19 +48,25 @@
 
         <x-drawer wire:model="showTaskDrawer" :title="$isEditingTask ? __('calendar.form.edit_task') : __('calendar.form.create_task')" separator with-close-button close-on-escape
             class="w-11/12 lg:w-1/2">
-            <form wire:submit.prevent="{{ $isEditingTask ? 'updateTask' : 'createTask' }}" class="space-y-4">
-                <x-input :label="__('calendar.form.title')" wire:model.defer="taskForm.title" icon="o-document-text" :hint="__('calendar.form.title_hint')" />
+            <form wire:submit.prevent="saveTask" id="taskForm" class="space-y-4">
+                <x-input :label="__('calendar.form.title')" required wire:model="taskForm.title" icon="o-document-text"
+                    :hint="__('calendar.form.title_hint')" />
 
-                <x-input :label="__('calendar.form.scheduled_for')" type="datetime-local" wire:model.defer="taskForm.scheduled_for"
-                    icon="o-calendar" />
+                @if ($calendarType === 'jalali')
+                    <x-admin.shared.smart-datetime :label="__('calendar.form.scheduled_for')" wire-property-name="taskForm.scheduled_for"
+                        :with-time="true" return-format="YYYY-MM-DD HH:mm:ss" :default-date="$selectedDay?->format('Y-m-d H:i:s')" :required="true" />
+                @else
+                    <x-datetime :label="__('calendar.form.scheduled_for')" wire:model="taskForm.scheduled_for" type="datetime-local" />
+                @endif
 
-                <x-textarea :label="__('calendar.form.description')" wire:model.defer="taskForm.description" rows="4"
-                    :hint="__('calendar.form.description_hint')" />
+                <x-textarea :label="__('calendar.form.description')" wire:model="taskForm.description" rows="4" :hint="__('calendar.form.description_hint')" />
 
-                <x-slot:actions>
-                    <x-button :label="__('calendar.actions.cancel')" @click="$wire.showTaskDrawer = false" class="btn-ghost" />
-                    <x-button type="submit" :label="$isEditingTask ? __('calendar.form.update') : __('calendar.form.submit')" icon="o-check" class="btn-primary" spinner />
-                </x-slot:actions>
+                <div class="flex gap-3 justify-end mt-6">
+                    <x-button :label="__('calendar.actions.cancel')" type="button" @click="$wire.showTaskDrawer = false" class="btn-ghost"
+                        wire:loading.attr="disabled" wire:target="saveTask" />
+                    <x-button type="submit" :label="$isEditingTask ? __('calendar.form.update') : __('calendar.form.submit')" icon="o-check" class="btn-primary" spinner
+                        wire:loading.attr="disabled" wire:target="saveTask" />
+                </div>
             </form>
         </x-drawer>
 
@@ -160,8 +166,8 @@
                             {{ $selectedDayEvents->count() }}
                             {{ \Illuminate\Support\Str::plural('event', $selectedDayEvents->count()) }}
                         </span>
-                        <x-button wire:click="$toggle('showTaskDrawer')" icon="o-plus" :label="__('calendar.actions.create_task')"
-                            class="btn-sm btn-primary" />
+                        <x-button wire:click="$toggle('showTaskDrawer'); $wire.showDayModal = false;" icon="o-plus"
+                            :label="__('calendar.actions.create_task')" class="btn-sm btn-primary" />
                     </div>
 
                     <div class="space-y-3 max-h-[60vh] overflow-y-auto">
@@ -170,8 +176,8 @@
                         @empty
                             <div class="p-8 text-center rounded-lg border border-base-content/20 bg-base-200">
                                 <p class="text-sm text-base-content/70">{{ __('calendar.empty.no_events') }}</p>
-                                <x-button wire:click="$toggle('showTaskDrawer')" icon="o-plus" :label="__('calendar.actions.create_task')"
-                                    class="mt-4 btn-primary btn-sm" />
+                                <x-button wire:click="$toggle('showTaskDrawer'); $wire.showDayModal = false;"
+                                    icon="o-plus" :label="__('calendar.actions.create_task')" class="mt-4 btn-primary btn-sm" />
                             </div>
                         @endforelse
                     </div>

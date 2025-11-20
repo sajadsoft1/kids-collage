@@ -46,7 +46,7 @@ class CalendarApp extends CalendarTemplate
     public function afterMount($extras = []): void
     {
         $this->tasks = collect();
-        $this->taskForm['scheduled_for'] = now()->format('Y-m-d\TH:i');
+        $this->taskForm['scheduled_for'] = now()->format('Y-m-d H:i:s');
         $this->syncCategoryFilters();
         $this->validationAttributes = [
             'taskForm.title' => __('calendar.form.title'),
@@ -90,12 +90,21 @@ class CalendarApp extends CalendarTemplate
         $this->activeCategorySlugs = collect($this->categoryFilters)->pluck('slug')->all();
     }
 
-    public function createTask(): void
+    public function saveTask(): void
     {
         abort_if( ! Auth::check(), 403);
 
         $validated = $this->validate();
 
+        if ($this->isEditingTask()) {
+            $this->updateTask($validated);
+        } else {
+            $this->createTask($validated);
+        }
+    }
+
+    protected function createTask(array $validated): void
+    {
         Task::create([
             'user_id' => Auth::id(),
             'title' => $validated['taskForm']['title'],
@@ -111,10 +120,8 @@ class CalendarApp extends CalendarTemplate
         $this->success(__('calendar.messages.task_created'));
     }
 
-    public function updateTask(): void
+    protected function updateTask(array $validated): void
     {
-        abort_if( ! Auth::check(), 403);
-
         if ( ! $this->selectedEventId) {
             $this->error(__('calendar.messages.task_not_found'));
 
@@ -128,8 +135,6 @@ class CalendarApp extends CalendarTemplate
 
             return;
         }
-
-        $validated = $this->validate();
 
         $task->update([
             'title' => $validated['taskForm']['title'],
@@ -149,6 +154,7 @@ class CalendarApp extends CalendarTemplate
     public function onDayClick($year, $month, $day): void
     {
         $this->selectedDay = Carbon::createFromDate($year, $month, $day)->startOfDay();
+        $this->taskForm['schedule_for'] = $this->selectedDay->format('Y-m-d H:i:s');
         $this->showDayModal = true;
     }
 
@@ -186,7 +192,7 @@ class CalendarApp extends CalendarTemplate
                 $this->taskForm = [
                     'title' => $task->title,
                     'description' => $task->description ?? '',
-                    'scheduled_for' => $task->scheduled_for->format('Y-m-d\TH:i'),
+                    'scheduled_for' => $task->scheduled_for->format('Y-m-d H:i:s'),
                 ];
                 $this->showDayModal = false;
                 $this->showEventModal = false;
@@ -349,7 +355,7 @@ class CalendarApp extends CalendarTemplate
         $this->taskForm = [
             'title' => '',
             'description' => '',
-            'scheduled_for' => now()->format('Y-m-d\TH:i'),
+            'scheduled_for' => now()->format('Y-m-d H:i:s'),
         ];
         $this->selectedEventId = null;
         $this->selectedEventType = null;
