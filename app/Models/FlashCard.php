@@ -8,6 +8,7 @@ use App\Enums\BooleanEnum;
 use App\Traits\HasTranslationAuto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property string $title
@@ -38,10 +39,11 @@ class FlashCard extends Model
      * Model Configuration --------------------------------------------------------------------------
      */
 
-    /**
-     * Model Relations --------------------------------------------------------------------------
-     */
-
+    /** Model Relations -------------------------------------------------------------------------- */
+    public function leitnerLogs(): HasMany
+    {
+        return $this->hasMany(LeitnerBox::class);
+    }
     /**
      * Model Scope --------------------------------------------------------------------------
      */

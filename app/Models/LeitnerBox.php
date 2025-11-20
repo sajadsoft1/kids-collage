@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Enums\BooleanEnum;
 use App\Traits\HasUser;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class LeitnerBox extends Model
 {
@@ -25,4 +26,9 @@ class LeitnerBox extends Model
         'last_review_at' => 'datetime',
         'finished' => BooleanEnum::class,
     ];
+
+    public function flashcard(): BelongsTo
+    {
+        return $this->belongsTo(FlashCard::class);
+    }
 }
