@@ -12,6 +12,7 @@ use App\Enums\TicketPriorityEnum;
 use App\Enums\UserTypeEnum;
 use App\Models\Ticket;
 use App\Models\TicketMessage;
+use App\Services\Permissions\PermissionsService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\View\View;
 use Livewire\Attributes\Computed;
@@ -131,7 +132,7 @@ class TicketApp extends Component
                 }
             )
             ->when(
-                auth()->user()->type === UserTypeEnum::EMPLOYEE,
+                auth()->user()->type === UserTypeEnum::EMPLOYEE && ! auth()->user()->hasAnyPermission(PermissionsService::generatePermissionsByModel(Ticket::class, 'Index')),
                 function ($q) {
                     $q->where('user_id', auth()->id());
                 }
