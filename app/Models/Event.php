@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\BooleanEnum;
+use App\Facades\SmartCache;
 use App\Helpers\Constants;
 use App\Traits\CLogsActivity;
 use App\Traits\HasCategory;
@@ -115,5 +116,17 @@ class Event extends Model implements HasMedia
     public function path(): string
     {
         return localized_route('event.detail', ['event' => $this->slug]);
+    }
+
+    public static function latestEvents()
+    {
+        return SmartCache::for(__CLASS__)
+            ->key('latest_events')
+            ->remember(function () {
+                return self::where('published', BooleanEnum::ENABLE->value)
+                    ->orderBy('id', 'desc')
+                    ->limit(5)
+                    ->get();
+            }, 3600);
     }
 }

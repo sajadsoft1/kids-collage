@@ -10,6 +10,7 @@ use App\Http\Resources\BlogResource;
 use App\Http\Resources\BulletinResource;
 use App\Http\Resources\ClientResource;
 use App\Http\Resources\CourseTemplateResource;
+use App\Http\Resources\EventResource;
 use App\Http\Resources\FaqResource;
 use App\Http\Resources\LicenseResource;
 use App\Http\Resources\OpinionResource;
@@ -21,6 +22,7 @@ use App\Models\Bulletin;
 use App\Models\Client;
 use App\Models\Course;
 use App\Models\CourseTemplate;
+use App\Models\Event;
 use App\Models\Faq;
 use App\Models\Home;
 use App\Models\License;
@@ -86,7 +88,7 @@ class HomeController extends Controller
             'blogs' => BlogResource::collection(Blog::latestBlogs()),
             'opinions' => OpinionResource::collection(Opinion::homeOpinions()),
             'clients' => ClientResource::collection(Client::homeClients()),
-            'events' => [],
+            'events' => EventResource::collection(Event::latestEvents()),
             'faqs' => FaqResource::collection(Faq::homeFaq()),
             'licenses' => LicenseResource::collection(License::homeLicenses()),
             'courseTemplate' => CourseTemplateResource::collection(CourseTemplate::latestCourseTemplates()),

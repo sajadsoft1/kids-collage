@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace App\Livewire\Admin\Pages\Exam;
 
+use App\Models\Exam;
+use App\Models\Question;
+use App\Services\ExamService;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class QuestionSelector extends Component
 {
