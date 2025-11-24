@@ -53,6 +53,189 @@
                 }
             }
         },
+        "/auth/register": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "register user",
+                "description": "Register user",
+                "operationId": "register",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RegisterRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "example message"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "otp": {
+                                                    "type": "string",
+                                                    "default": "example otp"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/403"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/500"
+                    }
+                }
+            }
+        },
+        "/auth/confirm-otp": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "confirm otp ",
+                "description": "confirm otp ",
+                "operationId": "confirmOtp",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ConfirmedOtpRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "example message"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "token": {
+                                                    "type": "string",
+                                                    "default": "example token"
+                                                },
+                                                "user": {
+                                                    "$ref": "#/components/schemas/SimpleUserResource"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/403"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/500"
+                    }
+                }
+            }
+        },
+        "/auth/forget-password": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Forget Password ",
+                "description": "user forget password ",
+                "operationId": "forgetPassword",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ForgetPasswordRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "example message"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "token": {
+                                                    "type": "string",
+                                                    "default": "example token"
+                                                },
+                                                "user": {
+                                                    "$ref": "#/components/schemas/SimpleUserResource"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/403"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/500"
+                    }
+                }
+            }
+        },
         "/auth/login": {
             "post": {
                 "tags": [
@@ -89,7 +272,7 @@
                                                     "default": "example token"
                                                 },
                                                 "user": {
-                                                    "$ref": "#/components/schemas/UserResource"
+                                                    "$ref": "#/components/schemas/SimpleUserResource"
                                                 }
                                             },
                                             "type": "object"
@@ -2034,6 +2217,151 @@
                 }
             }
         },
+        "/event": {
+            "get": {
+                "tags": [
+                    "Event"
+                ],
+                "summary": "get event list",
+                "description": "Returns list of event",
+                "operationId": "getEvents",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/page_limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/search"
+                    },
+                    {
+                        "$ref": "#/components/parameters/sort"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/EventResource"
+                                            }
+                                        },
+                                        "links": {
+                                            "properties": {
+                                                "first": {
+                                                    "type": "string",
+                                                    "default": "http://localhost/api/event?page=1"
+                                                },
+                                                "last": {
+                                                    "type": "string",
+                                                    "default": "http://localhost/api/event?page=4"
+                                                },
+                                                "prev": {
+                                                    "type": "string",
+                                                    "default": "null",
+                                                    "nullable": true
+                                                },
+                                                "next": {
+                                                    "type": "string",
+                                                    "default": "http://localhost/api/event?page=2",
+                                                    "nullable": true
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "meta": {
+                                            "$ref": "#/components/schemas/Meta"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        },
+                                        "extra": {
+                                            "properties": {
+                                                "default_sort": {
+                                                    "type": "string",
+                                                    "default": "-id"
+                                                },
+                                                "sorts": {
+                                                    "properties": {
+                                                        "label": {
+                                                            "type": "string",
+                                                            "default": "ID"
+                                                        },
+                                                        "value": {
+                                                            "type": "string",
+                                                            "default": "id"
+                                                        },
+                                                        "selected": {
+                                                            "type": "boolean",
+                                                            "default": true
+                                                        },
+                                                        "default": {
+                                                            "type": "boolean",
+                                                            "default": true
+                                                        }
+                                                    },
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/event/{event}": {
+            "get": {
+                "tags": [
+                    "Event"
+                ],
+                "summary": "Get event information",
+                "description": "Returns event data",
+                "operationId": "getEventByID",
+                "parameters": [
+                    {
+                        "name": "event",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/faq": {
             "get": {
                 "tags": [
@@ -3122,6 +3450,39 @@
                 },
                 "type": "object"
             },
+            "ConfirmedOtpRequest": {
+                "title": "ConfirmedOtpRequest",
+                "required": [
+                    "otp"
+                ],
+                "properties": {
+                    "otp": {
+                        "description": "otp code",
+                        "type": "string",
+                        "default": "123456"
+                    },
+                    "mobile": {
+                        "description": "Email",
+                        "type": "string",
+                        "default": "09100000000"
+                    }
+                },
+                "type": "object"
+            },
+            "ForgetPasswordRequest": {
+                "title": "ForgetPasswordRequest",
+                "required": [
+                    "mobile"
+                ],
+                "properties": {
+                    "mobile": {
+                        "description": "Email",
+                        "type": "string",
+                        "default": "09100000000"
+                    }
+                },
+                "type": "object"
+            },
             "LoginRequest": {
                 "title": "LoginRequest",
                 "description": "Login request",
@@ -3137,6 +3498,44 @@
                     },
                     "password": {
                         "description": "Password",
+                        "type": "string",
+                        "default": "password"
+                    }
+                },
+                "type": "object"
+            },
+            "RegisterRequest": {
+                "title": "RegisterRequest",
+                "required": [
+                    "mobile",
+                    "password",
+                    "name",
+                    "family",
+                    "confirmed_password"
+                ],
+                "properties": {
+                    "mobile": {
+                        "description": "Email",
+                        "type": "string",
+                        "default": "09100000000"
+                    },
+                    "password": {
+                        "description": "Password",
+                        "type": "string",
+                        "default": "password"
+                    },
+                    "name": {
+                        "description": "Name",
+                        "type": "string",
+                        "default": "John"
+                    },
+                    "family": {
+                        "description": "Family",
+                        "type": "string",
+                        "default": "Doe"
+                    },
+                    "confirmed_password": {
+                        "description": "Confirmed Password",
                         "type": "string",
                         "default": "password"
                     }
@@ -4160,6 +4559,189 @@
                     "description": {
                         "type": "string",
                         "default": "Description"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    }
+                },
+                "type": "object"
+            },
+            "EventDetailResource": {
+                "title": "EventDetailResource",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "title": {
+                        "type": "string",
+                        "default": "Event Title"
+                    },
+                    "description": {
+                        "type": "string",
+                        "default": "Event Description"
+                    },
+                    "body": {
+                        "type": "string",
+                        "default": "Full event content..."
+                    },
+                    "slug": {
+                        "type": "string",
+                        "default": "event-title"
+                    },
+                    "published": {
+                        "$ref": "#/components/schemas/BooleanEnum"
+                    },
+                    "published_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "category": {
+                        "$ref": "#/components/schemas/CategoryResource"
+                    },
+                    "tags": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/TagResource"
+                        }
+                    },
+                    "image": {
+                        "type": "string",
+                        "default": "https://example.com/image.jpg"
+                    },
+                    "view_count": {
+                        "type": "integer",
+                        "default": "100"
+                    },
+                    "comment_count": {
+                        "type": "integer",
+                        "default": "10"
+                    },
+                    "wish_count": {
+                        "type": "integer",
+                        "default": "50"
+                    },
+                    "capacity": {
+                        "type": "integer",
+                        "default": "50"
+                    },
+                    "price": {
+                        "type": "integer",
+                        "default": "50"
+                    },
+                    "location": {
+                        "type": "string",
+                        "default": "masshad city"
+                    },
+                    "is_online": {
+                        "$ref": "#/components/schemas/BooleanEnum"
+                    },
+                    "start_date": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "end_date": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "comments": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SimpleCommentResource"
+                        }
+                    },
+                    "seo_option": {
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "EventResource": {
+                "title": "EventResource",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "title": {
+                        "type": "string",
+                        "default": "Event Title"
+                    },
+                    "description": {
+                        "type": "string",
+                        "default": "Event Description"
+                    },
+                    "slug": {
+                        "type": "string",
+                        "default": "event-title"
+                    },
+                    "published": {
+                        "$ref": "#/components/schemas/BooleanEnum"
+                    },
+                    "published_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "category": {
+                        "$ref": "#/components/schemas/CategoryResource"
+                    },
+                    "tags": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/TagResource"
+                        }
+                    },
+                    "image": {
+                        "type": "string",
+                        "default": "https://example.com/image.jpg"
+                    },
+                    "view_count": {
+                        "type": "integer",
+                        "default": "100"
+                    },
+                    "comment_count": {
+                        "type": "integer",
+                        "default": "10"
+                    },
+                    "wish_count": {
+                        "type": "integer",
+                        "default": "50"
+                    },
+                    "capacity": {
+                        "type": "integer",
+                        "default": "50"
+                    },
+                    "price": {
+                        "type": "integer",
+                        "default": "50"
+                    },
+                    "location": {
+                        "type": "string",
+                        "default": "masshad city"
+                    },
+                    "is_online": {
+                        "$ref": "#/components/schemas/BooleanEnum"
+                    },
+                    "start_date": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "end_date": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
                     },
                     "updated_at": {
                         "type": "string",
@@ -5248,6 +5830,10 @@
         {
             "name": "CourseTemplate",
             "description": "CourseTemplate"
+        },
+        {
+            "name": "Event",
+            "description": "Event"
         },
         {
             "name": "Faq",

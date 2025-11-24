@@ -103,4 +103,6 @@ return [
 
     // Common
     'or_continue_with' => 'یا ادامه با',
+    'You_have_successfully_logged_out' => 'شما با موفقیت خارج شدید',
+    'You_have_successfully_register' => 'شما با موفقیت ثبت نام کردید و کد تایید به برای شما ارسال شد',
 ];

@@ -14,6 +14,7 @@ class AuthDTO
 
     private ?User $user = null;
     private ?string $token = null;
+    private ?string $otp = null;
 
     public function __construct($payload = [])
     {
@@ -38,5 +39,15 @@ class AuthDTO
     public function setToken(?string $token): void
     {
         $this->token = $token;
+    }
+
+    public function getOtp(): ?string
+    {
+        return $this->otp;
+    }
+
+    public function setOtp(?string $otp): void
+    {
+        $this->otp = $otp;
     }
 }
