@@ -66,8 +66,8 @@ namespace App\Models{
  *
  * @property int                 $id
  * @property int                 $enrollment_id
- * @property int                 $session_id
- * @property bool                $present
+ * @property int                 $course_session_id
+ * @property BooleanEnum         $present
  * @property \Carbon\Carbon|null $arrival_time
  * @property \Carbon\Carbon|null $leave_time
  * @property string|null         $excuse_note
@@ -75,7 +75,6 @@ namespace App\Models{
  * @property \Carbon\Carbon|null $updated_at
  * @property-read Enrollment     $enrollment
  * @property-read CourseSession  $session
- * @property int $course_session_id
  * @property-read int|null $duration
  * @property-read int $early_departure_minutes
  * @property-read string|null $formatted_duration
@@ -1182,34 +1181,226 @@ namespace App\Models{
 /**
  * @property string $title
  * @property string $description
+ * @property int $id
+ * @property int $category_id
+ * @property string $slug
+ * @property string $location
+ * @property int $capacity
+ * @property int $price
  * @property \App\Enums\BooleanEnum $published
+ * @property array<array-key, mixed>|null $languages
+ * @property int $view_count
+ * @property int $comment_count
+ * @property int $wish_count
+ * @property \Illuminate\Support\Carbon|null $start_date
+ * @property \Illuminate\Support\Carbon|null $end_date
+ * @property \Illuminate\Support\Carbon|null $published_at
+ * @property \App\Enums\BooleanEnum $is_online
+ * @property array<array-key, mixed>|null $extra_attributes
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
+ * @property-read int|null $activities_count
+ * @property-read \App\Models\Category $category
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Comment> $comments
+ * @property-read int|null $comments_count
+ * @property-read mixed $seo_canonical
+ * @property-read mixed $seo_description
+ * @property-read mixed $seo_redirect_to
+ * @property-read mixed $seo_robot_meta
+ * @property-read mixed $seo_title
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
+ * @property-read int|null $media_count
+ * @property-read \App\Models\SeoOption|null $seoOption
+ * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\Tag> $tags
+ * @property-read int|null $tags_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translations
  * @property-read int|null $translations_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translationsPure
  * @property-read int|null $translations_pure_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\UserView> $views
+ * @property-read int|null $views_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\WishList> $wishes
+ * @property-read int|null $wishes_count
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event draft()
+ * @method static \Database\Factories\EventFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event published()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event publishedScheduled()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event scheduledForPublishing()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event search($keyword)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event unpublishedScheduled()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereCapacity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereCategoryId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereCommentCount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereEndDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereExtraAttributes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereIsOnline($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereLanguages($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereLocation($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event wherePrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event wherePublished($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event wherePublishedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereStartDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereViewCount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereWishCount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event withAllTags(\ArrayAccess|\Spatie\Tags\Tag|array|string $tags, ?string $type = null)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event withAllTagsOfAnyType($tags)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event withAnyTags(\ArrayAccess|\Spatie\Tags\Tag|array|string $tags, ?string $type = null)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event withAnyTagsOfAnyType($tags)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event withAnyTagsOfType(array|string $type)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event withoutTags(\ArrayAccess|\Spatie\Tags\Tag|array|string $tags, ?string $type = null)
+ */
+	class Event extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
+}
+
+namespace App\Models{
+/**
+ * @property string $title
+ * @property string $description
+ * @property int $id
+ * @property int|null $category_id
+ * @property \App\Enums\ExamTypeEnum $type
+ * @property numeric|null $total_score
+ * @property int|null $duration minutes
+ * @property numeric|null $pass_score
+ * @property int|null $max_attempts
+ * @property bool $shuffle_questions
+ * @property string $show_results
+ * @property bool $allow_review
+ * @property array<array-key, mixed>|null $settings
+ * @property \Illuminate\Support\Carbon|null $starts_at
+ * @property \Illuminate\Support\Carbon|null $ends_at
+ * @property \App\Enums\ExamStatusEnum $status
+ * @property int|null $created_by
+ * @property \Spatie\SchemalessAttributes\SchemalessAttributes|null $extra_attributes
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ExamAttempt> $attempts
+ * @property-read int|null $attempts_count
+ * @property-read \App\Models\Category|null $category
+ * @property-read \App\Models\User|null $creator
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Question> $questions
+ * @property-read int|null $questions_count
+ * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\Tag> $tags
+ * @property-read int|null $tags_count
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam accessibleByUser(\App\Models\User $user)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam active()
  * @method static \Database\Factories\ExamFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam participableByUser(\App\Models\User $user)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam search($keyword)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam search(string $search)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam whereAllowReview($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam whereCategoryId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam whereDuration($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam whereEndsAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam whereExtraAttributes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam whereMaxAttempts($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam wherePassScore($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam whereSettings($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam whereShowResults($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam whereShuffleQuestions($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam whereStartsAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam whereTotalScore($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam withAllTags(\ArrayAccess|\Spatie\Tags\Tag|array|string $tags, ?string $type = null)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam withAllTagsOfAnyType($tags)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam withAnyTags(\ArrayAccess|\Spatie\Tags\Tag|array|string $tags, ?string $type = null)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam withAnyTagsOfAnyType($tags)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam withAnyTagsOfType(array|string $type)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam withExtraAttributes()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam withTrashed(bool $withTrashed = true)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam withUserAttempts(\App\Models\User $user)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam withoutTags(\ArrayAccess|\Spatie\Tags\Tag|array|string $tags, ?string $type = null)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam withoutTrashed()
  */
 	class Exam extends \Eloquent {}
 }
 
 namespace App\Models{
 /**
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamAttemt newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamAttemt newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamAttemt query()
+ * @property int $id
+ * @property int $exam_id
+ * @property int $user_id
+ * @property \Illuminate\Support\Carbon $started_at
+ * @property \Illuminate\Support\Carbon|null $completed_at
+ * @property numeric|null $total_score
+ * @property numeric|null $percentage
+ * @property \App\Enums\AttemptStatusEnum $status
+ * @property string|null $ip_address
+ * @property string|null $user_agent
+ * @property array<array-key, mixed>|null $metadata
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\UserAnswer> $answers
+ * @property-read int|null $answers_count
+ * @property-read \App\Models\Exam $exam
+ * @property-read \App\Models\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamAttempt byExam($examId)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamAttempt byUser($userId)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamAttempt completed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamAttempt inProgress()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamAttempt newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamAttempt newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamAttempt query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamAttempt whereCompletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamAttempt whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamAttempt whereExamId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamAttempt whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamAttempt whereIpAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamAttempt whereMetadata($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamAttempt wherePercentage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamAttempt whereStartedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamAttempt whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamAttempt whereTotalScore($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamAttempt whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamAttempt whereUserAgent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamAttempt whereUserId($value)
  */
-	class ExamAttemt extends \Eloquent {}
+	class ExamAttempt extends \Eloquent {}
 }
 
 namespace App\Models{
 /**
+ * @property int $id
+ * @property int $exam_id
+ * @property int $question_id
+ * @property string $weight
+ * @property int $order
+ * @property int $is_required
+ * @property string|null $config_override
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamQuestion newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamQuestion newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamQuestion query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamQuestion whereConfigOverride($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamQuestion whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamQuestion whereExamId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamQuestion whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamQuestion whereIsRequired($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamQuestion whereOrder($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamQuestion whereQuestionId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamQuestion whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamQuestion whereWeight($value)
  */
 	class ExamQuestion extends \Eloquent {}
 }
@@ -1277,6 +1468,67 @@ namespace App\Models{
  * @property string $title
  * @property string $description
  * @property int $id
+ * @property int $user_id
+ * @property \App\Enums\BooleanEnum $favorite
+ * @property string|null $front
+ * @property string|null $back
+ * @property array<array-key, mixed>|null $languages
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\LeitnerBox> $leitnerLogs
+ * @property-read int|null $leitner_logs_count
+ * @property-read \App\Models\User $user
+ * @method static \Database\Factories\FlashCardFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|FlashCard newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|FlashCard newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|FlashCard query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|FlashCard whereBack($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|FlashCard whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|FlashCard whereFavorite($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|FlashCard whereFront($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|FlashCard whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|FlashCard whereLanguages($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|FlashCard whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|FlashCard whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|FlashCard whereUserId($value)
+ */
+	class FlashCard extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * @property int $id
+ * @property int $user_id
+ * @property int $flash_card_id
+ * @property int $box
+ * @property \App\Enums\BooleanEnum $finished
+ * @property \Illuminate\Support\Carbon $next_review_at
+ * @property \Illuminate\Support\Carbon $last_review_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\FlashCard|null $flashcard
+ * @property-read \App\Models\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LeitnerBox newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LeitnerBox newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LeitnerBox query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LeitnerBox whereBox($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LeitnerBox whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LeitnerBox whereFinished($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LeitnerBox whereFlashCardId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LeitnerBox whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LeitnerBox whereLastReviewAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LeitnerBox whereNextReviewAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LeitnerBox whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LeitnerBox whereUserId($value)
+ */
+	class LeitnerBox extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * @property string $title
+ * @property string $description
+ * @property int $id
  * @property string $slug
  * @property \App\Enums\BooleanEnum $published
  * @property int $view_count
@@ -1315,29 +1567,108 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * @property string $title
+ * @property string $description
  * @property int $id
- * @property \App\Enums\BooleanEnum $published
+ * @property int $user_id
+ * @property string $body
+ * @property array<array-key, mixed>|null $tags
  * @property array<array-key, mixed>|null $languages
- * @property string|null $name
- * @property string $channel
- * @property string|null $message_template
- * @property array<array-key, mixed>|null $inputs
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
- * @property-read int|null $activities_count
+ * @property-read \App\Models\User $user
+ * @method static \Database\Factories\NotebookFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notebook newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notebook newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notebook query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notebook whereBody($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notebook whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notebook whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notebook whereLanguages($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notebook whereTags($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notebook whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notebook whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notebook whereUserId($value)
+ */
+	class Notebook extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * @property int $id
+ * @property string $event
+ * @property string $channel
+ * @property string $notifiable_type
+ * @property int $notifiable_id
+ * @property string|null $notification_class
+ * @property string $status
+ * @property int $attempts
+ * @property \Illuminate\Support\Carbon|null $queued_at
+ * @property \Illuminate\Support\Carbon|null $sent_at
+ * @property \Illuminate\Support\Carbon|null $failed_at
+ * @property array<array-key, mixed>|null $payload
+ * @property array<array-key, mixed>|null $response
+ * @property string|null $error_message
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $notifiable
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationLog forChannel(string $channel)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationLog forEvent(string $event)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationLog newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationLog newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationLog query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationLog whereAttempts($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationLog whereChannel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationLog whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationLog whereErrorMessage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationLog whereEvent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationLog whereFailedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationLog whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationLog whereNotifiableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationLog whereNotifiableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationLog whereNotificationClass($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationLog wherePayload($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationLog whereQueuedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationLog whereResponse($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationLog whereSentAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationLog whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationLog whereUpdatedAt($value)
+ */
+	class NotificationLog extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * @property int $id
+ * @property \App\Enums\NotificationEventEnum $event
+ * @property \App\Enums\NotificationChannelEnum $channel
+ * @property string $locale
+ * @property string|null $subject
+ * @property string|null $title
+ * @property string|null $subtitle
+ * @property string|null $body
+ * @property array<array-key, mixed>|null $cta
+ * @property array<array-key, mixed>|null $placeholders
+ * @property bool $is_active
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationTemplate active()
  * @method static \Database\Factories\NotificationTemplateFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationTemplate newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationTemplate newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationTemplate query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationTemplate whereBody($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationTemplate whereChannel($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationTemplate whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationTemplate whereCta($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationTemplate whereEvent($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationTemplate whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationTemplate whereInputs($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationTemplate whereLanguages($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationTemplate whereMessageTemplate($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationTemplate whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationTemplate wherePublished($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationTemplate whereIsActive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationTemplate whereLocale($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationTemplate wherePlaceholders($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationTemplate whereSubject($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationTemplate whereSubtitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationTemplate whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|NotificationTemplate whereUpdatedAt($value)
  */
 	class NotificationTemplate extends \Eloquent {}
@@ -1707,12 +2038,74 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * @property mixed $type
- * @property mixed $difficulty
+ * @property int $id
+ * @property \App\Enums\QuestionTypeEnum $type
+ * @property int|null $category_id
+ * @property int|null $subject_id
+ * @property int|null $competency_id
+ * @property string $title
+ * @property string|null $body
+ * @property string|null $explanation
+ * @property \App\Enums\DifficultyEnum|null $difficulty
+ * @property numeric $default_score
+ * @property array<array-key, mixed>|null $config
+ * @property array<array-key, mixed>|null $correct_answer
+ * @property array<array-key, mixed>|null $metadata
+ * @property int|null $created_by
+ * @property bool $is_active
+ * @property bool $is_public
+ * @property bool $is_survey_question
+ * @property int $usage_count
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\UserAnswer> $answers
+ * @property-read int|null $answers_count
+ * @property-read \App\Models\Category|null $category
+ * @property-read \App\Models\QuestionCompetency|null $competency
+ * @property-read \App\Models\User|null $creator
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Exam> $exams
+ * @property-read int|null $exams_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\QuestionOption> $options
+ * @property-read int|null $options_count
+ * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\Tag> $tags
+ * @property-read \App\Models\QuestionSubject|null $subject
+ * @property-read int|null $tags_count
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Question active()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Question byType(string $type)
  * @method static \Database\Factories\QuestionFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Question fromBank()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Question newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Question newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Question public()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Question query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Question search(string $search)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Question surveyQuestions()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Question whereBody($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Question whereCategoryId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Question whereCompetencyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Question whereConfig($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Question whereCorrectAnswer($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Question whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Question whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Question whereDefaultScore($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Question whereDifficulty($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Question whereExplanation($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Question whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Question whereIsActive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Question whereIsPublic($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Question whereIsSurveyQuestion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Question whereMetadata($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Question whereSubjectId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Question whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Question whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Question whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Question whereUsageCount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Question withAllTags(\ArrayAccess|\Spatie\Tags\Tag|array|string $tags, ?string $type = null)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Question withAllTagsOfAnyType($tags)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Question withAnyTags(\ArrayAccess|\Spatie\Tags\Tag|array|string $tags, ?string $type = null)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Question withAnyTagsOfAnyType($tags)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Question withAnyTagsOfType(array|string $type)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Question withoutTags(\ArrayAccess|\Spatie\Tags\Tag|array|string $tags, ?string $type = null)
  */
 	class Question extends \Eloquent {}
 }
@@ -1722,6 +2115,8 @@ namespace App\Models{
  * @property string $title
  * @property string $description
  * @property int $id
+ * @property int $ordering
+ * @property int $published
  * @property array<array-key, mixed>|null $languages
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -1737,6 +2132,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionCompetency whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionCompetency whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionCompetency whereLanguages($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionCompetency whereOrdering($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionCompetency wherePublished($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionCompetency whereUpdatedAt($value)
  */
 	class QuestionCompetency extends \Eloquent {}
@@ -1744,18 +2141,29 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * @property string $title
- * @property string $description
- * @property \App\Enums\BooleanEnum $published
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translations
- * @property-read int|null $translations_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translationsPure
- * @property-read int|null $translations_pure_count
+ * @property int $id
+ * @property int $question_id
+ * @property string $content
+ * @property string $type
+ * @property bool $is_correct
+ * @property int $order
+ * @property array<array-key, mixed>|null $metadata
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Question $question
  * @method static \Database\Factories\QuestionOptionFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionOption newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionOption newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionOption query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionOption search($keyword)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionOption whereContent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionOption whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionOption whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionOption whereIsCorrect($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionOption whereMetadata($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionOption whereOrder($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionOption whereQuestionId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionOption whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionOption whereUpdatedAt($value)
  */
 	class QuestionOption extends \Eloquent {}
 }
@@ -1765,6 +2173,8 @@ namespace App\Models{
  * @property string $title
  * @property string $description
  * @property int $id
+ * @property int $ordering
+ * @property int $published
  * @property array<array-key, mixed>|null $languages
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -1780,9 +2190,43 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionSubject whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionSubject whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionSubject whereLanguages($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionSubject whereOrdering($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionSubject wherePublished($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionSubject whereUpdatedAt($value)
  */
 	class QuestionSubject extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * @property string $title
+ * @property string $description
+ * @property int $id
+ * @property int $category_id
+ * @property \App\Enums\BooleanEnum $published
+ * @property int $ordering
+ * @property array<array-key, mixed>|null $languages
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Category $category
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translations
+ * @property-read int|null $translations_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translationsPure
+ * @property-read int|null $translations_pure_count
+ * @method static \Database\Factories\QuestionSystemFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionSystem newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionSystem newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionSystem query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionSystem search($keyword)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionSystem whereCategoryId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionSystem whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionSystem whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionSystem whereLanguages($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionSystem whereOrdering($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionSystem wherePublished($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionSystem whereUpdatedAt($value)
+ */
+	class QuestionSystem extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -2171,6 +2615,35 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * @property int $id
+ * @property int $user_id
+ * @property string $title
+ * @property string|null $description
+ * @property \Illuminate\Support\Carbon $scheduled_for
+ * @property string $status
+ * @property \Illuminate\Support\Carbon|null $completed_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\User $user
+ * @method static \Database\Factories\TaskFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Task newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Task newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Task query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Task whereCompletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Task whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Task whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Task whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Task whereScheduledFor($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Task whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Task whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Task whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Task whereUserId($value)
+ */
+	class Task extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * @property string $title
  * @property string $description
  * @property int $id
@@ -2429,11 +2902,68 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * @property int $id
+ * @property int $exam_attempt_id
+ * @property int $question_id
+ * @property array<array-key, mixed> $answer_data
+ * @property numeric|null $score
+ * @property numeric $max_score
+ * @property bool|null $is_correct
+ * @property bool|null $is_partially_correct
+ * @property int|null $time_spent seconds
+ * @property \Illuminate\Support\Carbon|null $answered_at
+ * @property \Illuminate\Support\Carbon|null $reviewed_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\ExamAttempt $attempt
+ * @property-read \App\Models\Question $question
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAnswer correct()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAnswer incorrect()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAnswer newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAnswer newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAnswer partiallyCorrect()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAnswer query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAnswer whereAnswerData($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAnswer whereAnsweredAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAnswer whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAnswer whereExamAttemptId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAnswer whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAnswer whereIsCorrect($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAnswer whereIsPartiallyCorrect($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAnswer whereMaxScore($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAnswer whereQuestionId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAnswer whereReviewedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAnswer whereScore($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAnswer whereTimeSpent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAnswer whereUpdatedAt($value)
  */
 	class UserAnswer extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * @property int $id
+ * @property int $user_id
+ * @property string $otp
+ * @property string $ip_address
+ * @property int $try_count
+ * @property string|null $used_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserOtp newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserOtp newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserOtp query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserOtp whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserOtp whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserOtp whereIpAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserOtp whereOtp($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserOtp whereTryCount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserOtp whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserOtp whereUsedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserOtp whereUserId($value)
+ */
+	class UserOtp extends \Eloquent {}
 }
 
 namespace App\Models{

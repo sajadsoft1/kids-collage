@@ -70,6 +70,19 @@ class Question extends Model
         return $query->where('is_survey_question', true);
     }
 
+    public function scopeByType($query, string $type)
+    {
+        return $query->where('type', $type);
+    }
+
+    public function scopeSearch($query, string $search)
+    {
+        return $query->where(function ($q) use ($search) {
+            $q->where('title', 'like', "%{$search}%")
+                ->orWhere('body', 'like', "%{$search}%");
+        });
+    }
+
     /** Model Relations -------------------------------------------------------------------------- */
     public function category(): BelongsTo
     {

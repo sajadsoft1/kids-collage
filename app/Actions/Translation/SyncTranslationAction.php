@@ -20,7 +20,11 @@ class SyncTranslationAction
     {
         DB::transaction(function () use ($model, $payload) {
             $locale = Arr::get($payload, 'locale', app()->getLocale());
-            foreach ($model->translatable as $column) {
+            $translatable = $model->translatable ?? [];
+            if (empty($translatable)) {
+                return;
+            }
+            foreach ($translatable as $column) {
                 $value = Arr::get($payload, $column, request()->input($column));
                 if ( ! empty($value)) {
                     $model->translations()->updateOrCreate([

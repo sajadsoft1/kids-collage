@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\BooleanEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -17,7 +18,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int                 $id
  * @property int                 $enrollment_id
  * @property int                 $course_session_id
- * @property bool                $present
+ * @property BooleanEnum         $present
  * @property \Carbon\Carbon|null $arrival_time
  * @property \Carbon\Carbon|null $leave_time
  * @property string|null         $excuse_note
@@ -41,7 +42,7 @@ class Attendance extends Model
     ];
 
     protected $casts = [
-        'present' => 'boolean',
+        'present' => BooleanEnum::class,
         'arrival_time' => 'datetime',
         'leave_time' => 'datetime',
     ];

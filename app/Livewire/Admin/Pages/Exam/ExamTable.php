@@ -12,6 +12,7 @@ use App\Traits\PowerGridHelperTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\View\View;
 use Livewire\Attributes\Computed;
+use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
@@ -47,7 +48,7 @@ final class ExamTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Exam::query()->withCount(['questions', 'attempts']);
+        return Exam::query()->withCount(['questions', 'attempts'])->where('type', ExamTypeEnum::SCORED);
     }
 
     public function relationSearch(): array
@@ -78,18 +79,18 @@ final class ExamTable extends PowerGridComponent
         return [
             PowerGridHelper::columnId(),
             PowerGridHelper::columnTitle(),
-            \PowerComponents\LivewirePowerGrid\Column::make(trans('exam.type'), 'type_label', 'type')
+            Column::make(trans('exam.type'), 'type_label', 'type')
                 ->searchable()
                 ->sortable(),
-            \PowerComponents\LivewirePowerGrid\Column::make(trans('exam.status'), 'status_label', 'status')
+            Column::make(trans('exam.status'), 'status_label', 'status')
                 ->sortable(),
-            \PowerComponents\LivewirePowerGrid\Column::make(trans('exam.total_score'), 'total_score', 'total_score')
+            Column::make(trans('exam.total_score'), 'total_score', 'total_score')
                 ->sortable(),
-            \PowerComponents\LivewirePowerGrid\Column::make(trans('exam.duration'), 'duration', 'duration')
+            Column::make(trans('exam.duration'), 'duration', 'duration')
                 ->sortable(),
-            \PowerComponents\LivewirePowerGrid\Column::make(trans('exam.questions_count'), 'questions_count')
+            Column::make(trans('exam.questions_count'), 'questions_count')
                 ->sortable(),
-            \PowerComponents\LivewirePowerGrid\Column::make(trans('exam.attempts_count'), 'attempts_count')
+            Column::make(trans('exam.attempts_count'), 'attempts_count')
                 ->sortable(),
             PowerGridHelper::columnCreatedAT(),
             PowerGridHelper::columnAction(),
@@ -99,8 +100,6 @@ final class ExamTable extends PowerGridComponent
     public function filters(): array
     {
         return [
-            Filter::enumSelect('type', 'type')
-                ->datasource(ExamTypeEnum::cases()),
             Filter::enumSelect('status', 'status')
                 ->datasource(ExamStatusEnum::cases()),
             Filter::datepicker('created_at_formatted', 'created_at')

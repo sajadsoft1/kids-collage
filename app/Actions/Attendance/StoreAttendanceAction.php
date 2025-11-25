@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Actions\Attendance;
 
 use App\Models\Attendance;
+use DateTimeInterface;
 use Illuminate\Support\Facades\DB;
 use Lorisleiva\Actions\Concerns\AsAction;
 use Throwable;
@@ -16,10 +17,11 @@ class StoreAttendanceAction
     /**
      * @param array{
      *     enrollment_id:int,
-     *     course_session_id:int,
+     *     course_session_id?:int,
+     *     session_id?:int,
      *     present:bool,
-     *     arrival_time:string|null,
-     *     leave_time:string|null,
+     *     arrival_time:DateTimeInterface|string|null,
+     *     leave_time:DateTimeInterface|string|null,
      *     excuse_note?:string|null
      * } $payload
      * @throws Throwable

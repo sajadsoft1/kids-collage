@@ -23,6 +23,7 @@ return [
             'question_system' => 'سیستم سوالات',
             'subject' => 'موضوع',
             'event' => 'رویداد',
+            'exam' => 'آزمون',
         ],
     ],
     'notifications' => [
