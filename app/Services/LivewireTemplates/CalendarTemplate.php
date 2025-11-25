@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace App\Services\LivewireTemplates;
 
 use Carbon\Carbon;
+use DateTimeZone;
 use Exception;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Support\Collection;
 use Illuminate\View\View;
 use Livewire\Component;
+use Morilog\Jalali\Jalalian;
 
 class CalendarTemplate extends Component
 {
@@ -26,6 +28,14 @@ class CalendarTemplate extends Component
     public $dayView;
     public $eventView;
     public $dayOfWeekView;
+
+    public $calendarType = 'jalali';
+    public $availableCalendarTypes = [];
+
+    public $viewMode = 'month';
+    public $viewModeOptions = [];
+
+    public $currentCursorDate;
 
     public $dragAndDropClasses;
 
@@ -44,7 +54,10 @@ class CalendarTemplate extends Component
         'endsAt' => 'date',
         'gridStartsAt' => 'date',
         'gridEndsAt' => 'date',
+        'currentCursorDate' => 'date',
     ];
+
+    protected ?int $customWeekStartsAt = null;
 
     public function mount(
         $initialYear = null,
@@ -64,18 +77,12 @@ class CalendarTemplate extends Component
         $eventClickEnabled = true,
         $extras = []
     ) {
-        $this->weekStartsAt = $weekStartsAt ?? Carbon::SUNDAY;
-        $this->weekEndsAt = $this->weekStartsAt == Carbon::SUNDAY
-            ? Carbon::SATURDAY
-            : collect([0, 1, 2, 3, 4, 5, 6])->get($this->weekStartsAt + 6 - 7);
+        $this->customWeekStartsAt = $weekStartsAt;
+        $this->calendarType = data_get($extras, 'calendarType', $this->calendarType);
+        $this->availableCalendarTypes = data_get($extras, 'calendarTypes', $this->availableCalendarTypes);
+        $this->applyWeekBoundaries();
 
-        $initialYear ??= Carbon::today()->year;
-        $initialMonth ??= Carbon::today()->month;
-
-        $this->startsAt = Carbon::createFromDate($initialYear, $initialMonth, 1)->startOfDay();
-        $this->endsAt = $this->startsAt->clone()->endOfMonth()->startOfDay();
-
-        $this->calculateGridStartsEnds();
+        $this->syncRangeWithCalendarType($initialYear, $initialMonth);
 
         $this->setupViews($calendarView, $dayView, $eventView, $dayOfWeekView, $beforeCalendarView, $afterCalendarView);
 
@@ -87,6 +94,18 @@ class CalendarTemplate extends Component
         $this->dayClickEnabled = $dayClickEnabled;
         $this->eventClickEnabled = $eventClickEnabled;
 
+        $this->currentCursorDate ??= $this->startsAt->clone();
+
+        $this->availableCalendarTypes = [
+            'gregorian' => __('calendar.calendar_type.gregorian'),
+            'jalali' => __('calendar.calendar_type.jalali'),
+        ];
+        $this->viewModeOptions = [
+            'month' => __('calendar.view_mode.month'),
+            'week' => __('calendar.view_mode.week'),
+            'day' => __('calendar.view_mode.day'),
+            'list' => __('calendar.view_mode.list'),
+        ];
         $this->afterMount($extras);
     }
 
@@ -117,26 +136,42 @@ class CalendarTemplate extends Component
 
     public function goToPreviousMonth()
     {
-        $this->startsAt->subMonthNoOverflow();
-        $this->endsAt->subMonthNoOverflow();
+        if ($this->viewMode === 'month' || $this->viewMode === 'list') {
+            $this->shiftCalendarMonth(-1);
 
-        $this->calculateGridStartsEnds();
+            return;
+        }
+
+        if ($this->viewMode === 'week') {
+            $this->shiftCursorWeeks(-1);
+
+            return;
+        }
+
+        $this->shiftCursorDays(-1);
     }
 
     public function goToNextMonth()
     {
-        $this->startsAt->addMonthNoOverflow();
-        $this->endsAt->addMonthNoOverflow();
+        if ($this->viewMode === 'month' || $this->viewMode === 'list') {
+            $this->shiftCalendarMonth(1);
 
-        $this->calculateGridStartsEnds();
+            return;
+        }
+
+        if ($this->viewMode === 'week') {
+            $this->shiftCursorWeeks(1);
+
+            return;
+        }
+
+        $this->shiftCursorDays(1);
     }
 
     public function goToCurrentMonth()
     {
-        $this->startsAt = Carbon::today()->startOfMonth()->startOfDay();
-        $this->endsAt = $this->startsAt->clone()->endOfMonth()->startOfDay();
-
-        $this->calculateGridStartsEnds();
+        $this->syncRangeWithCalendarType();
+        $this->currentCursorDate = $this->startsAt->clone();
     }
 
     public function calculateGridStartsEnds()
@@ -200,17 +235,256 @@ class CalendarTemplate extends Component
     public function render()
     {
         $events = $this->events();
+        $currentCursor = $this->currentCursor();
 
         return view($this->calendarView)
-            ->with([
+            ->with(array_merge([
                 'componentId' => $this->getId(),
                 'monthGrid' => $this->monthGrid(),
                 'events' => $events,
+                'calendarType' => $this->calendarType,
+                'availableCalendarTypes' => $this->availableCalendarTypes,
+                'viewMode' => $this->viewMode,
+                'viewModeOptions' => $this->viewModeOptions,
+                'currentCursor' => $currentCursor,
+                'weekDays' => $this->weekDays(),
+                'dayEvents' => $this->getEventsForDay($currentCursor, $events),
+                'listEventGroups' => $this->groupEventsByDate($events),
+                'currentMonthLabel' => $this->currentMonthLabel(),
+                'currentMonthSubtitle' => $this->currentMonthSubtitle(),
                 'getEventsForDay' => function ($day) use ($events) {
                     return $this->getEventsForDay($day, $events);
                 },
-            ])->layout(config('livewire.layout'), [
+            ], $this->viewData()))->layout(config('livewire.layout'), [
                 'fullWidth' => true,
             ]);
+    }
+
+    public function setCalendarType(string $calendarType): void
+    {
+        if ( ! array_key_exists($calendarType, $this->availableCalendarTypes)) {
+            return;
+        }
+
+        if ($this->calendarType === $calendarType) {
+            return;
+        }
+
+        $this->calendarType = $calendarType;
+        if ($calendarType === 'jalali') {
+            $jalali = Jalalian::fromCarbon($this->startsAt);
+            $this->setRangeFromJalali($jalali->getYear(), $jalali->getMonth());
+
+            return;
+        }
+
+        $this->setRangeFromGregorian($this->startsAt->year, $this->startsAt->month);
+    }
+
+    public function setViewMode(string $mode): void
+    {
+        if ( ! array_key_exists($mode, $this->viewModeOptions)) {
+            return;
+        }
+
+        if ($this->viewMode === $mode) {
+            return;
+        }
+
+        $this->viewMode = $mode;
+
+        if ($mode === 'month') {
+            $this->currentCursorDate = $this->startsAt->clone();
+
+            return;
+        }
+
+        if ($this->currentCursorDate === null) {
+            $this->currentCursorDate = $this->startsAt->clone();
+        }
+    }
+
+    protected function viewData(): array
+    {
+        return [];
+    }
+
+    protected function currentCursor(): Carbon
+    {
+        return ($this->currentCursorDate ?? $this->startsAt)->clone();
+    }
+
+    protected function shiftCursorDays(int $days): void
+    {
+        $this->currentCursorDate = $this->currentCursor()->addDays($days)->startOfDay();
+    }
+
+    protected function shiftCursorWeeks(int $weeks): void
+    {
+        $this->currentCursorDate = $this->currentCursor()->addWeeks($weeks)->startOfDay();
+    }
+
+    protected function syncRangeWithCalendarType(?int $year = null, ?int $month = null): void
+    {
+        if ($this->calendarType === 'jalali') {
+            $today = Jalalian::fromCarbon(Carbon::today());
+            $year ??= $today->getYear();
+            $month ??= $today->getMonth();
+
+            $this->setRangeFromJalali($year, $month);
+
+            return;
+        }
+
+        $today = Carbon::today();
+        $year ??= $today->year;
+        $month ??= $today->month;
+
+        $this->setRangeFromGregorian($year, $month);
+    }
+
+    protected function shiftCalendarMonth(int $months): void
+    {
+        if ($months === 0) {
+            return;
+        }
+
+        if ($this->calendarType === 'jalali') {
+            $current = Jalalian::fromCarbon($this->startsAt);
+            $target = $months > 0 ? $current->addMonths($months) : $current->subMonths(abs($months));
+            $this->setRangeFromJalali($target->getYear(), $target->getMonth());
+
+            return;
+        }
+
+        $this->startsAt = ($months > 0
+            ? $this->startsAt->clone()->addMonths($months)
+            : $this->startsAt->clone()->subMonths(abs($months)))
+            ->startOfMonth()
+            ->startOfDay();
+
+        $this->endsAt = $this->startsAt->clone()->endOfMonth()->startOfDay();
+
+        $this->calculateGridStartsEnds();
+    }
+
+    protected function setRangeFromGregorian(int $year, int $month): void
+    {
+        $this->startsAt = Carbon::createFromDate($year, $month, 1)->startOfDay();
+        $this->endsAt = $this->startsAt->clone()->endOfMonth()->startOfDay();
+
+        $this->calculateGridStartsEnds();
+
+        if ($this->viewMode === 'month' || $this->currentCursorDate === null) {
+            $this->currentCursorDate = $this->startsAt->clone();
+        }
+    }
+
+    protected function setRangeFromJalali(int $year, int $month): void
+    {
+        $timezone = $this->timezone();
+        $start = new Jalalian($year, $month, 1, 0, 0, 0, $timezone);
+        $this->startsAt = $start->toCarbon()->startOfDay();
+
+        $end = new Jalalian($year, $month, $start->getMonthDays(), 0, 0, 0, $timezone);
+        $this->endsAt = $end->toCarbon()->startOfDay();
+
+        $this->calculateGridStartsEnds();
+    }
+
+    protected function currentMonthLabel(): string
+    {
+        return match ($this->viewMode) {
+            'week' => $this->formatRangeForCalendar(...$this->currentWeekRange()),
+            'day' => $this->formatDateForCalendar(
+                $this->currentCursor(),
+                'l, F j, Y',
+                '%A %d %B %Y'
+            ),
+            'list' => $this->calendarType  === 'jalali' ? 'لیست رویدادها' : 'Event list',
+            default => $this->calendarType === 'jalali'
+                ? sprintf(
+                    '%s %d',
+                    Jalalian::fromCarbon($this->startsAt)->format('%B'),
+                    Jalalian::fromCarbon($this->startsAt)->getYear()
+                )
+                : $this->startsAt->translatedFormat('F Y'),
+        };
+    }
+
+    protected function currentMonthSubtitle(): string
+    {
+        return match ($this->viewMode) {
+            'week' => $this->calendarType  === 'jalali' ? 'نمای هفتگی' : 'Week view',
+            'day' => $this->calendarType   === 'jalali' ? 'نمای روزانه' : 'Day view',
+            'list' => $this->calendarType  === 'jalali' ? 'نمای لیستی' : 'List view',
+            default => $this->calendarType === 'jalali' ? 'نمای ماهانه' : 'Month view',
+        };
+    }
+
+    protected function weekDays(): Collection
+    {
+        $start = $this->currentCursor()->clone()->startOfWeek($this->weekStartsAt);
+
+        return collect(range(0, 6))->map(fn ($offset) => $start->clone()->addDays($offset));
+    }
+
+    protected function currentWeekRange(): array
+    {
+        $start = $this->currentCursor()->clone()->startOfWeek($this->weekStartsAt);
+        $end = $start->clone()->endOfWeek($this->weekEndsAt);
+
+        return [$start, $end];
+    }
+
+    protected function groupEventsByDate(Collection $events): Collection
+    {
+        return $events
+            ->sortBy(fn ($event) => Carbon::parse($event['date']))
+            ->groupBy(fn ($event) => Carbon::parse($event['date'])->toDateString());
+    }
+
+    protected function formatDateForCalendar(Carbon $date, string $gregorianFormat, string $jalaliFormat): string
+    {
+        if ($this->calendarType === 'jalali') {
+            return Jalalian::fromCarbon($date)->format($jalaliFormat);
+        }
+
+        return $date->translatedFormat($gregorianFormat);
+    }
+
+    protected function formatRangeForCalendar(Carbon $start, Carbon $end): string
+    {
+        if ($this->calendarType === 'jalali') {
+            $startJ = Jalalian::fromCarbon($start);
+            $endJ = Jalalian::fromCarbon($end);
+
+            return sprintf('%s - %s', $startJ->format('%e %B'), $endJ->format('%e %B %Y'));
+        }
+
+        return sprintf(
+            '%s - %s',
+            $start->translatedFormat('M j'),
+            $end->translatedFormat('M j, Y')
+        );
+    }
+
+    protected function applyWeekBoundaries(): void
+    {
+        if ($this->calendarType === 'jalali') {
+            $this->weekStartsAt = Carbon::SATURDAY;
+            $this->weekEndsAt = Carbon::FRIDAY;
+
+            return;
+        }
+
+        $start = $this->customWeekStartsAt ?? Carbon::SUNDAY;
+        $this->weekStartsAt = $start;
+        $this->weekEndsAt = ($start + 6) % 7;
+    }
+
+    protected function timezone(): DateTimeZone
+    {
+        return new DateTimeZone(config('app.timezone', 'UTC'));
     }
 }

@@ -6,7 +6,6 @@ namespace App\Livewire\Admin\Pages\ContactUs;
 
 use App\Actions\ContactUs\StoreContactUsAction;
 use App\Actions\ContactUs\UpdateContactUsAction;
-use App\Enums\YesNoEnum;
 use App\Models\ContactUs;
 use App\Traits\CrudHelperTrait;
 use Illuminate\View\View;
@@ -25,7 +24,7 @@ class ContactUsUpdateOrCreate extends Component
     public string $mobile;
     public string $comment;
     public ?string $admin_note;
-    public int $follow_up = YesNoEnum::NO->value;
+    public bool $follow_up = false;
 
     public bool $published = false;
 
@@ -38,7 +37,7 @@ class ContactUsUpdateOrCreate extends Component
             $this->mobile = $this->model->mobile;
             $this->comment = $this->model->comment;
             $this->admin_note = $this->model->admin_note;
-            $this->follow_up = $this->model->follow_up->value;
+            $this->follow_up = (bool) $this->model->follow_up->value;
         }
     }
 

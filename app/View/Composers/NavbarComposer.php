@@ -21,7 +21,6 @@ use App\Models\Exam;
 use App\Models\Faq;
 use App\Models\FlashCard;
 use App\Models\License;
-use App\Models\NotificationTemplate;
 use App\Models\Opinion;
 use App\Models\Order;
 use App\Models\Page;
@@ -51,7 +50,7 @@ class NavbarComposer
      */
     private function hasAccessToModule(string $moduleName): bool
     {
-        return config('custom-modules.show_future_modules', false);
+        return config("custom-modules.{$moduleName}", false);
     }
 
     public function compose(View $view): void
@@ -641,15 +640,6 @@ class NavbarComposer
                             Exam::class => 'Index',
                         ]),
                     ],
-                    [
-                        'icon' => 'o-bolt',
-                        'params' => [],
-                        'title' => trans('_menu.notification_templates'),
-                        'route_name' => 'admin.notification-template.index',
-                        'access' => $this->checkPermission([
-                            NotificationTemplate::class => 'Index',
-                        ]),
-                    ],
 
                     // Future CRM Modules
                     [
@@ -854,10 +844,6 @@ class NavbarComposer
                 'icon' => 'o-cog-6-tooth',
                 'params' => [],
                 'title' => trans('_menu.base_management'),
-                'route_name' => 'admin.slider.index',
-                'access' => $this->checkPermission([
-                    Slider::class => 'Index',
-                ]),
                 'sub_menu' => [
                     [
                         'icon' => 'o-rectangle-stack',
@@ -934,11 +920,11 @@ class NavbarComposer
                     ],
                     [
                         'icon' => 'o-bell-alert',
-                        'badge' => trans('_menu.future_module'),
                         'title' => trans('_menu.notification_templates'),
-                        'route_name' => 'admin.feature-module',
-                        'params' => ['module' => 'notification-templates'],
-                        'access' => $this->hasAccessToModule('base_settings.notification_templates'),
+                        'route_name' => 'admin.notification-template.index',
+                        'access' => $this->checkPermission([
+                            fn (User $user) => $this->hasAccessToModule('base_settings.notification_templates'),
+                        ]),
                     ],
                     [
                         'icon' => 'o-envelope',
@@ -1012,16 +998,19 @@ class NavbarComposer
                 'params' => ['user' => $user->id],
             ],
             [
-                'icon' => 'o-shopping-cart',
-                'params' => [],
-                'title' => trans('_menu.order_management'),
-                'route_name' => 'admin.order.index',
-            ],
-            [
                 'icon' => 'o-credit-card',
                 'params' => [],
                 'title' => trans('_menu.payment_management'),
                 'route_name' => 'admin.payment.index',
+            ],
+            [
+                'icon' => 'o-rectangle-stack', // Stacks best represent flashcards visually
+                'params' => [],
+                'title' => trans('_menu.flashcard'),
+                'route_name' => 'admin.flash-card.index',
+                'access' => $this->checkPermission([
+                    FlashCard::class => 'Index',
+                ]),
             ],
             [
                 'icon' => 'o-clipboard-document-list',
@@ -1057,12 +1046,6 @@ class NavbarComposer
                 'params' => ['user' => $user->id],
             ],
             [
-                'icon' => 'o-shopping-cart',
-                'params' => [],
-                'title' => trans('_menu.order_management'),
-                'route_name' => 'admin.order.index',
-            ],
-            [
                 'icon' => 'o-credit-card',
                 'params' => [],
                 'title' => trans('_menu.payment_management'),
@@ -1073,6 +1056,15 @@ class NavbarComposer
                 'params' => [],
                 'title' => trans('_menu.survey_management'),
                 'route_name' => 'admin.survey.index',
+            ],
+            [
+                'icon' => 'o-video-camera',
+                'params' => [],
+                'title' => trans('_menu.flashcard'),
+                'route_name' => 'admin.flash-card.index',
+                'access' => $this->checkPermission([
+                    FlashCard::class => 'Index',
+                ]),
             ],
             [
                 'icon' => 'o-ticket',
