@@ -2629,6 +2629,151 @@
                 }
             }
         },
+        "/flash-card": {
+            "get": {
+                "tags": [
+                    "FlashCard"
+                ],
+                "summary": "get flashCard list",
+                "description": "Returns list of flashCard",
+                "operationId": "getFlashCards",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/page_limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/search"
+                    },
+                    {
+                        "$ref": "#/components/parameters/sort"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/FlashCardResource"
+                                            }
+                                        },
+                                        "links": {
+                                            "properties": {
+                                                "first": {
+                                                    "type": "string",
+                                                    "default": "http://localhost/api/flash-card?page=1"
+                                                },
+                                                "last": {
+                                                    "type": "string",
+                                                    "default": "http://localhost/api/flash-card?page=4"
+                                                },
+                                                "prev": {
+                                                    "type": "string",
+                                                    "default": "null",
+                                                    "nullable": true
+                                                },
+                                                "next": {
+                                                    "type": "string",
+                                                    "default": "http://localhost/api/flash-card?page=2",
+                                                    "nullable": true
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "meta": {
+                                            "$ref": "#/components/schemas/Meta"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        },
+                                        "extra": {
+                                            "properties": {
+                                                "default_sort": {
+                                                    "type": "string",
+                                                    "default": "-id"
+                                                },
+                                                "sorts": {
+                                                    "properties": {
+                                                        "label": {
+                                                            "type": "string",
+                                                            "default": "ID"
+                                                        },
+                                                        "value": {
+                                                            "type": "string",
+                                                            "default": "id"
+                                                        },
+                                                        "selected": {
+                                                            "type": "boolean",
+                                                            "default": true
+                                                        },
+                                                        "default": {
+                                                            "type": "boolean",
+                                                            "default": true
+                                                        }
+                                                    },
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/flash-card/{flashCard}": {
+            "get": {
+                "tags": [
+                    "FlashCard"
+                ],
+                "summary": "Get flashCard information",
+                "description": "Returns flashCard data",
+                "operationId": "getFlashCardByID",
+                "parameters": [
+                    {
+                        "name": "flashCard",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/home": {
             "get": {
                 "tags": [
@@ -4868,6 +5013,72 @@
                 },
                 "type": "object"
             },
+            "FlashCardDetailResource": {
+                "title": "FlashCardDetailResource",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "title": {
+                        "type": "string",
+                        "default": "Title"
+                    },
+                    "fornt": {
+                        "type": "string",
+                        "default": "front content"
+                    },
+                    "back": {
+                        "type": "string",
+                        "default": "back content"
+                    },
+                    "published": {
+                        "$ref": "#/components/schemas/BooleanEnum"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    }
+                },
+                "type": "object"
+            },
+            "FlashCardResource": {
+                "title": "FlashCardResource",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "title": {
+                        "type": "string",
+                        "default": "Title"
+                    },
+                    "fornt": {
+                        "type": "string",
+                        "default": "front content"
+                    },
+                    "back": {
+                        "type": "string",
+                        "default": "back content"
+                    },
+                    "published": {
+                        "$ref": "#/components/schemas/BooleanEnum"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    }
+                },
+                "type": "object"
+            },
             "LicenseDetailResource": {
                 "title": "LicenseDetailResource",
                 "properties": {
@@ -5838,6 +6049,10 @@
         {
             "name": "Faq",
             "description": "Faq"
+        },
+        {
+            "name": "FlashCard",
+            "description": "FlashCard"
         },
         {
             "name": "Home",

@@ -26,6 +26,7 @@ readonly class CreateUserPipe implements AuthInterface
             $dto->setUser($user);
         }
         abort_if($user->mobile_verified_at != null, 401, trans('auth.already_have_account'));
+        $dto->setUser($user);
 
         return $next($dto);
     }
