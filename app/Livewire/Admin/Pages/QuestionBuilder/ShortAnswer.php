@@ -70,6 +70,10 @@ class ShortAnswer extends Component
                 'index' => $this->questionIndex,
                 'config' => $this->config,
             ]);
+        } else {
+            $this->dispatch('configUpdated', [
+                'config' => $this->config,
+            ]);
         }
     }
 
@@ -78,6 +82,10 @@ class ShortAnswer extends Component
         if ($this->questionIndex !== null) {
             $this->dispatch('correctAnswerUpdated', [
                 'index' => $this->questionIndex,
+                'correct_answer' => $this->correct_answer,
+            ]);
+        } else {
+            $this->dispatch('correctAnswerUpdated', [
                 'correct_answer' => $this->correct_answer,
             ]);
         }

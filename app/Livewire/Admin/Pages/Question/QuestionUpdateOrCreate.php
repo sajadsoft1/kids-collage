@@ -13,13 +13,16 @@ use App\Models\Category;
 use App\Models\Question;
 use App\Models\QuestionCompetency;
 use App\Models\QuestionSubject;
+use App\Traits\CrudHelperTrait;
 use Illuminate\View\View;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Mary\Traits\Toast;
 
 class QuestionUpdateOrCreate extends Component
 {
+    use CrudHelperTrait;
     use Toast;
     use WithFileUploads;
 
@@ -96,7 +99,7 @@ class QuestionUpdateOrCreate extends Component
             $handler = $typeEnum->handler();
 
             // Create temporary question for validation
-            $tempQuestion = new Question(['type' => $typeEnum]);
+            $tempQuestion = new Question(['type' => $typeEnum, 'options' => $this->options, 'config' => $this->config]);
             $typeHandler = new $handler($tempQuestion);
 
             $typeRules = $typeHandler->validationRules();
@@ -107,17 +110,75 @@ class QuestionUpdateOrCreate extends Component
         return $baseRules;
     }
 
+    #[On('optionsUpdated')]
+    public function handleOptionsUpdated($data): void
+    {
+        // Handle options update from QuestionBuilder components
+        // When questionIndex is undefined, it means it's for single question (not array)
+        if ( ! isset($data['index'])) {
+            $this->options = $data['options'] ?? $data;
+        }
+    }
+
+    #[On('configUpdated')]
+    public function handleConfigUpdated($data): void
+    {
+        // Handle config update from QuestionBuilder components
+        if ( ! isset($data['index'])) {
+            $this->config = $data['config'] ?? $data;
+        }
+    }
+
+    #[On('correctAnswerUpdated')]
+    public function handleCorrectAnswerUpdated($data): void
+    {
+        // Handle correct_answer update from QuestionBuilder components
+        if ( ! isset($data['index'])) {
+            $this->correct_answer = $data['correct_answer'] ?? $data;
+        }
+    }
+
     public function submit(): void
     {
+        // Validate all fields including options, config, correct_answer
         $payload = $this->validate();
+
+        // Extract options before storing question (options are stored separately)
+        $options = $payload['options'] ?? $this->options;
+        unset($payload['options']);
+
+        // Extract tags before storing question (tags are stored separately)
+        $tags = $payload['tags'] ?? $this->tags;
+        unset($payload['tags']);
+
         if ($this->model->id) {
-            UpdateQuestionAction::run($this->model, $payload);
+            $question = UpdateQuestionAction::run($this->model, $payload);
+
+            // Update options
+            $this->updateOptions($question, $options);
+
+            // Update tags
+            if ( ! empty($tags)) {
+                $question->syncTags($tags);
+            }
+
             $this->success(
                 title: trans('general.model_has_updated_successfully', ['model' => trans('question.model')]),
                 redirectTo: route('admin.question.index')
             );
         } else {
-            StoreQuestionAction::run($payload);
+            $question = StoreQuestionAction::run($payload);
+
+            // Store options if provided
+            if ( ! empty($options)) {
+                $this->storeOptions($question, $options);
+            }
+
+            // Store tags if provided
+            if ( ! empty($tags)) {
+                $question->syncTags($tags);
+            }
+
             $this->success(
                 title: trans('general.model_has_stored_successfully', ['model' => trans('question.model')]),
                 redirectTo: route('admin.question.index')
@@ -125,20 +186,36 @@ class QuestionUpdateOrCreate extends Component
         }
     }
 
-    public function addOption()
+    protected function storeOptions(Question $question, array $options): void
     {
-        $this->options[] = [
-            'content' => '',
-            'type' => 'text',
-            'is_correct' => false,
-            'order' => count($this->options) + 1,
-        ];
+        if (empty($options) || ! is_array($options)) {
+            return;
+        }
+
+        foreach ($options as $optionData) {
+            if ( ! is_array($optionData)) {
+                continue;
+            }
+
+            $question->options()->create([
+                'content' => $optionData['content'] ?? '',
+                'type' => $optionData['type'] ?? 'text',
+                'is_correct' => $optionData['is_correct'] ?? false,
+                'order' => $optionData['order'] ?? 0,
+                'metadata' => $optionData['metadata'] ?? [],
+            ]);
+        }
     }
 
-    public function removeOption($index)
+    protected function updateOptions(Question $question, array $options): void
     {
-        unset($this->options[$index]);
-        $this->options = array_values($this->options);
+        // Delete old options
+        $question->options()->delete();
+
+        // Store new options
+        if ( ! empty($options)) {
+            $this->storeOptions($question, $options);
+        }
     }
 
     public function render(): View
@@ -156,7 +233,7 @@ class QuestionUpdateOrCreate extends Component
             'types' => QuestionTypeEnum::formatedCases(),
             'difficulties' => DifficultyEnum::formatedCases(),
             'categories' => Category::where('type', CategoryTypeEnum::QUESTION->value)->get()->map(fn ($category) => ['value' => $category->id, 'label' => $category->title]),
-            'subjects' => QuestionSubject::where('category_id', $this->category_id)->get()->map(fn ($subject) => ['value' => $subject->id, 'label' => $subject->title]),
+            'subjects' => QuestionSubject::get()->map(fn ($subject) => ['value' => $subject->id, 'label' => $subject->title]),
             'competencies' => QuestionCompetency::all()->map(fn ($competency) => ['value' => $competency->id, 'label' => $competency->title]),
         ]);
     }

@@ -105,6 +105,10 @@ class Ordering extends Component
                 'index' => $this->questionIndex,
                 'options' => $this->options,
             ]);
+        } else {
+            $this->dispatch('optionsUpdated', [
+                'options' => $this->options,
+            ]);
         }
     }
 
@@ -113,6 +117,10 @@ class Ordering extends Component
         if ($this->questionIndex !== null) {
             $this->dispatch('configUpdated', [
                 'index' => $this->questionIndex,
+                'config' => $this->config,
+            ]);
+        } else {
+            $this->dispatch('configUpdated', [
                 'config' => $this->config,
             ]);
         }

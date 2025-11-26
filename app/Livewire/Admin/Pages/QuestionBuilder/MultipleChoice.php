@@ -106,16 +106,24 @@ class MultipleChoice extends Component
                 'index' => $this->questionIndex,
                 'options' => $this->options,
             ]);
+        } else {
+            $this->dispatch('optionsUpdated', [
+                'options' => $this->options,
+            ]);
         }
     }
 
     protected function dispatchConfig(): void
     {
-        if ($this->questionIndex !== null) {
-            $this->config['has_correct_answer'] = $this->hasCorrectAnswer;
+        $this->config['has_correct_answer'] = $this->hasCorrectAnswer;
 
+        if ($this->questionIndex !== null) {
             $this->dispatch('configUpdated', [
                 'index' => $this->questionIndex,
+                'config' => $this->config,
+            ]);
+        } else {
+            $this->dispatch('configUpdated', [
                 'config' => $this->config,
             ]);
         }

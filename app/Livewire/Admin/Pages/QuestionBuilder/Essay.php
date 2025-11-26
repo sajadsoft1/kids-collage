@@ -37,6 +37,10 @@ class Essay extends Component
                 'index' => $this->questionIndex,
                 'config' => $this->config,
             ]);
+        } else {
+            $this->dispatch('configUpdated', [
+                'config' => $this->config,
+            ]);
         }
     }
 
