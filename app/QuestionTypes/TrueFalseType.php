@@ -21,7 +21,8 @@ class TrueFalseType extends AbstractQuestionType
             'body' => ['nullable', 'string', 'max:10000'],
             'explanation' => ['nullable', 'string'],
             'default_score' => ['required', 'numeric', 'min:0'],
-            'correct_answer' => ['required', 'boolean'],
+            'correct_answer' => ['nullable', 'array'],
+            'correct_answer.value' => ['nullable', 'boolean'],
         ];
     }
 

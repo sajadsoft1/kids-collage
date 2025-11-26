@@ -11,16 +11,19 @@ class TextHighlight extends Component
     public array $config = [];
     public ?int $questionIndex = null;
 
-    public array $correct_answer = [
-        'selections' => [],
-    ];
+    public ?array $correct_answer = null;
 
     public function mount(array $config = [], ?array $correct_answer = null, ?int $questionIndex = null): void
     {
         $this->config = array_merge($this->getDefaultConfig(), $config);
         $this->questionIndex = $questionIndex;
-        if ($correct_answer !== null) {
+        if ($correct_answer !== null && isset($correct_answer['selections'])) {
             $this->correct_answer = $correct_answer;
+        } else {
+            // Initialize with default structure
+            $this->correct_answer = [
+                'selections' => [],
+            ];
         }
         // Sync initial data
         $this->syncData();
@@ -48,12 +51,20 @@ class TextHighlight extends Component
 
     public function addSelection(): void
     {
+        if ($this->correct_answer === null) {
+            $this->correct_answer = [
+                'selections' => [],
+            ];
+        }
         $this->correct_answer['selections'][] = ['start' => 0, 'end' => 0];
         $this->dispatchCorrectAnswer();
     }
 
     public function removeSelection(int $index): void
     {
+        if ($this->correct_answer === null || !isset($this->correct_answer['selections'])) {
+            return;
+        }
         unset($this->correct_answer['selections'][$index]);
         $this->correct_answer['selections'] = array_values($this->correct_answer['selections']);
         $this->dispatchCorrectAnswer();
@@ -75,6 +86,10 @@ class TextHighlight extends Component
 
     protected function dispatchCorrectAnswer(): void
     {
+        if ($this->correct_answer === null) {
+            return;
+        }
+
         if ($this->questionIndex !== null) {
             $this->dispatch('correctAnswerUpdated', [
                 'index' => $this->questionIndex,

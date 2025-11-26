@@ -43,7 +43,7 @@ class QuestionUpdateOrCreate extends Component
     // Dynamic based on type
     public $options = [];
     public $config = [];
-    public $correct_answer = [];
+    public $correct_answer = null;
     public $metadata = [];
     public Question $model;
 
@@ -71,7 +71,7 @@ class QuestionUpdateOrCreate extends Component
                     'metadata' => $opt->metadata,
                 ])->toArray(),
                 'config' => $question->config ?? [],
-                'correct_answer' => $question->correct_answer ?? [],
+                'correct_answer' => $question->correct_answer ?? null,
                 'metadata' => $question->metadata ?? [],
                 'tags' => $question->tags->pluck('name')->toArray(),
             ]);
@@ -108,6 +108,29 @@ class QuestionUpdateOrCreate extends Component
         }
 
         return $baseRules;
+    }
+
+    protected function messages(): array
+    {
+        $baseMessages = [];
+
+        // Add dynamic messages based on question type
+        if ($this->type) {
+            $typeEnum = QuestionTypeEnum::from($this->type);
+            $handler = $typeEnum->handler();
+
+            // Create temporary question for validation
+            $tempQuestion = new Question(['type' => $typeEnum, 'options' => $this->options, 'config' => $this->config]);
+            $typeHandler = new $handler($tempQuestion);
+
+            if (method_exists($typeHandler, 'validationMessages')) {
+                $typeMessages = $typeHandler->validationMessages();
+
+                return array_merge($baseMessages, $typeMessages);
+            }
+        }
+
+        return $baseMessages;
     }
 
     #[On('optionsUpdated')]
@@ -231,6 +254,7 @@ class QuestionUpdateOrCreate extends Component
                 ['link' => route('admin.question.index'), 'icon' => 's-arrow-left'],
             ],
             'types' => QuestionTypeEnum::formatedCases(),
+            // 'types' => QuestionTypeEnum::availableTypes(),
             'difficulties' => DifficultyEnum::formatedCases(),
             'categories' => Category::where('type', CategoryTypeEnum::QUESTION->value)->get()->map(fn ($category) => ['value' => $category->id, 'label' => $category->title]),
             'subjects' => QuestionSubject::get()->map(fn ($subject) => ['value' => $subject->id, 'label' => $subject->title]),

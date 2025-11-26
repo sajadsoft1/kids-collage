@@ -11,17 +11,10 @@ class TrueFalse extends Component
     public array $config = [];
     public ?int $questionIndex = null;
 
-    public array $correct_answer = [
-        'value' => false,
-    ];
-
     public function mount(array $config = [], ?array $correct_answer = null, ?int $questionIndex = null): void
     {
         $this->config = array_merge($this->getDefaultConfig(), $config);
         $this->questionIndex = $questionIndex;
-        if ($correct_answer !== null) {
-            $this->correct_answer = $correct_answer;
-        }
         // Sync initial data
         $this->syncData();
     }
@@ -35,7 +28,6 @@ class TrueFalse extends Component
     protected function syncData(): void
     {
         $this->dispatchConfig();
-        $this->dispatchCorrectAnswer();
     }
 
     protected function getDefaultConfig(): array
@@ -44,12 +36,6 @@ class TrueFalse extends Component
             'true_label' => 'درست',
             'false_label' => 'غلط',
         ];
-    }
-
-    public function setAnswer(bool $value): void
-    {
-        $this->correct_answer['value'] = $value;
-        $this->dispatchCorrectAnswer();
     }
 
     protected function dispatchConfig(): void
@@ -66,28 +52,9 @@ class TrueFalse extends Component
         }
     }
 
-    protected function dispatchCorrectAnswer(): void
-    {
-        if ($this->questionIndex !== null) {
-            $this->dispatch('correctAnswerUpdated', [
-                'index' => $this->questionIndex,
-                'correct_answer' => $this->correct_answer,
-            ]);
-        } else {
-            $this->dispatch('correctAnswerUpdated', [
-                'correct_answer' => $this->correct_answer,
-            ]);
-        }
-    }
-
     public function updatedConfig(): void
     {
         $this->dispatchConfig();
-    }
-
-    public function updatedCorrectAnswer(): void
-    {
-        $this->dispatchCorrectAnswer();
     }
 
     public function render(): \Illuminate\Contracts\View\View

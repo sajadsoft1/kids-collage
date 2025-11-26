@@ -10,8 +10,8 @@
             <x-card :title="trans('question.page.content')" shadow separator progress-indicator="submit">
                 <div class="grid grid-cols-1 gap-4">
                     <x-input :label="trans('question.page.title')" wire:model.live="title" required />
-                    <x-textarea :label="trans('question.page.body')" wire:model.live="body" />
-                    <x-textarea :label="trans('question.page.explanation')" wire:model.live="explanation" />
+                    <x-admin.shared.tinymce :label="trans('question.page.body')" wire:model.live="body" :config="['max_height' => 1500, 'min_height' => 300, 'height' => 300]" />
+                    <x-admin.shared.tinymce :label="trans('question.page.explanation')" wire:model.live="explanation" :config="['max_height' => 1500, 'min_height' => 300, 'height' => 300]" />
                 </div>
             </x-card>
 
@@ -36,8 +36,7 @@
                             @break
 
                             @case(QuestionTypeEnum::TRUE_FALSE->value)
-                                <livewire:admin.pages.question-builder.true-false :config="$config" :correct_answer="$correct_answer"
-                                    :key="'true-false-' . ($model->id ?? 'new')" />
+                                <livewire:admin.pages.question-builder.true-false :config="$config" :key="'true-false-' . ($model->id ?? 'new')" />
                             @break
 
                             @case(QuestionTypeEnum::SHORT_ANSWER->value)
@@ -46,7 +45,7 @@
                             @break
 
                             @case(QuestionTypeEnum::ESSAY->value)
-                                <livewire:admin.pages.question-builder.essay :config="$config" :correct_answer="$correct_answer"
+                                <livewire:admin.pages.question-builder.essay :config="$config"
                                     :key="'essay-' . ($model->id ?? 'new')" />
                             @break
 
@@ -131,7 +130,8 @@
                         </x-select>
                         <x-select :label="trans('validation.attributes.difficulty')" wire:model.live="difficulty" :options="$difficulties" :placeholder="trans('general.please_select_an_option')"
                             placeholder-value="" option-label="label" option-value="value" required />
-                        <x-input :label="trans('validation.attributes.default_score')" wire:model.live="default_score" required />
+                        <x-input :label="trans('validation.attributes.default_score')" wire:model.live="default_score" type="number" step="0.25"
+                            min="0" required />
                     </div>
                     <x-tags :label="trans('validation.attributes.tags')" wire:model.live="tags" icon="o-tag" clearable />
                 </x-card>
