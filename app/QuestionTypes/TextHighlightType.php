@@ -9,7 +9,8 @@ class TextHighlightType extends AbstractQuestionType
     public function defaultConfig(): array
     {
         return [
-            'allow_multiple' => true,
+            'min_selections' => 1,
+            'max_selections' => null,
             'scoring_type' => 'partial', // exact, partial
         ];
     }

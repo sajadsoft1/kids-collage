@@ -22,7 +22,8 @@
                 <div wire:loading.remove wire:target="type" x-data="{}"
                     @options-updated.window="if ($event.detail && $event.detail.index === undefined) $wire.set('options', $event.detail.options || $event.detail)"
                     @config-updated.window="if ($event.detail && $event.detail.index === undefined) $wire.set('config', $event.detail.config || $event.detail)"
-                    @correct-answer-updated.window="if ($event.detail && $event.detail.index === undefined) $wire.set('correct_answer', $event.detail.correct_answer || $event.detail)">
+                    @correct-answer-updated.window="if ($event.detail && $event.detail.index === undefined) $wire.set('correct_answer', $event.detail.correct_answer || $event.detail)"
+                    @body-updated.window="if ($event.detail && $event.detail.index === undefined) $wire.set('body', $event.detail.body || $event.detail)">
                     @if ($type)
                         @switch($type)
                             @case(QuestionTypeEnum::SINGLE_CHOICE->value)
@@ -45,8 +46,7 @@
                             @break
 
                             @case(QuestionTypeEnum::ESSAY->value)
-                                <livewire:admin.pages.question-builder.essay :config="$config"
-                                    :key="'essay-' . ($model->id ?? 'new')" />
+                                <livewire:admin.pages.question-builder.essay :config="$config" :key="'essay-' . ($model->id ?? 'new')" />
                             @break
 
                             @case(QuestionTypeEnum::ORDERING->value)

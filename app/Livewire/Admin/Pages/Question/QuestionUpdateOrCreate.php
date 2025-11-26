@@ -161,6 +161,15 @@ class QuestionUpdateOrCreate extends Component
         }
     }
 
+    #[On('bodyUpdated')]
+    public function handleBodyUpdated($data): void
+    {
+        // Handle body update from QuestionBuilder components (e.g., TextHighlight template)
+        if ( ! isset($data['index'])) {
+            $this->body = $data['body'] ?? $data;
+        }
+    }
+
     public function submit(): void
     {
         // Validate all fields including options, config, correct_answer
