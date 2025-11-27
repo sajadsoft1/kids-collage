@@ -11,8 +11,8 @@ class TextHighlight extends Component
 {
     public Question $question;
 
-    /** @var array{selections: array<int,array{start:int,end:int}>} */
-    public array $value = ['selections' => []];
+    /** @var array{selections: array<int,array{start:int,end:int}>}|null */
+    public ?array $value = ['selections' => []];
 
     public bool $disabled = false;
 
@@ -26,6 +26,13 @@ class TextHighlight extends Component
         $this->showCorrect = $showCorrect;
     }
 
+    protected function ensureValue(): void
+    {
+        if ($this->value === null) {
+            $this->value = ['selections' => []];
+        }
+    }
+
     public function addSelection(int $start, int $end): void
     {
         if ($this->disabled) {
@@ -34,6 +41,7 @@ class TextHighlight extends Component
 
         $config = $this->question->config ?? [];
         $maxSelections = $config['max_selections'] ?? null;
+        $this->ensureValue();
         $currentCount = count($this->value['selections'] ?? []);
 
         // Check max selections limit
@@ -57,6 +65,8 @@ class TextHighlight extends Component
         if ($this->disabled) {
             return;
         }
+
+        $this->ensureValue();
 
         if (isset($this->value['selections'][$index])) {
             unset($this->value['selections'][$index]);
@@ -84,6 +94,8 @@ class TextHighlight extends Component
 
     public function getCurrentCount(): int
     {
+        $this->ensureValue();
+
         return count($this->value['selections'] ?? []);
     }
 

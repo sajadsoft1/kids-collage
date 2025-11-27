@@ -194,7 +194,7 @@ class Exam extends Model
             return 0;
         }
 
-        return $attempt->answers()
+        return (float) $attempt->answers()
             ->whereNotNull('score')
             ->sum('score');
     }
@@ -349,7 +349,7 @@ class Exam extends Model
     }
 
     /** Set rules in extra_attributes. */
-    public function setRules(array $rules): void
+    public function setRules(?array $rules): void
     {
         $this->extra_attributes->set('rules', $rules);
     }

@@ -12,6 +12,7 @@ use App\Traits\PowerGridHelperTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\View\View;
 use Livewire\Attributes\Computed;
+use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
@@ -115,6 +116,24 @@ final class ExamTable extends PowerGridComponent
             PowerGridHelper::btnTranslate($row),
             PowerGridHelper::btnEdit($row),
             PowerGridHelper::btnDelete($row),
+            Button::add('taker')
+                ->slot("<i class='fa fa-play text-info'></i>")
+                ->attributes([
+                    'class' => 'btn btn-square md:btn-sm btn-xs',
+                ])
+                ->can(true)
+                ->route('admin.exam.taker', [$row->id], '_self')
+                ->navigate()
+                ->tooltip(trans('datatable.buttons.taker')),
+            Button::add('attempts')
+                ->slot("<i class='fa fa-list text-info'></i>")
+                ->attributes([
+                    'class' => 'btn btn-square md:btn-sm btn-xs',
+                ])
+                ->can(true)
+                ->route('admin.exam.attempt.index', [$row->id], '_self')
+                ->navigate()
+                ->tooltip(trans('datatable.buttons.attempts')),
         ];
     }
 

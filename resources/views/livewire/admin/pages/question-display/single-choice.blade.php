@@ -1,11 +1,11 @@
 <div class="space-y-4">
     @if ($question->title)
-        <div class="text-lg font-medium text-base-content">{!! nl2br(e($question->title)) !!}</div>
+        <div class="text-lg font-medium text-base-content">{{ $question->title }}</div>
     @endif
 
     @if ($question->body)
         <div class="p-4 max-w-none rounded-lg text-base-content bg-base-200 prose">
-            {!! nl2br(e($question->body)) !!}
+            {!! $question->body !!}
         </div>
     @endif
 

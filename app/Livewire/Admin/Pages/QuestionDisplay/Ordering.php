@@ -21,7 +21,7 @@ class Ordering extends Component
 
     public bool $showCorrect = false;
 
-    public function mount(Question $question, array $value = [], bool $disabled = false, bool $showCorrect = false): void
+    public function mount(Question $question, ?array $value = null, bool $disabled = false, bool $showCorrect = false): void
     {
         $this->question = $question;
         $this->options = $question->options;
