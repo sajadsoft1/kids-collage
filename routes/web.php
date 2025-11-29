@@ -23,6 +23,7 @@ use App\Livewire\Web\Pages\HomePage;
 use App\Livewire\Web\Pages\NewsDetailPage;
 use App\Livewire\Web\Pages\NewsPage;
 use App\Livewire\Web\Pages\SearchPage;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -89,6 +90,9 @@ Route::get('test', function () {
     ]);
 });
 
+Route::get('sync-session/{token}', function (Request $request) {
+    return $request->token;
+});
 // laravel not found route
 Route::fallback(function () {
     return redirect('/admin');
