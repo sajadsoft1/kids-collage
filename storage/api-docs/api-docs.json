@@ -2734,6 +2734,48 @@
                         }
                     }
                 }
+            },
+            "post": {
+                "tags": [
+                    "FlashCard"
+                ],
+                "summary": "Store flashCard",
+                "description": "Store contactUs",
+                "operationId": "storeFlashCard",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreFlashCardRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/FlashCardResource"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
             }
         },
         "/flash-card/{flashCard}": {
@@ -2744,6 +2786,94 @@
                 "summary": "Get flashCard information",
                 "description": "Returns flashCard data",
                 "operationId": "getFlashCardByID",
+                "parameters": [
+                    {
+                        "name": "flashCard",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "FlashCard"
+                ],
+                "summary": "Update flashCard",
+                "description": "Update flashCard",
+                "operationId": "updateFlashCard",
+                "parameters": [
+                    {
+                        "name": "flashCard",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateFlashCardRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/FlashCardResource"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "FlashCard"
+                ],
+                "summary": "delete flashCard",
+                "description": "delete flashCard",
+                "operationId": "deleteFlashCard",
                 "parameters": [
                     {
                         "name": "flashCard",
@@ -3715,6 +3845,58 @@
                     "comment": {
                         "type": "string",
                         "default": "test comment"
+                    }
+                },
+                "type": "object"
+            },
+            "StoreFlashCardRequest": {
+                "title": "StoreFlashCardRequest",
+                "required": [
+                    "title",
+                    "favorite"
+                ],
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "default": "test title"
+                    },
+                    "front": {
+                        "type": "string",
+                        "default": "test front content"
+                    },
+                    "back": {
+                        "type": "string",
+                        "default": "test back content"
+                    },
+                    "favorite": {
+                        "type": "boolean",
+                        "default": false
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateFlashCardRequest": {
+                "title": "UpdateFlashCardRequest",
+                "required": [
+                    "title",
+                    "favorite"
+                ],
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "default": "test title"
+                    },
+                    "front": {
+                        "type": "string",
+                        "default": "test front content"
+                    },
+                    "back": {
+                        "type": "string",
+                        "default": "test back content"
+                    },
+                    "favorite": {
+                        "type": "boolean",
+                        "default": false
                     }
                 },
                 "type": "object"

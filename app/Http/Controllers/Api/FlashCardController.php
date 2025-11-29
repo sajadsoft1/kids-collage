@@ -4,7 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
+use App\Actions\FlashCard\DeleteFlashCardAction;
+use App\Actions\FlashCard\StoreFlashCardAction;
+use App\Actions\FlashCard\UpdateFlashCardAction;
 use App\Filters\FuzzyFilter;
+use App\Http\Requests\StoreFlashCardRequest;
+use App\Http\Requests\UpdateFlashCardRequest;
 use App\Http\Resources\FlashCardDetailResource;
 use App\Http\Resources\FlashCardResource;
 use App\Models\FlashCard;
@@ -102,6 +107,7 @@ class FlashCardController extends Controller
      *         description="Successful operation",
      *         @OA\JsonContent(type="object",
      *             @OA\Property(property="message", type="string", default="No message"),
+     *
      *         )
      *     )
      * )
@@ -115,5 +121,89 @@ class FlashCardController extends Controller
                 'flashCard' => FlashCardDetailResource::make($flashCard->load('leitnerLogs')),
             ]
         );
+    }
+
+    /**
+     * @OA\Post(
+     *     path="/flash-card",
+     *     operationId="storeFlashCard",
+     *     tags={"FlashCard"},
+     *     summary="Store flashCard",
+     *     description="Store contactUs",
+     *     @OA\RequestBody(required=true, @OA\JsonContent(ref="#/components/schemas/StoreFlashCardRequest")),
+     *     @OA\Response(response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(type="object",
+     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/FlashCardResource")),
+     *             @OA\Property(property="message", type="string", default="No message"),
+     *         ),
+     *     )
+     * )
+     */
+    public function store(StoreFlashCardRequest $request): JsonResponse
+    {
+        $flashCard = StoreFlashCardAction::run($request->validated());
+
+        return Response::data(
+            [
+                'flashCard' => FlashCardDetailResource::make($flashCard->load('leitnerLogs')),
+            ],
+            trans('general.model_has_stored_successfully', ['model' => trans('flashCard.model')])
+        );
+    }
+
+    /**
+     * @OA\Put(
+     *     path="/flash-card/{flashCard}",
+     *     operationId="updateFlashCard",
+     *     tags={"FlashCard"},
+     *     summary="Update flashCard",
+     *     description="Update flashCard",
+     *     @OA\Parameter(name="flashCard", required=true, in="path", @OA\Schema(type="string")),
+     *     @OA\RequestBody(required=true, @OA\JsonContent(ref="#/components/schemas/UpdateFlashCardRequest")),
+     *     @OA\Response(response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(type="object",
+     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/FlashCardResource")),
+     *             @OA\Property(property="message", type="string", default="No message"),
+     *         ),
+     *     )
+     * )
+     */
+    public function update(UpdateFlashCardRequest $request, FlashCard $flashCard): JsonResponse
+    {
+        abort_if($flashCard->user_id !== auth()->user()->id, 404);
+        $flashCard = UpdateFlashCardAction::run($flashCard, $request->validated());
+
+        return Response::data(
+            [
+                'flashCard' => FlashCardDetailResource::make($flashCard->load('leitnerLogs')),
+            ],
+            trans('general.model_has_updated_successfully', ['model' => trans('flashCard.model')])
+        );
+    }
+
+    /**
+     * @OA\Delete(
+     *     path="/flash-card/{flashCard}",
+     *     operationId="deleteFlashCard",
+     *     tags={"FlashCard"},
+     *     summary="delete flashCard",
+     *     description="delete flashCard",
+     *     @OA\Parameter(name="flashCard", required=true, in="path", @OA\Schema(type="string")),
+     *     @OA\Response(response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(type="object",
+     *             @OA\Property(property="message", type="string", default="No message"),
+     *         ),
+     *     )
+     * )
+     */
+    public function destroy(FlashCard $flashCard): JsonResponse
+    {
+        abort_if($flashCard->user_id !== auth()->user()->id, 404);
+        $result = DeleteFlashCardAction::run($flashCard);
+
+        return Response::data($result, trans('general.model_has_deleted_successfully', ['model' => trans('flashCard.model')]));
     }
 }
