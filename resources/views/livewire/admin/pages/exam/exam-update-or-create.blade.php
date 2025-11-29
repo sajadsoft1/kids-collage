@@ -63,7 +63,8 @@
                     <x-card :title="trans('exam.form.delivery_settings')" shadow separator progress-indicator="submit">
                         <div class="space-y-4">
                             <x-select :label="trans('validation.attributes.show_results')" :hint="trans('exam.form.show_results_hint')" wire:model.live="form.show_results"
-                                :options="$showResults" option-label="label" option-value="value" />
+                                :options="$showResults" option-label="label" option-value="value" :placeholder="trans('general.please_select_an_option')"
+                                placeholder-value="" />
                             <x-toggle :label="trans('validation.attributes.shuffle_questions')" :hint="trans('exam.form.shuffle_questions_hint')" wire:model.live="form.shuffle_questions"
                                 right />
                             <x-toggle :label="trans('validation.attributes.allow_review')" :hint="trans('exam.form.allow_review_hint')" wire:model.live="form.allow_review" right />

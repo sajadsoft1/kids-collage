@@ -62,7 +62,7 @@ final class QuestionTable extends PowerGridComponent
         return PowerGrid::fields()
             ->add('id')
             ->add('title', fn ($row) => PowerGridHelper::fieldTitle($row))
-            ->add('category_title', fn ($row) => $row->category->title)
+            ->add('category_title', fn ($row) => $row->category?->title)
             ->add('subject_title', fn ($row) => $row->subject->title)
             ->add('competency_title', fn ($row) => $row->competency->title)
             ->add('type_formatted', fn ($row) => $row->type->title())
