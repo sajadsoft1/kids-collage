@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Actions\User\StoreUserAction;
 use App\Enums\UserTypeEnum;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -13,34 +14,47 @@ class UserSeeder extends Seeder
     /** Run the database seeds. */
     public function run(): void
     {
-        User::factory(1)->create([
+        StoreUserAction::run([
+            'name' => 'sajjad',
+            'family' => 'eskandarian',
             'type' => UserTypeEnum::TEACHER,
             'status' => true,
             'email' => 'teacher@gmail.com',
             'mobile' => '09100000001',
+            'password' => 'password',
         ]);
-        User::factory(1)->create([
+
+        StoreUserAction::run([
+            'name' => 'hossein',
+            'family' => 'abravi',
             'type' => UserTypeEnum::EMPLOYEE,
             'status' => true,
             'email' => 'employee@gmail.com',
             'mobile' => '09100000002',
+            'password' => 'password',
         ]);
 
-        $users = User::factory(1)->create([
+        $user = StoreUserAction::run([
+            'name' => 'sajjad',
+            'family' => 'khodabakhsh',
             'type' => UserTypeEnum::USER,
             'status' => true,
             'email' => 'user@gmail.com',
             'mobile' => '09100000003',
+            'password' => 'password',
         ]);
 
-        User::factory(1)->create([
+        $parent = StoreUserAction::run([
+            'name' => 'ahmad',
+            'family' => 'dehestani',
             'type' => UserTypeEnum::PARENT,
             'status' => true,
             'email' => 'parent@gmail.com',
             'mobile' => '09100000004',
-        ])->each(function (User $user) use ($users) {
-            // add relation to user where not have parrent
-            $user->children()->attach($users->random()->id);
-        });
+            'password' => 'password',
+        ]);
+
+        // add relation to user where not have parent
+        $parent->children()->attach($user->id);
     }
 }

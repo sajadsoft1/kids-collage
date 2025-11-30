@@ -31,13 +31,7 @@ class StoreCategoryAction
      *     type:string,
      *     image:string,
      *     parent_id:string,
-     *     seo_title:string,
-     *     seo_description:string,
-     *     canonical:string,
-     *     old_url:string,
-     *     redirect_to:string,
-     *     robots_meta:string,
-     *     tags:array<string>,
+     *     ordering:int,
      * } $payload
      * @throws Throwable
      */

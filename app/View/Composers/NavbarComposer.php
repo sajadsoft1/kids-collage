@@ -1004,6 +1004,12 @@ class NavbarComposer
                 'route_name' => 'admin.exam.list',
             ],
             [
+                'icon' => 'o-document-text',
+                'params' => [],
+                'title' => trans('_menu.courses'),
+                'route_name' => 'admin.course.list',
+            ],
+            [
                 'icon' => 'o-credit-card',
                 'params' => [],
                 'title' => trans('_menu.payment_management'),

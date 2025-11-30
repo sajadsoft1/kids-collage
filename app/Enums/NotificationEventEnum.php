@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
+use Error;
+use UnhandledMatchError;
+
 enum NotificationEventEnum: string
 {
     use EnumToArray;
@@ -130,11 +133,60 @@ enum NotificationEventEnum: string
         };
     }
 
+    public function categoryForUsers(): string
+    {
+        return match ($this) {
+            self::ORDER_CREATED,
+            self::ORDER_PAID,
+            self::ORDER_CANCELLED => 'سفارشات',
+
+            self::PAYMENT_SUCCESS,
+            self::PAYMENT_FAILED => 'پرداخت‌ها',
+
+            self::ENROLLMENT_CREATED,
+            self::ENROLLMENT_APPROVED,
+            self::ENROLLMENT_REJECTED => 'ثبت‌نام دوره‌ها',
+
+            self::COURSE_SESSION_REMINDER,
+            self::COURSE_SESSION_STARTED,
+            self::COURSE_SESSION_ENDED => 'جلسات دوره',
+
+            self::TICKET_CREATED,
+            self::TICKET_REPLIED,
+            self::TICKET_RESOLVED => 'پشتیبانی',
+
+            self::ANNOUNCEMENT,
+            self::SYSTEM_ALERT,
+            self::BIRTHDAY_REMINDER => 'عمومی',
+        };
+    }
+
     public static function groupedByCategory(): array
     {
         $grouped = [];
         foreach (self::cases() as $case) {
             $category = $case->category();
+            if ( ! isset($grouped[$category])) {
+                $grouped[$category] = [];
+            }
+            $grouped[$category][] = $case;
+        }
+
+        return $grouped;
+    }
+
+    public static function groupedByCategoryForUsers(): array
+    {
+        $grouped = [];
+
+        foreach (self::cases() as $case) {
+            // If an event doesn't have a category for users (i.e., not handled in categoryForUsers()), skip it.
+            try {
+                $category = $case->categoryForUsers();
+            } catch (UnhandledMatchError|Error $e) {
+                continue;
+            }
+
             if ( ! isset($grouped[$category])) {
                 $grouped[$category] = [];
             }

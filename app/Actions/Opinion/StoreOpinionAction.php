@@ -25,7 +25,7 @@ class StoreOpinionAction
      * @param array{
      *     user_name:string,
      *     comment:string,
-     *     company:string,
+     *     company?:string,
      *     published:bool,
      *     ordering:int,
      *     published_at:string,

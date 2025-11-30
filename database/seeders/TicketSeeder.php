@@ -19,26 +19,80 @@ class TicketSeeder extends Seeder
     {
         foreach ([
             [
-                'subject' => 'مشکل در تأخیر اسپری تأخیری',
-                'body' => 'سلام، من اسپری تأخیری شما رو تهیه کردم اما به نظر میاد که اثرگذاریش کمتر از چیزی هست که انتظار داشتم. طبق دستورالعمل ازش استفاده کردم، ولی تغییر زیادی حس نکردم.آیا نیاز هست مقدار بیشتری استفاده کنم یا نکته‌ای هست که باید رعایت کنم؟ ممنون می‌شم راهنمایی کنید.',
+                'subject' => 'نمی‌توانم در سایت ثبت‌نام کنم',
+                'body' => 'سلام، در هنگام ثبت‌نام در سایت با پیغام خطا مواجه می‌شوم. لطفاً راهنمایی فرمایید چگونه ثبت‌نام را با موفقیت انجام دهم.',
                 'department' => TicketDepartmentEnum::TECHNICAL,
                 'user_id' => 2,
-                'closed_by' => null,
-                'status' => TicketStatusEnum::OPEN,
-                'priority' => TicketPriorityEnum::CRITICAL,
-            ],
-            [
-                'subject' => 'حساسیت به ژل روان‌کننده',
-                'body' => 'سلام، من از ژل روان‌کننده‌ای که خریدم استفاده کردم ولی بعد از چند دقیقه احساس سوزش و خارش داشتم.آیا ممکنه به یکی از ترکیباتش حساسیت داشته باشم؟ ترکیبات اصلی محصول رو می‌تونید بگید و پیشنهاد بدید از چه نوع ژلی استفاده کنم که ملایم‌تر باشه؟',
-                'department' => TicketDepartmentEnum::TECHNICAL,
-                'user_id' => 3,
                 'closed_by' => null,
                 'status' => TicketStatusEnum::OPEN,
                 'priority' => TicketPriorityEnum::HIGH,
             ],
             [
-                'subject' => 'تأخیر در ارسال سفارش محصولات زناشویی',
-                'body' => 'سلام، من چند روز پیش سفارشم رو ثبت کردم ولی هنوز کد رهگیری دریافت نکردم.می‌خواستم بدونم سفارش من در چه مرحله‌ای هست و چه زمانی به دستم می‌رسه؟ لطفاً در مورد ارسال توضیح بدید که آیا امکان ارسال سریع‌تر هم وجود داره؟',
+                'subject' => 'مراحل تکمیل ثبت‌نام در سایت چگونه است؟',
+                'body' => 'سلام، می‌خواهم ثبت‌نام کنم اما نمی‌دانم دقیقا چه مراحلی را باید طی کنم. لطفاً توضیح دهید.',
+                'department' => TicketDepartmentEnum::TECHNICAL,
+                'user_id' => 3,
+                'closed_by' => null,
+                'status' => TicketStatusEnum::OPEN,
+                'priority' => TicketPriorityEnum::MEDIUM,
+            ],
+            [
+                'subject' => 'کد تایید ثبت‌نام را دریافت نکرده‌ام',
+                'body' => 'سلام، پس از ثبت‌نام در سایت کد تایید برای من ارسال نشد. چه کار باید بکنم؟',
+                'department' => TicketDepartmentEnum::TECHNICAL,
+                'user_id' => 4,
+                'closed_by' => null,
+                'status' => TicketStatusEnum::OPEN,
+                'priority' => TicketPriorityEnum::CRITICAL,
+            ],
+            [
+                'subject' => 'فراموشی رمز عبور در مرحله ثبت‌نام',
+                'body' => 'سلام، در زمان ثبت‌نام رمز عبورم را فراموش کرده‌ام. چگونه می‌توانم آن را بازیابی کنم؟',
+                'department' => TicketDepartmentEnum::TECHNICAL,
+                'user_id' => 5,
+                'closed_by' => null,
+                'status' => TicketStatusEnum::OPEN,
+                'priority' => TicketPriorityEnum::MEDIUM,
+            ],
+            [
+                'subject' => 'چه روش‌هایی برای پرداخت وجود دارد؟',
+                'body' => 'سلام، لطفاً روش‌های پرداخت قابل قبول در سایت را معرفی کنید تا بتوانم سفارش خود را تکمیل کنم.',
+                'department' => TicketDepartmentEnum::TECHNICAL,
+                'user_id' => 2,
+                'closed_by' => null,
+                'status' => TicketStatusEnum::OPEN,
+                'priority' => TicketPriorityEnum::HIGH,
+            ],
+            [
+                'subject' => 'درگاه پرداخت کار نمی‌کند',
+                'body' => 'سلام، هنگام پرداخت وجه با درگاه بانکی سایت مشکل دارم و تراکنش انجام نمی‌شود. لطفا پیگیری نمایید.',
+                'department' => TicketDepartmentEnum::TECHNICAL,
+                'user_id' => 3,
+                'closed_by' => null,
+                'status' => TicketStatusEnum::OPEN,
+                'priority' => TicketPriorityEnum::CRITICAL,
+            ],
+            [
+                'subject' => 'آیا امکان پرداخت در محل وجود دارد؟',
+                'body' => 'سلام، می‌خواستم بدانم آیا می‌توان هزینه سفارش را هنگام تحویل پرداخت کرد یا فقط به صورت آنلاین امکان‌پذیر است؟',
+                'department' => TicketDepartmentEnum::TECHNICAL,
+                'user_id' => 4,
+                'closed_by' => null,
+                'status' => TicketStatusEnum::OPEN,
+                'priority' => TicketPriorityEnum::LOW,
+            ],
+            [
+                'subject' => 'مشکل در بازپرداخت مبلغ سفارش',
+                'body' => 'سلام، پرداخت من انجام شده اما در سایت به عنوان ناموفق ثبت شده است. لطفاً بررسی و پیگیری نمایید.',
+                'department' => TicketDepartmentEnum::TECHNICAL,
+                'user_id' => 5,
+                'closed_by' => null,
+                'status' => TicketStatusEnum::OPEN,
+                'priority' => TicketPriorityEnum::HIGH,
+            ],
+            [
+                'subject' => 'تغییر روش پرداخت بعد از ثبت سفارش',
+                'body' => 'سلام، یک سفارش ثبت کرده‌ام اما می‌خواهم روش پرداخت را تغییر دهم. آیا این امکان وجود دارد؟',
                 'department' => TicketDepartmentEnum::TECHNICAL,
                 'user_id' => 2,
                 'closed_by' => null,
@@ -46,14 +100,15 @@ class TicketSeeder extends Seeder
                 'priority' => TicketPriorityEnum::MEDIUM,
             ],
             [
-                'subject' => 'مشاوره برای انتخاب بهترین محصول جنسی',
-                'body' => 'سلام، من دنبال محصولی هستم که بتونه تجربه بهتری در رابطه به من بده ولی نمی‌دونم دقیقاً کدوم گزینه برای من مناسبه.مثلاً بین کاندوم‌های تاخیری و اسپری تأخیری شک دارم یا نمی‌دونم روان‌کننده‌های بر پایه آب بهترن یا سیلیکونی.ممنون می‌شم راهنمایی کنید که بهترین گزینه برای شرایط من چیه.',
+                'subject' => 'مدارک مورد نیاز برای پرداخت',
+                'body' => 'سلام، آیا برای پرداخت اینترنتی نیاز به ارائه مدارک خاصی است؟ لطفا راهنمایی فرمایید.',
                 'department' => TicketDepartmentEnum::TECHNICAL,
                 'user_id' => 3,
                 'closed_by' => null,
                 'status' => TicketStatusEnum::OPEN,
                 'priority' => TicketPriorityEnum::LOW,
-            ]] as $row) {
+            ],
+        ] as $row) {
             /** @var Ticket $ticket */
             $ticket = StoreTicketAction::run([
                 'subject' => $row['subject'],
@@ -68,7 +123,7 @@ class TicketSeeder extends Seeder
             $message = StoreTicketMessageAction::run([
                 'ticket_id' => $ticket->id,
                 'user_id' => 2,
-                'message' => 'به مشکل شما در اسرع وقت رسیدگی خواهد شد',
+                'message' => 'پاسخ شما: لطفا پس از بررسی موارد بالا، در صورت داشتن سوال بیشتر با پشتیبانی تماس بگیرید.',
             ]);
 
             $message->addMedia(public_path('assets/images/default/user-avatar.png'))

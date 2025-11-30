@@ -219,6 +219,12 @@ class Course extends Model
         return $this->update(['status' => CourseStatusEnum::CANCELLED]);
     }
 
+    /** Get the course type from template. */
+    public function getTypeAttribute(): ?CourseTypeEnum
+    {
+        return $this->template?->type;
+    }
+
     /** Check if this course is self-paced. */
     public function isSelfPaced(): bool
     {
@@ -228,12 +234,20 @@ class Course extends Model
     /** Check if this course requires scheduling. */
     public function requiresSchedule(): bool
     {
+        if ( ! $this->type) {
+            return false;
+        }
+
         return $this->type->requiresSchedule();
     }
 
     /** Check if this course requires a room. */
     public function requiresRoom(): bool
     {
+        if ( ! $this->type) {
+            return false;
+        }
+
         return $this->type->requiresRoom();
     }
 
@@ -382,7 +396,7 @@ class Course extends Model
                     'room_id' => $this->room_id,
                     'meeting_link' => $this->meeting_link,
                     'status' => 'planned',
-                    'session_type' => $this->type->value,
+                    'session_type' => $this->type?->value ?? 'online',
                 ]);
 
                 $currentDate = $sessionDate->addDay();
@@ -414,19 +428,25 @@ class Course extends Model
     /** Scope for courses by type. */
     public function scopeByType($query, CourseTypeEnum $type)
     {
-        return $query->where('type', $type);
+        return $query->whereHas('template', function ($q) use ($type) {
+            $q->where('type', $type);
+        });
     }
 
     /** Scope for self-paced courses. */
     public function scopeSelfPaced($query)
     {
-        return $query->where('type', CourseTypeEnum::SELF_PACED);
+        return $query->whereHas('template', function ($q) {
+            $q->where('type', CourseTypeEnum::SELF_PACED);
+        });
     }
 
     /** Scope for instructor-led courses. */
     public function scopeInstructorLed($query)
     {
-        return $query->where('type', '!=', CourseTypeEnum::SELF_PACED);
+        return $query->whereHas('template', function ($q) {
+            $q->where('type', '!=', CourseTypeEnum::SELF_PACED);
+        });
     }
 
     /** Scope for courses with available spots. */

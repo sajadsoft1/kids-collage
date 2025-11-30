@@ -29,12 +29,6 @@ class StorePageAction
      *     body:string,
      *     type:string,
      *     slug:string,
-     *     seo_title:string,
-     *     seo_description:string,
-     *     canonical?:string,
-     *     old_url?:string,
-     *     redirect_to?:string,
-     *     robots_meta:string,
      *     image?:string,
      * } $payload
      * @throws Throwable

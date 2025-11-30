@@ -148,7 +148,7 @@ class CourseTemplate extends Model implements HasMedia
     /** Get the total duration of all sessions in minutes. */
     public function getTotalDurationAttribute(): int
     {
-        return $this->sessionTemplates()->sum('duration_minutes');
+        return (int) $this->sessionTemplates()->sum('duration_minutes');
     }
 
     /** Get the amount sessions in this template. */

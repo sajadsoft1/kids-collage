@@ -6,7 +6,6 @@ namespace Database\Seeders;
 
 use App\Actions\Enrollment\StoreEnrollmentAction;
 use App\Enums\EnrollmentStatusEnum;
-use App\Enums\UserTypeEnum;
 use App\Models\Course;
 use App\Models\User;
 use Carbon\Carbon;
@@ -18,11 +17,11 @@ class EnrollmentSeeder extends Seeder
     /** Run the database seeds. */
     public function run(): void
     {
-        // Get students from UserSeeder (USER type)
-        $students = User::where('type', UserTypeEnum::USER->value)->get();
+        // Get user@gmail.com
+        $user = User::where('email', 'user@gmail.com')->first();
 
-        if ($students->isEmpty()) {
-            $this->command->warn('No students found. Please run UserSeeder first.');
+        if ( ! $user) {
+            $this->command->warn('User user@gmail.com not found. Please run UserSeeder first.');
 
             return;
         }
@@ -36,34 +35,44 @@ class EnrollmentSeeder extends Seeder
             return;
         }
 
-        // Create enrollments for each student in available courses
-        foreach ($students as $student) {
-            // Enroll student in 1-3 random courses
-            $coursesToEnroll = $courses->random(min(3, $courses->count()));
+        // Enroll user@gmail.com in first 2 courses
+        if ($courses->count() >= 2) {
+            // Get first 2 courses
+            $firstTwoCourses = $courses->take(2);
 
-            foreach ($coursesToEnroll as $course) {
+            foreach ($firstTwoCourses as $index => $course) {
                 try {
                     $enrollment = StoreEnrollmentAction::run([
-                        'user_id' => $student->id,
+                        'user_id' => $user->id,
                         'course_id' => $course->id,
                     ]);
 
-                    // Update enrollment status and progress randomly
-                    $status = fake()->randomElement([
-                        EnrollmentStatusEnum::ACTIVE,
-                        EnrollmentStatusEnum::ACTIVE,
-                        EnrollmentStatusEnum::PENDING,
-                    ]);
+                    // First course: completed (all sessions done)
+                    // Second course: active (in progress)
+                    $totalSessions = $course->sessions()->count();
+                    $pastSessions = $course->sessions()->where('date', '<=', now())->count();
 
-                    $enrollment->update([
-                        'status' => $status,
-                        'enrolled_at' => Carbon::now()->subDays(fake()->numberBetween(1, 30)),
-                        'progress_percent' => $status === EnrollmentStatusEnum::ACTIVE
-                            ? fake()->randomFloat(2, 0, 100)
-                            : 0,
-                    ]);
+                    if ($index === 0) {
+                        // First course - completed
+                        $enrollment->update([
+                            'status' => EnrollmentStatusEnum::ACTIVE,
+                            'enrolled_at' => Carbon::now()->subDays(30),
+                            'progress_percent' => 100,
+                        ]);
+                    } else {
+                        // Second course - in progress
+                        $progressPercent = $totalSessions > 0
+                            ? round(($pastSessions / $totalSessions) * 100, 2)
+                            : 0;
+
+                        $enrollment->update([
+                            'status' => EnrollmentStatusEnum::ACTIVE,
+                            'enrolled_at' => Carbon::now()->subDays(15),
+                            'progress_percent' => $progressPercent,
+                        ]);
+                    }
                 } catch (Exception $e) {
-                    // Skip if enrollment already exists or course is at capacity
+                    // Skip if enrollment already exists
                     continue;
                 }
             }

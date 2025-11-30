@@ -37,13 +37,6 @@ class BlogSeeder extends Seeder
                 'wish_count' => $row['wish_count'],
                 'published' => $row['published'],
                 'published_at' => $row['published_at'],
-                'seo_title' => $row['seo_options']['title'],
-                'seo_description' => $row['seo_options']['description'],
-                'canonical' => $row['seo_options']['canonical'],
-                'old_url' => $row['seo_options']['old_url'],
-                'redirect_to' => $row['seo_options']['redirect_to'],
-                'robots_meta' => $row['seo_options']['robots_meta'],
-                'tags' => $row['tags'] ?? ['test1', 'test2'],
             ]);
 
             // Add image for the blogs

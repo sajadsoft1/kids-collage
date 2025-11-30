@@ -6,6 +6,7 @@ namespace App\Livewire\Admin\Pages\Profile;
 
 use App\Enums\NotificationChannelEnum;
 use App\Enums\NotificationEventEnum;
+use App\Enums\UserTypeEnum;
 use App\Models\User;
 use App\Support\Notifications\NotificationChannelRegistry;
 use App\Support\Notifications\NotificationPreferenceResolver;
@@ -162,6 +163,10 @@ class SettingSection extends Component
     /** Get grouped events by category */
     public function getGroupedEventsProperty(): array
     {
+        if ($this->user->type === UserTypeEnum::USER) {
+            return NotificationEventEnum::groupedByCategoryForUsers();
+        }
+
         return NotificationEventEnum::groupedByCategory();
     }
 

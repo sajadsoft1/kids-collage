@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Database\Seeders;
 
 use App\Actions\Opinion\StoreOpinionAction;
+use Exception;
 use Illuminate\Database\Seeder;
 
 class OpinionSeeder extends Seeder
@@ -17,17 +18,26 @@ class OpinionSeeder extends Seeder
             $model = StoreOpinionAction::run([
                 'published' => $row['published'],
                 'ordering' => $row['ordering'],
-                'company' => $row['company'],
+                'company' => $row['company'] ?? null,
                 'user_name' => $row['user_name'],
                 'comment' => $row['comment'],
             ]);
-            $model->addMedia($row['path'])
-                ->preservingOriginal()
-                ->toMediaCollection('image');
-            if (isset($row['video'])) {
-                $model->addMedia($row['video'])
+
+            try {
+                $model->addMedia($row['path'])
                     ->preservingOriginal()
-                    ->toMediaCollection('video');
+                    ->toMediaCollection('image');
+            } catch (Exception) {
+                // do nothing
+            }
+            if (isset($row['video'])) {
+                try {
+                    $model->addMedia($row['video'])
+                        ->preservingOriginal()
+                        ->toMediaCollection('video');
+                } catch (Exception) {
+                    // do nothing
+                }
             }
         }
     }

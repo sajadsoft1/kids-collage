@@ -52,7 +52,7 @@
                         {{-- Category Header --}}
                         <tr class="bg-base-200">
                             <td colspan="{{ count($this->channels) + 1 }}" class="font-bold">
-                                {{ $category }}
+                                <x-badge value="{{ $category }}" class="badge-primary" />
                             </td>
                         </tr>
 
