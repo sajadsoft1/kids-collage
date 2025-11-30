@@ -998,6 +998,12 @@ class NavbarComposer
                 'params' => ['user' => $user->id],
             ],
             [
+                'icon' => 'o-document-text',
+                'params' => [],
+                'title' => trans('_menu.exams'),
+                'route_name' => 'admin.exam.list',
+            ],
+            [
                 'icon' => 'o-credit-card',
                 'params' => [],
                 'title' => trans('_menu.payment_management'),
@@ -1007,10 +1013,7 @@ class NavbarComposer
                 'icon' => 'o-rectangle-stack', // Stacks best represent flashcards visually
                 'params' => [],
                 'title' => trans('_menu.flashcard'),
-                'route_name' => 'admin.flash-card.index',
-                'access' => $this->checkPermission([
-                    FlashCard::class => 'Index',
-                ]),
+                'route_name' => 'admin.flash-card.list',
             ],
             [
                 'icon' => 'o-clipboard-document-list',

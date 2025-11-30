@@ -132,4 +132,11 @@ return [
     'modal_time' => 'زمان باقی‌مانده',
     'modal_answered_count' => 'پاسخ داده',
     'modal_unanswered_count' => 'بی‌پاسخ',
+
+    // Immediate mode translations
+    'submit_answer' => 'ثبت پاسخ',
+    'submit_answer_hint' => 'پس از ثبت، امکان تغییر پاسخ وجود ندارد',
+    'select_answer_first' => 'لطفاً ابتدا یک پاسخ انتخاب کنید',
+    'answer_locked' => 'پاسخ ثبت شد',
+    'explanation_after_submit' => 'توضیحات بعد از ثبت پاسخ نمایش داده می‌شود',
 ];

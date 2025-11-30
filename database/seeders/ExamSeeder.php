@@ -8,7 +8,9 @@ use App\Actions\Exam\StoreExamAction;
 use App\Actions\Question\StoreQuestionAction;
 use App\Actions\QuestionCompetency\StoreQuestionCompetencyAction;
 use App\Actions\QuestionSubject\StoreQuestionSubjectAction;
+use App\Enums\CategoryTypeEnum;
 use App\Enums\QuestionTypeEnum;
+use App\Models\Category;
 use App\Models\Question;
 use App\Models\QuestionCompetency;
 use App\Models\QuestionSubject;
@@ -158,6 +160,7 @@ class ExamSeeder extends Seeder
             $questionData['competency_id'] = $isVocabulary ? $vocabularyCompetencyId : $grammarCompetencyId;
 
             // Set defaults
+            $questionData['category_id'] = Category::where('type', CategoryTypeEnum::QUESTION->value)->first()?->id;
             $questionData['is_active'] = true;
             $questionData['is_public'] = true;
             $questionData['is_survey_question'] = false;

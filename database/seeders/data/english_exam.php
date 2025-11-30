@@ -3,11 +3,13 @@
 declare(strict_types=1);
 
 use App\Enums\BooleanEnum;
+use App\Enums\CategoryTypeEnum;
 use App\Enums\DifficultyEnum;
 use App\Enums\ExamStatusEnum;
 use App\Enums\ExamTypeEnum;
 use App\Enums\QuestionTypeEnum;
 use App\Enums\ShowResultsEnum;
+use App\Models\Category;
 
 return [
     // Question Competency for English
@@ -38,6 +40,7 @@ return [
             'title' => 'English Language Level 1 Exam',
             'description' => 'Basic English language examination covering fundamental grammar, vocabulary, and comprehension skills.',
             'type' => ExamTypeEnum::SCORED->value,
+            'category_id' => Category::where('type', CategoryTypeEnum::EXAM->value)->first()?->id,
             'total_score' => 20,
             'duration' => 30,
             'pass_score' => 12,
@@ -52,6 +55,7 @@ return [
             'title' => 'English Language Level 2 Exam',
             'description' => 'Intermediate English language examination covering advanced grammar, vocabulary, and reading comprehension.',
             'type' => ExamTypeEnum::SCORED->value,
+            'category_id' => Category::where('type', CategoryTypeEnum::EXAM->value)->first()?->id,
             'total_score' => 20,
             'duration' => 45,
             'pass_score' => 12,

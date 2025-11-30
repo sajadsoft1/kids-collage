@@ -24,7 +24,7 @@
     $questionTimeSpent = $currentAnswer?->time_spent ?? 0; // زمان صرف شده روی این سوال
 @endphp
 
-<div class="min-h-screen flex flex-col bg-base-200" dir="{{ $dir }}" x-data="{ ...examTimer(), showEndModal: false, showSuspendModal: false, showFinishModal: false }">
+<div class="flex flex-col min-h-screen bg-base-200" dir="{{ $dir }}" x-data="{ ...examTimer(), showEndModal: false, showSuspendModal: false, showFinishModal: false }">
 
     {{-- Header --}}
     @include('livewire.admin.pages.exam.exam-taker-partials.header')
@@ -33,7 +33,7 @@
     @include('livewire.admin.pages.exam.exam-taker-partials.toolbar')
 
     {{-- Main Content - Two Columns --}}
-    <div class="flex-1 flex overflow-hidden {{ $isRtl ? 'flex-row-reverse' : '' }}">
+    <div class="flex-1 flex overflow-hidden {{ !$isRtl ? 'flex-row-reverse' : '' }}">
         {{-- Question Panel --}}
         @include('livewire.admin.pages.exam.exam-taker-partials.question-panel')
 

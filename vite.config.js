@@ -6,12 +6,20 @@ import livewire from '@defstudio/vite-livewire-plugin';
 export default defineConfig({
     plugins: [
         laravel({
-            input: ['resources/css/app.css','resources/css/web.css', 'resources/js/app.js', 'resources/js/web/web.js'],
+            input: [
+                'resources/css/app.css',
+                // 'resources/css/web.css',
+                 'resources/js/app.js',
+                //  'resources/js/web/web.js'
+                ],
             refresh: false,
         }),
         tailwindcss(),
         livewire({
-            refresh: ['resources/css/app.css','resources/css/web.css'],
+            refresh: [
+                'resources/css/app.css',
+                // 'resources/css/web.css'
+            ],
         }),
     ],
 });

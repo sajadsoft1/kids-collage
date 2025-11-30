@@ -9,16 +9,43 @@
                 @php
                     $componentName =
                         'admin.pages.question-display.' . str_replace('_', '-', $currentQuestion->type->value);
+                    
+                    // در حالت immediate و قفل شده: نمایش جواب صحیح
+                    $showCorrectAnswer = $reviewMode || ($isImmediateMode && $isCurrentQuestionLocked);
+                    
+                    // غیرفعال کردن ورودی‌ها
+                    $isDisabled = $reviewMode || ($isImmediateMode && $isCurrentQuestionLocked);
                 @endphp
 
-                {{-- در حالت بازبینی: غیرفعال + نمایش جواب صحیح --}}
-                <livewire:is :component="$componentName" :question="$currentQuestion" :value="$answers[$currentQuestion->id] ?? null" :disabled="$reviewMode"
-                    :showCorrect="$reviewMode" :key="'question-' . $currentQuestion->id . ($reviewMode ? '-review' : '')" />
+                {{-- در حالت بازبینی یا قفل شده: غیرفعال + نمایش جواب صحیح --}}
+                <livewire:is :component="$componentName" :question="$currentQuestion" :value="$answers[$currentQuestion->id] ?? null" :disabled="$isDisabled"
+                    :showCorrect="$showCorrectAnswer" :key="'question-' . $currentQuestion->id . ($isDisabled ? '-locked' : '')" />
             </div>
+            
+            {{-- دکمه ثبت پاسخ - فقط در حالت immediate و وقتی پاسخی انتخاب شده و قفل نشده --}}
+            @if ($isImmediateMode && !$reviewMode && !$isCurrentQuestionLocked)
+                <div class="mt-6 pt-4 border-t border-base-300">
+                    @if (isset($answers[$currentQuestion->id]) && $answers[$currentQuestion->id] !== null)
+                        <x-button wire:click="lockCurrentAnswer" class="btn-primary w-full" icon="o-check-circle">
+                            {{ __('exam.submit_answer') }}
+                        </x-button>
+                        <p class="text-xs text-base-content/50 text-center mt-2">
+                            {{ __('exam.submit_answer_hint') }}
+                        </p>
+                    @else
+                        <x-button disabled class="btn-primary w-full opacity-50" icon="o-check-circle">
+                            {{ __('exam.submit_answer') }}
+                        </x-button>
+                        <p class="text-xs text-warning text-center mt-2">
+                            {{ __('exam.select_answer_first') }}
+                        </p>
+                    @endif
+                </div>
+            @endif
         </div>
 
-        {{-- Bottom Stats Bar - فقط در حالت بازبینی نمایش داده میشه --}}
-        @if ($reviewMode)
+        {{-- Bottom Stats Bar - در حالت بازبینی یا immediate قفل شده نمایش داده میشه --}}
+        @if ($reviewMode || ($isImmediateMode && $isCurrentQuestionLocked))
             <div class="border-t-4 border-info bg-base-200 px-6 py-3">
                 <div class="flex items-center gap-8 text-sm">
                     {{-- نمره سوال / نمره کل آزمون --}}
