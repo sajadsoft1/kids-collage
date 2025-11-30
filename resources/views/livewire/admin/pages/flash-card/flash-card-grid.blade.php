@@ -9,7 +9,12 @@
     {{-- ═══════════════════════════════════════════════════════════════════════════ --}}
     {{-- STATISTICS SECTION --}}
     {{-- ═══════════════════════════════════════════════════════════════════════════ --}}
-    <div class="grid grid-cols-2 gap-3 mb-6 md:grid-cols-3 lg:grid-cols-6">
+    <div class="grid grid-cols-2 gap-3 mb-6 md:grid-cols-4 lg:grid-cols-8">
+        {{-- Available Today - Most Important --}}
+        <x-stat title="{{ __('flashCard.stats.available_today') }}" value="{{ $this->stats['available_today'] }}"
+            icon="o-calendar-days" color="text-accent"
+            class="border-2 border-accent/30 bg-gradient-to-br from-accent/10 to-accent/20 {{ $this->stats['available_today'] > 0 ? 'ring-2 ring-accent/50' : '' }}" />
+
         <x-stat title="{{ __('flashCard.stats.total') }}" value="{{ $this->stats['total'] }}"
             icon="o-rectangle-stack" color="text-primary"
             class="border border-primary/20 bg-gradient-to-br from-primary/5 to-primary/10" />
@@ -21,6 +26,10 @@
         <x-stat title="{{ __('flashCard.stats.new') }}" value="{{ $this->stats['new'] }}"
             icon="o-sparkles" color="text-info"
             class="border border-info/20 bg-gradient-to-br from-info/5 to-info/10" />
+
+        <x-stat title="{{ __('flashCard.stats.scheduled') }}" value="{{ $this->stats['scheduled'] }}"
+            icon="o-calendar" color="text-neutral"
+            class="border border-neutral/20 bg-gradient-to-br from-neutral/5 to-neutral/10" />
 
         <x-stat title="{{ __('flashCard.stats.in_progress') }}" value="{{ $this->stats['in_progress'] }}"
             icon="o-arrow-path" color="text-secondary"
@@ -118,35 +127,41 @@
         @if($this->flashCards->isNotEmpty())
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 @foreach($this->flashCards as $card)
+                    @php
+                        // Determine if card is available today (new or due)
+                        $isAvailableToday = $card->is_new || $card->is_due;
+                        $isScheduled = !$card->is_new && !$card->is_due && $card->next_review && $card->next_review->isFuture();
+                    @endphp
                     <div wire:key="card-{{ $card->id }}"
-                         class="group card bg-base-100 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-base-200 cursor-pointer"
-                         wire:click="startStudy({{ $card->id }})">
+                         class="group card bg-base-100 shadow-md transition-all duration-300 border border-base-200
+                            {{ $isAvailableToday ? 'hover:shadow-xl hover:-translate-y-1 cursor-pointer ring-2 ring-accent/30' : 'opacity-60 cursor-not-allowed' }}"
+                         @if($isAvailableToday)
+                             wire:click="startStudy({{ $card->id }})"
+                         @endif>
 
                         {{-- Card Status Bar --}}
                         <div class="h-1.5 rounded-t-2xl transition-all duration-300
                             @if($card->is_finished) bg-success
                             @elseif($card->is_due) bg-warning
                             @elseif($card->is_new) bg-info
+                            @elseif($isScheduled) bg-neutral/50
                             @else bg-primary/50
                             @endif">
                         </div>
 
                         <div class="card-body p-4">
-                            {{-- Header --}}
+                            {{-- Header with Favorite --}}
                             <div class="flex items-start justify-between gap-2 mb-2">
-                                <h3 class="font-bold text-base line-clamp-2 group-hover:text-primary transition-colors">
-                                    {{ $card->title }}
-                                </h3>
                                 <button wire:click.stop="toggleFavorite({{ $card->id }})"
-                                    class="btn btn-ghost btn-xs btn-circle">
+                                    class="btn btn-ghost btn-xs btn-circle shrink-0">
                                     <x-icon name="{{ $card->favorite === \App\Enums\BooleanEnum::ENABLE ? 's-heart' : 'o-heart' }}"
                                         class="w-4 h-4 {{ $card->favorite === \App\Enums\BooleanEnum::ENABLE ? 'text-error' : 'text-base-content/40' }}" />
                                 </button>
                             </div>
 
-                            {{-- Front Preview --}}
-                            <div class="text-sm text-base-content/70 line-clamp-3 mb-3 min-h-[3.75rem]">
-                                {!! Str::limit(strip_tags($card->front), 100) !!}
+                            {{-- Front Content --}}
+                            <div class="text-base text-base-content font-medium line-clamp-3 mb-3 min-h-[4.5rem] {{ $isAvailableToday ? 'group-hover:text-primary' : '' }} transition-colors">
+                                {!! Str::limit(strip_tags($card->front), 120) !!}
                             </div>
 
                             {{-- Badges --}}
@@ -164,6 +179,8 @@
                                     <x-badge :value="__('flashCard.status.due')" class="badge-sm badge-warning animate-pulse" icon="o-clock" />
                                 @elseif($card->is_new)
                                     <x-badge :value="__('flashCard.status.new')" class="badge-sm badge-info" icon="o-sparkles" />
+                                @elseif($isScheduled)
+                                    <x-badge :value="__('flashCard.stats.scheduled')" class="badge-sm badge-neutral" icon="o-calendar" />
                                 @endif
 
                                 {{-- Languages --}}
@@ -176,9 +193,19 @@
 
                             {{-- Next Review --}}
                             @if($card->next_review && !$card->is_finished)
-                                <div class="mt-3 pt-3 border-t border-base-200 text-xs text-base-content/50 flex items-center gap-1">
+                                @php
+                                    $daysUntil = now()->startOfDay()->diffInDays($card->next_review->startOfDay());
+                                @endphp
+                                <div class="mt-3 pt-3 border-t border-base-200 text-xs flex items-center gap-1
+                                    {{ $card->is_due ? 'text-warning font-medium' : 'text-base-content/50' }}">
                                     <x-icon name="o-calendar" class="w-3.5 h-3.5" />
-                                    {{ __('flashCard.next_review') }}: {{ $card->next_review->diffForHumans() }}
+                                    @if($card->is_due)
+                                        {{ __('flashCard.study.today') }} - {{ __('flashCard.status.due') }}!
+                                    @elseif($daysUntil === 1)
+                                        {{ __('flashCard.study.tomorrow') }}
+                                    @else
+                                        {{ __('flashCard.study.days_until_review', ['days' => $daysUntil]) }}
+                                    @endif
                                 </div>
                             @endif
                         </div>
@@ -250,7 +277,7 @@
                                 <div class="card-body flex flex-col items-center justify-center p-6 md:p-10 relative">
                                     {{-- Card Header --}}
                                     <div class="absolute top-4 left-4 right-4 flex items-center justify-between">
-                                        <x-badge :value="$this->currentCard->title" class="badge-primary badge-lg" />
+                                        <x-badge :value="__('flashCard.fields.front')" class="badge-primary badge-lg" />
                                         <div class="flex gap-2">
                                             @if($this->currentCard->is_due)
                                                 <x-badge value="{{ __('flashCard.status.due') }}" class="badge-warning" icon="o-clock" />
@@ -349,28 +376,74 @@
                 </div>
             </div>
         @else
-            {{-- Study Complete --}}
-            <x-card class="!p-8 md:!p-12 text-center max-w-lg mx-auto">
-                <div class="flex flex-col items-center">
-                    <div class="w-24 h-24 md:w-32 md:h-32 mb-4 md:mb-6 rounded-full bg-gradient-to-br from-success/20 to-base-300 flex items-center justify-center animate-bounce">
-                        <x-icon name="o-trophy" class="w-12 h-12 md:w-16 md:h-16 text-success" />
+            {{-- No Cards Available Today --}}
+            <div class="max-w-2xl mx-auto">
+                <x-card class="!p-8 md:!p-12 text-center">
+                    <div class="flex flex-col items-center">
+                        <div class="w-24 h-24 md:w-32 md:h-32 mb-4 md:mb-6 rounded-full bg-gradient-to-br from-success/20 to-base-300 flex items-center justify-center animate-bounce">
+                            <x-icon name="o-trophy" class="w-12 h-12 md:w-16 md:h-16 text-success" />
+                        </div>
+                        <h3 class="text-lg md:text-xl font-bold text-success mb-2">
+                            {{ __('flashCard.study.complete_title') }}
+                        </h3>
+                        <p class="text-sm md:text-base text-base-content/50 max-w-md mb-6">
+                            {{ __('flashCard.study.complete_description') }}
+                        </p>
+                        <div class="flex gap-3 mb-6">
+                            <x-button wire:click="switchMode('grid')" class="btn-outline btn-primary" icon="o-squares-2x2">
+                                {{ __('flashCard.mode.grid') }}
+                            </x-button>
+                            <x-button :link="route('admin.flash-card.create')" class="btn-primary" icon="s-plus">
+                                {{ __('flashCard.empty.create_new') }}
+                            </x-button>
+                        </div>
                     </div>
-                    <h3 class="text-lg md:text-xl font-bold text-success mb-2">
-                        {{ __('flashCard.study.complete_title') }}
-                    </h3>
-                    <p class="text-sm md:text-base text-base-content/50 max-w-md mb-6">
-                        {{ __('flashCard.study.complete_description') }}
-                    </p>
-                    <div class="flex gap-3">
-                        <x-button wire:click="switchMode('grid')" class="btn-outline btn-primary" icon="o-squares-2x2">
-                            {{ __('flashCard.mode.grid') }}
-                        </x-button>
-                        <x-button :link="route('admin.flash-card.create')" class="btn-primary" icon="s-plus">
-                            {{ __('flashCard.empty.create_new') }}
-                        </x-button>
+                </x-card>
+
+                {{-- Scheduled Cards for Future --}}
+                @if($this->scheduledCards->isNotEmpty())
+                    <div class="mt-6">
+                        <h3 class="text-sm font-semibold text-base-content/70 mb-4 flex items-center gap-2">
+                            <x-icon name="o-calendar" class="w-4 h-4" />
+                            {{ __('flashCard.study.no_cards_today_desc') }}
+                        </h3>
+                        <div class="space-y-2">
+                            @foreach($this->scheduledCards->take(10) as $card)
+                                @php
+                                    $daysUntil = now()->startOfDay()->diffInDays($card->next_review->startOfDay());
+                                    $reviewLabel = match(true) {
+                                        $daysUntil === 0 => __('flashCard.study.today'),
+                                        $daysUntil === 1 => __('flashCard.study.tomorrow'),
+                                        default => __('flashCard.study.days_until_review', ['days' => $daysUntil])
+                                    };
+                                @endphp
+                                <div class="flex items-center justify-between p-3 bg-base-100 rounded-lg border border-base-200">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-full flex items-center justify-center shrink-0
+                                            {{ $card->leitner_box >= 4 ? 'bg-success/20 text-success' : ($card->leitner_box >= 2 ? 'bg-primary/20 text-primary' : 'bg-warning/20 text-warning') }}">
+                                            {{ $card->leitner_box }}
+                                        </div>
+                                        <span class="font-medium line-clamp-1">{{ Str::limit(strip_tags($card->front), 40) }}</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-sm text-base-content/60 shrink-0">
+                                        <x-icon name="o-calendar" class="w-4 h-4" />
+                                        <span>{{ $reviewLabel }}</span>
+                                        <span class="text-xs text-base-content/40">
+                                            ({{ $card->next_review->format('Y/m/d') }})
+                                        </span>
+                                    </div>
+                                </div>
+                            @endforeach
+
+                            @if($this->scheduledCards->count() > 10)
+                                <div class="text-center text-sm text-base-content/50 pt-2">
+                                    +{{ $this->scheduledCards->count() - 10 }} {{ __('flashCard.stats.scheduled') }}
+                                </div>
+                            @endif
+                        </div>
                     </div>
-                </div>
-            </x-card>
+                @endif
+            </div>
         @endif
     @endif
 

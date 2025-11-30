@@ -1465,32 +1465,41 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * @property string $title
- * @property string $description
+ * @property string      $front
+ * @property string      $back
+ * @property BooleanEnum $favorite
+ * @property-read int $leitner_box
+ * @property-read bool $is_due
+ * @property-read bool $is_new
+ * @property-read bool $is_finished
+ * @property-read \Carbon\Carbon|null $next_review
  * @property int $id
  * @property int $user_id
- * @property \App\Enums\BooleanEnum $favorite
- * @property string|null $front
- * @property string|null $back
- * @property array<array-key, mixed>|null $languages
+ * @property string|null $languages
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\LeitnerBox> $leitnerLogs
  * @property-read int|null $leitner_logs_count
+ * @property-read \App\Models\LeitnerBox|null $leitnerProgress
  * @property-read \App\Models\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|FlashCard availableForStudy(int $userId)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|FlashCard dueForUser(int $userId)
  * @method static \Database\Factories\FlashCardFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|FlashCard favorites()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|FlashCard newForUser(int $userId)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|FlashCard newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|FlashCard newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|FlashCard query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|FlashCard search(string $term)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|FlashCard whereBack($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|FlashCard whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|FlashCard whereFavorite($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|FlashCard whereFront($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|FlashCard whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|FlashCard whereLanguages($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|FlashCard whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|FlashCard whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|FlashCard whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|FlashCard withLeitnerForUser(int $userId)
  */
 	class FlashCard extends \Eloquent {}
 }
@@ -1508,9 +1517,13 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\FlashCard|null $flashcard
  * @property-read \App\Models\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LeitnerBox due()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LeitnerBox finished()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LeitnerBox inProgress()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|LeitnerBox newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|LeitnerBox newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|LeitnerBox query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|LeitnerBox scheduled()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|LeitnerBox whereBox($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|LeitnerBox whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|LeitnerBox whereFinished($value)

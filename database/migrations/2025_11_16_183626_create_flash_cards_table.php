@@ -13,11 +13,9 @@ return new class extends Migration {
         Schema::create('flash_cards', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
-            $table->string('title');
             $table->boolean('favorite')->default(BooleanEnum::ENABLE->value);
             $table->longText('front')->nullable();
             $table->longText('back')->nullable();
-            $table->text('languages')->nullable();
             $table->timestamps();
         });
     }

@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace App\Livewire\Admin\Pages\FlashCard;
 
-use App\Enums\BooleanEnum;
-use App\Enums\UserTypeEnum;
 use App\Models\FlashCard;
-use App\Models\LeitnerBox;
+use App\Services\FlashCard\FlashCardService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Computed;
@@ -36,6 +34,23 @@ class FlashCardGrid extends Component
     public bool $isFlipped = false;
 
     public ?int $studyingCardId = null;
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // SERVICE
+    // ══════════════════════════════════════════════════════════════════════════
+
+    private function service(): FlashCardService
+    {
+        return app(FlashCardService::class);
+    }
+
+    private function getFilters(): array
+    {
+        return [
+            'search' => $this->search,
+            'filter' => $this->filter,
+        ];
+    }
 
     // ══════════════════════════════════════════════════════════════════════════
     // COMPUTED PROPERTIES
@@ -72,60 +87,21 @@ class FlashCardGrid extends Component
     #[Computed]
     public function flashCards(): Collection
     {
-        $user = Auth::user();
-
-        return FlashCard::query()
-            ->when(
-                $user->type === UserTypeEnum::PARENT,
-                function ($q) use ($user) {
-                    $children = $user->children->pluck('id')->toArray();
-                    $q->whereIn('user_id', [...$children, $user->id]);
-                }
-            )
-            ->when(
-                in_array($user->type, [UserTypeEnum::EMPLOYEE, UserTypeEnum::USER]),
-                fn ($q) => $q->where('user_id', $user->id)
-            )
-            ->when($this->search, function ($q) {
-                $q->where(function ($query) {
-                    $query->where('title', 'like', "%{$this->search}%")
-                        ->orWhere('front', 'like', "%{$this->search}%")
-                        ->orWhere('back', 'like', "%{$this->search}%");
-                });
-            })
-            ->when($this->filter === 'favorites', fn ($q) => $q->where('favorite', BooleanEnum::ENABLE))
-            ->orderBy('created_at', 'desc')
-            ->get()
-            ->map(function (FlashCard $card) use ($user) {
-                $leitner = LeitnerBox::where('flash_card_id', $card->id)
-                    ->where('user_id', $user->id)
-                    ->first();
-
-                $card->leitner_box = $leitner?->box ?? 0;
-                $card->is_due = $leitner && $leitner->next_review_at && $leitner->next_review_at->isPast();
-                $card->is_new = ! $leitner;
-                $card->is_finished = $leitner?->finished === BooleanEnum::ENABLE;
-                $card->next_review = $leitner?->next_review_at;
-
-                return $card;
-            })
-            ->when($this->filter === 'due', fn ($c) => $c->filter(fn ($card) => $card->is_due))
-            ->when($this->filter === 'new', fn ($c) => $c->filter(fn ($card) => $card->is_new))
-            ->values();
+        return $this->service()->getCardsForUser(Auth::user(), $this->getFilters());
     }
 
-    /** Get cards for study mode (due cards first, then new cards) */
+    /** Get cards available for study TODAY based on Leitner system */
     #[Computed]
     public function studyCards(): Collection
     {
-        $cards = $this->flashCards;
+        return $this->service()->getStudyCardsForUser(Auth::user(), $this->getFilters());
+    }
 
-        // Priority: Due cards first, then new cards, then by box level (ascending)
-        return $cards->sortBy([
-            fn ($a, $b) => ($b->is_due <=> $a->is_due),
-            fn ($a, $b) => ($b->is_new <=> $a->is_new),
-            fn ($a, $b) => ($a->leitner_box <=> $b->leitner_box),
-        ])->values();
+    /** Get cards that are NOT available for study today (scheduled for future) */
+    #[Computed]
+    public function scheduledCards(): Collection
+    {
+        return $this->service()->getScheduledCardsForUser(Auth::user(), $this->getFilters());
     }
 
     /** Get current card in study mode */
@@ -143,30 +119,14 @@ class FlashCardGrid extends Component
     #[Computed]
     public function stats(): array
     {
-        $cards = $this->flashCards;
-
-        return [
-            'total' => $cards->count(),
-            'favorites' => $cards->where('favorite', BooleanEnum::ENABLE)->count(),
-            'due' => $cards->filter(fn ($c) => $c->is_due)->count(),
-            'new' => $cards->filter(fn ($c) => $c->is_new)->count(),
-            'mastered' => $cards->filter(fn ($c) => $c->is_finished)->count(),
-            'in_progress' => $cards->filter(fn ($c) => ! $c->is_new && ! $c->is_finished)->count(),
-        ];
+        return $this->service()->getStatsForUser(Auth::user(), $this->getFilters());
     }
 
     /** Get box distribution for progress visualization */
     #[Computed]
     public function boxDistribution(): array
     {
-        $cards = $this->flashCards;
-        $distribution = [];
-
-        for ($i = 0; $i <= 5; $i++) {
-            $distribution[$i] = $cards->filter(fn ($c) => $c->leitner_box === $i)->count();
-        }
-
-        return $distribution;
+        return $this->service()->getBoxDistributionForUser(Auth::user(), $this->getFilters());
     }
 
     // ══════════════════════════════════════════════════════════════════════════
@@ -243,19 +203,7 @@ class FlashCardGrid extends Component
             return;
         }
 
-        $user = Auth::user();
-        $leitner = LeitnerBox::firstOrCreate(
-            ['flash_card_id' => $card->id, 'user_id' => $user->id],
-            ['box' => 0]
-        );
-
-        $newBox = min($leitner->box + 1, 5);
-        $leitner->update([
-            'box' => $newBox,
-            'last_review_at' => now(),
-            'next_review_at' => $this->calculateNextReview($newBox),
-            'finished' => $newBox >= 5 ? BooleanEnum::ENABLE : BooleanEnum::DISABLE,
-        ]);
+        $this->service()->markCardKnown($card, Auth::id());
 
         $this->dispatch('card-reviewed', known: true);
         $this->advanceToNextCard();
@@ -270,18 +218,7 @@ class FlashCardGrid extends Component
             return;
         }
 
-        $user = Auth::user();
-        $leitner = LeitnerBox::firstOrCreate(
-            ['flash_card_id' => $card->id, 'user_id' => $user->id],
-            ['box' => 0]
-        );
-
-        $leitner->update([
-            'box' => 1,
-            'last_review_at' => now(),
-            'next_review_at' => $this->calculateNextReview(1),
-            'finished' => BooleanEnum::DISABLE,
-        ]);
+        $this->service()->markCardUnknown($card, Auth::id());
 
         $this->dispatch('card-reviewed', known: false);
         $this->advanceToNextCard();
@@ -295,11 +232,7 @@ class FlashCardGrid extends Component
             return;
         }
 
-        $card->update([
-            'favorite' => $card->favorite === BooleanEnum::ENABLE
-                ? BooleanEnum::DISABLE
-                : BooleanEnum::ENABLE,
-        ]);
+        $this->service()->toggleFavorite($card);
 
         $this->dispatch('favorite-toggled');
     }
@@ -307,9 +240,12 @@ class FlashCardGrid extends Component
     /** Reset Leitner progress for a card */
     public function resetProgress(int $cardId): void
     {
-        LeitnerBox::where('flash_card_id', $cardId)
-            ->where('user_id', Auth::id())
-            ->delete();
+        $card = FlashCard::find($cardId);
+        if ( ! $card) {
+            return;
+        }
+
+        $this->service()->resetCardProgress($card, Auth::id());
 
         $this->dispatch('progress-reset');
     }
@@ -334,20 +270,6 @@ class FlashCardGrid extends Component
         }
 
         $this->studyingCardId = $this->studyCards->get($this->currentIndex)?->id;
-    }
-
-    /** Calculate next review date based on Leitner box */
-    private function calculateNextReview(int $box): \Carbon\Carbon
-    {
-        $intervals = [
-            1 => 1,    // Box 1: 1 day
-            2 => 3,    // Box 2: 3 days
-            3 => 7,    // Box 3: 1 week
-            4 => 14,   // Box 4: 2 weeks
-            5 => 30,   // Box 5: 1 month (mastered)
-        ];
-
-        return now()->addDays($intervals[$box] ?? 1);
     }
 
     // ══════════════════════════════════════════════════════════════════════════

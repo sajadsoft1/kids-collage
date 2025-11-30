@@ -18,7 +18,6 @@ class StoreFlashCardAction
 
     /**
      * @param array{
-     *     title:string,
      *     front:string,
      *     back:string,
      *     favorite:bool

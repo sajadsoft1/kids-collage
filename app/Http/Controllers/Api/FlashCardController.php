@@ -40,7 +40,7 @@ class FlashCardController extends Controller
                 'id',
             ])
             ->allowedFilters([
-                AllowedFilter::custom('search', new FuzzyFilter(['translations' => ['title', 'description']])),
+                AllowedFilter::custom('search', new FuzzyFilter(['front', 'back'])),
             ]);
     }
 
