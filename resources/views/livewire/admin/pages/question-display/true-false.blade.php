@@ -1,11 +1,11 @@
 <div class="space-y-4">
     @if ($question->title)
-        <div class="text-lg font-medium text-base-content">{!! nl2br(e($question->title)) !!}</div>
+        <div class="text-lg font-medium text-base-content">{{ $question->title }}</div>
     @endif
 
     @if ($question->body)
         <div class="p-4 max-w-none rounded-lg text-base-content bg-base-200 prose">
-            {!! nl2br(e($question->body)) !!}
+            {!! $question->body !!}
         </div>
     @endif
 
@@ -38,7 +38,7 @@
                 <x-heroicon-o-light-bulb class="mt-0.5 ml-2 w-5 h-5 text-yellow-600" />
                 <div>
                     <h4 class="mb-1 font-medium text-yellow-900">توضیحات</h4>
-                    <div class="text-sm text-yellow-800">{!! nl2br(e($question->explanation)) !!}</div>
+                    <div class="text-sm text-yellow-800">{!! $question->explanation !!}</div>
                 </div>
             </div>
         </div>

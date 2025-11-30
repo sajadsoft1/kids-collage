@@ -95,6 +95,7 @@ class ExamAttempt extends Model
         $score = null;
         $isCorrect = null;
         $isPartiallyCorrect = null;
+        $reviewedAt = null;
 
         $weight = $this->exam->getQuestionWeight($question);
 
@@ -106,7 +107,17 @@ class ExamAttempt extends Model
             if ($handler->supportsPartialCredit() && $score > 0 && $score < $weight) {
                 $isPartiallyCorrect = true;
             }
+
+            // برای سوالات auto-grade، تاریخ بررسی رو ست کن
+            if ( ! $handler->requiresManualReview()) {
+                $reviewedAt = now();
+            }
         }
+
+        // گرفتن time_spent قبلی برای جمع کردن
+        $existingAnswer = $this->answers()->where('question_id', $question->id)->first();
+        $previousTimeSpent = $existingAnswer?->time_spent ?? 0;
+        $totalTimeSpent = $previousTimeSpent + ($timeSpent ?? 0);
 
         return $this->answers()->updateOrCreate(
             ['question_id' => $question->id],
@@ -116,8 +127,9 @@ class ExamAttempt extends Model
                 'max_score' => $weight,
                 'is_correct' => $isCorrect,
                 'is_partially_correct' => $isPartiallyCorrect,
-                'time_spent' => $timeSpent,
+                'time_spent' => $totalTimeSpent,
                 'answered_at' => now(),
+                'reviewed_at' => $reviewedAt,
             ]
         );
     }

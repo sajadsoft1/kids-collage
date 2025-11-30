@@ -54,11 +54,7 @@ final class QuestionTable extends PowerGridComponent
 
     public function relationSearch(): array
     {
-        return [
-            'translations' => [
-                'value',
-            ],
-        ];
+        return [];
     }
 
     public function fields(): PowerGridFields
@@ -66,7 +62,7 @@ final class QuestionTable extends PowerGridComponent
         return PowerGrid::fields()
             ->add('id')
             ->add('title', fn ($row) => PowerGridHelper::fieldTitle($row))
-            ->add('category_title', fn ($row) => $row->category->title)
+            ->add('category_title', fn ($row) => $row->category?->title)
             ->add('subject_title', fn ($row) => $row->subject->title)
             ->add('competency_title', fn ($row) => $row->competency->title)
             ->add('type_formatted', fn ($row) => $row->type->title())
@@ -77,7 +73,7 @@ final class QuestionTable extends PowerGridComponent
     {
         return [
             PowerGridHelper::columnId(),
-            PowerGridHelper::columnTitle(),
+            PowerGridHelper::columnTitle()->searchable(),
             Column::make(trans('validation.attributes.category_id'), 'category_title', 'category.title'),
             Column::make(trans('validation.attributes.subject_id'), 'subject_title', 'subject.title'),
             Column::make(trans('validation.attributes.competency_id'), 'competency_title', 'competency.title'),

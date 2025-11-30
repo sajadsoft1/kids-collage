@@ -2,14 +2,14 @@
     {{-- Question Title --}}
     @if ($question->title)
         <div class="text-lg font-medium text-base-content">
-            {!! nl2br(e($question->title)) !!}
+            {{ $question->title }}
         </div>
     @endif
 
     {{-- Question Body --}}
     @if ($question->body)
         <div class="p-4 max-w-none rounded-lg text-base-content bg-base-200 prose">
-            {!! nl2br(e($question->body)) !!}
+            {!! $question->body !!}
         </div>
     @endif
 

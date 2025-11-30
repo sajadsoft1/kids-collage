@@ -38,7 +38,7 @@ final class FlashCardTable extends PowerGridComponent
         ];
 
         if ((new Agent)->isMobile()) {
-            $setup[] = PowerGrid::responsive()->fixedColumns('id', 'title', 'actions');
+            $setup[] = PowerGrid::responsive()->fixedColumns('id', 'front', 'actions');
         }
 
         return $setup;
@@ -105,7 +105,9 @@ final class FlashCardTable extends PowerGridComponent
     {
         return [
             PowerGridHelper::columnId(),
-            Column::make(trans('datatable.title'), 'title'),
+            Column::make(trans('flashCard.fields.front'), 'front')
+                ->sortable()
+                ->searchable(),
             Column::make(trans('datatable.favorite'), 'favorite_formated'),
             PowerGridHelper::columnCreatedAT(),
             PowerGridHelper::columnAction(),

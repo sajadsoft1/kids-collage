@@ -11,16 +11,18 @@ class Essay extends Component
 {
     public Question $question;
 
-    public string $value = '';
+    public string|array|null $value = '';
 
     public bool $disabled = false;
 
     public bool $showCorrect = false;
 
-    public function mount(Question $question, string $value = '', bool $disabled = false, bool $showCorrect = false): void
+    public function mount(Question $question, mixed $value = '', bool $disabled = false, bool $showCorrect = false): void
     {
         $this->question = $question;
-        $this->value = $value;
+        $this->value = is_array($value)
+            ? (string) ($value['value'] ?? $value['text'] ?? '')
+            : (string) ($value ?? '');
         $this->disabled = $disabled;
         $this->showCorrect = $showCorrect;
     }

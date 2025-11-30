@@ -168,6 +168,44 @@ return [
             ],
             'path' => public_path('images/test/categories/laravel-cat.png'),
         ],
+        [
+            'title' => 'EXAM',
+            'slug' => 'EXAM',
+            'description' => 'لاراول (Laravel) یک فریم‌ورک محبوب و قدرتمند برای توسعه وب با زبان PHP است که بر پایه معماری MVC (Model-View-Controller) ساخته شده.',
+            'body' => 'این فریم‌ورک با هدف ساده‌سازی توسعه برنامه‌های تحت وب ایجاد شده و امکاناتی مثل مسیریابی ساده، مدیریت پایگاه‌داده با Eloquent ORM، سیستم صف، احراز هویت، ارسال ایمیل، و قالب Blade رو در اختیار توسعه‌دهنده قرار می‌ده.لاراول با سینتکس زیبا و ابزارهای حرفه‌ای، توسعه پروژه‌های کوچک تا بزرگ رو سریع‌تر و لذت‌بخش‌تر می‌کنه.',
+            'seo_options' => [
+                'title' => 'EXAM',
+                'description' => 'لاراول (Laravel) یک فریم‌ورک محبوب و قدرتمند برای توسعه وب با زبان PHP است که بر پایه معماری MVC (Model-View-Controller) ساخته شده.',
+            ],
+            'type' => CategoryTypeEnum::EXAM->value,
+            'ordering' => 1,
+            'parent_id' => null,
+            'created_at' => now(),
+            'updated_at' => now(),
+            'languages' => [
+                'fa',
+            ],
+            'path' => public_path('images/test/categories/laravel-cat.png'),
+        ],
+        [
+            'title' => 'QUESTION_SYSTEM',
+            'slug' => 'QUESTION_SYSTEM',
+            'description' => 'لاراول (Laravel) یک فریم‌ورک محبوب و قدرتمند برای توسعه وب با زبان PHP است که بر پایه معماری MVC (Model-View-Controller) ساخته شده.',
+            'body' => 'این فریم‌ورک با هدف ساده‌سازی توسعه برنامه‌های تحت وب ایجاد شده و امکاناتی مثل مسیریابی ساده، مدیریت پایگاه‌داده با Eloquent ORM، سیستم صف، احراز هویت، ارسال ایمیل، و قالب Blade رو در اختیار توسعه‌دهنده قرار می‌ده.لاراول با سینتکس زیبا و ابزارهای حرفه‌ای، توسعه پروژه‌های کوچک تا بزرگ رو سریع‌تر و لذت‌بخش‌تر می‌کنه.',
+            'seo_options' => [
+                'title' => 'QUESTION_SYSTEM',
+                'description' => 'لاراول (Laravel) یک فریم‌ورک محبوب و قدرتمند برای توسعه وب با زبان PHP است که بر پایه معماری MVC (Model-View-Controller) ساخته شده.',
+            ],
+            'type' => CategoryTypeEnum::QUESTION_SYSTEM->value,
+            'ordering' => 1,
+            'parent_id' => null,
+            'created_at' => now(),
+            'updated_at' => now(),
+            'languages' => [
+                'fa',
+            ],
+            'path' => public_path('images/test/categories/laravel-cat.png'),
+        ],
     ],
     'blogs' => [
         [

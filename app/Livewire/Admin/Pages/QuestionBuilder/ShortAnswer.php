@@ -11,16 +11,19 @@ class ShortAnswer extends Component
     public array $config = [];
     public ?int $questionIndex = null;
 
-    public array $correct_answer = [
-        'acceptable_answers' => [''],
-    ];
+    public ?array $correct_answer = null;
 
     public function mount(array $config = [], ?array $correct_answer = null, ?int $questionIndex = null): void
     {
         $this->config = array_merge($this->getDefaultConfig(), $config);
         $this->questionIndex = $questionIndex;
-        if ($correct_answer !== null) {
+        if ($correct_answer !== null && isset($correct_answer['acceptable_answers'])) {
             $this->correct_answer = $correct_answer;
+        } else {
+            // Initialize with default structure
+            $this->correct_answer = [
+                'acceptable_answers' => [''],
+            ];
         }
         // Sync initial data
         $this->syncData();
@@ -50,12 +53,20 @@ class ShortAnswer extends Component
 
     public function addAcceptable(): void
     {
+        if ($this->correct_answer === null) {
+            $this->correct_answer = [
+                'acceptable_answers' => [''],
+            ];
+        }
         $this->correct_answer['acceptable_answers'][] = '';
         $this->dispatchCorrectAnswer();
     }
 
     public function removeAcceptable(int $index): void
     {
+        if ($this->correct_answer === null || ! isset($this->correct_answer['acceptable_answers'])) {
+            return;
+        }
         if (count($this->correct_answer['acceptable_answers']) > 1) {
             unset($this->correct_answer['acceptable_answers'][$index]);
             $this->correct_answer['acceptable_answers'] = array_values($this->correct_answer['acceptable_answers']);
@@ -79,6 +90,10 @@ class ShortAnswer extends Component
 
     protected function dispatchCorrectAnswer(): void
     {
+        if ($this->correct_answer === null) {
+            return;
+        }
+
         if ($this->questionIndex !== null) {
             $this->dispatch('correctAnswerUpdated', [
                 'index' => $this->questionIndex,

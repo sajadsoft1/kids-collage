@@ -50,11 +50,8 @@ class UpdateExamAction
             $exam->update($payload);
             $this->syncTranslationAction->handle($exam, Arr::only($payload, ['title', 'description']));
 
-            // Update rules if provided
-            if ($rules !== null) {
-                $exam->setRules($rules);
-                $exam->save();
-            }
+            $exam->setRules($rules);
+            $exam->save();
 
             if (is_array($tags)) {
                 $exam->syncTags($tags);

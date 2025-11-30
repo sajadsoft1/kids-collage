@@ -50,6 +50,7 @@ return [
             'true_label' => 'برچسب درست',
             'false_label' => 'برچسب غلط',
             'correct_answer' => 'پاسخ صحیح',
+            'shuffle_info' => 'چیدمان پاسخ‌ها به صورت تصادفی تغییر می‌کند',
         ],
     ],
     'display' => [

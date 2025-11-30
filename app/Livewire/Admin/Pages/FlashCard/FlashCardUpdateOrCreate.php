@@ -18,18 +18,19 @@ class FlashCardUpdateOrCreate extends Component
     use Toast;
 
     public FlashCard $model;
-    public string $title = '';
+
     public string $front = '';
+
     public string $back = '';
+
     public bool $favorite = false;
 
     public function mount(FlashCard $flashCard): void
     {
         $this->model = $flashCard;
         if ($this->model->id) {
-            $this->title = $this->model->title;
-            $this->back = $this->model->back;
-            $this->front = $this->model->front;
+            $this->back = $this->model->back ?? '';
+            $this->front = $this->model->front ?? '';
             $this->favorite = $this->model->favorite->asBoolean();
         }
     }
@@ -37,8 +38,7 @@ class FlashCardUpdateOrCreate extends Component
     protected function rules(): array
     {
         return [
-            'title' => 'required|string',
-            'front' => 'nullable|string',
+            'front' => 'required|string',
             'back' => 'nullable|string',
             'favorite' => 'required',
         ];

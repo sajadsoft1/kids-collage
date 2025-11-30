@@ -4,117 +4,480 @@ declare(strict_types=1);
 
 namespace App\Livewire\Admin\Pages\Exam;
 
+use App\Enums\AttemptStatusEnum;
+use App\Enums\ShowResultsEnum;
+use App\Models\Exam;
+use App\Models\ExamAttempt;
+use App\Models\Question;
+use App\Services\ExamAttemptService;
 use Exception;
+use Illuminate\Support\Collection;
+use Livewire\Attributes\Computed;
+use Livewire\Attributes\Locked;
 use Livewire\Component;
 
 class ExamTaker extends Component
 {
-    public Exam $exam;
-    public ?ExamAttempt $attempt = null;
-    public $currentQuestionIndex = 0;
-    public $questions = [];
-    public $answers = [];
-    public $timeRemaining = null;
+    // ══════════════════════════════════════════════════════════════════════════
+    // LOCKED PROPERTIES - تغییر از سمت کلاینت ممکن نیست
+    // ══════════════════════════════════════════════════════════════════════════
+
+    #[Locked]
+    public int $examId;
+
+    #[Locked]
+    public int $attemptId;
+
+    #[Locked]
+    public bool $reviewMode = false;
+
+    #[Locked]
+    public bool $isImmediateMode = false;
+
+    #[Locked]
+    public array $questionIds = [];
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // PUBLIC PROPERTIES
+    // ══════════════════════════════════════════════════════════════════════════
+
+    public int $currentQuestionIndex = 0;
+
+    /** @var array<int, mixed> question_id => answer_data */
+    public array $answers = [];
+
+    public ?int $timeRemaining = null;
+
+    /** زمان ورود به سوال فعلی */
+    public ?int $currentQuestionEnteredAt = null;
+
+    /** @var array<int, bool> question_id => true برای جستجوی O(1) */
+    public array $lockedQuestions = [];
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // LISTENERS
+    // ══════════════════════════════════════════════════════════════════════════
 
     protected $listeners = [
         'answerChanged' => 'handleAnswerChanged',
-        'echo:exam.{exam.id},ExamTimeExpired' => 'handleTimeExpired',
     ];
 
-    public function mount(Exam $exam, ExamAttemptService $service)
+    // ══════════════════════════════════════════════════════════════════════════
+    // CACHED DATA - برای جلوگیری از کوئری‌های مکرر
+    // ══════════════════════════════════════════════════════════════════════════
+
+    /** @var Collection<int, Question>|null */
+    private ?Collection $questionsCache = null;
+
+    private ?Exam $examCache = null;
+
+    private ?ExamAttempt $attemptCache = null;
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // MOUNT - فقط یکبار در شروع اجرا میشه
+    // ══════════════════════════════════════════════════════════════════════════
+
+    public function mount(Exam $exam, ExamAttemptService $service, ?ExamAttempt $attempt): void
     {
-        if ( ! $exam->canUserTakeExam(auth()->user())) {
+        $this->examId = $exam->id;
+        $this->examCache = $exam;
+
+        // تشخیص حالت immediate
+        $this->isImmediateMode = $exam->show_results === ShowResultsEnum::IMMEDIATE
+            || $exam->show_results                   === ShowResultsEnum::IMMEDIATE->value;
+
+        // اگر attempt پاس داده شده
+        if ($attempt?->id) {
+            $this->attemptId = $attempt->id;
+            $this->attemptCache = $attempt;
+
+            // بررسی دسترسی
+            $this->authorizeAttemptAccess($attempt);
+
+            // تشخیص حالت بازبینی بر اساس وضعیت attempt
+            $this->reviewMode = $this->isAttemptFinished($attempt);
+
+            if ( ! $this->reviewMode) {
+                $this->initializeTimer();
+            }
+        } else {
+            // شروع یا ادامه آزمون
+            $this->initializeNewAttempt($exam, $service);
+        }
+
+        // بارگذاری سوالات (یکبار)
+        $this->loadQuestions($exam);
+
+        // بارگذاری پاسخ‌های قبلی
+        $this->loadPreviousAnswers();
+
+        // در حالت immediate، بازیابی سوالات قفل شده از metadata
+        $this->loadLockedQuestionsFromMetadata();
+    }
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // COMPUTED PROPERTIES - کش میشن تا پایان request
+    // ══════════════════════════════════════════════════════════════════════════
+
+    #[Computed(persist: true)]
+    public function exam(): Exam
+    {
+        return $this->examCache ??= Exam::findOrFail($this->examId);
+    }
+
+    #[Computed(persist: true)]
+    public function attempt(): ExamAttempt
+    {
+        return $this->attemptCache ??= ExamAttempt::with(['answers', 'user'])->findOrFail($this->attemptId);
+    }
+
+    #[Computed]
+    public function questions(): Collection
+    {
+        if ($this->questionsCache !== null) {
+            return $this->questionsCache;
+        }
+
+        if (empty($this->questionIds)) {
+            return $this->questionsCache = collect();
+        }
+
+        // Load questions و key by id برای دسترسی O(1)
+        return $this->questionsCache = Question::with('options')
+            ->whereIn('id', $this->questionIds)
+            ->get()
+            ->keyBy('id');
+    }
+
+    #[Computed]
+    public function currentQuestion(): ?Question
+    {
+        $questionId = $this->currentQuestionId;
+
+        return $questionId ? $this->questions->get($questionId) : null;
+    }
+
+    #[Computed]
+    public function currentQuestionId(): ?int
+    {
+        return $this->questionIds[$this->currentQuestionIndex] ?? null;
+    }
+
+    #[Computed]
+    public function isCurrentQuestionLocked(): bool
+    {
+        $questionId = $this->currentQuestionId;
+
+        return $questionId && isset($this->lockedQuestions[$questionId]);
+    }
+
+    #[Computed]
+    public function isLastQuestion(): bool
+    {
+        return $this->currentQuestionIndex === count($this->questionIds) - 1;
+    }
+
+    #[Computed]
+    public function totalQuestions(): int
+    {
+        return count($this->questionIds);
+    }
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // ACTIONS
+    // ══════════════════════════════════════════════════════════════════════════
+
+    public function handleAnswerChanged(mixed $answer): void
+    {
+        if ($this->reviewMode) {
+            return;
+        }
+
+        $questionId = $this->currentQuestionId;
+        if ( ! $questionId) {
+            return;
+        }
+
+        // اگر سوال قفل شده، امکان تغییر نیست
+        if (isset($this->lockedQuestions[$questionId])) {
+            return;
+        }
+
+        $this->answers[$questionId] = $answer;
+
+        // محاسبه زمان و ذخیره پاسخ
+        $timeSpent = $this->getTimeSpentOnCurrentQuestion();
+        $this->saveAnswer($questionId, $answer, $timeSpent);
+
+        // ریست تایمر
+        $this->currentQuestionEnteredAt = time();
+    }
+
+    public function lockCurrentAnswer(): void
+    {
+        if ($this->reviewMode || ! $this->isImmediateMode) {
+            return;
+        }
+
+        $questionId = $this->currentQuestionId;
+        if ( ! $questionId || ! isset($this->answers[$questionId])) {
+            return;
+        }
+
+        // اگر قبلاً قفل شده
+        if (isset($this->lockedQuestions[$questionId])) {
+            return;
+        }
+
+        // ذخیره زمان
+        $this->saveCurrentQuestionTime();
+
+        // قفل کردن
+        $this->lockedQuestions[$questionId] = true;
+
+        // ذخیره در metadata برای resume
+        $this->saveLockedQuestionsToMetadata();
+    }
+
+    public function nextQuestion(): void
+    {
+        if ($this->currentQuestionIndex < $this->totalQuestions - 1) {
+            $this->saveCurrentQuestionTime();
+            $this->currentQuestionIndex++;
+            $this->currentQuestionEnteredAt = time();
+
+            // پاک کردن کش سوال فعلی
+            unset($this->currentQuestion, $this->currentQuestionId, $this->isCurrentQuestionLocked);
+        }
+    }
+
+    public function previousQuestion(): void
+    {
+        if ($this->currentQuestionIndex > 0) {
+            $this->saveCurrentQuestionTime();
+            $this->currentQuestionIndex--;
+            $this->currentQuestionEnteredAt = time();
+
+            unset($this->currentQuestion, $this->currentQuestionId, $this->isCurrentQuestionLocked);
+        }
+    }
+
+    public function goToQuestion(int $index): void
+    {
+        if ($index >= 0 && $index < $this->totalQuestions && $index !== $this->currentQuestionIndex) {
+            $this->saveCurrentQuestionTime();
+            $this->currentQuestionIndex = $index;
+            $this->currentQuestionEnteredAt = time();
+
+            unset($this->currentQuestion, $this->currentQuestionId, $this->isCurrentQuestionLocked);
+        }
+    }
+
+    public function submitExam(): mixed
+    {
+        try {
+            $this->saveCurrentQuestionTime();
+
+            app(ExamAttemptService::class)->complete($this->attempt);
+
+            session()->flash('success', __('exam.exam_completed'));
+
+            return redirect()->route('admin.exam.attempt.results', [
+                'exam' => $this->examId,
+                'attempt' => $this->attemptId,
+            ]);
+        } catch (Exception $e) {
+            session()->flash('error', $e->getMessage());
+
+            return null;
+        }
+    }
+
+    public function suspendExam(): mixed
+    {
+        $this->saveCurrentQuestionTime();
+        session()->flash('info', __('exam.exam_suspended'));
+
+        return redirect()->route('admin.exam.index');
+    }
+
+    public function handleTimeExpired(): mixed
+    {
+        app(ExamAttemptService::class)->complete($this->attempt);
+
+        session()->flash('warning', __('exam.time_expired'));
+
+        return redirect()->route('admin.exam.attempt.results', [
+            'exam' => $this->examId,
+            'attempt' => $this->attemptId,
+        ]);
+    }
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // RENDER
+    // ══════════════════════════════════════════════════════════════════════════
+
+    public function render()
+    {
+        $currentQuestion = $this->currentQuestion;
+
+        // Get pivot data
+        $pivotData = $currentQuestion
+            ? $this->exam->questions()
+                ->where('questions.id', $currentQuestion->id)
+                ->first()?->pivot
+            : null;
+
+        return view('livewire.admin.pages.exam.exam-taker', [
+            'exam' => $this->exam,
+            'attempt' => $this->attempt,
+            'currentQuestion' => $currentQuestion,
+            'pivotData' => $pivotData,
+            'progress' => app(ExamAttemptService::class)->getProgress($this->attempt),
+            'totalQuestions' => $this->totalQuestions,
+            'isLastQuestion' => $this->isLastQuestion,
+            'reviewMode' => $this->reviewMode,
+            'isImmediateMode' => $this->isImmediateMode,
+            'isCurrentQuestionLocked' => $this->isCurrentQuestionLocked,
+        ])->layout('components.layouts.exam');
+    }
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // PRIVATE METHODS
+    // ══════════════════════════════════════════════════════════════════════════
+
+    private function authorizeAttemptAccess(ExamAttempt $attempt): void
+    {
+        $userId = auth()->id();
+        $user = auth()->user();
+
+        if ($attempt->user_id !== $userId && ! $user?->can('viewAny', ExamAttempt::class)) {
+            abort(403, 'شما مجاز به مشاهده این تلاش نیستید');
+        }
+    }
+
+    private function isAttemptFinished(ExamAttempt $attempt): bool
+    {
+        $status = $attempt->status instanceof AttemptStatusEnum
+            ? $attempt->status
+            : AttemptStatusEnum::tryFrom($attempt->status);
+
+        return $status?->isFinished() ?? false;
+    }
+
+    private function initializeTimer(): void
+    {
+        $this->currentQuestionEnteredAt = time();
+        $this->timeRemaining = $this->attempt->getRemainingTime();
+    }
+
+    private function initializeNewAttempt(Exam $exam, ExamAttemptService $service): void
+    {
+        $user = auth()->user();
+
+        if ( ! $exam->canUserTakeExam($user)) {
             abort(403, 'شما مجاز به شرکت در این آزمون نیستید');
         }
 
         // شروع یا ادامه آزمون
-        $inProgress = $exam->getUserInProgressAttempt(auth()->user());
+        $inProgress = $exam->getUserInProgressAttempt($user);
 
-        if ($inProgress) {
-            $this->attempt = $inProgress;
-        } else {
-            $this->attempt = $service->start($exam, auth()->user());
+        $this->attemptCache = $inProgress ?? $service->start($exam, $user);
+        $this->attemptId = $this->attemptCache->id;
+
+        $this->initializeTimer();
+    }
+
+    private function loadQuestions(Exam $exam): void
+    {
+        $questions = $exam->questions()
+            ->orderBy('exam_question.order')
+            ->get();
+
+        // Shuffle فقط در حالت غیر بازبینی
+        if ( ! $this->reviewMode && $exam->shuffle_questions) {
+            $questions = $questions->shuffle()->values();
         }
 
-        // بارگذاری سوالات
-        $this->questions = $exam->questions;
+        $this->questionIds = $questions->pluck('id')->toArray();
+    }
 
-        if ($exam->shuffle_questions) {
-            $this->questions = $this->questions->shuffle();
-        }
+    private function loadPreviousAnswers(): void
+    {
+        // Eager load answers
+        $answers = $this->attempt->answers()->get(['question_id', 'answer_data']);
 
-        // بارگذاری پاسخ‌های قبلی
-        foreach ($this->attempt->answers as $answer) {
+        foreach ($answers as $answer) {
             $this->answers[$answer->question_id] = $answer->answer_data;
         }
-
-        $this->timeRemaining = $this->attempt->getRemainingTime();
     }
 
-    public function handleAnswerChanged($answer)
+    private function loadLockedQuestionsFromMetadata(): void
     {
-        $question = $this->questions[$this->currentQuestionIndex];
+        if ( ! $this->isImmediateMode || $this->reviewMode) {
+            return;
+        }
 
-        $this->answers[$question->id] = $answer;
+        // بارگذاری از metadata
+        $metadata = $this->attempt->metadata ?? [];
+        $lockedIds = $metadata['locked_questions'] ?? [];
 
-        // Auto-save
-        app(ExamAttemptService::class)->submitAnswer(
-            $this->attempt,
-            $question,
-            $answer
-        );
+        // تبدیل به associative array برای O(1) lookup
+        $this->lockedQuestions = array_fill_keys($lockedIds, true);
     }
 
-    public function nextQuestion()
+    private function saveLockedQuestionsToMetadata(): void
     {
-        if ($this->currentQuestionIndex < count($this->questions) - 1) {
-            $this->currentQuestionIndex++;
+        $metadata = $this->attempt->metadata ?? [];
+        $metadata['locked_questions'] = array_keys($this->lockedQuestions);
+
+        $this->attempt->update(['metadata' => $metadata]);
+    }
+
+    private function getTimeSpentOnCurrentQuestion(): int
+    {
+        if ($this->currentQuestionEnteredAt === null) {
+            return 0;
+        }
+
+        return time() - $this->currentQuestionEnteredAt;
+    }
+
+    private function saveCurrentQuestionTime(): void
+    {
+        // در حالت بازبینی، زمان ذخیره نمی‌شود
+        if ($this->reviewMode) {
+            return;
+        }
+
+        $questionId = $this->currentQuestionId;
+
+        if ( ! $questionId || ! isset($this->answers[$questionId])) {
+            return;
+        }
+
+        $timeSpent = $this->getTimeSpentOnCurrentQuestion();
+        if ($timeSpent > 0) {
+            $this->saveAnswer($questionId, $this->answers[$questionId], $timeSpent);
         }
     }
 
-    public function previousQuestion()
+    private function saveAnswer(int $questionId, mixed $answer, int $timeSpent): void
     {
-        if ($this->currentQuestionIndex > 0) {
-            $this->currentQuestionIndex--;
+        // در حالت بازبینی، پاسخ ذخیره نمی‌شود
+        if ($this->reviewMode) {
+            return;
         }
-    }
 
-    public function goToQuestion($index)
-    {
-        if ($index >= 0 && $index < count($this->questions)) {
-            $this->currentQuestionIndex = $index;
+        $question = $this->questions->get($questionId);
+
+        if ($question) {
+            app(ExamAttemptService::class)->submitAnswer(
+                $this->attempt,
+                $question,
+                $answer,
+                $timeSpent
+            );
         }
-    }
-
-    public function submitExam(ExamAttemptService $service)
-    {
-        try {
-            $service->complete($this->attempt);
-
-            return redirect()->route('exams.results', $this->attempt);
-        } catch (Exception $e) {
-            session()->flash('error', $e->getMessage());
-        }
-    }
-
-    public function handleTimeExpired()
-    {
-        app(ExamAttemptService::class)->complete($this->attempt);
-
-        session()->flash('warning', 'زمان آزمون به پایان رسید');
-
-        return redirect()->route('exams.results', $this->attempt);
-    }
-
-    public function render()
-    {
-        $currentQuestion = $this->questions[$this->currentQuestionIndex] ?? null;
-        $progress = app(ExamAttemptService::class)->getProgress($this->attempt);
-
-        return view('livewire.admin.pages.exam.exam-taker', [
-            'currentQuestion' => $currentQuestion,
-            'progress' => $progress,
-            'totalQuestions' => count($this->questions),
-        ]);
     }
 }

@@ -13,10 +13,9 @@ use OpenApi\Annotations as OA;
  *     schema="FlashCardResource",
  *     title="FlashCardResource",
  *     @OA\Property(property="id", type="integer", default="1"),
- *     @OA\Property(property="title", type="string", default="Title"),
- *     @OA\Property(property="fornt", type="string", default="front content"),
+ *     @OA\Property(property="front", type="string", default="front content"),
  *     @OA\Property(property="back", type="string", default="back content"),
- *     @OA\Property(property="published", ref="#/components/schemas/BooleanEnum"),
+ *     @OA\Property(property="favorite", ref="#/components/schemas/BooleanEnum"),
  *     @OA\Property(property="updated_at", type="string", default="2024-08-19T07:26:07.000000Z"),
  *     @OA\Property(property="created_at", type="string", default="2024-08-19T07:26:07.000000Z"),
  * )
@@ -27,7 +26,6 @@ class FlashCardResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'title' => $this->title,
             'front' => $this->front,
             'back' => $this->back,
             'favorite' => $this->favorite->toArray(),
