@@ -16,9 +16,9 @@ Route::group(['prefix' => 'admin/exam', 'as' => 'admin.exam.'], function () {
     Route::get('create', ExamUpdateOrCreate::class)->name('create')->can('create,App\Models\Exam');
     Route::get('{exam}/edit', ExamUpdateOrCreate::class)->name('edit')->can('update,exam');
     Route::get('{exam}/taker/{attempt?}', ExamTaker::class)->name('taker');
-    Route::get('{exam}/attempt/{attempt}/review', ExamTaker::class)->name('attempt.review');
 
     // ExamAttempt routes
     Route::get('{exam}/attempts', ExamAttemptTable::class)->name('attempt.index');
+    Route::get('{exam}/attempt/{attempt}/review', ExamTaker::class)->name('attempt.review');
     Route::get('{exam}/attempt/{attempt}/results', ExamResults::class)->name('attempt.results');
 });

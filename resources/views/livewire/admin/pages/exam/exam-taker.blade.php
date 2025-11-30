@@ -24,7 +24,7 @@
     $questionTimeSpent = $currentAnswer?->time_spent ?? 0; // زمان صرف شده روی این سوال
 @endphp
 
-<div class="flex flex-col min-h-screen bg-base-200" dir="{{ $dir }}" x-data="{ ...examTimer(), showEndModal: false, showSuspendModal: false, showFinishModal: false }">
+<div class="flex flex-col min-h-screen bg-base-200" dir="{{ $dir }}" x-data="examTakerData()">
 
     {{-- Header --}}
     @include('livewire.admin.pages.exam.exam-taker-partials.header')
@@ -46,7 +46,9 @@
 
     {{-- Modals --}}
     @include('livewire.admin.pages.exam.exam-taker-partials.modals')
-</div>
 
-{{-- Timer Script --}}
-@include('livewire.admin.pages.exam.exam-taker-partials.timer-script')
+    {{-- Timer Script - داخل root element با wire:ignore --}}
+    <div wire:ignore style="display: none;">
+        @include('livewire.admin.pages.exam.exam-taker-partials.timer-script')
+    </div>
+</div>

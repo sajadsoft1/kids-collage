@@ -16,6 +16,7 @@ return [
     'permissions' => [
     ],
     'exceptions' => [
+        'cannot_edit' => 'این آزمون قابلیت ویرایش نیست',
     ],
     'validations' => [
     ],

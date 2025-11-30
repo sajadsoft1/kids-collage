@@ -445,6 +445,11 @@ class ExamTaker extends Component
 
     private function saveCurrentQuestionTime(): void
     {
+        // در حالت بازبینی، زمان ذخیره نمی‌شود
+        if ($this->reviewMode) {
+            return;
+        }
+
         $questionId = $this->currentQuestionId;
 
         if ( ! $questionId || ! isset($this->answers[$questionId])) {
@@ -459,6 +464,11 @@ class ExamTaker extends Component
 
     private function saveAnswer(int $questionId, mixed $answer, int $timeSpent): void
     {
+        // در حالت بازبینی، پاسخ ذخیره نمی‌شود
+        if ($this->reviewMode) {
+            return;
+        }
+
         $question = $this->questions->get($questionId);
 
         if ($question) {
