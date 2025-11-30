@@ -6,6 +6,7 @@ namespace App\Livewire\Admin\Pages\FlashCard;
 
 use App\Models\FlashCard;
 use App\Services\FlashCard\FlashCardService;
+use Exception;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Computed;
@@ -198,56 +199,72 @@ class FlashCardGrid extends Component
     #[On('mark-known')]
     public function markKnown(): void
     {
-        $card = $this->currentCard;
-        if ( ! $card) {
-            return;
+        try {
+            $card = $this->currentCard;
+            if ( ! $card) {
+                return;
+            }
+
+            $this->service()->markCardKnown($card, Auth::id());
+
+            $this->dispatch('card-reviewed', known: true);
+            $this->advanceToNextCard();
+        } catch (Exception $e) {
+            $this->error($e->getMessage() ?: 'عملیات با خطا مواجه شد');
         }
-
-        $this->service()->markCardKnown($card, Auth::id());
-
-        $this->dispatch('card-reviewed', known: true);
-        $this->advanceToNextCard();
     }
 
     /** Mark card as unknown (move to box 1) */
     #[On('mark-unknown')]
     public function markUnknown(): void
     {
-        $card = $this->currentCard;
-        if ( ! $card) {
-            return;
+        try {
+            $card = $this->currentCard;
+            if ( ! $card) {
+                return;
+            }
+
+            $this->service()->markCardUnknown($card, Auth::id());
+
+            $this->dispatch('card-reviewed', known: false);
+            $this->advanceToNextCard();
+        } catch (Exception $e) {
+            $this->error($e->getMessage() ?: 'عملیات با خطا مواجه شد');
         }
-
-        $this->service()->markCardUnknown($card, Auth::id());
-
-        $this->dispatch('card-reviewed', known: false);
-        $this->advanceToNextCard();
     }
 
     /** Toggle favorite status */
     public function toggleFavorite(int $cardId): void
     {
-        $card = FlashCard::find($cardId);
-        if ( ! $card) {
-            return;
+        try {
+            $card = FlashCard::find($cardId);
+            if ( ! $card) {
+                return;
+            }
+
+            $this->service()->toggleFavorite($card);
+
+            $this->dispatch('favorite-toggled');
+        } catch (Exception $e) {
+            $this->error($e->getMessage() ?: 'عملیات با خطا مواجه شد');
         }
-
-        $this->service()->toggleFavorite($card);
-
-        $this->dispatch('favorite-toggled');
     }
 
     /** Reset Leitner progress for a card */
     public function resetProgress(int $cardId): void
     {
-        $card = FlashCard::find($cardId);
-        if ( ! $card) {
-            return;
+        try {
+            $card = FlashCard::find($cardId);
+            if ( ! $card) {
+                return;
+            }
+
+            $this->service()->resetCardProgress($card, Auth::id());
+
+            $this->dispatch('progress-reset');
+        } catch (Exception $e) {
+            $this->error($e->getMessage() ?: 'عملیات با خطا مواجه شد');
         }
-
-        $this->service()->resetCardProgress($card, Auth::id());
-
-        $this->dispatch('progress-reset');
     }
 
     // ══════════════════════════════════════════════════════════════════════════
