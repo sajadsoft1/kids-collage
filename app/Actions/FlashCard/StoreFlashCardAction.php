@@ -20,7 +20,8 @@ class StoreFlashCardAction
      * @param array{
      *     front:string,
      *     back:string,
-     *     favorite:bool
+     *     favorite:bool,
+     *     taxonomy_id:int,
      * } $payload
      * @throws Throwable
      */

@@ -31,6 +31,7 @@ class FlashCard extends Model
 
     protected $fillable = [
         'user_id',
+        'taxonomy_id',
         'favorite',
         'front',
         'back',

@@ -18,6 +18,7 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="favorite", ref="#/components/schemas/BooleanEnum"),
  *     @OA\Property(property="updated_at", type="string", default="2024-08-19T07:26:07.000000Z"),
  *     @OA\Property(property="created_at", type="string", default="2024-08-19T07:26:07.000000Z"),
+ *     @OA\Property(property="taxonomy", type="array", @OA\Items(ref="#/components/schemas/TaxonomyResource")),
  * )
  */
 class FlashCardResource extends JsonResource
@@ -31,6 +32,9 @@ class FlashCardResource extends JsonResource
             'favorite' => $this->favorite->toArray(),
             'updated_at' => $this->updated_at,
             'created_at' => $this->created_at,
+            'taxonomy' => $this->whenLoaded('taxonomy', function () {
+                return TaxonomyResource::make($this->taxonomy);
+            }),
         ];
     }
 }
