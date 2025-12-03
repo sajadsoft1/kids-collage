@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
-use App\Actions\FlashCard\DeleteFlashCardAction;
-use App\Actions\FlashCard\StoreFlashCardAction;
-use App\Actions\FlashCard\UpdateFlashCardAction;
+use App\Actions\Notebook\DeleteNotebookAction;
+use App\Actions\Notebook\StoreNotebookAction;
+use App\Actions\Notebook\UpdateNotebookAction;
 use App\Filters\FuzzyFilter;
-use App\Http\Requests\StoreFlashCardRequest;
-use App\Http\Requests\UpdateFlashCardRequest;
-use App\Http\Resources\FlashCardDetailResource;
-use App\Http\Resources\FlashCardResource;
-use App\Models\FlashCard;
+use App\Http\Requests\StoreNotebookRequest;
+use App\Http\Requests\UpdateNotebookRequest;
+use App\Http\Resources\NotebookDetailResource;
+use App\Http\Resources\NotebookResource;
+use App\Models\Notebook;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -22,7 +22,7 @@ use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 use Throwable;
 
-class FlashCardController extends Controller
+class NotebookController extends Controller
 {
     public function __construct()
     {
@@ -31,7 +31,7 @@ class FlashCardController extends Controller
 
     private function query(array $payload = []): QueryBuilder
     {
-        return QueryBuilder::for(FlashCard::query())
+        return QueryBuilder::for(Notebook::query())
             ->with('user')
             ->when($limit = Arr::get($payload, 'limit'), fn ($q) => $q->limit($limit))
             ->where('user_id', auth()->user()->id)
@@ -46,11 +46,11 @@ class FlashCardController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/flash-card",
-     *     operationId="getFlashCards",
-     *     tags={"FlashCard"},
-     *     summary="get flashCard list",
-     *     description="Returns list of flashCard",
+     *     path="/notebook",
+     *     operationId="getNotebooks",
+     *     tags={"Notebook"},
+     *     summary="get notebooks list",
+     *     description="Returns list of notebooks",
      *     @OA\Parameter(ref="#/components/parameters/page"),
      *     @OA\Parameter(ref="#/components/parameters/page_limit"),
      *     @OA\Parameter(ref="#/components/parameters/search"),
@@ -58,12 +58,12 @@ class FlashCardController extends Controller
      *     @OA\Response(response=200,
      *         description="Successful operation",
      *         @OA\JsonContent(type="object",
-     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/FlashCardResource")),
+     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/NotebookResource")),
      *             @OA\Property(property="links", type="object",
-     *                 @OA\Property(property="first", type="string", default="http://localhost/api/flash-card?page=1"),
-     *                 @OA\Property(property="last", type="string", default="http://localhost/api/flash-card?page=4"),
+     *                 @OA\Property(property="first", type="string", default="http://localhost/api/notebook?page=1"),
+     *                 @OA\Property(property="last", type="string", default="http://localhost/api/notebook?page=4"),
      *                 @OA\Property(property="prev", type="string", default="null", nullable=true),
-     *                 @OA\Property(property="next", type="string", default="http://localhost/api/flash-card?page=2", nullable=true),
+     *                 @OA\Property(property="next", type="string", default="http://localhost/api/notebook?page=2", nullable=true),
      *             ),
      *             @OA\Property(property="meta", ref="#/components/schemas/Meta"),
      *             @OA\Property(property="message", type="string", default="No message"),
@@ -86,7 +86,7 @@ class FlashCardController extends Controller
         return Response::dataWithAdditional(
             $this->query([
                 'limit' => $request->input('limit'),
-            ])->paginate($request->input('page_limit', 15))->toResourceCollection(FlashCardResource::class),
+            ])->paginate($request->input('page_limit', 15))->toResourceCollection(NotebookResource::class),
             [
                 'sort' => [
                     ['label' => '', 'value' => 'id', 'selected' => true, 'default' => true],
@@ -97,12 +97,12 @@ class FlashCardController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/flash-card/{flashCard}",
-     *     operationId="getFlashCardByID",
-     *     tags={"FlashCard"},
-     *     summary="Get flashCard information",
-     *     description="Returns flashCard data",
-     *     @OA\Parameter(name="flashCard", required=true, in="path", @OA\Schema(type="string")),
+     *     path="/notebook/{notebook}",
+     *     operationId="getNotebookID",
+     *     tags={"Notebook"},
+     *     summary="Get notebook information",
+     *     description="Returns notebook data",
+     *     @OA\Parameter(name="notebook", required=true, in="path", @OA\Schema(type="string")),
      *     @OA\Response(response=200,
      *         description="Successful operation",
      *         @OA\JsonContent(type="object",
@@ -112,85 +112,85 @@ class FlashCardController extends Controller
      *     )
      * )
      */
-    public function show(FlashCard $flashCard): JsonResponse
+    public function show(Notebook $notebook): JsonResponse
     {
-        abort_if($flashCard->user_id !== auth()->user()->id, 404);
+        abort_if($notebook->user_id !== auth()->user()->id, 403);
 
         return Response::data(
             [
-                'flashCard' => FlashCardDetailResource::make($flashCard->load('leitnerLogs')),
+                'notebook' => NotebookDetailResource::make($notebook),
             ]
         );
     }
 
     /**
      * @OA\Post(
-     *     path="/flash-card",
-     *     operationId="storeFlashCard",
-     *     tags={"FlashCard"},
-     *     summary="Store flashCard",
-     *     description="Store contactUs",
-     *     @OA\RequestBody(required=true, @OA\JsonContent(ref="#/components/schemas/StoreFlashCardRequest")),
+     *     path="/notebook",
+     *     operationId="storeNotebook",
+     *     tags={"Notebook"},
+     *     summary="Store notebook",
+     *     description="Store otebook",
+     *     @OA\RequestBody(required=true, @OA\JsonContent(ref="#/components/schemas/StoreNotebookRequest")),
      *     @OA\Response(response=200,
      *         description="Successful operation",
      *         @OA\JsonContent(type="object",
-     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/FlashCardResource")),
+     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/NotebookResource")),
      *             @OA\Property(property="message", type="string", default="No message"),
      *         ),
      *     )
      * )
      */
-    public function store(StoreFlashCardRequest $request): JsonResponse
+    public function store(StoreNotebookRequest $request): JsonResponse
     {
-        $flashCard = StoreFlashCardAction::run($request->validated());
+        $notebook = StoreNotebookAction::run($request->validated());
 
         return Response::data(
             [
-                'flashCard' => FlashCardDetailResource::make($flashCard->load('leitnerLogs')),
+                'notebook' => NotebookDetailResource::make($notebook),
             ],
-            trans('general.model_has_stored_successfully', ['model' => trans('flashCard.model')])
+            trans('general.model_has_stored_successfully', ['model' => trans('notebook.model')])
         );
     }
 
     /**
      * @OA\Put(
-     *     path="/flash-card/{flashCard}",
-     *     operationId="updateFlashCard",
-     *     tags={"FlashCard"},
-     *     summary="Update flashCard",
-     *     description="Update flashCard",
-     *     @OA\Parameter(name="flashCard", required=true, in="path", @OA\Schema(type="string")),
-     *     @OA\RequestBody(required=true, @OA\JsonContent(ref="#/components/schemas/UpdateFlashCardRequest")),
+     *     path="/notebook/{notebook}",
+     *     operationId="updateNotebook",
+     *     tags={"Notebook"},
+     *     summary="Update notebook",
+     *     description="Update notebook",
+     *     @OA\Parameter(name="notebook", required=true, in="path", @OA\Schema(type="string")),
+     *     @OA\RequestBody(required=true, @OA\JsonContent(ref="#/components/schemas/UpdateNotebookRequest")),
      *     @OA\Response(response=200,
      *         description="Successful operation",
      *         @OA\JsonContent(type="object",
-     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/FlashCardResource")),
+     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/NotebookResource")),
      *             @OA\Property(property="message", type="string", default="No message"),
      *         ),
      *     )
      * )
      */
-    public function update(UpdateFlashCardRequest $request, FlashCard $flashCard): JsonResponse
+    public function update(UpdateNotebookRequest $request, Notebook $notebook): JsonResponse
     {
-        abort_if($flashCard->user_id !== auth()->user()->id, 404);
-        $flashCard = UpdateFlashCardAction::run($flashCard, $request->validated());
+        abort_if($notebook->user_id !== auth()->user()->id, 403);
+        $notebook = UpdateNotebookAction::run($notebook, $request->validated());
 
         return Response::data(
             [
-                'flashCard' => FlashCardDetailResource::make($flashCard->load('leitnerLogs')),
+                'notebook' => NotebookDetailResource::make($notebook),
             ],
-            trans('general.model_has_updated_successfully', ['model' => trans('flashCard.model')])
+            trans('general.model_has_updated_successfully', ['model' => trans('notebook.model')])
         );
     }
 
     /**
      * @OA\Delete(
-     *     path="/flash-card/{flashCard}",
-     *     operationId="deleteFlashCard",
-     *     tags={"FlashCard"},
-     *     summary="delete flashCard",
-     *     description="delete flashCard",
-     *     @OA\Parameter(name="flashCard", required=true, in="path", @OA\Schema(type="string")),
+     *     path="/notebook/{notebook}",
+     *     operationId="deleteNotebook",
+     *     tags={"Notebook"},
+     *     summary="delete notebook",
+     *     description="delete notebook",
+     *     @OA\Parameter(name="notebook", required=true, in="path", @OA\Schema(type="string")),
      *     @OA\Response(response=200,
      *         description="Successful operation",
      *         @OA\JsonContent(type="object",
@@ -199,11 +199,11 @@ class FlashCardController extends Controller
      *     )
      * )
      */
-    public function destroy(FlashCard $flashCard): JsonResponse
+    public function destroy(Notebook $notebook): JsonResponse
     {
-        abort_if($flashCard->user_id !== auth()->user()->id, 404);
-        $result = DeleteFlashCardAction::run($flashCard);
+        abort_if($notebook->user_id !== auth()->user()->id, 403);
+        $result = DeleteNotebookAction::run($notebook);
 
-        return Response::data($result, trans('general.model_has_deleted_successfully', ['model' => trans('flashCard.model')]));
+        return Response::data($result, trans('general.model_has_deleted_successfully', ['model' => trans('notebook.model')]));
     }
 }

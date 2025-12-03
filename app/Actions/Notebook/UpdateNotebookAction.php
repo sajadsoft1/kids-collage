@@ -19,7 +19,9 @@ class UpdateNotebookAction
     /**
      * @param array{
      *     title:string,
-     *     description:string
+     *     body:string,
+     *     tags:array,
+     *     taxonomy_id:int
      * }               $payload
      * @throws Throwable
      */

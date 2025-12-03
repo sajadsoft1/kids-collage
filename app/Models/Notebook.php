@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Traits\HasUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property string $title
@@ -19,14 +20,13 @@ class Notebook extends Model
 
     protected $fillable = [
         'user_id',
+        'taxonomy_id',
         'title',
         'body',
         'tags',
-        'languages',
     ];
 
     protected $casts = [
-        'languages' => 'array',
         'tags' => 'array',
     ];
 
@@ -34,10 +34,11 @@ class Notebook extends Model
      * Model Configuration --------------------------------------------------------------------------
      */
 
-    /**
-     * Model Relations --------------------------------------------------------------------------
-     */
-
+    /** Model Relations -------------------------------------------------------------------------- */
+    public function taxonomy(): BelongsTo
+    {
+        return $this->belongsTo(Taxonomy::class);
+    }
     /**
      * Model Scope --------------------------------------------------------------------------
      */
