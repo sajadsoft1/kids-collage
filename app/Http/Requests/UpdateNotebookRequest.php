@@ -12,10 +12,12 @@ use OpenApi\Annotations as OA;
  *     schema="UpdateNotebookRequest",
  *     title="UpdateNotebookRequest",
  *     type="object",
- *     required={"title"},
- *
- *     @OA\Property(property="title", type="string", default="test title"),
- *     @OA\Property(property="description", type="string", default="test description"),
+ *     required={"title", "taxonomy_id"},
+ * *
+ * *     @OA\Property(property="title", type="string", default="test title"),
+ * *     @OA\Property(property="body", type="string", default="test body"),
+ * *     @OA\Property(property="taxonomy_id", type="integer", default=1),
+ * *     @OA\Property(property="tags", type="array", @OA\Items(type="string")),
  * )
  */
 class UpdateNotebookRequest extends FormRequest
@@ -26,7 +28,9 @@ class UpdateNotebookRequest extends FormRequest
     {
         return [
             'title' => ['required', 'string', 'max:255'],
-            'description' => ['nullable', 'string'],
+            'taxonomy_id' => ['required', 'exists:taxonomies,id'],
+            'body' => ['nullable', 'string'],
+            'tags' => ['nullable', 'array'],
         ];
     }
 }

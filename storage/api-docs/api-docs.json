@@ -4708,6 +4708,12 @@
                     "favorite": {
                         "type": "boolean",
                         "default": false
+                    },
+                    "tags": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
                     }
                 },
                 "type": "object"
@@ -4733,16 +4739,27 @@
             "StoreNotebookRequest": {
                 "title": "StoreNotebookRequest",
                 "required": [
-                    "title"
+                    "title",
+                    "taxonomy_id"
                 ],
                 "properties": {
                     "title": {
                         "type": "string",
                         "default": "test title"
                     },
-                    "description": {
+                    "body": {
                         "type": "string",
-                        "default": "test description"
+                        "default": "test body"
+                    },
+                    "taxonomy_id": {
+                        "type": "integer",
+                        "default": 1
+                    },
+                    "tags": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
                     }
                 },
                 "type": "object"
@@ -4788,6 +4805,12 @@
                     "favorite": {
                         "type": "boolean",
                         "default": false
+                    },
+                    "tags": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
                     }
                 },
                 "type": "object"
@@ -4813,16 +4836,27 @@
             "UpdateNotebookRequest": {
                 "title": "UpdateNotebookRequest",
                 "required": [
-                    "title"
+                    "title",
+                    "taxonomy_id"
                 ],
                 "properties": {
                     "title": {
                         "type": "string",
                         "default": "test title"
                     },
-                    "description": {
+                    "body": {
                         "type": "string",
-                        "default": "test description"
+                        "default": "test body"
+                    },
+                    "taxonomy_id": {
+                        "type": "integer",
+                        "default": 1
+                    },
+                    "tags": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
                     }
                 },
                 "type": "object"
@@ -6198,6 +6232,12 @@
                     "created_at": {
                         "type": "string",
                         "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "taxonomy": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/TaxonomyResource"
+                        }
                     }
                 },
                 "type": "object"

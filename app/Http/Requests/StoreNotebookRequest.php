@@ -12,10 +12,12 @@ use OpenApi\Annotations as OA;
  *     schema="StoreNotebookRequest",
  *     title="StoreNotebookRequest",
  *     type="object",
- *     required={"title"},
+ *     required={"title", "taxonomy_id"},
  *
  *     @OA\Property(property="title", type="string", default="test title"),
- *     @OA\Property(property="description", type="string", default="test description"),
+ *     @OA\Property(property="body", type="string", default="test body"),
+ *     @OA\Property(property="taxonomy_id", type="integer", default=1),
+ *     @OA\Property(property="tags", type="array", @OA\Items(type="string")),
  * )
  */
 class StoreNotebookRequest extends FormRequest

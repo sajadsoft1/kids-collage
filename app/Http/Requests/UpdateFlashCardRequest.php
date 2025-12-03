@@ -16,6 +16,7 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="front", type="string", default="test front content"),
  *     @OA\Property(property="back", type="string", default="test back content"),
  *     @OA\Property(property="favorite", type="boolean", default=false),
+ *     @OA\Property(property="tags", type="array", @OA\Items(type="string")),
  * )
  */
 class UpdateFlashCardRequest extends FormRequest
@@ -28,6 +29,7 @@ class UpdateFlashCardRequest extends FormRequest
             'front' => ['nullable', 'string'],
             'back' => ['nullable', 'string'],
             'favorite' => ['required', 'boolean'],
+            'taxonomy_id' => ['required', 'exists:taxonomies,id'],
         ];
     }
 }
