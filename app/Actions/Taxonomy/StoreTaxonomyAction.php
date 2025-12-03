@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Notebook;
+namespace App\Actions\Taxonomy;
 
-use App\Models\Notebook;
+use App\Models\Taxonomy;
 use Illuminate\Support\Facades\DB;
 use Lorisleiva\Actions\Concerns\AsAction;
 use Throwable;
 
-class StoreNotebookAction
+class StoreTaxonomyAction
 {
     use AsAction;
 
@@ -18,18 +18,17 @@ class StoreNotebookAction
 
     /**
      * @param array{
-     *     title:string,
-     *     body:string,
-     *     tags:array,
-     *     taxonomy_id:int
+     *     name:string,
+     *     type:string,
+     *     color:string,
      * } $payload
      * @throws Throwable
      */
-    public function handle(array $payload): Notebook
+    public function handle(array $payload): Taxonomy
     {
         return DB::transaction(function () use ($payload) {
             $payload['user_id'] = auth()->user()->id;
-            $model = Notebook::create($payload);
+            $model = Taxonomy::create($payload);
 
             return $model;
         });

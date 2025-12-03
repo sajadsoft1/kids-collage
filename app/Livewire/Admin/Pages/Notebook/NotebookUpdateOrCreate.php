@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Livewire\Admin\Pages\Notebook;
 
-use App\Actions\Notebook\StoreNotebookAction;
-use App\Actions\Notebook\UpdateNotebookAction;
+use App\Actions\Notebook\StoreTaxonomyAction;
+use App\Actions\Notebook\UpdateTaxonomyAction;
 use App\Models\Notebook;
 use App\Traits\CrudHelperTrait;
 use Illuminate\View\View;
@@ -45,13 +45,13 @@ class NotebookUpdateOrCreate extends Component
     {
         $payload = $this->validate();
         if ($this->model->id) {
-            UpdateNotebookAction::run($this->model, $payload);
+            UpdateTaxonomyAction::run($this->model, $payload);
             $this->success(
                 title: trans('general.model_has_updated_successfully', ['model' => trans('notebook.model')]),
                 redirectTo: route('admin.notebook.index')
             );
         } else {
-            StoreNotebookAction::run($payload);
+            StoreTaxonomyAction::run($payload);
             $this->success(
                 title: trans('general.model_has_stored_successfully', ['model' => trans('notebook.model')]),
                 redirectTo: route('admin.notebook.index')

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 return [
-    'model' => 'دفترچه یادداشت',
+    'model' => 'یادداشت',
     'permissions' => [
     ],
     'exceptions' => [

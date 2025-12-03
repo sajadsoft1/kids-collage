@@ -25,7 +25,7 @@ class UpdateFlashCardRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'front' => ['required', 'string'],
+            'front' => ['nullable', 'string'],
             'back' => ['nullable', 'string'],
             'favorite' => ['required', 'boolean'],
         ];

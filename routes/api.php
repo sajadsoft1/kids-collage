@@ -24,4 +24,7 @@ Route::group(['as' => 'api.', 'middleware' => [SetApiGuard::class]], function ()
     require __DIR__ . '/api/socialMedia.php';
     require __DIR__ . '/api/event.php';
     require __DIR__ . '/api/flashCard.php';
+    require __DIR__ . '/api/notebook.php';
+    require __DIR__ . '/api/note.php';
+    require __DIR__ . '/api/taxonomy.php';
 });

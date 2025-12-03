@@ -9,19 +9,17 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('notebooks', function (Blueprint $table) {
+        Schema::create('notes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignId('taxonomy_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
-            $table->string('title');
+            $table->foreignId('question_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->longText('body');
-            $table->json('tags')->nullable();
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('notebooks');
+        Schema::dropIfExists('notes');
     }
 };
