@@ -22,7 +22,8 @@ readonly class GenerateToken implements AuthInterface
             ]);
         }
 
-        $token = $user->createToken('test-token')->plainTextToken;
+        // Generate API token for Sanctum (for Nuxt frontend)
+        $token = $user->createToken('api-token')->plainTextToken;
 
         if ( ! $token) {
             abort(400, trans('auth.token_creation_failed'));

@@ -91,8 +91,21 @@ Route::get('test', function () {
 });
 
 Route::get('sync-session/{token}', function (Request $request) {
-    return $request->token;
-});
+    $token = $request->token;
+    if ( ! $token) {
+        abort(400, 'Token is required');
+    }
+
+    $user = App\Actions\Auth\TokenLoginAction::run($token);
+
+    if ( ! $user) {
+        abort(401, 'Invalid or expired token');
+    }
+
+    // Redirect to admin dashboard
+    return redirect('/admin')->with('success', 'Successfully logged in!');
+})->name('auth.token-login');
+
 // laravel not found route
 Route::fallback(function () {
     return redirect('/admin');
