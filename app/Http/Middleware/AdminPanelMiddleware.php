@@ -15,18 +15,18 @@ class AdminPanelMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         if ( ! Auth::check()) {
-            return redirect(env('FRONTEND_URL') . '/login');
+            return redirect(config('app.frontend_url') . '/login');
         }
 
         $user = Auth::user();
 
         if ($user === null) {
-            return redirect(env('FRONTEND_URL') . '/login');
+            return redirect(config('app.frontend_url') . '/login');
         }
 
         // Check if user is blocked by admin
         if ($user->status === BooleanEnum::DISABLE) {
-            return redirect(env('FRONTEND_URL') . '/login');
+            return redirect(config('app.frontend_url') . '/login');
             // abort(403, 'حساب کاربری شما توسط مدیر مسدود شده است');
         }
 

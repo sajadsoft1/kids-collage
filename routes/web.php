@@ -101,7 +101,7 @@ Route::get('sync-session/{token}', function (Request $request, string $token) {
     }
 
     // Redirect to admin dashboard
-    return redirect(env('FRONTEND_URL') . $request->input('intent'));
+    return redirect(config('app.frontend_url') . $request->input('intent'));
 })->name('auth.token-login');
 
 Route::get('remove-session/{token}', function (Request $request, string $token) {
@@ -117,7 +117,7 @@ Route::get('remove-session/{token}', function (Request $request, string $token) 
     }
     LogoutAction::run($user);
 
-    return redirect(env('FRONTEND_URL') . $request->input('intent'));
+    return redirect(config('app.frontend_url') . $request->input('intent'));
 })->name('auth.logout');
 
 // laravel not found route
