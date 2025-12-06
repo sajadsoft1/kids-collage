@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Actions\Auth\LogoutAction;
 use App\Livewire\Admin\Auth\LoginPage;
 use App\Livewire\Admin\Pages\Dashboard\DashboardIndex;
 use App\Livewire\Admin\Pages\Setting\SettingList;
@@ -14,11 +15,15 @@ use Illuminate\Support\Facades\Route;
 
 // Volt::route('/', 'users.index');
 
-Route::get('admin/auth/login', LoginPage::class)->name('admin.auth.login');
-Route::get('admin/auth/logout', function () {
-    auth()->guard('web')->logout();
+Route::get('admin/auth/login', function () {
+    return redirect(env('FRONTEND_URL') . '/login');
+})->name('admin.auth.login');
 
-    return redirect()->route('admin.auth.login');
+// Route::get('admin/auth/login', LoginPage::class)->name('admin.auth.login');
+Route::get('admin/auth/logout', function () {
+    LogoutAction::run(auth()->user());
+
+    return redirect(env('FRONTEND_URL') . '/login');
 })->name('admin.auth.logout');
 
 Route::group(['middleware' => ['admin.panel']], function () {

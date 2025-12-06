@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Actions\Auth\LogoutAction;
+use App\Actions\Auth\TokenLoginAction;
 use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\UtilityController;
@@ -26,6 +28,7 @@ use App\Livewire\Web\Pages\SearchPage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Laravel\Sanctum\PersonalAccessToken;
 
 // Route::get('change-locale/{lang}', [UtilityController::class, 'changeLocale'])->name('change-locale');
 //
@@ -90,21 +93,32 @@ Route::get('test', function () {
     ]);
 });
 
-Route::get('sync-session/{token}', function (Request $request) {
-    $token = $request->token;
-    if ( ! $token) {
-        abort(400, 'Token is required');
-    }
-
-    $user = App\Actions\Auth\TokenLoginAction::run($token);
+Route::get('sync-session/{token}', function (Request $request, string $token) {
+    $user = TokenLoginAction::run($token);
 
     if ( ! $user) {
         abort(401, 'Invalid or expired token');
     }
 
     // Redirect to admin dashboard
-    return redirect('/admin')->with('success', 'Successfully logged in!');
+    return redirect(env('FRONTEND_URL') . $request->input('intent'));
 })->name('auth.token-login');
+
+Route::get('remove-session/{token}', function (Request $request, string $token) {
+    $accessToken = PersonalAccessToken::findToken($token);
+
+    if ( ! $accessToken) {
+        abort(401, 'Invalid or expired token');
+    }
+    $user = $accessToken->tokenable;
+
+    if ( ! $user) {
+        abort(401, 'Invalid or expired token');
+    }
+    LogoutAction::run($user);
+
+    return redirect(env('FRONTEND_URL') . $request->input('intent'));
+})->name('auth.logout');
 
 // laravel not found route
 Route::fallback(function () {
