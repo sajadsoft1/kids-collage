@@ -22,6 +22,7 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="children_count", type="integer", default="3"),
  *     @OA\Property(property="updated_at", type="string", default="2024-08-19T07:26:07.000000Z"),
  *     @OA\Property(property="created_at", type="string", default="2024-08-19T07:26:07.000000Z"),
+ *     @OA\Property(property="children", type="array", @OA\Items(ref="#/components/schemas/SimpleCommentResource")),
  * )
  */
 class CommentResource extends JsonResource
@@ -37,6 +38,7 @@ class CommentResource extends JsonResource
             'user' => $this->whenLoaded('user', fn () => SimpleUserResource::make($this->user)),
             'admin' => $this->whenLoaded('admin', fn () => SimpleUserResource::make($this->admin)),
             'children_count' => $this->whenLoaded('children', fn () => $this->children->count(), 0),
+            'children' => $this->whenLoaded('children', fn () => SimpleCommentResource::collection($this->children)),
             'updated_at' => $this->updated_at,
             'created_at' => $this->created_at,
         ];

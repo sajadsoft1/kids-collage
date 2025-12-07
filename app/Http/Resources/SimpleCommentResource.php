@@ -27,7 +27,7 @@ class SimpleCommentResource extends JsonResource
             'id' => $this->id,
             'comment' => $this->comment,
             'rate' => $this->rate,
-            'user' => $this->whenLoaded('user', fn () => SimpleUserResource::make($this->user)),
+            'user' => SimpleUserResource::make($this->user),
         ];
     }
 }

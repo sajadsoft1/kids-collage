@@ -130,7 +130,7 @@ class EventController extends Controller
     {
         return Response::data(
             [
-                'event' => EventDetailResource::make($event),
+                'event' => EventDetailResource::make($event->load('comments', 'comments.user', 'comments.children')),
             ]
         );
     }
