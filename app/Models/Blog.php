@@ -22,6 +22,7 @@ use App\Traits\HasWishList;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
@@ -36,7 +37,7 @@ class Blog extends Model implements HasMedia
 {
     use CLogsActivity;
     use HasCategory;
-    use HasComment;
+    //    use HasComment;
     use HasFactory;
     use HasModelCache;
     use HasScheduledPublishing;
@@ -93,10 +94,11 @@ class Blog extends Model implements HasMedia
             ->dontSubmitEmptyLogs();
     }
 
-    /**
-     * Model Relations --------------------------------------------------------------------------
-     */
-
+    /** Model Relations -------------------------------------------------------------------------- */
+    public function comments(): MorphMany
+    {
+        return $this->morphMany(Comment::class, 'morphable')->where('parent_id', null);
+    }
     /**
      * Model Scope --------------------------------------------------------------------------
      */

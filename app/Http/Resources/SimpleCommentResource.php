@@ -17,6 +17,7 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="comment", type="string", example="Great article!", nullable=true),
  *     @OA\Property(property="rate", type="integer", example="5", nullable=true),
  *     @OA\Property(property="user", ref="#/components/schemas/SimpleUserResource"),
+ *     @OA\Property(property="created_at", type="string", format="date-time", example="2024-08-19T07:26:07.000000Z"),
  * )
  */
 class SimpleCommentResource extends JsonResource
@@ -28,6 +29,7 @@ class SimpleCommentResource extends JsonResource
             'comment' => $this->comment,
             'rate' => $this->rate,
             'user' => SimpleUserResource::make($this->user),
+            'created_at' => $this->created_at,
         ];
     }
 }
