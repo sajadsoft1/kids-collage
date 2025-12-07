@@ -36,7 +36,7 @@ class BlogController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api')->only('storeComment');
+        $this->middleware('auth:api')->only('storeUserComment');
     }
 
     private function query(array $payload = []): QueryBuilder
@@ -314,7 +314,7 @@ class BlogController extends Controller
 
         return Response::data(
             [
-                'blog' => BlogDetailResource::make($blog->load(['user', 'category', 'media', 'seoOption', 'tags', 'comments', 'comments.user', 'comments.children'])),
+                'blog' => BlogDetailResource::make($blog->load(['user', 'category', 'media', 'seoOption', 'tags', 'siteComments', 'siteComments.user', 'siteComments.children'])),
             ]
         );
     }
