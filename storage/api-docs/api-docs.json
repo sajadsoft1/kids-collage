@@ -5661,12 +5661,6 @@
                     "parent": {
                         "$ref": "#/components/schemas/SimpleCommentResource"
                     },
-                    "children": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/SimpleCommentResource"
-                        }
-                    },
                     "updated_at": {
                         "type": "string",
                         "default": "2024-08-19T07:26:07.000000Z"
@@ -5718,6 +5712,12 @@
                     "created_at": {
                         "type": "string",
                         "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "children": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SimpleCommentResource"
+                        }
                     }
                 },
                 "type": "object"

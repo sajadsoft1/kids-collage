@@ -169,7 +169,7 @@ class BulletinController extends Controller
     {
         return Response::data(
             [
-                'bulletin' => BulletinDetailResource::make($bulletin->load('category', 'tags', 'user', 'comments')),
+                'bulletin' => BulletinDetailResource::make($bulletin->load('category', 'tags', 'user',  'comments', 'comments.user', 'comments.children')),
             ]
         );
     }
