@@ -138,7 +138,7 @@ class EventController extends Controller
     /**
      * @OA\Post(
      *     path="/event/{event}/comment",
-     *     operationId="storeComment",
+     *     operationId="storeCommentEvent",
      *     tags={"Event"},
      *     summary="Store event comment",
      *     description="Store comment",
