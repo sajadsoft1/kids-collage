@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix' => 'blog', 'as' => 'blog.'], function () {
     Route::get('/', [BlogController::class, 'index'])->name('index');
     Route::get('data', [BlogController::class, 'data'])->name('data');
+    Route::post('{blog:slug}/comment', [BlogController::class, 'storeUserComment'])->name('store-user-comment');
     Route::get('{blog:slug}', [BlogController::class, 'show'])->name('show');
     Route::get('category/{category:slug}', [BlogController::class, 'indexByCategory'])->name('by-category');
     Route::get('tag/{tag:slug}', [BlogController::class, 'indexByTag'])->name('by-tag');

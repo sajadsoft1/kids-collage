@@ -1100,6 +1100,54 @@
                 }
             }
         },
+        "/blog/{blog}/comment": {
+            "post": {
+                "tags": [
+                    "Blog"
+                ],
+                "summary": "Store Blog comment",
+                "description": "Store contactUs",
+                "operationId": "storeCommentCard",
+                "parameters": [
+                    {
+                        "name": "blog",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreCommentRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/blog/{blog}/data": {
             "get": {
                 "tags": [
@@ -4658,6 +4706,23 @@
                 },
                 "type": "object"
             },
+            "StoreCommentRequest": {
+                "title": "StoreCommentRequest",
+                "required": [
+                    "comment"
+                ],
+                "properties": {
+                    "comment": {
+                        "type": "string",
+                        "default": "test comment"
+                    },
+                    "parent_id": {
+                        "type": "nullable|integer",
+                        "default": null
+                    }
+                },
+                "type": "object"
+            },
             "StoreContactUsRequest": {
                 "title": "StoreContactUsRequest",
                 "required": [
@@ -4778,7 +4843,7 @@
                     },
                     "type": {
                         "type": "string",
-                        "default": "flshcard"
+                        "default": "flashcard"
                     },
                     "color": {
                         "type": "string",

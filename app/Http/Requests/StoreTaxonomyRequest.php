@@ -17,7 +17,7 @@ use OpenApi\Annotations as OA;
  *     required={"name", "type", "color"},
  *
  *     @OA\Property(property="name", type="string", default="test name"),
- *     @OA\Property(property="type", type="string", default="flshcard"),
+ *     @OA\Property(property="type", type="string", default="flashcard"),
  *     @OA\Property(property="color", type="string", default="#ff0000"),
  * )
  */

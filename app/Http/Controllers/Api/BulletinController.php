@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
+use App\Actions\Comment\StoreCommentAction;
 use App\Filters\DateFilter;
 use App\Filters\FuzzyFilter;
+use App\Http\Requests\StoreCommentRequest;
 use App\Http\Resources\BannerResource;
 use App\Http\Resources\BulletinDetailResource;
 use App\Http\Resources\BulletinResource;
@@ -355,6 +357,39 @@ class BulletinController extends Controller
             $this->query([
                 'limit' => $request->input('limit', 1),
             ])->paginate($request->input('page_limit', 1))->toResourceCollection(BulletinResource::class),
+        );
+    }
+
+    /**
+     * @OA\Post(
+     *     path="/bulletin/{bulletin}/comment",
+     *     operationId="storeComment",
+     *     tags={"Bulletin"},
+     *     summary="Store bulletin comment",
+     *     description="Store comment",
+     *     @OA\Parameter(name="bulletin", required=true, in="path", @OA\Schema(type="string")),
+     *     @OA\RequestBody(required=true, @OA\JsonContent(ref="#/components/schemas/StoreCommentRequest")),
+     *     @OA\Response(response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(type="object",
+     *             @OA\Property(property="message", type="string", default="No message"),
+     *         ),
+     *     )
+     * )
+     */
+    public function storeUserComment(StoreCommentRequest $request, Bulletin $bulletin)
+    {
+        $user = auth()->user();
+        $data = $request->validated();
+        $data['user_id'] = $user->id;
+        $data['published'] = false;
+        $data['morphable_type'] = Bulletin::class;
+        $data['morphable_id'] = $bulletin->id;
+        StoreCommentAction::run($data);
+
+        return Response::data(
+            [],
+            trans('comment.store_successfully')
         );
     }
 }
