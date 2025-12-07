@@ -16,7 +16,7 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="id", type="integer", default="1"),
  *     @OA\Property(property="title", type="string", default="Blog Title"),
  *     @OA\Property(property="description", type="string", default="Blog Description"),
- *     @OA\Property(property="body", type="string", default="Full blog content..."),
+ *     @OA\Property(property="body", type="string", default="Full شروع-سریع-با-لاراول:-راهنمای-مبتدیانblog content..."),
  *     @OA\Property(property="slug", type="string", default="blog-title"),
  *     @OA\Property(property="published", ref="#/components/schemas/BooleanEnum"),
  *     @OA\Property(property="published_at", type="string", default="2024-08-19T07:26:07.000000Z"),

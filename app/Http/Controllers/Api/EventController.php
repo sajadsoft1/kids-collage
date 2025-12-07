@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
+use App\Actions\Comment\StoreCommentAction;
 use App\Filters\DateFilter;
 use App\Filters\FuzzyFilter;
+use App\Http\Requests\StoreCommentRequest;
 use App\Http\Resources\EventDetailResource;
 use App\Http\Resources\EventResource;
 use App\Models\Event;
@@ -130,6 +132,39 @@ class EventController extends Controller
             [
                 'event' => EventDetailResource::make($event),
             ]
+        );
+    }
+
+    /**
+     * @OA\Post(
+     *     path="/event/{event}/comment",
+     *     operationId="storeComment",
+     *     tags={"Event"},
+     *     summary="Store event comment",
+     *     description="Store comment",
+     *     @OA\Parameter(name="event", required=true, in="path", @OA\Schema(type="string")),
+     *     @OA\RequestBody(required=true, @OA\JsonContent(ref="#/components/schemas/StoreCommentRequest")),
+     *     @OA\Response(response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(type="object",
+     *             @OA\Property(property="message", type="string", default="No message"),
+     *         ),
+     *     )
+     * )
+     */
+    public function storeUserComment(StoreCommentRequest $request, Event $event)
+    {
+        $user = auth()->user();
+        $data = $request->validated();
+        $data['user_id'] = $user->id;
+        $data['published'] = false;
+        $data['morphable_type'] = Event::class;
+        $data['morphable_id'] = $event->id;
+        StoreCommentAction::run($data);
+
+        return Response::data(
+            [],
+            trans('comment.store_successfully')
         );
     }
 }
