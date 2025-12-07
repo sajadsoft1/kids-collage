@@ -1774,6 +1774,54 @@
                 }
             }
         },
+        "/bulletin/{bulletin}/comment": {
+            "post": {
+                "tags": [
+                    "Bulletin"
+                ],
+                "summary": "Store bulletin comment",
+                "description": "Store comment",
+                "operationId": "storeCommentBulletin",
+                "parameters": [
+                    {
+                        "name": "bulletin",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreCommentRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/client": {
             "get": {
                 "tags": [
@@ -2390,6 +2438,54 @@
                         }
                     }
                 ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/event/{event}/comment": {
+            "post": {
+                "tags": [
+                    "Event"
+                ],
+                "summary": "Store event comment",
+                "description": "Store comment",
+                "operationId": "storeCommentEvent",
+                "parameters": [
+                    {
+                        "name": "event",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreCommentRequest"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
                         "description": "Successful operation",
@@ -5091,7 +5187,7 @@
                     },
                     "body": {
                         "type": "string",
-                        "default": "Full blog content..."
+                        "default": "Full شروع-سریع-با-لاراول:-راهنمای-مبتدیانblog content..."
                     },
                     "slug": {
                         "type": "string",
@@ -5604,14 +5700,6 @@
                     "suggest": {
                         "type": "string",
                         "default": "yes"
-                    },
-                    "morphable_type": {
-                        "type": "string",
-                        "default": "App\\\\Models\\\\Blog"
-                    },
-                    "morphable_id": {
-                        "type": "integer",
-                        "default": "1"
                     },
                     "user": {
                         "$ref": "#/components/schemas/SimpleUserResource"

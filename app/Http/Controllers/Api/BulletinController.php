@@ -363,7 +363,7 @@ class BulletinController extends Controller
     /**
      * @OA\Post(
      *     path="/bulletin/{bulletin}/comment",
-     *     operationId="storeComment",
+     *     operationId="storeCommentBulletin",
      *     tags={"Bulletin"},
      *     summary="Store bulletin comment",
      *     description="Store comment",
