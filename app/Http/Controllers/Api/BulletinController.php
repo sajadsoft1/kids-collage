@@ -34,7 +34,10 @@ use Throwable;
 
 class BulletinController extends Controller
 {
-    public function __construct() {}
+    public function __construct()
+    {
+        $this->middleware('auth:api')->only('storeUserComment');
+    }
 
     private function query(array $payload = []): QueryBuilder
     {
@@ -169,7 +172,7 @@ class BulletinController extends Controller
     {
         return Response::data(
             [
-                'bulletin' => BulletinDetailResource::make($bulletin->load('category', 'tags', 'user',  'comments', 'comments.user', 'comments.children')),
+                'bulletin' => BulletinDetailResource::make($bulletin->load('category', 'tags', 'user',  'siteComments', 'siteComments.user', 'siteComments.children')),
             ]
         );
     }
