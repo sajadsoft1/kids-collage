@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
+use App\Actions\Comment\StoreCommentAction;
 use App\Filters\DateFilter;
 use App\Filters\FuzzyFilter;
+use App\Http\Requests\StoreCommentRequest;
 use App\Http\Resources\BannerResource;
 use App\Http\Resources\BlogDetailResource;
 use App\Http\Resources\BlogResource;
@@ -34,7 +36,7 @@ class BlogController extends Controller
 {
     public function __construct()
     {
-        //        $this->middleware('auth:sanctum');
+        $this->middleware('auth:api')->only('storeComment');
     }
 
     private function query(array $payload = []): QueryBuilder
@@ -312,8 +314,41 @@ class BlogController extends Controller
 
         return Response::data(
             [
-                'blog' => BlogDetailResource::make($blog->load(['user', 'category', 'media', 'seoOption', 'tags'])),
+                'blog' => BlogDetailResource::make($blog->load(['user', 'category', 'media', 'seoOption', 'tags', 'comments'])),
             ]
+        );
+    }
+
+    /**
+     * @OA\Post(
+     *     path="/blog/{blog}/comment",
+     *     operationId="storeCommentCard",
+     *     tags={"Blog"},
+     *     summary="Store Blog comment",
+     *     description="Store contactUs",
+     *     @OA\Parameter(name="blog", required=true, in="path", @OA\Schema(type="string")),
+     *     @OA\RequestBody(required=true, @OA\JsonContent(ref="#/components/schemas/StoreCommentRequest")),
+     *     @OA\Response(response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(type="object",
+     *             @OA\Property(property="message", type="string", default="No message"),
+     *         ),
+     *     )
+     * )
+     */
+    public function storeUserComment(StoreCommentRequest $request, Blog $blog)
+    {
+        $user = auth()->user();
+        $data = $request->validated();
+        $data['user_id'] = $user->id;
+        $data['published'] = false;
+        $data['morphable_type'] = Blog::class;
+        $data['morphable_id'] = $blog->id;
+        StoreCommentAction::run($data);
+
+        return Response::data(
+            [],
+            trans('comment.store_successfully')
         );
     }
 
