@@ -21,4 +21,5 @@ return [
     'page' => [
     ],
     'no_admin_answer' => 'بدون پاسخ مدیریت',
+    'store_successfully' => 'نظر با موفقیت ثبت شد',
 ];
