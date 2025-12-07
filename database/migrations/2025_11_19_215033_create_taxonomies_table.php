@@ -9,19 +9,18 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('notebooks', function (Blueprint $table) {
+        Schema::create('taxonomies', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignId('taxonomy_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
-            $table->string('title');
-            $table->longText('body');
-            $table->json('tags')->nullable();
+            $table->string('type');
+            $table->string('name')->nullable();
+            $table->string('color')->default('#4169E1');
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('notebooks');
+        Schema::dropIfExists('taxonomies');
     }
 };

@@ -135,6 +135,11 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="value", type="string", default="in-person", enum={"online", "in-person", "hybrid", "self-paced"}),
  *     @OA\Property(property="label", type="string"),
  *
+ * ), * @OA\Schema(
+ *     schema="TaxonomyTypeEnum",
+ *     @OA\Property(property="value", type="string", default="flashCard", enum={"flashcard", "notebook"}),
+ *     @OA\Property(property="label", type="string"),
+ *
  * ),
  */
 class ExtraSchema {}

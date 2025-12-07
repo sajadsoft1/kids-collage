@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Notebook;
+namespace App\Actions\Note;
 
-use App\Models\Notebook;
+use App\Models\Note;
 use Illuminate\Support\Facades\DB;
 use Lorisleiva\Actions\Concerns\AsAction;
 use Throwable;
 
-class StoreNotebookAction
+class StoreNoteAction
 {
     use AsAction;
 
@@ -18,18 +18,16 @@ class StoreNotebookAction
 
     /**
      * @param array{
-     *     title:string,
      *     body:string,
-     *     tags:array,
-     *     taxonomy_id:int
+     *     question_id:int
      * } $payload
      * @throws Throwable
      */
-    public function handle(array $payload): Notebook
+    public function handle(array $payload): Note
     {
         return DB::transaction(function () use ($payload) {
             $payload['user_id'] = auth()->user()->id;
-            $model = Notebook::create($payload);
+            $model = Note::create($payload);
 
             return $model;
         });

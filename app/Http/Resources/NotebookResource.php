@@ -10,31 +10,30 @@ use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema(
- *     schema="FlashCardResource",
- *     title="FlashCardResource",
+ *     schema="NotebookResource",
+ *     title="NotebookResource",
  *     @OA\Property(property="id", type="integer", default="1"),
- *     @OA\Property(property="front", type="string", default="front content"),
- *     @OA\Property(property="back", type="string", default="back content"),
- *     @OA\Property(property="favorite", ref="#/components/schemas/BooleanEnum"),
+ *     @OA\Property(property="title", type="string", default="Title"),
+ *     @OA\Property(property="body", type="string", default="body ...."),
+ *     @OA\Property(property="taxonomy", type="array", @OA\Items(ref="#/components/schemas/TaxonomyResource")),
  *     @OA\Property(property="updated_at", type="string", default="2024-08-19T07:26:07.000000Z"),
  *     @OA\Property(property="created_at", type="string", default="2024-08-19T07:26:07.000000Z"),
- *     @OA\Property(property="taxonomy", type="array", @OA\Items(ref="#/components/schemas/TaxonomyResource")),
  * )
  */
-class FlashCardResource extends JsonResource
+class NotebookResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
         return [
             'id' => $this->id,
-            'front' => $this->front,
-            'back' => $this->back,
-            'favorite' => $this->favorite->toArray(),
-            'updated_at' => $this->updated_at,
-            'created_at' => $this->created_at,
+            'title' => $this->title,
+            'body' => $this->body,
+            'tags' => $this->tags,
             'taxonomy' => $this->whenLoaded('taxonomy', function () {
                 return TaxonomyResource::make($this->taxonomy);
             }),
+            'updated_at' => $this->updated_at,
+            'created_at' => $this->created_at,
         ];
     }
 }

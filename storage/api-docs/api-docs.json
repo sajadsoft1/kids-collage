@@ -3064,6 +3064,556 @@
                 }
             }
         },
+        "/note": {
+            "get": {
+                "tags": [
+                    "Note"
+                ],
+                "summary": "get note list",
+                "description": "Returns list of note",
+                "operationId": "getNotes",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/page_limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/search"
+                    },
+                    {
+                        "$ref": "#/components/parameters/sort"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/NoteResource"
+                                            }
+                                        },
+                                        "links": {
+                                            "properties": {
+                                                "first": {
+                                                    "type": "string",
+                                                    "default": "http://localhost/api/note?page=1"
+                                                },
+                                                "last": {
+                                                    "type": "string",
+                                                    "default": "http://localhost/api/note?page=4"
+                                                },
+                                                "prev": {
+                                                    "type": "string",
+                                                    "default": "null",
+                                                    "nullable": true
+                                                },
+                                                "next": {
+                                                    "type": "string",
+                                                    "default": "http://localhost/api/note?page=2",
+                                                    "nullable": true
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "meta": {
+                                            "$ref": "#/components/schemas/Meta"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        },
+                                        "extra": {
+                                            "properties": {
+                                                "default_sort": {
+                                                    "type": "string",
+                                                    "default": "-id"
+                                                },
+                                                "sorts": {
+                                                    "properties": {
+                                                        "label": {
+                                                            "type": "string",
+                                                            "default": "ID"
+                                                        },
+                                                        "value": {
+                                                            "type": "string",
+                                                            "default": "id"
+                                                        },
+                                                        "selected": {
+                                                            "type": "boolean",
+                                                            "default": true
+                                                        },
+                                                        "default": {
+                                                            "type": "boolean",
+                                                            "default": true
+                                                        }
+                                                    },
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Note"
+                ],
+                "summary": "Store note",
+                "description": "Store notebook",
+                "operationId": "storeNote",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreNoteRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/NoteResource"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/note/{note}": {
+            "get": {
+                "tags": [
+                    "Note"
+                ],
+                "summary": "Get note information",
+                "description": "Returns note data",
+                "operationId": "getNoteID",
+                "parameters": [
+                    {
+                        "name": "note",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Note"
+                ],
+                "summary": "Update note",
+                "description": "Update note",
+                "operationId": "updateNote",
+                "parameters": [
+                    {
+                        "name": "note",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateNoteRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/NoteResource"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Note"
+                ],
+                "summary": "delete note",
+                "description": "delete note",
+                "operationId": "deleteNote",
+                "parameters": [
+                    {
+                        "name": "notebook",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/notebook": {
+            "get": {
+                "tags": [
+                    "Notebook"
+                ],
+                "summary": "get notebooks list",
+                "description": "Returns list of notebooks",
+                "operationId": "getNotebooks",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/page_limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/search"
+                    },
+                    {
+                        "$ref": "#/components/parameters/sort"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/NotebookResource"
+                                            }
+                                        },
+                                        "links": {
+                                            "properties": {
+                                                "first": {
+                                                    "type": "string",
+                                                    "default": "http://localhost/api/notebook?page=1"
+                                                },
+                                                "last": {
+                                                    "type": "string",
+                                                    "default": "http://localhost/api/notebook?page=4"
+                                                },
+                                                "prev": {
+                                                    "type": "string",
+                                                    "default": "null",
+                                                    "nullable": true
+                                                },
+                                                "next": {
+                                                    "type": "string",
+                                                    "default": "http://localhost/api/notebook?page=2",
+                                                    "nullable": true
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "meta": {
+                                            "$ref": "#/components/schemas/Meta"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        },
+                                        "extra": {
+                                            "properties": {
+                                                "default_sort": {
+                                                    "type": "string",
+                                                    "default": "-id"
+                                                },
+                                                "sorts": {
+                                                    "properties": {
+                                                        "label": {
+                                                            "type": "string",
+                                                            "default": "ID"
+                                                        },
+                                                        "value": {
+                                                            "type": "string",
+                                                            "default": "id"
+                                                        },
+                                                        "selected": {
+                                                            "type": "boolean",
+                                                            "default": true
+                                                        },
+                                                        "default": {
+                                                            "type": "boolean",
+                                                            "default": true
+                                                        }
+                                                    },
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Notebook"
+                ],
+                "summary": "Store notebook",
+                "description": "Store otebook",
+                "operationId": "storeNotebook",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreNotebookRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/NotebookResource"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/notebook/{notebook}": {
+            "get": {
+                "tags": [
+                    "Notebook"
+                ],
+                "summary": "Get notebook information",
+                "description": "Returns notebook data",
+                "operationId": "getNotebookID",
+                "parameters": [
+                    {
+                        "name": "notebook",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Notebook"
+                ],
+                "summary": "Update notebook",
+                "description": "Update notebook",
+                "operationId": "updateNotebook",
+                "parameters": [
+                    {
+                        "name": "notebook",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateNotebookRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/NotebookResource"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Notebook"
+                ],
+                "summary": "delete notebook",
+                "description": "delete notebook",
+                "operationId": "deleteNotebook",
+                "parameters": [
+                    {
+                        "name": "notebook",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/rules": {
             "get": {
                 "tags": [
@@ -3106,6 +3656,281 @@
                 "summary": "get active socialMedia list",
                 "description": "Returns list of socialMedia",
                 "operationId": "getActiveSocialMedias",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/taxonomy": {
+            "get": {
+                "tags": [
+                    "Taxonomy"
+                ],
+                "summary": "get taxonomy list",
+                "description": "Returns list of taxonomy",
+                "operationId": "getTaxonomys",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/page_limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/search"
+                    },
+                    {
+                        "$ref": "#/components/parameters/sort"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/TaxonomyResource"
+                                            }
+                                        },
+                                        "links": {
+                                            "properties": {
+                                                "first": {
+                                                    "type": "string",
+                                                    "default": "http://localhost/api/taxonomy?page=1"
+                                                },
+                                                "last": {
+                                                    "type": "string",
+                                                    "default": "http://localhost/api/taxonomy?page=4"
+                                                },
+                                                "prev": {
+                                                    "type": "string",
+                                                    "default": "null",
+                                                    "nullable": true
+                                                },
+                                                "next": {
+                                                    "type": "string",
+                                                    "default": "http://localhost/api/taxonomy?page=2",
+                                                    "nullable": true
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "meta": {
+                                            "$ref": "#/components/schemas/Meta"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        },
+                                        "extra": {
+                                            "properties": {
+                                                "default_sort": {
+                                                    "type": "string",
+                                                    "default": "-id"
+                                                },
+                                                "sorts": {
+                                                    "properties": {
+                                                        "label": {
+                                                            "type": "string",
+                                                            "default": "ID"
+                                                        },
+                                                        "value": {
+                                                            "type": "string",
+                                                            "default": "id"
+                                                        },
+                                                        "selected": {
+                                                            "type": "boolean",
+                                                            "default": true
+                                                        },
+                                                        "default": {
+                                                            "type": "boolean",
+                                                            "default": true
+                                                        }
+                                                    },
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Taxonomy"
+                ],
+                "summary": "Store taxonomy",
+                "description": "Store otebook",
+                "operationId": "storeTaxonomy",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreTaxonomyRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/TaxonomyResource"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/taxonomy/{taxonomy}": {
+            "get": {
+                "tags": [
+                    "Taxonomy"
+                ],
+                "summary": "Get taxonomy information",
+                "description": "Returns taxonomy data",
+                "operationId": "getTaxonomyByID",
+                "parameters": [
+                    {
+                        "name": "taxonomy",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Taxonomy"
+                ],
+                "summary": "Update taxonomy",
+                "description": "Update taxonomy",
+                "operationId": "updateTaxonomy",
+                "parameters": [
+                    {
+                        "name": "taxonomy",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateTaxonomyRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/TaxonomyResource"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "default": "No message"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Taxonomy"
+                ],
+                "summary": "delete taxonomy",
+                "description": "delete taxonomy",
+                "operationId": "deleteTaxonomy",
+                "parameters": [
+                    {
+                        "name": "taxonomy",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful operation",
@@ -3614,6 +4439,22 @@
                 },
                 "type": "object"
             },
+            "TaxonomyTypeEnum": {
+                "properties": {
+                    "value": {
+                        "type": "string",
+                        "default": "flashCard",
+                        "enum": [
+                            "flashcard",
+                            "notebook"
+                        ]
+                    },
+                    "label": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
             "Meta": {
                 "title": "Pagination",
                 "properties": {
@@ -3852,14 +4693,10 @@
             "StoreFlashCardRequest": {
                 "title": "StoreFlashCardRequest",
                 "required": [
-                    "title",
+                    "front",
                     "favorite"
                 ],
                 "properties": {
-                    "title": {
-                        "type": "string",
-                        "default": "test title"
-                    },
                     "front": {
                         "type": "string",
                         "default": "test front content"
@@ -3871,6 +4708,81 @@
                     "favorite": {
                         "type": "boolean",
                         "default": false
+                    },
+                    "tags": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "StoreNoteRequest": {
+                "title": "StoreNoteRequest",
+                "required": [
+                    "question_id",
+                    "body"
+                ],
+                "properties": {
+                    "question_id": {
+                        "type": "integer",
+                        "default": 1
+                    },
+                    "body": {
+                        "type": "string",
+                        "default": "test body"
+                    }
+                },
+                "type": "object"
+            },
+            "StoreNotebookRequest": {
+                "title": "StoreNotebookRequest",
+                "required": [
+                    "title",
+                    "taxonomy_id"
+                ],
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "default": "test title"
+                    },
+                    "body": {
+                        "type": "string",
+                        "default": "test body"
+                    },
+                    "taxonomy_id": {
+                        "type": "integer",
+                        "default": 1
+                    },
+                    "tags": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "StoreTaxonomyRequest": {
+                "title": "StoreTaxonomyRequest",
+                "required": [
+                    "name",
+                    "type",
+                    "color"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "default": "test name"
+                    },
+                    "type": {
+                        "type": "string",
+                        "default": "flshcard"
+                    },
+                    "color": {
+                        "type": "string",
+                        "default": "#ff0000"
                     }
                 },
                 "type": "object"
@@ -3878,14 +4790,10 @@
             "UpdateFlashCardRequest": {
                 "title": "UpdateFlashCardRequest",
                 "required": [
-                    "title",
+                    "front",
                     "favorite"
                 ],
                 "properties": {
-                    "title": {
-                        "type": "string",
-                        "default": "test title"
-                    },
                     "front": {
                         "type": "string",
                         "default": "test front content"
@@ -3897,6 +4805,81 @@
                     "favorite": {
                         "type": "boolean",
                         "default": false
+                    },
+                    "tags": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateNoteRequest": {
+                "title": "UpdateNoteRequest",
+                "required": [
+                    "question_id",
+                    "body"
+                ],
+                "properties": {
+                    "question_id": {
+                        "type": "integer",
+                        "default": 1
+                    },
+                    "body": {
+                        "type": "string",
+                        "default": "test body"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateNotebookRequest": {
+                "title": "UpdateNotebookRequest",
+                "required": [
+                    "title",
+                    "taxonomy_id"
+                ],
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "default": "test title"
+                    },
+                    "body": {
+                        "type": "string",
+                        "default": "test body"
+                    },
+                    "taxonomy_id": {
+                        "type": "integer",
+                        "default": 1
+                    },
+                    "tags": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateTaxonomyRequest": {
+                "title": "UpdateTaxonomyRequest",
+                "required": [
+                    "name",
+                    "type",
+                    "color"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "default": "test name"
+                    },
+                    "type": {
+                        "type": "string",
+                        "default": "flshcard"
+                    },
+                    "color": {
+                        "type": "string",
+                        "default": "#ff0000"
                     }
                 },
                 "type": "object"
@@ -5202,11 +6185,7 @@
                         "type": "integer",
                         "default": "1"
                     },
-                    "title": {
-                        "type": "string",
-                        "default": "Title"
-                    },
-                    "fornt": {
+                    "front": {
                         "type": "string",
                         "default": "front content"
                     },
@@ -5214,7 +6193,7 @@
                         "type": "string",
                         "default": "back content"
                     },
-                    "published": {
+                    "favorite": {
                         "$ref": "#/components/schemas/BooleanEnum"
                     },
                     "updated_at": {
@@ -5235,11 +6214,7 @@
                         "type": "integer",
                         "default": "1"
                     },
-                    "title": {
-                        "type": "string",
-                        "default": "Title"
-                    },
-                    "fornt": {
+                    "front": {
                         "type": "string",
                         "default": "front content"
                     },
@@ -5247,7 +6222,7 @@
                         "type": "string",
                         "default": "back content"
                     },
-                    "published": {
+                    "favorite": {
                         "$ref": "#/components/schemas/BooleanEnum"
                     },
                     "updated_at": {
@@ -5257,6 +6232,12 @@
                     "created_at": {
                         "type": "string",
                         "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "taxonomy": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/TaxonomyResource"
+                        }
                     }
                 },
                 "type": "object"
@@ -5336,6 +6317,98 @@
                     "image": {
                         "type": "string",
                         "default": "https://example.com/image.jpg"
+                    }
+                },
+                "type": "object"
+            },
+            "NoteResource": {
+                "title": "NoteResource",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "body": {
+                        "type": "string",
+                        "default": "body ...."
+                    },
+                    "question": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/QuestionResource"
+                        }
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    }
+                },
+                "type": "object"
+            },
+            "NotebookDetailResource": {
+                "title": "NotebookDetailResource",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "title": {
+                        "type": "string",
+                        "default": "Title"
+                    },
+                    "body": {
+                        "type": "string",
+                        "default": "body ...."
+                    },
+                    "taxonomy": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/TaxonomyResource"
+                        }
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    }
+                },
+                "type": "object"
+            },
+            "NotebookResource": {
+                "title": "NotebookResource",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "title": {
+                        "type": "string",
+                        "default": "Title"
+                    },
+                    "body": {
+                        "type": "string",
+                        "default": "body ...."
+                    },
+                    "taxonomy": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/TaxonomyResource"
+                        }
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
                     }
                 },
                 "type": "object"
@@ -5436,6 +6509,32 @@
                     "image": {
                         "type": "string",
                         "default": "https://example.com/image.jpg"
+                    }
+                },
+                "type": "object"
+            },
+            "QuestionResource": {
+                "title": "QuestionResource",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "title": {
+                        "type": "string",
+                        "default": "Title"
+                    },
+                    "description": {
+                        "type": "string",
+                        "default": "Description"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "default": "2024-08-19T07:26:07.000000Z"
                     }
                 },
                 "type": "object"
@@ -5811,6 +6910,24 @@
                     "slug": {
                         "type": "string",
                         "default": "laravel"
+                    }
+                },
+                "type": "object"
+            },
+            "TaxonomyResource": {
+                "title": "TaxonomyResource",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    "name": {
+                        "type": "string",
+                        "default": "test"
+                    },
+                    "color": {
+                        "type": "string",
+                        "default": "$ffffff"
                     }
                 },
                 "type": "object"
@@ -6245,12 +7362,24 @@
             "description": "License"
         },
         {
+            "name": "Note",
+            "description": "Note"
+        },
+        {
+            "name": "Notebook",
+            "description": "Notebook"
+        },
+        {
             "name": "Rules",
             "description": "Rules"
         },
         {
             "name": "SocialMedia",
             "description": "SocialMedia"
+        },
+        {
+            "name": "Taxonomy",
+            "description": "Taxonomy"
         },
         {
             "name": "User",
