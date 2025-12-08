@@ -130,7 +130,7 @@ class EventController extends Controller
     {
         return Response::data(
             [
-                'event' => EventDetailResource::make($event->load( 'siteComments', 'siteComments.user', 'siteComments.children')),
+                'event' => EventDetailResource::make($event->load('siteComments', 'siteComments.user', 'siteComments.children')),
             ]
         );
     }
