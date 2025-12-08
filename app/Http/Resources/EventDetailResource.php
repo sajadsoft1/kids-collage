@@ -35,6 +35,7 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="updated_at", type="string", default="2024-08-19T07:26:07.000000Z"),
  *     @OA\Property(property="created_at", type="string", default="2024-08-19T07:26:07.000000Z"),
  *     @OA\Property(property="comments", type="array", @OA\Items(ref="#/components/schemas/SimpleCommentResource")),
+ *     @OA\Property(property="siteComments", type="array", @OA\Items(ref="#/components/schemas/SimpleCommentResource")),
  *     @OA\Property(property="seo_option", type="object"),
  * )
  */
@@ -47,6 +48,7 @@ class EventDetailResource extends JsonResource
         return array_merge($resource, [
             'body' => $this->body,
             'comments' => $this->whenLoaded('comments', fn () => CommentResource::collection($this->comments)),
+            'siteComments' => $this->whenLoaded('siteComments', fn () => CommentResource::collection($this->comments)),
             'seo_option' => $this->seoOption,
             'image' => $this->resource->getFirstMediaUrl('image', Constants::RESOLUTION_1280_720),
             //            'liked' => $this->resource?->isWished(),
