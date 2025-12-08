@@ -40,7 +40,7 @@ class BulletinDetailResource extends JsonResource
             'body' => $this->body,
             'languages' => $this->languages,
             'comments' => $this->whenLoaded('comments', fn () => CommentResource::collection($this->comments)),
-            'siteComments' => $this->whenLoaded('siteComments', fn () => CommentResource::collection($this->comments)),
+            'siteComments' => $this->whenLoaded('siteComments', fn () => CommentResource::collection($this->siteComments)),
             'user' => $this->whenLoaded('user', fn () => UserResource::make($this->user)),
             'tags' => $this->whenLoaded('tags', fn () => TagResource::collection($this->tags)),
             'seo_option' => $this->seoOption,

@@ -6126,6 +6126,12 @@
                             "$ref": "#/components/schemas/SimpleCommentResource"
                         }
                     },
+                    "siteComments": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SimpleCommentResource"
+                        }
+                    },
                     "seo_option": {
                         "type": "object"
                     }
@@ -6810,6 +6816,11 @@
                     },
                     "user": {
                         "$ref": "#/components/schemas/SimpleUserResource"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-08-19T07:26:07.000000Z"
                     }
                 },
                 "type": "object"
