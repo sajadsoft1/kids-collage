@@ -15,8 +15,8 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         StoreUserAction::run([
-            'name' => 'sajjad',
-            'family' => 'eskandarian',
+            'name' => 'سجاد',
+            'family' => 'اسکندریان',
             'type' => UserTypeEnum::TEACHER,
             'status' => true,
             'email' => 'teacher@gmail.com',
@@ -25,8 +25,8 @@ class UserSeeder extends Seeder
         ]);
 
         StoreUserAction::run([
-            'name' => 'hossein',
-            'family' => 'abravi',
+            'name' => 'حسین',
+            'family' => 'ابروی',
             'type' => UserTypeEnum::EMPLOYEE,
             'status' => true,
             'email' => 'employee@gmail.com',
@@ -35,8 +35,8 @@ class UserSeeder extends Seeder
         ]);
 
         $user = StoreUserAction::run([
-            'name' => 'sajjad',
-            'family' => 'khodabakhsh',
+            'name' => 'سجاد',
+            'family' => 'خدابخشی',
             'type' => UserTypeEnum::USER,
             'status' => true,
             'email' => 'user@gmail.com',
@@ -45,8 +45,8 @@ class UserSeeder extends Seeder
         ]);
 
         $parent = StoreUserAction::run([
-            'name' => 'ahmad',
-            'family' => 'dehestani',
+            'name' => 'احمد',
+            'family' => 'دهستانی',
             'type' => UserTypeEnum::PARENT,
             'status' => true,
             'email' => 'parent@gmail.com',

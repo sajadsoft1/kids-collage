@@ -198,16 +198,7 @@ class PaymentListWidget extends Component
     /** Get the URL for viewing more items */
     public function getMoreItemsUrl(): string
     {
-        $params = http_build_query(array_filter([
-            'start_date' => $this->start_date,
-            'end_date' => $this->end_date,
-            'status' => $this->status,
-            'type' => $this->type,
-            'user_id' => $this->user_id,
-            'user_ids' => $this->user_ids,
-        ]));
-
-        return route('admin.payment.index') . '?' . $params;
+        return route('admin.payment.index');
     }
 
     /** Render the component */

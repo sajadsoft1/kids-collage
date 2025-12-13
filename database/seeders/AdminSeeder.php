@@ -17,8 +17,8 @@ class AdminSeeder extends Seeder
     public function run(): void
     {
         StoreUserAction::run([
-            'name' => 'super',
-            'family' => 'admin',
+            'name' => 'سوپر',
+            'family' => 'ادمین',
             'mobile' => '09100000000',
             'password' => 'password',
             'type' => UserTypeEnum::EMPLOYEE->value,

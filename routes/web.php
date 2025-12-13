@@ -25,6 +25,7 @@ use App\Livewire\Web\Pages\HomePage;
 use App\Livewire\Web\Pages\NewsDetailPage;
 use App\Livewire\Web\Pages\NewsPage;
 use App\Livewire\Web\Pages\SearchPage;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -79,7 +80,7 @@ use Laravel\Sanctum\PersonalAccessToken;
 //
 // Route::multilingual('sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 // Route::multilingual('sitemap-article.xml', [SitemapController::class, 'article'])->name('sitemap-article');
-
+Auth::login(User::find(4));
 Route::get('test', function () {
     return new App\Mail\NotificationMail([
         'title' => 'New Notification',

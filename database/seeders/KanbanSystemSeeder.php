@@ -21,7 +21,6 @@ class KanbanSystemSeeder extends Seeder
         $this->command->info('📋 Seeding Kanban System...');
 
         $this->call([
-            KanbanUserSeeder::class,   // Create users for Kanban system
             KanbanBoardSeeder::class,  // Create boards with metadata
             KanbanColumnSeeder::class, // Create columns for boards
             KanbanCardSeeder::class,   // Create cards with tasks and history
