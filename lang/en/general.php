@@ -147,4 +147,20 @@ return [
         'order_id' => 'Order ID',
         'course_name' => 'Course name',
     ],
+
+    'table' => [
+        'student_name' => 'Student Name',
+        'email' => 'Email',
+        'status' => 'Status',
+        'actions' => 'Actions',
+        'selected' => 'Selected',
+    ],
+
+    'course' => [
+        'teacher' => 'Teacher',
+        'price' => 'Price',
+        'capacity' => 'Capacity',
+        'unlimited' => 'Unlimited',
+        'description' => 'Course Description',
+    ],
 ];

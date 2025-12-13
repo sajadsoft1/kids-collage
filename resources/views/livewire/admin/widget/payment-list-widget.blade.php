@@ -58,15 +58,15 @@
     {{-- Filters --}}
     <div class="flex flex-wrap gap-2 mb-4">
         {{-- Status Filters --}}
-        <x-button label="موفق" icon="o-check-circle"
+        <x-button label="موفق" icon="o-check-circle" spinner
             class="btn-sm {{ $status === 'paid' ? 'btn-success' : 'btn-outline' }}"
             wire:click="filterByStatus('paid')" />
 
-        <x-button label="در انتظار" icon="o-clock"
+        <x-button label="در انتظار" icon="o-clock" spinner
             class="btn-sm {{ $status === 'pending' ? 'btn-warning' : 'btn-outline' }}"
             wire:click="filterByStatus('pending')" />
 
-        <x-button label="ناموفق" icon="o-x-circle"
+        <x-button label="ناموفق" icon="o-x-circle" spinner
             class="btn-sm {{ $status === 'failed' ? 'btn-error' : 'btn-outline' }}"
             wire:click="filterByStatus('failed')" />
 
@@ -74,19 +74,20 @@
 
         {{-- Type Filters --}}
         <x-button label="آنلاین ({{ $this->paymentTypeStats['online'] }})" icon="o-credit-card"
-            class="btn-sm {{ $type === 'online' ? 'btn-active' : 'btn-outline' }}"
+            class="btn-sm {{ $type === 'online' ? 'btn-active' : 'btn-outline' }}" spinner
             wire:click="filterByType('online')" />
 
         <x-button label="نقدی ({{ $this->paymentTypeStats['cash'] }})" icon="o-banknotes"
-            class="btn-sm {{ $type === 'cash' ? 'btn-active' : 'btn-outline' }}" wire:click="filterByType('cash')" />
+            class="btn-sm {{ $type === 'cash' ? 'btn-active' : 'btn-outline' }}" spinner
+            wire:click="filterByType('cash')" />
 
         <x-button label="کارت به کارت ({{ $this->paymentTypeStats['card_to_card'] }})"
             icon="o-arrow-path-rounded-square"
-            class="btn-sm {{ $type === 'card_to_card' ? 'btn-active' : 'btn-outline' }}"
+            class="btn-sm {{ $type === 'card_to_card' ? 'btn-active' : 'btn-outline' }}" spinner
             wire:click="filterByType('card_to_card')" />
 
         @if ($status || $type)
-            <x-button label="حذف فیلترها" icon="o-x-mark" class="btn-sm btn-ghost" wire:click="resetFilters" />
+            <x-button label="حذف فیلترها" icon="o-x-mark" class="btn-sm btn-ghost" spinner wire:click="resetFilters" />
         @endif
     </div>
 
@@ -187,7 +188,7 @@
         {{-- Show More Button --}}
         @if ($this->latestPayments->count() >= $limit)
             <div class="mt-4 text-center">
-                <x-button label="مشاهده همه پرداخت‌ها" icon="o-chevron-left" class="btn-sm btn-outline"
+                <x-button label="مشاهده همه پرداخت‌ها" icon-right="o-chevron-left" class="btn-sm btn-outline"
                     link="{{ $this->getMoreItemsUrl() }}" />
             </div>
         @endif

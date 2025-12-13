@@ -40,5 +40,6 @@ return [
         'create_title' => 'Create New Course',
         'edit_title' => 'Edit Course',
         'show_title' => 'Course Details',
+        'detail_title' => 'Course Details',
     ],
 ];

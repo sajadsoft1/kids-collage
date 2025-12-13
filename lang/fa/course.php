@@ -61,6 +61,7 @@ return [
         'create_title' => 'ایجاد دوره جدید',
         'edit_title' => 'ویرایش دوره',
         'show_title' => 'جزئیات دوره',
+        'detail_title' => 'جزئیات دوره',
         'session_list' => 'لیست جلسات دوره',
 
         'runer' => [

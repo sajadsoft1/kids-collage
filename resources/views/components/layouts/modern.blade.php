@@ -1,5 +1,5 @@
 @php use App\Helpers\Constants; @endphp
-        <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ app()->getLocale() == 'fa' ? 'rtl' : 'ltr' }}">
 
 <head>
@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="/assets/fonts/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="/assets/fonts/IRANYekan/style.css">
 
-    <link rel="stylesheet" href="/assets/css/cropper.min.css"/>
+    <link rel="stylesheet" href="/assets/css/cropper.min.css" />
     <script src="/assets/js/cropper.min.js"></script>
     <script src="/assets/js/tinymce/tinymce.min.js"></script>
     <script src="/assets/js/chart.umd.min.js"></script>
@@ -20,7 +20,7 @@
     <script src="https://cdn.jsdelivr.net/npm/photoswipe@5.4.3/dist/umd/photoswipe.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/photoswipe@5.4.3/dist/umd/photoswipe-lightbox.umd.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/photoswipe@5.4.3/dist/photoswipe.min.css" rel="stylesheet">
-    
+
     <link rel="stylesheet" href="/assets/css/flatpickr.min.css">
     <script src="/assets/js/flatpickr.min.js"></script>
     @livewireStyles
@@ -29,104 +29,104 @@
 
 <body class="flex flex-col min-h-screen bg-base-300" x-data>
 
-<x-main full-width>
+    <x-main full-width>
 
-    {{-- Modern Sidebar --}}
-    <x-slot:sidebar drawer="main-drawer" collapsible
-                    class="shadow-xl backdrop-blur-md no-scrollbar bg-base-100/80 border-e border-base-content/10">
+        {{-- Modern Sidebar --}}
+        <x-slot:sidebar drawer="main-drawer" collapsible
+            class="shadow-xl backdrop-blur-md no-scrollbar bg-base-100/80 border-e border-base-content/10">
 
-        {{-- Brand Header with Gradient --}}
-        <div
+            {{-- Brand Header with Gradient --}}
+            <div
                 class="sticky top-0 z-10 bg-base-100 dark:bg-gradient-to-r border-b dark:from-primary/10 dark:to-secondary/10 border-base-content/10 h-[64px]">
-            <div class="p-2 hidden-when-collapsed">
-                <div class="flex items-center gap-3">
-                    <div
+                <div class="p-2 hidden-when-collapsed">
+                    <div class="flex items-center gap-3">
+                        <div
                             class="flex items-center justify-center w-10 h-10 bg-gradient-to-r rounded-xl from-primary to-secondary">
-                        <x-icon name="o-cube" class="w-6 h-6 text-white"/>
-                    </div>
-                    <div>
-                        <h1
+                            <x-icon name="o-cube" class="w-6 h-6 text-white" />
+                        </div>
+                        <div>
+                            <h1
                                 class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
-                            Karnoweb</h1>
-                        <p class="text-sm text-base-content/70">Admin Dashboard</p>
+                                Karnoweb</h1>
+                            <p class="text-sm text-base-content/70">Admin Dashboard</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="hidden w-full h-full display-when-collapsed">
-                <div class="flex items-center w-full h-full">
-                    <div
+                <div class="hidden w-full h-full display-when-collapsed">
+                    <div class="flex items-center w-full h-full">
+                        <div
                             class="flex items-center justify-center w-10 h-10 mx-auto bg-gradient-to-r rounded-xl from-primary to-secondary">
-                        <x-icon name="o-cube" class="w-6 h-6 text-white"/>
+                            <x-icon name="o-cube" class="w-6 h-6 text-white" />
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        {{-- Navigation Menu with Modern Styling --}}
-        <x-menu activate-by-route class="flex flex-col">
-            <div class="flex-1 space-y-2 overflow-y-auto">
-                @foreach ($navbarMenu ?? [] as $menu)
-                    @if (Arr::has($menu, 'sub_menu'))
-                        @if (Arr::get($menu, 'access', true))
-                            <x-menu-sub :title="Arr::get($menu, 'title')" :icon="Arr::get($menu, 'icon')">
-                                @foreach (Arr::get($menu, 'sub_menu', []) as $subMenu)
-                                    @if (Arr::get($subMenu, 'access', true))
-                                        <x-menu-item :exact="Arr::get($subMenu, 'exact', false)" :title="Arr::get($subMenu, 'title')" :icon="Arr::get($subMenu, 'icon')"
-                                                     :badge="Arr::get($subMenu, 'badge')" :badge-classes="Arr::get(
+            {{-- Navigation Menu with Modern Styling --}}
+            <x-menu activate-by-route class="flex flex-col">
+                <div class="flex-1 space-y-2 overflow-y-auto">
+                    @foreach ($navbarMenu ?? [] as $menu)
+                        @if (Arr::has($menu, 'sub_menu'))
+                            @if (Arr::get($menu, 'access', true))
+                                <x-menu-sub :title="Arr::get($menu, 'title')" :icon="Arr::get($menu, 'icon')">
+                                    @foreach (Arr::get($menu, 'sub_menu', []) as $subMenu)
+                                        @if (Arr::get($subMenu, 'access', true))
+                                            <x-menu-item :exact="Arr::get($subMenu, 'exact', false)" :title="Arr::get($subMenu, 'title')" :icon="Arr::get($subMenu, 'icon')"
+                                                :badge="Arr::get($subMenu, 'badge')" :badge-classes="Arr::get(
                                                     $subMenu,
                                                     'badge_classes',
                                                     'float-left badge-info badge-dash',
                                                 )" :link="route(
                                                     Arr::get($subMenu, 'route_name'),
                                                     Arr::get($subMenu, 'params', []),
-                                                )"/>
-                                    @endif
-                                @endforeach
-                            </x-menu-sub>
+                                                )" />
+                                        @endif
+                                    @endforeach
+                                </x-menu-sub>
+                            @endif
+                        @elseif(Arr::has($menu, 'type') && Arr::get($menu, 'type') === 'seperator')
+                            <x-menu-separator :title="Arr::get($menu, 'title')" class="my-4" />
+                        @else
+                            @if (Arr::get($menu, 'access', true))
+                                <x-menu-item :exact="Arr::get($menu, 'exact', false)" :title="Arr::get($menu, 'title')" :icon="Arr::get($menu, 'icon')" :badge="Arr::get($menu, 'badge')"
+                                    :badge-classes="Arr::get($menu, 'badge_classes', 'float-left')" :link="route(Arr::get($menu, 'route_name'), Arr::get($menu, 'params', []))" />
+                            @endif
                         @endif
-                    @elseif(Arr::has($menu, 'type') && Arr::get($menu, 'type') === 'seperator')
-                        <x-menu-separator :title="Arr::get($menu, 'title')" class="my-4"/>
-                    @else
-                        @if (Arr::get($menu, 'access', true))
-                            <x-menu-item :exact="Arr::get($menu, 'exact', false)" :title="Arr::get($menu, 'title')" :icon="Arr::get($menu, 'icon')" :badge="Arr::get($menu, 'badge')"
-                                         :badge-classes="Arr::get($menu, 'badge_classes', 'float-left')" :link="route(Arr::get($menu, 'route_name'), Arr::get($menu, 'params', []))"/>
-                        @endif
-                    @endif
-                @endforeach
-            </div>
-        </x-menu>
-    </x-slot:sidebar>
+                    @endforeach
+                </div>
+            </x-menu>
+        </x-slot:sidebar>
 
-    {{-- Main Content Area --}}
-    <x-slot:content class="!p-0 flex flex-col flex-1 min-h-0">
-        {{-- Modern Header Bar --}}
-        <livewire:admin.shared.header/>
-        {{-- Page Content with Glass Effect --}}
-        <div @class([
+        {{-- Main Content Area --}}
+        <x-slot:content class="!p-0 flex flex-col flex-1 min-h-0">
+            {{-- Modern Header Bar --}}
+            <livewire:admin.shared.header />
+            {{-- Page Content with Glass Effect --}}
+            <div @class([
                 'flex flex-col flex-1',
                 'mb-4 px-4 sm:px-6 lg:px-8' => !isset($fullWidth) || !$fullWidth,
                 'px-0' => isset($fullWidth) && $fullWidth,
             ])>
-            <div @class([
+                <div @class([
                     'flex flex-col flex-1',
                     'container mx-auto' => !isset($fullWidth) || !$fullWidth,
                     'container-fluid' => isset($fullWidth) && $fullWidth,
                 ])>
-                {{ $slot }}
+                    {{ $slot }}
+                </div>
             </div>
-        </div>
-    </x-slot:content>
-</x-main>
+        </x-slot:content>
+    </x-main>
 
-{{-- Toast Notifications --}}
-<x-toast position="toast-button toast-end"/>
+    {{-- Toast Notifications --}}
+    <x-toast position="toast-button toast-end" />
 
-{{-- Spotlight Search --}}
-<x-spotlight shortcut="meta.k" search-text="Search for users, blogs, categories, or actions..."
-             no-results-text="No results found."/>
+    {{-- Spotlight Search --}}
+    <x-spotlight shortcut="meta.k" search-text="Search for users, blogs, categories, or actions..."
+        no-results-text="No results found." />
 
-@livewireScriptConfig
-@livewireCalendarScripts
+    @livewireScriptConfig
+    @livewireCalendarScripts
 </body>
 
 </html>

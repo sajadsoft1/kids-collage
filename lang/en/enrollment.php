@@ -15,5 +15,6 @@ return [
     'notifications' => [
     ],
     'page' => [
+        'no_students' => 'No students have enrolled in this course',
     ],
 ];

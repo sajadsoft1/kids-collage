@@ -163,4 +163,20 @@ return [
         'order_id' => 'شناسه سفارش',
         'course_name' => 'نام دوره',
     ],
+
+    'table' => [
+        'student_name' => 'نام دانش‌آموز',
+        'email' => 'ایمیل',
+        'status' => 'وضعیت',
+        'actions' => 'عملیات',
+        'selected' => 'انتخاب شده',
+    ],
+
+    'course' => [
+        'teacher' => 'استاد',
+        'price' => 'قیمت',
+        'capacity' => 'ظرفیت',
+        'unlimited' => 'نامحدود',
+        'description' => 'توضیحات دوره',
+    ],
 ];

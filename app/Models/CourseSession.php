@@ -80,7 +80,7 @@ class CourseSession extends Model
     /** Get the session template that this session is based on. */
     public function sessionTemplate(): BelongsTo
     {
-        return $this->belongsTo(CourseSessionTemplate::class);
+        return $this->belongsTo(CourseSessionTemplate::class, 'course_session_template_id');
     }
 
     /** Get the room for this session. */

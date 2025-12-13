@@ -116,7 +116,7 @@
         {{-- Show More Button --}}
         @if ($this->notifications->count() >= $limit)
             <div class="mt-4 text-center">
-                <x-button label="مشاهده همه اعلانات" icon="o-chevron-left" class="btn-sm btn-outline"
+                <x-button label="مشاهده همه اعلانات" icon-right="o-chevron-left" class="btn-sm btn-outline"
                     link="{{ route('admin.dashboard') }}" />
             </div>
         @endif
