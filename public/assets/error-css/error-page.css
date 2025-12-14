@@ -1,0 +1,268 @@
+/* CSS File
+  ===================
+    Item Name: Erratum - 404 Error pages + Coming soon + login Tailwind css Template
+    Author: Ashish Maraviya
+    Version: 4
+    Copyright 2024
+===================*/
+/*------------------------------------------------------------------
+  [ Master css file, Table of contents ]
+
+  00. General css
+  01. Page css
+
+------------------------------------------------------------*/
+/*------------------------------------------------------------------
+  # [Color codes]
+    color: #5076db;
+    color: #5bc86d;
+# */
+/*------------------------------------------------------------------
+  [Typography]
+
+  Body copy:      font-family: 'iranyekan', sans-serif;
+-------------------------------------------------------------------*/
+/*==============
+  [00] Page General css
+=================*/
+body {
+  font-family: "iranyekan", sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "iranyekan", sans-serif;
+}
+
+.loader {
+  border: 16px solid #111;
+  border-top: 16px double #5076db;
+  border-bottom: 16px double #5076db;
+  -webkit-animation: spin 2s linear infinite;
+          animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% {
+    Transform: rotate(0deg);
+  }
+  100% {
+    Transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    Transform: rotate(0deg);
+  }
+  100% {
+    Transform: rotate(360deg);
+  }
+}
+/*==============
+  [01] Page css
+=================*/
+/* Error Page Button Styles */
+.error-btn {
+  display: inline-block;
+  padding: 10px 15px;
+  font-size: 14px;
+  line-height: 38px;
+  text-align: center;
+  text-decoration: none;
+  color: #6f8c7c;
+  background-color: #adf3ce;
+  border: 1px solid #adf3ce;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  -webkit-box-shadow: 0px 5px 20px rgba(226, 224, 224, 0.8);
+          box-shadow: 0px 5px 20px rgba(226, 224, 224, 0.8);
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.error-btn:hover {
+  color: #686968;
+  background-color: #9ee8c8;
+  border-color: #9ee8c8;
+  -webkit-box-shadow: 0px 8px 25px rgba(173, 243, 206, 0.6);
+          box-shadow: 0px 8px 25px rgba(173, 243, 206, 0.6);
+  transform: translateY(-2px);
+}
+
+.error-btn:active {
+  transform: translateY(0px);
+  -webkit-box-shadow: 0px 3px 15px rgba(226, 224, 224, 0.6);
+          box-shadow: 0px 3px 15px rgba(226, 224, 224, 0.6);
+}
+
+.error-btn:focus {
+  outline: none;
+  -webkit-box-shadow: 0px 5px 20px rgba(226, 224, 224, 0.8), 0 0 0 3px rgba(173, 243, 206, 0.3);
+          box-shadow: 0px 5px 20px rgba(226, 224, 224, 0.8), 0 0 0 3px rgba(173, 243, 206, 0.3);
+}
+
+/* Responsive button styles */
+@media (max-width: 768px) {
+  .error-btn {
+    width: 100%;
+    margin-bottom: 8px;
+  }
+
+  .error-btn:last-child {
+    margin-bottom: 0;
+  }
+}
+
+/* Legacy support for old btn class */
+.page-section .content-detail .btn a {
+  -webkit-box-shadow: 0px 5px 20px #e2e0e0;
+          box-shadow: 0px 5px 20px #e2e0e0;
+}
+.page-section .content-detail .btn a:hover {
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+.page-section .content-detail .global-title span {
+  -webkit-animation: animateblur 1s linear forwards;
+          animation: animateblur 1s linear forwards;
+}
+.page-section .content-detail .global-title span:nth-child(1) {
+  -webkit-animation-delay: 1s;
+          animation-delay: 1s;
+}
+.page-section .content-detail .global-title span:nth-child(2) {
+  -webkit-animation-delay: 2s;
+          animation-delay: 2s;
+}
+.page-section .content-detail .global-title span:nth-child(3) {
+  -webkit-animation-delay: 3s;
+          animation-delay: 3s;
+}
+@-webkit-keyframes animateblur {
+  0% {
+    opacity: 0;
+    -webkit-filter: blur(10px);
+            filter: blur(10px);
+  }
+  100% {
+    opacity: 1;
+    -webkit-filter: blur(0px);
+            filter: blur(0px);
+  }
+}
+@keyframes animateblur {
+  0% {
+    opacity: 0;
+    -webkit-filter: blur(10px);
+            filter: blur(10px);
+  }
+  100% {
+    opacity: 1;
+    -webkit-filter: blur(0px);
+            filter: blur(0px);
+  }
+}
+.page-section .content-detail .parallax {
+  position: absolute;
+}
+.page-section .content-detail #shape1,
+.page-section .content-detail #shape2,
+.page-section .content-detail #shape3,
+.page-section .content-detail #shape4,
+.page-section .content-detail #shape5,
+.page-section .content-detail #shape6,
+.page-section .content-detail #shape7 {
+  opacity: 0.7;
+}
+.page-section .content-detail #shape1 {
+  bottom: 20px;
+  right: 500px;
+}
+.page-section .content-detail #shape2 {
+  top: 75px;
+  right: 581px;
+}
+.page-section .content-detail #shape4 {
+  top: 40px;
+  left: 290px;
+}
+.page-section .content-detail #shape5 {
+  bottom: 138px;
+  left: 170px;
+}
+.page-section .content-detail #shape3 {
+  top: 300px;
+  right: 250px;
+}
+.page-section .content-detail #shape6 {
+  top: 220px;
+  right: 100px;
+}
+.page-section .content-detail #shape7 {
+  bottom: 10px;
+  right: 10px;
+}
+
+/* Responsive css */
+/* Tablet and below - reduce shapes */
+@media (max-width: 1023px) {
+  /* Hide most shapes, keep only 2-3 for better performance */
+  .page-section .content-detail #shape1,
+  .page-section .content-detail #shape2,
+  .page-section .content-detail #shape3,
+  .page-section .content-detail #shape4,
+  .page-section .content-detail #shape5 {
+    display: none;
+  }
+  /* Keep only shape6 and shape7 */
+  .page-section .content-detail #shape6,
+  .page-section .content-detail #shape7 {
+    opacity: 0.5;
+  }
+  .page-section .content-detail #shape6 {
+    top: 150px;
+    right: 50px;
+  }
+  .page-section .content-detail #shape7 {
+    bottom: 20px;
+    right: 20px;
+  }
+}
+
+/* Mobile - keep only 1 shape */
+@media (max-width: 768px) {
+  .page-section .content-detail #shape1,
+  .page-section .content-detail #shape2,
+  .page-section .content-detail #shape3,
+  .page-section .content-detail #shape4,
+  .page-section .content-detail #shape5,
+  .page-section .content-detail #shape6 {
+    display: none;
+  }
+  /* Keep only shape7 */
+  .page-section .content-detail #shape7 {
+    opacity: 0.4;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: auto;
+  }
+}
+
+/* Small mobile - hide all shapes */
+@media (max-width: 575px) {
+  .page-section .content-detail #shape1,
+  .page-section .content-detail #shape2,
+  .page-section .content-detail #shape3,
+  .page-section .content-detail #shape4,
+  .page-section .content-detail #shape5,
+  .page-section .content-detail #shape6,
+  .page-section .content-detail #shape7 {
+    display: none;
+  }
+}
+/*# sourceMappingURL=error-page.css.map */
+

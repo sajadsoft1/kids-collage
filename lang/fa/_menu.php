@@ -103,6 +103,7 @@ return [
     'student_portal' => 'پورتال دانش‌آموز',
     'events_management' => 'رویدادها',
     'academic_calendar' => 'تقویم آموزشی',
+    'courses' => 'دوره ها',
 
     // Accounting Modules
     'invoices_management' => 'فاکتورها',

@@ -6,44 +6,16 @@
 @endphp
 
 <x-layouts.error>
-    <div class="card bg-base-100 shadow-xl">
-        <div class="card-body items-center text-center">
-            {{-- Error Icon --}}
-            <div class="mb-4">
-                <i class="fas fa-tools text-6xl text-info"></i>
-            </div>
+    <h1
+        class="global-title block text-[#adf3ce] mb-[8px] leading-[1.2] md:text-[150px] md:font-extrabold min-[481px]:text-[120px] min-[481px]:font-bold text-[80px] font-semibold">
+        <span>5</span><span>0</span><span>3</span>
+    </h1>
 
-            {{-- Error Code --}}
-            <h1 class="text-8xl font-bold text-info mb-4">503</h1>
+    <h4
+        class="block text-[#777] text-center md:text-[30px] leading-[1.2] md:font-semibold min-[481px]:text-[25px] text-[22px] font-medium mb-[15px]">
+        {{ $title }}</h4>
 
-            {{-- Error Title --}}
-            <h2 class="card-title text-3xl mb-2">{{ $title }}</h2>
+    <p class="block text-center text-[#777] mb-[16px] md:text-[16px] text-[14px]">
+        {{ $message }}<br>{{ $description }}</p>
 
-            {{-- Error Message --}}
-            <p class="text-lg text-base-content/70 mb-4">{{ $message }}</p>
-
-            {{-- Error Description --}}
-            <p class="text-base-content/60 mb-8 max-w-md">{{ $description }}</p>
-
-            {{-- Action Buttons --}}
-            <div class="card-actions justify-center gap-4 flex-wrap">
-                <button onclick="setTimeout(() => window.location.reload(), 5000)" class="btn btn-primary">
-                    <i class="fas fa-redo me-2"></i>
-                    {{ __('error.try_again') }}
-                </button>
-
-                @if ($isAuthenticated)
-                    <a href="{{ route('admin.dashboard') }}" class="btn btn-outline">
-                        <i class="fas fa-home me-2"></i>
-                        {{ __('error.back_to_dashboard') }}
-                    </a>
-                @endif
-
-                <button onclick="window.history.back()" class="btn btn-ghost">
-                    <i class="fas fa-arrow-{{ app()->getLocale() == 'fa' ? 'right' : 'left' }} me-2"></i>
-                    {{ __('error.go_back') }}
-                </button>
-            </div>
-        </div>
-    </div>
 </x-layouts.error>

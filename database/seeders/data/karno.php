@@ -199,7 +199,7 @@ return [
             'languages' => [
                 'fa',
             ],
-            'path' => public_path('images/test/blogs/laravel.jpg'),
+            'path' => public_path('assets/images/default/default.png'),
         ],
     ],
     'contact_us' => [
@@ -219,7 +219,7 @@ return [
             'languages' => [
                 'fa',
             ],
-            'path' => public_path('images/test/blogs/laravel.jpg'),
+            'path' => public_path('assets/images/default/default.png'),
         ],
     ],
     'bulletin' => [
@@ -231,7 +231,7 @@ return [
             'published' => true,
             'category_id' => Category::where('type', CategoryTypeEnum::BULLETIN->value)->first()?->id,
             'languages' => ['fa'],
-            'path' => public_path('assets/web/img/news-1.jpg'),
+            'path' => public_path('assets/images/default/default.png'),
         ],
         [
             'title' => 'برگزاری مسابقات زبان انگلیسی برای نوجوانان',
@@ -241,7 +241,7 @@ return [
             'published' => true,
             'category_id' => Category::where('type', CategoryTypeEnum::BULLETIN->value)->first()?->id,
             'languages' => ['fa'],
-            'path' => public_path('assets/web/img/news-2.jpg'),
+            'path' => public_path('assets/images/default/default.png'),
         ],
         [
             'title' => 'برنامه آموزشی جدید زبان آلمانی',
@@ -251,7 +251,7 @@ return [
             'published' => true,
             'category_id' => 4,
             'languages' => ['fa'],
-            'path' => public_path('assets/web/img/news-3.jpg'),
+            'path' => public_path('assets/images/default/default.png'),
         ],
         [
             'title' => 'اعطای بورسیه آموزشی زبان فرانسوی',
@@ -261,7 +261,7 @@ return [
             'published' => true,
             'category_id' => 4,
             'languages' => ['fa'],
-            'path' => public_path('assets/web/img/news-4.jpg'),
+            'path' => public_path('assets/images/default/default.png'),
         ],
         [
             'title' => 'آغاز دوره‌های فشرده IELTS برای داوطلبان',
@@ -271,7 +271,7 @@ return [
             'published' => true,
             'category_id' => 4,
             'languages' => ['fa'],
-            'path' => public_path('assets/web/img/news-5.jpg'),
+            'path' => public_path('assets/images/default/default.png'),
         ],
         [
             'title' => 'کارگاه رایگان آشنایی با آزمون‌های زبان معتبر',
@@ -281,7 +281,7 @@ return [
             'published' => true,
             'category_id' => Category::where('type', CategoryTypeEnum::BULLETIN->value)->first()?->id,
             'languages' => ['fa'],
-            'path' => public_path('assets/web/img/news-6.jpg'),
+            'path' => public_path('assets/images/default/default.png'),
         ],
         [
             'title' => 'نتایج سطح‌بندی زبان‌آموزان اعلام شد',
@@ -291,7 +291,7 @@ return [
             'published' => true,
             'category_id' => 4,
             'languages' => ['fa'],
-            'path' => public_path('assets/web/img/news-7.jpg'),
+            'path' => public_path('assets/images/default/default.png'),
         ],
         [
             'title' => 'افزوده شدن زبان چینی به دوره‌های کانون',
@@ -301,7 +301,7 @@ return [
             'published' => true,
             'category_id' => 4,
             'languages' => ['fa'],
-            'path' => public_path('assets/web/img/news-8.jpg'),
+            'path' => public_path('assets/images/default/default.png'),
         ],
         [
             'title' => 'انتشار کتاب جدید آموزش لغات پرتغالی',
@@ -311,7 +311,7 @@ return [
             'published' => true,
             'category_id' => 4,
             'languages' => ['fa'],
-            'path' => public_path('assets/web/img/news-9.jpg'),
+            'path' => public_path('assets/images/default/default.png'),
         ],
         [
             'title' => 'معرفی سامانه هوشمند تعیین سطح آنلاین',
@@ -321,7 +321,7 @@ return [
             'published' => true,
             'category_id' => 4,
             'languages' => ['fa'],
-            'path' => public_path('assets/web/img/news-10.jpg'),
+            'path' => public_path('assets/images/default/default.png'),
         ],
     ],
     [
@@ -331,7 +331,7 @@ return [
         'published' => true,
         'category_id' => 4,
         'languages' => ['fa'],
-        'path' => public_path('assets/web/img/news-2-img-2.jpg'),
+        'path' => public_path('assets/images/default/default.png'),
     ],
     [
         'title' => 'اطلاعیه خیللللی  مهممممم مهم',
@@ -346,7 +346,7 @@ return [
         'published' => true,
         'category_id' => 4,
         'languages' => ['fa'],
-        'path' => public_path('assets/web/img/news-2-img-3.jpg'),
+        'path' => public_path('assets/images/default/default.png'),
     ],
     [
         'title' => 'اطلاعیه یکم مهم',
@@ -355,7 +355,7 @@ return [
         'published' => true,
         'languages' => ['fa'],
         'category_id' => 4,
-        'path' => public_path('assets/web/img/news-details-img-1.jpg'),
+        'path' => public_path('assets/images/default/default.png'),
     ], [
         'title' => 'اطلاعیه تا مقداری  مهم',
         'description' => 'توضیحات اطلاعیه تا مقداری مهم مهم',
@@ -393,7 +393,7 @@ return [
         'published' => true,
         'category_id' => 4,
         'languages' => ['fa'],
-        'path' => public_path('assets/web/img/news-2-img-2.jpg'),
+        'path' => public_path('assets/images/default/default.png'),
     ],
     'license' => [
         [
@@ -433,7 +433,7 @@ return [
             'description' => 'توضیحات کلاس A',
             'capacity' => 30,
             'languages' => ['fa'],
-            'path' => public_path('images/test/blogs/laravel.jpg'),
+            'path' => public_path('assets/images/default/default.png'),
         ],
     ],
     'course' => [
@@ -448,7 +448,7 @@ return [
             'start_date' => '2025-01-01',
             'end_date' => '2025-03-01',
             'languages' => ['fa'],
-            'path' => public_path('images/test/blogs/laravel.jpg'),
+            'path' => public_path('assets/images/default/default.png'),
         ],
     ],
     'session' => [
@@ -464,7 +464,7 @@ return [
             'meeting_link' => 'https://meet.example.com',
             'session_number' => 1,
             'languages' => ['fa'],
-            'path' => public_path('images/test/blogs/laravel.jpg'),
+            'path' => public_path('assets/images/default/default.png'),
         ],
     ],
     'order' => [
@@ -710,7 +710,7 @@ return [
             'languages' => [
                 'fa',
             ],
-            'path' => public_path('images/test/blogs/laravel.jpg'),
+            'path' => public_path('assets/images/default/default.png'),
         ],
         [
             'title' => 'معماری لاراول: نگاهی عمیق به ساختار داخلی فریم‌ورک',
@@ -855,7 +855,7 @@ return [
                 'redirect_to' => null,
                 'robots_meta' => SeoRobotsMetaEnum::NOINDEX_FOLLOW,
             ],
-            'path' => public_path('assets/images/test/blogs/laravel.jpg'),
+            'path' => public_path('assets/images/default/default.png'),
             'start_date' => now()->addDays(10),
             'end_date' => now()->addDays(12),
             'location' => 'تهران، ایران',

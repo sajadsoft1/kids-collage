@@ -64,4 +64,5 @@ return [
     'questions' => 'Questions',
     'question_subjects' => 'Question Subjects',
     'question_competencies' => 'Question Competencies',
+    'courses' => 'Courses',
 ];

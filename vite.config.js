@@ -10,6 +10,7 @@ export default defineConfig({
                 'resources/css/app.css',
                 // 'resources/css/web.css',
                  'resources/js/app.js',
+                 'resources/js/error-parallax.js',
                 //  'resources/js/web/web.js'
                 ],
             refresh: false,
