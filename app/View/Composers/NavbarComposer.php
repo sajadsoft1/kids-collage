@@ -1109,6 +1109,24 @@ class NavbarComposer
                 'params' => ['user' => $user->id],
             ],
             [
+                'icon' => 'o-calendar',
+                'params' => [],
+                'title' => trans('_menu.calendar'),
+                'route_name' => 'admin.app.calendar',
+            ],
+            [
+                'icon' => 'o-document-text',
+                'params' => [],
+                'title' => trans('_menu.exams'),
+                'route_name' => 'admin.exam.list',
+            ],
+            [
+                'icon' => 'o-document-text',
+                'params' => [],
+                'title' => trans('_menu.courses'),
+                'route_name' => 'admin.course.list',
+            ],
+            [
                 'icon' => 'o-shopping-cart',
                 'params' => [],
                 'title' => trans('_menu.order_management'),
