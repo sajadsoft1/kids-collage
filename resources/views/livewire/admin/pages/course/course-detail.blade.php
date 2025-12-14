@@ -11,13 +11,13 @@
     {{-- ═══════════════════════════════════════════════════════════════════════════ --}}
     {{-- MAIN LAYOUT - Two Column: Sessions List + Session Details --}}
     {{-- ═══════════════════════════════════════════════════════════════════════════ --}}
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
+    <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-6">
         {{-- ═══════════════════════════════════════════════════════════════════════════ --}}
         {{-- SIDEBAR - Sessions List (Desktop) / Drawer (Mobile/Tablet) --}}
         {{-- ═══════════════════════════════════════════════════════════════════════════ --}}
         <div class="lg:col-span-1">
             {{-- Mobile/Tablet Drawer Toggle Button --}}
-            <div class="lg:hidden mb-4">
+            <div class="mb-4 lg:hidden">
                 <x-button wire:click="$toggle('showSessionsDrawer')" wire:loading.attr="disabled" wire:target="$toggle"
                     class="btn-primary btn-block" icon="o-bars-3">
                     <span wire:loading.remove wire:target="$toggle">
@@ -28,7 +28,7 @@
             </div>
 
             {{-- Desktop Sidebar --}}
-            <div class="hidden lg:block space-y-4">
+            <div class="hidden space-y-4 lg:block">
                 @include('livewire.admin.pages.course.partials.course-info-card-compact')
                 @include('livewire.admin.pages.course.partials.session-list')
             </div>

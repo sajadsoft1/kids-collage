@@ -1,5 +1,5 @@
 @php use App\Helpers\Constants; @endphp
-<x-nav sticky full-width class="{{ $nav_class }}">
+<x-nav sticky full-width class="{{ $nav_class }}" class="border-none">
     <x-slot:brand>
         {{-- Drawer toggle for "main-drawer" --}}
         <label for="main-drawer" class="mr-3 lg:hidden">
@@ -45,7 +45,7 @@
         <!-- Profile dropdown -->
         <x-dropdown>
             <x-slot:trigger>
-                <x-button class="btn-circle">
+                <x-button class="btn btn-circle">
                     <img class="rounded-full"
                         src="{{ auth()->user()->getFirstMediaUrl('avatar', Constants::RESOLUTION_100_SQUARE) }}"
                         alt="{{ auth()->user()->full_name }}">

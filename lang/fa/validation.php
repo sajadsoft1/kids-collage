@@ -284,6 +284,11 @@ return [
         'room_id' => 'اتاق',
         'week_days' => 'روزهای اجرای دوره',
         'date' => 'تاریخ',
+        'course_session_template_id' => 'نمونه جلسه',
+        'website_url' => 'وبسایت',
+        'view_in_website' => 'مشاهده در وبسایت',
+        'session_type' => 'نوع جلسه',
+        'recording_link' => 'لینک ضبط',
         'id_number' => 'شماره شناسنامه',
         'gender' => 'جنسیت',
         'address' => 'آدرس',
@@ -328,5 +333,6 @@ return [
         'person' => 'نفر',
         'front' => 'روی کارت',
         'back' => 'پشت کارت',
+        'unlimited' => 'بدون حد',
     ],
 ];

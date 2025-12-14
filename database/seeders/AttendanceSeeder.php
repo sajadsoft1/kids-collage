@@ -90,42 +90,51 @@ class AttendanceSeeder extends Seeder
                     ]);
                 }
             }
-            // Second course: in progress (only record attendance for past sessions)
+            // Second course: 50% progress (only record attendance for 50% of sessions)
             else {
-                foreach ($pastSessions as $session) {
-                    // Skip if attendance already exists
-                    if (Attendance::where('enrollment_id', $enrollment->id)
-                        ->where('course_session_id', $session->id)
-                        ->exists()) {
-                        continue;
+                // Get all sessions ordered by date
+                $allSessions = $course->sessions()->orderBy('date')->get();
+                $totalSessions = $allSessions->count();
+
+                if ($totalSessions > 0) {
+                    // Take first 50% of sessions for 50% progress
+                    $sessionsToProcess = $allSessions->take(ceil($totalSessions * 0.5));
+
+                    foreach ($sessionsToProcess as $session) {
+                        // Skip if attendance already exists
+                        if (Attendance::where('enrollment_id', $enrollment->id)
+                            ->where('course_session_id', $session->id)
+                            ->exists()) {
+                            continue;
+                        }
+
+                        // All present for completed sessions (50% progress)
+                        $isPresent = true;
+
+                        $arrivalTime = null;
+                        $leaveTime = null;
+
+                        if ($isPresent && $session->start_time && $session->end_time) {
+                            // Arrival time: 0-5 minutes before or after session start
+                            $arrivalOffset = fake()->numberBetween(-5, 5);
+                            $arrivalTime = Carbon::parse($session->date->format('Y-m-d') . ' ' . $session->start_time->format('H:i:s'))
+                                ->addMinutes($arrivalOffset);
+
+                            // Leave time: 0-5 minutes before or after session end
+                            $leaveOffset = fake()->numberBetween(-5, 5);
+                            $leaveTime = Carbon::parse($session->date->format('Y-m-d') . ' ' . $session->end_time->format('H:i:s'))
+                                ->addMinutes($leaveOffset);
+                        }
+
+                        Attendance::create([
+                            'enrollment_id' => $enrollment->id,
+                            'course_session_id' => $session->id,
+                            'present' => $isPresent,
+                            'arrival_time' => $arrivalTime,
+                            'leave_time' => $leaveTime,
+                            'excuse_note' => null,
+                        ]);
                     }
-
-                    // 80% chance of being present for in-progress course
-                    $isPresent = fake()->boolean(80);
-
-                    $arrivalTime = null;
-                    $leaveTime = null;
-
-                    if ($isPresent && $session->start_time && $session->end_time) {
-                        // Arrival time: 0-5 minutes before or after session start
-                        $arrivalOffset = fake()->numberBetween(-5, 5);
-                        $arrivalTime = Carbon::parse($session->date->format('Y-m-d') . ' ' . $session->start_time->format('H:i:s'))
-                            ->addMinutes($arrivalOffset);
-
-                        // Leave time: 0-5 minutes before or after session end
-                        $leaveOffset = fake()->numberBetween(-5, 5);
-                        $leaveTime = Carbon::parse($session->date->format('Y-m-d') . ' ' . $session->end_time->format('H:i:s'))
-                            ->addMinutes($leaveOffset);
-                    }
-
-                    Attendance::create([
-                        'enrollment_id' => $enrollment->id,
-                        'course_session_id' => $session->id,
-                        'present' => $isPresent,
-                        'arrival_time' => $arrivalTime,
-                        'leave_time' => $leaveTime,
-                        'excuse_note' => $isPresent ? null : (fake()->boolean(40) ? 'غیبت موجه' : null),
-                    ]);
                 }
             }
         }

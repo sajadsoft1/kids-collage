@@ -37,7 +37,7 @@
                         </div>
                         <div>
                             <h1
-                                class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
+                                class="text-xl font-bold">
                                 Karnoweb</h1>
                             <p class="text-sm text-base-content/70">Admin Dashboard</p>
                         </div>

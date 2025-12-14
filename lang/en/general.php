@@ -156,11 +156,7 @@ return [
         'selected' => 'Selected',
     ],
 
-    'course' => [
-        'teacher' => 'Teacher',
-        'price' => 'Price',
-        'capacity' => 'Capacity',
-        'unlimited' => 'Unlimited',
-        'description' => 'Course Description',
-    ],
+    'all' => 'All',
+    'in_progress' => 'In Progress',
+    'completed' => 'Completed',
 ];

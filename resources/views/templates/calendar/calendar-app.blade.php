@@ -1,7 +1,7 @@
 <div @if ($pollMillis !== null && $pollAction !== null) wire:poll.{{ $pollMillis }}ms="{{ $pollAction }}"
     @elseif($pollMillis !== null)
         wire:poll.{{ $pollMillis }}ms @endif
-    class="py-6 bg-base-200">
+    class="py-6">
     <div class="px-4 mx-auto space-y-6 max-w-7xl sm:px-6 lg:px-8">
         <div>
             @includeIf($beforeCalendarView)
@@ -91,7 +91,7 @@
             <x-modal wire:model="showEventModal" :title="$selectedEvent['title'] ?? __('calendar.event.details')" separator with-close-button close-on-escape
                 class="backdrop-blur">
                 <div class="space-y-4">
-                    <div class="flex items-center gap-2 pb-3 border-b border-base-content/20">
+                    <div class="flex gap-2 items-center pb-3 border-b border-base-content/20">
                         <span
                             class="h-2 w-2 rounded-full {{ $selectedEvent['category']['dot_classes'] ?? 'bg-slate-400' }}"></span>
                         <span class="text-sm font-semibold text-base-content">
@@ -101,7 +101,7 @@
 
                     <div class="space-y-3">
                         <div>
-                            <p class="text-xs font-semibold uppercase tracking-wide text-base-content/70">
+                            <p class="text-xs font-semibold tracking-wide uppercase text-base-content/70">
                                 {{ __('calendar.event.date') }}
                             </p>
                             <p class="text-sm text-base-content">{{ $eventLabel }}</p>
@@ -109,7 +109,7 @@
 
                         @if ($eventEndDate)
                             <div>
-                                <p class="text-xs font-semibold uppercase tracking-wide text-base-content/70">
+                                <p class="text-xs font-semibold tracking-wide uppercase text-base-content/70">
                                     {{ __('calendar.event.time') }}
                                 </p>
                                 <p class="text-sm text-base-content">
@@ -118,7 +118,7 @@
                             </div>
                         @else
                             <div>
-                                <p class="text-xs font-semibold uppercase tracking-wide text-base-content/70">
+                                <p class="text-xs font-semibold tracking-wide uppercase text-base-content/70">
                                     {{ __('calendar.event.time') }}
                                 </p>
                                 <p class="text-sm text-base-content">{{ $eventDate->format('g:i A') }}</p>
@@ -127,7 +127,7 @@
 
                         @if ($selectedEvent['description'])
                             <div>
-                                <p class="text-xs font-semibold uppercase tracking-wide text-base-content/70">
+                                <p class="text-xs font-semibold tracking-wide uppercase text-base-content/70">
                                     {{ __('calendar.event.description') }}
                                 </p>
                                 <p class="text-sm text-base-content">{{ $selectedEvent['description'] }}</p>
@@ -136,7 +136,7 @@
 
                         @if ($selectedEvent['location'])
                             <div>
-                                <p class="text-xs font-semibold uppercase tracking-wide text-base-content/70">
+                                <p class="text-xs font-semibold tracking-wide uppercase text-base-content/70">
                                     {{ __('calendar.event.location') }}
                                 </p>
                                 <p class="text-sm text-base-content">{{ $selectedEvent['location'] }}</p>
@@ -189,7 +189,7 @@
             </x-modal>
         @endif
 
-        <div class="p-6 ring-1 shadow-xl bg-base-100 border-base-content/20">
+        <div class="p-6 shadow-xl">
             <div class="flex flex-wrap gap-4 justify-between items-center pb-6 border-b border-base-content/20">
                 <div class="flex gap-3 items-center">
                     <x-button type="button" wire:click="goToPreviousMonth" :icon="config('app.locale') === 'fa' ? 'o-chevron-right' : 'o-chevron-left'" spinner

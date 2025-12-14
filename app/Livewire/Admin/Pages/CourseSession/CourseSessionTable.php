@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\View\View;
 use Livewire\Attributes\Computed;
 use PowerComponents\LivewirePowerGrid\Button;
+use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
@@ -52,7 +53,7 @@ final class CourseSessionTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return CourseSession::query();
+        return CourseSession::where('course_id', $this->course->id);
     }
 
     public function relationSearch(): array
@@ -68,7 +69,10 @@ final class CourseSessionTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('id')
-            ->add('title', fn ($row) => PowerGridHelper::fieldTitle($row))
+            ->add('title', fn ($row) => PowerGridHelper::fieldTitle($row->sessionTemplate))
+            ->add('date_formatted', fn ($row) => $row->date ? jdate($row->date)->format('%A, %d %B %Y') : '')
+            ->add('start_time_formatted', fn ($row) => $row->start_time ? jdate($row->start_time)->format('H:i') : '')
+            ->add('end_time_formatted', fn ($row) => $row->end_time ? jdate($row->end_time)->format('H:i') : '')
             ->add('created_at_formatted', fn ($row) => PowerGridHelper::fieldCreatedAtFormated($row));
     }
 
@@ -77,7 +81,9 @@ final class CourseSessionTable extends PowerGridComponent
         return [
             PowerGridHelper::columnId(),
             PowerGridHelper::columnTitle(),
-            PowerGridHelper::columnCreatedAT(),
+            Column::make(trans('validation.attributes.date'), 'date_formatted'),
+            Column::make(trans('validation.attributes.start_time'), 'start_time_formatted'),
+            Column::make(trans('validation.attributes.end_time'), 'end_time_formatted'),
             PowerGridHelper::columnAction(),
         ];
     }
@@ -85,7 +91,7 @@ final class CourseSessionTable extends PowerGridComponent
     public function filters(): array
     {
         return [
-            Filter::datepicker('created_at_formatted', 'created_at')
+            Filter::datepicker('date_formatted', 'date')
                 ->params([
                     'maxDate' => now(),
                 ]),

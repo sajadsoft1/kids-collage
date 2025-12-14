@@ -172,11 +172,7 @@ return [
         'selected' => 'انتخاب شده',
     ],
 
-    'course' => [
-        'teacher' => 'استاد',
-        'price' => 'قیمت',
-        'capacity' => 'ظرفیت',
-        'unlimited' => 'نامحدود',
-        'description' => 'توضیحات دوره',
-    ],
+    'all' => 'همه',
+    'in_progress' => 'در حال انجام',
+    'completed' => 'تمام شده',
 ];

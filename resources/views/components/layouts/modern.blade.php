@@ -27,26 +27,23 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="flex flex-col min-h-screen bg-base-300" x-data>
+<body class="flex flex-col min-h-screen bg-base-100" x-data>
 
     <x-main full-width>
 
         {{-- Modern Sidebar --}}
         <x-slot:sidebar drawer="main-drawer" collapsible
-            class="shadow-xl backdrop-blur-md no-scrollbar bg-base-100/80 border-e border-base-content/10">
+            class="border-none shadow-xl backdrop-blur-md no-scrollbar bg-base-100/80">
 
             {{-- Brand Header with Gradient --}}
-            <div
-                class="sticky top-0 z-10 bg-base-100 dark:bg-gradient-to-r border-b dark:from-primary/10 dark:to-secondary/10 border-base-content/10 h-[64px]">
+            <div class="sticky top-0 z-10 bg-base-100 border-none h-[64px]">
                 <div class="p-2 hidden-when-collapsed">
-                    <div class="flex items-center gap-3">
-                        <div
-                            class="flex items-center justify-center w-10 h-10 bg-gradient-to-r rounded-xl from-primary to-secondary">
+                    <div class="flex gap-3 items-center">
+                        <div class="flex justify-center items-center w-10 h-10 rounded-xl">
                             <x-icon name="o-cube" class="w-6 h-6 text-white" />
                         </div>
                         <div>
-                            <h1
-                                class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
+                            <h1 class="text-xl font-bold">
                                 Karnoweb</h1>
                             <p class="text-sm text-base-content/70">Admin Dashboard</p>
                         </div>
@@ -54,8 +51,7 @@
                 </div>
                 <div class="hidden w-full h-full display-when-collapsed">
                     <div class="flex items-center w-full h-full">
-                        <div
-                            class="flex items-center justify-center w-10 h-10 mx-auto bg-gradient-to-r rounded-xl from-primary to-secondary">
+                        <div class="flex justify-center items-center mx-auto w-10 h-10 rounded-xl">
                             <x-icon name="o-cube" class="w-6 h-6 text-white" />
                         </div>
                     </div>
@@ -64,7 +60,7 @@
 
             {{-- Navigation Menu with Modern Styling --}}
             <x-menu activate-by-route class="flex flex-col">
-                <div class="flex-1 space-y-2 overflow-y-auto">
+                <div class="overflow-y-auto flex-1 space-y-2">
                     @foreach ($navbarMenu ?? [] as $menu)
                         @if (Arr::has($menu, 'sub_menu'))
                             @if (Arr::get($menu, 'access', true))

@@ -47,28 +47,19 @@ class EnrollmentSeeder extends Seeder
                         'course_id' => $course->id,
                     ]);
 
-                    // First course: completed (all sessions done)
-                    // Second course: active (in progress)
-                    $totalSessions = $course->sessions()->count();
-                    $pastSessions = $course->sessions()->where('date', '<=', now())->count();
-
                     if ($index === 0) {
-                        // First course - completed
+                        // First course - completed with 1 absence
                         $enrollment->update([
                             'status' => EnrollmentStatusEnum::ACTIVE,
                             'enrolled_at' => Carbon::now()->subDays(30),
                             'progress_percent' => 100,
                         ]);
                     } else {
-                        // Second course - in progress
-                        $progressPercent = $totalSessions > 0
-                            ? round(($pastSessions / $totalSessions) * 100, 2)
-                            : 0;
-
+                        // Second course - 50% progress
                         $enrollment->update([
                             'status' => EnrollmentStatusEnum::ACTIVE,
                             'enrolled_at' => Carbon::now()->subDays(15),
-                            'progress_percent' => $progressPercent,
+                            'progress_percent' => 50,
                         ]);
                     }
                 } catch (Exception $e) {
