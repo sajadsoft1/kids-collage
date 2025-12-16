@@ -120,8 +120,8 @@
 :root {
     /* daisyUI core */
     --b1: #ffffff;   /* base-100 */
-    --b2: #fafafa;   /* base-200 */
-    --b3: #f1f5f9;   /* base-300 */
+    --b2: #fdf6ee;   /* base-200: slightly lighter than b3, fixed */
+    --b3: #fff4e6;   /* base-300 */
 
     --bc: #1f2937;   /* base-content */
 
