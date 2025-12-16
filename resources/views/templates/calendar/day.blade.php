@@ -7,14 +7,15 @@
     $remainingCount = max($events->count() - $visibleEvents->count(), 0);
     $compactEvents = $compactEvents ?? false;
 @endphp
-<div ondragenter="onLivewireCalendarEventDragEnter(event, '{{ $componentId }}', '{{ $day }}', '{{ $dragAndDropClasses }}');"
+<div @if (isset($dayKey)) wire:key="{{ $dayKey }}" @endif
+    ondragenter="onLivewireCalendarEventDragEnter(event, '{{ $componentId }}', '{{ $day }}', '{{ $dragAndDropClasses }}');"
     ondragleave="onLivewireCalendarEventDragLeave(event, '{{ $componentId }}', '{{ $day }}', '{{ $dragAndDropClasses }}');"
     ondragover="onLivewireCalendarEventDragOver(event);"
     ondrop="onLivewireCalendarEventDrop(event, '{{ $componentId }}', '{{ $day }}', {{ $day->year }}, {{ $day->month }}, {{ $day->day }}, '{{ $dragAndDropClasses }}');"
     class="min-h-[11rem]">
     <div class="w-full h-full" id="{{ $componentId }}-{{ $day }}">
-        <div @if ($dayClickEnabled) wire:click="onDayClick({{ $day->year }}, {{ $day->month }}, {{ $day->day }})" @endif
-            class="flex h-full flex-col gap-3 border border-base-content p-3 transition {{ $dayInMonth ? 'bg-base-content/10' : 'bg-base-300 text-base-content/70' }} {{ $isToday ? 'ring-2 ring-primary' : 'hover:border-base-content/20' }}">
+        <div @if ($dayClickEnabled && $dayInMonth) wire:click="onDayClick({{ $day->year }}, {{ $day->month }}, {{ $day->day }})" @endif
+            class="flex h-full flex-col gap-3 border border-base-content p-3 transition {{ $dayInMonth ? 'bg-base-100 cursor-pointer' : 'bg-base-300/50 text-base-content/50 cursor-default' }} {{ $isToday ? 'ring-2 ring-primary' : 'hover:border-base-content/20' }}">
             <div class="flex justify-between items-center">
                 <div class="flex gap-2 items-baseline">
                     <span class="text-xl font-semibold text-base-content">{{ $displayNumber }}</span>

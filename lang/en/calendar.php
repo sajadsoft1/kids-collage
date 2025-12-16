@@ -53,4 +53,8 @@ return [
         'unauthorized' => 'You are not authorized to perform this action.',
         'class_move_not_supported' => 'Moving classes is not currently supported.',
     ],
+    'legend' => [
+        'title' => 'Color Legend',
+        'inactive_days' => 'Inactive Days',
+    ],
 ];

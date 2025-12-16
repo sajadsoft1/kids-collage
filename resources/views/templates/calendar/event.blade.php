@@ -10,9 +10,9 @@
     $compact = $compact ?? false;
 @endphp
 @if ($compact)
-    <div
-        class="flex items-center gap-2 border border-slate-200 bg-slate-50 px-2 py-1 text-xs font-semibold text-slate-700">
-        <span class="h-2 w-2 bg-slate-400 {{ $dot }}"></span>
+    <div @if ($eventClickEnabled) wire:click.stop="onEventClick('{{ $event['id'] }}')" @endif
+        class="flex items-center gap-2 px-2 py-1 text-xs font-semibold {{ $categoryStyles }} {{ $eventClickEnabled ? 'cursor-pointer' : '' }}">
+        <span class="h-2 w-2 rounded-full shrink-0 {{ $dot }}"></span>
         <span class="truncate">{{ $event['title'] }}</span>
     </div>
 @else

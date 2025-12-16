@@ -19,31 +19,44 @@
             </div>
 
             <div class="flex flex-wrap gap-3 items-center">
-                <div class="flex p-1 ring-1 shadow-sm bg-base-100 border-base-content/20">
-                    @foreach ($availableCalendarTypes as $type => $label)
-                        <x-button wire:click="setCalendarType('{{ $type }}')" :label="$label" spinner
-                            wire:loading.attr="disabled" wire:target="setCalendarType('{{ $type }}')"
-                            class="px-4 py-2 text-sm font-medium transition {{ $calendarType === $type ? 'btn-primary' : 'btn-ghost' }}" />
-                    @endforeach
-                </div>
-
                 <x-button wire:click="$toggle('showTaskDrawer')" icon="o-plus" :label="__('calendar.actions.create_task')" class="btn-primary" />
             </div>
         </div>
 
-        <div class="flex flex-wrap gap-3 items-center">
-            @foreach ($categoryFilters as $filter)
-                @php
-                    $isActive = in_array($filter['slug'], $activeCategorySlugs, true);
-                @endphp
-                <x-button wire:click="toggleCategoryFilter('{{ $filter['slug'] }}')" :icon="$isActive ? 'o-check' : 'o-plus'" spinner
-                    wire:loading.attr="disabled" wire:target="toggleCategoryFilter('{{ $filter['slug'] }}')"
-                    :label="$filter['label']"
-                    class="inline-flex items-center gap-2 {{ $isActive ? $filter['chip_classes'] : 'border-base-content/20 bg-base-300 text-base-content/70' }}" />
-            @endforeach
+        <div class="flex flex-wrap gap-4 items-center justify-between">
+            <div class="flex flex-wrap gap-3 items-center">
+                @foreach ($categoryFilters as $filter)
+                    @php
+                        $isActive = in_array($filter['slug'], $activeCategorySlugs, true);
+                    @endphp
+                    <x-button wire:click="toggleCategoryFilter('{{ $filter['slug'] }}')" :icon="$isActive ? 'o-check' : 'o-plus'" spinner
+                        wire:loading.attr="disabled" wire:target="toggleCategoryFilter('{{ $filter['slug'] }}')"
+                        :label="$filter['label']"
+                        class="inline-flex items-center gap-2 {{ $isActive ? $filter['chip_classes'] : 'border-base-content/20 bg-base-300 text-base-content/70' }}" />
+                @endforeach
 
-            <x-button wire:click="resetCategoryFilters" icon="o-plus" :label="__('calendar.actions.reset_filters')"
-                class="inline-flex gap-2 items-center btn-dash btn-ghost" />
+                <x-button wire:click="resetCategoryFilters" icon="o-plus" :label="__('calendar.actions.reset_filters')"
+                    class="inline-flex gap-2 items-center btn-dash btn-ghost" />
+            </div>
+
+            {{-- Color Legend --}}
+            <div
+                class="flex flex-wrap gap-3 items-center px-4 py-2 bg-base-200 dark:bg-base-300 rounded-lg border border-base-content/10">
+                <span class="text-xs font-semibold text-base-content/70 uppercase tracking-wide">
+                    {{ __('calendar.legend.title') }}
+                </span>
+                @foreach ($categoryFilters as $filter)
+                    <div class="flex items-center gap-2">
+                        <span class="h-3 w-3 rounded-full {{ $filter['dot_classes'] }}"></span>
+                        <span class="text-xs text-base-content/80">{{ $filter['label'] }}</span>
+                    </div>
+                @endforeach
+                {{-- Inactive days legend --}}
+                <div class="flex items-center gap-2 border-r border-base-content/20 pr-3 mr-1">
+                    <div class="h-3 w-3 rounded bg-base-300"></div>
+                    <span class="text-xs text-base-content/70">{{ __('calendar.legend.inactive_days') }}</span>
+                </div>
+            </div>
         </div>
 
         <x-drawer wire:model="showTaskDrawer" :title="$isEditingTask ? __('calendar.form.edit_task') : __('calendar.form.create_task')" separator with-close-button close-on-escape
@@ -198,6 +211,16 @@
                         wire:loading.attr="disabled" wire:target="goToCurrentMonth" />
                     <x-button type="button" wire:click="goToNextMonth" :icon="config('app.locale') === 'fa' ?'o-chevron-left': 'o-chevron-right'" spinner
                         wire:loading.attr="disabled" wire:target="goToNextMonth" />
+
+                    {{-- Month and Year Selectors --}}
+                    <div class="flex gap-2 items-center">
+                        <x-select wire:model.live="selectedMonth" :options="$availableMonths" option-value="key"
+                            option-label="value" class="min-w-[140px]"
+                            placeholder="{{ $calendarType === 'jalali' ? 'ماه' : 'Month' }}" />
+                        <x-select wire:model.live="selectedYear" :options="$availableYears" option-value="value"
+                            option-label="label" class="min-w-[100px]"
+                            placeholder="{{ $calendarType === 'jalali' ? 'سال' : 'Year' }}" />
+                    </div>
                 </div>
 
                 <div class="flex flex-wrap gap-2 items-center text-sm font-medium text-base-content/70">
@@ -224,17 +247,31 @@
 
                             <div class="mt-2 space-y-2">
                                 @foreach ($monthGrid as $weekIndex => $week)
-                                    <div class="grid grid-cols-7 gap-2" wire:key="week-{{ $weekIndex }}">
-                                        @foreach ($week as $day)
+                                    <div class="grid grid-cols-7 gap-2"
+                                        wire:key="week-{{ $weekIndex }}-{{ $urlKey }}">
+                                        @foreach ($week as $dayIndex => $day)
+                                            @php
+                                                // Calculate dayInMonth based on calendar type
+                                                if ($calendarType === 'jalali') {
+                                                    $dayJalali = \Morilog\Jalali\Jalalian::fromCarbon($day);
+                                                    $startsAtJalali = \Morilog\Jalali\Jalalian::fromCarbon($startsAt);
+                                                    $dayInMonth =
+                                                        $dayJalali->getMonth() === $startsAtJalali->getMonth() &&
+                                                        $dayJalali->getYear() === $startsAtJalali->getYear();
+                                                } else {
+                                                    $dayInMonth = $day->isSameMonth($startsAt);
+                                                }
+                                            @endphp
                                             @include($dayView, [
                                                 'componentId' => $componentId,
                                                 'day' => $day,
-                                                'dayInMonth' => $day->isSameMonth($startsAt),
+                                                'dayInMonth' => $dayInMonth,
                                                 'isToday' => $day->isToday(),
                                                 'events' => $getEventsForDay($day, $events),
                                                 'calendarType' => $calendarType,
                                                 'visibleEventsPerDay' => $visibleEventsPerDay ?? 3,
                                                 'compactEvents' => true,
+                                                'dayKey' => 'day-' . $day->format('Y-m-d') . '-' . $urlKey,
                                             ])
                                         @endforeach
                                     </div>
@@ -262,6 +299,7 @@
                                     'calendarType' => $calendarType,
                                     'visibleEventsPerDay' => 6,
                                     'compactEvents' => false,
+                                    'dayKey' => 'week-day-' . $day->format('Y-m-d') . '-' . $urlKey,
                                 ])
                             @endforeach
                         </div>
@@ -304,7 +342,8 @@
                                         ? \Morilog\Jalali\Jalalian::fromCarbon($dateCarbon)->format('%A %d %B %Y')
                                         : $dateCarbon->translatedFormat('l, F j, Y');
                             @endphp
-                            <div class="p-4 border bg-base-100 border-base-content/20">
+                            <div class="p-4 border bg-base-100 border-base-content/20"
+                                wire:key="list-date-{{ $date }}-{{ $urlKey }}">
                                 <p class="text-sm font-semibold text-base-content">{{ $dateLabel }}</p>
                                 <div class="mt-3 space-y-2">
                                     @foreach ($group as $event)
@@ -325,3 +364,26 @@
         </div>
     </div>
 </div>
+
+<script>
+    // Initialize calendar JavaScript on page load
+    (function() {
+        function initCalendarScripts() {
+            // Add any calendar-specific JavaScript initialization here
+            // This function will be called on initial load and after navigation
+        }
+
+        // Initialize on page load
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initCalendarScripts);
+        } else {
+            initCalendarScripts();
+        }
+
+        // Re-initialize after Livewire navigation
+        document.addEventListener('livewire:navigated', initCalendarScripts);
+
+        // Re-initialize after Alpine navigation (for wire:navigate compatibility)
+        document.addEventListener('alpine:navigated', initCalendarScripts);
+    })();
+</script>
