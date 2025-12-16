@@ -14,15 +14,14 @@
             <p class="text-sm text-base-content/60">{{ $attempt->exam->title }}</p>
         </div>
         <div class="flex gap-2">
-            <x-button :href="route('admin.exam.attempt.index', ['exam' => $exam->id])" icon="o-arrow-left" class="btn-ghost">
-                {{ __('exam_attempt.back_to_list') }}
-            </x-button>
             @if ($showAnswers)
-                <x-button :href="route('admin.exam.attempt.review', ['exam' => $exam->id, 'attempt' => $attempt->id])"
-                    icon="o-eye" class="btn-info">
+                <x-button :link="route('admin.exam.attempt.review', ['exam' => $exam->id, 'attempt' => $attempt->id])" icon="o-eye" class="btn-info btn-sm">
                     {{ __('exam_results.review_exam') }}
                 </x-button>
             @endif
+            <x-button :link="route('admin.exam.attempt.index', ['exam' => $exam->id])" icon-right="o-arrow-left" class="btn-secondary btn-sm">
+                {{ __('exam_attempt.back_to_list') }}
+            </x-button>
         </div>
     </div>
 

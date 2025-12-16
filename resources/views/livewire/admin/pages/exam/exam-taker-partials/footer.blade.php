@@ -1,13 +1,13 @@
 {{-- ═══════════════════════════════════════════════════════════════════════════ --}}
 {{-- FOOTER BAR --}}
 {{-- ═══════════════════════════════════════════════════════════════════════════ --}}
-<footer class="{{ $reviewMode ? 'bg-info text-info-content' : 'bg-primary text-primary-content' }} px-4 py-2 flex items-center justify-between">
+<footer
+    class="{{ $reviewMode ? 'bg-info text-info-content' : 'bg-primary text-primary-content' }} px-4 py-2 flex items-center justify-between">
     {{-- End & Suspend (فقط در حالت عادی) --}}
     <div class="flex items-center gap-2">
         @if ($reviewMode)
             {{-- در حالت بازبینی: دکمه بازگشت --}}
-            <x-button href="{{ route('admin.exam.attempt.results', ['exam' => $exam->id, 'attempt' => $attempt->id]) }}"
-                icon="o-arrow-uturn-left"
+            <x-button :link="route('admin.exam.attempt.results', ['exam' => $exam->id, 'attempt' => $attempt->id])" icon="o-arrow-uturn-left"
                 class="btn-ghost btn-sm text-info-content hover:bg-white/20">
                 {{ __('exam.back_to_results') }}
             </x-button>
@@ -81,4 +81,3 @@
         @endif
     </div>
 </footer>
-

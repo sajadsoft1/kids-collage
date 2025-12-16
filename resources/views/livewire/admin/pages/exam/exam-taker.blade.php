@@ -30,7 +30,7 @@
     @include('livewire.admin.pages.exam.exam-taker-partials.header')
 
     {{-- Toolbar --}}
-    @include('livewire.admin.pages.exam.exam-taker-partials.toolbar')
+    {{-- @include('livewire.admin.pages.exam.exam-taker-partials.toolbar') --}}
 
     {{-- Main Content - Two Columns --}}
     <div class="flex-1 flex overflow-hidden {{ !$isRtl ? 'flex-row-reverse' : '' }}">
