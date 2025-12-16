@@ -6,7 +6,6 @@
     'setNullInput' => false,
     'withTime' => false,
     'withTimeSeconds' => true,
-    'ignoreWire' => true,
     'label' => null,
     'required' => false,
     'showFormat' => null,
@@ -15,16 +14,33 @@
     'currentView' => 'day',
     'uniqueId' => 'dp-' . uniqid(),
 ])
-<div class="w-full persian-datepicker" dir="rtl" {{ $ignoreWire ? 'wire:ignore' : '' }}>
-    <div class="relative" x-data="persianDatepicker('{{ $uniqueId }}', '{{ $defaultDate }}', '{{ $setNullInput }}', '{{ $withTime }}', '{{ $showFormat }}', '{{ $returnFormat }}', '{{ $currentView }}', '{{ $minDate }}', '{{ $maxDate }}')" x-init="[initDate(), getNoOfDays()]" id="{{ $uniqueId }}" x-cloak>
+
+<div class="w-full persian-datepicker" dir="rtl" wire:ignore.self>
+    <div class="relative" x-data="persianDatepicker('{{ $uniqueId }}', '{{ $defaultDate }}', '{{ $setNullInput }}', '{{ $withTime }}', '{{ $showFormat }}', '{{ $returnFormat }}', '{{ $currentView }}', '{{ $minDate }}', '{{ $maxDate }}')" x-init="initDate();
+    getNoOfDays();
+    @if ($wirePropertyName) // Listen for Livewire property changes
+            Livewire.hook('commit', ({ component, commit, respond }) => {
+                respond(() => {
+                    const newValue = @this.get('{{ $wirePropertyName }}');
+                    if (newValue && newValue !== document.querySelector('#{{ $uniqueId }} .dp-return-input')?.value) {
+                        // Re-initialize with new value
+                        defaultDate = newValue;
+                        initDate();
+                        getNoOfDays();
+                    }
+                });
+            }); @endif" id="{{ $uniqueId }}" x-cloak>
+
         <div class="relative pdp-input-area">
             <input type="text" name="datepickerDate" class="hidden dp-return-input" {{ $disabled ? 'disabled' : '' }}
-                @input="$wire.set('{{ $wirePropertyName }}', (!$event.target.value ? null : $event.target.value) )">
+                @input="$wire.set('{{ $wirePropertyName }}', (!$event.target.value ? null : $event.target.value))">
+
             @if ($label)
                 <label class="block py-1 mb-2.5 text-sm font-medium text-gray-700">
                     {!! $label !!} {!! $required ? '<span class="relative top-1.5 text-xl leading-none text-red-600">*</span>' : '' !!}
                 </label>
             @endif
+
             <div class="flex relative items-center">
                 <input @click="showDatepicker = !showDatepicker" {{ $disabled ? 'disabled' : '' }}
                     class="pl-14 w-full auto-go-to-next pdp-input input input-bordered input-md" type="text" readonly
@@ -47,6 +63,7 @@
                 </span>
             </div>
         </div>
+
         <div class="absolute left-0 z-40 p-4 bg-white rounded-lg shadow" style="width: 17rem"
             x-show.transition="showDatepicker" @click.away="showDatepicker = false">
 

@@ -359,7 +359,7 @@ class CalendarApp extends CalendarTemplate
     public function onDayClick($year, $month, $day): void
     {
         $this->selectedDay = Carbon::createFromDate($year, $month, $day)->startOfDay();
-        $this->taskForm['schedule_for'] = $this->selectedDay->format('Y-m-d H:i:s');
+        $this->taskForm['scheduled_for'] = $this->selectedDay->format('Y-m-d H:i:s');
         $this->showDayModal = true;
     }
 

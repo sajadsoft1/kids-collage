@@ -66,8 +66,17 @@
                     :hint="__('calendar.form.title_hint')" />
 
                 @if ($calendarType === 'jalali')
-                    <x-admin.shared.smart-datetime :label="__('calendar.form.scheduled_for')" wire-property-name="taskForm.scheduled_for"
-                        :with-time="true" return-format="YYYY-MM-DD HH:mm:ss" :default-date="$selectedDay?->format('Y-m-d H:i:s')" :required="true" />
+                    @php
+                        $scheduledForValue =
+                            $this->taskForm['scheduled_for'] ??
+                            ($selectedDay?->format('Y-m-d H:i:s') ?? now()->format('Y-m-d H:i:s'));
+                        $datepickerKey = 'dp-' . md5($scheduledForValue);
+                    @endphp
+                    <div wire:key="{{ $datepickerKey }}">
+                        <x-admin.shared.smart-datetime :label="__('calendar.form.scheduled_for')" wire-property-name="taskForm.scheduled_for"
+                            :with-time="true" return-format="YYYY-MM-DD HH:mm:ss" :default-date="$scheduledForValue"
+                            :required="true" />
+                    </div>
                 @else
                     <x-datetime :label="__('calendar.form.scheduled_for')" wire:model="taskForm.scheduled_for" type="datetime-local" />
                 @endif
