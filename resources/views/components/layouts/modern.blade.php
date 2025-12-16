@@ -27,20 +27,20 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="flex flex-col min-h-screen bg-base-100" x-data>
+<body class="flex flex-col min-h-screen bg-base-200" x-data>
 
     <x-main full-width>
 
         {{-- Modern Sidebar --}}
         <x-slot:sidebar drawer="main-drawer" collapsible
-            class="border-none shadow-xl backdrop-blur-md no-scrollbar bg-base-100/80">
+            class="border-none backdrop-blur-md no-scrollbar bg-base-200">
 
             {{-- Brand Header with Gradient --}}
-            <div class="sticky top-0 z-10 bg-base-100 border-none h-[64px]">
+            <div class="sticky top-0 z-10 border-none h-[64px]">
                 <div class="p-2 hidden-when-collapsed">
                     <div class="flex gap-3 items-center">
                         <div class="flex justify-center items-center w-10 h-10 rounded-xl">
-                            <x-icon name="o-cube" class="w-6 h-6 text-white" />
+                            <x-icon name="o-cube" class="w-6 h-6 text-primary" />
                         </div>
                         <div>
                             <h1 class="text-xl font-bold">
@@ -52,7 +52,7 @@
                 <div class="hidden w-full h-full display-when-collapsed">
                     <div class="flex items-center w-full h-full">
                         <div class="flex justify-center items-center mx-auto w-10 h-10 rounded-xl">
-                            <x-icon name="o-cube" class="w-6 h-6 text-white" />
+                            <x-icon name="o-cube" class="w-6 h-6 text-primary" />
                         </div>
                     </div>
                 </div>
@@ -96,7 +96,7 @@
         {{-- Main Content Area --}}
         <x-slot:content class="!p-0 flex flex-col flex-1 min-h-0">
             {{-- Modern Header Bar --}}
-            <livewire:admin.shared.header />
+            <livewire:admin.shared.header nav_class="bg-base-200 border-none" />
             {{-- Page Content with Glass Effect --}}
             <div @class([
                 'flex flex-col flex-1',

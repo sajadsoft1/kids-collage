@@ -15,7 +15,7 @@ class DaisyUI extends Theme
         return [
             'layout' => [
                 'base' => 'align-middle inline-block min-w-full w-full !mt-0 !pt-0',
-                'div' => 'relative bg-base-100',
+                'div' => 'relative bg-base-100 rounded-t-lg',
                 'table' => 'table table-sm !bg-base-100',
                 'container' => 'overflow-x-auto sm:-mx-3',
                 'actions' => 'gap-2 !bg-red-500',
@@ -23,9 +23,9 @@ class DaisyUI extends Theme
 
             'header' => [
                 'thead' => 'text-base-content !capitalize',
-                'tr' => 'bg-base-200 ',
-                'th' => '!py-4 text-gray-500 font-bold last:!w-0',
-                'thAction' => '',
+                'tr' => 'bg-base-300 ',
+                'th' => '!py-4 text-gray-500 font-bold',
+                'thAction' => '!w-0',
             ],
 
             'body' => [
@@ -58,7 +58,7 @@ class DaisyUI extends Theme
         return [
             'view' => $this->root() . '.footer',
             'select' => 'select flex rounded-md py-1.5 px-4 pr-7 w-auto',
-            'footer' => 'rounded-b-lg !text-base-content bg-base-200',
+            'footer' => 'rounded-b-lg !text-base-content bg-base-300',
             'footer_with_pagination' => 'md:flex md:flex-row w-full items-center py-3 overflow-y-auto pl-2 pr-2 relative !text-base-content',
         ];
     }

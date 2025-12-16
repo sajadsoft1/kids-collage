@@ -102,6 +102,13 @@
 #power-grid-table-base > div > div:nth-child(2) > label {
     @apply rounded-lg max-md:w-full
 }
+
+/* PowerGrid: Last column (actions) should stick to the end */
+#power-grid-table-base table thead tr th:last-child,
+#power-grid-table-base table tbody tr td:last-child {
+    width: 0 !important;
+    white-space: nowrap;
+}
 /*end powergrid*/
 
 
@@ -111,21 +118,77 @@
 
 /* Custom theme variables */
 :root {
-    --color-base-100: #FFFFFF;
-    --color-base-200: #F0F5F9;
-    --color-base-300: #E5EAF1;
-    --color-primary: #fa8227;
-    --color-secondary: #F2EAD3;
-    --color-accent: #069021;
-    --color-focus-outline: transparent;
+    /* daisyUI core */
+    --b1: #ffffff;   /* base-100 */
+    --b2: #fafafa;   /* base-200 */
+    --b3: #f1f5f9;   /* base-300 */
+
+    --bc: #1f2937;   /* base-content */
+
+    --p: #f6a96b;    /* primary */
+    --pc: #1f2937;
+
+    --s: #e8eddf;    /* secondary */
+    --sc: #1f2937;
+
+    --a: #8fc9a3;    /* accent */
+    --ac: #1f2937;
+
+    --n: #374151;    /* neutral */
+    --nc: #ffffff;
+
+    --su: #7bcfa9;
+    --wa: #f3c77a;
+    --er: #f2a6a6;
+
+    --rounded-box: 0.75rem;
+    --rounded-btn: 0.5rem;
+    --rounded-badge: 0.375rem;
+
+    --border-btn: 1px;
+    --animation-btn: 0.2s;
 }
 
-/* Dark theme variables */
+/* Dark theme variables with blue tone */
 .dark {
-    --color-base-100: #101828;
-    --color-base-200: #1d2939;
-    --color-base-300: #0f0f0f;
+    --b1: #1c1f26;
+    --b2: #15181e;
+    --b3: #232733;
+
+    --bc: #e6e8ee;
+
+    --p: #f3a56f;
+    --pc: #15181e;
+
+    --s: #2a2f3a;
+    --sc: #e6e8ee;
+
+    --a: #86c7a1;
+    --ac: #15181e;
+
+    --n: #2f3442;
+    --nc: #e6e8ee;
+
+    --su: #86c7a1;
+    --wa: #eac27a;
+    --er: #e6a0a0;
 }
+
+:root,
+.dark {
+    --color-base-100: var(--b1);
+    --color-base-200: var(--b2);
+    --color-base-300: var(--b3);
+
+    --color-primary: var(--p);
+    --color-secondary: var(--s);
+    --color-accent: var(--a);
+
+    --color-success: var(--su);
+    --color-warning: var(--wa);
+    --color-danger: var(--er);
+}
+
 /**:focus-within {*/
 /*    border-color: transparent !important;*/
 /*    !*@apply outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500*!*/

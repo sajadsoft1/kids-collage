@@ -1,5 +1,5 @@
 @php use App\Helpers\Constants; @endphp
-<x-nav sticky full-width class="{{ $nav_class }}" class="border-none">
+<x-nav sticky full-width class="{{ $nav_class }}">
     <x-slot:brand>
         {{-- Drawer toggle for "main-drawer" --}}
         <label for="main-drawer" class="mr-3 lg:hidden">

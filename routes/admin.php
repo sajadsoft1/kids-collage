@@ -15,9 +15,13 @@ use Illuminate\Support\Facades\Route;
 
 // Volt::route('/', 'users.index');
 
-Route::get('admin/auth/login', function () {
-    return redirect(config('app.frontend_url') . '/login');
-})->name('admin.auth.login');
+if (config('app.debug')) {
+    Route::get('admin/auth/login', LoginPage::class)->name('admin.auth.login');
+} else {
+    Route::get('admin/auth/login', function () {
+        return redirect(config('app.frontend_url') . '/login');
+    })->name('admin.auth.login');
+}
 
 // Route::get('admin/auth/login', LoginPage::class)->name('admin.auth.login');
 Route::get('admin/auth/logout', function () {
