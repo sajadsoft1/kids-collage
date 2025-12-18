@@ -1,6 +1,6 @@
 <div
-    class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 bg-white dark:bg-base-300 border-b border-gray-200 dark:border-none  px-4 shadow-xs sm:gap-x-6 sm:px-6 lg:px-8">
-    <button type="button" class="-m-2.5 p-2.5 text-gray-700" @click="open = !open">
+    class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 dark:border-none px-4 shadow-xs sm:gap-x-6 sm:px-6 lg:px-8 {{ $nav_class ?? '' }}">
+    <button type="button" class="p-2.5 -m-2.5 text-gray-700" @click="open = !open">
         <span class="sr-only">Toggle sidebar</span>
         <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true"
             data-slot="icon">
@@ -10,21 +10,21 @@
     </button>
 
     <!-- Separator -->
-    {{--    <div class="h-6 w-px bg-gray-900/10 lg:hidden" aria-hidden="true"></div> --}}
+    {{--    <div class="w-px h-6 bg-gray-900/10 lg:hidden" aria-hidden="true"></div> --}}
     <x-menu-separator />
     <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
         <form class="grid flex-1 grid-cols-1" action="#" method="GET">
             <input type="search" name="search" aria-label="Search"
-                class="col-start-1 row-start-1 block size-full  ps-8 text-base text-gray-900 outline-hidden placeholder:text-gray-400 sm:text-sm/6"
+                class="block col-start-1 row-start-1 text-base text-gray-900 size-full ps-8 outline-hidden placeholder:text-gray-400 sm:text-sm/6"
                 placeholder="Search">
-            <svg class="pointer-events-none col-start-1 row-start-1 size-5 self-center text-gray-400"
+            <svg class="col-start-1 row-start-1 self-center text-gray-400 pointer-events-none size-5"
                 viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
                 <path fill-rule="evenodd"
                     d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z"
                     clip-rule="evenodd"></path>
             </svg>
         </form>
-        <div class="flex items-center gap-x-4 lg:gap-x-6">
+        <div class="flex gap-x-4 items-center lg:gap-x-6">
 
             <x-popover>
                 <x-slot:trigger class="btn-ghost">

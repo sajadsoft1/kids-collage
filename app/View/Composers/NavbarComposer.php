@@ -62,6 +62,18 @@ class NavbarComposer
         );
     }
 
+    /** Get the menu for the current authenticated user. */
+    public function getMenu(): array
+    {
+        $user = Auth::user();
+
+        if ( ! $user) {
+            return [];
+        }
+
+        return $this->menuByUserType($user);
+    }
+
     private function menuByUserType(User $user): array
     {
         return match ($user->type->value) {

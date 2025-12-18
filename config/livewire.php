@@ -39,7 +39,11 @@ return [
     |
     */
 
-    'layout' => 'components.layouts.modern',
+    // 'layout' => 'components.layouts.app',
+    // 'layout' => 'components.layouts.enterprise',
+    // 'layout' => 'components.layouts.metronic',
+    'layout' => 'components.layouts.minimal',
+    // 'layout' => 'components.layouts.modern',
 
     /*
     |---------------------------------------------------------------------------

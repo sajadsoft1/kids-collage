@@ -57,7 +57,7 @@
 
 
     <div class="flex flex-col flex-1 min-h-0" x-bind:class="open ? 'lg:ps-72' : 'lg:ps-0'">
-        @include('admin.layouts.header')
+        @include('admin.layouts.header', ['nav_class' => '!bg-base-300'])
         <main class="flex flex-col flex-1">
             <div @class([
                 'flex flex-col flex-1',
@@ -66,7 +66,7 @@
             ])>
                 <div @class([
                     'flex flex-col flex-1',
-                    'container' => !isset($fullWidth) || !$fullWidth,
+                    'container mx-auto' => !isset($fullWidth) || !$fullWidth,
                     'container-fluid' => isset($fullWidth) && $fullWidth,
                 ])>
                     {{ $slot }}
