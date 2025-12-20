@@ -42,11 +42,12 @@ return [
     // 'layout' => 'components.layouts.app',
     // 'layout' => 'components.layouts.enterprise',
     // 'layout' => 'components.layouts.metronic',
-    'layout' => 'components.layouts.metronic-4',
+    // 'layout' => 'components.layouts.metronic-4',
     // 'layout' => 'components.layouts.matronic-multi-branch',
     // 'layout' => 'components.layouts.minimal',
     // 'layout' => 'components.layouts.modern',
     // 'layout' => 'components.layouts.frest',
+    'layout' => 'components.layouts.tow-step',
 
     /*
     |---------------------------------------------------------------------------

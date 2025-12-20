@@ -78,6 +78,7 @@ class AppServiceProvider extends ServiceProvider
             'components.layouts.minimal',
             'components.layouts.enterprise',
             'components.layouts.metronic',
+            'components.layouts.tow-step',
         ], NavbarComposer::class);
 
         Button::macro('navigate', function () {
