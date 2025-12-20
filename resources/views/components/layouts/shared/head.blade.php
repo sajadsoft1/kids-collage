@@ -21,4 +21,15 @@
     <script src="/assets/js/flatpickr.min.js"></script>
     @livewireStyles
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <script>
+        // Define mainLayoutState before Alpine initializes
+        function mainLayoutState() {
+            return {
+                init() {
+                    // Store is initialized in sidebar component
+                }
+            }
+        }
+    </script>
 </head>
