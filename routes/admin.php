@@ -11,6 +11,7 @@ use App\Livewire\Admin\Shared\DynamicSeo;
 use App\Livewire\Admin\Shared\DynamicTranslate;
 use App\Livewire\Admin\Test\ErrorHandlingDemo;
 use App\Livewire\Admin\Test\FeatureModule;
+use App\Livewire\Network\GetStarted;
 use Illuminate\Support\Facades\Route;
 
 // Volt::route('/', 'users.index');
@@ -90,3 +91,4 @@ Route::group(['middleware' => ['admin.panel']], function () {
     require __DIR__ . '/admin/flashCard.php';
     require __DIR__ . '/admin/notebook.php';
 });
+Route::get('admin/metronic-test', \App\Livewire\Network\GetStarted::class)->name('admin.metronic.test');

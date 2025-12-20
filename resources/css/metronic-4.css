@@ -1,0 +1,310 @@
+/* ===========================
+   Metronic 4 Layout Styles
+   =========================== */
+
+/* CSS Variables */
+:root {
+    /* Sidebar width */
+    --sidebar-width: 290px;
+    --sidebar-primary-width: 70px;
+    --header-height: 60px;
+}
+
+/* ===========================
+   Core Layout Positioning
+   =========================== */
+
+/* Sidebar - Default LTR Positioning */
+#sidebar {
+    left: 0;
+    right: auto;
+}
+
+/* Sidebar - RTL Positioning */
+[dir="rtl"] #sidebar {
+    right: 0 !important;
+    left: auto !important;
+}
+
+/* Main Content Margin - LTR */
+[dir="ltr"] .lg\:ms-\[290px\] {
+    margin-left: 290px !important;
+    margin-right: 0 !important;
+}
+
+/* Main Content Margin - RTL */
+[dir="rtl"] .lg\:ms-\[290px\] {
+    margin-right: 290px !important;
+    margin-left: 0 !important;
+}
+
+/* ===========================
+   Scrollbar Styling
+   =========================== */
+
+/* Custom Scrollbar for Light Mode */
+.lg\:overflow-y-auto::-webkit-scrollbar {
+    width: 8px;
+}
+
+.lg\:overflow-y-auto::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.lg\:overflow-y-auto::-webkit-scrollbar-thumb {
+    background: #e8e8e8;
+    border-radius: 4px;
+}
+
+.lg\:overflow-y-auto::-webkit-scrollbar-thumb:hover {
+    background: #d0d0d0;
+}
+
+/* Custom Scrollbar for Dark Mode */
+.dark .lg\:overflow-y-auto::-webkit-scrollbar-thumb {
+    background: #4a5568;
+}
+
+.dark .lg\:overflow-y-auto::-webkit-scrollbar-thumb:hover {
+    background: #5a6578;
+}
+
+/* ===========================
+   Button Styles
+   =========================== */
+
+.btn {
+    @apply inline-flex items-center justify-center font-medium transition-colors duration-150;
+}
+
+.btn-icon {
+    @apply flex items-center justify-center;
+}
+
+.btn-sm {
+    @apply px-3 py-1.5 text-sm;
+}
+
+.btn-xs {
+    @apply px-2 py-1 text-xs;
+}
+
+.btn-light {
+    @apply bg-gray-100 hover:bg-gray-200 text-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700;
+}
+
+.btn-clear {
+    @apply bg-transparent;
+}
+
+/* ===========================
+   Menu Styles
+   =========================== */
+
+.menu-link {
+    @apply flex items-center w-full transition-colors duration-150;
+}
+
+.menu-title {
+    @apply flex-grow;
+}
+
+.menu-arrow {
+    @apply ms-auto flex items-center;
+}
+
+/* ===========================
+   Card Styles
+   =========================== */
+
+.card {
+    @apply bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700;
+}
+
+/* ===========================
+   Container Fluid
+   =========================== */
+
+.container-fluid {
+    @apply w-full px-3 lg:px-5;
+    max-width: 100%;
+}
+
+/* Adjust container padding for responsive */
+@media (min-width: 1024px) {
+    .container-fluid {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+    }
+}
+
+/* ===========================
+   Mobile Adjustments
+   =========================== */
+
+@media (max-width: 1023px) {
+    /* Ensure sidebar is positioned correctly in mobile */
+    #sidebar {
+        left: 0;
+    }
+
+    [dir="rtl"] #sidebar {
+        right: 0;
+        left: auto;
+    }
+
+    /* Remove margin from main content on mobile */
+    .lg\:ms-\[290px\] {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+}
+
+/* ===========================
+   RTL Specific Adjustments
+   =========================== */
+
+/* Text Alignment */
+[dir="rtl"] {
+    text-align: right;
+}
+
+[dir="rtl"] .text-start {
+    text-align: right !important;
+}
+
+[dir="rtl"] .text-end {
+    text-align: left !important;
+}
+
+/* Margins - Start/End */
+[dir="rtl"] .ms-auto {
+    margin-inline-start: 0 !important;
+    margin-inline-end: auto !important;
+}
+
+[dir="rtl"] .me-auto {
+    margin-inline-end: 0 !important;
+    margin-inline-start: auto !important;
+}
+
+[dir="rtl"] .ms-1,
+[dir="rtl"] .ms-1\.5,
+[dir="rtl"] .ms-2,
+[dir="rtl"] .ms-2\.5,
+[dir="rtl"] .ms-3,
+[dir="rtl"] .ms-4,
+[dir="rtl"] .ms-5 {
+    margin-inline-start: 0 !important;
+}
+
+[dir="rtl"] .me-1 { margin-inline-end: 0.25rem !important; }
+[dir="rtl"] .me-1\.5 { margin-inline-end: 0.375rem !important; }
+[dir="rtl"] .me-2 { margin-inline-end: 0.5rem !important; }
+[dir="rtl"] .me-2\.5 { margin-inline-end: 0.625rem !important; }
+[dir="rtl"] .me-3 { margin-inline-end: 0.75rem !important; }
+[dir="rtl"] .me-4 { margin-inline-end: 1rem !important; }
+[dir="rtl"] .me-5 { margin-inline-end: 1.25rem !important; }
+
+/* Paddings - Start/End */
+[dir="rtl"] .ps-1,
+[dir="rtl"] .ps-1\.5,
+[dir="rtl"] .ps-2,
+[dir="rtl"] .ps-2\.5,
+[dir="rtl"] .ps-3,
+[dir="rtl"] .ps-4,
+[dir="rtl"] .ps-5 {
+    padding-inline-start: 0 !important;
+}
+
+[dir="rtl"] .pe-1 { padding-inline-end: 0.25rem !important; }
+[dir="rtl"] .pe-1\.5 { padding-inline-end: 0.375rem !important; }
+[dir="rtl"] .pe-2 { padding-inline-end: 0.5rem !important; }
+[dir="rtl"] .pe-2\.5 { padding-inline-end: 0.625rem !important; }
+[dir="rtl"] .pe-3 { padding-inline-end: 0.75rem !important; }
+[dir="rtl"] .pe-4 { padding-inline-end: 1rem !important; }
+[dir="rtl"] .pe-5 { padding-inline-end: 1.25rem !important; }
+
+/* Borders - Start/End */
+[dir="rtl"] .border-e {
+    border-inline-end-width: 1px !important;
+    border-inline-start-width: 0 !important;
+}
+
+[dir="rtl"] .border-s {
+    border-inline-start-width: 1px !important;
+    border-inline-end-width: 0 !important;
+}
+
+/* Rounded Corners */
+[dir="rtl"] .rounded-e {
+    border-start-end-radius: 0 !important;
+    border-end-end-radius: 0 !important;
+    border-start-start-radius: 0.375rem !important;
+    border-end-start-radius: 0.375rem !important;
+}
+
+[dir="rtl"] .rounded-s {
+    border-start-start-radius: 0 !important;
+    border-end-start-radius: 0 !important;
+    border-start-end-radius: 0.375rem !important;
+    border-end-end-radius: 0.375rem !important;
+}
+
+/* Menu Arrow Direction */
+[dir="rtl"] .menu-arrow {
+    margin-inline-start: 0 !important;
+    margin-inline-end: auto !important;
+}
+
+/* Flex Direction */
+[dir="rtl"] .flex-row {
+    flex-direction: row-reverse;
+}
+
+/* ===========================
+   Typography RTL Support
+   =========================== */
+
+[dir="rtl"] h1,
+[dir="rtl"] h2,
+[dir="rtl"] h3,
+[dir="rtl"] h4,
+[dir="rtl"] h5,
+[dir="rtl"] h6,
+[dir="rtl"] p,
+[dir="rtl"] span {
+    text-align: inherit;
+}
+
+/* ===========================
+   Utility Classes
+   =========================== */
+
+/* Hide Scrollbar */
+.scrollable-y-hover::-webkit-scrollbar {
+    width: 4px;
+}
+
+.scrollable-y-hover::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.scrollable-y-hover::-webkit-scrollbar-thumb {
+    background: transparent;
+}
+
+.scrollable-y-hover:hover::-webkit-scrollbar-thumb {
+    background: #e8e8e8;
+}
+
+.dark .scrollable-y-hover:hover::-webkit-scrollbar-thumb {
+    background: #4a5568;
+}
+
+/* Smooth Transitions */
+.transition-colors {
+    transition-property: color, background-color, border-color;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}
