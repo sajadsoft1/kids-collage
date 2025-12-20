@@ -1,4 +1,42 @@
-{{-- Main Page Content (without layout wrapper) --}}
+@section('pageTitle')
+    <h1 class="font-medium text-base text-gray-900 dark:text-gray-100">
+        Get Started
+    </h1>
+@endsection
+
+@section('breadcrumbs')
+    <div class="flex items-center flex-wrap gap-1 text-sm">
+        <a class="text-gray-700 hover:text-primary dark:text-gray-300" href="{{ route('admin.dashboard') }}">
+            Home
+        </a>
+        <span class="text-gray-400 text-sm">/</span>
+        <span class="text-gray-900 dark:text-gray-100">Network</span>
+    </div>
+@endsection
+
+@section('toolbar')
+    <!-- Search Button -->
+    <button
+        class="btn btn-icon w-9 h-9 rounded-md hover:bg-gray-200 hover:text-primary text-gray-600 dark:hover:bg-gray-700 dark:text-gray-300"
+        title="Search">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+    </button>
+
+    <!-- Export Button -->
+    <a href="#"
+        class="btn btn-sm bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-md flex items-center gap-2 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+        </svg>
+        Export
+    </a>
+@endsection
+
+{{-- Main Page Content --}}
 <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3 lg:gap-5 xl:gap-7.5">
 
     {{-- Sample Card 1 --}}

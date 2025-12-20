@@ -126,15 +126,25 @@
    =========================== */
 
 .container-fluid {
-    @apply w-full px-3 lg:px-5;
+    @apply w-full;
     max-width: 100%;
+    padding-left: 0.75rem; /* 12px mobile */
+    padding-right: 0.75rem; /* 12px mobile */
 }
 
-/* Adjust container padding for responsive */
+/* Tablet (768px) */
+@media (min-width: 768px) {
+    .container-fluid {
+        padding-left: 1rem; /* 16px tablet */
+        padding-right: 1rem; /* 16px tablet */
+    }
+}
+
+/* Desktop (1024px) */
 @media (min-width: 1024px) {
     .container-fluid {
-        padding-left: 1.25rem;
-        padding-right: 1.25rem;
+        padding-left: 1.25rem; /* 20px desktop */
+        padding-right: 1.25rem; /* 20px desktop */
     }
 }
 

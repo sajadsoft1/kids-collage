@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html class="h-full" data-theme="true" data-theme-mode="{{ session('theme_mode', 'light') }}"
-    dir="{{ session('direction', 'ltr') }}" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    dir="{{ session('direction', 'rtl') }}" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <meta charset="utf-8">
@@ -85,49 +85,45 @@
         <!-- Wrapper -->
         <div class="flex flex-col lg:flex-row grow pt-[60px] lg:pt-0">
 
+            <!-- Mobile Sidebar Backdrop -->
+            <div x-show="sidebarOpen && window.innerWidth < 1024"
+                x-transition:enter="transition-opacity ease-linear duration-300" x-transition:enter-start="opacity-0"
+                x-transition:enter-end="opacity-100" x-transition:leave="transition-opacity ease-linear duration-300"
+                x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" @click="sidebarOpen = false"
+                class="fixed inset-0 bg-black/50 z-10 lg:hidden" style="display: none;">
+            </div>
+
             <!-- Sidebar -->
             <x-metronic-4-sidebar />
 
             <!-- Main Content -->
             <div
-                class="flex grow rounded-xl bg-white dark:bg-[#1e1e2d] border border-gray-300 dark:border-gray-200 lg:ms-[290px] mt-0 lg:mt-5 m-5">
-                <div class="flex flex-col grow lg:overflow-y-auto lg:[scrollbar-width:auto] pt-5"
+                class="flex grow rounded-none lg:rounded-xl bg-white dark:bg-[#1e1e2d] border-0 lg:border border-gray-300 dark:border-gray-200 lg:ms-[290px] mt-0 lg:mt-5 m-0 lg:m-5">
+                <div class="flex flex-col grow lg:overflow-y-auto lg:[scrollbar-width:auto] pt-3 lg:pt-5 px-3 lg:px-0"
                     id="scrollable_content">
 
                     <main class="grow" role="content">
 
                         <!-- Toolbar / Breadcrumb -->
-                        @if (isset($toolbar) || isset($breadcrumbs) || isset($pageTitle))
-                            <div class="pb-5">
-                                <div class="container-fluid flex items-center justify-between flex-wrap gap-3">
+                        <div class="pb-3 lg:pb-5">
+                            <div
+                                class="container-fluid flex items-center justify-between flex-wrap gap-2 lg:gap-3 px-0">
 
-                                    <!-- Left: Title & Breadcrumbs -->
-                                    <div class="flex items-center flex-wrap gap-1 lg:gap-5">
-                                        @if (isset($pageTitle))
-                                            <h1 class="font-medium text-base text-gray-900 dark:text-gray-100">
-                                                {{ $pageTitle }}
-                                            </h1>
-                                        @endif
+                                <!-- Left: Title & Breadcrumbs -->
+                                <div class="flex items-center flex-wrap gap-1 lg:gap-5">
+                                    @yield('pageTitle')
+                                    @yield('breadcrumbs')
+                                </div>
 
-                                        @if (isset($breadcrumbs))
-                                            <div class="flex items-center flex-wrap gap-1 text-sm">
-                                                {{ $breadcrumbs }}
-                                            </div>
-                                        @endif
-                                    </div>
-
-                                    <!-- Right: Actions -->
-                                    @if (isset($toolbar))
-                                        <div class="flex items-center flex-wrap gap-1.5 lg:gap-3.5">
-                                            {{ $toolbar }}
-                                        </div>
-                                    @endif
+                                <!-- Right: Actions -->
+                                <div class="flex items-center flex-wrap gap-1.5 lg:gap-3.5">
+                                    @yield('toolbar')
                                 </div>
                             </div>
-                        @endif
+                        </div>
 
                         <!-- Page Content -->
-                        <div class="container-fluid">
+                        <div class="container-fluid px-0">
                             {{ $slot }}
                         </div>
 
