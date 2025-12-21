@@ -54,6 +54,40 @@
   }
 }
 
+/* Glass Header Effect */
+.glass-header {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 40;
+  background: rgba(255, 255, 255, 0.85);
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.dark .glass-header {
+  background: rgba(28, 31, 38, 0.85);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Custom Scrollbar for Sidebar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: var(--p);
+  border-radius: 20px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Sidebar Border Utility */
+.sidebar-border {
+  border-color: rgba(0, 0, 0, 0.08);
+}
+.dark .sidebar-border {
+  border-color: rgba(255, 255, 255, 0.05);
+}
+
 /* maryUI */
 @source "../../vendor/robsontenorio/mary/src/View/Components/**/*.php";
 

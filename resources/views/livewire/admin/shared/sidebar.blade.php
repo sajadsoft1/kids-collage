@@ -25,84 +25,197 @@
     }
 @endphp
 
-<div x-data="{}" x-init="$store.sidebar.init()"
-    class="flex fixed relative inset-y-0 right-0 top-14 z-50 transition-all duration-300 md:top-0"
-    :class="$store.sidebar.menuVisible ? 'w-full md:w-auto' : 'w-0 md:w-[70px]'">
+<aside x-data="{}" x-init="$store.sidebar.init()"
+    class="fixed z-50 flex transition-all duration-300 ease-out right-0 inset-y-0"
+    :class="{
+        'w-[72px]': !$store.sidebar.menuVisible && !$store.sidebar.isMobile,
+        'w-auto': $store.sidebar.menuVisible && !$store.sidebar.isMobile,
+        'hidden': !$store.sidebar.menuVisible && $store.sidebar.isMobile,
+        'w-auto': $store.sidebar.menuVisible && $store.sidebar.isMobile
+    }">
 
-    <!-- Toggle Button (Floating - Desktop Only) - Positioned at left side of Level 2 when open, Level 1 when closed -->
-    <button @click="$store.sidebar.toggleSidebar()" x-show="!$store.sidebar.isDirectLinkActive"
-        class="hidden md:flex absolute top-6 z-[60] w-6 h-6 bg-slate-700 hover:bg-slate-600 text-white rounded-full items-center justify-center shadow-lg transition-all"
-        :class="$store.sidebar.menuVisible && $store.sidebar.activeModule !== '' ?
-            ($store.sidebar.sidebarOpen ? 'right-[240px]' : 'right-[310px]') :
-            'right-[70px]'">
-        <i class="text-xs fas fa-chevron-left" :class="$store.sidebar.sidebarOpen ? 'rotate-180' : ''"></i>
-    </button>
+    <!-- Icon Column (Level 1) - Hidden on mobile by default, shows when menu is opened -->
+    <div id="sidebar"
+        class="w-[72px] bg-slate-900 dark:bg-slate-950 flex flex-col items-center h-full shrink-0 shadow-xl overflow-x-hidden"
+        :class="{
+            'hidden': !$store.sidebar.menuVisible && $store.sidebar.isMobile
+        }">
 
-    <!-- Icon Column (Level 1) -->
-    <div class="w-[70px] bg-slate-900 flex flex-col items-center py-4 gap-1 shrink-0"
-        :class="$store.sidebar.menuVisible ? '' : 'hidden md:flex'">
+        <!-- Logo - Fixed at top -->
+        <div class="shrink-0 py-4 flex flex-col items-center gap-2">
+            <div
+                class="w-11 h-11 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/30">
+                <i class="fas fa-cube text-white text-lg"></i>
+            </div>
+        </div>
 
-        <!-- Modules -->
-        <div class="flex flex-col flex-1 gap-1 items-center px-2 py-2 w-full">
+        <!-- Modules Section - Scrollable -->
+        <div
+            class="flex-1 overflow-y-auto overflow-x-hidden flex flex-col items-center gap-1 py-2 w-full px-2.5 min-h-0">
+            <span class="text-[10px] text-slate-500 uppercase tracking-wider mb-2 shrink-0">ماژول‌ها</span>
             @foreach ($modules as $module)
                 <x-admin.sidebar.module-icon :module="$module" />
             @endforeach
         </div>
 
-        <!-- Bottom Section: Search, Notifications, Branch, Settings, Profile -->
-        <div class="flex flex-col gap-1 items-center px-2 pt-4 w-full border-t border-slate-700">
-            <button @click="$store.sidebar.openMenu('search')"
-                class="flex justify-center items-center w-11 h-11 rounded-xl transition-all text-slate-400 hover:bg-slate-800 hover:text-white">
-                <i class="text-base fas fa-search"></i>
-            </button>
-            <button @click="$store.sidebar.openMenu('notifications')"
-                class="flex relative justify-center items-center w-11 h-11 rounded-xl transition-all text-slate-400 hover:bg-slate-800 hover:text-white">
-                <i class="text-base fas fa-bell"></i>
-                <span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full"></span>
-            </button>
-            <button @click="$store.sidebar.openMenu('branch')"
-                class="flex justify-center items-center w-11 h-11 rounded-xl transition-all text-slate-400 hover:bg-slate-800 hover:text-white">
-                <i class="text-base fas fa-building"></i>
-            </button>
-            <button @click="$store.sidebar.openMenu('settings')"
-                class="flex justify-center items-center w-11 h-11 rounded-xl transition-all text-slate-400 hover:bg-slate-800 hover:text-white">
-                <i class="text-base fas fa-cog"></i>
-            </button>
-            <x-theme-toggle />
-            <button @click="$store.sidebar.openMenu('profile')"
-                class="flex justify-center items-center w-10 h-10 text-sm font-medium text-white bg-blue-600 rounded-xl">
-                JD
-            </button>
+        <!-- Tools Section - Fixed at bottom -->
+        <div class="shrink-0 flex flex-col items-center gap-1 pt-4 pb-4 border-t border-slate-700/50 w-full px-2.5">
+            <span class="text-[10px] text-slate-500 uppercase tracking-wider mb-2">ابزارها</span>
+
+            <!-- Search -->
+            <div class="relative group">
+                <button @click="$store.sidebar.openMenu('search')"
+                    class="w-11 h-11 rounded-xl flex items-center justify-center text-slate-400 hover:bg-slate-800 hover:text-white transition-all duration-200"
+                    aria-label="جستجو" aria-haspopup="true">
+                    <i class="text-base fas fa-search"></i>
+                </button>
+                <div
+                    class="absolute top-1/2 -translate-y-1/2 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity bg-slate-800 text-white text-xs py-1.5 px-3 rounded-lg whitespace-nowrap z-[70] shadow-lg right-full mr-2">
+                    جستجو
+                </div>
+            </div>
+
+            <!-- Notifications -->
+            <div class="relative group">
+                <button @click="$store.sidebar.openMenu('notifications')"
+                    class="w-11 h-11 rounded-xl flex items-center justify-center text-slate-400 hover:bg-slate-800 hover:text-white transition-all duration-200 relative"
+                    aria-label="اعلانات" aria-haspopup="true">
+                    <i class="text-base fas fa-bell"></i>
+                    <span x-show="$store.sidebar.notificationCount > 0"
+                        class="absolute top-1.5 right-1.5 min-w-[18px] h-[18px] bg-red-500 rounded-full text-[10px] text-white flex items-center justify-center font-medium px-1"
+                        x-text="$store.sidebar.notificationCount > 9 ? '9+' : $store.sidebar.notificationCount"></span>
+                </button>
+                <div
+                    class="absolute top-1/2 -translate-y-1/2 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity bg-slate-800 text-white text-xs py-1.5 px-3 rounded-lg whitespace-nowrap z-[70] shadow-lg right-full mr-2">
+                    اعلانات
+                </div>
+            </div>
+
+            <!-- Branch -->
+            <div class="relative group">
+                <button @click="$store.sidebar.openMenu('branch')"
+                    class="w-11 h-11 rounded-xl flex items-center justify-center text-slate-400 hover:bg-slate-800 hover:text-white transition-all duration-200"
+                    aria-label="انتخاب شعبه" aria-haspopup="true">
+                    <i class="text-base fas fa-building"></i>
+                </button>
+                <div class="absolute top-1/2 -translate-y-1/2 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity bg-slate-800 text-white text-xs py-1.5 px-3 rounded-lg whitespace-nowrap z-[70] shadow-lg right-full mr-2"
+                    x-text="$store.sidebar.currentBranch"></div>
+            </div>
+
+            <!-- Dark Mode Toggle -->
+            <div class="relative group">
+                <x-theme-toggle
+                    class="w-11 h-11 rounded-xl flex items-center justify-center text-slate-400 hover:bg-slate-800 hover:text-white transition-all duration-200" />
+            </div>
+
+            <!-- Settings -->
+            <div class="relative group">
+                <button @click="$store.sidebar.openMenu('settings')"
+                    class="w-11 h-11 rounded-xl flex items-center justify-center text-slate-400 hover:bg-slate-800 hover:text-white transition-all duration-200"
+                    aria-label="تنظیمات" aria-haspopup="true">
+                    <i class="text-base fas fa-cog"></i>
+                </button>
+                <div
+                    class="absolute top-1/2 -translate-y-1/2 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity bg-slate-800 text-white text-xs py-1.5 px-3 rounded-lg whitespace-nowrap z-[70] shadow-lg right-full mr-2">
+                    تنظیمات
+                </div>
+            </div>
+
+            <!-- Profile -->
+            <div class="relative group mt-2">
+                <button @click="$store.sidebar.openMenu('profile')"
+                    class="w-11 h-11 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white text-sm font-medium shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 transition-all duration-200"
+                    aria-label="پروفایل" aria-haspopup="true">
+                    JD
+                </button>
+                <div
+                    class="absolute top-1/2 -translate-y-1/2 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity bg-slate-800 text-white text-xs py-1.5 px-3 rounded-lg whitespace-nowrap z-[70] shadow-lg right-full mr-2">
+                    جان دو
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- Menu Column (Level 2) -->
-    <div class="flex-1 md:w-[240px] bg-slate-800 flex flex-col transition-all duration-300 overflow-hidden"
-        x-show="$store.sidebar.menuVisible && $store.sidebar.activeModule !== ''"
-        :class="$store.sidebar.menuVisible && $store.sidebar.activeModule !== '' ?
-            ($store.sidebar.sidebarOpen ? 'opacity-100' :
-                'opacity-100 absolute right-[70px] top-0 bottom-0 z-[55] shadow-lg') :
-            'opacity-0 w-0 md:w-0'">
+    <!-- Menu Column (Level 2) - Shows next to level 1 on mobile, fixed width on tablet+, floating on tablet/unpinned desktop -->
+    <div class="bg-slate-800 dark:bg-slate-900 flex flex-col transition-all duration-300 ease-out overflow-hidden shadow-xl"
+        x-show="$store.sidebar.menuVisible"
+        :class="{
+            'fixed inset-y-0 right-[72px] z-[60] w-[calc(100%-72px)]': $store.sidebar.isMobile,
+            'w-[260px]': !$store.sidebar.isMobile,
+            'absolute inset-y-0 right-[72px] shadow-2xl': !$store.sidebar.isMobile && (!$store.sidebar.isPinned ||
+                $store.sidebar.isTablet)
+        }">
 
-        <!-- Module Title -->
-        <div class="relative px-4 py-4 border-b border-slate-700">
-            <h2 class="text-sm font-semibold text-slate-200">
+        <!-- Module Title with Pin & Close Buttons -->
+        <div class="px-5 py-5 border-b border-slate-700/50 flex items-center justify-between">
+            <h2 class="font-semibold text-slate-100 text-sm flex items-center gap-3">
                 @foreach ($modules as $module)
                     @if (!Arr::get($module, 'is_direct_link', false))
-                        <span
-                            x-show="$store.sidebar.activeModule === '{{ $module['key'] }}'">{{ $module['title'] }}</span>
+                        <span x-show="$store.sidebar.activeModule === '{{ $module['key'] }}'"
+                            class="flex items-center gap-3">
+                            <x-icon name="{{ $module['icon'] }}" class="text-blue-400" />
+                            <span>{{ $module['title'] }}</span>
+                        </span>
                     @endif
                 @endforeach
-                <span x-show="$store.sidebar.activeModule === 'search'">جستجو</span>
-                <span x-show="$store.sidebar.activeModule === 'notifications'">اعلانات</span>
-                <span x-show="$store.sidebar.activeModule === 'branch'">انتخاب شعبه</span>
-                <span x-show="$store.sidebar.activeModule === 'settings'">تنظیمات</span>
-                <span x-show="$store.sidebar.activeModule === 'profile'">پروفایل</span>
+                <span x-show="$store.sidebar.activeModule === 'search'" class="flex items-center gap-3">
+                    <i class="fas fa-search text-blue-400"></i>
+                    <span>جستجو</span>
+                </span>
+                <span x-show="$store.sidebar.activeModule === 'notifications'" class="flex items-center gap-3">
+                    <i class="fas fa-bell text-blue-400"></i>
+                    <span>اعلانات</span>
+                </span>
+                <span x-show="$store.sidebar.activeModule === 'branch'" class="flex items-center gap-3">
+                    <i class="fas fa-building text-blue-400"></i>
+                    <span>انتخاب شعبه</span>
+                </span>
+                <span x-show="$store.sidebar.activeModule === 'settings'" class="flex items-center gap-3">
+                    <i class="fas fa-cog text-blue-400"></i>
+                    <span>تنظیمات</span>
+                </span>
+                <span x-show="$store.sidebar.activeModule === 'profile'" class="flex items-center gap-3">
+                    <i class="fas fa-user text-blue-400"></i>
+                    <span>پروفایل</span>
+                </span>
             </h2>
+
+            <!-- Action Buttons -->
+            <div class="flex items-center gap-1">
+                <!-- Pin Toggle: Large Desktop Only (lg and up) - Hidden on mobile and tablet -->
+                <button @click="$store.sidebar.togglePin()"
+                    class="hidden lg:flex btn btn-ghost btn-xs btn-square hover:bg-slate-700/50 text-blue-400"
+                    :class="$store.sidebar.isPinned ? '' : 'rotate-45'" aria-label="پین کردن سایدبار">
+                    <i class="fas fa-thumbtack text-sm"></i>
+                </button>
+
+                <!-- Desktop Close Button - Only visible on lg+ when NOT pinned -->
+                <button @click="$store.sidebar.closeMenu(); $store.sidebar.menuVisible = false;"
+                    x-show="!$store.sidebar.isPinned"
+                    class="hidden lg:flex btn btn-ghost btn-xs btn-square hover:bg-slate-700/50 text-slate-400 hover:text-white"
+                    aria-label="بستن منو">
+                    <i class="fas fa-times text-sm"></i>
+                </button>
+
+                <!-- Mobile/Tablet Close Button - Large on mobile, small on tablet, hidden on desktop -->
+                <button @click="$store.sidebar.closeMobile()"
+                    class="lg:hidden btn btn-ghost text-slate-300 hover:text-white hover:bg-slate-700/50 transition-all w-14 h-14 text-3xl rounded-xl md:w-9 md:h-9 md:text-base md:btn-square"
+                    aria-label="بستن منو">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Current Branch Indicator -->
+        <div class="px-4 py-2 bg-slate-700/30 border-b border-slate-700/50">
+            <div class="flex items-center gap-2 text-xs text-slate-400">
+                <i class="fas fa-building"></i>
+                <span x-text="$store.sidebar.currentBranch"></span>
+            </div>
         </div>
 
         <!-- Navigation -->
-        <nav class="overflow-y-auto flex-1 px-3 py-2 space-y-1">
+        <nav class="flex-1 overflow-y-auto px-3 py-3 space-y-1" role="navigation">
             @foreach ($modules as $module)
                 <x-admin.sidebar.module-menu :module="$module" />
             @endforeach
@@ -110,43 +223,72 @@
             <!-- Search Panel -->
             <div x-show="$store.sidebar.activeModule === 'search'" class="space-y-3">
                 <div class="relative">
-                    <i class="absolute right-3 top-1/2 text-sm -translate-y-1/2 fas fa-search text-slate-500"></i>
+                    <i class="fas fa-search absolute top-1/2 -translate-y-1/2 text-slate-500 text-sm right-3"></i>
                     <input type="text" placeholder="جستجو در سیستم..."
-                        class="py-2.5 pr-10 pl-4 w-full text-sm rounded-lg border-0 bg-slate-700 text-slate-200 placeholder-slate-500 focus:ring-1 focus:ring-blue-500 focus:outline-none">
+                        class="w-full py-2.5 pr-10 pl-4 bg-slate-700 border-0 rounded-lg text-sm text-slate-200 placeholder-slate-500 focus:ring-2 focus:ring-blue-500 focus:outline-none">
                 </div>
-                <p class="text-xs text-slate-500">جستجو در تمام ماژول‌ها...</p>
+                <p class="text-slate-500 text-xs">جستجو در تمام ماژول‌ها...</p>
             </div>
 
             <!-- Notifications Panel -->
             <div x-show="$store.sidebar.activeModule === 'notifications'" class="space-y-2">
-                <div class="p-3 rounded-lg bg-slate-700">
-                    <p class="text-sm text-slate-200">فاکتور جدید ثبت شد</p>
-                    <p class="mt-1 text-xs text-slate-500">۵ دقیقه پیش</p>
-                </div>
-                <div class="p-3 rounded-lg bg-slate-700">
-                    <p class="text-sm text-slate-200">کاربر جدید عضو شد</p>
-                    <p class="mt-1 text-xs text-slate-500">۱ ساعت پیش</p>
-                </div>
-                <div class="p-3 rounded-lg bg-slate-700">
-                    <p class="text-sm text-slate-200">گزارش ماهانه آماده است</p>
-                    <p class="mt-1 text-xs text-slate-500">دیروز</p>
-                </div>
+                @forelse ($notifications as $notification)
+                    <div class="p-3 bg-slate-700/50 rounded-lg hover:bg-slate-700 transition-colors cursor-pointer">
+                        <p class="text-slate-200 text-sm">{{ $notification['title'] }}</p>
+                        @if (!empty($notification['body']))
+                            <p class="text-slate-300 text-xs mt-1">{{ $notification['body'] }}</p>
+                        @endif
+                        <p class="text-slate-500 text-xs mt-1">{{ $notification['created_at'] }}</p>
+                    </div>
+                @empty
+                    <div class="p-3 bg-slate-700/50 rounded-lg">
+                        <p class="text-slate-400 text-sm text-center">اعلانی وجود ندارد</p>
+                    </div>
+                @endforelse
+                @if (count($notifications) > 0)
+                    <a href="{{ route('admin.notification.index') }}" wire:navigate
+                        class="block p-3 bg-blue-600/20 hover:bg-blue-600/30 rounded-lg text-center text-sm text-blue-400 hover:text-blue-300 transition-colors">
+                        مشاهده همه اعلانات
+                    </a>
+                @endif
             </div>
 
             <!-- Branch Panel -->
             <div x-show="$store.sidebar.activeModule === 'branch'" class="space-y-1">
-                <a href="#" class="flex gap-3 items-center px-3 py-2 text-sm text-white bg-blue-600 rounded-lg">
-                    <i class="w-5 text-sm text-center fas fa-check"></i>
+                <a href="#"
+                    @click.prevent="$store.sidebar.currentBranch = 'شعبه مرکزی'; try { localStorage.setItem('currentBranch', 'شعبه مرکزی'); } catch(e) {}"
+                    class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200"
+                    :class="$store.sidebar.currentBranch === 'شعبه مرکزی' ?
+                        'bg-blue-600 text-white shadow-lg shadow-blue-600/20' :
+                        'text-slate-400 hover:bg-slate-700/50 hover:text-white'">
+                    <i class="fas fa-check w-5 text-center text-sm"
+                        x-show="$store.sidebar.currentBranch === 'شعبه مرکزی'"></i>
+                    <i class="fas fa-building w-5 text-center text-sm"
+                        x-show="$store.sidebar.currentBranch !== 'شعبه مرکزی'"></i>
                     <span>شعبه مرکزی</span>
                 </a>
                 <a href="#"
-                    class="flex gap-3 items-center px-3 py-2 text-sm rounded-lg transition-all text-slate-400 hover:bg-slate-700 hover:text-white">
-                    <i class="w-5 text-sm text-center fas fa-building"></i>
+                    @click.prevent="$store.sidebar.currentBranch = 'شعبه شمال'; try { localStorage.setItem('currentBranch', 'شعبه شمال'); } catch(e) {}"
+                    class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200"
+                    :class="$store.sidebar.currentBranch === 'شعبه شمال' ?
+                        'bg-blue-600 text-white shadow-lg shadow-blue-600/20' :
+                        'text-slate-400 hover:bg-slate-700/50 hover:text-white'">
+                    <i class="fas fa-check w-5 text-center text-sm"
+                        x-show="$store.sidebar.currentBranch === 'شعبه شمال'"></i>
+                    <i class="fas fa-building w-5 text-center text-sm"
+                        x-show="$store.sidebar.currentBranch !== 'شعبه شمال'"></i>
                     <span>شعبه شمال</span>
                 </a>
                 <a href="#"
-                    class="flex gap-3 items-center px-3 py-2 text-sm rounded-lg transition-all text-slate-400 hover:bg-slate-700 hover:text-white">
-                    <i class="w-5 text-sm text-center fas fa-building"></i>
+                    @click.prevent="$store.sidebar.currentBranch = 'شعبه جنوب'; try { localStorage.setItem('currentBranch', 'شعبه جنوب'); } catch(e) {}"
+                    class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200"
+                    :class="$store.sidebar.currentBranch === 'شعبه جنوب' ?
+                        'bg-blue-600 text-white shadow-lg shadow-blue-600/20' :
+                        'text-slate-400 hover:bg-slate-700/50 hover:text-white'">
+                    <i class="fas fa-check w-5 text-center text-sm"
+                        x-show="$store.sidebar.currentBranch === 'شعبه جنوب'"></i>
+                    <i class="fas fa-building w-5 text-center text-sm"
+                        x-show="$store.sidebar.currentBranch !== 'شعبه جنوب'"></i>
                     <span>شعبه جنوب</span>
                 </a>
             </div>
@@ -154,58 +296,57 @@
             <!-- Settings Panel -->
             <div x-show="$store.sidebar.activeModule === 'settings'" class="space-y-1">
                 <a href="#"
-                    class="flex gap-3 items-center px-3 py-2 text-sm rounded-lg transition-all text-slate-400 hover:bg-slate-700 hover:text-white">
-                    <i class="w-5 text-sm text-center fas fa-palette"></i>
+                    class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:bg-slate-700/50 hover:text-white text-sm transition-all duration-200">
+                    <i class="fas fa-palette w-5 text-center text-sm"></i>
                     <span>ظاهر</span>
                 </a>
                 <a href="#"
-                    class="flex gap-3 items-center px-3 py-2 text-sm rounded-lg transition-all text-slate-400 hover:bg-slate-700 hover:text-white">
-                    <i class="w-5 text-sm text-center fas fa-globe"></i>
+                    class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:bg-slate-700/50 hover:text-white text-sm transition-all duration-200">
+                    <i class="fas fa-globe w-5 text-center text-sm"></i>
                     <span>زبان</span>
                 </a>
                 <a href="#"
-                    class="flex gap-3 items-center px-3 py-2 text-sm rounded-lg transition-all text-slate-400 hover:bg-slate-700 hover:text-white">
-                    <i class="w-5 text-sm text-center fas fa-shield-alt"></i>
+                    class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:bg-slate-700/50 hover:text-white text-sm transition-all duration-200">
+                    <i class="fas fa-shield-alt w-5 text-center text-sm"></i>
                     <span>امنیت</span>
                 </a>
                 <a href="#"
-                    class="flex gap-3 items-center px-3 py-2 text-sm rounded-lg transition-all text-slate-400 hover:bg-slate-700 hover:text-white">
-                    <i class="w-5 text-sm text-center fas fa-database"></i>
+                    class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:bg-slate-700/50 hover:text-white text-sm transition-all duration-200">
+                    <i class="fas fa-database w-5 text-center text-sm"></i>
                     <span>پشتیبان‌گیری</span>
                 </a>
             </div>
 
             <!-- Profile Panel -->
             <div x-show="$store.sidebar.activeModule === 'profile'" class="space-y-3">
-                <div class="flex gap-3 items-center p-3 rounded-lg bg-slate-700">
+                <div class="flex items-center gap-3 p-3 bg-slate-700/50 rounded-lg">
                     <div
-                        class="flex justify-center items-center w-12 h-12 font-medium text-white bg-blue-600 rounded-full">
-                        JD
-                    </div>
+                        class="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-medium shadow-lg">
+                        JD</div>
                     <div>
-                        <p class="text-sm font-medium text-slate-200">جان دو</p>
-                        <p class="text-xs text-slate-500">مدیر سیستم</p>
+                        <p class="text-slate-200 text-sm font-medium">جان دو</p>
+                        <p class="text-slate-500 text-xs">مدیر سیستم</p>
                     </div>
                 </div>
                 <a href="#"
-                    class="flex gap-3 items-center px-3 py-2 text-sm rounded-lg transition-all text-slate-400 hover:bg-slate-700 hover:text-white">
-                    <i class="w-5 text-sm text-center fas fa-user"></i>
+                    class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:bg-slate-700/50 hover:text-white text-sm transition-all duration-200">
+                    <i class="fas fa-user w-5 text-center text-sm"></i>
                     <span>ویرایش پروفایل</span>
                 </a>
                 <a href="#"
-                    class="flex gap-3 items-center px-3 py-2 text-sm rounded-lg transition-all text-slate-400 hover:bg-slate-700 hover:text-white">
-                    <i class="w-5 text-sm text-center fas fa-key"></i>
+                    class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:bg-slate-700/50 hover:text-white text-sm transition-all duration-200">
+                    <i class="fas fa-key w-5 text-center text-sm"></i>
                     <span>تغییر رمز عبور</span>
                 </a>
                 <a href="#"
-                    class="flex gap-3 items-center px-3 py-2 text-sm text-red-400 rounded-lg transition-all hover:bg-red-600 hover:text-white">
-                    <i class="w-5 text-sm text-center fas fa-sign-out-alt"></i>
+                    class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-red-400 hover:bg-red-600/20 hover:text-red-300 text-sm transition-all duration-200">
+                    <i class="fas fa-sign-out-alt w-5 text-center text-sm"></i>
                     <span>خروج</span>
                 </a>
             </div>
         </nav>
     </div>
-</div>
+</aside>
 
 @push('scripts')
     <script>
@@ -228,6 +369,31 @@
                     // sessionStorage not available
                 }
 
+                // Load currentBranch from localStorage
+                let savedCurrentBranch = '{{ $currentBranch }}';
+                try {
+                    const savedBranch = localStorage.getItem('currentBranch');
+                    if (savedBranch !== null) {
+                        savedCurrentBranch = savedBranch;
+                    } else {
+                        // Save initial value to localStorage
+                        localStorage.setItem('currentBranch', savedCurrentBranch);
+                    }
+                } catch (e) {
+                    // localStorage not available
+                }
+
+                // Load isPinned from localStorage (default: true)
+                let savedIsPinned = true;
+                try {
+                    const savedPin = localStorage.getItem('sidebarPinned');
+                    if (savedPin !== null) {
+                        savedIsPinned = savedPin === 'true';
+                    }
+                } catch (e) {
+                    // localStorage not available
+                }
+
                 Alpine.store('sidebar', {
                     get sidebarOpen() {
                         return this._sidebarOpen;
@@ -240,12 +406,36 @@
                             // sessionStorage not available
                         }
                     },
+                    get isPinned() {
+                        return this._isPinned;
+                    },
+                    set isPinned(value) {
+                        this._isPinned = value;
+                        try {
+                            localStorage.setItem('sidebarPinned', value.toString());
+                        } catch (e) {
+                            // localStorage not available
+                        }
+                    },
                     menuVisible: false,
                     activeModule: '{{ $defaultModule }}',
+                    activeMenu: '',
                     isDirectLinkActive: {{ $isDirectLinkActive ? 'true' : 'false' }},
+                    notificationCount: {{ $notificationCount }},
+                    currentBranch: savedCurrentBranch,
+                    isMobile: false,
+                    isTablet: false,
                     init() {
-                        // Initialize _sidebarOpen
+                        // Initialize _sidebarOpen and _isPinned
                         this._sidebarOpen = savedSidebarOpen;
+                        this._isPinned = savedIsPinned;
+                        this.updateDeviceType();
+
+                        // Listen for resize
+                        window.addEventListener('resize', () => {
+                            this.updateDeviceType();
+                        });
+
                         if (window.innerWidth >= 768 && !this.isDirectLinkActive) {
                             // Use saved value
                         } else {
@@ -255,8 +445,19 @@
                         this.menuVisible = this.sidebarOpen;
                     },
                     toggleSidebar() {
+                        // On mobile, toggle both level 1 and level 2 together
+                        if (this.isMobile) {
+                            this.menuVisible = !this.menuVisible;
+                            this.sidebarOpen = this.menuVisible;
+                            // Set default module if none is active when opening
+                            if (this.menuVisible && this.activeModule === '') {
+                                this.activeModule = '{{ $defaultModule }}';
+                            }
+                            return;
+                        }
+                        // On desktop, don't toggle when direct link is active
                         if (this.isDirectLinkActive) {
-                            return; // Don't allow toggling when direct link is active
+                            return;
                         }
                         this.sidebarOpen = !this.sidebarOpen;
                         // If opening sidebar and no activeModule, set default module
@@ -269,9 +470,15 @@
                     openMenu(module) {
                         this.activeModule = module;
                         this.isDirectLinkActive = false;
-                        // Show level 2 menu - if sidebar is closed, show as overlay
-                        // If sidebar is open, show normally
                         this.menuVisible = true;
+                        // On mobile, also set sidebarOpen to show level 1
+                        if (this.isMobile) {
+                            this.sidebarOpen = true;
+                        }
+                        // On desktop when pinned, also set sidebarOpen so content margin adjusts
+                        if (!this.isMobile && !this.isTablet && this.isPinned) {
+                            this.sidebarOpen = true;
+                        }
                     },
                     closeMenu() {
                         if (!this.sidebarOpen) {
@@ -286,12 +493,49 @@
                         this.isDirectLinkActive = true;
                     },
                     closeMenuIfOverlay() {
-                        // Close level 2 menu when clicking outside, but only if sidebar is closed
-                        // If sidebar is open, keep the menu visible
+                        // Close level 2 menu when clicking outside
+                        // Don't close if pinned on desktop
+                        if (!this.isMobile && !this.isTablet && this.isPinned) {
+                            return; // Keep open when pinned on desktop
+                        }
                         if (!this.sidebarOpen) {
                             this.menuVisible = false;
                             this.activeModule = '';
                         }
+                    },
+                    togglePin() {
+                        this.isPinned = !this.isPinned;
+                        // When pinned, sidebar is fixed and sidebarOpen should be true
+                        // When unpinned, sidebar becomes floating overlay
+                        if (this.isPinned && this.menuVisible) {
+                            this.sidebarOpen = true;
+                        } else if (!this.isPinned) {
+                            this.sidebarOpen = false;
+                        }
+                    },
+                    closeMobile() {
+                        // Close sidebar completely on mobile/tablet (both level 1 and 2)
+                        this.menuVisible = false;
+                        this.sidebarOpen = false;
+                        this.activeModule = '';
+                    },
+                    updateDeviceType() {
+                        const width = window.innerWidth;
+                        this.isMobile = width < 768; // < md
+                        this.isTablet = width >= 768 && width < 1024; // md to lg
+                    },
+                    setActiveMenu(menu) {
+                        this.activeMenu = menu;
+                    },
+                    getBreadcrumb() {
+                        const modules = {
+                            @foreach ($modules as $module)
+                                @if (!Arr::get($module, 'is_direct_link', false))
+                                    '{{ $module['key'] }}': '{{ $module['title'] }}',
+                                @endif
+                            @endforeach
+                        };
+                        return modules[this.activeModule] || 'داشبورد';
                     }
                 });
             } else {
@@ -300,6 +544,34 @@
                 const previousActiveModule = store.activeModule;
                 store.activeModule = '{{ $defaultModule }}';
                 store.isDirectLinkActive = {{ $isDirectLinkActive ? 'true' : 'false' }};
+                store.notificationCount = {{ $notificationCount }};
+
+                // Reload isPinned from localStorage to ensure it persists across wire:navigate
+                // Use setter to ensure reactivity works correctly
+                try {
+                    const savedPin = localStorage.getItem('sidebarPinned');
+                    if (savedPin !== null) {
+                        const pinValue = savedPin === 'true';
+                        // Set both _isPinned and use setter for reactivity
+                        store._isPinned = pinValue;
+                        // Trigger setter to ensure Alpine reactivity
+                        if (store.isPinned !== pinValue) {
+                            store.isPinned = pinValue;
+                        }
+                    } else {
+                        // Default to true if not set
+                        store._isPinned = true;
+                        if (!store.isPinned) {
+                            store.isPinned = true;
+                        }
+                    }
+                } catch (e) {
+                    // localStorage not available
+                    store._isPinned = true;
+                    if (!store.isPinned) {
+                        store.isPinned = true;
+                    }
+                }
 
                 // If sidebar is open and we have an active module, keep menu visible
                 // Otherwise, reset menu visibility based on new state
@@ -320,5 +592,56 @@
         } else {
             document.addEventListener('alpine:init', initSidebarStore);
         }
+
+        // Reload isPinned state after wire:navigate navigation
+        // Use a unique function name to avoid duplicate listeners
+        if (!window.__sidebarPinnedReloader) {
+            window.__sidebarPinnedReloader = () => {
+                if (typeof Alpine !== 'undefined' && Alpine.store('sidebar')) {
+                    try {
+                        const savedPin = localStorage.getItem('sidebarPinned');
+                        const store = Alpine.store('sidebar');
+                        if (savedPin !== null) {
+                            const pinValue = savedPin === 'true';
+                            // Use setter to ensure reactivity and proper state sync
+                            if (store.isPinned !== pinValue) {
+                                store.isPinned = pinValue;
+                            }
+                        } else {
+                            // Default to true if not set
+                            if (!store.isPinned) {
+                                store.isPinned = true;
+                            }
+                        }
+                    } catch (e) {
+                        // localStorage not available
+                        if (typeof Alpine !== 'undefined' && Alpine.store('sidebar')) {
+                            if (!Alpine.store('sidebar').isPinned) {
+                                Alpine.store('sidebar').isPinned = true;
+                            }
+                        }
+                    }
+                }
+            };
+
+            // Add event listeners only once
+            document.addEventListener('alpine:navigated', () => {
+                // Wait a bit for Alpine to fully initialize
+                setTimeout(window.__sidebarPinnedReloader, 50);
+            }, {
+                once: false
+            });
+
+            // Also reload when Livewire finishes updating
+            if (typeof Livewire !== 'undefined') {
+                Livewire.hook('morph.updated', () => {
+                    // Reload after navigation completes
+                    setTimeout(window.__sidebarPinnedReloader, 100);
+                });
+            }
+        }
+
+        // Immediately reload on script execution (after a short delay to ensure Alpine is ready)
+        setTimeout(window.__sidebarPinnedReloader, 10);
     </script>
 @endpush

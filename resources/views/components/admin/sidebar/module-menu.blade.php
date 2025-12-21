@@ -36,9 +36,13 @@
                     $params = Arr::get($subMenu, 'params', []);
                     $exact = Arr::get($subMenu, 'exact', false);
                     $isActive = $routeName ? isRouteActive($routeName, $params, $exact) : false;
+                    $menuKey = $routeName ? str_replace('.', '_', $routeName) : 'menu_' . $loop->index;
                 @endphp
                 <a href="{{ $routeName ? route($routeName, $params) : '#' }}" wire:navigate
-                    class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all {{ $isActive ? 'bg-slate-700 text-white' : 'text-slate-400 hover:bg-slate-700 hover:text-white' }}">
+                    @click="$store.sidebar.setActiveMenu('{{ $menuKey }}')"
+                    class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200"
+                    :class="$store.sidebar.activeMenu === '{{ $menuKey }}' || {{ $isActive ? 'true' : 'false' }} ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/20' : 'text-slate-400 hover:bg-slate-700/50 hover:text-white'"
+                    :aria-current="{{ $isActive ? 'page' : 'false' }}">
                     <x-icon name="{{ Arr::get($subMenu, 'icon', 'o-cube') }}" class="w-5 h-5" />
                     <span>{{ Arr::get($subMenu, 'title') }}</span>
                     @if (Arr::get($subMenu, 'badge'))
