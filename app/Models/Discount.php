@@ -8,6 +8,8 @@ use App\Enums\BooleanEnum;
 use App\Enums\DiscountTypeEnum;
 use App\Helpers\StringHelper;
 use App\Traits\CLogsActivity;
+use App\Traits\HasBranch;
+use App\Traits\HasBranchScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -48,6 +50,8 @@ use Spatie\Activitylog\LogOptions;
 class Discount extends Model
 {
     use CLogsActivity;
+    use HasBranch;
+    use HasBranchScope;
     use HasFactory;
 
     protected $fillable = [
@@ -64,6 +68,7 @@ class Discount extends Model
         'expires_at',
         'is_active',
         'description',
+        'branch_id',
     ];
 
     protected $casts = [

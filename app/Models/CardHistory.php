@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Traits\CLogsActivity;
+use App\Traits\HasBranch;
+use App\Traits\HasBranchScope;
 use App\Traits\HasSchemalessAttributes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -30,7 +32,7 @@ use Spatie\Activitylog\LogOptions;
  */
 class CardHistory extends Model
 {
-    use CLogsActivity, HasFactory,HasSchemalessAttributes;
+    use CLogsActivity, HasBranch, HasBranchScope, HasFactory, HasSchemalessAttributes;
 
     protected $table = 'card_history';
 
@@ -41,6 +43,7 @@ class CardHistory extends Model
         'action',
         'description',
         'extra_attributes',
+        'branch_id',
     ];
 
     protected $casts = [

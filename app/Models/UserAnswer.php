@@ -4,11 +4,16 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\HasBranch;
+use App\Traits\HasBranchScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class UserAnswer extends Model
 {
+    use HasBranch;
+    use HasBranchScope;
+
     protected $fillable = [
         'exam_attempt_id',
         'question_id',
@@ -20,6 +25,7 @@ class UserAnswer extends Model
         'time_spent',
         'answered_at',
         'reviewed_at',
+        'branch_id',
     ];
 
     protected $casts = [

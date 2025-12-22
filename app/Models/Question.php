@@ -7,6 +7,8 @@ namespace App\Models;
 use App\Enums\DifficultyEnum;
 use App\Enums\QuestionTypeEnum;
 use App\QuestionTypes\AbstractQuestionType;
+use App\Traits\HasBranch;
+use App\Traits\HasBranchScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -16,7 +18,10 @@ use Spatie\Tags\HasTags;
 
 class Question extends Model
 {
-    use HasFactory,HasTags;
+    use HasBranch;
+    use HasBranchScope;
+    use HasFactory;
+    use HasTags;
 
     protected $fillable = [
         'type',
@@ -35,6 +40,7 @@ class Question extends Model
         'is_active',
         'is_public',
         'is_survey_question',
+        'branch_id',
     ];
 
     protected $casts = [

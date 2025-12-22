@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\HasBranch;
+use App\Traits\HasBranchScope;
 use DateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -28,12 +30,15 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class Room extends Model
 {
+    use HasBranch;
+    use HasBranchScope;
     use HasFactory;
 
     protected $fillable = [
         'name',
         'capacity',
         'location',
+        'branch_id',
     ];
 
     protected $casts = [

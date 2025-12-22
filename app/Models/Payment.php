@@ -7,6 +7,8 @@ namespace App\Models;
 use App\Enums\PaymentStatusEnum;
 use App\Enums\PaymentTypeEnum;
 use App\Traits\CLogsActivity;
+use App\Traits\HasBranch;
+use App\Traits\HasBranchScope;
 use App\Traits\HasSchemalessAttributes;
 use App\Traits\HasUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,6 +20,8 @@ use Spatie\Activitylog\LogOptions;
 class Payment extends Model
 {
     use CLogsActivity;
+    use HasBranch;
+    use HasBranchScope;
     use HasFactory;
     use HasSchemalessAttributes;
     use HasUser;
@@ -31,6 +35,7 @@ class Payment extends Model
         'status',
         'note',
         'extra_attributes',
+        'branch_id',
     ];
 
     protected $casts = [

@@ -99,6 +99,7 @@ return new class extends Migration {
         // Create card_history table
         Schema::create('card_history', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('branch_id')->nullable()->constrained('branches')->nullOnDelete();
             $table->foreignId('card_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('column_id')->constrained()->onDelete('cascade');
@@ -106,11 +107,14 @@ return new class extends Migration {
             $table->text('description')->nullable();
             $table->schemalessAttributes('extra_attributes'); // For storing detailed change information
             $table->timestamps();
+
+            $table->index('branch_id');
         });
 
         // Create card_flows table
         Schema::create('card_flows', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('branch_id')->nullable()->constrained('branches')->nullOnDelete();
             $table->foreignId('board_id')->constrained()->onDelete('cascade');
             $table->foreignId('from_column_id')->constrained('columns')->onDelete('cascade');
             $table->foreignId('to_column_id')->constrained('columns')->onDelete('cascade');
@@ -120,6 +124,8 @@ return new class extends Migration {
             $table->schemalessAttributes('extra_attributes'); // For storing flow conditions
             $table->timestamps();
             $table->softDeletes();
+
+            $table->index('branch_id');
         });
     }
 

@@ -9,6 +9,8 @@ use App\Enums\CourseTypeEnum;
 use App\Facades\SmartCache;
 use App\Helpers\Constants;
 use App\Traits\CLogsActivity;
+use App\Traits\HasBranch;
+use App\Traits\HasBranchScope;
 use App\Traits\HasCategory;
 use App\Traits\HasComment;
 use App\Traits\HasModelCache;
@@ -57,6 +59,8 @@ use Spatie\Tags\HasTags;
 class CourseTemplate extends Model implements HasMedia
 {
     use CLogsActivity;
+    use HasBranch;
+    use HasBranchScope;
     use HasCategory;
     use HasComment;
     use HasFactory;
@@ -87,6 +91,7 @@ class CourseTemplate extends Model implements HasMedia
         'comment_count',
         'wish_count',
         'languages',
+        'branch_id',
     ];
 
     protected $casts = [
