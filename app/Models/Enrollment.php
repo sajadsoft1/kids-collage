@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\EnrollmentStatusEnum;
+use App\Traits\HasBranch;
+use App\Traits\HasBranchScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -38,6 +40,8 @@ use Illuminate\Support\Facades\DB;
  */
 class Enrollment extends Model
 {
+    use HasBranch;
+    use HasBranchScope;
     use HasFactory;
 
     protected $fillable = [
@@ -45,6 +49,7 @@ class Enrollment extends Model
         'course_id',
         'order_item_id',
         'status',
+        'branch_id',
         'enrolled_at',
         'progress_percent',
     ];

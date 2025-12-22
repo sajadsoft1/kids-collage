@@ -11,6 +11,7 @@ return new class extends Migration {
     {
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('branch_id')->nullable()->constrained('branches')->nullOnDelete();
 
             // Type
             $table->string('type', 50);
@@ -44,6 +45,7 @@ return new class extends Migration {
             $table->timestamps();
 
             // Indexes
+            $table->index('branch_id');
             $table->index('type');
             $table->index('category_id');
             $table->index('subject_id');

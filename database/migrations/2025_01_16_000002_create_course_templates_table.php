@@ -13,6 +13,7 @@ return new class extends Migration {
     {
         Schema::create('course_templates', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('branch_id')->nullable()->constrained('branches')->nullOnDelete();
             $table->string('slug')->unique();
             $table->foreignId('category_id')->nullable()->constrained('categories')->nullOnDelete();
             $table->string('level')->default(CourseLevelEnum::BIGGINER->value);
@@ -27,6 +28,7 @@ return new class extends Migration {
             $table->softDeletes();
 
             // Indexes for performance
+            $table->index('branch_id');
             $table->index('category_id');
             $table->index('level');
             $table->index('type');

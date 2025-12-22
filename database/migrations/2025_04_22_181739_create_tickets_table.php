@@ -13,6 +13,7 @@ return new class extends Migration {
     {
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('branch_id')->nullable()->constrained('branches')->nullOnDelete();
             $table->string('subject');
             $table->string('department');
             $table->foreignId('user_id')->constrained();
@@ -21,6 +22,8 @@ return new class extends Migration {
             $table->string('priority')->default(TicketPriorityEnum::HIGH->value);
             $table->string('key')->unique();
             $table->timestamps();
+
+            $table->index('branch_id');
         });
     }
 

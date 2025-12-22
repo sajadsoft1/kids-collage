@@ -13,6 +13,7 @@ use App\Helpers\Constants;
 use App\Traits\CLogsActivity;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -38,6 +39,7 @@ class User extends Authenticatable implements HasMedia
         'password',
         'status',
         'type',
+        'branch_id',
     ];
 
     protected $hidden = [
@@ -162,6 +164,20 @@ class User extends Authenticatable implements HasMedia
         return $this->hasMany(Order::class);
     }
 
+    /** Get all branches that the user has access to. */
+    public function branches(): BelongsToMany
+    {
+        return $this->belongsToMany(Branch::class, 'branch_user')
+            ->withPivot('role', 'is_default')
+            ->withTimestamps();
+    }
+
+    /** Get the user's default branch. */
+    public function defaultBranch(): BelongsTo
+    {
+        return $this->belongsTo(Branch::class, 'branch_id');
+    }
+
     /**
      * Model Scope --------------------------------------------------------------------------
      */
@@ -204,5 +220,45 @@ class User extends Authenticatable implements HasMedia
     public function mother(): ?User
     {
         return $this->parents()->whereHas('profile', fn ($q) => $q->where('gender', GenderEnum::FEMALE))->first();
+    }
+
+    /** Check if the user has access to a specific branch. */
+    public function hasAccessToBranch(int $branchId): bool
+    {
+        // Check if user has direct access via branch_user pivot
+        if ($this->branches()->where('branches.id', $branchId)->exists()) {
+            return true;
+        }
+
+        // Check if user's default branch matches
+        return (bool) ($this->branch_id === $branchId);
+    }
+
+    /**
+     * Get all branch IDs the user has access to.
+     *
+     * @return \Illuminate\Support\Collection<int>
+     */
+    public function getAccessibleBranches(): \Illuminate\Support\Collection
+    {
+        $branchIds = $this->branches()->pluck('branches.id');
+
+        // Include default branch if set
+        if ($this->branch_id) {
+            $branchIds->push($this->branch_id);
+        }
+
+        return $branchIds->unique()->values();
+    }
+
+    /** Set the user's default branch. */
+    public function setDefaultBranch(int $branchId): bool
+    {
+        // Verify branch exists
+        if ( ! Branch::where('id', $branchId)->exists()) {
+            return false;
+        }
+
+        return $this->update(['branch_id' => $branchId]);
     }
 }

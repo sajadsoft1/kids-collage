@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\BooleanEnum;
+use App\Traits\HasBranch;
+use App\Traits\HasBranchScope;
 use App\Traits\HasCategory;
 use App\Traits\HasTranslationAuto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -16,6 +18,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class QuestionSystem extends Model
 {
+    use HasBranch;
+    use HasBranchScope;
     use HasCategory;
     use HasFactory;
     use HasTranslationAuto;
@@ -29,6 +33,7 @@ class QuestionSystem extends Model
         'languages',
         'ordering',
         'category_id',
+        'branch_id',
     ];
 
     protected $casts = [

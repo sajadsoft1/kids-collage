@@ -16,6 +16,7 @@ return new class extends Migration {
         // Create boards table
         Schema::create('boards', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('branch_id')->nullable()->constrained('branches')->nullOnDelete();
             $table->string('name');
             $table->text('description')->nullable();
             $table->string('color', 7)->default('#3B82F6'); // Hex color code
@@ -24,6 +25,8 @@ return new class extends Migration {
             $table->schemalessAttributes('extra_attributes');
             $table->timestamps();
             $table->softDeletes();
+
+            $table->index('branch_id');
         });
 
         // Create board_user pivot table
@@ -41,6 +44,7 @@ return new class extends Migration {
         // Create columns table
         Schema::create('columns', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('branch_id')->nullable()->constrained('branches')->nullOnDelete();
             $table->foreignId('board_id')->constrained()->onDelete('cascade');
             $table->string('name');
             $table->text('description')->nullable();
@@ -51,12 +55,14 @@ return new class extends Migration {
             $table->timestamps();
             $table->softDeletes();
 
+            $table->index('branch_id');
             $table->index(['board_id', 'is_active', 'order'], 'columns_board_active_order_index');
         });
 
         // Create cards table
         Schema::create('cards', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('branch_id')->nullable()->constrained('branches')->nullOnDelete();
             $table->foreignId('board_id')->constrained()->onDelete('cascade');
             $table->foreignId('column_id')->constrained()->onDelete('cascade');
             $table->string('title');
@@ -71,6 +77,7 @@ return new class extends Migration {
             $table->softDeletes();
 
             // Performance indexes
+            $table->index('branch_id');
             $table->index(['board_id', 'column_id'], 'cards_board_column_index');
             $table->index(['column_id', 'order'], 'cards_column_order_index');
             $table->index(['board_id', 'order'], 'cards_board_order_index');

@@ -12,11 +12,14 @@ return new class extends Migration {
     {
         Schema::create('flash_cards', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('branch_id')->nullable()->constrained('branches')->nullOnDelete();
             $table->foreignId('user_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->boolean('favorite')->default(BooleanEnum::ENABLE->value);
             $table->longText('front')->nullable();
             $table->longText('back')->nullable();
             $table->timestamps();
+
+            $table->index('branch_id');
         });
     }
 

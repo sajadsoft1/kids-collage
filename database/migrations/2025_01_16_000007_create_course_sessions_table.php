@@ -13,6 +13,7 @@ return new class extends Migration {
     {
         Schema::create('course_sessions', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('branch_id')->nullable()->constrained('branches')->nullOnDelete();
             $table->foreignId('course_id')->index()->constrained('courses')->cascadeOnDelete();
             $table->foreignId('course_session_template_id')->index()->constrained('course_session_templates')->cascadeOnDelete();
             $table->date('date');
@@ -25,6 +26,8 @@ return new class extends Migration {
             $table->string('session_type')->default(CourseTypeEnum::ONLINE->value);
             $table->timestamps();
             $table->softDeletes();
+
+            $table->index('branch_id');
         });
     }
 

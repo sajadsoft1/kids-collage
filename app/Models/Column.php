@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Traits\CLogsActivity;
+use App\Traits\HasBranch;
+use App\Traits\HasBranchScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -34,7 +36,7 @@ use Spatie\Activitylog\LogOptions;
  */
 class Column extends Model
 {
-    use CLogsActivity, HasFactory, SoftDeletes;
+    use CLogsActivity, HasBranch, HasBranchScope, HasFactory, SoftDeletes;
 
     protected $fillable = [
         'board_id',
@@ -44,6 +46,7 @@ class Column extends Model
         'order',
         'wip_limit',
         'is_active',
+        'branch_id',
     ];
 
     protected $casts = [

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Traits\CLogsActivity;
+use App\Traits\HasBranch;
+use App\Traits\HasBranchScope;
 use App\Traits\HasSchemalessAttributes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -32,7 +34,7 @@ use Spatie\Activitylog\LogOptions;
  */
 class Board extends Model
 {
-    use CLogsActivity, HasFactory, HasSchemalessAttributes,SoftDeletes;
+    use CLogsActivity, HasBranch, HasBranchScope, HasFactory, HasSchemalessAttributes, SoftDeletes;
 
     protected $fillable = [
         'name',
@@ -41,6 +43,7 @@ class Board extends Model
         'is_active',
         'system_protected',
         'extra_attributes',
+        'branch_id',
     ];
 
     protected $casts = [

@@ -8,6 +8,7 @@ use App\Http\Middleware\ConvertEmptyStringsToNull;
 use App\Http\Middleware\Cors;
 use App\Http\Middleware\ForceJsonResponse;
 use App\Http\Middleware\LanguageMiddleware;
+use App\Http\Middleware\SetBranchMiddleware;
 use App\Http\Middleware\SwaggerHelperMiddleware;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Application;
@@ -34,10 +35,12 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->trustProxies(at: '*');
         $middleware->web([
             ChinLeung\MultilingualRoutes\DetectRequestLocale::class,
+            SetBranchMiddleware::class,
         ]);
         $middleware->api([
             EnsureFrontendRequestsAreStateful::class,
             SubstituteBindings::class,
+            SetBranchMiddleware::class,
             Cors::class,
             ForceJsonResponse::class,
             ConvertEmptyStringsToNull::class,
@@ -117,11 +120,10 @@ return Application::configure(basePath: dirname(__DIR__))
 
         if (env('BACKUP_ENABLED', false)) {
             $schedule->exec('/scripts/backup.sh')
-                     ->daily()
-                     ->at(env('BACKUP_TIME', '02:00'))
-                     ->onOneServer()
-                     ->emailOutputOnFailure(env('MAIL_FROM_ADDRESS','sajadsoft12gmail.com'));
+                ->daily()
+                ->at(env('BACKUP_TIME', '02:00'))
+                ->onOneServer()
+                ->emailOutputOnFailure(env('MAIL_FROM_ADDRESS', 'sajadsoft12gmail.com'));
         }
-
     })
     ->create();

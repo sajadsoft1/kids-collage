@@ -11,10 +11,13 @@ return new class extends Migration {
     {
         Schema::create('rooms', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('branch_id')->nullable()->constrained('branches')->nullOnDelete();
             $table->string('name');
             $table->unsignedInteger('capacity')->index();
             $table->string('location')->nullable();
             $table->timestamps();
+
+            $table->index('branch_id');
         });
     }
 

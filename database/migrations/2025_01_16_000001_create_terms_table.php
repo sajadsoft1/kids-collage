@@ -12,6 +12,7 @@ return new class extends Migration {
     {
         Schema::create('terms', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('branch_id')->nullable()->constrained('branches')->nullOnDelete();
             $table->json('languages')->nullable();
             $table->date('start_date');
             $table->date('end_date');
@@ -20,6 +21,7 @@ return new class extends Migration {
             $table->softDeletes();
 
             // Indexes for performance
+            $table->index('branch_id');
             $table->index(['start_date', 'end_date']);
             $table->index('status');
         });

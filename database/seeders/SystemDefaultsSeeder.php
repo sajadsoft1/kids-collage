@@ -21,6 +21,7 @@ class SystemDefaultsSeeder extends Seeder
         $this->command->info('🌱 Seeding System Defaults...');
 
         $this->call([
+            BranchSeeder::class,          // Default branch
             RolePermissionSeeder::class,  // Core roles and permissions
             AdminSeeder::class,           // Default admin user
             SettingSeeder::class,         // System settings

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\BooleanEnum;
+use App\Traits\HasBranch;
+use App\Traits\HasBranchScope;
 use App\Traits\HasUser;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -13,6 +15,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class LeitnerBox extends Model
 {
+    use HasBranch;
+    use HasBranchScope;
     use HasUser;
 
     /**
@@ -36,6 +40,7 @@ class LeitnerBox extends Model
         'next_review_at',
         'last_review_at',
         'finished',
+        'branch_id',
     ];
 
     protected $casts = [

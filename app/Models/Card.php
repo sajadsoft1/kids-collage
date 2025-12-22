@@ -8,6 +8,8 @@ use App\Enums\CardStatusEnum;
 use App\Enums\CardTypeEnum;
 use App\Enums\PriorityEnum;
 use App\Traits\CLogsActivity;
+use App\Traits\HasBranch;
+use App\Traits\HasBranchScope;
 use App\Traits\HasSchemalessAttributes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -42,7 +44,7 @@ use Spatie\Activitylog\LogOptions;
  */
 class Card extends Model
 {
-    use CLogsActivity, HasFactory, HasSchemalessAttributes,SoftDeletes;
+    use CLogsActivity, HasBranch, HasBranchScope, HasFactory, HasSchemalessAttributes, SoftDeletes;
 
     protected $fillable = [
         'board_id',
@@ -55,6 +57,7 @@ class Card extends Model
         'due_date',
         'order',
         'extra_attributes',
+        'branch_id',
     ];
 
     protected $casts = [

@@ -7,6 +7,8 @@ namespace App\Models;
 use App\Actions\Exam\EvaluateExamRulesAction;
 use App\Enums\ExamStatusEnum;
 use App\Enums\ExamTypeEnum;
+use App\Traits\HasBranch;
+use App\Traits\HasBranchScope;
 use App\Traits\HasSchemalessAttributes;
 use DB;
 use Exception;
@@ -24,6 +26,8 @@ use Spatie\Tags\HasTags;
  */
 class Exam extends Model
 {
+    use HasBranch;
+    use HasBranchScope;
     use HasFactory;
     use HasSchemalessAttributes;
     use HasTags;
@@ -46,6 +50,7 @@ class Exam extends Model
         'ends_at',
         'status',
         'created_by',
+        'branch_id',
         'extra_attributes',
     ];
 

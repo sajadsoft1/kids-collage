@@ -11,6 +11,7 @@ return new class extends Migration {
     {
         Schema::create('leitner_boxes', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('branch_id')->nullable()->constrained('branches')->nullOnDelete();
             $table->foreignId('user_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('flash_card_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->unsignedTinyInteger('box')->default(1);
@@ -18,6 +19,8 @@ return new class extends Migration {
             $table->dateTime('next_review_at');
             $table->dateTime('last_review_at');
             $table->timestamps();
+
+            $table->index('branch_id');
         });
     }
 

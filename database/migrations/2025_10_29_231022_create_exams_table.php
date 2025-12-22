@@ -42,6 +42,7 @@ return new class extends Migration {
             $table->string('status', 20)->default(ExamStatusEnum::DRAFT->value);
 
             $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->unsignedBigInteger('branch_id')->nullable();
             $table->schemalessAttributes('extra_attributes');
             $table->timestamps();
             $table->softDeletes();
@@ -50,6 +51,7 @@ return new class extends Migration {
             $table->index('status');
             $table->index('type');
             $table->index('created_by');
+            $table->index('branch_id');
         });
     }
 

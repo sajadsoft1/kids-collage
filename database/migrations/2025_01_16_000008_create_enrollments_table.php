@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->foreignId('course_id')->index()->constrained('courses')->cascadeOnDelete();
             $table->unsignedBigInteger('order_item_id')->nullable();
             $table->string('status')->index()->default(EnrollmentStatusEnum::PENDING->value);
+            $table->unsignedBigInteger('branch_id')->nullable();
             $table->timestamp('enrolled_at');
             $table->decimal('progress_percent', 5, 2)->default(0.00);
             $table->timestamps();
@@ -26,6 +27,7 @@ return new class extends Migration {
             // Indexes for performance
             $table->index('enrolled_at');
             $table->index('progress_percent');
+            $table->index('branch_id');
         });
     }
 
