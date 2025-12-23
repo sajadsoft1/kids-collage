@@ -151,30 +151,28 @@
     @apply text-white bg-primary;
 }
 
-/* Custom theme variables */
 :root {
-    /* daisyUI core */
-    --b1: #ffffff;   /* base-100 */
-    --b2: #f9f9f9;   /* base-200: slightly lighter than b3, fixed */
-    --b3: #f2f4f7;   /* base-300 */
+    --b1: #ffffff;
+    --b2: #f3f4f6;
+    --b3: #e5e7eb;
 
-    --bc: #1f2937;   /* base-content */
+    --bc: #111827;
 
-    --p: #f6a96b;    /* primary */
-    --pc: #1f2937;
+    --p: #f59e5b;
+    --pc: #111827;
 
-    --s: #e8eddf;    /* secondary */
-    --sc: #1f2937;
+    --s: #e5eadf;
+    --sc: #111827;
 
-    --a: #8fc9a3;    /* accent */
-    --ac: #1f2937;
+    --a: #7fc3a0;
+    --ac: #111827;
 
-    --n: #374151;    /* neutral */
+    --n: #374151;
     --nc: #ffffff;
 
-    --su: #7bcfa9;
-    --wa: #f3c77a;
-    --er: #f2a6a6;
+    --su: #6fcf97;
+    --wa: #f2c94c;
+    --er: #eb5757;
 
     --rounded-box: 0.75rem;
     --rounded-btn: 0.5rem;
@@ -184,29 +182,28 @@
     --animation-btn: 0.2s;
 }
 
-/* Dark theme variables with blue tone */
 .dark {
-    --b1: #1c1f26;
-    --b2: #15181e;
-    --b3: #232733;
+    --b1: #111827;
+    --b2: #1f2937;
+    --b3: #374151;
 
-    --bc: #e6e8ee;
+    --bc: #e5e7eb;
 
-    --p: #f3a56f;
-    --pc: #15181e;
+    --p: #f59e5b;
+    --pc: #111827;
 
-    --s: #2a2f3a;
-    --sc: #e6e8ee;
+    --s: #2b3240;
+    --sc: #e5e7eb;
 
-    --a: #86c7a1;
-    --ac: #15181e;
+    --a: #7fc3a0;
+    --ac: #111827;
 
-    --n: #2f3442;
-    --nc: #e6e8ee;
+    --n: #1f2937;
+    --nc: #e5e7eb;
 
-    --su: #86c7a1;
-    --wa: #eac27a;
-    --er: #e6a0a0;
+    --su: #6fcf97;
+    --wa: #f2c94c;
+    --er: #f87171;
 }
 
 :root,
