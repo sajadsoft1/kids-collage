@@ -26,9 +26,28 @@ livewire_hot_reload();
 
 // Global Livewire error handler
 document.addEventListener('livewire:init', () => {
-    // Hook into Livewire's request lifecycle
-    Livewire.hook('request', ({ fail }) => {
+    // Hook into Livewire's request lifecycle (compatible with Livewire 3.6)
+    Livewire.hook('request', ({ fail, respond }) => {
+        // Handle request failures
         fail(({ status, content, preventDefault }) => {
+            // Handle network failures (Failed to fetch)
+            if (status === 0 || !status) {
+                window.dispatchEvent(new CustomEvent('mary-toast', {
+                    detail: {
+                        toast: {
+                            type: 'error',
+                            title: 'خطای اتصال',
+                            description: 'اتصال به سرور برقرار نشد. لطفاً اتصال اینترنت خود را بررسی کنید.',
+                            css: 'alert-error',
+                            icon: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="w-6 h-6 stroke-current shrink-0"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>',
+                            timeout: 5000,
+                            redirectTo: null
+                        }
+                    }
+                }));
+                return;
+            }
+
             // Handle 500 errors
             if (status === 500) {
                 preventDefault();
@@ -36,12 +55,17 @@ document.addEventListener('livewire:init', () => {
                 // Parse error message
                 let errorMessage = 'خطایی رخ داده است. لطفاً دوباره تلاش کنید.';
                 try {
-                    const data = JSON.parse(content);
-                    if (data.message) {
+                    const data = typeof content === 'string' ? JSON.parse(content) : content;
+                    if (data?.message) {
                         errorMessage = data.message;
                     }
                 } catch (e) {
                     // If parsing fails, use default message (silently in production)
+                }
+
+                // Check if it's a method not found error
+                if (errorMessage.includes('method') && errorMessage.includes('not found')) {
+                    errorMessage = 'عملیات درخواستی در دسترس نیست. لطفاً صفحه را رفرش کنید.';
                 }
 
                 // Dispatch toast event with correct MaryUI structure
@@ -106,8 +130,8 @@ document.addEventListener('livewire:init', () => {
                 // Parse error message
                 let errorMessage = 'درخواست نامعتبر است. لطفاً دوباره تلاش کنید.';
                 try {
-                    const data = JSON.parse(content);
-                    if (data.message) {
+                    const data = typeof content === 'string' ? JSON.parse(content) : content;
+                    if (data?.message) {
                         errorMessage = data.message;
                     }
                 } catch (e) {
@@ -135,7 +159,7 @@ document.addEventListener('livewire:init', () => {
     Livewire.hook('message.failed', (message, component) => {
         console.error('Livewire message failed:', {
             message,
-            component: component.name
+            component: component?.name || 'unknown'
         });
     });
 });
