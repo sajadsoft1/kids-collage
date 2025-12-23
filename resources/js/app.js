@@ -8,6 +8,11 @@ import 'flatpickr/dist/l10n/fa.js';
 import {livewire_hot_reload} from 'virtual:livewire-hot-reload'
 import './components/multi-select';
 import './livewire-datepicker-datepicker.js';
+import { createFrestSidebar, isRouteActive } from './components/frest-sidebar';
+
+// Export for global use
+window.createFrestSidebar = createFrestSidebar;
+window.isRouteActive = isRouteActive;
 
 window.addEventListener('livewire:navigated', function () {
     console.log('navigated');
@@ -25,9 +30,28 @@ livewire_hot_reload();
 
 // Global Livewire error handler
 document.addEventListener('livewire:init', () => {
-    // Hook into Livewire's request lifecycle
-    Livewire.hook('request', ({ fail }) => {
+    // Hook into Livewire's request lifecycle (compatible with Livewire 3.6)
+    Livewire.hook('request', ({ fail, respond }) => {
+        // Handle request failures
         fail(({ status, content, preventDefault }) => {
+            // Handle network failures (Failed to fetch)
+            if (status === 0 || !status) {
+                window.dispatchEvent(new CustomEvent('mary-toast', {
+                    detail: {
+                        toast: {
+                            type: 'error',
+                            title: 'خطای اتصال',
+                            description: 'اتصال به سرور برقرار نشد. لطفاً اتصال اینترنت خود را بررسی کنید.',
+                            css: 'alert-error',
+                            icon: '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="w-6 h-6 stroke-current shrink-0"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>',
+                            timeout: 5000,
+                            redirectTo: null
+                        }
+                    }
+                }));
+                return;
+            }
+
             // Handle 500 errors
             if (status === 500) {
                 preventDefault();
@@ -35,12 +59,17 @@ document.addEventListener('livewire:init', () => {
                 // Parse error message
                 let errorMessage = 'خطایی رخ داده است. لطفاً دوباره تلاش کنید.';
                 try {
-                    const data = JSON.parse(content);
-                    if (data.message) {
+                    const data = typeof content === 'string' ? JSON.parse(content) : content;
+                    if (data?.message) {
                         errorMessage = data.message;
                     }
                 } catch (e) {
                     // If parsing fails, use default message (silently in production)
+                }
+
+                // Check if it's a method not found error
+                if (errorMessage.includes('method') && errorMessage.includes('not found')) {
+                    errorMessage = 'عملیات درخواستی در دسترس نیست. لطفاً صفحه را رفرش کنید.';
                 }
 
                 // Dispatch toast event with correct MaryUI structure
@@ -105,8 +134,8 @@ document.addEventListener('livewire:init', () => {
                 // Parse error message
                 let errorMessage = 'درخواست نامعتبر است. لطفاً دوباره تلاش کنید.';
                 try {
-                    const data = JSON.parse(content);
-                    if (data.message) {
+                    const data = typeof content === 'string' ? JSON.parse(content) : content;
+                    if (data?.message) {
                         errorMessage = data.message;
                     }
                 } catch (e) {
@@ -134,9 +163,49 @@ document.addEventListener('livewire:init', () => {
     Livewire.hook('message.failed', (message, component) => {
         console.error('Livewire message failed:', {
             message,
-            component: component.name
+            component: component?.name || 'unknown'
         });
     });
 });
 
 Livewire.start();
+
+// Setup sidebar pinned reloader (only if sidebar store is available)
+// This is only needed for layouts that use the sidebar store (e.g., tow-step, metronic)
+// We use dynamic import to avoid loading sidebar-store.js for layouts that don't need it
+(function setupSidebarReloaderIfNeeded() {
+    // Check if Alpine is available
+    if (typeof Alpine === 'undefined') {
+        // Wait for Alpine to be available
+        document.addEventListener('alpine:init', setupSidebarReloaderIfNeeded, { once: true });
+        return;
+    }
+
+    // Dynamically import sidebar store only if needed
+    import('./components/sidebar/sidebar-store').then((module) => {
+        if (typeof module.setupSidebarPinnedReloader === 'function') {
+            // Check if sidebar store exists (it will be initialized by the sidebar component)
+            // Wait a bit for the sidebar component to initialize the store
+            let attempts = 0;
+            const maxAttempts = 10; // Maximum 2 seconds (10 * 200ms)
+
+            const checkAndSetup = () => {
+                if (Alpine.store && Alpine.store('sidebar')) {
+                    module.setupSidebarPinnedReloader();
+                } else if (attempts < maxAttempts) {
+                    attempts++;
+                    // Check again after a short delay
+                    setTimeout(checkAndSetup, 200);
+                }
+                // If max attempts reached and store doesn't exist, silently give up
+                // This means the layout doesn't use the sidebar store (e.g., app layout)
+            };
+
+            // Start checking after a short delay
+            setTimeout(checkAndSetup, 100);
+        }
+    }).catch(() => {
+        // Sidebar store not available for this layout (e.g., app layout), silently ignore
+        // This is expected behavior for layouts that don't use the sidebar store
+    });
+})();

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Traits\CLogsActivity;
+use App\Traits\HasBranch;
+use App\Traits\HasBranchScope;
 use App\Traits\HasSchemalessAttributes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -33,7 +35,7 @@ use Spatie\Activitylog\LogOptions;
  */
 class CardFlow extends Model
 {
-    use CLogsActivity, HasFactory, HasSchemalessAttributes,SoftDeletes;
+    use CLogsActivity, HasBranch, HasBranchScope, HasFactory, HasSchemalessAttributes, SoftDeletes;
 
     protected $fillable = [
         'board_id',
@@ -43,6 +45,7 @@ class CardFlow extends Model
         'description',
         'is_active',
         'extra_attributes',
+        'branch_id',
     ];
 
     protected $casts = [

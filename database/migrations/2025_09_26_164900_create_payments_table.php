@@ -13,6 +13,7 @@ return new class extends Migration {
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('branch_id')->nullable()->constrained('branches')->nullOnDelete();
             $table->foreignId('user_id')->index()->constrained('users')->cascadeOnDelete();
             $table->foreignId('order_id')->index()->constrained('orders')->cascadeOnDelete();
             $table->decimal('amount', 10, 2);
@@ -22,6 +23,8 @@ return new class extends Migration {
             $table->text('note')->nullable();
             $table->schemalessAttributes('extra_attributes');
             $table->timestamps();
+
+            $table->index('branch_id');
         });
     }
 

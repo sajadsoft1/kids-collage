@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\ResourceType;
+use App\Traits\HasBranch;
+use App\Traits\HasBranchScope;
 use App\Traits\HasSchemalessAttributes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -35,6 +37,8 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  */
 class Resource extends Model implements HasMedia
 {
+    use HasBranch;
+    use HasBranchScope;
     use HasFactory;
     use HasSchemalessAttributes;
     use InteractsWithMedia;
@@ -48,6 +52,7 @@ class Resource extends Model implements HasMedia
         'description',
         'extra_attributes',
         'is_public',
+        'branch_id',
     ];
 
     protected $casts = [

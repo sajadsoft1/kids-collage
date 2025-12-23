@@ -7,6 +7,8 @@ namespace App\Models;
 use App\Enums\CourseStatusEnum;
 use App\Enums\CourseTypeEnum;
 use App\Facades\SmartCache;
+use App\Traits\HasBranch;
+use App\Traits\HasBranchScope;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -50,7 +52,7 @@ use Throwable;
  */
 class Course extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasBranch, HasBranchScope, HasFactory, SoftDeletes;
 
     protected $fillable = [
         'course_template_id',
@@ -59,6 +61,7 @@ class Course extends Model
         'price',
         'capacity',
         'status',
+        'branch_id',
     ];
 
     protected $casts = [

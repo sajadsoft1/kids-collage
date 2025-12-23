@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\HasBranch;
+use App\Traits\HasBranchScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -29,6 +31,8 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  */
 class OrderItem extends Model
 {
+    use HasBranch;
+    use HasBranchScope;
     use HasFactory;
 
     protected $fillable = [
@@ -37,6 +41,7 @@ class OrderItem extends Model
         'itemable_id',
         'price',
         'quantity',
+        'branch_id',
     ];
 
     protected $casts = [

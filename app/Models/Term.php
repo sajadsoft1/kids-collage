@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\TermStatus;
+use App\Traits\HasBranch;
+use App\Traits\HasBranchScope;
 use App\Traits\HasTranslationAuto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -30,7 +32,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class Term extends Model
 {
-    use HasFactory, HasTranslationAuto;
+    use HasBranch;
+    use HasBranchScope;
+    use HasFactory;
+    use HasTranslationAuto;
 
     public array $translatable = [
         'title',
@@ -41,6 +46,7 @@ class Term extends Model
         'start_date',
         'end_date',
         'status',
+        'branch_id',
     ];
 
     protected $casts = [

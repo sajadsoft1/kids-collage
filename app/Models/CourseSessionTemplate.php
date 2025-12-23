@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\SessionType;
+use App\Traits\HasBranch;
+use App\Traits\HasBranchScope;
 use App\Traits\HasTranslationAuto;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
@@ -37,7 +39,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class CourseSessionTemplate extends Model
 {
-    use HasTranslationAuto, SoftDeletes;
+    use HasBranch;
+    use HasBranchScope;
+    use HasTranslationAuto;
+    use SoftDeletes;
 
     public array $translatable = [
         'title',
@@ -52,6 +57,7 @@ class CourseSessionTemplate extends Model
         'duration_minutes',
         'type',
         'languages',
+        'branch_id',
     ];
 
     protected $casts = [

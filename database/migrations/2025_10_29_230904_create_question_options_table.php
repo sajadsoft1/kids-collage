@@ -11,6 +11,7 @@ return new class extends Migration {
     {
         Schema::create('question_options', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('branch_id')->nullable()->constrained('branches')->nullOnDelete();
             $table->foreignId('question_id')->constrained()->cascadeOnDelete();
 
             $table->text('content');
@@ -24,6 +25,7 @@ return new class extends Migration {
 
             $table->timestamps();
 
+            $table->index('branch_id');
             $table->index('question_id');
             $table->index('order');
         });

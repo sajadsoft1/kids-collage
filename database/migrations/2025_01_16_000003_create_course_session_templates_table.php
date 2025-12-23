@@ -12,6 +12,7 @@ return new class extends Migration {
     {
         Schema::create('course_session_templates', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('branch_id')->nullable()->constrained('branches')->nullOnDelete();
             $table->foreignId('course_template_id')->constrained('course_templates')->cascadeOnDelete();
             $table->unsignedInteger('order');
             $table->unsignedInteger('duration_minutes');
@@ -21,6 +22,7 @@ return new class extends Migration {
             $table->softDeletes();
 
             // Indexes for performance
+            $table->index('branch_id');
             $table->index(['course_template_id', 'order']);
             $table->index('duration_minutes');
         });

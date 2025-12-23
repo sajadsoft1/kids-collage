@@ -13,6 +13,7 @@ return new class extends Migration {
     {
         Schema::create('discounts', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('branch_id')->nullable()->constrained('branches')->nullOnDelete();
             $table->string('code')->unique()->index()->comment('Discount code');
             $table->string('type')->index()->default(DiscountTypeEnum::PERCENTAGE->value)->comment('percent or amount');
             $table->decimal('value', 10, 2)->comment('Discount value (percentage or fixed amount)');
@@ -27,6 +28,8 @@ return new class extends Migration {
             $table->boolean('is_active')->default(BooleanEnum::ENABLE->value);
             $table->text('description')->nullable();
             $table->timestamps();
+
+            $table->index('branch_id');
         });
     }
 

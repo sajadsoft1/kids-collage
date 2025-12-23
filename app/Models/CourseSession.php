@@ -6,6 +6,8 @@ namespace App\Models;
 
 use App\Enums\SessionStatus;
 use App\Enums\SessionType;
+use App\Traits\HasBranch;
+use App\Traits\HasBranchScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -42,7 +44,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class CourseSession extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasBranch;
+    use HasBranchScope;
+    use HasFactory;
+    use SoftDeletes;
 
     /** Use the new physical table name for course sessions. */
     protected $table = 'course_sessions';
@@ -58,6 +63,7 @@ class CourseSession extends Model
         'recording_link',
         'status',
         'session_type',
+        'branch_id',
     ];
 
     protected $casts = [

@@ -11,11 +11,14 @@ return new class extends Migration {
     {
         Schema::create('order_items', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('branch_id')->nullable()->constrained('branches')->nullOnDelete();
             $table->foreignId('order_id')->index()->constrained('orders')->cascadeOnDelete();
             $table->morphs('itemable');
             $table->integer('quantity')->default(1);
             $table->decimal('price', 10, 2);
             $table->timestamps();
+
+            $table->index('branch_id');
         });
     }
 

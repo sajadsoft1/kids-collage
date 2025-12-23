@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\BooleanEnum;
+use App\Traits\HasBranch;
+use App\Traits\HasBranchScope;
 use App\Traits\HasUser;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -26,6 +28,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  */
 class FlashCard extends Model
 {
+    use HasBranch;
+    use HasBranchScope;
     use HasFactory;
     use HasUser;
 
@@ -35,6 +39,7 @@ class FlashCard extends Model
         'favorite',
         'front',
         'back',
+        'branch_id',
     ];
 
     protected $casts = [

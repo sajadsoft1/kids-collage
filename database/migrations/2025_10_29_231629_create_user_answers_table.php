@@ -11,6 +11,7 @@ return new class extends Migration {
     {
         Schema::create('user_answers', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('branch_id')->nullable()->constrained('branches')->nullOnDelete();
             $table->foreignId('exam_attempt_id')->constrained()->cascadeOnDelete();
             $table->foreignId('question_id')->constrained()->cascadeOnDelete();
 
@@ -29,6 +30,7 @@ return new class extends Migration {
 
             $table->timestamps();
 
+            $table->index('branch_id');
             $table->unique(['exam_attempt_id', 'question_id']);
             $table->index('exam_attempt_id');
             $table->index('question_id');

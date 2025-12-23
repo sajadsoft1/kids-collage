@@ -5,12 +5,17 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\AttemptStatusEnum;
+use App\Traits\HasBranch;
+use App\Traits\HasBranchScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ExamAttempt extends Model
 {
+    use HasBranch;
+    use HasBranchScope;
+
     protected $fillable = [
         'exam_id',
         'user_id',
@@ -22,6 +27,7 @@ class ExamAttempt extends Model
         'ip_address',
         'user_agent',
         'metadata',
+        'branch_id',
     ];
 
     protected $casts = [

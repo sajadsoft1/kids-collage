@@ -11,6 +11,7 @@ return new class extends Migration {
     {
         Schema::create('resources', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('branch_id')->nullable()->constrained('branches')->nullOnDelete();
             $table->string('type')->index();
             $table->string('path')->nullable();
             $table->string('title');
@@ -20,6 +21,8 @@ return new class extends Migration {
             $table->boolean('is_public')->default(true);
             $table->timestamps();
             $table->softDeletes();
+
+            $table->index('branch_id');
         });
 
         Schema::create('course_session_template_resource', function (Blueprint $table) {

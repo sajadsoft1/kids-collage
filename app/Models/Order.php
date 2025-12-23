@@ -7,6 +7,8 @@ namespace App\Models;
 use App\Enums\OrderStatusEnum;
 use App\Enums\OrderTypeEnum;
 use App\Traits\CLogsActivity;
+use App\Traits\HasBranch;
+use App\Traits\HasBranchScope;
 use App\Traits\HasUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -42,6 +44,8 @@ use Spatie\Activitylog\LogOptions;
 class Order extends Model
 {
     use CLogsActivity;
+    use HasBranch;
+    use HasBranchScope;
     use HasFactory;
     use HasUser;
 
@@ -54,6 +58,7 @@ class Order extends Model
         'discount_amount',
         'total_amount',
         'status',
+        'branch_id',
         'note',
     ];
 

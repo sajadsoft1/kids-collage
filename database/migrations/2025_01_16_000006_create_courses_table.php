@@ -18,12 +18,14 @@ return new class extends Migration {
             $table->decimal('price', 10, 2)->default(0);
             $table->integer('capacity')->nullable();
             $table->string('status')->default(CourseStatusEnum::DRAFT->value);
+            $table->unsignedBigInteger('branch_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
             // Add indexes
             $table->index(['course_template_id', 'term_id']);
             $table->index('status');
+            $table->index('branch_id');
         });
     }
 

@@ -12,10 +12,13 @@ return new class extends Migration {
     {
         Schema::create('question_competencies', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('branch_id')->nullable()->constrained('branches')->nullOnDelete();
             $table->integer('ordering')->default(1);
             $table->boolean('published')->default(BooleanEnum::ENABLE->value);
             $table->text('languages')->nullable();
             $table->timestamps();
+
+            $table->index('branch_id');
         });
     }
 

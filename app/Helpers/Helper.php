@@ -161,3 +161,16 @@ if ( ! function_exists('systemCurrency')) {
         };
     }
 }
+
+if ( ! function_exists('is_route_active')) {
+    /**
+     * Check if route is active
+     * Uses MenuService for consistency across the application
+     */
+    function is_route_active(string $routeName, array $params = [], bool $exact = false): bool
+    {
+        $menuService = app(App\Services\Menu\MenuService::class);
+
+        return $menuService->isRouteActive($routeName, $params, $exact);
+    }
+}

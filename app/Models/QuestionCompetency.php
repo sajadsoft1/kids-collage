@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\HasBranch;
+use App\Traits\HasBranchScope;
 use App\Traits\HasTranslationAuto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,6 +16,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class QuestionCompetency extends Model
 {
+    use HasBranch;
+    use HasBranchScope;
     use HasFactory;
     use HasTranslationAuto;
 
@@ -24,6 +28,7 @@ class QuestionCompetency extends Model
     protected $fillable = [
         'languages',
         'ordering',
+        'branch_id',
     ];
 
     protected $casts = [

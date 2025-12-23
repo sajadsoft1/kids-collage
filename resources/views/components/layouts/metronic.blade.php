@@ -1,26 +1,5 @@
 @php
     use Illuminate\Support\Arr;
-
-    /**
-     * Check if route is active
-     */
-    function isRouteActive(string $routeName, array $params = [], bool $exact = false): bool
-    {
-        if (!request()->routeIs($routeName)) {
-            return false;
-        }
-
-        if ($exact && !empty($params)) {
-            $currentParams = request()->route()->parameters();
-            foreach ($params as $key => $value) {
-                if (!isset($currentParams[$key]) || $currentParams[$key] != $value) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
 @endphp
 
 <!DOCTYPE html>
@@ -174,9 +153,9 @@
                         </div>
                     @elseif ($hasSubMenu)
                         {{-- Menu with Submenu --}}
-                        <div x-data="{ open: {{ isRouteActive(Arr::get($menu, 'route_name', ''), Arr::get($menu, 'params', [])) ? 'true' : 'false' }} }" class="mb-1 relative group">
+                        <div x-data="{ open: {{ is_route_active(Arr::get($menu, 'route_name', ''), Arr::get($menu, 'params', [])) ? 'true' : 'false' }} }" class="mb-1 relative group">
                             <button @click="open = !open"
-                                class="menu-item mb-1 flex w-full items-center rounded-lg py-2.5 menu-text-gray transition-colors {{ isRouteActive(Arr::get($menu, 'route_name', ''), Arr::get($menu, 'params', [])) ? 'menu-item-active' : '' }}"
+                                class="menu-item mb-1 flex w-full items-center rounded-lg py-2.5 menu-text-gray transition-colors {{ is_route_active(Arr::get($menu, 'route_name', ''), Arr::get($menu, 'params', [])) ? 'menu-item-active' : '' }}"
                                 :class="sidebarCollapsed ? 'px-2 justify-center' : 'px-3 justify-between gap-3'"
                                 :title="sidebarCollapsed ? '{{ $menuTitle }}' : ''">
                                 <div class="flex items-center gap-3">
@@ -207,7 +186,7 @@
                                         $subParams = Arr::get($subMenu, 'params', []);
                                         $subExact = Arr::get($subMenu, 'exact', false);
                                         $subBadge = Arr::get($subMenu, 'badge');
-                                        $isSubActive = isRouteActive($subRoute, $subParams, $subExact);
+                                        $isSubActive = is_route_active($subRoute, $subParams, $subExact);
                                     @endphp
                                     @if ($subAccess)
                                         <a href="{{ route($subRoute, $subParams) }}"
@@ -246,7 +225,7 @@
                             $routeName = Arr::get($menu, 'route_name');
                             $params = Arr::get($menu, 'params', []);
                             $exact = Arr::get($menu, 'exact', false);
-                            $isActive = isRouteActive($routeName, $params, $exact);
+                            $isActive = is_route_active($routeName, $params, $exact);
                             $badge = Arr::get($menu, 'badge');
                         @endphp
                         <a href="{{ route($routeName, $params) }}"

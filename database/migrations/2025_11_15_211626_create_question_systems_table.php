@@ -12,11 +12,14 @@ return new class extends Migration {
     {
         Schema::create('question_systems', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('branch_id')->nullable()->constrained('branches')->nullOnDelete();
             $table->foreignId('category_id')->constrained()->cascadeOnUpdate();
             $table->boolean('published')->default(BooleanEnum::ENABLE->value);
             $table->integer('ordering')->default(1);
             $table->text('languages')->nullable();
             $table->timestamps();
+
+            $table->index('branch_id');
         });
     }
 

@@ -11,6 +11,7 @@ return new class extends Migration {
     {
         Schema::create('certificates', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('branch_id')->nullable()->constrained('branches')->nullOnDelete();
             $table->foreignId('enrollment_id')->constrained('enrollments')->cascadeOnDelete();
             $table->date('issue_date');
             $table->string('grade', 1);
@@ -19,6 +20,7 @@ return new class extends Migration {
             $table->timestamps();
 
             // Indexes for performance
+            $table->index('branch_id');
             $table->index('enrollment_id');
             $table->index('issue_date');
             $table->index('grade');

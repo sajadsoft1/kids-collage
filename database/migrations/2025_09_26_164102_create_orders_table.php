@@ -20,8 +20,11 @@ return new class extends Migration {
             $table->decimal('discount_amount', 10, 2)->default(0)->comment('Discount amount applied');
             $table->decimal('total_amount', 10, 2)->default(0)->comment('Final amount after discount');
             $table->string('status')->index()->default(OrderStatusEnum::PENDING->value);
+            $table->unsignedBigInteger('branch_id')->nullable();
             $table->text('note')->nullable();
             $table->timestamps();
+
+            $table->index('branch_id');
         });
     }
 

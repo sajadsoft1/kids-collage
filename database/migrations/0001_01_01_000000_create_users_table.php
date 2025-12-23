@@ -23,8 +23,11 @@ return new class extends Migration {
             $table->string('password');
             $table->boolean('status')->default(BooleanEnum::ENABLE->value);
             $table->string('type')->default(UserTypeEnum::USER->value);
+            $table->unsignedBigInteger('branch_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
+
+            $table->index('branch_id');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

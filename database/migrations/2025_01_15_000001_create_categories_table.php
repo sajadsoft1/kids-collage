@@ -14,6 +14,7 @@ return new class extends Migration {
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('branch_id')->nullable()->constrained('branches')->nullOnDelete();
 
             // translation: title, description, body
             $table->text('languages')->nullable();
@@ -27,6 +28,8 @@ return new class extends Migration {
 
             $table->softDeletes();
             $table->timestamps();
+
+            $table->index('branch_id');
         });
     }
 
