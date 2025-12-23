@@ -8,7 +8,11 @@ import 'flatpickr/dist/l10n/fa.js';
 import {livewire_hot_reload} from 'virtual:livewire-hot-reload'
 import './components/multi-select';
 import './livewire-datepicker-datepicker.js';
-import { setupSidebarPinnedReloader } from './components/sidebar/sidebar-store';
+import { createFrestSidebar, isRouteActive } from './components/frest-sidebar';
+
+// Export for global use
+window.createFrestSidebar = createFrestSidebar;
+window.isRouteActive = isRouteActive;
 
 window.addEventListener('livewire:navigated', function () {
     console.log('navigated');
@@ -166,5 +170,42 @@ document.addEventListener('livewire:init', () => {
 
 Livewire.start();
 
-// Setup sidebar pinned reloader
-setupSidebarPinnedReloader();
+// Setup sidebar pinned reloader (only if sidebar store is available)
+// This is only needed for layouts that use the sidebar store (e.g., tow-step, metronic)
+// We use dynamic import to avoid loading sidebar-store.js for layouts that don't need it
+(function setupSidebarReloaderIfNeeded() {
+    // Check if Alpine is available
+    if (typeof Alpine === 'undefined') {
+        // Wait for Alpine to be available
+        document.addEventListener('alpine:init', setupSidebarReloaderIfNeeded, { once: true });
+        return;
+    }
+
+    // Dynamically import sidebar store only if needed
+    import('./components/sidebar/sidebar-store').then((module) => {
+        if (typeof module.setupSidebarPinnedReloader === 'function') {
+            // Check if sidebar store exists (it will be initialized by the sidebar component)
+            // Wait a bit for the sidebar component to initialize the store
+            let attempts = 0;
+            const maxAttempts = 10; // Maximum 2 seconds (10 * 200ms)
+
+            const checkAndSetup = () => {
+                if (Alpine.store && Alpine.store('sidebar')) {
+                    module.setupSidebarPinnedReloader();
+                } else if (attempts < maxAttempts) {
+                    attempts++;
+                    // Check again after a short delay
+                    setTimeout(checkAndSetup, 200);
+                }
+                // If max attempts reached and store doesn't exist, silently give up
+                // This means the layout doesn't use the sidebar store (e.g., app layout)
+            };
+
+            // Start checking after a short delay
+            setTimeout(checkAndSetup, 100);
+        }
+    }).catch(() => {
+        // Sidebar store not available for this layout (e.g., app layout), silently ignore
+        // This is expected behavior for layouts that don't use the sidebar store
+    });
+})();

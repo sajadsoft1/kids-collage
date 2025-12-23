@@ -2,6 +2,7 @@
  * Sidebar Alpine.js Store
  * Manages sidebar state including open/close, pin/unpin, active modules, and device detection
  */
+import SidebarStorage from './sidebar-storage.js';
 
 export function createSidebarStore(config) {
     const {
@@ -14,39 +15,14 @@ export function createSidebarStore(config) {
         modules = {},
     } = config;
 
-    // Load sidebarOpen from sessionStorage
-    let savedSidebarOpen = initialSidebarOpen;
-    try {
-        const saved = sessionStorage.getItem('sidebarOpen');
-        if (saved !== null) {
-            savedSidebarOpen = saved === 'true';
-        }
-    } catch (e) {
-        // sessionStorage not available
-    }
+    // Load initial values from storage
+    const savedSidebarOpen = SidebarStorage.get('sidebarOpen', initialSidebarOpen, true);
+    const savedCurrentBranch = SidebarStorage.get('currentBranch', currentBranch, false) || currentBranch;
+    const savedIsPinned = SidebarStorage.get('sidebarPinned', true, false);
 
-    // Load currentBranch from localStorage
-    let savedCurrentBranch = currentBranch;
-    try {
-        const savedBranch = localStorage.getItem('currentBranch');
-        if (savedBranch !== null) {
-            savedCurrentBranch = savedBranch;
-        } else {
-            localStorage.setItem('currentBranch', savedCurrentBranch);
-        }
-    } catch (e) {
-        // localStorage not available
-    }
-
-    // Load isPinned from localStorage (default: true)
-    let savedIsPinned = true;
-    try {
-        const savedPin = localStorage.getItem('sidebarPinned');
-        if (savedPin !== null) {
-            savedIsPinned = savedPin === 'true';
-        }
-    } catch (e) {
-        // localStorage not available
+    // Initialize currentBranch if not exists
+    if (!SidebarStorage.get('currentBranch', null, false)) {
+        SidebarStorage.set('currentBranch', savedCurrentBranch, false);
     }
 
     return {
@@ -55,22 +31,14 @@ export function createSidebarStore(config) {
         },
         set sidebarOpen(value) {
             this._sidebarOpen = value;
-            try {
-                sessionStorage.setItem('sidebarOpen', value.toString());
-            } catch (e) {
-                // sessionStorage not available
-            }
+            SidebarStorage.set('sidebarOpen', value, true);
         },
         get isPinned() {
             return this._isPinned;
         },
         set isPinned(value) {
             this._isPinned = value;
-            try {
-                localStorage.setItem('sidebarPinned', value.toString());
-            } catch (e) {
-                // localStorage not available
-            }
+            SidebarStorage.set('sidebarPinned', value, false);
         },
         menuVisible: false,
         activeModule: activeModuleKey || defaultModule,
@@ -87,10 +55,13 @@ export function createSidebarStore(config) {
             this._isPinned = savedIsPinned;
             this.updateDeviceType();
 
-            // Listen for resize
-            window.addEventListener('resize', () => {
+            // Store resize handler reference for cleanup
+            this._resizeHandler = () => {
                 this.updateDeviceType();
-            });
+            };
+
+            // Listen for resize with debouncing
+            window.addEventListener('resize', this._resizeHandler);
 
             if (window.innerWidth >= 768 && !this.isDirectLinkActive) {
                 // Use saved value
@@ -111,6 +82,13 @@ export function createSidebarStore(config) {
             } else {
                 this.sidebarOpen = false;
                 this.menuVisible = false;
+            }
+        },
+        destroy() {
+            // Cleanup event listeners
+            if (this._resizeHandler) {
+                window.removeEventListener('resize', this._resizeHandler);
+                this._resizeHandler = null;
             }
         },
         toggleSidebar() {
@@ -243,7 +221,7 @@ export function createSidebarStore(config) {
             }
         },
         closeMobile() {
-            // Close sidebar completely on mobile/tablet (both level 1 and 2)
+            // Close sidebar completely on mobile/tablet (both level 1 and level 2)
             this.menuVisible = false;
             this.sidebarOpen = false;
             this.activeModule = '';
@@ -266,7 +244,7 @@ export function createSidebarStore(config) {
  * Initialize sidebar store with Alpine.js
  * Expose to window for Blade template access
  */
-window.initSidebarStore = function initSidebarStore(config) {
+export function initSidebarStore(config) {
     if (typeof Alpine === 'undefined') {
         document.addEventListener('alpine:init', () => initSidebarStore(config));
         return;
@@ -283,25 +261,10 @@ window.initSidebarStore = function initSidebarStore(config) {
         store.modules = config.modules || {};
 
         // Reload isPinned from localStorage to ensure it persists across wire:navigate
-        try {
-            const savedPin = localStorage.getItem('sidebarPinned');
-            if (savedPin !== null) {
-                const pinValue = savedPin === 'true';
-                store._isPinned = pinValue;
-                if (store.isPinned !== pinValue) {
-                    store.isPinned = pinValue;
-                }
-            } else {
-                store._isPinned = true;
-                if (!store.isPinned) {
-                    store.isPinned = true;
-                }
-            }
-        } catch (e) {
-            store._isPinned = true;
-            if (!store.isPinned) {
-                store.isPinned = true;
-            }
+        const pinValue = SidebarStorage.get('sidebarPinned', true, false);
+        store._isPinned = pinValue;
+        if (store.isPinned !== pinValue) {
+            store.isPinned = pinValue;
         }
 
         // Sync state after navigation
@@ -310,67 +273,83 @@ window.initSidebarStore = function initSidebarStore(config) {
             store.syncStateAfterNavigation();
         }
     }
-};
+}
 
-// Also export for ES6 modules
-export { initSidebarStore };
+// Expose to window for Blade template access
+window.initSidebarStore = initSidebarStore;
 
 /**
  * Reload sidebar pinned state after navigation
  */
+let reloaderTimeout = null;
+let alpineNavigatedHandler = null;
+
 export function setupSidebarPinnedReloader() {
     if (window.__sidebarPinnedReloader) {
         return;
     }
 
     window.__sidebarPinnedReloader = () => {
+        // Clear previous timeout if exists
+        if (reloaderTimeout) {
+            clearTimeout(reloaderTimeout);
+            reloaderTimeout = null;
+        }
+
         if (typeof Alpine === 'undefined' || !Alpine.store('sidebar')) {
             return;
         }
 
-        try {
-            const savedPin = localStorage.getItem('sidebarPinned');
-            const store = Alpine.store('sidebar');
-            if (savedPin !== null) {
-                const pinValue = savedPin === 'true';
-                if (store.isPinned !== pinValue) {
-                    store.isPinned = pinValue;
-                    if (typeof store.syncStateAfterPinChange === 'function') {
-                        store.syncStateAfterPinChange();
-                    }
-                }
-            } else {
-                if (!store.isPinned) {
-                    store.isPinned = true;
-                    if (typeof store.syncStateAfterPinChange === 'function') {
-                        store.syncStateAfterPinChange();
-                    }
-                }
-            }
-        } catch (e) {
-            // localStorage not available
-            if (typeof Alpine !== 'undefined' && Alpine.store('sidebar')) {
-                const store = Alpine.store('sidebar');
-                if (!store.isPinned) {
-                    store.isPinned = true;
-                    if (typeof store.syncStateAfterPinChange === 'function') {
-                        store.syncStateAfterPinChange();
-                    }
-                }
+        const pinValue = SidebarStorage.get('sidebarPinned', true, false);
+        const store = Alpine.store('sidebar');
+
+        if (store.isPinned !== pinValue) {
+            store.isPinned = pinValue;
+            if (typeof store.syncStateAfterPinChange === 'function') {
+                store.syncStateAfterPinChange();
             }
         }
     };
 
     // Add event listeners only once
-    document.addEventListener('alpine:navigated', () => {
-        setTimeout(window.__sidebarPinnedReloader, 50);
-    }, { once: false });
+    alpineNavigatedHandler = () => {
+        if (reloaderTimeout) {
+            clearTimeout(reloaderTimeout);
+        }
+        reloaderTimeout = setTimeout(() => {
+            window.__sidebarPinnedReloader();
+            reloaderTimeout = null;
+        }, 50);
+    };
+
+    const livewireMorphHandler = () => {
+        if (reloaderTimeout) {
+            clearTimeout(reloaderTimeout);
+        }
+        reloaderTimeout = setTimeout(() => {
+            window.__sidebarPinnedReloader();
+            reloaderTimeout = null;
+        }, 50);
+    };
+
+    document.addEventListener('alpine:navigated', alpineNavigatedHandler, { once: false });
 
     // Also reload when Livewire finishes updating
     if (typeof Livewire !== 'undefined') {
-        Livewire.hook('morph.updated', () => {
-            setTimeout(window.__sidebarPinnedReloader, 50);
-        });
+        Livewire.hook('morph.updated', livewireMorphHandler);
     }
-}
 
+    // Cleanup function (can be called if needed)
+    window.__cleanupSidebarPinnedReloader = () => {
+        if (reloaderTimeout) {
+            clearTimeout(reloaderTimeout);
+            reloaderTimeout = null;
+        }
+        if (alpineNavigatedHandler) {
+            document.removeEventListener('alpine:navigated', alpineNavigatedHandler);
+            alpineNavigatedHandler = null;
+        }
+        // Note: Livewire hooks cannot be removed, but they won't cause leaks
+        // since they're cleaned up when the page unloads
+    };
+}

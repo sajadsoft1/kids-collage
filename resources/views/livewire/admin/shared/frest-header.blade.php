@@ -3,45 +3,46 @@
 <div>
     {{-- Fixed Header --}}
     <header
-        class="sticky top-0 z-30 w-full h-16 bg-base-100 dark:bg-base-200 border-b border-base-300 dark:border-base-content/10 shadow-sm">
-        <div class="flex items-center justify-between h-full px-6">
+        class="sticky top-0 z-30 w-full h-16 border-b shadow-sm bg-base-100 dark:bg-base-200 border-base-300 dark:border-base-content/10">
+        <div class="flex justify-between items-center px-6 h-full">
             {{-- Left Side: Logo, Search --}}
-            <div class="flex items-center gap-6 flex-1">
+            <div class="flex flex-1 gap-6 items-center">
                 {{-- Mobile Sidebar Toggle --}}
                 @if (!$showMenu)
                     <button @click="$dispatch('toggle-sidebar')"
-                        class="lg:hidden p-2 text-base-content/70 hover:text-base-content hover:bg-base-200 rounded-lg">
+                        class="p-2 rounded-lg lg:hidden text-base-content/70 hover:text-base-content hover:bg-base-200">
                         <x-icon name="o-bars-3" class="w-5 h-5" />
                     </button>
                 @endif
 
                 {{-- Brand Logo --}}
-                <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2 shrink-0">
-                    <div class="flex items-center justify-center w-8 h-8 rounded-lg bg-primary/10">
+                <a href="{{ route('admin.dashboard') }}" class="flex gap-2 items-center shrink-0"
+                    aria-label="بازگشت به داشبورد">
+                    <div class="flex justify-center items-center w-8 h-8 rounded-lg bg-primary/10">
                         <x-icon name="o-cube" class="w-5 h-5 text-primary" />
                     </div>
-                    <span class="text-lg font-bold text-base-content hidden sm:inline">فرست</span>
+                    <span class="hidden text-lg font-bold text-base-content sm:inline">فرست</span>
                 </a>
 
                 {{-- Search Input --}}
-                <div class="hidden md:flex items-center flex-1 max-w-md">
+                <div class="hidden flex-1 items-center max-w-md md:flex">
                     <div class="relative w-full">
                         <x-icon name="o-magnifying-glass"
-                            class="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-base-content/40" />
+                            class="absolute right-3 top-1/2 w-5 h-5 -translate-y-1/2 text-base-content/40" />
                         <input type="text" placeholder="جستجو (Ctrl+/)"
-                            class="w-full pr-10 pl-4 py-2 text-sm bg-base-200 border border-base-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                            class="py-2 pr-10 pl-4 w-full text-sm rounded-lg border bg-base-200 border-base-300 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
                             wire:model.live.debounce.300ms="search" />
                     </div>
                 </div>
             </div>
 
             {{-- Right Side: Icons, Notifications, User Menu --}}
-            <div class="flex items-center gap-2">
+            <div class="flex gap-2 items-center">
                 {{-- Quick Actions Grid --}}
-                <x-button class="btn-ghost btn-sm btn-square" icon="o-rectangle-stack" />
+                <x-button class="btn-ghost btn-sm btn-square" icon="o-rectangle-stack" title="عملیات سریع" />
 
                 {{-- Credit Card Icon --}}
-                <x-button class="btn-ghost btn-sm btn-square" icon="o-credit-card" />
+                <x-button class="btn-ghost btn-sm btn-square" icon="o-credit-card" title="پرداخت‌ها" />
 
                 {{-- Theme Toggle --}}
                 <x-theme-toggle class="btn-ghost btn-sm btn-square" />
@@ -62,46 +63,46 @@
                     </x-menu>
                 </x-dropdown>
 
-                <div class="h-6 w-px bg-base-content/10 mx-2" aria-hidden="true"></div>
+                <div class="mx-2 w-px h-6 bg-base-content/10" aria-hidden="true"></div>
 
                 {{-- Notifications --}}
-                <x-button class="btn-ghost btn-sm btn-square relative" icon="o-bell-alert"
+                <x-button class="relative btn-ghost btn-sm btn-square" icon="o-bell-alert"
                     wire:click="$toggle('notifications_drawer')">
-                    @if ($notifications->count() > 0)
+                    @if ($this->notifications->count() > 0)
                         <span
-                            class="absolute -top-1 -right-1 flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-error rounded-full">
-                            {{ $notifications->count() > 9 ? '9+' : $notifications->count() }}
+                            class="flex absolute -top-1 -right-1 justify-center items-center w-5 h-5 text-xs font-bold text-white rounded-full bg-error">
+                            {{ $this->notifications->count() > 9 ? '9+' : $this->notifications->count() }}
                         </span>
                     @endif
                 </x-button>
 
                 {{-- Messages --}}
-                <x-button class="btn-ghost btn-sm btn-square relative" icon="o-envelope"
+                <x-button class="relative btn-ghost btn-sm btn-square" icon="o-envelope"
                     wire:click="$toggle('messages_drawer')">
                     <span
-                        class="absolute -top-1 -right-1 flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-error rounded-full">
+                        class="flex absolute -top-1 -right-1 justify-center items-center w-5 h-5 text-xs font-bold text-white rounded-full bg-error">
                         4
                     </span>
                 </x-button>
 
-                <div class="h-6 w-px bg-base-content/10 mx-2" aria-hidden="true"></div>
+                <div class="mx-2 w-px h-6 bg-base-content/10" aria-hidden="true"></div>
 
                 {{-- User Profile Dropdown --}}
                 <x-dropdown>
                     <x-slot:trigger>
                         <button
-                            class="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-base-200 transition-colors">
+                            class="flex gap-2 items-center px-2 py-1.5 rounded-lg transition-colors hover:bg-base-200">
                             <div class="avatar">
                                 <div class="w-8 rounded-full ring-2 ring-primary/20">
                                     <img src="{{ auth()->user()->getFirstMediaUrl('avatar', Constants::RESOLUTION_100_SQUARE) ?: asset('assets/images/default-avatar.png') }}"
                                         alt="{{ auth()->user()->full_name }}" />
                                 </div>
                             </div>
-                            <div class="hidden lg:block text-right">
+                            <div class="hidden text-right lg:block">
                                 <div class="text-sm font-medium text-base-content">{{ auth()->user()->full_name }}</div>
                                 <div class="text-xs text-base-content/60">مدیر</div>
                             </div>
-                            <x-icon name="o-chevron-down" class="w-4 h-4 text-base-content/60 hidden lg:block" />
+                            <x-icon name="o-chevron-down" class="hidden w-4 h-4 text-base-content/60 lg:block" />
                         </button>
                     </x-slot:trigger>
                     <x-menu class="w-56">
@@ -125,7 +126,7 @@
     {{-- Notifications Drawer --}}
     <x-drawer wire:model="notifications_drawer" title="اعلان‌ها" separator with-close-button close-on-escape
         class="w-11/12 lg:w-1/3" right>
-        @forelse($notifications as $notification)
+        @forelse($this->notifications as $notification)
             <x-list-item>
                 <x-slot:value>
                     {{ App\Helpers\NotifyHelper::title($notification->data) }}
@@ -143,8 +144,8 @@
                 </div>
             @endif
         @empty
-            <div class="flex flex-col items-center justify-center py-12 text-center">
-                <x-icon name="o-bell-slash" class="w-16 h-16 text-base-content/20 mb-4" />
+            <div class="flex flex-col justify-center items-center py-12 text-center">
+                <x-icon name="o-bell-slash" class="mb-4 w-16 h-16 text-base-content/20" />
                 <p class="text-base-content/60">هیچ اعلانی وجود ندارد</p>
             </div>
         @endforelse
@@ -153,8 +154,8 @@
     {{-- Messages Drawer --}}
     <x-drawer wire:model="messages_drawer" title="پیام‌ها" separator with-close-button close-on-escape
         class="w-11/12 lg:w-1/3" right>
-        <div class="flex flex-col items-center justify-center py-12 text-center">
-            <x-icon name="o-envelope" class="w-16 h-16 text-base-content/20 mb-4" />
+        <div class="flex flex-col justify-center items-center py-12 text-center">
+            <x-icon name="o-envelope" class="mb-4 w-16 h-16 text-base-content/20" />
             <p class="text-base-content/60">هیچ پیامی وجود ندارد</p>
         </div>
     </x-drawer>
