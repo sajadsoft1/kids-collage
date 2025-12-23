@@ -70,6 +70,14 @@
   border-bottom: 1px solid var(--b3);
 }
 
+/* Glass Sidebar Effect - Same as header for consistency */
+.glass-sidebar {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  /* استفاده از base-100 با شفافیت برای سازگاری با تم */
+  background: color-mix(in srgb, var(--b1) 90%, transparent);
+}
+
 /* Custom Scrollbar for Sidebar */
 .custom-scrollbar::-webkit-scrollbar {
   width: 4px;

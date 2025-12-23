@@ -11,22 +11,23 @@
         @livewire('admin.shared.sidebar')
 
         <!-- Main Content -->
-        <main
-            class="flex overflow-hidden relative z-10 flex-col flex-1 min-w-0 h-full transition-all duration-300 ease-out"
-            x-data="{
-                get sidebarOpen() { return $store.sidebar?.sidebarOpen ?? false; },
-                get isPinned() { return $store.sidebar?.isPinned ?? true; },
-                get isTablet() { return $store.sidebar?.isTablet ?? false; }
-            }"
+        <main class="flex overflow-hidden relative z-10 flex-col flex-1 min-w-0 h-full" x-data="{
+            get sidebarOpen() { return $store.sidebar?.sidebarOpen ?? false; },
+            get isPinned() { return $store.sidebar?.isPinned ?? true; },
+            get isTablet() { return $store.sidebar?.isTablet ?? false; }
+        }"
             :class="{
+                // فقط transition برای margin-right در حالت pinned (نه برای محتوا)
+                'transition-[margin-right] duration-300 ease-out': isPinned && !isTablet,
                 'lg:mr-[332px]': sidebarOpen && isPinned && !isTablet,
                 'md:mr-[72px]': !sidebarOpen || !isPinned || isTablet
             }"
+            :style="isPinned && !isTablet ? 'will-change: margin-right;' : ''"
             @click="$store.sidebar?.closeMenuIfOverlay()">
 
             <!-- Header - Glass Effect -->
             <header
-                class="flex fixed top-0 right-0 left-0 z-40 justify-between items-center px-4 w-full h-16 glass-header md:px-8 md:h-20 shrink-0 md:relative">
+                class="flex fixed top-0 right-0 left-0 z-40 justify-between items-center px-4 w-full h-14 border-b glass-header md:px-6 md:h-14 shrink-0 md:relative border-base-300 dark:border-base-content/10">
                 <!-- Right Side: Menu Toggle & Breadcrumb -->
                 <div class="flex gap-4 items-center">
                     <!-- Mobile Menu Toggle -->
@@ -85,7 +86,7 @@
             </header>
 
             <!-- Scrollable Content Container -->
-            <div class="overflow-y-auto flex-1 mt-16 transition-all duration-300 bg-base-200 md:mt-0">
+            <div class="overflow-y-auto flex-1 mt-14 transition-all duration-300 bg-base-200 md:mt-0">
                 <div class="container p-4 mx-auto space-y-6 md:p-6 lg:p-10">
                     {{ $slot }}
                 </div>
