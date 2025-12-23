@@ -6,6 +6,7 @@ namespace App\Livewire\Admin\Shared;
 
 use App\Models\User;
 use App\Services\Menu\MenuService;
+use App\Services\Notification\NotificationService;
 use Illuminate\View\View;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
@@ -36,37 +37,24 @@ class Sidebar extends Component
     #[Locked]
     public string $currentBranch = 'شعبه مرکزی';
 
-    public function mount(MenuService $menuService): void
-    {
+    public function mount(
+        MenuService $menuService,
+        NotificationService $notificationService
+    ): void {
         $menuData = $menuService->getActiveModuleData();
 
-        // Ensure all data is serializable by converting to array
-        $this->modules = json_decode(json_encode($menuData['modules']), true);
+        // Menu data is already an array, no need for json_decode/json_encode
+        $this->modules = $menuData['modules'];
         $this->activeModuleKey = $menuData['activeModuleKey'] ?? '';
         $this->defaultModule = $menuData['defaultModule'];
         $this->isDirectLinkActive = $menuData['isDirectLinkActive'];
         $this->initialSidebarOpen = ! $this->isDirectLinkActive;
 
-        // Get notifications from database
+        // Get notifications using NotificationService
         $user = auth()->user();
         if ($user instanceof User) {
-            $this->notificationCount = $user->unreadNotifications()->count();
-            $this->notifications = $user->notifications()
-                ->latest()
-                ->limit(10)
-                ->get()
-                ->map(function ($notification) {
-                    $data = $notification->data ?? [];
-
-                    return [
-                        'id' => $notification->id,
-                        'title' => $data['title'] ?? 'اعلان جدید',
-                        'body' => $data['body'] ?? $data['subtitle'] ?? '',
-                        'created_at' => $notification->created_at?->diffForHumans() ?? 'همین الان',
-                        'read_at' => $notification->read_at,
-                    ];
-                })
-                ->toArray();
+            $this->notificationCount = $notificationService->getUnreadCount($user);
+            $this->notifications = $notificationService->getRecentNotifications($user);
         }
 
         // Load current branch from localStorage (symbolic for now)

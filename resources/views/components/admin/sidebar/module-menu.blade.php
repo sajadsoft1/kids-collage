@@ -2,40 +2,6 @@
 
 @php
     use Illuminate\Support\Arr;
-
-    /**
-     * Check if route is active
-     */
-    if (!function_exists('isRouteActive')) {
-        function isRouteActive(string $routeName, array $params = [], bool $exact = false): bool
-        {
-            if (!$routeName || !request()->routeIs($routeName)) {
-                return false;
-            }
-
-            if ($exact) {
-                $currentParams = request()->route()->parameters();
-
-                // If exact is true and params is empty, route should have no parameters
-                if (empty($params)) {
-                    return empty($currentParams);
-                }
-
-                // If exact is true and params is not empty, check exact match
-                if (count($params) !== count($currentParams)) {
-                    return false;
-                }
-
-                foreach ($params as $key => $value) {
-                    if (!isset($currentParams[$key]) || $currentParams[$key] != $value) {
-                        return false;
-                    }
-                }
-            }
-
-            return true;
-        }
-    }
 @endphp
 
 @if (!Arr::get($module, 'is_direct_link', false))
@@ -84,7 +50,7 @@
                     $exact = Arr::get($subMenu, 'exact', false);
                     $menuKey = $routeName ? str_replace('.', '_', $routeName) : 'menu_' . $loop->index;
                     $menuUrl = $routeName ? route($routeName, $params) : '#';
-                    $initialActive = $routeName ? isRouteActive($routeName, $params, $exact) : false;
+                    $initialActive = $routeName ? is_route_active($routeName, $params, $exact) : false;
                 @endphp
                 @if ($exact)
                     <a href="{{ $menuUrl }}" wire:navigate
