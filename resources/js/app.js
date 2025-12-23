@@ -8,6 +8,7 @@ import 'flatpickr/dist/l10n/fa.js';
 import {livewire_hot_reload} from 'virtual:livewire-hot-reload'
 import './components/multi-select';
 import './livewire-datepicker-datepicker.js';
+import { setupSidebarPinnedReloader } from './components/sidebar/sidebar-store';
 
 window.addEventListener('livewire:navigated', function () {
     console.log('navigated');
@@ -140,3 +141,6 @@ document.addEventListener('livewire:init', () => {
 });
 
 Livewire.start();
+
+// Setup sidebar pinned reloader
+setupSidebarPinnedReloader();

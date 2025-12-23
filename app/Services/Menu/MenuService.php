@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Menu;
 
 use App\Models\User;
-use App\View\Composers\NavbarComposer;
+use App\Services\Menu\Contracts\MenuProviderInterface;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Cache;
 class MenuService
 {
     public function __construct(
-        private readonly NavbarComposer $navbarComposer
+        private readonly MenuProviderInterface $menuProvider
     ) {}
 
     /** Check if route is active */
@@ -58,7 +58,7 @@ class MenuService
         $cacheKey = $this->getCacheKey($user);
 
         return Cache::remember($cacheKey, 3600, function () {
-            $navbarMenu = $this->navbarComposer->getMenu();
+            $navbarMenu = $this->menuProvider->getMenu();
 
             return collect($navbarMenu)
                 ->filter(fn ($menu) => Arr::get($menu, 'access', true))

@@ -7,6 +7,7 @@ namespace App\Livewire\Admin\Shared;
 use App\Models\User;
 use App\Services\Menu\MenuService;
 use App\Services\Notification\NotificationService;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
@@ -51,7 +52,7 @@ class Sidebar extends Component
         $this->initialSidebarOpen = ! $this->isDirectLinkActive;
 
         // Get notifications using NotificationService
-        $user = auth()->user();
+        $user = Auth::user();
         if ($user instanceof User) {
             $this->notificationCount = $notificationService->getUnreadCount($user);
             $this->notifications = $notificationService->getRecentNotifications($user);

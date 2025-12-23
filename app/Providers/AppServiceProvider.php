@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Services\Menu\Contracts\MenuProviderInterface;
 use App\Services\SmartCache;
 use App\Services\Sms\SmsManager;
 use App\View\Composers\NavbarComposer;
@@ -46,6 +47,9 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(SmsManager::class, function ($app) {
             return new SmsManager($app, $app->make(\App\Services\Sms\Usage\SmsUsageHandler::class));
         });
+
+        // Bind MenuProviderInterface to NavbarComposer
+        $this->app->singleton(MenuProviderInterface::class, NavbarComposer::class);
     }
 
     /** Bootstrap any application services. */

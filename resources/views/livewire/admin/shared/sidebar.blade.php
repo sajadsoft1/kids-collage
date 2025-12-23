@@ -266,13 +266,37 @@
 
 @push('scripts')
     <script>
+        // Sidebar configuration from PHP
+        window.sidebarConfig = {
+            initialSidebarOpen: {{ $initialSidebarOpen ? 'true' : 'false' }},
+            activeModuleKey: '{{ $activeModuleKey ?: '' }}',
+            defaultModule: '{{ $defaultModule }}',
+            isDirectLinkActive: {{ $isDirectLinkActive ? 'true' : 'false' }},
+            notificationCount: {{ $notificationCount }},
+            currentBranch: '{{ $currentBranch }}',
+            modules: {
+                @foreach ($modules as $module)
+                    @if (!Arr::get($module, 'is_direct_link', false))
+                        '{{ $module['key'] }}': '{{ $module['title'] }}',
+                    @endif
+                @endforeach
+            }
+        };
+
         // Initialize Alpine store for sidebar state (persistent across page navigations)
-        function initSidebarStore() {
+        function initSidebarStoreInline() {
             if (typeof Alpine === 'undefined') {
-                document.addEventListener('alpine:init', initSidebarStore);
+                document.addEventListener('alpine:init', initSidebarStoreInline);
                 return;
             }
 
+            // Use external sidebar store if available (from sidebar-store.js)
+            if (typeof window.initSidebarStore === 'function') {
+                window.initSidebarStore(window.sidebarConfig);
+                return;
+            }
+
+            // Fallback: inline store initialization (should not be reached if JS is loaded)
             if (!Alpine.store('sidebar')) {
                 // Load sidebarOpen from sessionStorage
                 let savedSidebarOpen = {{ $initialSidebarOpen ? 'true' : 'false' }};
@@ -310,6 +334,9 @@
                     // localStorage not available
                 }
 
+                // Create modules object outside of Alpine store to avoid reactivity issues
+                const modulesData = window.sidebarConfig?.modules || {};
+
                 Alpine.store('sidebar', {
                     get sidebarOpen() {
                         return this._sidebarOpen;
@@ -339,6 +366,7 @@
                     isDirectLinkActive: {{ $isDirectLinkActive ? 'true' : 'false' }},
                     notificationCount: {{ $notificationCount }},
                     currentBranch: savedCurrentBranch,
+                    modules: modulesData,
                     isMobile: false,
                     isTablet: false,
                     init() {
@@ -517,14 +545,7 @@
                         this.activeMenu = menu;
                     },
                     getBreadcrumb() {
-                        const modules = {
-                            @foreach ($modules as $module)
-                                @if (!Arr::get($module, 'is_direct_link', false))
-                                    '{{ $module['key'] }}': '{{ $module['title'] }}',
-                                @endif
-                            @endforeach
-                        };
-                        return modules[this.activeModule] || 'داشبورد';
+                        return this.modules[this.activeModule] || 'داشبورد';
                     }
                 });
             } else {
@@ -534,6 +555,10 @@
                 store.activeModule = '{{ $activeModuleKey ?: $defaultModule }}';
                 store.isDirectLinkActive = {{ $isDirectLinkActive ? 'true' : 'false' }};
                 store.notificationCount = {{ $notificationCount }};
+                // Update modules from window.sidebarConfig to avoid Alpine reactivity issues
+                if (window.sidebarConfig?.modules) {
+                    store.modules = window.sidebarConfig.modules;
+                }
 
                 // Reload isPinned from localStorage to ensure it persists across wire:navigate
                 // Use setter to ensure reactivity works correctly
@@ -608,73 +633,13 @@
 
         // Initialize immediately if Alpine is already loaded, otherwise wait
         if (typeof Alpine !== 'undefined' && Alpine.store) {
-            initSidebarStore();
+            initSidebarStoreInline();
         } else {
-            document.addEventListener('alpine:init', initSidebarStore);
+            document.addEventListener('alpine:init', initSidebarStoreInline);
         }
 
         // Reload isPinned state after wire:navigate navigation
-        // Use a unique function name to avoid duplicate listeners
-        if (!window.__sidebarPinnedReloader) {
-            window.__sidebarPinnedReloader = () => {
-                if (typeof Alpine !== 'undefined' && Alpine.store('sidebar')) {
-                    try {
-                        const savedPin = localStorage.getItem('sidebarPinned');
-                        const store = Alpine.store('sidebar');
-                        if (savedPin !== null) {
-                            const pinValue = savedPin === 'true';
-                            // Use setter to ensure reactivity and proper state sync
-                            if (store.isPinned !== pinValue) {
-                                store.isPinned = pinValue;
-                                // Sync state after pin change
-                                if (typeof store.syncStateAfterPinChange === 'function') {
-                                    store.syncStateAfterPinChange();
-                                }
-                            }
-                        } else {
-                            // Default to true if not set
-                            if (!store.isPinned) {
-                                store.isPinned = true;
-                                // Sync state after pin change
-                                if (typeof store.syncStateAfterPinChange === 'function') {
-                                    store.syncStateAfterPinChange();
-                                }
-                            }
-                        }
-                    } catch (e) {
-                        // localStorage not available
-                        if (typeof Alpine !== 'undefined' && Alpine.store('sidebar')) {
-                            const store = Alpine.store('sidebar');
-                            if (!store.isPinned) {
-                                store.isPinned = true;
-                                // Sync state after pin change
-                                if (typeof store.syncStateAfterPinChange === 'function') {
-                                    store.syncStateAfterPinChange();
-                                }
-                            }
-                        }
-                    }
-                }
-            };
-
-            // Add event listeners only once
-            document.addEventListener('alpine:navigated', () => {
-                // Wait a bit for Alpine to fully initialize
-                setTimeout(window.__sidebarPinnedReloader, 50);
-            }, {
-                once: false
-            });
-
-            // Also reload when Livewire finishes updating
-            if (typeof Livewire !== 'undefined') {
-                Livewire.hook('morph.updated', () => {
-                    // Reload after navigation completes
-                    setTimeout(window.__sidebarPinnedReloader, 100);
-                });
-            }
-        }
-
-        // Immediately reload on script execution (after a short delay to ensure Alpine is ready)
-        setTimeout(window.__sidebarPinnedReloader, 10);
+        // This is handled by setupSidebarPinnedReloader() in sidebar-store.js
+        // No need to duplicate here if JS is loaded
     </script>
 @endpush

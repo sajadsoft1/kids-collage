@@ -15,7 +15,7 @@
         <a href="{{ $routeName ? route($routeName, $params) : '#' }}" wire:navigate
             @click="$store.sidebar.resetActiveModule()"
             class="flex justify-center items-center w-11 h-11 rounded-xl transition-all duration-200 {{ $isActive ? 'bg-primary text-primary-content shadow-lg shadow-primary/30' : 'text-base-content/60 hover:bg-base-200 dark:hover:bg-base-300 hover:text-base-content' }}"
-            :aria-label="$module['title']" aria-current="{{ $isActive ? 'page' : 'false' }}">
+            aria-label="{{ $module['title'] }}" aria-current="{{ $isActive ? 'page' : 'false' }}">
             <x-icon name="{{ $module['icon'] }}" class="w-5 h-5" />
         </a>
         <div
@@ -88,7 +88,7 @@
             :class="hasActiveSubMenu || $store.sidebar.activeModule === '{{ $module['key'] }}' ?
                 'bg-primary text-primary-content shadow-lg shadow-primary/30' :
                 'text-base-content/60 hover:bg-base-200 dark:hover:bg-base-300 hover:text-base-content'"
-            :aria-label="$module['title']" aria-haspopup="true">
+            aria-label="{{ $module['title'] }}" aria-haspopup="true">
             <x-icon name="{{ $module['icon'] }}" class="w-5 h-5" />
         </button>
         <div
