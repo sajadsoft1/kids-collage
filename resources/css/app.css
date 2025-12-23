@@ -59,13 +59,15 @@
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   z-index: 40;
-  background: rgba(255, 255, 255, 0.85);
-  border-bottom: 1px solid #e2e8f0;
+  /* استفاده از base-100 با شفافیت برای سازگاری با تم */
+  background: color-mix(in srgb, var(--b1) 85%, transparent);
+  border-bottom: 1px solid var(--b3);
 }
 
 .dark .glass-header {
-  background: rgba(28, 31, 38, 0.85);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  /* در دارک مود از base-100 با شفافیت بیشتر */
+  background: color-mix(in srgb, var(--b1) 90%, transparent);
+  border-bottom: 1px solid var(--b3);
 }
 
 /* Custom Scrollbar for Sidebar */
@@ -82,10 +84,12 @@
 
 /* Sidebar Border Utility */
 .sidebar-border {
-  border-color: rgba(0, 0, 0, 0.08);
+  /* استفاده از base-300 برای border در لایت مود */
+  border-color: var(--b3);
 }
 .dark .sidebar-border {
-  border-color: rgba(255, 255, 255, 0.05);
+  /* استفاده از base-300 برای border در دارک مود - تفکیک بهتر */
+  border-color: var(--b3);
 }
 
 /* maryUI */
@@ -101,7 +105,8 @@
 */
 
 .mary-table-pagination span[aria-current="page"] > span {
-    @apply bg-primary text-base-100
+    /* استفاده از primary-content برای کنتراست بهتر */
+    @apply bg-primary text-primary-content
 }
 
 .mary-table-pagination button {
@@ -152,27 +157,43 @@
 }
 
 :root {
+    /* Base Colors - Light Mode */
+    /* base-100: سفید خالص برای پس‌زمینه اصلی */
     --b1: #ffffff;
-    --b2: #f3f4f6;
-    --b3: #e5e7eb;
+    /* base-200: خاکستری روشن برای کارت‌ها و سطوح دوم */
+    --b2: #f8f9fa;
+    /* base-300: خاکستری متوسط برای جداکننده‌ها و borderها */
+    --b3: #e9ecef;
 
-    --bc: #111827;
+    /* Base Content: متن تیره برای خوانایی بالا روی پس‌زمینه روشن */
+    --bc: #1a1a1a;
 
+    /* Primary: نارنجی اصلی - حفظ رنگ برند */
     --p: #f59e5b;
-    --pc: #111827;
+    /* Primary Content: متن سفید برای کنتراست بالا روی نارنجی */
+    --pc: #ffffff;
 
-    --s: #e5eadf;
-    --sc: #111827;
+    /* Secondary: سبز-خاکستری روشن برای المان‌های ثانویه */
+    --s: #e8ede3;
+    /* Secondary Content: متن تیره برای خوانایی */
+    --sc: #1a1a1a;
 
+    /* Accent: سبز روشن برای تاکید */
     --a: #7fc3a0;
-    --ac: #111827;
+    /* Accent Content: متن تیره برای خوانایی روی سبز روشن */
+    --ac: #0f5132;
 
-    --n: #374151;
+    /* Neutral: خاکستری برای المان‌های خنثی */
+    --n: #495057;
+    /* Neutral Content: متن سفید برای کنتراست */
     --nc: #ffffff;
 
-    --su: #6fcf97;
-    --wa: #f2c94c;
-    --er: #eb5757;
+    /* Success: سبز تیره‌تر برای کنتراست بهتر */
+    --su: #28a745;
+    /* Warning: نارنجی-زرد برای هشدار */
+    --wa: #ffc107;
+    /* Error: قرمز برای خطا */
+    --er: #dc3545;
 
     --rounded-box: 0.75rem;
     --rounded-btn: 0.5rem;
@@ -183,26 +204,42 @@
 }
 
 .dark {
-    --b1: #111827;
-    --b2: #1f2937;
-    --b3: #374151;
+    /* Base Colors - Dark Mode */
+    /* base-100: خاکستری تیره برای پس‌زمینه اصلی - روشن‌تر از قبل برای کاهش خستگی */
+    --b1: #1a1d24;
+    /* base-200: خاکستری متوسط برای کارت‌ها - تفکیک واضح‌تر از base-100 */
+    --b2: #252932;
+    /* base-300: خاکستری روشن‌تر برای جداکننده‌ها - تفکیک بهتر */
+    --b3: #343a46;
 
-    --bc: #e5e7eb;
+    /* Base Content: متن روشن برای خوانایی روی پس‌زمینه تیره */
+    --bc: #e8eaed;
 
-    --p: #f59e5b;
-    --pc: #111827;
+    /* Primary: نارنجی روشن‌تر برای کنتراست بهتر در دارک مود */
+    --p: #ffa366;
+    /* Primary Content: متن تیره برای خوانایی روی نارنجی روشن */
+    --pc: #1a1a1a;
 
-    --s: #2b3240;
-    --sc: #e5e7eb;
+    /* Secondary: آبی-خاکستری تیره برای المان‌های ثانویه */
+    --s: #2d3748;
+    /* Secondary Content: متن روشن برای خوانایی */
+    --sc: #e8eaed;
 
-    --a: #7fc3a0;
-    --ac: #111827;
+    /* Accent: سبز روشن‌تر برای تاکید در دارک مود */
+    --a: #4ade80;
+    /* Accent Content: متن تیره برای خوانایی روی سبز روشن */
+    --ac: #0f5132;
 
-    --n: #1f2937;
-    --nc: #e5e7eb;
+    /* Neutral: خاکستری متوسط برای المان‌های خنثی */
+    --n: #4a5568;
+    /* Neutral Content: متن روشن برای کنتراست */
+    --nc: #e8eaed;
 
-    --su: #6fcf97;
-    --wa: #f2c94c;
+    /* Success: سبز روشن‌تر برای کنتراست بهتر در دارک مود */
+    --su: #34d399;
+    /* Warning: زرد-نارنجی روشن برای هشدار */
+    --wa: #fbbf24;
+    /* Error: قرمز روشن‌تر برای خطا - کنتراست بهتر */
     --er: #f87171;
 }
 

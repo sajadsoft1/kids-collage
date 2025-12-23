@@ -3,16 +3,16 @@
 
 @include('components.layouts.shared.head')
 
-<body class="antialiased bg-base-200 font-sans h-screen overflow-hidden">
+<body class="overflow-hidden h-screen font-sans antialiased bg-base-200">
 
-    <div x-data="mainLayoutState()" x-init="init()" class="flex flex-col h-full md:flex-row overflow-hidden">
+    <div x-data="mainLayoutState()" x-init="init()" class="flex overflow-hidden flex-col h-full md:flex-row">
 
         <!-- Sidebar -->
         @livewire('admin.shared.sidebar')
 
         <!-- Main Content -->
         <main
-            class="flex flex-col flex-1 transition-all duration-300 ease-out min-w-0 z-10 relative h-full overflow-hidden"
+            class="flex overflow-hidden relative z-10 flex-col flex-1 min-w-0 h-full transition-all duration-300 ease-out"
             x-data="{
                 get sidebarOpen() { return $store.sidebar?.sidebarOpen ?? false; },
                 get isPinned() { return $store.sidebar?.isPinned ?? true; },
@@ -26,9 +26,9 @@
 
             <!-- Header - Glass Effect -->
             <header
-                class="glass-header px-4 md:px-8 h-16 md:h-20 flex items-center justify-between shrink-0 w-full fixed top-0 left-0 right-0 md:relative z-40">
+                class="flex fixed top-0 right-0 left-0 z-40 justify-between items-center px-4 w-full h-16 glass-header md:px-8 md:h-20 shrink-0 md:relative">
                 <!-- Right Side: Menu Toggle & Breadcrumb -->
-                <div class="flex items-center gap-4">
+                <div class="flex gap-4 items-center">
                     <!-- Mobile Menu Toggle -->
                     <button @click="$store.sidebar?.toggleSidebar()"
                         class="btn btn-ghost btn-square md:hidden text-base-content/60" aria-label="باز/بستن منو">
@@ -36,18 +36,18 @@
                     </button>
 
                     <!-- Breadcrumb - Hidden on Mobile -->
-                    <nav class="hidden sm:flex items-center gap-2 text-sm" aria-label="Breadcrumb">
+                    <nav class="hidden gap-2 items-center text-sm sm:flex" aria-label="Breadcrumb">
                         <a href="{{ route('admin.dashboard') }}" wire:navigate
-                            class="text-base-content/50 hover:text-primary transition-colors font-medium">
+                            class="font-medium transition-colors text-base-content/50 hover:text-primary">
                             پیشخوان
                         </a>
-                        <i class="fas text-xs text-base-content/30"
+                        <i class="text-xs fas text-base-content/30"
                             :class="document.documentElement.dir === 'rtl' ? 'fa-chevron-left' : 'fa-chevron-right'"></i>
                         <span class="font-bold text-primary"
                             x-text="$store.sidebar?.getBreadcrumb() || 'داشبورد'"></span>
                         <template x-if="$store.sidebar?.currentPageTitle">
-                            <span class="flex items-center gap-2">
-                                <i class="fas text-xs text-base-content/30"
+                            <span class="flex gap-2 items-center">
+                                <i class="text-xs fas text-base-content/30"
                                     :class="document.documentElement.dir === 'rtl' ? 'fa-chevron-left' : 'fa-chevron-right'"></i>
                                 <span class="text-base-content/60" x-text="$store.sidebar?.currentPageTitle"></span>
                             </span>
@@ -56,28 +56,28 @@
                 </div>
 
                 <!-- Left Side: Actions -->
-                <div class="flex items-center gap-3">
+                <div class="flex gap-3 items-center">
                     <!-- Search Button - Desktop Only -->
                     <button
-                        class="hidden md:flex btn btn-ghost btn-sm btn-square rounded-xl text-base-content/50 hover:bg-base-200">
+                        class="hidden rounded-xl md:flex btn btn-ghost btn-sm btn-square text-base-content/50 hover:bg-base-200">
                         <i class="fas fa-search"></i>
                     </button>
 
                     <!-- Notifications -->
                     <button
-                        class="btn btn-ghost btn-sm btn-square rounded-xl text-base-content/50 hover:bg-base-200 relative">
+                        class="relative rounded-xl btn btn-ghost btn-sm btn-square text-base-content/50 hover:bg-base-200">
                         <i class="fas fa-bell"></i>
                         <span
-                            class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full border-2 border-base-100"></span>
+                            class="absolute top-1 right-1 w-2 h-2 rounded-full border-2 bg-error border-base-100"></span>
                     </button>
 
                     <!-- Profile Button -->
                     <button
                         @click="$store.sidebar?.openMenu('profile'); $store.sidebar.menuVisible = true; $store.sidebar.sidebarOpen = true"
-                        class="w-10 h-10 rounded-xl overflow-hidden border-2 border-transparent hover:border-primary transition-all"
+                        class="overflow-hidden w-10 h-10 rounded-xl border-2 border-transparent transition-all hover:border-primary"
                         aria-label="پروفایل کاربر">
                         <div
-                            class="w-full h-full bg-primary text-primary-content flex items-center justify-center text-sm font-bold">
+                            class="flex justify-center items-center w-full h-full text-sm font-bold bg-primary text-primary-content">
                             JD
                         </div>
                     </button>
@@ -85,14 +85,14 @@
             </header>
 
             <!-- Scrollable Content Container -->
-            <div class="flex-1 overflow-y-auto bg-base-200 transition-all duration-300 mt-16 md:mt-0">
-                <div class="p-4 md:p-6 lg:p-10 space-y-6">
+            <div class="overflow-y-auto flex-1 mt-16 transition-all duration-300 bg-base-200 md:mt-0">
+                <div class="container p-4 mx-auto space-y-6 md:p-6 lg:p-10">
                     {{ $slot }}
                 </div>
             </div>
 
             <!-- Footer -->
-            <footer class="px-6 py-4 bg-base-100 sidebar-border border-t">
+            <footer class="px-6 py-4 border-t bg-base-100 sidebar-border">
                 <div class="flex flex-col gap-2 justify-between items-center md:flex-row">
                     <p class="text-xs text-base-content/40">© ۱۴۰۳ پنل مدیریت</p>
                     <p class="text-xs text-base-content/40">نسخه ۱.۰.۰</p>
@@ -107,7 +107,7 @@
             get isTablet() { return $store.sidebar?.isTablet ?? false; },
             get shouldShowOverlay() { return this.menuVisible && (this.isMobile || this.isTablet); }
         }" x-show="shouldShowOverlay" @click="$store.sidebar?.closeMobile()"
-            class="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm"
+            class="fixed inset-0 z-40 backdrop-blur-sm bg-black/50"
             x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0"
             x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-150"
             x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
