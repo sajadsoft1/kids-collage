@@ -77,6 +77,7 @@ class Sidebar extends Component
     {
         return view('livewire.admin.shared.sidebar', [
             'initialSidebarOpen' => $this->initialSidebarOpen,
+            'activeModuleKey' => $this->activeModuleKey,
         ]);
     }
 }

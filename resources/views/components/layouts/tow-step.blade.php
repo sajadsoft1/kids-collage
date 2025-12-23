@@ -7,8 +7,10 @@
 
     <div x-data="mainLayoutState()" x-init="init()" class="flex overflow-hidden flex-col h-full md:flex-row">
 
-        <!-- Sidebar -->
-        @livewire('admin.shared.sidebar')
+        <!-- Sidebar - Persisted for performance -->
+        @persist('admin-sidebar')
+            @livewire('admin.shared.sidebar')
+        @endpersist
 
         <!-- Main Content -->
         <main class="flex overflow-hidden relative z-10 flex-col flex-1 min-w-0 h-full" x-data="{

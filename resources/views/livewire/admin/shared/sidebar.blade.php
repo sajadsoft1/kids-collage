@@ -11,8 +11,19 @@
                 return false;
             }
 
-            if ($exact && !empty($params)) {
+            if ($exact) {
                 $currentParams = request()->route()->parameters();
+
+                // If exact is true and params is empty, route should have no parameters
+                if (empty($params)) {
+                    return empty($currentParams);
+                }
+
+                // If exact is true and params is not empty, check exact match
+                if (count($params) !== count($currentParams)) {
+                    return false;
+                }
+
                 foreach ($params as $key => $value) {
                     if (!isset($currentParams[$key]) || $currentParams[$key] != $value) {
                         return false;
@@ -50,8 +61,8 @@
         </div>
 
         <!-- Modules Section - Scrollable -->
-        <div
-            class="flex overflow-y-auto overflow-x-hidden flex-col flex-1 gap-1 items-center px-2.5 py-2 w-full min-h-0">
+        <div class="flex overflow-y-auto overflow-x-hidden flex-col flex-1 gap-1 items-center px-2.5 py-2 w-full min-h-0"
+            wire:scroll>
             <span class="text-[10px] text-base-content/50 uppercase tracking-wider mb-2 shrink-0">ماژول‌ها</span>
             @foreach ($modules as $module)
                 <x-admin.sidebar.module-icon :module="$module" />
@@ -193,7 +204,7 @@
         </div>
 
         <!-- Navigation -->
-        <nav class="overflow-y-auto flex-1 px-3 py-3 space-y-1" role="navigation">
+        <nav class="overflow-y-auto flex-1 px-3 py-3 space-y-1" role="navigation" wire:scroll>
             @foreach ($modules as $module)
                 <x-admin.sidebar.module-menu :module="$module" />
             @endforeach
@@ -357,7 +368,7 @@
                         }
                     },
                     menuVisible: false,
-                    activeModule: '{{ $defaultModule }}',
+                    activeModule: '{{ $activeModuleKey ?: $defaultModule }}',
                     activeMenu: '',
                     isDirectLinkActive: {{ $isDirectLinkActive ? 'true' : 'false' }},
                     notificationCount: {{ $notificationCount }},
@@ -403,7 +414,7 @@
                             this.sidebarOpen = this.menuVisible;
                             // Set default module if none is active when opening
                             if (this.menuVisible && this.activeModule === '') {
-                                this.activeModule = '{{ $defaultModule }}';
+                                this.activeModule = '{{ $activeModuleKey ?: $defaultModule }}';
                             }
                             return;
                         }
@@ -414,7 +425,7 @@
                         this.sidebarOpen = !this.sidebarOpen;
                         // If opening sidebar and no activeModule, set default module
                         if (this.sidebarOpen && this.activeModule === '') {
-                            this.activeModule = '{{ $defaultModule }}';
+                            this.activeModule = '{{ $activeModuleKey ?: $defaultModule }}';
                         }
                         // menuVisible follows sidebarOpen state
                         this.menuVisible = this.sidebarOpen;
@@ -554,7 +565,7 @@
                 // Update store values if they changed (e.g., after navigation)
                 const store = Alpine.store('sidebar');
                 const previousActiveModule = store.activeModule;
-                store.activeModule = '{{ $defaultModule }}';
+                store.activeModule = '{{ $activeModuleKey ?: $defaultModule }}';
                 store.isDirectLinkActive = {{ $isDirectLinkActive ? 'true' : 'false' }};
                 store.notificationCount = {{ $notificationCount }};
 
@@ -586,8 +597,8 @@
                 }
 
                 // Sync state after navigation based on pin state and active module
-                // Reset activeModule to default (which is empty string for direct links)
-                store.activeModule = '{{ $defaultModule }}';
+                // Reset activeModule to activeModuleKey if exists, otherwise use defaultModule
+                store.activeModule = '{{ $activeModuleKey ?: $defaultModule }}';
 
                 // Sync state based on pin status and isDirectLinkActive
                 if (typeof store.syncStateAfterNavigation === 'function') {

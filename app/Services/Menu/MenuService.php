@@ -22,8 +22,19 @@ class MenuService
             return false;
         }
 
-        if ($exact && ! empty($params)) {
+        if ($exact) {
             $currentParams = request()->route()->parameters();
+
+            // If exact is true and params is empty, route should have no parameters
+            if (empty($params)) {
+                return empty($currentParams);
+            }
+
+            // If exact is true and params is not empty, check exact match
+            if (count($params) !== count($currentParams)) {
+                return false;
+            }
+
             foreach ($params as $key => $value) {
                 if ( ! isset($currentParams[$key]) || $currentParams[$key] != $value) {
                     return false;
