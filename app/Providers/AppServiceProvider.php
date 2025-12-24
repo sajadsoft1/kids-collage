@@ -95,6 +95,10 @@ class AppServiceProvider extends ServiceProvider
             return $this;
         });
 
+        // Override Mary UI's Chart component with our custom one-way binding version
+        // This prevents the "toJSON" error caused by Chart.js modifying the entangled data
+        Blade::component('chart', \App\View\Components\Chart::class);
+
         Blade::directive('livewireCalendarScripts', function () {
             return <<<'HTML'
                             <script>

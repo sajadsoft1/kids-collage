@@ -68,9 +68,9 @@ document.addEventListener('livewire:init', () => {
                 }
 
                 // Check if it's a method not found error
-                if (errorMessage.includes('method') && errorMessage.includes('not found')) {
-                    errorMessage = 'عملیات درخواستی در دسترس نیست. لطفاً صفحه را رفرش کنید.';
-                }
+                // if (errorMessage.includes('method') && errorMessage.includes('not found')) {
+                //     errorMessage = 'عملیات درخواستی در دسترس نیست. لطفاً صفحه را رفرش کنید.';
+                // }
 
                 // Dispatch toast event with correct MaryUI structure
                 window.dispatchEvent(new CustomEvent('mary-toast', {
