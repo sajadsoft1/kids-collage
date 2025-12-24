@@ -44,8 +44,11 @@ class Sidebar extends Component
     ): void {
         $menuData = $menuService->getActiveModuleData();
 
-        // Menu data is already an array, no need for json_decode/json_encode
-        $this->modules = $menuData['modules'];
+        // Filter out modules that don't have submenus (direct links)
+        $this->modules = array_filter(
+            $menuData['modules'],
+            fn ($module) => ! ($module['is_direct_link'] ?? false)
+        );
         $this->activeModuleKey = $menuData['activeModuleKey'] ?? '';
         $this->defaultModule = $menuData['defaultModule'];
         $this->isDirectLinkActive = $menuData['isDirectLinkActive'];
