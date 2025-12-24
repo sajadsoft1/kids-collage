@@ -8,6 +8,7 @@ use App\Http\Middleware\ConvertEmptyStringsToNull;
 use App\Http\Middleware\Cors;
 use App\Http\Middleware\ForceJsonResponse;
 use App\Http\Middleware\LanguageMiddleware;
+use App\Http\Middleware\SeoRedirectMiddleware;
 use App\Http\Middleware\SetBranchMiddleware;
 use App\Http\Middleware\SwaggerHelperMiddleware;
 use Illuminate\Console\Scheduling\Schedule;
@@ -35,6 +36,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->trustProxies(at: '*');
         $middleware->web([
             ChinLeung\MultilingualRoutes\DetectRequestLocale::class,
+            SeoRedirectMiddleware::class,
             SetBranchMiddleware::class,
         ]);
         $middleware->api([
