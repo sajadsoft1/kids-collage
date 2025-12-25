@@ -49,7 +49,7 @@ final class QuestionTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Question::query();
+        return Question::where('is_survey_question', false)->query();
     }
 
     public function relationSearch(): array
@@ -63,8 +63,8 @@ final class QuestionTable extends PowerGridComponent
             ->add('id')
             ->add('title', fn ($row) => PowerGridHelper::fieldTitle($row))
             ->add('category_title', fn ($row) => $row->category?->title)
-            ->add('subject_title', fn ($row) => $row->subject->title)
-            ->add('competency_title', fn ($row) => $row->competency->title)
+            ->add('subject_title', fn ($row) => $row->subject?->title)
+            ->add('competency_title', fn ($row) => $row->competency?->title)
             ->add('type_formatted', fn ($row) => $row->type->title())
             ->add('created_at_formatted', fn ($row) => PowerGridHelper::fieldCreatedAtFormated($row));
     }
