@@ -23,24 +23,46 @@
             const rect = this.$el.getBoundingClientRect();
             const spaceRight = window.innerWidth - rect.right;
             const spaceLeft = rect.left;
-            // If we're near the right edge (typical for right-aligned sidebar), open to left.
-            this.popupSide = spaceRight < 260 && spaceLeft > spaceRight ? 'left' : 'right';
+            const isRTL = document.documentElement.dir === 'rtl';
+            
+            // In RTL mode, sidebar is on the right, so popup should open to the left
+            // In LTR mode, sidebar is on the left, so popup should open to the right
+            if (isRTL) {
+                this.popupSide = spaceRight < 260 && spaceLeft > spaceRight ? 'left' : 'left';
+            } else {
+                this.popupSide = spaceRight < 260 && spaceLeft > spaceRight ? 'left' : 'right';
+            }
             this.updatePopupPosition();
         },
         updatePopupPosition() {
             const rect = this.$el.getBoundingClientRect();
             const gap = 8;
+            const isRTL = document.documentElement.dir === 'rtl';
 
             this.popupTop = Math.max(8, rect.top);
 
             if (this.popupSide === 'left') {
+                // Position to the left of the sidebar item
                 this.popupLeft = null;
-                this.popupRight = (window.innerWidth - rect.left) + gap;
+                if (isRTL) {
+                    // In RTL, left means to the right side of screen
+                    this.popupRight = (window.innerWidth - rect.left) + gap;
+                } else {
+                    // In LTR, left means to the left side
+                    this.popupRight = (window.innerWidth - rect.left) + gap;
+                }
                 return;
             }
 
+            // Position to the right of the sidebar item
             this.popupRight = null;
-            this.popupLeft = rect.right + gap;
+            if (isRTL) {
+                // In RTL, right means to the left side of screen
+                this.popupLeft = rect.right + gap;
+            } else {
+                // In LTR, right means to the right side
+                this.popupLeft = rect.right + gap;
+            }
         },
         focusSubmenuItem(event, position) {
             const li = event.target.closest('li');

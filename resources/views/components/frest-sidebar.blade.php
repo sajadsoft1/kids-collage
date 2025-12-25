@@ -130,6 +130,16 @@
         :dir(ltr) .frest-mobile-sidebar-offscreen {
             transform: translateX(-100%);
         }
+
+        /* Ensure mobile sidebar is properly positioned */
+        [data-frest-sidebar="mobile"] {
+            will-change: transform;
+        }
+
+        /* Prevent body scroll when mobile sidebar is open */
+        body:has([data-frest-sidebar="mobile"][x-show="true"]) {
+            overflow: hidden;
+        }
     </style>
     {{-- Brand Header with Toggle --}}
     <div class="flex relative justify-between items-center px-4 h-16 border-b border-base-content/10">
@@ -148,8 +158,8 @@
         {{-- Collapse Toggle Button --}}
         <button @click="toggle()" aria-label="جمع کردن/باز کردن منو"
             class="flex justify-center items-center p-1.5 w-8 h-8 text-white rounded-lg transition-colors bg-base-300/50 hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
-            :class="collapsed ? '' : 'rotate-180'">
-            <x-icon name="o-chevron-left" class="w-5 h-5" />
+            :class="collapsed ? '' : 'rotate-180'" type="button">
+            <x-icon name="o-chevron-left" class="w-5 h-5 transition-transform duration-300" />
         </button>
     </div>
 
@@ -167,18 +177,20 @@
 <div x-show="sidebarOpen" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0"
     x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-150"
     x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
-    class="fixed inset-0 z-30 backdrop-blur-sm bg-black/50 lg:hidden" @click="sidebarOpen = false" x-cloak>
+    class="fixed inset-0 z-30 backdrop-blur-sm bg-black/50 lg:hidden" @click="$dispatch('toggle-sidebar')" x-cloak
+    aria-hidden="true">
 </div>
 
 {{-- Mobile Sidebar --}}
-<aside x-show="sidebarOpen" x-transition:enter="transition ease-out duration-200"
+<aside x-show="sidebarOpen" x-transition:enter="transition ease-out duration-300"
     x-transition:enter-start="frest-mobile-sidebar-offscreen" x-transition:enter-end="translate-x-0"
-    x-transition:leave="transition ease-in duration-150" x-transition:leave-start="translate-x-0"
-    x-transition:leave-end="frest-mobile-sidebar-offscreen" x-data="{ collapsed: false }"
-    class="flex fixed top-0 z-40 flex-col w-72 max-w-[85vw] h-screen frest-sidebar-dark bg-base-300 dark:bg-base-300 lg:hidden start-0 border-e border-base-content/10"
-    dir="auto" @click.outside="sidebarOpen = false" x-cloak data-frest-sidebar="mobile"
-    @keydown.escape.window="sidebarOpen = false"
-    style="background-color: var(--b3) !important; color-scheme: dark !important;">
+    x-transition:leave="transition ease-in duration-200" x-transition:leave-start="translate-x-0"
+    x-transition:leave-end="frest-mobile-sidebar-offscreen" x-data="createFrestSidebar({ collapsed: false })"
+    class="flex fixed top-0 z-40 flex-col w-72 max-w-[85vw] h-screen frest-sidebar-dark bg-base-300 dark:bg-base-300 lg:hidden border-base-content/10"
+    :class="document.documentElement.dir === 'rtl' ? 'right-0 border-l' : 'left-0 border-r'" dir="auto" x-cloak
+    data-frest-sidebar="mobile" @keydown.escape.window="$dispatch('toggle-sidebar')"
+    style="background-color: var(--b3) !important; color-scheme: dark !important;" role="dialog" aria-modal="true"
+    aria-label="منوی اصلی" @click.stop>
     {{-- Mobile Brand Header --}}
     <div class="flex justify-between items-center px-6 h-16 border-b border-base-content/10">
         <div class="flex gap-3 items-center">
@@ -187,14 +199,15 @@
             </div>
             <h1 class="text-xl font-bold text-white">فرست</h1>
         </div>
-        <button @click="sidebarOpen = false" aria-label="بستن منو"
-            class="p-2 rounded-lg text-white/70 hover:text-white hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2">
+        <button @click="$dispatch('toggle-sidebar')" aria-label="بستن منو"
+            class="p-2 rounded-lg text-white/70 hover:text-white hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
+            type="button">
             <x-icon name="o-x-mark" class="w-5 h-5" />
         </button>
     </div>
 
     {{-- Mobile Navigation Menu - Using pre-computed menu data --}}
-    <nav class="overflow-y-auto flex-1 px-4 py-4">
+    <nav class="overflow-y-auto flex-1 px-4 py-4" aria-label="منوی اصلی">
         <ul class="flex flex-col gap-2" x-data="{ isRouteActive: window.isRouteActive }">
             @foreach ($navbarMenu as $menu)
                 <x-frest-sidebar-menu-item :menu="$menu" />

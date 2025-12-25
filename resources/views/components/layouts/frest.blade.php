@@ -31,8 +31,18 @@
         return 'margin-left: ' + px + 'px; margin-right: 0px;';
     },
     init() {
+        // Initialize viewport check
+        this.viewportIsLg = window.matchMedia('(min-width: 1024px)').matches;
+
+        // Watch for sidebar open/close and manage body scroll
         this.$watch('sidebarOpen', (value) => {
-            document.body.classList.toggle('overflow-hidden', value);
+            if (value && !this.viewportIsLg) {
+                // Mobile sidebar open - prevent body scroll
+                document.body.style.overflow = 'hidden';
+            } else {
+                // Mobile sidebar closed or desktop - restore scroll
+                document.body.style.overflow = '';
+            }
         });
 
         // Watch for sidebar collapse changes and save to localStorage
@@ -40,8 +50,27 @@
             localStorage.setItem('frest_sidebar_collapsed', value.toString());
         });
 
-        window.addEventListener('resize', () => {
+        // Handle window resize
+        const handleResize = () => {
+            const wasLg = this.viewportIsLg;
             this.viewportIsLg = window.matchMedia('(min-width: 1024px)').matches;
+            
+            // If switching from mobile to desktop, close mobile sidebar
+            if (wasLg === false && this.viewportIsLg === true && this.sidebarOpen) {
+                this.sidebarOpen = false;
+            }
+            
+            // Restore body scroll if needed
+            if (this.viewportIsLg) {
+                document.body.style.overflow = '';
+            }
+        };
+
+        window.addEventListener('resize', handleResize);
+        
+        // Cleanup on component destroy
+        this.$el.addEventListener('alpine:destroyed', () => {
+            window.removeEventListener('resize', handleResize);
         });
     }
 }"

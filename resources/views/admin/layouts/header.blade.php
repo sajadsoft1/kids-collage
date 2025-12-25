@@ -1,6 +1,8 @@
 <div
-    class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 dark:border-none px-4 shadow-xs sm:gap-x-6 sm:px-6 lg:px-8 {{ $nav_class ?? '' }}">
-    <button type="button" class="p-2.5 -m-2.5 text-gray-700" @click="open = !open">
+    class="sticky top-0 z-50 flex h-16 shrink-0 items-center gap-x-4 border-b border-base-300 dark:border-base-content/10 px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8 {{ $nav_class ?? '' }}">
+    <button type="button"
+        class="p-2.5 -m-2.5 rounded-lg text-base-content/70 hover:text-base-content hover:bg-base-200 dark:hover:bg-base-300 transition-colors"
+        @click="$dispatch('toggle-sidebar')" aria-label="Toggle sidebar">
         <span class="sr-only">Toggle sidebar</span>
         <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true"
             data-slot="icon">
@@ -15,9 +17,9 @@
     <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
         <form class="grid flex-1 grid-cols-1" action="#" method="GET">
             <input type="search" name="search" aria-label="Search"
-                class="block col-start-1 row-start-1 text-base text-gray-900 size-full ps-8 outline-hidden placeholder:text-gray-400 sm:text-sm/6"
+                class="block col-start-1 row-start-1 text-base text-base-content size-full ps-8 outline-hidden placeholder:text-base-content/50 sm:text-sm/6 bg-base-200 dark:bg-base-300 border border-base-300 dark:border-base-content/20 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
                 placeholder="Search">
-            <svg class="col-start-1 row-start-1 self-center text-gray-400 pointer-events-none size-5"
+            <svg class="col-start-1 row-start-1 self-center text-base-content/40 pointer-events-none size-5"
                 viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
                 <path fill-rule="evenodd"
                     d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z"
@@ -56,7 +58,7 @@
                 wire:click="$toggle('notifications_drawer')" />
             <x-theme-toggle />
 
-            <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10" aria-hidden="true"></div>
+            <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-base-content/10" aria-hidden="true"></div>
 
             <!-- Profile dropdown -->
             <x-dropdown>
