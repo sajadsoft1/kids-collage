@@ -45,9 +45,9 @@ return [
     // 'layout' => 'components.layouts.metronic-4',
     // 'layout' => 'components.layouts.matronic-multi-branch',
     // 'layout' => 'components.layouts.minimal',
-    // 'layout' => 'components.layouts.modern',
+    'layout' => 'components.layouts.modern',
     // 'layout' => 'components.layouts.frest',
-    'layout' => 'components.layouts.tow-step',
+    // 'layout' => 'components.layouts.tow-step',
 
     /*
     |---------------------------------------------------------------------------
