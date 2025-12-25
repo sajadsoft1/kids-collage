@@ -5,226 +5,263 @@ declare(strict_types=1);
 namespace App\Livewire\Admin\Shared;
 
 use App\Enums\SeoRobotsMetaEnum;
-use App\Helpers\Utils;
-use App\Models\Comment;
-use App\Models\UserView;
-use App\Models\WishList;
-use Carbon\CarbonPeriod;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Str;
+use App\Livewire\Concerns\HandlesJsonSerialization;
+use App\Services\Seo\DynamicSeoService;
+use App\Services\Seo\InternalLinkingService;
+use App\Services\Seo\SeoChartService;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\View\View;
+use Livewire\Attributes\Computed;
+use Livewire\Attributes\Locked;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Mary\Traits\Toast;
 
+/**
+ * DynamicSeo Livewire Component
+ *
+ * A comprehensive SEO management component for admin panel.
+ * Business logic is delegated to services for better maintainability.
+ *
+ * @see DynamicSeoService
+ * @see SeoChartService
+ */
 class DynamicSeo extends Component
 {
+    use HandlesJsonSerialization;
+    use Toast;
     use WithPagination;
 
+    // ──────────────────────────────────────────────────────────────────────────
+    // UI State
+    // ──────────────────────────────────────────────────────────────────────────
     public string $tabSelected = 'config-tab';
-    public mixed $model;
-    public string $class;
-    public string $back_route = '';
-    public array $dates = [];
 
-    // config
-    public ?string $slug = '';
-    public ?string $seo_title = '';
-    public ?string $seo_description = '';
-    public ?string $canonical = '';
-    public ?string $old_url = '';
-    public ?string $redirect_to = '';
-    public ?string $robots_meta = SeoRobotsMetaEnum::INDEX_FOLLOW->value;
-
-    // charts
-    public array $viewsChart = [];
     public array $expandedComments = [];
-    public $viewsChartSelectedMonth = 6;
 
-    public array $commentsChart = [];
-    public $commentsChartSelectedMonth = 6;
+    public array $expandedViews = [];
 
-    public array $wishesChart = [];
-    public $wishesChartSelectedMonth = 6;
+    public array $expandedWishes = [];
+
+    // ──────────────────────────────────────────────────────────────────────────
+    // Model Identification (stored separately to avoid serialization issues)
+    // ──────────────────────────────────────────────────────────────────────────
+    #[Locked]
+    public string $modelClass = '';
+
+    #[Locked]
+    public int $modelId = 0;
+
+    public string $class;
+
+    public string $back_route = '';
+
+    // ──────────────────────────────────────────────────────────────────────────
+    // SEO Form Fields
+    // ──────────────────────────────────────────────────────────────────────────
+    public ?string $slug = '';
+
+    public ?string $seo_title = '';
+
+    public ?string $seo_description = '';
+
+    public ?string $canonical = '';
+
+    public ?string $old_url = '';
+
+    public ?string $redirect_to = '';
+
+    public ?string $robots_meta = '';
+
+    public ?string $og_image = '';
+
+    public ?string $twitter_image = '';
+
+    public ?string $focus_keyword = '';
+
+    public ?string $meta_keywords = '';
+
+    public ?string $author = '';
+
+    public bool $sitemap_exclude = false;
+
+    public ?string $sitemap_priority = null;
+
+    public ?string $sitemap_changefreq = null;
+
+    public ?string $image_alt = '';
+
+    public ?string $image_title = '';
+
+    // ──────────────────────────────────────────────────────────────────────────
+    // Chart Selection State
+    // ──────────────────────────────────────────────────────────────────────────
+    public int $viewsChartSelectedMonth = 6;
+
+    public int $commentsChartSelectedMonth = 6;
+
+    public int $wishesChartSelectedMonth = 6;
+
+    // ──────────────────────────────────────────────────────────────────────────
+    // Service Instance (not public to avoid serialization)
+    // ──────────────────────────────────────────────────────────────────────────
+    protected ?DynamicSeoService $seoService = null;
+
+    protected ?Model $cachedModel = null;
+
+    /** Get the model instance (lazy loaded and cached for the request). */
+    #[Computed]
+    public function model(): Model
+    {
+        if ($this->cachedModel === null) {
+            $modelClass = $this->modelClass;
+            $this->cachedModel = $modelClass::with('seoOption')->find($this->modelId);
+        }
+
+        return $this->cachedModel;
+    }
+
+    /** Get or create the SEO service instance. */
+    protected function getSeoService(): DynamicSeoService
+    {
+        if ($this->seoService === null) {
+            $this->seoService = new DynamicSeoService($this->model);
+        }
+
+        return $this->seoService;
+    }
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // LIFECYCLE
+    // ══════════════════════════════════════════════════════════════════════════
 
     public function mount(string $class, int $id): void
     {
-        // abort_if( ! config('custom-modules.seo'), 403);
+        // Use the service to load and validate the model
+        $service = DynamicSeoService::make($class, $id);
+
+        // Store identifiers for later use (not the model itself to avoid serialization)
         $this->class = $class;
-        $this->model = Utils::getEloquent($class)::find($id);
-        $this->back_route = match ($class) {
-            'courseSessionTemplate' => route('admin.course-session-template.index', ['courseTemplate' => $this->model->course_template_id]),
-            default => route('admin.' . Str::kebab($class) . '.index'),
-        };
-        $this->slug = $this->model->slug;
-        $this->seo_title = $this->model->seoOption->title;
-        $this->seo_description = $this->model->seoOption->description;
-        $this->canonical = $this->model->seoOption->canonical;
-        $this->old_url = $this->model->seoOption->old_url;
-        $this->redirect_to = $this->model->seoOption->redirect_to;
-        $this->robots_meta = $this->model->seoOption->robots_meta->value;
+        $this->modelId = $id;
+        $this->modelClass = $service->getModel()::class;
+        $this->seoService = $service;
+        $this->cachedModel = $service->getModel();
 
-        $this->loadViewsChartData();
-        $this->loadCommentsChartData();
-        $this->loadWishesChartData();
+        $service->ensureSeoOptionExists();
+        $this->cachedModel = null; // Reset cache to reload with seoOption
 
-        $this->dates = [
-            ['value' => 1, 'label' => trans('seo.months.month_1'), 'end' => now(), 'start' => now()->subMonths()->startOfMonth()],
-            ['value' => 3, 'label' => trans('seo.months.month_3'), 'end' => now(), 'start' => now()->subMonths(3)->startOfMonth()],
-            ['value' => 6, 'label' => trans('seo.months.month_6'), 'end' => now(), 'start' => now()->subMonths(6)->startOfMonth()],
-            ['value' => 12, 'label' => trans('seo.months.month_12'), 'end' => now(), 'start' => now()->subMonths(12)->startOfMonth()],
-        ];
+        $this->back_route = $service->getBackRoute($class);
+
+        // Initialize form fields from service
+        $formData = $service->getSeoFormData();
+        $this->slug = $formData['slug'];
+        $this->seo_title = $formData['seo_title'];
+        $this->seo_description = $formData['seo_description'];
+        $this->canonical = $formData['canonical'];
+        $this->old_url = $formData['old_url'];
+        $this->redirect_to = $formData['redirect_to'];
+        $this->robots_meta = $formData['robots_meta'];
+        $this->og_image = $formData['og_image'];
+        $this->twitter_image = $formData['twitter_image'];
+        $this->focus_keyword = $formData['focus_keyword'];
+        $this->meta_keywords = $formData['meta_keywords'];
+        $this->author = $formData['author'];
+        $this->sitemap_exclude = $formData['sitemap_exclude'];
+        $this->sitemap_priority = $formData['sitemap_priority'];
+        $this->sitemap_changefreq = $formData['sitemap_changefreq'];
+        $this->image_alt = $formData['image_alt'];
+        $this->image_title = $formData['image_title'];
     }
 
-    protected function baseViewsQuery(): Builder
+    // ══════════════════════════════════════════════════════════════════════════
+    // COMPUTED PROPERTIES (No serialization issues)
+    // ══════════════════════════════════════════════════════════════════════════
+
+    /** Get date options for select dropdowns (serializable). */
+    #[Computed]
+    public function dates(): array
     {
-        return UserView::query()
-            ->where('morphable_type', $this->model::class)
-            ->where('morphable_id', $this->model->id);
+        return SeoChartService::getDateOptions();
     }
 
-    protected function baseCommentsQuery(): Builder
+    /** Get views chart data. */
+    #[Computed]
+    public function viewsChart(): array
     {
-        return Comment::query()
-            ->where('morphable_type', $this->model::class)
-            ->where('morphable_id', $this->model->id);
+        return $this->getSeoService()->charts()->getViewsChartData($this->viewsChartSelectedMonth);
     }
 
-    protected function baseWishesQuery(): Builder
+    /** Get comments chart data. */
+    #[Computed]
+    public function commentsChart(): array
     {
-        return WishList::query()
-            ->where('morphable_type', $this->model::class)
-            ->where('morphable_id', $this->model->id);
+        return $this->getSeoService()->charts()->getCommentsChartData($this->commentsChartSelectedMonth);
     }
 
-    public function updatedViewsChartSelectedMonth($value): void
+    /** Get wishes chart data. */
+    #[Computed]
+    public function wishesChart(): array
     {
-        $this->loadViewsChartData((int) $value);
+        return $this->getSeoService()->charts()->getWishesChartData($this->wishesChartSelectedMonth);
     }
 
-    public function updatedCommentsChartSelectedMonth($value): void
-    {
-        $this->loadCommentsChartData((int) $value);
-    }
-
-    public function updatedWishesChartSelectedMonth($value): void
-    {
-        $this->loadWishesChartData((int) $value);
-    }
-
-    private function loadViewsChartData(int $month = 3): void
-    {
-        $this->viewsChart = $this->chartGenerator($this->baseViewsQuery(), 'bar', $month);
-    }
-
-    private function loadCommentsChartData(int $month = 3): void
-    {
-        $this->commentsChart = $this->chartGenerator($this->baseCommentsQuery(), 'bar', $month);
-    }
-
-    private function loadWishesChartData(int $month = 3): void
-    {
-        $this->wishesChart = $this->chartGenerator($this->baseWishesQuery(), 'bar', $month);
-    }
-
-    /**
-     * @param string $chartType like bar|pie
-     * @param int    $month     default 3
-     */
-    private function chartGenerator(Builder $baseQuery, string $chartType = 'bar', int $month = 3): array
-    {
-        $startDate = now()->subMonths($month)->startOfMonth();
-        $wishes = $baseQuery
-            ->where('created_at', '>=', $startDate)
-            ->selectRaw('DATE_FORMAT(created_at, "%Y-%m") as month, COUNT(*) as count')
-            ->groupBy('month')
-            ->orderBy('month')
-            ->get();
-
-        $labels = [];
-        $data = [];
-        foreach (CarbonPeriod::create($startDate, '1 month', now()->startOfMonth()) as $date) {
-            $monthLabel = $date->format('Y-m');
-            $labels[] = $monthLabel;
-            $data[] = $wishes->firstWhere('month', $monthLabel)?->count ?? 0;
-        }
-
-        return [
-            'type' => $chartType,
-            'data' => [
-                'labels' => $labels,
-                'datasets' => [
-                    [
-                        'label' => '# of Items',
-                        'data' => $data,
-                    ],
-                ],
-            ],
-        ];
-    }
-
-    private function countGenerator(Builder $baseQuery): array
-    {
-        $result = [];
-        foreach ($this->dates as $date) {
-            $result[$date['value']] = $baseQuery->clone()
-                ->whereBetween('created_at', [$date['start'], $date['end']])
-                ->count();
-        }
-
-        $result['all'] = $baseQuery->clone()->count();
-
-        return $result;
-    }
-
-    protected function rules(): array
-    {
-        return [
-            'slug' => ['required', 'max:255', 'unique:' . Str::plural($this->class) . ',slug,' . $this->model->id],
-            'seo_title' => ['required', 'max:255'],
-            'seo_description' => ['required', 'max:500'],
-            'canonical' => ['nullable', 'max:255', 'url'],
-            'old_url' => ['nullable', 'max:255', 'url'],
-            'redirect_to' => ['nullable', 'max:255', 'url'],
-            'robots_meta' => ['required', 'in:' . implode(',', SeoRobotsMetaEnum::values())],
-        ];
-    }
+    // ══════════════════════════════════════════════════════════════════════════
+    // ACTIONS
+    // ══════════════════════════════════════════════════════════════════════════
 
     public function onSubmit(): void
     {
         $payload = $this->validate();
 
-        $this->model->seoOption->update([
-            'title' => $payload['seo_title'],
-            'description' => $payload['seo_description'],
-            'canonical' => $payload['canonical'],
-            'old_url' => $payload['old_url'],
-            'redirect_to' => $payload['redirect_to'],
-            'robots_meta' => SeoRobotsMetaEnum::from($payload['robots_meta']),
-        ]);
+        $this->getSeoService()->update($payload);
 
-        $this->model->update([
-            'slug' => $payload['slug'],
-        ]);
+        $this->success(trans('general.update_success', ['model' => trans('seo.model')]));
     }
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // VALIDATION
+    // ══════════════════════════════════════════════════════════════════════════
+
+    protected function rules(): array
+    {
+        return $this->getSeoService()->getValidationRules($this->class);
+    }
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // RENDER
+    // ══════════════════════════════════════════════════════════════════════════
 
     public function render(): View
     {
-        return view('livewire.admin.shared.dynamic-seo', [
-            'breadcrumbs' => [
-                ['link' => route('admin.dashboard'), 'icon' => 's-home'],
-                ['link' => $this->back_route, 'label' => trans('general.page.index.title', ['model' => trans($this->class . '.model')])],
-                ['label' => $this->model->title],
-            ],
-            'breadcrumbsActions' => [
-                ['link' => $this->back_route, 'icon' => 's-arrow-left'],
-            ],
-            'viewsCount' => $this->countGenerator($this->baseViewsQuery()),
-            'commentsCount' => $this->countGenerator($this->baseCommentsQuery()),
-            'wishesCount' => $this->countGenerator($this->baseWishesQuery()),
+        $service = $this->getSeoService();
+        $counts = $service->charts()->getAllCounts();
 
-            'comments' => $this->baseCommentsQuery()->paginate(15),
-            'views' => $this->baseViewsQuery()->paginate(15),
-            'wishes' => $this->baseWishesQuery()->paginate(15),
+        return view('livewire.admin.shared.dynamic-seo', [
+            // Navigation
+            'breadcrumbs' => $service->getBreadcrumbs($this->back_route, $this->class),
+            'breadcrumbsActions' => $service->getBreadcrumbActions($this->back_route),
+
+            // Statistics
+            'viewsCount' => $counts['views'],
+            'commentsCount' => $counts['comments'],
+            'wishesCount' => $counts['wishes'],
+
+            // SEO Analysis
+            'seoScore' => $service->scores()->calculateSeoScore(),
+            'keywordDensity' => $service->scores()->calculateKeywordDensity(),
+            'readabilityScore' => $service->scores()->calculateReadabilityScore(),
+            'internalLinks' => (new InternalLinkingService)->getSuggestions($this->model, 10),
+
+            // Date ranges for stats display
+            'dateRanges' => SeoChartService::getDateRanges(),
+
+            // Paginated data
+            'comments' => $service->charts()->getCommentsPaginated(15),
+            'views' => $service->charts()->getViewsPaginated(15),
+            'wishes' => $service->charts()->getWishesPaginated(15),
+
+            // Enum for robots meta select
+            'robotsMetaOptions' => SeoRobotsMetaEnum::cases(),
         ]);
     }
 }

@@ -84,16 +84,12 @@
         });
     }">
         <button @click="$store.sidebar.openMenu('{{ $module['key'] }}')"
-            class="flex justify-center items-center w-11 h-11 rounded-xl transition-all duration-200"
+            class="flex justify-center items-center w-11 h-11 rounded-xl transition-all duration-200 tooltip"
             :class="hasActiveSubMenu || $store.sidebar.activeModule === '{{ $module['key'] }}' ?
                 'bg-primary text-primary-content shadow-lg shadow-primary/30' :
                 'text-base-content/60 hover:bg-base-200 dark:hover:bg-base-300 hover:text-base-content'"
-            aria-label="{{ $module['title'] }}" aria-haspopup="true">
+            aria-label="{{ $module['title'] }}" aria-haspopup="true" data-tip="{{ $module['title'] }}">
             <x-icon name="{{ $module['icon'] }}" class="w-5 h-5" />
         </button>
-        <div
-            class="absolute top-1/2 -translate-y-1/2 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity bg-base-200 dark:bg-base-300 text-base-content text-xs py-1.5 px-3 rounded-lg whitespace-nowrap z-[70] shadow-lg right-full mr-2">
-            {{ $module['title'] }}
-        </div>
     </div>
 @endif

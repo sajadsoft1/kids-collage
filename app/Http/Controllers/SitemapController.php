@@ -31,16 +31,42 @@ class SitemapController extends Controller
         $sitemap = Sitemap::create();
 
         Blog::where('published', true)
+            ->with('seoOption')
             ->orderByDesc('created_at')
             ->get()
             ->each(function (Blog $blog) use ($sitemap) {
-                $sitemap->add(
-                    Url::create(route('blog.detail', ['slug' => $blog->slug]))
-                        ->setLastModificationDate($blog->updated_at)
-                        ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
-                        ->setPriority(0.8)
-                        ->addImage($blog->getFirstMediaUrl('image', Constants::RESOLUTION_854_480))
-                );
+                // Skip if excluded from sitemap
+                if ($blog->seoOption && $blog->seoOption->sitemap_exclude) {
+                    return;
+                }
+
+                $url = Url::create(route('blog.detail', ['slug' => $blog->slug]))
+                    ->setLastModificationDate($blog->updated_at);
+
+                // Use sitemap settings from seoOption if available
+                if ($blog->seoOption) {
+                    if ($blog->seoOption->sitemap_priority !== null) {
+                        $url->setPriority((float) $blog->seoOption->sitemap_priority);
+                    } else {
+                        $url->setPriority(0.8);
+                    }
+
+                    if ($blog->seoOption->sitemap_changefreq) {
+                        $url->setChangeFrequency($blog->seoOption->sitemap_changefreq);
+                    } else {
+                        $url->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY);
+                    }
+                } else {
+                    $url->setPriority(0.8)
+                        ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY);
+                }
+
+                $imageUrl = $blog->getFirstMediaUrl('image', Constants::RESOLUTION_854_480);
+                if ($imageUrl) {
+                    $url->addImage($imageUrl);
+                }
+
+                $sitemap->add($url);
             });
 
         return response($sitemap->render(), 200)
@@ -52,16 +78,42 @@ class SitemapController extends Controller
         $sitemap = Sitemap::create();
 
         PortFolio::where('published', true)
+            ->with('seoOption')
             ->orderByDesc('created_at')
             ->get()
             ->each(function (PortFolio $portfolio) use ($sitemap) {
-                $sitemap->add(
-                    Url::create(route('portfolio.detail', ['slug' => $portfolio->slug]))
-                        ->setLastModificationDate($portfolio->updated_at)
-                        ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
-                        ->setPriority(0.8)
-                        ->addImage($portfolio->getFirstMediaUrl('image', Constants::RESOLUTION_854_480))
-                );
+                // Skip if excluded from sitemap
+                if ($portfolio->seoOption && $portfolio->seoOption->sitemap_exclude) {
+                    return;
+                }
+
+                $url = Url::create(route('portfolio.detail', ['slug' => $portfolio->slug]))
+                    ->setLastModificationDate($portfolio->updated_at);
+
+                // Use sitemap settings from seoOption if available
+                if ($portfolio->seoOption) {
+                    if ($portfolio->seoOption->sitemap_priority !== null) {
+                        $url->setPriority((float) $portfolio->seoOption->sitemap_priority);
+                    } else {
+                        $url->setPriority(0.8);
+                    }
+
+                    if ($portfolio->seoOption->sitemap_changefreq) {
+                        $url->setChangeFrequency($portfolio->seoOption->sitemap_changefreq);
+                    } else {
+                        $url->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY);
+                    }
+                } else {
+                    $url->setPriority(0.8)
+                        ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY);
+                }
+
+                $imageUrl = $portfolio->getFirstMediaUrl('image', Constants::RESOLUTION_854_480);
+                if ($imageUrl) {
+                    $url->addImage($imageUrl);
+                }
+
+                $sitemap->add($url);
             });
 
         return response($sitemap->render(), 200)

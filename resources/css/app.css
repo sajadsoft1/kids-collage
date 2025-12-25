@@ -280,4 +280,19 @@
     }
 }
 
+/* Alpine.js x-cloak - Hide elements until Alpine is ready */
+[x-cloak] {
+    display: none !important;
+}
+
+/* Sidebar initial state - prevent FOUC */
+aside[x-cloak] {
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+}
+
+aside:not([x-cloak]) {
+    opacity: 1;
+}
+
 /* Metronic 4 styles moved to metronic-4.css */
