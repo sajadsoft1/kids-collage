@@ -10,8 +10,9 @@
 
     {{-- Modern Sidebar --}}
     {{-- Force all children to always use dark mode by wrapping in a "dark" div --}}
-    <x-slot:sidebar drawer="main-drawer" collapsible class="border-none backdrop-blur-md no-scrollbar bg-base-300"
-        collapse-icon="o-bars-3" collapse-text="بستن" data-theme="dark">
+    <x-slot:sidebar drawer="main-drawer" collapsible
+        class="border-none backdrop-blur-md dark no-scrollbar bg-base-100" data-theme="dark" collapse-icon="o-bars-3"
+        collapse-text="بستن">
         {{-- sidebar content starts here --}}
 
         {{-- Brand Header with Gradient --}}
@@ -75,7 +76,7 @@
     {{-- Main Content Area --}}
     <x-slot:content class="!p-0 flex flex-col flex-1 min-h-0">
         {{-- Modern Header Bar --}}
-        <livewire:admin.shared.header nav_class="bg-base-100 shadow-lg" />
+        <livewire:admin.shared.header nav_class="bg-base-100 shadow" />
         {{-- Page Content with Glass Effect --}}
         <div @class([
             'flex flex-col flex-1',

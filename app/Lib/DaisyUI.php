@@ -14,24 +14,24 @@ class DaisyUI extends Theme
     {
         return [
             'layout' => [
-                'base' => 'align-middle inline-block min-w-full w-full !mt-0 !pt-0',
-                'div' => 'relative bg-base-100 rounded-t-lg',
+                'base' => 'align-middle inline-block min-w-full w-full !mt-0 p-1 !pt-0',
+                'div' => 'relative bg-base-100 rounded-t-lg shadow',
                 'table' => 'table table-sm !bg-base-100',
                 'container' => 'overflow-x-auto sm:-mx-3',
-                'actions' => 'gap-2 !bg-red-500',
+                'actions' => 'gap-2',
             ],
 
             'header' => [
                 'thead' => 'text-base-content !capitalize',
-                'tr' => 'bg-base-300 ',
-                'th' => '!py-4 text-gray-500 font-bold',
+                'tr' => 'bg-base-100',
+                'th' => '!py-4 text-base-content/70 ',
                 'thAction' => '!w-0',
             ],
 
             'body' => [
                 'tbody' => '',
                 'tbodyEmpty' => '',
-                'tr' => 'hover:bg-base-300',
+                'tr' => 'hover:bg-base-200',
                 'td' => '',
                 'tdEmpty' => '',
                 'tdSummarize' => '',
@@ -58,7 +58,7 @@ class DaisyUI extends Theme
         return [
             'view' => $this->root() . '.footer',
             'select' => 'select flex rounded-md py-1.5 px-4 pr-7 w-auto',
-            'footer' => 'rounded-b-lg !text-base-content bg-base-300',
+            'footer' => 'rounded-b-lg !text-base-content bg-base-100 shadow',
             'footer_with_pagination' => 'md:flex md:flex-row w-full items-center py-3 overflow-y-auto pl-2 pr-2 relative !text-base-content',
         ];
     }
@@ -66,7 +66,7 @@ class DaisyUI extends Theme
     public function cols(): array
     {
         return [
-            'div' => 'select-none flex items-center gap-1  font-bold text-md',
+            'div' => 'select-none flex items-center gap-1 font-bold text-base-content',
         ];
     }
 
@@ -88,9 +88,9 @@ class DaisyUI extends Theme
     public function checkbox(): array
     {
         return [
-            'th' => 'px-6 py-3 text-start text-xs font-medium tracking-wider',
+            'th' => 'px-6 py-3 text-start text-xs font-medium tracking-wider text-base-content',
             'base' => '',
-            'label' => 'flex items-center space-x-3',
+            'label' => 'flex items-center space-x-3 text-base-content',
             'input' => 'checkbox checkbox-sm',
         ];
     }
@@ -98,9 +98,9 @@ class DaisyUI extends Theme
     public function radio(): array
     {
         return [
-            'th' => 'px-6 py-3 text-start text-xs font-medium tracking-wider',
+            'th' => 'px-6 py-3 text-start text-xs font-medium tracking-wider text-base-content',
             'base' => '',
-            'label' => 'flex items-center space-x-3',
+            'label' => 'flex items-center space-x-3 text-base-content',
             'input' => 'radio',
         ];
     }

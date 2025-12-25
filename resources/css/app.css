@@ -1,11 +1,14 @@
+/* =========================================================
+   Imports
+   ========================================================= */
 @import 'tailwindcss';
 @import '../../vendor/power-components/livewire-powergrid/resources/css/tailwind4.css';
 @import "flatpickr/dist/flatpickr.min.css";
 @import './kanban.css';
-/* @import './metronic-4.css'; */
 
-
-/* ---------sources--------- */
+/* =========================================================
+   Tailwind Sources
+   ========================================================= */
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 @source '../**/*.blade.php';
@@ -14,28 +17,57 @@
 @source '../../app/Livewire/**/*Table.php';
 @source '../../vendor/power-components/livewire-powergrid/src/Themes/Tailwind.php';
 @source '../../vendor/power-components/livewire-powergrid/resources/views/**/*.php';
+@source "../../vendor/robsontenorio/mary/src/View/Components/**/*.php";
 
-
+/* =========================================================
+   Tailwind Theme Mapping
+   ========================================================= */
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-    'Segoe UI Symbol', 'Noto Color Emoji';
-}
-/*@source inline('{sm:,md:,lg:,xl:,}w-{1,2,3,4,5,6,7,8,9,10,11,12}/12');*/
+    --font-sans: 'IRANYekan', 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
 
-/* Safelist for lg:ms pattern */
+    --color-base-100: var(--daisy-base-100);
+    --color-base-200: var(--daisy-base-200);
+    --color-base-300: var(--daisy-base-300);
+    --color-base-content: var(--daisy-base-content);
+
+    --color-primary: var(--daisy-primary);
+    --color-primary-content: var(--daisy-primary-content);
+
+    --color-secondary: var(--daisy-secondary);
+    --color-secondary-content: var(--daisy-secondary-content);
+
+    --color-accent: var(--daisy-accent);
+    --color-accent-content: var(--daisy-accent-content);
+
+    --color-neutral: var(--daisy-neutral);
+    --color-neutral-content: var(--daisy-neutral-content);
+
+    --color-info: var(--daisy-info);
+    --color-info-content: var(--daisy-info-content);
+
+    --color-success: var(--daisy-success);
+    --color-success-content: var(--daisy-success-content);
+
+    --color-warning: var(--daisy-warning);
+    --color-warning-content: var(--daisy-warning-content);
+
+    --color-error: var(--daisy-error);
+    --color-error-content: var(--daisy-error-content);
+}
+
+/* =========================================================
+   Safelist
+   ========================================================= */
 @source inline('lg:ms-{0,1,2,3,4,5,6,7,8,9,10,11,12,14,16,20,24,28,32,36,40,44,48,52,56,60,64,72,80,96,auto}');
 @source inline('lg:ps-{0,1,2,3,4,5,6,7,8,9,10,11,12,14,16,20,24,28,32,36,40,44,48,52,56,60,64,72,80,96,auto}');
 @source inline('w-{0,1,2,3,4,5,6,7,8,9,10,11,12,14,16,20,24,28,32,36,40,44,48,52,56,60,64,72,80,96,auto}');
 @source inline('h-{0,1,2,3,4,5,6,7,8,9,10,11,12,14,16,20,24,28,32,36,40,44,48,52,56,60,64,72,80,96,auto}');
 
-/**
-    The lines above are intact.
-    The lines below were added by maryUI installer.
-*/
-
-/** daisyUI */
+/* =========================================================
+   DaisyUI Plugin
+   ========================================================= */
 @plugin "daisyui" {
-    themes: light --default, dark;
+    themes: light --default, dark --prefersdark;
     base: true;
     styled: true;
     utils: true;
@@ -44,252 +76,193 @@
     themeRoot: ":root";
 }
 
-@layer utilities {
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
-  .no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-}
+/* Light Theme */
+@plugin "daisyui/theme" {
+    name: "light";
+    default: true;
 
-/* Glass Header Effect */
-.glass-header {
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  z-index: 40;
-  /* استفاده از base-100 با شفافیت برای سازگاری با تم */
-  background: color-mix(in srgb, var(--b1) 85%, transparent);
-  border-bottom: 1px solid var(--b3);
-}
+    --color-base-100: var(--daisy-base-100);
+    --color-base-200: var(--daisy-base-200);
+    --color-base-300: var(--daisy-base-300);
+    --color-base-content: var(--daisy-base-content);
 
-.dark .glass-header {
-  /* در دارک مود از base-100 با شفافیت بیشتر */
-  background: color-mix(in srgb, var(--b1) 90%, transparent);
-  border-bottom: 1px solid var(--b3);
-}
+    --color-primary: var(--daisy-primary);
+    --color-primary-content: var(--daisy-primary-content);
 
-/* Glass Sidebar Effect - Same as header for consistency */
-.glass-sidebar {
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  /* استفاده از base-100 با شفافیت برای سازگاری با تم */
-  background: color-mix(in srgb, var(--b1) 90%, transparent);
-}
+    --color-secondary: var(--daisy-secondary);
+    --color-secondary-content: var(--daisy-secondary-content);
 
-/* Custom Scrollbar for Sidebar */
-.custom-scrollbar::-webkit-scrollbar {
-  width: 4px;
-}
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: var(--p);
-  border-radius: 20px;
-}
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: transparent;
-}
+    --color-accent: var(--daisy-accent);
+    --color-accent-content: var(--daisy-accent-content);
 
-/* Sidebar Border Utility */
-.sidebar-border {
-  /* استفاده از base-300 برای border در لایت مود */
-  border-color: var(--b3);
-}
-.dark .sidebar-border {
-  /* استفاده از base-300 برای border در دارک مود - تفکیک بهتر */
-  border-color: var(--b3);
-}
+    --color-neutral: var(--daisy-neutral);
+    --color-neutral-content: var(--daisy-neutral-content);
 
-/* maryUI */
-@source "../../vendor/robsontenorio/mary/src/View/Components/**/*.php";
+    --color-info: var(--daisy-info);
+    --color-info-content: var(--daisy-info-content);
 
-/* Theme toggle */
-@custom-variant dark (&:where(.dark, .dark *));
-/*@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));*/
+    --color-success: var(--daisy-success);
+    --color-success-content: var(--daisy-success-content);
 
-/**
-* Paginator - Traditional style
-* Because Laravel defaults does not match well the design of daisyUI.
-*/
+    --color-warning: var(--daisy-warning);
+    --color-warning-content: var(--daisy-warning-content);
 
-.mary-table-pagination span[aria-current="page"] > span {
-    /* استفاده از primary-content برای کنتراست بهتر */
-    @apply bg-primary text-primary-content
-}
-
-.mary-table-pagination button {
-    @apply cursor-pointer
-}
-
-/* end mary ui*/
-
-#pg-footer nav {
-    @apply ms-5;
-}
-#pg-footer nav > div .btn{
-    @apply btn-sm;
-}
-
-#pg-footer nav > div a svg{
-    @apply rtl:rotate-180;
-}
-/* * {
-    font-family: Vazirmatn, sans-serif;
-} */
-/* start powergrid*/
-.responsive-row-expand-container {
-    @apply flex-col rounded-md gap-y-5 bg-base-300;
-}
-.responsive-row-expand-item-container {
-    @apply flex items-center justify-between;
-}
-#power-grid-table-base > div > div:nth-child(2) {
-    @apply max-[600px]:flex max-md:flex-col gap-y-3
-}
-
-#power-grid-table-base > div > div:nth-child(2) > label {
-    @apply rounded-lg max-md:w-full
-}
-
-/* PowerGrid: Last column (actions) should stick to the end */
-#power-grid-table-base table thead tr th:last-child,
-#power-grid-table-base table tbody tr td:last-child {
-    width: 0 !important;
-    white-space: nowrap;
-}
-/*end powergrid*/
-
-
-.mary-active-menu {
-    @apply text-white bg-primary;
-}
-
-:root {
-    /*
-      اصول انتخاب رنگ‌های Base (DaisyUI/Tailwind Base Colors):
-      - base-100: پس‌زمینه‌ی اصلی (کنتراست با متن بالا، سفید متعادل غیر کورکننده)
-      - base-200: سطح دوم، برای کارت/کادر یا مناطق جداکننده
-      - base-300: سطح سوم، برای مرزها، سایه یا جداکننده کم‌رنگ
-      رعایت الزامات WCAG برای کنتراست رنگ و خوانایی
-
-      تحقیق و انتخاب رنگ‌های مناسب:
-      - سلول‌های پس‌زمینه‌ی اصلی (base-100): خنثی، سفید کمی گرم‌تر جهت جلوگیری از انعکاس شدید نور
-      - base-200/300: تیره‌تر شدن تدریجی معنادار، نه صرفاً خاکستری خالص
-      - دامنه روشن: سفید – طوسی بسیار روشن – طوسی کم‌رنگ با ته‌رنگ آبی یا بنفش ملایم
-      - مرجع: Tailwind Neutral Palette، WCAG guidelines، Material Color System
-
-      رنگ‌های انتخاب شده:
-        --b1  (base-100): #fafbfc  | سفید طبیعی، تئوری Tailwind و GitHub UI
-        --b2  (base-200): #f1f3f9  | طوسی سرد (آبی کمرنگ)، پیشنهادی برای contrast با ب‌۱
-        --b3  (base-300): #e3e8f0  | طوسی-آبی روشن‌تر، مناسب جداکننده‌ها و Hover
-
-      تست کنتراست:
-      --b1: #fafbfc  روی --bc: #1a1a1a   => نسبت: ~17.5:1 (عالی)
-      --b2: #f1f3f9                     => نسبت: ~13.5:1 (عالی)
-      --b3: #e3e8f0                     => نسبت: ~11.5:1 (خوب)
-    */
-    --b1: #fafbfc;
-    --b2: #f1f3f9;
-    --b3: #e3e8f0;
-
-    /* Base Content: متن تیره برای خوانایی بالا روی پس‌زمینه روشن */
-    --bc: #1a1a1a;
-
-    /* Primary: نارنجی اصلی - حفظ رنگ برند */
-    --p: #f59e5b;
-    /* Primary Content: متن سفید برای کنتراست بالا روی نارنجی */
-    --pc: #ffffff;
-
-    /* Secondary: سبز-خاکستری روشن برای المان‌های ثانویه */
-    --s: #e8ede3;
-    /* Secondary Content: متن تیره برای خوانایی */
-    --sc: #1a1a1a;
-
-    /* Accent: سبز روشن برای تاکید */
-    --a: #7fc3a0;
-    /* Accent Content: متن تیره برای خوانایی روی سبز روشن */
-    --ac: #0f5132;
-
-    /* Neutral: خاکستری برای المان‌های خنثی */
-    --n: #495057;
-    /* Neutral Content: متن سفید برای کنتراست */
-    --nc: #ffffff;
-
-    /* Success: سبز تیره‌تر برای کنتراست بهتر */
-    --su: #28a745;
-    /* Warning: نارنجی-زرد برای هشدار */
-    --wa: #ffc107;
-    /* Error: قرمز برای خطا */
-    --er: #dc3545;
+    --color-error: var(--daisy-error);
+    --color-error-content: var(--daisy-error-content);
 
     --rounded-box: 0.75rem;
     --rounded-btn: 0.5rem;
     --rounded-badge: 0.375rem;
-
     --border-btn: 1px;
     --animation-btn: 0.2s;
 }
 
-.dark {
-    /* Base Colors - Dark Mode */
-    /* base-100: خاکستری تیره برای پس‌زمینه اصلی - روشن‌تر از قبل برای کاهش خستگی */
-    --b1: #1a1d24;
-    /* base-200: خاکستری متوسط برای کارت‌ها - تفکیک واضح‌تر از base-100 */
-    --b2: #252932;
-    /* base-300: خاکستری روشن‌تر برای جداکننده‌ها - تفکیک بهتر */
-    --b3: #343a46;
+/* Dark Theme */
+@plugin "daisyui/theme" {
+    name: "dark";
 
-    /* Base Content: متن روشن برای خوانایی روی پس‌زمینه تیره */
-    --bc: #e8eaed;
+    --color-base-100: var(--daisy-base-100);
+    --color-base-200: var(--daisy-base-200);
+    --color-base-300: var(--daisy-base-300);
+    --color-base-content: var(--daisy-base-content);
 
-    /* Primary: نارنجی روشن‌تر برای کنتراست بهتر در دارک مود */
-    --p: #ffa366;
-    /* Primary Content: متن تیره برای خوانایی روی نارنجی روشن */
-    --pc: #1a1a1a;
+    --color-primary: var(--daisy-primary);
+    --color-primary-content: var(--daisy-primary-content);
 
-    /* Secondary: آبی-خاکستری تیره برای المان‌های ثانویه */
-    --s: #2d3748;
-    /* Secondary Content: متن روشن برای خوانایی */
-    --sc: #e8eaed;
+    --color-secondary: var(--daisy-secondary);
+    --color-secondary-content: var(--daisy-secondary-content);
 
-    /* Accent: سبز روشن‌تر برای تاکید در دارک مود */
-    --a: #4ade80;
-    /* Accent Content: متن تیره برای خوانایی روی سبز روشن */
-    --ac: #0f5132;
+    --color-accent: var(--daisy-accent);
+    --color-accent-content: var(--daisy-accent-content);
 
-    /* Neutral: خاکستری متوسط برای المان‌های خنثی */
-    --n: #4a5568;
-    /* Neutral Content: متن روشن برای کنتراست */
-    --nc: #e8eaed;
+    --color-neutral: var(--daisy-neutral);
+    --color-neutral-content: var(--daisy-neutral-content);
 
-    /* Success: سبز روشن‌تر برای کنتراست بهتر در دارک مود */
-    --su: #34d399;
-    /* Warning: زرد-نارنجی روشن برای هشدار */
-    --wa: #fbbf24;
-    /* Error: قرمز روشن‌تر برای خطا - کنتراست بهتر */
-    --er: #f87171;
+    --color-info: var(--daisy-info);
+    --color-info-content: var(--daisy-info-content);
+
+    --color-success: var(--daisy-success);
+    --color-success-content: var(--daisy-success-content);
+
+    --color-warning: var(--daisy-warning);
+    --color-warning-content: var(--daisy-warning-content);
+
+    --color-error: var(--daisy-error);
+    --color-error-content: var(--daisy-error-content);
+
+    --rounded-box: 0.75rem;
+    --rounded-btn: 0.5rem;
+    --rounded-badge: 0.375rem;
+    --border-btn: 1px;
+    --animation-btn: 0.2s;
 }
 
-:root,
-.dark {
-    --color-base-100: var(--b1);
-    --color-base-200: var(--b2);
-    --color-base-300: var(--b3);
+/* =========================================================
+   Custom Variants
+   ========================================================= */
+@custom-variant dark (&:where(.dark, .dark *));
+@custom-variant dark (&:where([data-theme=night], [data-theme=night] *));
 
-    --color-primary: var(--p);
-    --color-secondary: var(--s);
-    --color-accent: var(--a);
+/* =========================================================
+   Base Color Variables
+   ========================================================= */
+:root {
+    --daisy-base-100: #fafbfc;
+    --daisy-base-200: #f1f3f9;
+    --daisy-base-300: #e3e8f0;
+    --daisy-base-content: #1a1a1a;
 
-    --color-success: var(--su);
-    --color-warning: var(--wa);
-    --color-danger: var(--er);
+    --daisy-primary: #f59e5b;
+    --daisy-primary-content: #ffffff;
+
+    --daisy-secondary: #e8ede3;
+    --daisy-secondary-content: #1a1a1a;
+
+    --daisy-accent: #7fc3a0;
+    --daisy-accent-content: #0f5132;
+
+    --daisy-neutral: #495057;
+    --daisy-neutral-content: #ffffff;
+
+    --daisy-info: #17a2b8;
+    --daisy-info-content: #ffffff;
+
+    --daisy-success: #28a745;
+    --daisy-success-content: #ffffff;
+
+    --daisy-warning: #ffc107;
+    --daisy-warning-content: #1a1a1a;
+
+    --daisy-error: #dc3545;
+    --daisy-error-content: #ffffff;
+
+    --b1: var(--daisy-base-100);
+    --b2: var(--daisy-base-200);
+    --b3: var(--daisy-base-300);
+    --bc: var(--daisy-base-content);
+
+    --p: var(--daisy-primary);
+    --pc: var(--daisy-primary-content);
 }
 
-/**:focus-within {*/
-/*    border-color: transparent !important;*/
-/*    !*@apply outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500*!*/
-/*}*/
+/* Dark Overrides */
+.dark {
+    --daisy-base-100: #1a1d24;
+    --daisy-base-200: #252932;
+    --daisy-base-300: #343a46;
+    --daisy-base-content: #e8eaed;
 
+    --daisy-primary: #ffa366;
+    --daisy-primary-content: #1a1a1a;
+
+    --b1: var(--daisy-base-100);
+    --b2: var(--daisy-base-200);
+    --b3: var(--daisy-base-300);
+    --bc: var(--daisy-base-content);
+
+    --p: var(--daisy-primary);
+    --pc: var(--daisy-primary-content);
+}
+
+/* =========================================================
+   Utilities
+   ========================================================= */
+@layer utilities {
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+}
+
+/* =========================================================
+   Layout Effects
+   ========================================================= */
+.glass-header {
+    backdrop-filter: blur(12px);
+    background: color-mix(in srgb, var(--b1) 85%, transparent);
+    border-bottom: 1px solid var(--b3);
+    z-index: 40;
+}
+.dark .glass-header {
+    background: color-mix(in srgb, var(--b1) 90%, transparent);
+}
+
+.glass-sidebar {
+    backdrop-filter: blur(12px);
+    background: color-mix(in srgb, var(--b1) 90%, transparent);
+}
+
+/* =========================================================
+   Scrollbars
+   ========================================================= */
+.custom-scrollbar::-webkit-scrollbar { width: 4px; }
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: var(--p);
+    border-radius: 20px;
+}
+.custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+
+/* =========================================================
+   Forms
+   ========================================================= */
 .input {
     &:focus, &:focus-within {
         outline: 2px solid var(--color-primary);
@@ -299,19 +272,56 @@
     }
 }
 
-/* Alpine.js x-cloak - Hide elements until Alpine is ready */
-[x-cloak] {
-    display: none !important;
+/* =========================================================
+   Alpine Helpers
+   ========================================================= */
+[x-cloak] { display: none !important; }
+
+aside[x-cloak] { opacity: 0; transition: opacity .2s ease; }
+aside:not([x-cloak]) { opacity: 1; }
+
+/* =========================================================
+   maryUI Overrides
+   ========================================================= */
+.mary-table-pagination span[aria-current="page"] > span {
+    @apply bg-primary text-primary-content;
+}
+.mary-table-pagination button { @apply cursor-pointer; }
+
+.mary-active-menu { @apply text-white bg-primary; }
+
+/* =========================================================
+   PowerGrid Overrides
+   ========================================================= */
+.responsive-row-expand-container {
+    @apply flex-col rounded-md gap-y-5 bg-base-300;
+}
+.responsive-row-expand-item-container {
+    @apply flex items-center justify-between;
+}
+#power-grid-table-base > div > div:nth-child(2) {
+    @apply max-[600px]:flex max-md:flex-col gap-y-3;
+}
+#power-grid-table-base > div > div:nth-child(2) > label {
+    @apply rounded-lg max-md:w-full;
+}
+#power-grid-table-base table thead tr th:last-child,
+#power-grid-table-base table tbody tr td:last-child {
+    width: 0 !important;
+    white-space: nowrap;
 }
 
-/* Sidebar initial state - prevent FOUC */
-aside[x-cloak] {
-    opacity: 0;
-    transition: opacity 0.2s ease-in-out;
+#power-grid-table-base table thead tr th:first-child,
+#power-grid-table-base table tbody tr td:first-child {
+    width: 0 !important;
+    white-space: nowrap;
+    font-weight: bold;
+    text-align: center;
 }
 
-aside:not([x-cloak]) {
-    opacity: 1;
-}
-
-/* Metronic 4 styles moved to metronic-4.css */
+/* =========================================================
+   Footer
+   ========================================================= */
+#pg-footer nav { @apply ms-5; }
+#pg-footer nav > div .btn { @apply btn-sm; }
+#pg-footer nav > div a svg { @apply rtl:rotate-180; }

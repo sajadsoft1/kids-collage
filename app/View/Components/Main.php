@@ -80,7 +80,7 @@ class Main extends Component
 
                                  {{-- SIDEBAR COLLAPSE  --}}
                                 @if($sidebar->attributes['collapsible'])
-                                    <x-mary-menu class="sticky bottom-0 hidden lg:block bg-base-300">
+                                    <x-mary-menu class="hidden sticky bottom-0 lg:block bg-base-100">
                                         <x-mary-menu-item
                                             @click="toggle"
                                             icon="{{ $sidebar->attributes['collapse-icon'] ?? $collapseIcon }}"
