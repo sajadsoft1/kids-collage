@@ -53,9 +53,9 @@ use Laravel\Sanctum\PersonalAccessToken;
 // });
 
 // Web Pages
-Route::multilingual('/', HomePage::class)->name('home-page');
-Route::multilingual('blog', BlogPage::class)->name('blog');
-Route::multilingual('blog/{blog:slug}', BlogDetailPage::class)->name('blog.detail');
+// Route::multilingual('/', HomePage::class)->name('home-page');
+// Route::multilingual('blog', BlogPage::class)->name('blog');
+// Route::multilingual('blog/{blog:slug}', BlogDetailPage::class)->name('blog.detail');
 //
 // // Course Pages
 // Route::multilingual('course', BlogPage::class)->name('blog');
@@ -80,7 +80,7 @@ Route::multilingual('blog/{blog:slug}', BlogDetailPage::class)->name('blog.detai
 //
 // Route::multilingual('sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 // Route::multilingual('sitemap-article.xml', [SitemapController::class, 'article'])->name('sitemap-article');
-Auth::login(User::find(4));
+// Auth::login(User::find(4));
 Route::get('test', function () {
     return new App\Mail\NotificationMail([
         'title' => 'New Notification',
