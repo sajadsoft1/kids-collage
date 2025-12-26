@@ -55,8 +55,8 @@
     {{-- ═══════════════════════════════════════════════════════════════════════════ --}}
     {{-- TABS --}}
     {{-- ═══════════════════════════════════════════════════════════════════════════ --}}
-    <x-tabs wire:model="activeTab" active-class="bg-primary rounded !text-white" label-class="px-4 py-2 font-semibold"
-        label-div-class="p-2 mx-auto rounded bg-primary/5 w-fit">
+    <x-tabs wire:model="activeTab"active-class="bg-primary rounded !text-white" label-class="px-4 py-3 font-semibold"
+        label-div-class="p-2 rounded bg-base-100">
 
         {{-- TAB 1: AVAILABLE EXAMS --}}
         <x-tab name="available" :label="__('exam_list.tabs.available')" icon="o-clipboard-document-list">
