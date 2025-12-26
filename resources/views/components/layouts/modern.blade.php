@@ -1,4 +1,12 @@
-@php use App\Helpers\Constants; @endphp
+@php
+    use App\Helpers\Constants;
+
+    // Get container size from session, default to 'container'
+    $containerSize = session('container_size', 'container');
+    // Determine fullWidth: prioritize input parameter if set, otherwise use session container size
+    // Check if $fullWidth variable exists in the view scope
+    $isFullWidth = isset($fullWidth) ? (bool) $fullWidth : $containerSize === 'fluid';
+@endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ app()->getLocale() == 'fa' ? 'rtl' : 'ltr' }}">
 
@@ -6,7 +14,7 @@
 
 <body class="flex flex-col min-h-screen bg-base-200" x-data></body>
 
-<x-main full-width>
+<x-main :full-width="1">
 
     {{-- Modern Sidebar --}}
     {{-- Force all children to always use dark mode by wrapping in a "dark" div --}}
@@ -80,13 +88,14 @@
         {{-- Page Content with Glass Effect --}}
         <div @class([
             'flex flex-col flex-1',
-            'mb-4 px-4 sm:px-6 lg:px-8' => !isset($fullWidth) || !$fullWidth,
-            'px-0' => isset($fullWidth) && $fullWidth,
+            'mb-4 px-4 sm:px-6 lg:px-8' => !$isFullWidth,
+            'px-0' => $isFullWidth,
         ])>
             <div @class([
                 'flex flex-col flex-1',
-                'container mx-auto' => !isset($fullWidth) || !$fullWidth,
-                'container-fluid' => isset($fullWidth) && $fullWidth,
+                'container mx-auto' => !$isFullWidth,
+                'container-fluid' => $isFullWidth,
+                'px-4' => $containerSize === 'fluid' && !(isset($fullWidth) && $fullWidth),
             ])>
                 {{ $slot }}
             </div>

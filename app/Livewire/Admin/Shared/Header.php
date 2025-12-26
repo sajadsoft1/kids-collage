@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Livewire\Admin\Shared;
 
 use App\Helpers\NotifyHelper;
+use App\Helpers\Utils;
+use App\Models\Branch;
 use App\Models\User;
 use App\View\Composers\NavbarComposer;
 use Illuminate\Notifications\DatabaseNotification;
@@ -20,7 +22,11 @@ class Header extends Component
 
     public bool $notifications_drawer = false;
 
+    public bool $profile_drawer = false;
+
     public string $nav_class = '';
+
+    public string $container_size = 'container';
 
     #[Locked]
     public bool $showMenu = false;
@@ -30,6 +36,24 @@ class Header extends Component
     {
         $this->nav_class = $nav_class;
         $this->showMenu = $showMenu;
+        $this->container_size = session('container_size', 'container');
+    }
+
+    /** Toggle container size between container and fluid. */
+    public function toggleContainerSize(): void
+    {
+        $this->container_size = $this->container_size === 'container' ? 'fluid' : 'container';
+        session(['container_size' => $this->container_size]);
+        $this->dispatch('container-size-changed', size: $this->container_size);
+        $this->js('window.location.reload()');
+    }
+
+    /** Switch to a different branch. */
+    public function switchBranch(int $branchId): void
+    {
+        Utils::setCurrentBranchId($branchId);
+        $this->success('شعبه با موفقیت تغییر کرد');
+        $this->dispatch('branch-changed');
     }
 
     /** Show notification toast. */
@@ -49,6 +73,14 @@ class Header extends Component
 
     public function render(): View
     {
+        $user = Auth::user();
+        $branches = collect();
+        $currentBranchId = Utils::getCurrentBranchId();
+
+        if ($user instanceof User) {
+            $branches = $user->branches()->active()->get();
+        }
+
         return view('livewire.admin.shared.header', [
             'notificaations' => DatabaseNotification::query()
                 ->where('notifiable_type', User::class)
@@ -58,6 +90,9 @@ class Header extends Component
                 ->limit(5)
                 ->get(),
             'navbarMenu' => $this->showMenu ? $this->getNavbarMenu() : [],
+            'branches' => $branches,
+            'currentBranchId' => $currentBranchId,
+            'currentBranch' => Branch::find($currentBranchId),
         ]);
     }
 }
