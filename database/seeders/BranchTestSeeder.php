@@ -99,6 +99,7 @@ class BranchTestSeeder extends Seeder
 
         // Set current branch context
         Utils::setCurrentBranchId($branch->id);
+        $user->branches()->attach($branch->id);
 
         // Test Kanban System
         $this->testKanban($branch, $user);

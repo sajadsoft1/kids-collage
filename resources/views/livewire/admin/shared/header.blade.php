@@ -231,8 +231,9 @@
                 <h4 class="mb-3 text-sm font-semibold text-base-content/70">انتخاب شعبه</h4>
                 <div class="space-y-2">
                     @foreach ($branches as $branch)
-                        <button wire:click="switchBranch({{ $branch->id }})"
-                            class="w-full flex gap-3 items-center p-3 rounded-lg transition-colors text-right
+                        <button wire:click="switchBranch({{ $branch->id }})" wire:loading.attr="disabled"
+                            wire:target="switchBranch" wire:loading.class="opacity-50 cursor-not-allowed"
+                            class="w-full flex gap-3 items-center p-3 rounded-lg transition-colors text-right cursor-pointer
                             {{ $currentBranchId === $branch->id ? 'bg-primary/10 border border-primary/20' : 'hover:bg-base-200' }}">
                             <div class="flex-1">
                                 <div class="font-medium">{{ $branch->name }}</div>

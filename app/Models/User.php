@@ -86,6 +86,14 @@ class User extends Authenticatable implements HasMedia
             ->dontSubmitEmptyLogs();
     }
 
+    public static function boot(): void
+    {
+        parent::boot();
+        static::created(function (User $user) {
+            $user->branches()->attach(Branch::where('is_default', true)->first()->id);
+        });
+    }
+
     /** Model Relations -------------------------------------------------------------------------- */
     public function profile(): HasOne
     {

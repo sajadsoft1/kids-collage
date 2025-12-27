@@ -12,7 +12,7 @@ class NotificationService
     /** Get unread notifications count for user */
     public function getUnreadCount(User $user): int
     {
-        return Cache::remember(
+        return (int) Cache::remember(
             "user.{$user->id}.unread_notifications_count",
             60, // 1 minute cache
             fn () => $user->unreadNotifications()->count()

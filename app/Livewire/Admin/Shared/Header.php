@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Livewire\Admin\Shared;
 
-use App\Helpers\NotifyHelper;
 use App\Helpers\Utils;
 use App\Models\Branch;
 use App\Models\User;
@@ -52,17 +51,7 @@ class Header extends Component
     public function switchBranch(int $branchId): void
     {
         Utils::setCurrentBranchId($branchId);
-        $this->success('شعبه با موفقیت تغییر کرد');
-        $this->dispatch('branch-changed');
-    }
-
-    /** Show notification toast. */
-    public function toastNotification(string $notificationId): void
-    {
-        $notification = DatabaseNotification::find($notificationId);
-        if ($notification) {
-            $this->info(NotifyHelper::subTitle($notification->data));
-        }
+        $this->js('window.location.reload()');
     }
 
     /** Get the navigation menu for the current user. */

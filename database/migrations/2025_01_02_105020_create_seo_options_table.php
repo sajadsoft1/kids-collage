@@ -42,43 +42,43 @@ return new class extends Migration {
             // (noindex_nofollow): Don't index the page or follow its links.
             // (noindex_follow): Don't index the page but follow its links.
 
-            $table->string('og_image')->nullable()->after('description');
+            $table->string('og_image')->nullable();
             // Purpose: Custom Open Graph image for social media sharing.
             // Usage: Overrides default image when sharing on Facebook, LinkedIn, etc.
 
-            $table->string('twitter_image')->nullable()->after('og_image');
+            $table->string('twitter_image')->nullable();
             // Purpose: Custom Twitter Card image for Twitter sharing.
             // Usage: Optimized image specifically for Twitter cards.
 
-            $table->string('focus_keyword')->nullable()->after('twitter_image');
+            $table->string('focus_keyword')->nullable();
             // Purpose: Primary keyword for SEO optimization.
             // Usage: Helps track keyword density and optimization.
 
-            $table->text('meta_keywords')->nullable()->after('focus_keyword');
+            $table->text('meta_keywords')->nullable();
             // Purpose: Additional keywords for meta tags (optional, less important for modern SEO).
             // Usage: Comma-separated list of relevant keywords.
 
-            $table->string('author')->nullable()->after('meta_keywords');
+            $table->string('author')->nullable();
             // Purpose: Author name for articles and content.
             // Usage: Used in Article schema and author attribution.
 
-            $table->boolean('sitemap_exclude')->default(false)->after('author');
+            $table->boolean('sitemap_exclude')->default(false);
             // Purpose: Exclude this page from sitemap generation.
             // Usage: Set to true to prevent the page from appearing in XML sitemaps.
 
-            $table->decimal('sitemap_priority', 2, 1)->nullable()->after('sitemap_exclude');
+            $table->decimal('sitemap_priority', 2, 1)->nullable();
             // Purpose: Set sitemap priority (0.0 to 1.0).
             // Usage: Higher priority pages are crawled more frequently by search engines.
 
-            $table->string('sitemap_changefreq', 20)->nullable()->after('sitemap_priority');
+            $table->string('sitemap_changefreq', 20)->nullable();
             // Purpose: Set how frequently the page is expected to change.
             // Usage: Values: always, hourly, daily, weekly, monthly, yearly, never.
 
-            $table->string('image_alt')->nullable()->after('sitemap_changefreq');
+            $table->string('image_alt')->nullable();
             // Purpose: Alt text for the main image of the page.
             // Usage: Important for SEO and accessibility. Should describe the image content.
 
-            $table->string('image_title')->nullable()->after('image_alt');
+            $table->string('image_title')->nullable();
             // Purpose: Title attribute for the main image of the page.
             // Usage: Provides additional context when hovering over the image.
 
