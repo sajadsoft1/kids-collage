@@ -28,6 +28,7 @@
         "morilog/jalali": "^3.4",
         "owenvoke/blade-fontawesome": "^2.9",
         "power-components/livewire-powergrid": "^6.0",
+        "predis/predis": "^3.3",
         "robsontenorio/mary": "^2.0",
         "spatie/laravel-activitylog": "^4.8",
         "spatie/laravel-medialibrary": "^11.0",

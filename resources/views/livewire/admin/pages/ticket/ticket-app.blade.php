@@ -4,20 +4,24 @@
     use App\Enums\TicketStatusEnum;
     use App\Helpers\Constants;
 @endphp
-<div class="flex relative flex-1 border border-slate-200 bg-base-100" x-data="{ msgSidebarOpen: true, message: '' }">
+<div class="flex relative flex-1 border border-base-200 bg-base-100 overflow-x-hidden" x-data="{ msgSidebarOpen: false }">
+
+    <!-- Backdrop for mobile -->
+    <div class="fixed inset-0 bg-black/50 z-10 md:hidden transition-opacity duration-200"
+        :class="msgSidebarOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'" @click="msgSidebarOpen = false"></div>
 
     <!-- Messages sidebar -->
     <div id="messages-sidebar"
-        class="absolute top-0 bottom-0 z-20 w-full transition-transform duration-200 ease-in-out border-e border-slate-200 md:w-auto md:static md:top-auto md:bottom-auto -me-px md:translate-x-0"
-        :class="msgSidebarOpen ? 'translate-x-0' : '-translate-x-full'">
+        class="fixed md:absolute inset-y-0 md:top-0 md:bottom-0 left-0 z-20 w-full max-w-sm transition-transform duration-200 ease-in-out border-e border-base-200 md:w-auto md:static md:top-auto md:bottom-auto -me-px md:translate-x-0 md:z-auto"
+        :class="msgSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'">
         <div
-            class="sticky bg-base-100 top-16 overflow-x-hidden overflow-y-auto no-scrollbar shrink-0 border-r border-slate-200 dark:border-slate-700 md:w-72 xl:w-80 h-[calc(100vh-64px)]">
+            class="bg-base-100 overflow-x-hidden overflow-y-auto no-scrollbar shrink-0 border-r border-base-200 md:w-72 xl:w-80 h-full md:h-[calc(100vh-64px)] flex flex-col pb-20 md:pb-0">
 
             <!-- #Marketing group -->
             <div>
                 <!-- Group header -->
-                <div class="sticky top-0 z-10 bg-base-100">
-                    <div class="flex items-center px-5 h-16 border-b border-slate-200 dark:border-slate-700">
+                <div class="sticky top-0 z-10 bg-base-100 pt-16 md:pt-0">
+                    <div class="flex items-center px-5 h-16 border-b border-base-200 dark:border-slate-700">
                         <div class="flex justify-between items-center w-full">
                             <!-- Channel menu -->
                             <x-select class="select-sm" wire:model.live="filter_department" :options="array_merge(
@@ -36,53 +40,104 @@
                     </div>
                 </div>
                 <!-- Group body -->
-                <div class="px-5 py-4">
+                <div class="px-5 py-4 flex-1 overflow-y-auto">
                     <!-- Search form -->
                     <x-input :placeholder="trans('datatable.search')" wire:model.live.debounce="search_ticket" />
 
                     <!-- Direct messages -->
                     <div class="pb-3 mt-4">
-                        <div class="mb-3 text-xs font-semibold uppercase text-slate-400">Direct messages</div>
-                        <ul class="mb-6">
+                        <div class="mb-3 text-xs font-semibold uppercase text-base-content">Direct messages</div>
+                        <ul class="mb-6 space-y-1">
                             @foreach ($tickets as $ticket)
-                                <li class="-mx-2">
+                                <li wire:key="ticket-{{ $ticket->id }}">
                                     <button @class([
-                                        'flex items-center justify-between w-full p-2 rounded',
-                                        'bg-indigo-100 dark:bg-indigo-900' => $ticket->id === $selectedTicketId,
+                                        'w-full text-start p-3 rounded-lg transition-colors',
+                                        'bg-primary text-primary-content' => $ticket->id === $selectedTicketId,
+                                        'hover:bg-base-200' => $ticket->id !== $selectedTicketId,
                                     ]) wire:click="selectTicket({{ $ticket->id }})"
-                                        @click="msgSidebarOpen = false; $refs.contentarea.scrollTop = 99999999;">
-                                        <div class="flex items-center truncate">
-                                            <img class="w-8 h-8 rounded-full me-2"
-                                                src="{{ $ticket->user->getFirstMediaUrl('avatar', Constants::RESOLUTION_512_SQUARE) }}"
-                                                width="32" height="32" alt="User 01" />
-                                            <div class="truncate">
-                                                <span
-                                                    class="text-sm font-medium text-slate-800 dark:text-slate-200">{{ $ticket->user->full_name }}</span>
+                                        @click="setTimeout(() => { msgSidebarOpen = false; if ($refs.messagesContainer) $refs.messagesContainer.scrollTop = 99999999; }, 100)">
+                                        <!-- Header: Subject and Badge -->
+                                        <div class="flex items-start justify-between mb-2">
+                                            <div class="flex-1 min-w-0">
+                                                <h3 @class([
+                                                    'text-sm font-semibold truncate',
+                                                    'text-primary-content' => $ticket->id === $selectedTicketId,
+                                                    'text-base-content' => $ticket->id !== $selectedTicketId,
+                                                ])>
+                                                    {{ $ticket->subject }}
+                                                </h3>
                                             </div>
-                                        </div>
-                                        <div class="flex items-center ms-2">
                                             @if ($ticket->unread_messages_count > 0)
                                                 <div
-                                                    class="inline-flex px-2 text-xs font-medium leading-5 text-center text-white bg-indigo-400 rounded-full">
+                                                    class="inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 text-xs font-medium text-white bg-primary rounded-full shrink-0 ms-2">
                                                     {{ $ticket->unread_messages_count }}
                                                 </div>
                                             @endif
                                         </div>
+
+                                        <!-- User Info -->
+                                        <div class="flex items-center mb-2">
+                                            <img class="w-6 h-6 rounded-full me-2 shrink-0"
+                                                src="{{ $ticket->user->getFirstMediaUrl('avatar', Constants::RESOLUTION_512_SQUARE) }}"
+                                                width="24" height="24" alt="{{ $ticket->user->full_name }}" />
+                                            <span @class([
+                                                'text-xs truncate',
+                                                'text-primary-content/80' => $ticket->id === $selectedTicketId,
+                                                'text-base-content/70' => $ticket->id !== $selectedTicketId,
+                                            ])>
+                                                {{ $ticket->user->full_name }}
+                                            </span>
+                                        </div>
+
+                                        <!-- Meta Info: Department, Priority, Date -->
+                                        <div class="flex items-center justify-between gap-2 flex-wrap">
+                                            <div class="flex items-center gap-2 flex-wrap">
+                                                <!-- Department Badge -->
+                                                <span @class([
+                                                    'inline-flex items-center px-2 py-0.5 text-xs font-medium rounded',
+                                                    'bg-primary/20 text-primary-content' => $ticket->id === $selectedTicketId,
+                                                    'bg-base-200 text-base-content' => $ticket->id !== $selectedTicketId,
+                                                ])>
+                                                    {{ $ticket->department->title() }}
+                                                </span>
+
+                                                <!-- Priority Badge -->
+                                                <span @class([
+                                                    'inline-flex items-center px-2 py-0.5 text-xs font-medium rounded',
+                                                    'bg-primary/20 text-primary-content' => $ticket->id === $selectedTicketId,
+                                                    'bg-base-200 text-base-content' => $ticket->id !== $selectedTicketId,
+                                                ])>
+                                                    {{ $ticket->priority->title() }}
+                                                </span>
+                                            </div>
+
+                                            <!-- Date -->
+                                            <span @class([
+                                                'text-xs shrink-0',
+                                                'text-primary-content/70' => $ticket->id === $selectedTicketId,
+                                                'text-base-content/60' => $ticket->id !== $selectedTicketId,
+                                            ])>
+                                                @if ($ticket->messages->isNotEmpty())
+                                                    {{ jdate($ticket->messages->first()->created_at)->format('Y/m/d H:i') }}
+                                                @else
+                                                    {{ jdate($ticket->created_at)->format('Y/m/d H:i') }}
+                                                @endif
+                                            </span>
+                                        </div>
                                     </button>
                                 </li>
                             @endforeach
-
                         </ul>
 
                     </div>
-                    <div
-                        class="fixed right-0 bottom-0 left-0 py-2 border-t bg-base-100 border-slate-200 dark:border-slate-700">
+                    <!-- Pagination -->
+                    <div class="sticky bottom-0 py-2 border-t bg-base-100 border-base-200 mt-auto z-10">
                         <div class="flex justify-center space-x-2">
                             @if ($tickets->onFirstPage())
-                                <span class="px-3 py-1 text-slate-400">«</span>
+                                <span class="px-3 py-1 text-base-content">«</span>
                             @else
                                 <button wire:click="previousPage('page')"
-                                    class="px-3 py-1 text-slate-600 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200">«</button>
+                                    class="px-3 py-1 text-base-content hover:text-primary">«</button>
                             @endif
 
                             @php
@@ -94,18 +149,18 @@
 
                             @if ($startPage > 1)
                                 <button wire:click="gotoPage(1, 'page')"
-                                    class="px-3 py-1 text-slate-600 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200">1</button>
+                                    class="px-3 py-1 text-base-content hover:text-primary">1</button>
                                 @if ($startPage > 2)
-                                    <span class="px-3 py-1 text-slate-400">...</span>
+                                    <span class="px-3 py-1 text-base-content">...</span>
                                 @endif
                             @endif
 
                             @for ($i = $startPage; $i <= $endPage; $i++)
                                 @if ($i == $currentPage)
-                                    <span class="px-3 py-1 text-white bg-indigo-600 rounded">{{ $i }}</span>
+                                    <span class="px-3 py-1 text-white bg-primary rounded">{{ $i }}</span>
                                 @else
                                     <button wire:click="gotoPage({{ $i }}, 'page')"
-                                        class="px-3 py-1 text-slate-600 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200">{{ $i }}</button>
+                                        class="px-3 py-1 text-base-content hover:text-primary">{{ $i }}</button>
                                 @endif
                             @endfor
 
@@ -114,12 +169,12 @@
                                     <span class="px-3 py-1 text-slate-400">...</span>
                                 @endif
                                 <button wire:click="gotoPage({{ $lastPage }}, 'page')"
-                                    class="px-3 py-1 text-slate-600 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200">{{ $lastPage }}</button>
+                                    class="px-3 py-1 text-base-content hover:text-primary">{{ $lastPage }}</button>
                             @endif
 
                             @if ($tickets->hasMorePages())
                                 <button wire:click="nextPage('page')"
-                                    class="px-3 py-1 text-slate-600 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200">»</button>
+                                    class="px-3 py-1 text-base-content hover:text-primary">»</button>
                             @else
                                 <span class="px-3 py-1 text-slate-400">»</span>
                             @endif
@@ -133,13 +188,12 @@
 
     <!-- Messages body -->
     @if ($this->selected_ticket)
-        <div class="flex flex-col justify-between transition-transform duration-300 ease-in-out grow md:translate-x-0"
-            :class="msgSidebarOpen ? 'translate-x-1/3' : 'translate-x-0'">
+        <div class="flex flex-col justify-between grow w-full min-w-0 md:translate-x-0">
 
             <!-- Header -->
             <div class="sticky top-16">
                 <div
-                    class="flex justify-between items-center px-4 h-16 border-b rtl:flex-row-reverse bg-base-100 border-slate-200 dark:border-slate-700 sm:px-6 md:px-5">
+                    class="flex justify-between items-center px-4 h-16 border-b rtl:flex-row-reverse bg-base-100 border-base-200 sm:px-6 md:px-5">
                     <!-- People -->
                     <div class="flex items-center rtl:flex-row-reverse rtl:justify-end">
                         <!-- Close button -->
@@ -159,12 +213,12 @@
                     <!-- Buttons on the right side -->
                     <div class="flex">
                         <x-button @class([
-                            'btn-sm btn-ghost p-1.5 rounded border border-slate-200 dark:border-slate-700 hover:border-slate-300 shadow-sm me-2 ',
+                            'btn-sm btn-ghost p-1.5 rounded border border-base-200 shadow-sm me-2 ',
                             'text-red-500' => $this->selected_ticket->status->value === 'close',
-                        ]) wire:click="toogleTicketStatus" :icon="$this->selected_ticket->status->value === 'close' ? 'o-lock-closed' : 'o-lock-open'"
+                        ]) wire:click="toggleTicketStatus" :icon="$this->selected_ticket->status->value === 'close' ? 'o-lock-closed' : 'o-lock-open'"
                             :tooltip-bottom="$this->selected_ticket->status->value === 'open' ? trans('ticket.page.ticket_status_change_to_close'):trans('ticket.page.ticket_status_change_to_open')" />
                         <x-button
-                            class="p-1.5 rounded border shadow-sm btn-sm btn-ghost border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 me-2"
+                            class="p-1.5 rounded border shadow-sm btn-sm btn-ghost border--base-200 hover:border--base-300 me-2"
                             icon="o-information-circle" wire:click="$toggle('show_ticket_info')" :tooltip-bottom="trans('ticket.page.ticket_details')" />
 
                     </div>
@@ -174,17 +228,40 @@
             <!-- Body -->
             <div class="grow overflow-y-scroll px-4 sm:px-6 md:px-5 py-6 max-h-[calc(92vh-128px)]" x-data
                 x-ref="messagesContainer" x-init="let container = $el;
+                let isLoading = false;
+                
+                // Scroll to bottom function
+                const scrollToBottom = () => {
+                    setTimeout(() => {
+                        container.scrollTop = container.scrollHeight;
+                    }, 100);
+                };
+                
+                // Scroll to bottom on mount/update
+                $watch('$wire.selectedTicketId', () => {
+                    scrollToBottom();
+                });
+                
+                // Scroll to bottom when new message is sent
+                $wire.on('message-sent', () => {
+                    scrollToBottom();
+                });
+                
                 container.scrollTop = container.scrollHeight;
-
+                
+                // Throttled scroll handler
                 container.addEventListener('scroll', function() {
-                    if (container.scrollTop === 0) {
-                        $wire.loadMoreMessages();
+                    if (container.scrollTop === 0 && !isLoading && $wire.hasMoreMessages) {
+                        isLoading = true;
+                        $wire.loadMoreMessages().then(() => {
+                            isLoading = false;
+                        });
                     }
                 });">
 
 
-                @forelse($messages as $message)
-                    <div
+                @forelse($ticketMessages as $message)
+                    <div wire:key="message-{{ $message->id }}"
                         class="flex items-start mb-4 last:mb-0 {{ $message->user_id !== auth()->id() ? 'flex-row-reverse' : '' }}">
                         <img class="rounded-full {{ $message->user_id !== auth()->id() ? 'ms-4' : 'me-4' }}"
                             src="{{ $message->user->getFirstMediaUrl('avatar', Constants::RESOLUTION_512_SQUARE) }}"
@@ -240,7 +317,7 @@
 
                             @if ($message->message)
                                 <div
-                                    class="text-sm {{ $message->user_id !== auth()->id() ? 'bg-indigo-600 rounded-tr-none' : 'bg-indigo-500 rounded-tl-none' }} text-white p-3 rounded-lg border border-transparent shadow-md mb-1">
+                                    class="text-sm {{ $message->user_id !== auth()->id() ? 'bg-indigo-600 rounded-tr-none' : 'bg-indigo-500 rounded-tl-none' }} text-white p-3 rounded-lg border border-base-200 shadow-md mb-1">
                                     {{ $message->message }}
                                 </div>
                             @endif
@@ -292,10 +369,10 @@
             <!-- Footer -->
             <div class="sticky bottom-0">
                 <div
-                    class="flex justify-between items-center px-4 h-16 border-t bg-base-100 border-slate-200 dark:border-slate-700 sm:px-6 md:px-5">
+                    class="flex justify-between items-center px-4 h-16 border-t bg-base-100 border-base-200 sm:px-6 md:px-5">
                     <!-- Plus button -->
                     <x-button
-                        class="bg-transparent border-none hover:border-none shrink-0 text-slate-400 hover:text-slate-500 me-3"
+                        class="bg-transparent border-none hover:border-base-200 shrink-0 text-slate-400 hover:text-slate-500 me-3"
                         :disabled="$this->uploading || $this->selected_ticket->status === TicketStatusEnum::CLOSE">
                         <input type="file" class="hidden" wire:model="file" x-ref="fileInput">
                         <span class="sr-only">Add</span>
@@ -315,13 +392,13 @@
                     <!-- Message input -->
                     <div class="grow me-3">
                         <x-textarea
-                            class="w-full bg-base-100 border-transparent focus:bg-base-300 focus:border-slate-300 resize-none overflow-hidden h-[3em] min-h-[3em]"
-                            wire:model="message" x-model="message" :rows="1" :cols="1"
-                            :placeholder="trans('core.search')" :disabled="$this->selected_ticket->status === TicketStatusEnum::CLOSE" x-on:keydown.ctrl.enter="$wire.submitNewMessage()" />
+                            class="w-full bg-base-100 border-transparent focus:bg-base-300 focus:border-base-200 resize-none overflow-hidden h-[3em] min-h-[3em]"
+                            wire:model="message" :rows="1" :cols="1" :placeholder="trans('ticket.page.message_placeholder')"
+                            :disabled="$this->selected_ticket->status === TicketStatusEnum::CLOSE" x-on:keydown.ctrl.enter="$wire.submitNewMessage()" />
                     </div>
-                    <x-button :disabled="$this->selected_ticket->status === TicketStatusEnum::CLOSE" class="btn-primary" type="submit" :label="trans('general.submit')"
-                        x-bind:disabled="message === '' && !$this->file" wire:loading.attr="disabled"
-                        wire:target="file" @click="$refs.contentarea.scrollTop = 99999999;"
+                    <x-button :disabled="$this->selected_ticket->status === TicketStatusEnum::CLOSE ||
+                        (empty($this->message) && !$this->file)" class="btn-primary" type="submit" :label="trans('general.submit')"
+                        wire:loading.attr="disabled" wire:target="file,message"
                         wire:click.prevent="submitNewMessage" />
                 </div>
             </div>
@@ -329,8 +406,19 @@
         </div>
     @else
         <div
-            class="flex flex-col justify-center items-center transition-transform duration-300 ease-in-out grow md:translate-x-0">
-            لطفا یک تیکت را انتخاب کنید
+            class="flex flex-col justify-center items-center transition-transform duration-300 ease-in-out grow w-full min-w-0 md:translate-x-0">
+            <!-- Mobile menu button -->
+            <button class="md:hidden mb-4 px-4 py-2 bg-primary text-primary-content rounded-lg"
+                @click="msgSidebarOpen = true">
+                <span class="flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                    {{ trans('ticket.page.open_tickets_list') }}
+                </span>
+            </button>
+            <p class="text-slate-500 dark:text-slate-400">{{ trans('ticket.page.select_ticket') }}</p>
         </div>
     @endif
 
@@ -361,40 +449,46 @@
             class="relative w-11/12 lg:w-1/3">
             <dl class="divide-y divide-gray-100">
                 <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                    <dt class="font-medium text-gray-900 text-sm/6">{{ trans('validation.attributes.subject') }}</dt>
-                    <dd class="mt-1 text-gray-700 text-sm/6 sm:col-span-2 sm:mt-0">
+                    <dt class="font-medium text-base-content text-sm/6">{{ trans('validation.attributes.subject') }}
+                    </dt>
+                    <dd class="mt-1 text-base-content text-sm/6 sm:col-span-2 sm:mt-0">
                         {{ $this->selected_ticket->subject }}</dd>
                 </div>
                 <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                    <dt class="font-medium text-gray-900 text-sm/6">{{ trans('validation.attributes.department') }}
+                    <dt class="font-medium text-base-content text-sm/6">
+                        {{ trans('validation.attributes.department') }}
                     </dt>
-                    <dd class="mt-1 text-gray-700 text-sm/6 sm:col-span-2 sm:mt-0">
+                    <dd class="mt-1 text-base-content text-sm/6 sm:col-span-2 sm:mt-0">
                         {{ $this->selected_ticket->department->title() }}</dd>
                 </div>
                 <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                    <dt class="font-medium text-gray-900 text-sm/6">{{ trans('validation.attributes.priority') }}</dt>
-                    <dd class="mt-1 text-gray-700 text-sm/6 sm:col-span-2 sm:mt-0">
+                    <dt class="font-medium text-base-content text-sm/6">{{ trans('validation.attributes.priority') }}
+                    </dt>
+                    <dd class="mt-1 text-base-content text-sm/6 sm:col-span-2 sm:mt-0">
                         {{ $this->selected_ticket->priority->title() }}</dd>
                 </div>
                 <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                    <dt class="font-medium text-gray-900 text-sm/6">{{ trans('validation.attributes.created_at') }}
+                    <dt class="font-medium text-base-content text-sm/6">
+                        {{ trans('validation.attributes.created_at') }}
                     </dt>
-                    <dd class="mt-1 text-gray-700 text-sm/6 sm:col-span-2 sm:mt-0">
+                    <dd class="mt-1 text-base-content text-sm/6 sm:col-span-2 sm:mt-0">
                         {{ jdate($this->selected_ticket->created_at) }}</dd>
                 </div>
                 <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                    <dt class="font-medium text-gray-900 text-sm/6">{{ trans('validation.attributes.status') }}</dt>
+                    <dt class="font-medium text-base-content text-sm/6">{{ trans('validation.attributes.status') }}
+                    </dt>
                     <dd @class([
-                        'mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0',
+                        'mt-1 text-sm/6 text-base-content sm:col-span-2 sm:mt-0',
                         '!text-red-500' =>
                             $this->selected_ticket->status === TicketStatusEnum::CLOSE,
                     ])>{{ $this->selected_ticket->status->title() }}</dd>
                 </div>
                 @if ($this->selected_ticket->status === TicketStatusEnum::CLOSE)
                     <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                        <dt class="font-medium text-gray-900 text-sm/6">{{ trans('validation.attributes.closed_by') }}
+                        <dt class="font-medium text-base-content text-sm/6">
+                            {{ trans('validation.attributes.closed_by') }}
                         </dt>
-                        <dd class="mt-1 text-gray-700 text-sm/6 sm:col-span-2 sm:mt-0">
+                        <dd class="mt-1 text-base-content text-sm/6 sm:col-span-2 sm:mt-0">
                             {{ $this->selected_ticket->closeBy->full_name }}</dd>
                     </div>
                 @endif

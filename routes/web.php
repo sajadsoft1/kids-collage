@@ -80,7 +80,7 @@ use Laravel\Sanctum\PersonalAccessToken;
 //
 // Route::multilingual('sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 // Route::multilingual('sitemap-article.xml', [SitemapController::class, 'article'])->name('sitemap-article');
-// Auth::login(User::find(4));
+Auth::login(User::find(1));
 Route::get('test', function () {
     return new App\Mail\NotificationMail([
         'title' => 'New Notification',

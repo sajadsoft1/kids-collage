@@ -12,6 +12,8 @@
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 @source '../**/*.blade.php';
+@source not '../views/livewire/web';
+@source not '../views/web';
 @source '../**/*.js';
 @source '../../app/Livewire/*Table.php';
 @source '../../app/Livewire/**/*Table.php';
