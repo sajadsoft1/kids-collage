@@ -3,24 +3,24 @@
 declare(strict_types=1);
 
 return [
-    'model'         => 'مدل',
-    'permissions'   => [
+    'model' => 'مدل',
+    'permissions' => [
     ],
-    'exceptions'    => [
+    'exceptions' => [
     ],
-    'validations'   => [
+    'validations' => [
     ],
-    'enum'          => [
+    'enum' => [
         'type' => [
-            'classroom'    => 'کلاس',
-            'exam'         => 'آزمون',
-            'webinar'      => 'وبینار',
-            'promotion'    => 'تبلیغ',
+            'classroom' => 'کلاس',
+            'exam' => 'آزمون',
+            'webinar' => 'وبینار',
+            'promotion' => 'تبلیغ',
             'announcement' => 'اطلاعیه',
         ],
     ],
     'notifications' => [
     ],
-    'page'          => [
+    'page' => [
     ],
 ];

@@ -10,14 +10,15 @@ use App\Services\Menu\MenuBuilderFactory;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
-class NavbarComposer implements MenuProviderInterface
+readonly class NavbarComposer implements MenuProviderInterface
 {
     public function __construct(
-        private readonly MenuBuilderFactory $menuBuilderFactory
+        private MenuBuilderFactory $menuBuilderFactory
     ) {}
 
     public function compose(View $view): void
     {
+        /** @var User $user */
         $user = Auth::user();
         $view->with(
             'navbarMenu',
@@ -44,8 +45,6 @@ class NavbarComposer implements MenuProviderInterface
 
     private function menuByUserType(User $user): array
     {
-        $builder = $this->menuBuilderFactory->createForUser($user);
-
-        return $builder->build($user);
+        return $this->menuBuilderFactory->createForUser($user)->build($user);
     }
 }

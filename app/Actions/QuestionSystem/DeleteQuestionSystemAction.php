@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\QuestionSystem;
 
 use App\Models\QuestionSystem;
@@ -11,9 +13,7 @@ class DeleteQuestionSystemAction
 {
     use AsAction;
 
-    /**
-     * @throws Throwable
-     */
+    /** @throws Throwable */
     public function handle(QuestionSystem $questionSystem): bool
     {
         return DB::transaction(function () use ($questionSystem) {

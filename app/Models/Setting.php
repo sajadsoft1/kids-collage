@@ -13,9 +13,10 @@ use Spatie\Activitylog\LogOptions;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\SchemalessAttributes\Casts\SchemalessAttributes;
 
 /**
- * @property mixed $extra_attributes
+ * @property SchemalessAttributes $extra_attributes
  */
 class Setting extends Model implements HasMedia
 {
@@ -75,9 +76,9 @@ class Setting extends Model implements HasMedia
      * | Model Attributes -------------------------------------------------------------------------
      * |--------------------------------------------------------------------------
      */
-    public function getTitleAttribute(): string
+    public function getTitleAttribute(): ?string
     {
-        return SettingEnum::tryFrom($this->key)->title();
+        return SettingEnum::tryFrom($this->key)?->title();
     }
     /**
      * | Model Custom Methods ---------------------------------------------------------------------

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\FlashCard;
 
 use App\Models\FlashCard;
@@ -11,9 +13,7 @@ class DeleteFlashCardAction
 {
     use AsAction;
 
-    /**
-     * @throws Throwable
-     */
+    /** @throws Throwable */
     public function handle(FlashCard $flashCard): bool
     {
         return DB::transaction(function () use ($flashCard) {

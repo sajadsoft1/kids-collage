@@ -13,16 +13,10 @@ use App\Models\Resource;
 use App\Models\Room;
 use App\Models\Term;
 use App\Models\User;
-use App\Services\Menu\MenuPermissionChecker;
+use App\Services\Permissions\Models\SharedPermissions;
 
 class EmployeeMenuBuilder extends BaseMenuBuilder
 {
-    public function __construct(
-        MenuPermissionChecker $permissionChecker
-    ) {
-        parent::__construct($permissionChecker);
-    }
-
     /**
      * Build menu array for employee user
      *
@@ -38,28 +32,6 @@ class EmployeeMenuBuilder extends BaseMenuBuilder
                 'title' => trans('_menu.dashboard'),
                 'route_name' => 'admin.dashboard',
             ],
-            [
-                'icon' => 'o-bell',
-                'params' => [],
-                'title' => trans('_menu.notifications'),
-                'route_name' => 'admin.notification.index',
-                'access' => app()->environment('local'),
-            ],
-            [
-                'icon' => 'o-user-circle',
-                'exact' => true,
-                'title' => trans('_menu.profile'),
-                'route_name' => 'admin.app.profile',
-                'params' => ['user' => $user->id],
-            ],
-            [
-                'icon' => 'o-calendar',
-                'params' => [],
-                'title' => trans('_menu.calendar'),
-                'route_name' => 'admin.app.calendar',
-                'access' => app()->environment('local'),
-            ],
-
             // Education Management
             [
                 'icon' => 'o-academic-cap',
@@ -916,35 +888,37 @@ class EmployeeMenuBuilder extends BaseMenuBuilder
             ],
             [
                 'icon' => 'o-cog-8-tooth',
-                'badge' => trans('_menu.future_module'),
                 'title' => trans('_menu.system_settings'),
-                'route_name' => 'admin.feature-module',
-                'params' => ['module' => 'system-settings'],
-                'access' => $this->hasAccessToModule('base_settings.system_settings'),
+                'route_name' => 'admin.setting',
+                'params' => [],
+                'access' => auth()->user()->hasPermissionTo(SharedPermissions::Admin),
             ],
             [
                 'icon' => 'o-bell-alert',
                 'title' => trans('_menu.notification_templates'),
                 'route_name' => 'admin.notification-template.index',
+                'params' => ['channel' => 'database', 'locale' => app()->getLocale()],
                 'access' => $this->checkPermission([
                     fn (User $user) => $this->hasAccessToModule('base_settings.notification_templates'),
                 ]),
             ],
             [
                 'icon' => 'o-envelope',
-                'badge' => trans('_menu.future_module'),
                 'title' => trans('_menu.email_templates'),
-                'route_name' => 'admin.feature-module',
-                'params' => ['module' => 'email-templates'],
-                'access' => $this->hasAccessToModule('base_settings.email_templates'),
+                'route_name' => 'admin.notification-template.index',
+                'params' => ['channel' => 'email', 'locale' => app()->getLocale()],
+                'access' => $this->checkPermission([
+                    fn (User $user) => $this->hasAccessToModule('base_settings.email_templates'),
+                ]),
             ],
             [
                 'icon' => 'o-chat-bubble-bottom-center-text',
-                'badge' => trans('_menu.future_module'),
                 'title' => trans('_menu.sms_templates'),
-                'route_name' => 'admin.feature-module',
-                'params' => ['module' => 'sms-templates'],
-                'access' => $this->hasAccessToModule('base_settings.sms_templates'),
+                'route_name' => 'admin.notification-template.index',
+                'params' => ['channel' => 'sms', 'locale' => app()->getLocale()],
+                'access' => $this->checkPermission([
+                    fn (User $user) => $this->hasAccessToModule('base_settings.sms_templates'),
+                ]),
             ],
             [
                 'icon' => 'o-clipboard-document-list',

@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-
-use App\Livewire\Admin\Pages\Event\EventUpdateOrCreate;
 use App\Livewire\Admin\Pages\Event\EventTable;
+use App\Livewire\Admin\Pages\Event\EventUpdateOrCreate;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'admin/event', 'as' => 'admin.event.'], function () {

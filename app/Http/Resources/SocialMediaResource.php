@@ -29,13 +29,13 @@ class SocialMediaResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'         => $this->id,
-            'title'      => $this->title,
-            'published'  => $this->published,
-            'link'       => $this->link,
-            'ordering'   => $this->ordering,
-            'position'   => $this->position,
-            'color'      => $this->color,
+            'id' => $this->id,
+            'title' => $this->title,
+            'published' => $this->published,
+            'link' => $this->link,
+            'ordering' => $this->ordering,
+            'position' => $this->position,
+            'color' => $this->color,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

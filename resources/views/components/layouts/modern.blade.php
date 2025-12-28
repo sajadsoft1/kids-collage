@@ -24,24 +24,15 @@
         {{-- sidebar content starts here --}}
 
         {{-- Brand Header with Gradient --}}
-        <div class="sticky top-0 z-10 h-[64px]">
+        <div class="sticky top-0 z-10 h-[64px] bg-base-100">
             <div class="p-2 hidden-when-collapsed">
-                <div class="flex gap-3 items-center">
-                    <div class="flex justify-center items-center w-10 h-10 rounded-xl">
-                        <x-icon name="o-cube" class="w-6 h-6 text-primary" />
-                    </div>
-                    <div>
-                        <h1 class="text-xl font-bold">
-                            Karnoweb</h1>
-                        <p class="text-sm text-base-content/70">Admin Dashboard</p>
-                    </div>
-                </div>
+                <x-button class="text-start btn-ghost btn-block" :link="route('admin.dashboard')" icon="o-home" label="Karnoweb" />
             </div>
             <div class="hidden w-full h-full display-when-collapsed">
                 <div class="flex items-center w-full h-full">
-                    <div class="flex justify-center items-center mx-auto w-10 h-10 rounded-xl">
+                    <x-button class="flex justify-center items-center mx-auto w-10 h-10 rounded-xl btn-ghost" :link="route('admin.dashboard')">
                         <x-icon name="o-cube" class="w-6 h-6 text-primary" />
-                    </div>
+                    </x-button>
                 </div>
             </div>
         </div>
@@ -56,6 +47,7 @@
                                 @foreach (Arr::get($menu, 'sub_menu', []) as $subMenu)
                                     @if (Arr::get($subMenu, 'access', true))
                                         <x-menu-item :exact="Arr::get($subMenu, 'exact', false)" :title="Arr::get($subMenu, 'title')" :icon="Arr::get($subMenu, 'icon')"
+                                                     :no-wire-navigate="Arr::get($subMenu, 'disable_navigate', false)"
                                             :badge="Arr::get($subMenu, 'badge')" :badge-classes="Arr::get(
                                                 $subMenu,
                                                 'badge_classes',
@@ -73,6 +65,7 @@
                     @else
                         @if (Arr::get($menu, 'access', true))
                             <x-menu-item :exact="Arr::get($menu, 'exact', false)" :title="Arr::get($menu, 'title')" :icon="Arr::get($menu, 'icon')" :badge="Arr::get($menu, 'badge')"
+                                         :no-wire-navigate="Arr::get($menu, 'disable_navigate', false)"
                                 :badge-classes="Arr::get($menu, 'badge_classes', 'float-left')" :link="route(Arr::get($menu, 'route_name'), Arr::get($menu, 'params', []))" />
                         @endif
                     @endif

@@ -16,10 +16,7 @@
                 <span class="text-lg font-semibold">{{ config('app.name') }}</span>
             </a>
 
-            {{-- Horizontal Menu for Teacher/Parent/User --}}
             @if ($showMenu)
-
-
                 {{-- Mobile Menu Toggle --}}
                 <div class="lg:hidden" x-data="{ mobileMenuOpen: false }">
                     <x-button class="btn-ghost btn-square btn-sm" @click="mobileMenuOpen = true">
@@ -93,28 +90,15 @@
             {{-- Quick Actions (only for employees) --}}
             @if (!$showMenu)
                 <x-popover>
-                    <x-slot:trigger class="btn-ghost btn-sm btn-square">
-                        <x-icon name="o-rectangle-stack" class="w-5 h-5" />
+                    <x-slot:trigger>
+                        <x-button class="btn-ghost btn-sm btn-square" icon="o-rectangle-stack"/>
                     </x-slot:trigger>
                     <x-slot:content class="!w-70 grid grid-cols-4 gap-4">
-                        <x-button class="bg-primary text-white w-[50px] h-[50px]">
-                            <x-icon name="lucide.activity" />
-                        </x-button>
-                        <x-button class="bg-primary text-white w-[50px] h-[50px]">
-                            <x-icon name="lucide.activity" />
-                        </x-button>
-                        <x-button class="bg-primary text-white w-[50px] h-[50px]">
-                            <x-icon name="lucide.activity" />
-                        </x-button>
-                        <x-button class="bg-primary text-white w-[50px] h-[50px]">
-                            <x-icon name="lucide.activity" />
-                        </x-button>
-                        <x-button class="bg-primary text-white w-[50px] h-[50px]">
-                            <x-icon name="lucide.activity" />
-                        </x-button>
-                        <x-button class="bg-primary text-white w-[50px] h-[50px]">
-                            <x-icon name="lucide.activity" />
-                        </x-button>
+                        @foreach($this->quickAccess() as $menu)
+                            <x-button class="bg-primary text-white w-[50px] h-[50px]" :tooltip="$menu['label']" :link="$menu['route']">
+                                <x-icon :name="$menu['icon']" />
+                            </x-button>
+                        @endforeach
                     </x-slot:content>
                 </x-popover>
             @endif

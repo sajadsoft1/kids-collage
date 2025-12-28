@@ -1,17 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 return [
-    'model'         => 'مدل',
-    'permissions'   => [
+    'model' => 'مدل',
+    'permissions' => [
     ],
-    'exceptions'    => [
+    'exceptions' => [
     ],
-    'validations'   => [
+    'validations' => [
     ],
-    'enum'          => [
+    'enum' => [
     ],
     'notifications' => [
     ],
-    'page'          => [
+    'page' => [
     ],
 ];

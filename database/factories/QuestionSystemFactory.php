@@ -1,8 +1,10 @@
 <?php
 
-namespace Database\Factories;
-use App\Models\QuestionSystem;
+declare(strict_types=1);
 
+namespace Database\Factories;
+
+use App\Models\QuestionSystem;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class QuestionSystemFactory extends Factory
@@ -13,7 +15,7 @@ class QuestionSystemFactory extends Factory
     {
         return [
             'published' => true,
-            'languages'  => [app()->getLocale()]
+            'languages' => [app()->getLocale()],
         ];
     }
 
@@ -23,13 +25,13 @@ class QuestionSystemFactory extends Factory
             $model->translations()->createMany([
                 [
                     'locale' => app()->getLocale(),
-                    'key'    => 'title',
-                    'value'  => $this->faker->word(),
+                    'key' => 'title',
+                    'value' => $this->faker->word(),
                 ],
                 [
                     'locale' => app()->getLocale(),
-                    'key'    => 'description',
-                    'value'  => $this->faker->realText,
+                    'key' => 'description',
+                    'value' => $this->faker->realText,
                 ],
             ]);
         });

@@ -11,11 +11,12 @@ use App\Services\Menu\Builders\EmployeeMenuBuilder;
 use App\Services\Menu\Builders\ParentMenuBuilder;
 use App\Services\Menu\Builders\TeacherMenuBuilder;
 use App\Services\Menu\Builders\UserMenuBuilder;
+use App\Services\SmartCache;
 
-class MenuBuilderFactory
+readonly class MenuBuilderFactory
 {
     public function __construct(
-        private readonly MenuPermissionChecker $permissionChecker
+        private MenuPermissionChecker $permissionChecker
     ) {}
 
     /** Create menu builder for user type */
@@ -32,6 +33,10 @@ class MenuBuilderFactory
     /** Create menu builder for user */
     public function createForUser(User $user): BaseMenuBuilder
     {
-        return $this->createForUserType($user->type);
+        return SmartCache::for(User::class)
+            ->key('menu_builder_factory_' . $user->id)
+            ->remember(function () use ($user) {
+                return $this->createForUserType($user->type);
+            }, 3600);
     }
 }

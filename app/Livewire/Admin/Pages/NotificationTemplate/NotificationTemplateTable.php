@@ -31,6 +31,11 @@ final class NotificationTemplateTable extends PowerGridComponent
     public string $tableName = 'index_notificationTemplate_datatable';
     public string $sortDirection = 'desc';
 
+    public function beforePowerGridSetUp(): void
+    {
+        $this->persistItems = ['columns', 'sort'];
+    }
+
     public function boot(): void
     {
         $this->fixedColumns = ['id', 'name', 'actions'];

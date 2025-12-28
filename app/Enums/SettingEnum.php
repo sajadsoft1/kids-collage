@@ -14,6 +14,8 @@ enum SettingEnum: string
     case NOTIFICATION = 'notification';
     case SALE = 'sale';
     case SECURITY = 'security';
+    case SEO_PAGES = 'seo_pages';
+    case SITE_DATA = 'site_data';
 
     public static function websiteSettings(): array
     {
@@ -22,6 +24,8 @@ enum SettingEnum: string
             self::SECURITY->value,
             self::PRODUCT->value,
             self::SALE->value,
+            self::SEO_PAGES->value,
+            self::SITE_DATA->value,
         ];
     }
 

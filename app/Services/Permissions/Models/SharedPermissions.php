@@ -6,8 +6,8 @@ namespace App\Services\Permissions\Models;
 
 class SharedPermissions extends BasePermissions
 {
-    public const Admin = 'Admin';
-    public const ReceiveNewUserSms = 'ReceiveNewUserSms';
+    public const Admin = 'Shared.Admin';
+    public const ReceiveNewUserSms = 'Shared.ReceiveNewUserSms';
     protected string $model = 'Shared';
 
     public function __construct()

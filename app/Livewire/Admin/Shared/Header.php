@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Livewire\Admin\Shared;
 
+use App\Enums\UserTypeEnum;
 use App\Helpers\Utils;
 use App\Models\Branch;
 use App\Models\User;
@@ -58,6 +59,43 @@ class Header extends Component
     private function getNavbarMenu(): array
     {
         return app(NavbarComposer::class)->getMenu();
+    }
+
+    public function quickAccess(): array
+    {
+        $menus = collect([
+            [
+                'route' => route('admin.app.calendar'),
+                'label' => trans('_menu.calendar'),
+                'icon' => 'o-book-open',
+                'access' => true,
+            ],
+            [
+                'route' => route('admin.ticket.index'),
+                'label' => trans('_menu.ticket_management'),
+                'icon' => 'o-book-open',
+                'access' => true,
+            ],
+        ]);
+
+        switch (auth()->user()->type) {
+            case UserTypeEnum::EMPLOYEE:
+                $menus->push([
+                    'route' => route('admin.ticket.index'),
+                    'label' => trans('_menu.ticket_management'),
+                    'icon' => 'o-book-open',
+                    'access' => true,
+                ]);
+
+                break;
+            case UserTypeEnum::TEACHER:
+                break;
+            case UserTypeEnum::USER:
+            case UserTypeEnum::PARENT:
+                break;
+        }
+
+        return $menus->toArray();
     }
 
     public function render(): View

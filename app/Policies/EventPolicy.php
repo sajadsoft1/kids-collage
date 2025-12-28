@@ -10,7 +10,6 @@ use App\Services\Permissions\PermissionsService;
 
 class EventPolicy
 {
-
     public function viewAny(User $user): bool
     {
         return $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(Event::class, 'Index'));

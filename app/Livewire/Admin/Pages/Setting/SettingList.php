@@ -6,6 +6,7 @@ namespace App\Livewire\Admin\Pages\Setting;
 
 use App\Actions\Setting\UpdateSettingAction;
 use App\Enums\SettingEnum;
+use App\Exceptions\ValidationException;
 use App\Models\Setting;
 use App\Services\Setting\SettingService;
 use Illuminate\Database\Eloquent\Collection;
@@ -29,7 +30,7 @@ class SettingList extends Component
     {
         $this->settingService = $settingService;
 
-        $customOrder = ['integration_sync', 'notification', 'sale'];
+        $customOrder = ['general', 'integration_sync', 'notification', 'sale'];
         $cases = collect($customOrder)
             ->map(fn ($key, $i) => "WHEN `key` = ? THEN {$i}")
             ->implode(' ');
@@ -76,14 +77,8 @@ class SettingList extends Component
             $this->success(
                 title: trans('setting.setting_store_succesfully'),
             );
-        } catch (\App\Exceptions\ValidationException $e) {
+        } catch (ValidationException $e) {
             foreach (json_decode($e->getMessage(), true) as $key => $errorMessage) {
-                //                $key = company.postal_code
-                //
-                //                dd([
-                //                    $this->findDetailKey($key),
-                //                    $this->detail
-                //                ]);
                 $this->addError($this->findDetailKey($key), $errorMessage[0]); // Add the error to the error bag
             }
         }
@@ -139,6 +134,8 @@ class SettingList extends Component
                 'integration_sync' => 'lucide.folder-sync',
                 'notification' => 'lucide.message-square-share',
                 'sale' => 'lucide.shopping-cart',
+                'seo_pages' => 'lucide.search',
+                'site_data' => 'lucide.layout',
             ],
         ]);
     }

@@ -12,13 +12,14 @@ use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 trait PowerGridHelperTrait
 {
     public array $fixedColumns = ['title', 'actions'];
+    public array $persistItems = ['columns', 'filters', 'sort'];
 
     public function setUp(): array
     {
         $this->beforePowerGridSetUp();
         // The persist feature saves the state of columns, sorting, and filters so they can be reused in the future when the Table is loaded again.
         $this->persist(
-            tableItems: ['columns', 'filters', 'sort'],
+            tableItems: $this->persistItems,
             prefix: 'user_' . auth()->id() ?? ''
         );
         $setup = [

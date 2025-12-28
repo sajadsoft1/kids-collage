@@ -16,7 +16,7 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="front", type="string", default="test front content"),
  *     @OA\Property(property="back", type="string", default="test back content"),
  *     @OA\Property(property="favorite", type="boolean", default=false),
- *          @OA\Property(property="tags", type="array", @OA\Items(type="string")),
+ *     @OA\Property(property="tags", type="array", @OA\Items(type="string")),
  * )
  */
 class StoreFlashCardRequest extends FormRequest

@@ -21,6 +21,7 @@
     <script src="/assets/js/flatpickr.min.js"></script>
     @livewireStyles
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @stack('style')
 
     <script>
         // Define mainLayoutState before Alpine initializes

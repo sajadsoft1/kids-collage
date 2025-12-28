@@ -317,5 +317,69 @@ return [
                 ],
             ],
         ],
+        'seo_pages' => [
+            'label' => 'SEO Pages',
+            'help' => 'SEO settings for static pages such as blog and news lists.',
+            'groups' => [
+                'blog' => [
+                    'label' => 'Blog List',
+                    'help' => 'Settings for the blog list page',
+                ],
+                'news' => [
+                    'label' => 'News List',
+                    'help' => 'Settings for the news list page',
+                ],
+            ],
+            'items' => [
+                'title' => [
+                    'label' => 'Title',
+                    'help' => 'Page title used in the <title> tag.',
+                ],
+                'meta_description' => [
+                    'label' => 'Meta Description',
+                    'help' => 'Meta description for search engines.',
+                ],
+                'meta_keywords' => [
+                    'label' => 'Meta Keywords',
+                ],
+                'robots' => [
+                    'label' => 'Robots',
+                ],
+                'canonical' => [
+                    'label' => 'Canonical URL',
+                ],
+                // compatibility keys referenced in validation messages
+                'blog_title' => ['label' => 'Blog Title'],
+                'news_title' => ['label' => 'News Title'],
+            ],
+        ],
+
+        'site_data' => [
+            'label' => 'Site Data',
+            'help' => 'Settings related to content and lists across the site.',
+            'groups' => [
+                'homepage' => [
+                    'label' => 'Homepage',
+                    'help' => 'Settings for homepage sections',
+                ],
+                'lists' => [
+                    'label' => 'Lists',
+                    'help' => 'Pagination and list sizes',
+                ],
+                'sections' => [
+                    'label' => 'Sections',
+                    'help' => 'Toggle visibility of site sections',
+                ],
+            ],
+            'items' => [
+                'featured_count' => ['label' => 'Featured Items Count'],
+                'show_featured' => ['label' => 'Show Featured Section'],
+                'products_per_page' => ['label' => 'Products Per Page'],
+                'news_per_page' => ['label' => 'News Per Page'],
+                'blog_per_page' => ['label' => 'Blog Per Page'],
+                'show_news_section' => ['label' => 'Show News Section'],
+                'show_blog_section' => ['label' => 'Show Blog Section'],
+            ],
+        ],
     ],
 ];

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Event;
 
 use App\Models\Event;
@@ -11,9 +13,7 @@ class DeleteEventAction
 {
     use AsAction;
 
-    /**
-     * @throws Throwable
-     */
+    /** @throws Throwable */
     public function handle(Event $event): bool
     {
         return DB::transaction(function () use ($event) {

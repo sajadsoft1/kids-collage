@@ -1,8 +1,10 @@
 <?php
 
-namespace Database\Factories;
-use App\Models\FlashCard;
+declare(strict_types=1);
 
+namespace Database\Factories;
+
+use App\Models\FlashCard;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class FlashCardFactory extends Factory
@@ -13,7 +15,7 @@ class FlashCardFactory extends Factory
     {
         return [
             'published' => true,
-            'languages'  => [app()->getLocale()]
+            'languages' => [app()->getLocale()],
         ];
     }
 
@@ -23,13 +25,13 @@ class FlashCardFactory extends Factory
             $model->translations()->createMany([
                 [
                     'locale' => app()->getLocale(),
-                    'key'    => 'title',
-                    'value'  => $this->faker->word(),
+                    'key' => 'title',
+                    'value' => $this->faker->word(),
                 ],
                 [
                     'locale' => app()->getLocale(),
-                    'key'    => 'description',
-                    'value'  => $this->faker->realText,
+                    'key' => 'description',
+                    'value' => $this->faker->realText,
                 ],
             ]);
         });

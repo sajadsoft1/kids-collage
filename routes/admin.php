@@ -91,4 +91,4 @@ Route::group(['middleware' => ['admin.panel']], function () {
     require __DIR__ . '/admin/flashCard.php';
     require __DIR__ . '/admin/notebook.php';
 });
-Route::get('admin/metronic-test', \App\Livewire\Network\GetStarted::class)->name('admin.metronic.test');
+Route::get('admin/metronic-test', GetStarted::class)->name('admin.metronic.test');

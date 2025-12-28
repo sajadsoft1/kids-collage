@@ -21,7 +21,7 @@ class SecurityTemplate extends BaseTemplate
         $this->setting = $setting;
         $options = BooleanEnum::options();
         
-        $value1 = $this->selectOption($options, $this->setting->extra_attributes->get('captcha_handling', false));
+        $value1 = $this->selectOption($options, (bool) $this->setting->extra_attributes->get('captcha_handling', false));
         
         return [
             $this->record('captcha_handling', self::SELECT, default_value: false, options: $options, value: $value1['value']),

@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-
-use App\Livewire\Admin\Pages\Notebook\NotebookUpdateOrCreate;
 use App\Livewire\Admin\Pages\Notebook\NotebookTable;
+use App\Livewire\Admin\Pages\Notebook\NotebookUpdateOrCreate;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'admin/notebook', 'as' => 'admin.notebook.'], function () {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Notebook;
 
 use App\Models\Notebook;
@@ -11,9 +13,7 @@ class DeleteNotebookAction
 {
     use AsAction;
 
-    /**
-     * @throws Throwable
-     */
+    /** @throws Throwable */
     public function handle(Notebook $notebook): bool
     {
         return DB::transaction(function () use ($notebook) {

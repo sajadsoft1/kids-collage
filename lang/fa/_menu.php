@@ -60,7 +60,7 @@ return [
     'library' => 'کتابخانه',
     'content' => 'محتوا',
     'feature' => 'ماژول',
-    'future_module' => 'به زودی',
+    'future_module' => 'F',
     'flashcard' => 'فلش کارت',
     'my_notebook' => 'یادداشت های من',
 

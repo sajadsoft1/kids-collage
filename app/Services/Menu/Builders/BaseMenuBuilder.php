@@ -34,6 +34,6 @@ abstract class BaseMenuBuilder implements MenuBuilderInterface
     /** Check if user has access to module */
     protected function hasAccessToModule(string $moduleName): bool
     {
-        return $this->permissionChecker->hasAccessToModule($moduleName);
+        return $this->permissionChecker->hasAccessToModule($moduleName) || config('custom-modules.show_future_modules', false);
     }
 }
