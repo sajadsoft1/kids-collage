@@ -57,7 +57,7 @@ final class ClientTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Client::query();
+        return Client::with(['translations']);
     }
 
     public function relationSearch(): array

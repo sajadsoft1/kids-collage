@@ -61,7 +61,7 @@ final class BranchTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Branch::query();
+        return Branch::with(['translations']);
     }
 
     public function relationSearch(): array

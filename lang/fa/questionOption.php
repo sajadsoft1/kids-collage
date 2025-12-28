@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 return [
-    'model' => 'مدل',
+    'model' => 'گزینه سوال',
     'permissions' => [
     ],
     'exceptions' => [

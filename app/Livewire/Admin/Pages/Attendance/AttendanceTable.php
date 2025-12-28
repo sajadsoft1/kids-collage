@@ -58,8 +58,7 @@ final class AttendanceTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Attendance::query()
-            ->with(['enrollment.user', 'session.course']);
+        return Attendance::with(['enrollment.user', 'session.course']);
     }
 
     public function relationSearch(): array

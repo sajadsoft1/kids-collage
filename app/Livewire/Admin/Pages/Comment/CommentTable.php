@@ -59,7 +59,7 @@ final class CommentTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Comment::query();
+        return Comment::with(['translations']);
     }
 
     public function relationSearch(): array

@@ -56,7 +56,7 @@ final class BannerTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Banner::query();
+        return Banner::with(['translations']);
     }
 
     public function relationSearch(): array

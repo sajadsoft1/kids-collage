@@ -40,7 +40,7 @@ final class CategoryTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Category::query()->where('type', $this->type);
+        return Category::where('type', $this->type);
     }
 
     public function relationSearch(): array

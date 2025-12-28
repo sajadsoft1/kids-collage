@@ -61,8 +61,7 @@ final class BulletinTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Bulletin::query()
-            ->with(['user', 'category']);
+        return Bulletin::with(['user', 'category']);
     }
 
     public function relationSearch(): array

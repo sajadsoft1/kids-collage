@@ -49,7 +49,7 @@ final class QuestionTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Question::where('is_survey_question', false)->query();
+        return Question::where('is_survey_question', false);
     }
 
     public function relationSearch(): array

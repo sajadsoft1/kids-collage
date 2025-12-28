@@ -67,8 +67,7 @@ final class CourseTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Course::query()
-            ->where('course_template_id', $this->courseTemplate->id)
+        return Course::where('course_template_id', $this->courseTemplate->id)
             ->with(['teacher', 'template.category', 'term']);
     }
 

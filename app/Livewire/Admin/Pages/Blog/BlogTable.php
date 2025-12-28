@@ -62,7 +62,7 @@ final class BlogTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Blog::query();
+        return Blog::with(['translations', 'category.translations']);
     }
 
     public function relationSearch(): array

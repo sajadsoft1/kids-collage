@@ -35,7 +35,7 @@ trait HasBranchScope
      *
      * @param \Illuminate\Database\Query\Builder $query
      */
-    public function newEloquentBuilder($query): BranchBuilder
+    public function newEloquentBuilder($query)
     {
         return new BranchBuilder($query);
     }

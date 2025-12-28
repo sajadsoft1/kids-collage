@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 return [
-    'model' => 'Model',
+    'model' => 'SEO Option',
     'permissions' => [
     ],
     'exceptions' => [

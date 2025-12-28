@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 return [
+    'model' => 'Question',
     'builder' => [
         'common' => [
             'settings' => 'Settings',

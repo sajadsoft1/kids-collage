@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Query;
 
+use App\Scopes\BranchScope;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -22,9 +23,9 @@ class BranchBuilder extends Builder
      *
      * @return $this
      */
-    public function withAllBranches(): static
+    public function withAllBranches()
     {
-        return $this->withoutGlobalScope(\App\Scopes\BranchScope::class);
+        return $this->withoutGlobalScope(BranchScope::class);
     }
 
     /**
@@ -32,7 +33,7 @@ class BranchBuilder extends Builder
      *
      * @return $this
      */
-    public function forBranch(int $branchId): static
+    public function forBranch(int $branchId)
     {
         return $this->where($this->getModel()->getTable() . '.branch_id', $branchId);
     }

@@ -50,7 +50,7 @@ final class ContactUsTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return ContactUs::query();
+        return ContactUs::with(['follow_up']);
     }
 
     public function relationSearch(): array
