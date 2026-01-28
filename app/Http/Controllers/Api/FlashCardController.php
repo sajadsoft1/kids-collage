@@ -32,7 +32,7 @@ class FlashCardController extends Controller
     private function query(array $payload = []): QueryBuilder
     {
         return QueryBuilder::for(FlashCard::query())
-            ->with('user')
+            ->with(['user', 'taxonomy'])
             ->when($limit = Arr::get($payload, 'limit'), fn ($q) => $q->limit($limit))
             ->where('user_id', auth()->user()->id)
             ->defaultSort('-id')
@@ -91,8 +91,47 @@ class FlashCardController extends Controller
                 'sort' => [
                     ['label' => '', 'value' => 'id', 'selected' => true, 'default' => true],
                 ],
+
             ]
         );
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/flash-card/extra-data",
+     *     operationId="getExtraDataFlashCards",
+     *     tags={"FlashCard"},
+     *     summary="get flashCard list details",
+     *     description="Returns  flashCard list details ",
+     *     @OA\Response(response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(type="object",
+     *             @OA\Property(property="message", type="string", default="No message"),
+     *
+     *         )
+     *     )
+     * )
+     * @throws Throwable
+     */
+    public function detailsIndex(Request $request): JsonResponse
+    {
+        $query = FlashCard::with('leitnerLogs')
+            ->where('user_id', auth()->id());
+        $masteredCount = (clone $query)->whereHas('leitnerLogs', fn ($q) => $q->where('finished', true))->count();
+        $totalCount = $query->count();
+        $newCount = (clone $query)->doesntHave('leitnerLogs')->count();
+        $readableCount = (clone $query)
+            ->whereHas('leitnerLogs', fn ($q) => $q->where('next_review_at', '<=', now())->where('finished', false))
+            ->count();
+
+        return Response::data([
+            'mastered_count' => $masteredCount,
+            'new_count' => $newCount,
+            'total_count' => $totalCount,
+            'in_progress_count' => $totalCount - $masteredCount - $newCount,
+            'readable_today_count' => $readableCount,
+            'favorites_count' => $query->where('favorite', true)->count(),
+        ]);
     }
 
     /**
