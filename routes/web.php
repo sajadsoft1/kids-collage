@@ -120,8 +120,3 @@ Route::get('remove-session/{token}', function (Request $request, string $token) 
 
     return redirect(config('app.frontend_url') . $request->input('intent'));
 })->name('auth.logout');
-
-// laravel not found route
-Route::fallback(function () {
-    return redirect('/admin');
-});

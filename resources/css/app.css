@@ -275,6 +275,20 @@
 }
 
 /* =========================================================
+   Datepicker (karnoweb/livewire-datepicker) – dark only when .dark is active
+   ========================================================= */
+.dark .dp-wrapper {
+    --dp-bg: 31 41 55;
+    --dp-bg-secondary: 55 65 81;
+    --dp-text: 249 250 251;
+    --dp-text-secondary: 156 163 175;
+    --dp-border: 75 85 99;
+    --dp-hover: 55 65 81;
+    --dp-today: 120 53 15;
+    --dp-range: 30 58 138;
+}
+
+/* =========================================================
    Alpine Helpers
    ========================================================= */
 [x-cloak] { display: none !important; }

@@ -7,6 +7,7 @@ use App\Livewire\Admin\Auth\LoginPage;
 use App\Livewire\Admin\Pages\Dashboard\DashboardIndex;
 use App\Livewire\Admin\Pages\Setting\SettingList;
 use App\Livewire\Admin\Pages\Test\TestChart;
+use App\Livewire\Admin\Pages\User\UserUpdateOrCreate;
 use App\Livewire\Admin\Shared\DynamicSeo;
 use App\Livewire\Admin\Shared\DynamicTranslate;
 use App\Livewire\Admin\Test\ErrorHandlingDemo;
@@ -44,6 +45,7 @@ Route::group(['middleware' => ['admin.panel']], function () {
 
     Route::get('utilitys/translate/{class}/{id}', DynamicTranslate::class)->name('admin.dynamic-translate');
     Route::get('utility/seo/{class}/{id}', DynamicSeo::class)->name('admin.dynamic-seo');
+    Route::get('admin/user/create', UserUpdateOrCreate::class)->name('admin.user.create');
     require __DIR__ . '/admin/apps.php';
     require __DIR__ . '/admin/attendance.php';
     require __DIR__ . '/admin/banner.php';
@@ -92,3 +94,8 @@ Route::group(['middleware' => ['admin.panel']], function () {
     require __DIR__ . '/admin/notebook.php';
 });
 Route::get('admin/metronic-test', GetStarted::class)->name('admin.metronic.test');
+
+// Laravel fallback: must be last so admin routes are matched first
+Route::fallback(function () {
+    return redirect('/admin');
+});

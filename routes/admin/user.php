@@ -11,24 +11,23 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'admin/user', 'as' => 'admin.user.'], function () {
     Route::get('/', UserIndex::class)->name('index');
-    Route::get('create', UserUpdateOrCreate::class)->name('create');
-    Route::get('{user}/edit', UserUpdateOrCreate::class)->name('edit');
+    Route::get('{user}/edit', UserUpdateOrCreate::class)->name('edit')->whereNumber('user');
 });
 
 Route::group(['prefix' => 'admin/parent', 'as' => 'admin.parent.'], function () {
-    Route::get('/', ParentIndex::class)->name('index');
     Route::get('create', UserUpdateOrCreate::class)->name('create');
-    Route::get('{user}/edit', UserUpdateOrCreate::class)->name('edit');
+    Route::get('/', ParentIndex::class)->name('index');
+    Route::get('{user}/edit', UserUpdateOrCreate::class)->name('edit')->whereNumber('user');
 });
 
 Route::group(['prefix' => 'admin/employee', 'as' => 'admin.employee.'], function () {
-    Route::get('/', EmployeeIndex::class)->name('index');
     Route::get('create', UserUpdateOrCreate::class)->name('create');
-    Route::get('{user}/edit', UserUpdateOrCreate::class)->name('edit');
+    Route::get('/', EmployeeIndex::class)->name('index');
+    Route::get('{user}/edit', UserUpdateOrCreate::class)->name('edit')->whereNumber('user');
 });
 
 Route::group(['prefix' => 'admin/teacher', 'as' => 'admin.teacher.'], function () {
-    Route::get('/', TeacherIndex::class)->name('index');
     Route::get('create', UserUpdateOrCreate::class)->name('create');
-    Route::get('{user}/edit', UserUpdateOrCreate::class)->name('edit');
+    Route::get('/', TeacherIndex::class)->name('index');
+    Route::get('{user}/edit', UserUpdateOrCreate::class)->name('edit')->whereNumber('user');
 });

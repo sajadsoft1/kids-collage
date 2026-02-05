@@ -7,10 +7,13 @@ namespace App\Helpers;
 use App\Enums\BooleanEnum;
 use App\Services\Permissions\PermissionsService;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
+use PowerComponents\LivewirePowerGrid\Components\Filters\FilterInputText;
+use PowerComponents\LivewirePowerGrid\Facades\Filter;
 
 class PowerGridHelper
 {
@@ -315,6 +318,51 @@ class PowerGridHelper
     {
         return Column::make(trans('datatable.created_at'), $field, $dataField)
             ->sortable();
+    }
+
+    /**
+     * Date filter using powergrid-jalali-datepicker. Supports single date and range.
+     * Does not touch PowerGrid core views.
+     *
+     * @param array{title?: string, maxDate?: string, minDate?: string, range?: bool} $params
+     */
+    public static function filterDatepickerJalali(
+        string $column = 'created_at_formatted',
+        string $field = 'created_at',
+        array $params = [],
+    ): FilterInputText {
+        $title = $params['title'] ?? trans('datatable.created_at');
+        $range = $params['range'] ?? true;
+
+        $attributes = array_filter([
+            'title' => $title,
+            'range' => $range,
+            'maxDate' => $params['maxDate'] ?? null,
+            'minDate' => $params['minDate'] ?? null,
+        ], fn ($v) => $v !== null);
+
+        return Filter::inputText($column, $field)
+            ->component('powergrid-jalali-datepicker', $attributes)
+            ->builder(function (Builder $query, $value) use ($field): Builder {
+                $raw = $value['value'] ?? null;
+                if ($raw === null || $raw === '') {
+                    return $query;
+                }
+                $filterValue = is_string($raw) ? json_decode($raw, true) : $raw;
+
+                if (is_array($filterValue) && isset($filterValue['start'], $filterValue['end']) && (string) $filterValue['end'] !== '') {
+                    return $query->whereBetween($field, [$filterValue['start'], $filterValue['end']]);
+                }
+
+                $single = is_array($filterValue) && isset($filterValue['start'])
+                    ? $filterValue['start']
+                    : (is_string($filterValue) ? $filterValue : null);
+                if ($single !== null && $single !== '') {
+                    return $query->whereDate($field, $single);
+                }
+
+                return $query;
+            });
     }
 
     public static function columnUpdatedAT(string $field = 'updated_at_formatted', string $dataField = 'updated_at'): Column

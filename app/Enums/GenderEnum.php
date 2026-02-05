@@ -13,8 +13,8 @@ enum GenderEnum: string
     public function title()
     {
         return match ($this) {
-            self::MALE => 'مرد',
-            self::FEMALE => 'زن'
+            self::MALE => trans('user.gender.male'),
+            self::FEMALE => trans('user.gender.female')
         };
     }
 

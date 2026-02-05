@@ -10,12 +10,6 @@
                 </label>
             @endif
 
-            {{-- Brand --}}
-            <a href="{{ route('admin.dashboard') }}" class="flex gap-2 items-center shrink-0">
-                <x-icon name="o-cube" class="w-6 h-6 text-primary" />
-                <span class="text-lg font-semibold">{{ config('app.name') }}</span>
-            </a>
-
             @if ($showMenu)
                 {{-- Mobile Menu Toggle --}}
                 <div class="lg:hidden" x-data="{ mobileMenuOpen: false }">
@@ -91,11 +85,12 @@
             @if (!$showMenu)
                 <x-popover>
                     <x-slot:trigger>
-                        <x-button class="btn-ghost btn-sm btn-square" icon="o-rectangle-stack"/>
+                        <x-button class="btn-ghost btn-sm btn-square" icon="o-rectangle-stack" />
                     </x-slot:trigger>
                     <x-slot:content class="!w-70 grid grid-cols-4 gap-4">
-                        @foreach($this->quickAccess() as $menu)
-                            <x-button class="bg-primary text-white w-[50px] h-[50px]" :tooltip="$menu['label']" :link="$menu['route']">
+                        @foreach ($this->quickAccess() as $menu)
+                            <x-button class="bg-primary text-white w-[50px] h-[50px]" :tooltip="$menu['label']"
+                                :link="$menu['route']">
                                 <x-icon :name="$menu['icon']" />
                             </x-button>
                         @endforeach

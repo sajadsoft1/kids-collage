@@ -72,7 +72,7 @@
                   </div>
 
                   {{-- Progress Bar --}}
-                  <div class="space-y-2">
+                  {{-- <div class="space-y-2">
                       <div class="flex justify-between items-center text-sm">
                           <span class="font-semibold text-base-content">100%</span>
                           <span class="text-base-content/70">پیشرفت</span>
@@ -81,14 +81,14 @@
                           <div class="h-full rounded-full transition-all duration-300 bg-success" style="width: 100%">
                           </div>
                       </div>
-                  </div>
+                  </div> --}}
               </div>
 
 
           </div>
 
           {{-- Statistics Section --}}
-          <div class="pt-6 mt-6 border-t border-base-300">
+          <div class="pt-6 mt-6 border-t border-base-300" hidden>
               <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
                   <!-- Income -->
                   <div class="flex gap-4 justify-center items-start">
@@ -144,7 +144,8 @@
               <x-tab name="information-tab" label="{{ __('user.profile.tabs.information-tab') }}" icon="lucide.user">
                   <livewire:admin.pages.profile.update-information-section />
               </x-tab>
-              <x-tab name="settings-tab" label="{{ __('user.profile.tabs.settings-tab') }}" icon="lucide.settings">
+              <x-tab name="settings-tab" label="{{ __('user.profile.tabs.settings-tab') }}" icon="lucide.settings"
+                  hidden>
                   <livewire:admin.pages.profile.setting-section />
               </x-tab>
               <x-tab name="security-tab" label="{{ __('user.profile.tabs.security-tab') }}" icon="lucide.shield">

@@ -24,16 +24,29 @@
         {{-- sidebar content starts here --}}
 
         {{-- Brand Header with Gradient --}}
-        <div class="sticky top-0 z-10 h-[64px] bg-base-100">
-            <div class="p-2 hidden-when-collapsed">
-                <x-button class="text-start btn-ghost btn-block" :link="route('admin.dashboard')" icon="o-home" label="Karnoweb" />
+        {{-- Sidebar Brand Header --}}
+        <div
+            class="sticky top-0 z-20 bg-gradient-to-b from-primary/80 to-base-100 shadow-lg h-[74px] flex items-center justify-center">
+            {{-- Full logo and name when sidebar expanded --}}
+            <div class="flex gap-3 items-center px-4 py-3 w-full hidden-when-collapsed">
+                <a href="{{ route('admin.dashboard') }}" class="flex gap-3 items-center group">
+                    <img src="/assets/images/logo.png" alt="Logo"
+                        class="p-1 w-10 h-10 rounded-2xl shadow-lg transition-transform duration-200 group-hover:scale-105 bg-white/90" />
+                    <span
+                        class="text-xl font-extrabold tracking-tight transition-colors duration-200 select-none text-primary-content group-hover:text-primary">
+                        Lilingo
+                    </span>
+                </a>
             </div>
+            {{-- Compact logo when sidebar collapsed --}}
             <div class="hidden w-full h-full display-when-collapsed">
-                <div class="flex items-center w-full h-full">
-                    <x-button class="flex justify-center items-center mx-auto w-10 h-10 rounded-xl btn-ghost" :link="route('admin.dashboard')">
-                        <x-icon name="o-cube" class="w-6 h-6 text-primary" />
-                    </x-button>
-                </div>
+                <a href="{{ route('admin.dashboard') }}" class="flex justify-center items-center w-full h-full group">
+                    <span class="relative">
+                        <img src="/assets/images/logo.png" alt="Logo"
+                            class="p-1 mx-auto w-10 h-10 rounded-2xl shadow-lg transition-transform duration-200 group-hover:scale-110 bg-white/90" />
+                        <span class="sr-only">Lilingo</span>
+                    </span>
+                </a>
             </div>
         </div>
 
@@ -47,8 +60,7 @@
                                 @foreach (Arr::get($menu, 'sub_menu', []) as $subMenu)
                                     @if (Arr::get($subMenu, 'access', true))
                                         <x-menu-item :exact="Arr::get($subMenu, 'exact', false)" :title="Arr::get($subMenu, 'title')" :icon="Arr::get($subMenu, 'icon')"
-                                                     :no-wire-navigate="Arr::get($subMenu, 'disable_navigate', false)"
-                                            :badge="Arr::get($subMenu, 'badge')" :badge-classes="Arr::get(
+                                            :no-wire-navigate="Arr::get($subMenu, 'disable_navigate', false)" :badge="Arr::get($subMenu, 'badge')" :badge-classes="Arr::get(
                                                 $subMenu,
                                                 'badge_classes',
                                                 'float-left badge-info badge-dash',
@@ -65,8 +77,7 @@
                     @else
                         @if (Arr::get($menu, 'access', true))
                             <x-menu-item :exact="Arr::get($menu, 'exact', false)" :title="Arr::get($menu, 'title')" :icon="Arr::get($menu, 'icon')" :badge="Arr::get($menu, 'badge')"
-                                         :no-wire-navigate="Arr::get($menu, 'disable_navigate', false)"
-                                :badge-classes="Arr::get($menu, 'badge_classes', 'float-left')" :link="route(Arr::get($menu, 'route_name'), Arr::get($menu, 'params', []))" />
+                                :no-wire-navigate="Arr::get($menu, 'disable_navigate', false)" :badge-classes="Arr::get($menu, 'badge_classes', 'float-left')" :link="route(Arr::get($menu, 'route_name'), Arr::get($menu, 'params', []))" />
                         @endif
                     @endif
                 @endforeach
@@ -76,8 +87,10 @@
 
     {{-- Main Content Area --}}
     <x-slot:content class="!p-0 flex flex-col flex-1 min-h-0">
-        {{-- Modern Header Bar --}}
-        <livewire:admin.shared.header nav_class="bg-base-100 shadow" />
+        {{-- Modern Header Bar (sticky) --}}
+        <div class="sticky top-0 z-30 shrink-0">
+            <livewire:admin.shared.header nav_class="bg-base-100 shadow" />
+        </div>
         {{-- Page Content with Glass Effect --}}
         <div @class([
             'flex flex-col flex-1',

@@ -24,6 +24,7 @@ class SettingList extends Component
 
     public $detail = [];
     public array $data = [];
+    public bool $showDrawer = false;
     private SettingService $settingService;
 
     public function boot(SettingService $settingService): void

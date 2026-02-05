@@ -145,5 +145,26 @@ class AppServiceProvider extends ServiceProvider
                             </script>
                 HTML;
         });
+
+        // Setting-related Blade directives
+        Blade::if('setting', function (string|\App\Enums\SettingEnum $enum, string $selector, mixed $expected = null) {
+            if ($expected === null) {
+                return settingEnabled($enum, $selector);
+            }
+
+            return settingIs($enum, $selector, $expected);
+        });
+
+        Blade::if('settingEnabled', function (string|\App\Enums\SettingEnum $enum, string $selector) {
+            return settingEnabled($enum, $selector);
+        });
+
+        Blade::if('settingDisabled', function (string|\App\Enums\SettingEnum $enum, string $selector) {
+            return settingDisabled($enum, $selector);
+        });
+
+        Blade::directive('setting', function (string $expression) {
+            return "<?php echo e(setting({$expression})); ?>";
+        });
     }
 }

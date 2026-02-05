@@ -174,3 +174,62 @@ if ( ! function_exists('is_route_active')) {
         return $menuService->isRouteActive($routeName, $params, $exact);
     }
 }
+
+if ( ! function_exists('setting')) {
+    /**
+     * Get a setting value from the system.
+     *
+     * Supports both SettingEnum and string keys with optional dot notation for nested values.
+     *
+     * Examples:
+     *   setting('general')                    // Get all general settings
+     *   setting('general', 'company.name')    // Get specific nested value
+     *   setting('security', 'captcha_handling', false) // With default
+     *   setting(SettingEnum::GENERAL, 'company.name')
+     */
+    function setting(string|App\Enums\SettingEnum $enum, ?string $selector = null, mixed $default = null): mixed
+    {
+        return App\Services\Setting\SettingService::get($enum, $selector, $default);
+    }
+}
+
+if ( ! function_exists('settingIs')) {
+    /**
+     * Check if a setting value equals the expected value.
+     *
+     * Examples:
+     *   settingIs('security', 'captcha_handling', true)
+     *   settingIs(SettingEnum::SECURITY, 'captcha_handling', true)
+     */
+    function settingIs(string|App\Enums\SettingEnum $enum, string $selector, mixed $expected): bool
+    {
+        return setting($enum, $selector) === $expected;
+    }
+}
+
+if ( ! function_exists('settingEnabled')) {
+    /**
+     * Check if a boolean setting is enabled (true).
+     *
+     * Examples:
+     *   settingEnabled('security', 'captcha_handling')
+     *   settingEnabled(SettingEnum::NOTIFICATION, 'order_create.email')
+     */
+    function settingEnabled(string|App\Enums\SettingEnum $enum, string $selector): bool
+    {
+        return (bool) setting($enum, $selector, false);
+    }
+}
+
+if ( ! function_exists('settingDisabled')) {
+    /**
+     * Check if a boolean setting is disabled (false).
+     *
+     * Examples:
+     *   settingDisabled('security', 'captcha_handling')
+     */
+    function settingDisabled(string|App\Enums\SettingEnum $enum, string $selector): bool
+    {
+        return ! settingEnabled($enum, $selector);
+    }
+}

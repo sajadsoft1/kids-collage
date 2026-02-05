@@ -54,12 +54,12 @@ class ExamUpdateOrCreate extends Component
         $this->model = $exam;
 
         // بررسی قابلیت ویرایش آزمون
-        if ($this->model->exists && ! $this->model->status->canEdit()) {
-            $this->error(__('exam.exceptions.cannot_edit'), timeout: 5000);
-            $this->redirect(route('admin.exam.index'), navigate: true);
-
-            return;
-        }
+        //        if ($this->model->exists && ! $this->model->status->canEdit()) {
+        //            $this->error(__('exam.exceptions.cannot_edit'), timeout: 5000);
+        //            $this->redirect(route('admin.exam.index'), navigate: true);
+        //
+        //            return;
+        //        }
 
         $this->form = $this->defaultForm();
 

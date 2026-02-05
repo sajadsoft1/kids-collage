@@ -11,35 +11,51 @@ use Exception;
 use JsonException;
 use RuntimeException;
 
+/**
+ * Service facade for working with application settings.
+ *
+ * Responsibilities:
+ * - Resolve the appropriate template class for a given setting key
+ * - Provide simple `get` / `set` helpers over the `Setting` model
+ * - Orchestrate show/update flows used by the admin UI
+ * - Delegate validation, seeding, and field definitions to template classes.
+ */
 readonly class SettingService
 {
-    public static function set(SettingEnum $enum, string $key, mixed $value): Setting
+    /**
+     * Generic helper for updating a setting group using its template.
+     *
+     * The payload structure must match what the concrete template expects
+     * (the same shape you would pass to the instance `update()` method).
+     */
+    public static function set(string|SettingEnum $enum, array $payload): Setting
     {
-        $class = self::getSettingTemplateClass($enum->value);
+        $key = $enum instanceof SettingEnum ? $enum->value : $enum;
+
+        $class = self::getSettingTemplateClass($key);
         $setting = Setting::createOrFirst([
-            'key' => $enum->value,
+            'key' => $key,
         ], [
             'permissions' => ['Shared.Admin'],
         ]);
-        
-        $value = [
-            'key' => $enum->value,
-            'value' => [
-                [
-                    'key' => $key,
-                    'value' => $value,
-                ],
-            ],
-        ];
 
-        return $class->update($setting, $value);
+        return $class->update($setting, $payload);
     }
     
+    /**
+     * Read a setting value from the underlying `extra_attributes` store.
+     *
+     * When no selector is provided, the entire attributes array is returned.
+     * When a selector (dot notation) is provided, only that value is returned
+     * or the given default if it does not exist or an error occurs.
+     */
     public static function get(string|SettingEnum $enum, ?string $selector = null, mixed $default = null): mixed
     {
+        $key = $enum instanceof SettingEnum ? $enum->value : $enum;
+        
         try {
             $setting = Setting::createOrFirst([
-                'key' => $enum->value,
+                'key' => $key,
             ], [
                 'permissions' => ['Shared.Admin'],
             ]);
@@ -53,11 +69,24 @@ readonly class SettingService
         return $setting->extra_attributes->get($selector, $default);
     }
     
+    /**
+     * Resolve the concrete template class instance for the given setting key.
+     *
+     * The key is converted to StudlyCase with a `Template` suffix and then
+     * resolved from the Laravel service container.
+     */
     public static function getSettingTemplateClass($key)
     {
         return app('App\\Services\\Setting\\Templates\\' . StringHelper::convertToClassName($key . '_template'));
     }
     
+    /**
+     * Build the full template payload for the given `Setting` model.
+     *
+     * Optionally, a `filter_key` query parameter can be used to limit the
+     * returned rows to specific groups or nested keys (e.g. `company.name`).
+     * The result is a structure ready to be consumed by the admin settings UI.
+     */
     public function show(Setting $setting): array
     {
         $filterKey = request()->input('filter_key');
@@ -106,26 +135,6 @@ readonly class SettingService
         
         // Reindex the array to remove numeric keys
         $template = array_values($template);
-        
-        $template = array_map(static function ($item) use ($filterKeys) {
-            if (isset($item['items']) && ! empty($filterKeys)) {
-                foreach ($filterKeys as $filterKey) {
-                    if (str_contains($filterKey, '.')) {
-                        [$parentKey, $childKey] = explode('.', $filterKey, 2);
-                        
-                        // If the parent key matches, filter the items based on the child key
-                        if ($item['key'] === $parentKey) {
-                            $item['items'] = array_filter($item['items'], static function ($subItem) use ($childKey) {
-                                return $subItem['key'] === $childKey;
-                            });
-                            $item['items'] = array_values($item['items']);
-                        }
-                    }
-                }
-            }
-            
-            return $item;
-        }, $template);
 
         return [
             'id' => $setting->id,
@@ -137,6 +146,13 @@ readonly class SettingService
         ];
     }
     
+    /**
+     * Update a full setting group using its template definition.
+     *
+     * The payload must match the structure that the underlying template
+     * expects (and validates). On success, the updated template structure
+     * is returned for convenient use in the UI.
+     */
     public function update(SettingEnum $settingEnum, array $payload = [])
     {
         $setting = Setting::createOrFirst([
@@ -150,7 +166,14 @@ readonly class SettingService
         return $class->template($updated);
     }
     
-    /** @throws JsonException */
+    /**
+     * Seed default values for the given setting enum via its template.
+     *
+     * Any exception thrown by the template is wrapped in a `RuntimeException`
+     * with a JSON-encoded payload for easier debugging in logs.
+     *
+     * @throws JsonException
+     */
     public function seed(SettingEnum $enum): void
     {
         try {

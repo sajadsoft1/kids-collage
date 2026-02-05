@@ -8,6 +8,9 @@ import 'flatpickr/dist/l10n/fa.js';
 import {livewire_hot_reload} from 'virtual:livewire-hot-reload'
 import './components/multi-select';
 import './livewire-datepicker-datepicker.js';
+// Kids Collage Datepicker (Jalali/Gregorian Alpine component)
+import '../../vendor/karnoweb/livewire-datepicker/resources/js/jalali.js';
+import '../../vendor/karnoweb/livewire-datepicker/resources/js/datepicker.js';
 import { createFrestSidebar, isRouteActive } from './components/frest-sidebar';
 
 // Export for global use

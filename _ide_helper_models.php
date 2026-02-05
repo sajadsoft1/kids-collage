@@ -75,6 +75,7 @@ namespace App\Models{
  * @property \Carbon\Carbon|null $updated_at
  * @property-read Enrollment     $enrollment
  * @property-read CourseSession  $session
+ * @property int|null $branch_id
  * @property-read int|null $duration
  * @property-read int $early_departure_minutes
  * @property-read string|null $formatted_duration
@@ -94,6 +95,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Attendance thisWeek()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Attendance today()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Attendance whereArrivalTime($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Attendance whereBranchId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Attendance whereCourseSessionId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Attendance whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Attendance whereEnrollmentId($value)
@@ -181,6 +183,8 @@ namespace App\Models{
  * @property-read int|null $media_count
  * @property-read \App\Models\SeoOption|null $seoOption
  * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\Tag> $tags
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Comment> $siteComments
+ * @property-read int|null $site_comments_count
  * @property-read int|null $tags_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translations
  * @property-read int|null $translations_count
@@ -239,33 +243,82 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection|Column[] $columns
  * @property-read \Illuminate\Database\Eloquent\Collection|Card[] $cards
  * @property-read \Illuminate\Database\Eloquent\Collection|CardFlow[] $cardFlows
+ * @property int|null $branch_id
  * @property bool $system_protected
  * @property \Spatie\SchemalessAttributes\SchemalessAttributes|null $extra_attributes
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
  * @property-read int|null $activities_count
+ * @property-read \App\Models\Branch|null $branch
  * @property-read int|null $card_flows_count
  * @property-read int|null $cards_count
  * @property-read int|null $columns_count
  * @property-read int|null $users_count
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Board newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Board newQuery()
+ * @method static \App\Query\BranchBuilder<static>|Board forBranch(int $branchId)
+ * @method static \App\Query\BranchBuilder<static>|Board newModelQuery()
+ * @method static \App\Query\BranchBuilder<static>|Board newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Board onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Board query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Board whereColor($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Board whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Board whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Board whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Board whereExtraAttributes($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Board whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Board whereIsActive($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Board whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Board whereSystemProtected($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Board whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Board withExtraAttributes()
+ * @method static \App\Query\BranchBuilder<static>|Board query()
+ * @method static \App\Query\BranchBuilder<static>|Board whereBranchId($value)
+ * @method static \App\Query\BranchBuilder<static>|Board whereColor($value)
+ * @method static \App\Query\BranchBuilder<static>|Board whereCreatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|Board whereDeletedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|Board whereDescription($value)
+ * @method static \App\Query\BranchBuilder<static>|Board whereExtraAttributes($value)
+ * @method static \App\Query\BranchBuilder<static>|Board whereId($value)
+ * @method static \App\Query\BranchBuilder<static>|Board whereIsActive($value)
+ * @method static \App\Query\BranchBuilder<static>|Board whereName($value)
+ * @method static \App\Query\BranchBuilder<static>|Board whereSystemProtected($value)
+ * @method static \App\Query\BranchBuilder<static>|Board whereUpdatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|Board withAllBranches()
+ * @method static \App\Query\BranchBuilder<static>|Board withExtraAttributes()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Board withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Board withoutTrashed()
  */
 	class Board extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * Branch Model
+ * 
+ * Represents a branch/location in the multi-branch system.
+ * Each branch can have its own data separated from other branches.
+ *
+ * @property int                             $id
+ * @property string                          $name
+ * @property string                          $code
+ * @property BranchStatusEnum                $status
+ * @property bool                            $is_default
+ * @property array|null                      $settings
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property array<array-key, mixed>|null $languages
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $defaultUsers
+ * @property-read int|null $default_users_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translations
+ * @property-read int|null $translations_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translationsPure
+ * @property-read int|null $translations_pure_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
+ * @property-read int|null $users_count
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Branch active()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Branch default()
+ * @method static \Database\Factories\BranchFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Branch newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Branch newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Branch query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Branch search($keyword)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Branch whereCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Branch whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Branch whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Branch whereIsDefault($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Branch whereLanguages($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Branch whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Branch whereSettings($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Branch whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Branch whereUpdatedAt($value)
+ */
+	class Branch extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -298,6 +351,8 @@ namespace App\Models{
  * @property-read int|null $media_count
  * @property-read \App\Models\SeoOption|null $seoOption
  * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\Tag> $tags
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Comment> $siteComments
+ * @property-read int|null $site_comments_count
  * @property-read int|null $tags_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translations
  * @property-read int|null $translations_count
@@ -362,10 +417,12 @@ namespace App\Models{
  * @property-read Column $column
  * @property-read \Illuminate\Database\Eloquent\Collection|User[] $users
  * @property-read \Illuminate\Database\Eloquent\Collection|CardHistory[] $history
+ * @property int|null $branch_id
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
  * @property-read int|null $activities_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $assignees
  * @property-read int|null $assignees_count
+ * @property-read \App\Models\Branch|null $branch
  * @property mixed|null $extra
  * @property-read int|null $history_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $reviewers
@@ -373,25 +430,28 @@ namespace App\Models{
  * @property-read int|null $users_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $watchers
  * @property-read int|null $watchers_count
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Card newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Card newQuery()
+ * @method static \App\Query\BranchBuilder<static>|Card forBranch(int $branchId)
+ * @method static \App\Query\BranchBuilder<static>|Card newModelQuery()
+ * @method static \App\Query\BranchBuilder<static>|Card newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Card onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Card query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Card whereBoardId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Card whereCardType($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Card whereColumnId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Card whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Card whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Card whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Card whereDueDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Card whereExtraAttributes($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Card whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Card whereOrder($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Card wherePriority($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Card whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Card whereTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Card whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Card withExtraAttributes()
+ * @method static \App\Query\BranchBuilder<static>|Card query()
+ * @method static \App\Query\BranchBuilder<static>|Card whereBoardId($value)
+ * @method static \App\Query\BranchBuilder<static>|Card whereBranchId($value)
+ * @method static \App\Query\BranchBuilder<static>|Card whereCardType($value)
+ * @method static \App\Query\BranchBuilder<static>|Card whereColumnId($value)
+ * @method static \App\Query\BranchBuilder<static>|Card whereCreatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|Card whereDeletedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|Card whereDescription($value)
+ * @method static \App\Query\BranchBuilder<static>|Card whereDueDate($value)
+ * @method static \App\Query\BranchBuilder<static>|Card whereExtraAttributes($value)
+ * @method static \App\Query\BranchBuilder<static>|Card whereId($value)
+ * @method static \App\Query\BranchBuilder<static>|Card whereOrder($value)
+ * @method static \App\Query\BranchBuilder<static>|Card wherePriority($value)
+ * @method static \App\Query\BranchBuilder<static>|Card whereStatus($value)
+ * @method static \App\Query\BranchBuilder<static>|Card whereTitle($value)
+ * @method static \App\Query\BranchBuilder<static>|Card whereUpdatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|Card withAllBranches()
+ * @method static \App\Query\BranchBuilder<static>|Card withExtraAttributes()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Card withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Card withoutTrashed()
  */
@@ -416,25 +476,30 @@ namespace App\Models{
  * @property-read Board $board
  * @property-read Column $fromColumn
  * @property-read Column $toColumn
+ * @property int|null $branch_id
  * @property \Spatie\SchemalessAttributes\SchemalessAttributes|null $extra_attributes
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
  * @property-read int|null $activities_count
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CardFlow newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CardFlow newQuery()
+ * @property-read \App\Models\Branch|null $branch
+ * @method static \App\Query\BranchBuilder<static>|CardFlow forBranch(int $branchId)
+ * @method static \App\Query\BranchBuilder<static>|CardFlow newModelQuery()
+ * @method static \App\Query\BranchBuilder<static>|CardFlow newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CardFlow onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CardFlow query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CardFlow whereBoardId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CardFlow whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CardFlow whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CardFlow whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CardFlow whereExtraAttributes($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CardFlow whereFromColumnId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CardFlow whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CardFlow whereIsActive($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CardFlow whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CardFlow whereToColumnId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CardFlow whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CardFlow withExtraAttributes()
+ * @method static \App\Query\BranchBuilder<static>|CardFlow query()
+ * @method static \App\Query\BranchBuilder<static>|CardFlow whereBoardId($value)
+ * @method static \App\Query\BranchBuilder<static>|CardFlow whereBranchId($value)
+ * @method static \App\Query\BranchBuilder<static>|CardFlow whereCreatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|CardFlow whereDeletedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|CardFlow whereDescription($value)
+ * @method static \App\Query\BranchBuilder<static>|CardFlow whereExtraAttributes($value)
+ * @method static \App\Query\BranchBuilder<static>|CardFlow whereFromColumnId($value)
+ * @method static \App\Query\BranchBuilder<static>|CardFlow whereId($value)
+ * @method static \App\Query\BranchBuilder<static>|CardFlow whereIsActive($value)
+ * @method static \App\Query\BranchBuilder<static>|CardFlow whereName($value)
+ * @method static \App\Query\BranchBuilder<static>|CardFlow whereToColumnId($value)
+ * @method static \App\Query\BranchBuilder<static>|CardFlow whereUpdatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|CardFlow withAllBranches()
+ * @method static \App\Query\BranchBuilder<static>|CardFlow withExtraAttributes()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CardFlow withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CardFlow withoutTrashed()
  */
@@ -457,22 +522,27 @@ namespace App\Models{
  * @property-read Card $card
  * @property-read User $user
  * @property-read Column $column
+ * @property int|null $branch_id
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
  * @property-read int|null $activities_count
+ * @property-read \App\Models\Branch|null $branch
  * @property mixed|null $extra
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CardHistory newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CardHistory newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CardHistory query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CardHistory whereAction($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CardHistory whereCardId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CardHistory whereColumnId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CardHistory whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CardHistory whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CardHistory whereExtraAttributes($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CardHistory whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CardHistory whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CardHistory whereUserId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CardHistory withExtraAttributes()
+ * @method static \App\Query\BranchBuilder<static>|CardHistory forBranch(int $branchId)
+ * @method static \App\Query\BranchBuilder<static>|CardHistory newModelQuery()
+ * @method static \App\Query\BranchBuilder<static>|CardHistory newQuery()
+ * @method static \App\Query\BranchBuilder<static>|CardHistory query()
+ * @method static \App\Query\BranchBuilder<static>|CardHistory whereAction($value)
+ * @method static \App\Query\BranchBuilder<static>|CardHistory whereBranchId($value)
+ * @method static \App\Query\BranchBuilder<static>|CardHistory whereCardId($value)
+ * @method static \App\Query\BranchBuilder<static>|CardHistory whereColumnId($value)
+ * @method static \App\Query\BranchBuilder<static>|CardHistory whereCreatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|CardHistory whereDescription($value)
+ * @method static \App\Query\BranchBuilder<static>|CardHistory whereExtraAttributes($value)
+ * @method static \App\Query\BranchBuilder<static>|CardHistory whereId($value)
+ * @method static \App\Query\BranchBuilder<static>|CardHistory whereUpdatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|CardHistory whereUserId($value)
+ * @method static \App\Query\BranchBuilder<static>|CardHistory withAllBranches()
+ * @method static \App\Query\BranchBuilder<static>|CardHistory withExtraAttributes()
  */
 	class CardHistory extends \Eloquent {}
 }
@@ -482,6 +552,7 @@ namespace App\Models{
  * @property string $title
  * @property string $body
  * @property int $id
+ * @property int|null $branch_id
  * @property array<array-key, mixed>|null $languages
  * @property string $slug
  * @property int|null $parent_id
@@ -529,6 +600,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Category onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Category query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Category search($keyword)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Category whereBranchId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Category whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Category whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Category whereExtraAttributes($value)
@@ -564,6 +636,7 @@ namespace App\Models{
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @property-read Enrollment $enrollment
+ * @property int|null $branch_id
  * @property-read int $age_in_days
  * @property-read float $attendance_percentage
  * @property-read string $certificate_number
@@ -591,6 +664,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Certificate newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Certificate query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Certificate recent(int $days = 30)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Certificate whereBranchId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Certificate whereCertificatePath($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Certificate whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Certificate whereEnrollmentId($value)
@@ -653,26 +727,31 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection|Card[] $cards
  * @property-read \Illuminate\Database\Eloquent\Collection|CardFlow[] $fromFlows
  * @property-read \Illuminate\Database\Eloquent\Collection|CardFlow[] $toFlows
+ * @property int|null $branch_id
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
  * @property-read int|null $activities_count
+ * @property-read \App\Models\Branch|null $branch
  * @property-read int|null $cards_count
  * @property-read int|null $from_flows_count
  * @property-read int|null $to_flows_count
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Column newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Column newQuery()
+ * @method static \App\Query\BranchBuilder<static>|Column forBranch(int $branchId)
+ * @method static \App\Query\BranchBuilder<static>|Column newModelQuery()
+ * @method static \App\Query\BranchBuilder<static>|Column newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Column onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Column query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Column whereBoardId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Column whereColor($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Column whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Column whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Column whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Column whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Column whereIsActive($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Column whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Column whereOrder($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Column whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Column whereWipLimit($value)
+ * @method static \App\Query\BranchBuilder<static>|Column query()
+ * @method static \App\Query\BranchBuilder<static>|Column whereBoardId($value)
+ * @method static \App\Query\BranchBuilder<static>|Column whereBranchId($value)
+ * @method static \App\Query\BranchBuilder<static>|Column whereColor($value)
+ * @method static \App\Query\BranchBuilder<static>|Column whereCreatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|Column whereDeletedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|Column whereDescription($value)
+ * @method static \App\Query\BranchBuilder<static>|Column whereId($value)
+ * @method static \App\Query\BranchBuilder<static>|Column whereIsActive($value)
+ * @method static \App\Query\BranchBuilder<static>|Column whereName($value)
+ * @method static \App\Query\BranchBuilder<static>|Column whereOrder($value)
+ * @method static \App\Query\BranchBuilder<static>|Column whereUpdatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|Column whereWipLimit($value)
+ * @method static \App\Query\BranchBuilder<static>|Column withAllBranches()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Column withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Column withoutTrashed()
  */
@@ -790,8 +869,10 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, CourseSession> $sessions
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Enrollment>    $enrollments
  * @property-read OrderItem|null                                               $orderItem
+ * @property int|null $branch_id
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Enrollment> $activeEnrollments
  * @property-read int|null $active_enrollments_count
+ * @property-read \App\Models\Branch|null $branch
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\CourseSession> $completedSessions
  * @property-read int|null $completed_sessions_count
  * @property-read int|null $enrollments_count
@@ -802,29 +883,32 @@ namespace App\Models{
  * @property-read string $formatted_session_duration
  * @property-read int $session_duration
  * @property-read int|null $sessions_count
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Course active()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Course byPriceRange(float $minPrice, float $maxPrice)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Course byTeacher(int $teacherId)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Course byTerm(int $termId)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Course byType(\App\Enums\CourseTypeEnum $type)
+ * @method static \App\Query\BranchBuilder<static>|Course active()
+ * @method static \App\Query\BranchBuilder<static>|Course byPriceRange(float $minPrice, float $maxPrice)
+ * @method static \App\Query\BranchBuilder<static>|Course byTeacher(int $teacherId)
+ * @method static \App\Query\BranchBuilder<static>|Course byTerm(int $termId)
+ * @method static \App\Query\BranchBuilder<static>|Course byType(\App\Enums\CourseTypeEnum $type)
  * @method static \Database\Factories\CourseFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Course instructorLed()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Course newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Course newQuery()
+ * @method static \App\Query\BranchBuilder<static>|Course forBranch(int $branchId)
+ * @method static \App\Query\BranchBuilder<static>|Course instructorLed()
+ * @method static \App\Query\BranchBuilder<static>|Course newModelQuery()
+ * @method static \App\Query\BranchBuilder<static>|Course newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Course onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Course query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Course selfPaced()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Course whereCapacity($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Course whereCourseTemplateId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Course whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Course whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Course whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Course wherePrice($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Course whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Course whereTeacherId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Course whereTermId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Course whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Course withAvailableSpots()
+ * @method static \App\Query\BranchBuilder<static>|Course query()
+ * @method static \App\Query\BranchBuilder<static>|Course selfPaced()
+ * @method static \App\Query\BranchBuilder<static>|Course whereBranchId($value)
+ * @method static \App\Query\BranchBuilder<static>|Course whereCapacity($value)
+ * @method static \App\Query\BranchBuilder<static>|Course whereCourseTemplateId($value)
+ * @method static \App\Query\BranchBuilder<static>|Course whereCreatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|Course whereDeletedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|Course whereId($value)
+ * @method static \App\Query\BranchBuilder<static>|Course wherePrice($value)
+ * @method static \App\Query\BranchBuilder<static>|Course whereStatus($value)
+ * @method static \App\Query\BranchBuilder<static>|Course whereTeacherId($value)
+ * @method static \App\Query\BranchBuilder<static>|Course whereTermId($value)
+ * @method static \App\Query\BranchBuilder<static>|Course whereUpdatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|Course withAllBranches()
+ * @method static \App\Query\BranchBuilder<static>|Course withAvailableSpots()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Course withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Course withoutTrashed()
  */
@@ -857,10 +941,12 @@ namespace App\Models{
  * @property-read Room|null                                                           $room
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Attendance>           $attendances
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Resource> $resources
+ * @property int|null $branch_id
  * @property int $course_session_template_id
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Attendance> $absentAttendances
  * @property-read int|null $absent_attendances_count
  * @property-read int|null $attendances_count
+ * @property-read \App\Models\Branch|null $branch
  * @property-read int $absent_count
  * @property-read int $attendance_count
  * @property-read float $attendance_percentage
@@ -872,37 +958,40 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Attendance> $presentAttendances
  * @property-read int|null $present_attendances_count
  * @property-read int|null $resources_count
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession byDateRange(\Carbon\Carbon $startDate, \Carbon\Carbon $endDate)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession byRoom(int $roomId)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession byType(\App\Enums\SessionType $type)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession cancelled()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession completed()
+ * @method static \App\Query\BranchBuilder<static>|CourseSession byDateRange(\Carbon\Carbon $startDate, \Carbon\Carbon $endDate)
+ * @method static \App\Query\BranchBuilder<static>|CourseSession byRoom(int $roomId)
+ * @method static \App\Query\BranchBuilder<static>|CourseSession byType(\App\Enums\SessionType $type)
+ * @method static \App\Query\BranchBuilder<static>|CourseSession cancelled()
+ * @method static \App\Query\BranchBuilder<static>|CourseSession completed()
  * @method static \Database\Factories\CourseSessionFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession hybrid()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession inPerson()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession online()
+ * @method static \App\Query\BranchBuilder<static>|CourseSession forBranch(int $branchId)
+ * @method static \App\Query\BranchBuilder<static>|CourseSession hybrid()
+ * @method static \App\Query\BranchBuilder<static>|CourseSession inPerson()
+ * @method static \App\Query\BranchBuilder<static>|CourseSession newModelQuery()
+ * @method static \App\Query\BranchBuilder<static>|CourseSession newQuery()
+ * @method static \App\Query\BranchBuilder<static>|CourseSession online()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession planned()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession thisWeek()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession today()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession whereCourseId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession whereCourseSessionTemplateId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession whereDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession whereEndTime($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession whereMeetingLink($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession whereRecordingLink($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession whereRoomId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession whereSessionType($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession whereStartTime($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession withRecordings()
+ * @method static \App\Query\BranchBuilder<static>|CourseSession planned()
+ * @method static \App\Query\BranchBuilder<static>|CourseSession query()
+ * @method static \App\Query\BranchBuilder<static>|CourseSession thisWeek()
+ * @method static \App\Query\BranchBuilder<static>|CourseSession today()
+ * @method static \App\Query\BranchBuilder<static>|CourseSession whereBranchId($value)
+ * @method static \App\Query\BranchBuilder<static>|CourseSession whereCourseId($value)
+ * @method static \App\Query\BranchBuilder<static>|CourseSession whereCourseSessionTemplateId($value)
+ * @method static \App\Query\BranchBuilder<static>|CourseSession whereCreatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|CourseSession whereDate($value)
+ * @method static \App\Query\BranchBuilder<static>|CourseSession whereDeletedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|CourseSession whereEndTime($value)
+ * @method static \App\Query\BranchBuilder<static>|CourseSession whereId($value)
+ * @method static \App\Query\BranchBuilder<static>|CourseSession whereMeetingLink($value)
+ * @method static \App\Query\BranchBuilder<static>|CourseSession whereRecordingLink($value)
+ * @method static \App\Query\BranchBuilder<static>|CourseSession whereRoomId($value)
+ * @method static \App\Query\BranchBuilder<static>|CourseSession whereSessionType($value)
+ * @method static \App\Query\BranchBuilder<static>|CourseSession whereStartTime($value)
+ * @method static \App\Query\BranchBuilder<static>|CourseSession whereStatus($value)
+ * @method static \App\Query\BranchBuilder<static>|CourseSession whereUpdatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|CourseSession withAllBranches()
+ * @method static \App\Query\BranchBuilder<static>|CourseSession withRecordings()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSession withoutTrashed()
  */
@@ -929,8 +1018,10 @@ namespace App\Models{
  * @property-read CourseTemplate                 $courseTemplate
  * @property-read Collection<int, CourseSession> $sessions
  * @property-read Collection<int, resource>      $resources
+ * @property int|null $branch_id
  * @property \App\Enums\SessionType $type
  * @property array<array-key, mixed>|null $languages
+ * @property-read \App\Models\Branch|null $branch
  * @property-read float $duration_hours
  * @property-read string $formatted_duration
  * @property-read int|null $resources_count
@@ -939,23 +1030,26 @@ namespace App\Models{
  * @property-read int|null $translations_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translationsPure
  * @property-read int|null $translations_pure_count
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSessionTemplate byDurationRange(int $minMinutes, int $maxMinutes)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSessionTemplate longerThan(int $minutes)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSessionTemplate newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSessionTemplate newQuery()
+ * @method static \App\Query\BranchBuilder<static>|CourseSessionTemplate byDurationRange(int $minMinutes, int $maxMinutes)
+ * @method static \App\Query\BranchBuilder<static>|CourseSessionTemplate forBranch(int $branchId)
+ * @method static \App\Query\BranchBuilder<static>|CourseSessionTemplate longerThan(int $minutes)
+ * @method static \App\Query\BranchBuilder<static>|CourseSessionTemplate newModelQuery()
+ * @method static \App\Query\BranchBuilder<static>|CourseSessionTemplate newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSessionTemplate onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSessionTemplate ordered()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSessionTemplate query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSessionTemplate search($keyword)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSessionTemplate whereCourseTemplateId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSessionTemplate whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSessionTemplate whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSessionTemplate whereDurationMinutes($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSessionTemplate whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSessionTemplate whereLanguages($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSessionTemplate whereOrder($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSessionTemplate whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSessionTemplate whereUpdatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|CourseSessionTemplate ordered()
+ * @method static \App\Query\BranchBuilder<static>|CourseSessionTemplate query()
+ * @method static \App\Query\BranchBuilder<static>|CourseSessionTemplate search($keyword)
+ * @method static \App\Query\BranchBuilder<static>|CourseSessionTemplate whereBranchId($value)
+ * @method static \App\Query\BranchBuilder<static>|CourseSessionTemplate whereCourseTemplateId($value)
+ * @method static \App\Query\BranchBuilder<static>|CourseSessionTemplate whereCreatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|CourseSessionTemplate whereDeletedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|CourseSessionTemplate whereDurationMinutes($value)
+ * @method static \App\Query\BranchBuilder<static>|CourseSessionTemplate whereId($value)
+ * @method static \App\Query\BranchBuilder<static>|CourseSessionTemplate whereLanguages($value)
+ * @method static \App\Query\BranchBuilder<static>|CourseSessionTemplate whereOrder($value)
+ * @method static \App\Query\BranchBuilder<static>|CourseSessionTemplate whereType($value)
+ * @method static \App\Query\BranchBuilder<static>|CourseSessionTemplate whereUpdatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|CourseSessionTemplate withAllBranches()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSessionTemplate withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseSessionTemplate withoutTrashed()
  */
@@ -985,6 +1079,7 @@ namespace App\Models{
  * @property-read Collection<int, CourseSessionTemplate> $sessionTemplates
  * @property-read Collection<int, Course>                $courses
  * @property-read Collection<int, resource>              $resources
+ * @property int|null $branch_id
  * @property string $slug
  * @property \App\Enums\CourseTypeEnum $type
  * @property int $view_count
@@ -994,6 +1089,7 @@ namespace App\Models{
  * @property-read int|null $active_courses_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
  * @property-read int|null $activities_count
+ * @property-read \App\Models\Branch|null $branch
  * @property-read \App\Models\Category|null $category
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Comment> $comments
  * @property-read int|null $comments_count
@@ -1011,6 +1107,8 @@ namespace App\Models{
  * @property-read \App\Models\SeoOption|null $seoOption
  * @property-read int|null $session_templates_count
  * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\Tag> $tags
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Comment> $siteComments
+ * @property-read int|null $site_comments_count
  * @property-read int|null $tags_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translations
  * @property-read int|null $translations_count
@@ -1020,37 +1118,40 @@ namespace App\Models{
  * @property-read int|null $views_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\WishList> $wishes
  * @property-read int|null $wishes_count
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate byCategory(int $categoryId)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate byLevel(string $level)
+ * @method static \App\Query\BranchBuilder<static>|CourseTemplate byCategory(int $categoryId)
+ * @method static \App\Query\BranchBuilder<static>|CourseTemplate byLevel(string $level)
  * @method static \Database\Factories\CourseTemplateFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate instructorLed()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate newQuery()
+ * @method static \App\Query\BranchBuilder<static>|CourseTemplate forBranch(int $branchId)
+ * @method static \App\Query\BranchBuilder<static>|CourseTemplate instructorLed()
+ * @method static \App\Query\BranchBuilder<static>|CourseTemplate newModelQuery()
+ * @method static \App\Query\BranchBuilder<static>|CourseTemplate newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate search($keyword)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate selfPaced()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate whereCategoryId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate whereCommentCount($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate whereIsSelfPaced($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate whereLanguages($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate whereLevel($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate wherePrerequisites($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate whereSlug($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate whereViewCount($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate whereWishCount($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate withAllTags(\ArrayAccess|\Spatie\Tags\Tag|array|string $tags, ?string $type = null)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate withAllTagsOfAnyType($tags)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate withAnyTags(\ArrayAccess|\Spatie\Tags\Tag|array|string $tags, ?string $type = null)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate withAnyTagsOfAnyType($tags)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate withAnyTagsOfType(array|string $type)
+ * @method static \App\Query\BranchBuilder<static>|CourseTemplate query()
+ * @method static \App\Query\BranchBuilder<static>|CourseTemplate search($keyword)
+ * @method static \App\Query\BranchBuilder<static>|CourseTemplate selfPaced()
+ * @method static \App\Query\BranchBuilder<static>|CourseTemplate whereBranchId($value)
+ * @method static \App\Query\BranchBuilder<static>|CourseTemplate whereCategoryId($value)
+ * @method static \App\Query\BranchBuilder<static>|CourseTemplate whereCommentCount($value)
+ * @method static \App\Query\BranchBuilder<static>|CourseTemplate whereCreatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|CourseTemplate whereDeletedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|CourseTemplate whereId($value)
+ * @method static \App\Query\BranchBuilder<static>|CourseTemplate whereIsSelfPaced($value)
+ * @method static \App\Query\BranchBuilder<static>|CourseTemplate whereLanguages($value)
+ * @method static \App\Query\BranchBuilder<static>|CourseTemplate whereLevel($value)
+ * @method static \App\Query\BranchBuilder<static>|CourseTemplate wherePrerequisites($value)
+ * @method static \App\Query\BranchBuilder<static>|CourseTemplate whereSlug($value)
+ * @method static \App\Query\BranchBuilder<static>|CourseTemplate whereType($value)
+ * @method static \App\Query\BranchBuilder<static>|CourseTemplate whereUpdatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|CourseTemplate whereViewCount($value)
+ * @method static \App\Query\BranchBuilder<static>|CourseTemplate whereWishCount($value)
+ * @method static \App\Query\BranchBuilder<static>|CourseTemplate withAllBranches()
+ * @method static \App\Query\BranchBuilder<static>|CourseTemplate withAllTags(\ArrayAccess|\Spatie\Tags\Tag|array|string $tags, ?string $type = null)
+ * @method static \App\Query\BranchBuilder<static>|CourseTemplate withAllTagsOfAnyType($tags)
+ * @method static \App\Query\BranchBuilder<static>|CourseTemplate withAnyTags(\ArrayAccess|\Spatie\Tags\Tag|array|string $tags, ?string $type = null)
+ * @method static \App\Query\BranchBuilder<static>|CourseTemplate withAnyTagsOfAnyType($tags)
+ * @method static \App\Query\BranchBuilder<static>|CourseTemplate withAnyTagsOfType(array|string $type)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate withTrashed(bool $withTrashed = true)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate withoutTags(\ArrayAccess|\Spatie\Tags\Tag|array|string $tags, ?string $type = null)
+ * @method static \App\Query\BranchBuilder<static>|CourseTemplate withoutTags(\ArrayAccess|\Spatie\Tags\Tag|array|string $tags, ?string $type = null)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate withoutTrashed()
  */
 	class CourseTemplate extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
@@ -1086,35 +1187,40 @@ namespace App\Models{
  * @property \Carbon\Carbon|null $updated_at
  * @property-read User|null $user
  * @property-read \Illuminate\Database\Eloquent\Collection<Order> $orders
+ * @property int|null $branch_id
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
  * @property-read int|null $activities_count
+ * @property-read \App\Models\Branch|null $branch
  * @property-read int|null $orders_count
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount active()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount byCode(string $code)
+ * @method static \App\Query\BranchBuilder<static>|Discount active()
+ * @method static \App\Query\BranchBuilder<static>|Discount byCode(string $code)
  * @method static \Database\Factories\DiscountFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount fixedAmount()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount forUser(int $userId)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount percentage()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount valid()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount whereCode($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount whereExpiresAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount whereIsActive($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount whereMaxDiscountAmount($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount whereMinOrderAmount($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount whereStartsAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount whereUsageLimit($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount whereUsagePerUser($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount whereUsedCount($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount whereUserId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Discount whereValue($value)
+ * @method static \App\Query\BranchBuilder<static>|Discount fixedAmount()
+ * @method static \App\Query\BranchBuilder<static>|Discount forBranch(int $branchId)
+ * @method static \App\Query\BranchBuilder<static>|Discount forUser(int $userId)
+ * @method static \App\Query\BranchBuilder<static>|Discount newModelQuery()
+ * @method static \App\Query\BranchBuilder<static>|Discount newQuery()
+ * @method static \App\Query\BranchBuilder<static>|Discount percentage()
+ * @method static \App\Query\BranchBuilder<static>|Discount query()
+ * @method static \App\Query\BranchBuilder<static>|Discount valid()
+ * @method static \App\Query\BranchBuilder<static>|Discount whereBranchId($value)
+ * @method static \App\Query\BranchBuilder<static>|Discount whereCode($value)
+ * @method static \App\Query\BranchBuilder<static>|Discount whereCreatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|Discount whereDescription($value)
+ * @method static \App\Query\BranchBuilder<static>|Discount whereExpiresAt($value)
+ * @method static \App\Query\BranchBuilder<static>|Discount whereId($value)
+ * @method static \App\Query\BranchBuilder<static>|Discount whereIsActive($value)
+ * @method static \App\Query\BranchBuilder<static>|Discount whereMaxDiscountAmount($value)
+ * @method static \App\Query\BranchBuilder<static>|Discount whereMinOrderAmount($value)
+ * @method static \App\Query\BranchBuilder<static>|Discount whereStartsAt($value)
+ * @method static \App\Query\BranchBuilder<static>|Discount whereType($value)
+ * @method static \App\Query\BranchBuilder<static>|Discount whereUpdatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|Discount whereUsageLimit($value)
+ * @method static \App\Query\BranchBuilder<static>|Discount whereUsagePerUser($value)
+ * @method static \App\Query\BranchBuilder<static>|Discount whereUsedCount($value)
+ * @method static \App\Query\BranchBuilder<static>|Discount whereUserId($value)
+ * @method static \App\Query\BranchBuilder<static>|Discount whereValue($value)
+ * @method static \App\Query\BranchBuilder<static>|Discount withAllBranches()
  */
 	class Discount extends \Eloquent {}
 }
@@ -1141,10 +1247,12 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Attendance> $attendances
  * @property-read Certificate|null                                          $certificate
  * @property-read \Illuminate\Database\Eloquent\Collection<int, ActivityLog> $activityLogs
+ * @property int|null $branch_id
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Attendance> $absentAttendances
  * @property-read int|null $absent_attendances_count
  * @property-read int|null $activity_logs_count
  * @property-read int|null $attendances_count
+ * @property-read \App\Models\Branch|null $branch
  * @property-read float $attendance_percentage
  * @property-read int $days_since_enrollment
  * @property-read \Carbon\Carbon|null $estimated_completion_date
@@ -1152,27 +1260,30 @@ namespace App\Models{
  * @property-read int $total_attendance_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Attendance> $presentAttendances
  * @property-read int|null $present_attendances_count
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment active()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment byCourse(int $courseId)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment byStatus(\App\Enums\EnrollmentStatusEnum $status)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment byUser(int $userId)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment completed()
+ * @method static \App\Query\BranchBuilder<static>|Enrollment active()
+ * @method static \App\Query\BranchBuilder<static>|Enrollment byCourse(int $courseId)
+ * @method static \App\Query\BranchBuilder<static>|Enrollment byStatus(\App\Enums\EnrollmentStatusEnum $status)
+ * @method static \App\Query\BranchBuilder<static>|Enrollment byUser(int $userId)
+ * @method static \App\Query\BranchBuilder<static>|Enrollment completed()
  * @method static \Database\Factories\EnrollmentFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment recent(int $days = 30)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment whereCourseId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment whereEnrolledAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment whereOrderItemId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment whereProgressPercent($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment whereUserId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment withCertificates()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Enrollment withMinimumProgress(float $progress)
+ * @method static \App\Query\BranchBuilder<static>|Enrollment forBranch(int $branchId)
+ * @method static \App\Query\BranchBuilder<static>|Enrollment newModelQuery()
+ * @method static \App\Query\BranchBuilder<static>|Enrollment newQuery()
+ * @method static \App\Query\BranchBuilder<static>|Enrollment query()
+ * @method static \App\Query\BranchBuilder<static>|Enrollment recent(int $days = 30)
+ * @method static \App\Query\BranchBuilder<static>|Enrollment whereBranchId($value)
+ * @method static \App\Query\BranchBuilder<static>|Enrollment whereCourseId($value)
+ * @method static \App\Query\BranchBuilder<static>|Enrollment whereCreatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|Enrollment whereEnrolledAt($value)
+ * @method static \App\Query\BranchBuilder<static>|Enrollment whereId($value)
+ * @method static \App\Query\BranchBuilder<static>|Enrollment whereOrderItemId($value)
+ * @method static \App\Query\BranchBuilder<static>|Enrollment whereProgressPercent($value)
+ * @method static \App\Query\BranchBuilder<static>|Enrollment whereStatus($value)
+ * @method static \App\Query\BranchBuilder<static>|Enrollment whereUpdatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|Enrollment whereUserId($value)
+ * @method static \App\Query\BranchBuilder<static>|Enrollment withAllBranches()
+ * @method static \App\Query\BranchBuilder<static>|Enrollment withCertificates()
+ * @method static \App\Query\BranchBuilder<static>|Enrollment withMinimumProgress(float $progress)
  */
 	class Enrollment extends \Eloquent {}
 }
@@ -1213,6 +1324,8 @@ namespace App\Models{
  * @property-read int|null $media_count
  * @property-read \App\Models\SeoOption|null $seoOption
  * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\Tag> $tags
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Comment> $siteComments
+ * @property-read int|null $site_comments_count
  * @property-read int|null $tags_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translations
  * @property-read int|null $translations_count
@@ -1279,57 +1392,62 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $ends_at
  * @property \App\Enums\ExamStatusEnum $status
  * @property int|null $created_by
+ * @property int|null $branch_id
  * @property \Spatie\SchemalessAttributes\SchemalessAttributes|null $extra_attributes
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ExamAttempt> $attempts
  * @property-read int|null $attempts_count
+ * @property-read \App\Models\Branch|null $branch
  * @property-read \App\Models\Category|null $category
  * @property-read \App\Models\User|null $creator
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Question> $questions
  * @property-read int|null $questions_count
  * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\Tag> $tags
  * @property-read int|null $tags_count
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam accessibleByUser(\App\Models\User $user)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam active()
+ * @method static \App\Query\BranchBuilder<static>|Exam accessibleByUser(\App\Models\User $user)
+ * @method static \App\Query\BranchBuilder<static>|Exam active()
  * @method static \Database\Factories\ExamFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam newQuery()
+ * @method static \App\Query\BranchBuilder<static>|Exam forBranch(int $branchId)
+ * @method static \App\Query\BranchBuilder<static>|Exam newModelQuery()
+ * @method static \App\Query\BranchBuilder<static>|Exam newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam participableByUser(\App\Models\User $user)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam search(string $search)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam whereAllowReview($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam whereCategoryId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam whereCreatedBy($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam whereDuration($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam whereEndsAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam whereExtraAttributes($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam whereMaxAttempts($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam wherePassScore($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam whereSettings($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam whereShowResults($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam whereShuffleQuestions($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam whereStartsAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam whereTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam whereTotalScore($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam withAllTags(\ArrayAccess|\Spatie\Tags\Tag|array|string $tags, ?string $type = null)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam withAllTagsOfAnyType($tags)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam withAnyTags(\ArrayAccess|\Spatie\Tags\Tag|array|string $tags, ?string $type = null)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam withAnyTagsOfAnyType($tags)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam withAnyTagsOfType(array|string $type)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam withExtraAttributes()
+ * @method static \App\Query\BranchBuilder<static>|Exam participableByUser(\App\Models\User $user)
+ * @method static \App\Query\BranchBuilder<static>|Exam query()
+ * @method static \App\Query\BranchBuilder<static>|Exam search(string $search)
+ * @method static \App\Query\BranchBuilder<static>|Exam whereAllowReview($value)
+ * @method static \App\Query\BranchBuilder<static>|Exam whereBranchId($value)
+ * @method static \App\Query\BranchBuilder<static>|Exam whereCategoryId($value)
+ * @method static \App\Query\BranchBuilder<static>|Exam whereCreatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|Exam whereCreatedBy($value)
+ * @method static \App\Query\BranchBuilder<static>|Exam whereDeletedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|Exam whereDescription($value)
+ * @method static \App\Query\BranchBuilder<static>|Exam whereDuration($value)
+ * @method static \App\Query\BranchBuilder<static>|Exam whereEndsAt($value)
+ * @method static \App\Query\BranchBuilder<static>|Exam whereExtraAttributes($value)
+ * @method static \App\Query\BranchBuilder<static>|Exam whereId($value)
+ * @method static \App\Query\BranchBuilder<static>|Exam whereMaxAttempts($value)
+ * @method static \App\Query\BranchBuilder<static>|Exam wherePassScore($value)
+ * @method static \App\Query\BranchBuilder<static>|Exam whereSettings($value)
+ * @method static \App\Query\BranchBuilder<static>|Exam whereShowResults($value)
+ * @method static \App\Query\BranchBuilder<static>|Exam whereShuffleQuestions($value)
+ * @method static \App\Query\BranchBuilder<static>|Exam whereStartsAt($value)
+ * @method static \App\Query\BranchBuilder<static>|Exam whereStatus($value)
+ * @method static \App\Query\BranchBuilder<static>|Exam whereTitle($value)
+ * @method static \App\Query\BranchBuilder<static>|Exam whereTotalScore($value)
+ * @method static \App\Query\BranchBuilder<static>|Exam whereType($value)
+ * @method static \App\Query\BranchBuilder<static>|Exam whereUpdatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|Exam withAllBranches()
+ * @method static \App\Query\BranchBuilder<static>|Exam withAllTags(\ArrayAccess|\Spatie\Tags\Tag|array|string $tags, ?string $type = null)
+ * @method static \App\Query\BranchBuilder<static>|Exam withAllTagsOfAnyType($tags)
+ * @method static \App\Query\BranchBuilder<static>|Exam withAnyTags(\ArrayAccess|\Spatie\Tags\Tag|array|string $tags, ?string $type = null)
+ * @method static \App\Query\BranchBuilder<static>|Exam withAnyTagsOfAnyType($tags)
+ * @method static \App\Query\BranchBuilder<static>|Exam withAnyTagsOfType(array|string $type)
+ * @method static \App\Query\BranchBuilder<static>|Exam withExtraAttributes()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam withTrashed(bool $withTrashed = true)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam withUserAttempts(\App\Models\User $user)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam withoutTags(\ArrayAccess|\Spatie\Tags\Tag|array|string $tags, ?string $type = null)
+ * @method static \App\Query\BranchBuilder<static>|Exam withUserAttempts(\App\Models\User $user)
+ * @method static \App\Query\BranchBuilder<static>|Exam withoutTags(\ArrayAccess|\Spatie\Tags\Tag|array|string $tags, ?string $type = null)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Exam withoutTrashed()
  */
 	class Exam extends \Eloquent {}
@@ -1338,6 +1456,7 @@ namespace App\Models{
 namespace App\Models{
 /**
  * @property int $id
+ * @property int|null $branch_id
  * @property int $exam_id
  * @property int $user_id
  * @property \Illuminate\Support\Carbon $started_at
@@ -1352,28 +1471,32 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\UserAnswer> $answers
  * @property-read int|null $answers_count
+ * @property-read \App\Models\Branch|null $branch
  * @property-read \App\Models\Exam $exam
  * @property-read \App\Models\User $user
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamAttempt byExam($examId)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamAttempt byUser($userId)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamAttempt completed()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamAttempt inProgress()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamAttempt newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamAttempt newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamAttempt query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamAttempt whereCompletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamAttempt whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamAttempt whereExamId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamAttempt whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamAttempt whereIpAddress($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamAttempt whereMetadata($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamAttempt wherePercentage($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamAttempt whereStartedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamAttempt whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamAttempt whereTotalScore($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamAttempt whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamAttempt whereUserAgent($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamAttempt whereUserId($value)
+ * @method static \App\Query\BranchBuilder<static>|ExamAttempt byExam($examId)
+ * @method static \App\Query\BranchBuilder<static>|ExamAttempt byUser($userId)
+ * @method static \App\Query\BranchBuilder<static>|ExamAttempt completed()
+ * @method static \App\Query\BranchBuilder<static>|ExamAttempt forBranch(int $branchId)
+ * @method static \App\Query\BranchBuilder<static>|ExamAttempt inProgress()
+ * @method static \App\Query\BranchBuilder<static>|ExamAttempt newModelQuery()
+ * @method static \App\Query\BranchBuilder<static>|ExamAttempt newQuery()
+ * @method static \App\Query\BranchBuilder<static>|ExamAttempt query()
+ * @method static \App\Query\BranchBuilder<static>|ExamAttempt whereBranchId($value)
+ * @method static \App\Query\BranchBuilder<static>|ExamAttempt whereCompletedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|ExamAttempt whereCreatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|ExamAttempt whereExamId($value)
+ * @method static \App\Query\BranchBuilder<static>|ExamAttempt whereId($value)
+ * @method static \App\Query\BranchBuilder<static>|ExamAttempt whereIpAddress($value)
+ * @method static \App\Query\BranchBuilder<static>|ExamAttempt whereMetadata($value)
+ * @method static \App\Query\BranchBuilder<static>|ExamAttempt wherePercentage($value)
+ * @method static \App\Query\BranchBuilder<static>|ExamAttempt whereStartedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|ExamAttempt whereStatus($value)
+ * @method static \App\Query\BranchBuilder<static>|ExamAttempt whereTotalScore($value)
+ * @method static \App\Query\BranchBuilder<static>|ExamAttempt whereUpdatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|ExamAttempt whereUserAgent($value)
+ * @method static \App\Query\BranchBuilder<static>|ExamAttempt whereUserId($value)
+ * @method static \App\Query\BranchBuilder<static>|ExamAttempt withAllBranches()
  */
 	class ExamAttempt extends \Eloquent {}
 }
@@ -1381,6 +1504,7 @@ namespace App\Models{
 namespace App\Models{
 /**
  * @property int $id
+ * @property int|null $branch_id
  * @property int $exam_id
  * @property int $question_id
  * @property string $weight
@@ -1392,6 +1516,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamQuestion newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamQuestion newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamQuestion query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamQuestion whereBranchId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamQuestion whereConfigOverride($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamQuestion whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ExamQuestion whereExamId($value)
@@ -1474,32 +1599,36 @@ namespace App\Models{
  * @property-read bool $is_finished
  * @property-read \Carbon\Carbon|null $next_review
  * @property int $id
+ * @property int|null $branch_id
  * @property int $user_id
- * @property string|null $languages
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Branch|null $branch
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\LeitnerBox> $leitnerLogs
  * @property-read int|null $leitner_logs_count
  * @property-read \App\Models\LeitnerBox|null $leitnerProgress
+ * @property-read \App\Models\Taxonomy|null $taxonomy
  * @property-read \App\Models\User $user
- * @method static \Illuminate\Database\Eloquent\Builder<static>|FlashCard availableForStudy(int $userId)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|FlashCard dueForUser(int $userId)
+ * @method static \App\Query\BranchBuilder<static>|FlashCard availableForStudy(int $userId)
+ * @method static \App\Query\BranchBuilder<static>|FlashCard dueForUser(int $userId)
  * @method static \Database\Factories\FlashCardFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|FlashCard favorites()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|FlashCard newForUser(int $userId)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|FlashCard newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|FlashCard newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|FlashCard query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|FlashCard search(string $term)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|FlashCard whereBack($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|FlashCard whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|FlashCard whereFavorite($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|FlashCard whereFront($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|FlashCard whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|FlashCard whereLanguages($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|FlashCard whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|FlashCard whereUserId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|FlashCard withLeitnerForUser(int $userId)
+ * @method static \App\Query\BranchBuilder<static>|FlashCard favorites()
+ * @method static \App\Query\BranchBuilder<static>|FlashCard forBranch(int $branchId)
+ * @method static \App\Query\BranchBuilder<static>|FlashCard newForUser(int $userId)
+ * @method static \App\Query\BranchBuilder<static>|FlashCard newModelQuery()
+ * @method static \App\Query\BranchBuilder<static>|FlashCard newQuery()
+ * @method static \App\Query\BranchBuilder<static>|FlashCard query()
+ * @method static \App\Query\BranchBuilder<static>|FlashCard search(string $term)
+ * @method static \App\Query\BranchBuilder<static>|FlashCard whereBack($value)
+ * @method static \App\Query\BranchBuilder<static>|FlashCard whereBranchId($value)
+ * @method static \App\Query\BranchBuilder<static>|FlashCard whereCreatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|FlashCard whereFavorite($value)
+ * @method static \App\Query\BranchBuilder<static>|FlashCard whereFront($value)
+ * @method static \App\Query\BranchBuilder<static>|FlashCard whereId($value)
+ * @method static \App\Query\BranchBuilder<static>|FlashCard whereUpdatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|FlashCard whereUserId($value)
+ * @method static \App\Query\BranchBuilder<static>|FlashCard withAllBranches()
+ * @method static \App\Query\BranchBuilder<static>|FlashCard withLeitnerForUser(int $userId)
  */
 	class FlashCard extends \Eloquent {}
 }
@@ -1507,6 +1636,7 @@ namespace App\Models{
 namespace App\Models{
 /**
  * @property int $id
+ * @property int|null $branch_id
  * @property int $user_id
  * @property int $flash_card_id
  * @property int $box
@@ -1515,24 +1645,28 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon $last_review_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Branch|null $branch
  * @property-read \App\Models\FlashCard|null $flashcard
  * @property-read \App\Models\User $user
- * @method static \Illuminate\Database\Eloquent\Builder<static>|LeitnerBox due()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|LeitnerBox finished()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|LeitnerBox inProgress()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|LeitnerBox newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|LeitnerBox newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|LeitnerBox query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|LeitnerBox scheduled()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|LeitnerBox whereBox($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|LeitnerBox whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|LeitnerBox whereFinished($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|LeitnerBox whereFlashCardId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|LeitnerBox whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|LeitnerBox whereLastReviewAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|LeitnerBox whereNextReviewAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|LeitnerBox whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|LeitnerBox whereUserId($value)
+ * @method static \App\Query\BranchBuilder<static>|LeitnerBox due()
+ * @method static \App\Query\BranchBuilder<static>|LeitnerBox finished()
+ * @method static \App\Query\BranchBuilder<static>|LeitnerBox forBranch(int $branchId)
+ * @method static \App\Query\BranchBuilder<static>|LeitnerBox inProgress()
+ * @method static \App\Query\BranchBuilder<static>|LeitnerBox newModelQuery()
+ * @method static \App\Query\BranchBuilder<static>|LeitnerBox newQuery()
+ * @method static \App\Query\BranchBuilder<static>|LeitnerBox query()
+ * @method static \App\Query\BranchBuilder<static>|LeitnerBox scheduled()
+ * @method static \App\Query\BranchBuilder<static>|LeitnerBox whereBox($value)
+ * @method static \App\Query\BranchBuilder<static>|LeitnerBox whereBranchId($value)
+ * @method static \App\Query\BranchBuilder<static>|LeitnerBox whereCreatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|LeitnerBox whereFinished($value)
+ * @method static \App\Query\BranchBuilder<static>|LeitnerBox whereFlashCardId($value)
+ * @method static \App\Query\BranchBuilder<static>|LeitnerBox whereId($value)
+ * @method static \App\Query\BranchBuilder<static>|LeitnerBox whereLastReviewAt($value)
+ * @method static \App\Query\BranchBuilder<static>|LeitnerBox whereNextReviewAt($value)
+ * @method static \App\Query\BranchBuilder<static>|LeitnerBox whereUpdatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|LeitnerBox whereUserId($value)
+ * @method static \App\Query\BranchBuilder<static>|LeitnerBox withAllBranches()
  */
 	class LeitnerBox extends \Eloquent {}
 }
@@ -1580,28 +1714,62 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * @property int $id
+ * @property int|null $branch_id
+ * @property int $user_id
+ * @property int $question_id
+ * @property string $body
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Branch|null $branch
+ * @property-read \App\Models\Question $question
+ * @property-read \App\Models\User $user
+ * @method static \App\Query\BranchBuilder<static>|Note forBranch(int $branchId)
+ * @method static \App\Query\BranchBuilder<static>|Note newModelQuery()
+ * @method static \App\Query\BranchBuilder<static>|Note newQuery()
+ * @method static \App\Query\BranchBuilder<static>|Note query()
+ * @method static \App\Query\BranchBuilder<static>|Note whereBody($value)
+ * @method static \App\Query\BranchBuilder<static>|Note whereBranchId($value)
+ * @method static \App\Query\BranchBuilder<static>|Note whereCreatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|Note whereId($value)
+ * @method static \App\Query\BranchBuilder<static>|Note whereQuestionId($value)
+ * @method static \App\Query\BranchBuilder<static>|Note whereUpdatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|Note whereUserId($value)
+ * @method static \App\Query\BranchBuilder<static>|Note withAllBranches()
+ */
+	class Note extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * @property string $title
  * @property string $description
  * @property int $id
+ * @property int|null $branch_id
  * @property int $user_id
+ * @property int $taxonomy_id
  * @property string $body
  * @property array<array-key, mixed>|null $tags
- * @property array<array-key, mixed>|null $languages
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Branch|null $branch
+ * @property-read \App\Models\Taxonomy $taxonomy
  * @property-read \App\Models\User $user
  * @method static \Database\Factories\NotebookFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Notebook newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Notebook newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Notebook query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Notebook whereBody($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Notebook whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Notebook whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Notebook whereLanguages($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Notebook whereTags($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Notebook whereTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Notebook whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Notebook whereUserId($value)
+ * @method static \App\Query\BranchBuilder<static>|Notebook forBranch(int $branchId)
+ * @method static \App\Query\BranchBuilder<static>|Notebook newModelQuery()
+ * @method static \App\Query\BranchBuilder<static>|Notebook newQuery()
+ * @method static \App\Query\BranchBuilder<static>|Notebook query()
+ * @method static \App\Query\BranchBuilder<static>|Notebook whereBody($value)
+ * @method static \App\Query\BranchBuilder<static>|Notebook whereBranchId($value)
+ * @method static \App\Query\BranchBuilder<static>|Notebook whereCreatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|Notebook whereId($value)
+ * @method static \App\Query\BranchBuilder<static>|Notebook whereTags($value)
+ * @method static \App\Query\BranchBuilder<static>|Notebook whereTaxonomyId($value)
+ * @method static \App\Query\BranchBuilder<static>|Notebook whereTitle($value)
+ * @method static \App\Query\BranchBuilder<static>|Notebook whereUpdatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|Notebook whereUserId($value)
+ * @method static \App\Query\BranchBuilder<static>|Notebook withAllBranches()
  */
 	class Notebook extends \Eloquent {}
 }
@@ -1765,32 +1933,37 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<Payment>     $payments
  * @property string $order_number
  * @property \App\Enums\OrderTypeEnum $type
+ * @property int|null $branch_id
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
  * @property-read int|null $activities_count
+ * @property-read \App\Models\Branch|null $branch
  * @property-read int|null $items_count
  * @property-read int|null $payments_count
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Order cancelled()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Order completed()
+ * @method static \App\Query\BranchBuilder<static>|Order cancelled()
+ * @method static \App\Query\BranchBuilder<static>|Order completed()
  * @method static \Database\Factories\OrderFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Order newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Order newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Order pending()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Order processing()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Order query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereDiscountAmount($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereDiscountId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereNote($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereOrderNumber($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Order wherePureAmount($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereTotalAmount($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereUserId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Order withDiscount()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Order withStatus(\App\Enums\OrderStatusEnum $status)
+ * @method static \App\Query\BranchBuilder<static>|Order forBranch(int $branchId)
+ * @method static \App\Query\BranchBuilder<static>|Order newModelQuery()
+ * @method static \App\Query\BranchBuilder<static>|Order newQuery()
+ * @method static \App\Query\BranchBuilder<static>|Order pending()
+ * @method static \App\Query\BranchBuilder<static>|Order processing()
+ * @method static \App\Query\BranchBuilder<static>|Order query()
+ * @method static \App\Query\BranchBuilder<static>|Order whereBranchId($value)
+ * @method static \App\Query\BranchBuilder<static>|Order whereCreatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|Order whereDiscountAmount($value)
+ * @method static \App\Query\BranchBuilder<static>|Order whereDiscountId($value)
+ * @method static \App\Query\BranchBuilder<static>|Order whereId($value)
+ * @method static \App\Query\BranchBuilder<static>|Order whereNote($value)
+ * @method static \App\Query\BranchBuilder<static>|Order whereOrderNumber($value)
+ * @method static \App\Query\BranchBuilder<static>|Order wherePureAmount($value)
+ * @method static \App\Query\BranchBuilder<static>|Order whereStatus($value)
+ * @method static \App\Query\BranchBuilder<static>|Order whereTotalAmount($value)
+ * @method static \App\Query\BranchBuilder<static>|Order whereType($value)
+ * @method static \App\Query\BranchBuilder<static>|Order whereUpdatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|Order whereUserId($value)
+ * @method static \App\Query\BranchBuilder<static>|Order withAllBranches()
+ * @method static \App\Query\BranchBuilder<static>|Order withDiscount()
+ * @method static \App\Query\BranchBuilder<static>|Order withStatus(\App\Enums\OrderStatusEnum $status)
  */
 	class Order extends \Eloquent {}
 }
@@ -1812,6 +1985,8 @@ namespace App\Models{
  * @property \Carbon\Carbon|null $updated_at
  * @property-read Order $order
  * @property-read Model $itemable
+ * @property int|null $branch_id
+ * @property-read \App\Models\Branch|null $branch
  * @property-read \App\Models\Course|null $course
  * @property-read \App\Models\Enrollment|null $enrollment
  * @property-read string $formatted_price
@@ -1821,22 +1996,25 @@ namespace App\Models{
  * @property-read string $item_type
  * @property-read string $refund_policy
  * @property-read float $total_price
- * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem byOrder(int $orderId)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem byPriceRange(float $minPrice, float $maxPrice)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem courseEnrollments()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem courses()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem whereItemableId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem whereItemableType($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem whereOrderId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem wherePrice($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem whereQuantity($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem withMinimumQuantity(int $quantity)
+ * @method static \App\Query\BranchBuilder<static>|OrderItem byOrder(int $orderId)
+ * @method static \App\Query\BranchBuilder<static>|OrderItem byPriceRange(float $minPrice, float $maxPrice)
+ * @method static \App\Query\BranchBuilder<static>|OrderItem courseEnrollments()
+ * @method static \App\Query\BranchBuilder<static>|OrderItem courses()
+ * @method static \App\Query\BranchBuilder<static>|OrderItem forBranch(int $branchId)
+ * @method static \App\Query\BranchBuilder<static>|OrderItem newModelQuery()
+ * @method static \App\Query\BranchBuilder<static>|OrderItem newQuery()
+ * @method static \App\Query\BranchBuilder<static>|OrderItem query()
+ * @method static \App\Query\BranchBuilder<static>|OrderItem whereBranchId($value)
+ * @method static \App\Query\BranchBuilder<static>|OrderItem whereCreatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|OrderItem whereId($value)
+ * @method static \App\Query\BranchBuilder<static>|OrderItem whereItemableId($value)
+ * @method static \App\Query\BranchBuilder<static>|OrderItem whereItemableType($value)
+ * @method static \App\Query\BranchBuilder<static>|OrderItem whereOrderId($value)
+ * @method static \App\Query\BranchBuilder<static>|OrderItem wherePrice($value)
+ * @method static \App\Query\BranchBuilder<static>|OrderItem whereQuantity($value)
+ * @method static \App\Query\BranchBuilder<static>|OrderItem whereUpdatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|OrderItem withAllBranches()
+ * @method static \App\Query\BranchBuilder<static>|OrderItem withMinimumQuantity(int $quantity)
  */
 	class OrderItem extends \Eloquent {}
 }
@@ -1904,6 +2082,7 @@ namespace App\Models{
 namespace App\Models{
 /**
  * @property int $id
+ * @property int|null $branch_id
  * @property int $user_id
  * @property int $order_id
  * @property float $amount
@@ -1916,24 +2095,28 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
  * @property-read int|null $activities_count
+ * @property-read \App\Models\Branch|null $branch
  * @property-read \App\Models\Order $order
  * @property-read \App\Models\User $user
  * @method static \Database\Factories\PaymentFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment whereAmount($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment whereExtraAttributes($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment whereNote($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment whereOrderId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment whereScheduledDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment whereUserId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment withExtraAttributes()
+ * @method static \App\Query\BranchBuilder<static>|Payment forBranch(int $branchId)
+ * @method static \App\Query\BranchBuilder<static>|Payment newModelQuery()
+ * @method static \App\Query\BranchBuilder<static>|Payment newQuery()
+ * @method static \App\Query\BranchBuilder<static>|Payment query()
+ * @method static \App\Query\BranchBuilder<static>|Payment whereAmount($value)
+ * @method static \App\Query\BranchBuilder<static>|Payment whereBranchId($value)
+ * @method static \App\Query\BranchBuilder<static>|Payment whereCreatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|Payment whereExtraAttributes($value)
+ * @method static \App\Query\BranchBuilder<static>|Payment whereId($value)
+ * @method static \App\Query\BranchBuilder<static>|Payment whereNote($value)
+ * @method static \App\Query\BranchBuilder<static>|Payment whereOrderId($value)
+ * @method static \App\Query\BranchBuilder<static>|Payment whereScheduledDate($value)
+ * @method static \App\Query\BranchBuilder<static>|Payment whereStatus($value)
+ * @method static \App\Query\BranchBuilder<static>|Payment whereType($value)
+ * @method static \App\Query\BranchBuilder<static>|Payment whereUpdatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|Payment whereUserId($value)
+ * @method static \App\Query\BranchBuilder<static>|Payment withAllBranches()
+ * @method static \App\Query\BranchBuilder<static>|Payment withExtraAttributes()
  */
 	class Payment extends \Eloquent {}
 }
@@ -2052,6 +2235,7 @@ namespace App\Models{
 namespace App\Models{
 /**
  * @property int $id
+ * @property int|null $branch_id
  * @property \App\Enums\QuestionTypeEnum $type
  * @property int|null $category_id
  * @property int|null $subject_id
@@ -2073,6 +2257,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\UserAnswer> $answers
  * @property-read int|null $answers_count
+ * @property-read \App\Models\Branch|null $branch
  * @property-read \App\Models\Category|null $category
  * @property-read \App\Models\QuestionCompetency|null $competency
  * @property-read \App\Models\User|null $creator
@@ -2083,42 +2268,45 @@ namespace App\Models{
  * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\Tag> $tags
  * @property-read \App\Models\QuestionSubject|null $subject
  * @property-read int|null $tags_count
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Question active()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Question byType(string $type)
+ * @method static \App\Query\BranchBuilder<static>|Question active()
+ * @method static \App\Query\BranchBuilder<static>|Question byType(string $type)
  * @method static \Database\Factories\QuestionFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Question fromBank()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Question newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Question newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Question public()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Question query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Question search(string $search)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Question surveyQuestions()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Question whereBody($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Question whereCategoryId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Question whereCompetencyId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Question whereConfig($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Question whereCorrectAnswer($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Question whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Question whereCreatedBy($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Question whereDefaultScore($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Question whereDifficulty($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Question whereExplanation($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Question whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Question whereIsActive($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Question whereIsPublic($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Question whereIsSurveyQuestion($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Question whereMetadata($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Question whereSubjectId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Question whereTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Question whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Question whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Question whereUsageCount($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Question withAllTags(\ArrayAccess|\Spatie\Tags\Tag|array|string $tags, ?string $type = null)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Question withAllTagsOfAnyType($tags)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Question withAnyTags(\ArrayAccess|\Spatie\Tags\Tag|array|string $tags, ?string $type = null)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Question withAnyTagsOfAnyType($tags)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Question withAnyTagsOfType(array|string $type)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Question withoutTags(\ArrayAccess|\Spatie\Tags\Tag|array|string $tags, ?string $type = null)
+ * @method static \App\Query\BranchBuilder<static>|Question forBranch(int $branchId)
+ * @method static \App\Query\BranchBuilder<static>|Question fromBank()
+ * @method static \App\Query\BranchBuilder<static>|Question newModelQuery()
+ * @method static \App\Query\BranchBuilder<static>|Question newQuery()
+ * @method static \App\Query\BranchBuilder<static>|Question public()
+ * @method static \App\Query\BranchBuilder<static>|Question query()
+ * @method static \App\Query\BranchBuilder<static>|Question search(string $search)
+ * @method static \App\Query\BranchBuilder<static>|Question surveyQuestions()
+ * @method static \App\Query\BranchBuilder<static>|Question whereBody($value)
+ * @method static \App\Query\BranchBuilder<static>|Question whereBranchId($value)
+ * @method static \App\Query\BranchBuilder<static>|Question whereCategoryId($value)
+ * @method static \App\Query\BranchBuilder<static>|Question whereCompetencyId($value)
+ * @method static \App\Query\BranchBuilder<static>|Question whereConfig($value)
+ * @method static \App\Query\BranchBuilder<static>|Question whereCorrectAnswer($value)
+ * @method static \App\Query\BranchBuilder<static>|Question whereCreatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|Question whereCreatedBy($value)
+ * @method static \App\Query\BranchBuilder<static>|Question whereDefaultScore($value)
+ * @method static \App\Query\BranchBuilder<static>|Question whereDifficulty($value)
+ * @method static \App\Query\BranchBuilder<static>|Question whereExplanation($value)
+ * @method static \App\Query\BranchBuilder<static>|Question whereId($value)
+ * @method static \App\Query\BranchBuilder<static>|Question whereIsActive($value)
+ * @method static \App\Query\BranchBuilder<static>|Question whereIsPublic($value)
+ * @method static \App\Query\BranchBuilder<static>|Question whereIsSurveyQuestion($value)
+ * @method static \App\Query\BranchBuilder<static>|Question whereMetadata($value)
+ * @method static \App\Query\BranchBuilder<static>|Question whereSubjectId($value)
+ * @method static \App\Query\BranchBuilder<static>|Question whereTitle($value)
+ * @method static \App\Query\BranchBuilder<static>|Question whereType($value)
+ * @method static \App\Query\BranchBuilder<static>|Question whereUpdatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|Question whereUsageCount($value)
+ * @method static \App\Query\BranchBuilder<static>|Question withAllBranches()
+ * @method static \App\Query\BranchBuilder<static>|Question withAllTags(\ArrayAccess|\Spatie\Tags\Tag|array|string $tags, ?string $type = null)
+ * @method static \App\Query\BranchBuilder<static>|Question withAllTagsOfAnyType($tags)
+ * @method static \App\Query\BranchBuilder<static>|Question withAnyTags(\ArrayAccess|\Spatie\Tags\Tag|array|string $tags, ?string $type = null)
+ * @method static \App\Query\BranchBuilder<static>|Question withAnyTagsOfAnyType($tags)
+ * @method static \App\Query\BranchBuilder<static>|Question withAnyTagsOfType(array|string $type)
+ * @method static \App\Query\BranchBuilder<static>|Question withoutTags(\ArrayAccess|\Spatie\Tags\Tag|array|string $tags, ?string $type = null)
  */
 	class Question extends \Eloquent {}
 }
@@ -2128,26 +2316,31 @@ namespace App\Models{
  * @property string $title
  * @property string $description
  * @property int $id
+ * @property int|null $branch_id
  * @property int $ordering
  * @property int $published
  * @property array<array-key, mixed>|null $languages
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Branch|null $branch
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translations
  * @property-read int|null $translations_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translationsPure
  * @property-read int|null $translations_pure_count
  * @method static \Database\Factories\QuestionCompetencyFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionCompetency newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionCompetency newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionCompetency query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionCompetency search($keyword)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionCompetency whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionCompetency whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionCompetency whereLanguages($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionCompetency whereOrdering($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionCompetency wherePublished($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionCompetency whereUpdatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|QuestionCompetency forBranch(int $branchId)
+ * @method static \App\Query\BranchBuilder<static>|QuestionCompetency newModelQuery()
+ * @method static \App\Query\BranchBuilder<static>|QuestionCompetency newQuery()
+ * @method static \App\Query\BranchBuilder<static>|QuestionCompetency query()
+ * @method static \App\Query\BranchBuilder<static>|QuestionCompetency search($keyword)
+ * @method static \App\Query\BranchBuilder<static>|QuestionCompetency whereBranchId($value)
+ * @method static \App\Query\BranchBuilder<static>|QuestionCompetency whereCreatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|QuestionCompetency whereId($value)
+ * @method static \App\Query\BranchBuilder<static>|QuestionCompetency whereLanguages($value)
+ * @method static \App\Query\BranchBuilder<static>|QuestionCompetency whereOrdering($value)
+ * @method static \App\Query\BranchBuilder<static>|QuestionCompetency wherePublished($value)
+ * @method static \App\Query\BranchBuilder<static>|QuestionCompetency whereUpdatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|QuestionCompetency withAllBranches()
  */
 	class QuestionCompetency extends \Eloquent {}
 }
@@ -2155,6 +2348,7 @@ namespace App\Models{
 namespace App\Models{
 /**
  * @property int $id
+ * @property int|null $branch_id
  * @property int $question_id
  * @property string $content
  * @property string $type
@@ -2163,20 +2357,24 @@ namespace App\Models{
  * @property array<array-key, mixed>|null $metadata
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Branch|null $branch
  * @property-read \App\Models\Question $question
  * @method static \Database\Factories\QuestionOptionFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionOption newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionOption newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionOption query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionOption whereContent($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionOption whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionOption whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionOption whereIsCorrect($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionOption whereMetadata($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionOption whereOrder($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionOption whereQuestionId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionOption whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionOption whereUpdatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|QuestionOption forBranch(int $branchId)
+ * @method static \App\Query\BranchBuilder<static>|QuestionOption newModelQuery()
+ * @method static \App\Query\BranchBuilder<static>|QuestionOption newQuery()
+ * @method static \App\Query\BranchBuilder<static>|QuestionOption query()
+ * @method static \App\Query\BranchBuilder<static>|QuestionOption whereBranchId($value)
+ * @method static \App\Query\BranchBuilder<static>|QuestionOption whereContent($value)
+ * @method static \App\Query\BranchBuilder<static>|QuestionOption whereCreatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|QuestionOption whereId($value)
+ * @method static \App\Query\BranchBuilder<static>|QuestionOption whereIsCorrect($value)
+ * @method static \App\Query\BranchBuilder<static>|QuestionOption whereMetadata($value)
+ * @method static \App\Query\BranchBuilder<static>|QuestionOption whereOrder($value)
+ * @method static \App\Query\BranchBuilder<static>|QuestionOption whereQuestionId($value)
+ * @method static \App\Query\BranchBuilder<static>|QuestionOption whereType($value)
+ * @method static \App\Query\BranchBuilder<static>|QuestionOption whereUpdatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|QuestionOption withAllBranches()
  */
 	class QuestionOption extends \Eloquent {}
 }
@@ -2186,26 +2384,31 @@ namespace App\Models{
  * @property string $title
  * @property string $description
  * @property int $id
+ * @property int|null $branch_id
  * @property int $ordering
  * @property int $published
  * @property array<array-key, mixed>|null $languages
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Branch|null $branch
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translations
  * @property-read int|null $translations_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translationsPure
  * @property-read int|null $translations_pure_count
  * @method static \Database\Factories\QuestionSubjectFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionSubject newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionSubject newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionSubject query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionSubject search($keyword)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionSubject whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionSubject whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionSubject whereLanguages($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionSubject whereOrdering($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionSubject wherePublished($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionSubject whereUpdatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|QuestionSubject forBranch(int $branchId)
+ * @method static \App\Query\BranchBuilder<static>|QuestionSubject newModelQuery()
+ * @method static \App\Query\BranchBuilder<static>|QuestionSubject newQuery()
+ * @method static \App\Query\BranchBuilder<static>|QuestionSubject query()
+ * @method static \App\Query\BranchBuilder<static>|QuestionSubject search($keyword)
+ * @method static \App\Query\BranchBuilder<static>|QuestionSubject whereBranchId($value)
+ * @method static \App\Query\BranchBuilder<static>|QuestionSubject whereCreatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|QuestionSubject whereId($value)
+ * @method static \App\Query\BranchBuilder<static>|QuestionSubject whereLanguages($value)
+ * @method static \App\Query\BranchBuilder<static>|QuestionSubject whereOrdering($value)
+ * @method static \App\Query\BranchBuilder<static>|QuestionSubject wherePublished($value)
+ * @method static \App\Query\BranchBuilder<static>|QuestionSubject whereUpdatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|QuestionSubject withAllBranches()
  */
 	class QuestionSubject extends \Eloquent {}
 }
@@ -2215,29 +2418,34 @@ namespace App\Models{
  * @property string $title
  * @property string $description
  * @property int $id
+ * @property int|null $branch_id
  * @property int $category_id
  * @property \App\Enums\BooleanEnum $published
  * @property int $ordering
  * @property array<array-key, mixed>|null $languages
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Branch|null $branch
  * @property-read \App\Models\Category $category
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translations
  * @property-read int|null $translations_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translationsPure
  * @property-read int|null $translations_pure_count
  * @method static \Database\Factories\QuestionSystemFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionSystem newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionSystem newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionSystem query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionSystem search($keyword)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionSystem whereCategoryId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionSystem whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionSystem whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionSystem whereLanguages($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionSystem whereOrdering($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionSystem wherePublished($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|QuestionSystem whereUpdatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|QuestionSystem forBranch(int $branchId)
+ * @method static \App\Query\BranchBuilder<static>|QuestionSystem newModelQuery()
+ * @method static \App\Query\BranchBuilder<static>|QuestionSystem newQuery()
+ * @method static \App\Query\BranchBuilder<static>|QuestionSystem query()
+ * @method static \App\Query\BranchBuilder<static>|QuestionSystem search($keyword)
+ * @method static \App\Query\BranchBuilder<static>|QuestionSystem whereBranchId($value)
+ * @method static \App\Query\BranchBuilder<static>|QuestionSystem whereCategoryId($value)
+ * @method static \App\Query\BranchBuilder<static>|QuestionSystem whereCreatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|QuestionSystem whereId($value)
+ * @method static \App\Query\BranchBuilder<static>|QuestionSystem whereLanguages($value)
+ * @method static \App\Query\BranchBuilder<static>|QuestionSystem whereOrdering($value)
+ * @method static \App\Query\BranchBuilder<static>|QuestionSystem wherePublished($value)
+ * @method static \App\Query\BranchBuilder<static>|QuestionSystem whereUpdatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|QuestionSystem withAllBranches()
  */
 	class QuestionSystem extends \Eloquent {}
 }
@@ -2261,6 +2469,8 @@ namespace App\Models{
  * @property \Carbon\Carbon|null                               $updated_at
  * @property \Carbon\Carbon|null                               $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, CourseSessionTemplate> $courseSessionTemplates
+ * @property int|null $branch_id
+ * @property-read \App\Models\Branch|null $branch
  * @property-read int|null $course_session_templates_count
  * @property-read int|null $duration
  * @property-read int|null $file_size
@@ -2270,30 +2480,33 @@ namespace App\Models{
  * @property-read string $url
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
  * @property-read int|null $media_count
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource byType(\App\Enums\ResourceType $type)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource documents()
+ * @method static \App\Query\BranchBuilder<static>|Resource byType(\App\Enums\ResourceType $type)
+ * @method static \App\Query\BranchBuilder<static>|Resource documents()
  * @method static \Database\Factories\ResourceFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource forCourseSessionTemplate(int $courseSessionTemplateId)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource media()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource newQuery()
+ * @method static \App\Query\BranchBuilder<static>|Resource forBranch(int $branchId)
+ * @method static \App\Query\BranchBuilder<static>|Resource forCourseSessionTemplate(int $courseSessionTemplateId)
+ * @method static \App\Query\BranchBuilder<static>|Resource media()
+ * @method static \App\Query\BranchBuilder<static>|Resource newModelQuery()
+ * @method static \App\Query\BranchBuilder<static>|Resource newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource ordered()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource private()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource public()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource whereExtraAttributes($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource whereIsPublic($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource whereOrder($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource wherePath($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource whereTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource withExtraAttributes()
+ * @method static \App\Query\BranchBuilder<static>|Resource ordered()
+ * @method static \App\Query\BranchBuilder<static>|Resource private()
+ * @method static \App\Query\BranchBuilder<static>|Resource public()
+ * @method static \App\Query\BranchBuilder<static>|Resource query()
+ * @method static \App\Query\BranchBuilder<static>|Resource whereBranchId($value)
+ * @method static \App\Query\BranchBuilder<static>|Resource whereCreatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|Resource whereDeletedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|Resource whereDescription($value)
+ * @method static \App\Query\BranchBuilder<static>|Resource whereExtraAttributes($value)
+ * @method static \App\Query\BranchBuilder<static>|Resource whereId($value)
+ * @method static \App\Query\BranchBuilder<static>|Resource whereIsPublic($value)
+ * @method static \App\Query\BranchBuilder<static>|Resource whereOrder($value)
+ * @method static \App\Query\BranchBuilder<static>|Resource wherePath($value)
+ * @method static \App\Query\BranchBuilder<static>|Resource whereTitle($value)
+ * @method static \App\Query\BranchBuilder<static>|Resource whereType($value)
+ * @method static \App\Query\BranchBuilder<static>|Resource whereUpdatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|Resource withAllBranches()
+ * @method static \App\Query\BranchBuilder<static>|Resource withExtraAttributes()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Resource withoutTrashed()
  */
@@ -2351,24 +2564,29 @@ namespace App\Models{
  * @property \Carbon\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Course>        $courses
  * @property-read \Illuminate\Database\Eloquent\Collection<int, CourseSession> $sessions
+ * @property int|null $branch_id
+ * @property-read \App\Models\Branch|null $branch
  * @property-read int|null $courses_count
  * @property-read string $full_location
  * @property-read int|null $sessions_count
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Room byCapacityRange(int $minCapacity, int $maxCapacity)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Room byLocation(string $location)
+ * @method static \App\Query\BranchBuilder<static>|Room byCapacityRange(int $minCapacity, int $maxCapacity)
+ * @method static \App\Query\BranchBuilder<static>|Room byLocation(string $location)
  * @method static \Database\Factories\RoomFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Room multilingual()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Room newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Room newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Room query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Room supportingLanguage(string $language)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Room whereCapacity($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Room whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Room whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Room whereLocation($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Room whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Room whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Room withMinimumCapacity(int $capacity)
+ * @method static \App\Query\BranchBuilder<static>|Room forBranch(int $branchId)
+ * @method static \App\Query\BranchBuilder<static>|Room multilingual()
+ * @method static \App\Query\BranchBuilder<static>|Room newModelQuery()
+ * @method static \App\Query\BranchBuilder<static>|Room newQuery()
+ * @method static \App\Query\BranchBuilder<static>|Room query()
+ * @method static \App\Query\BranchBuilder<static>|Room supportingLanguage(string $language)
+ * @method static \App\Query\BranchBuilder<static>|Room whereBranchId($value)
+ * @method static \App\Query\BranchBuilder<static>|Room whereCapacity($value)
+ * @method static \App\Query\BranchBuilder<static>|Room whereCreatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|Room whereId($value)
+ * @method static \App\Query\BranchBuilder<static>|Room whereLocation($value)
+ * @method static \App\Query\BranchBuilder<static>|Room whereName($value)
+ * @method static \App\Query\BranchBuilder<static>|Room whereUpdatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|Room withAllBranches()
+ * @method static \App\Query\BranchBuilder<static>|Room withMinimumCapacity(int $capacity)
  */
 	class Room extends \Eloquent {}
 }
@@ -2380,6 +2598,16 @@ namespace App\Models{
  * @property string $morphable_type
  * @property int $morphable_id
  * @property string|null $description
+ * @property string|null $og_image
+ * @property string|null $twitter_image
+ * @property string|null $focus_keyword
+ * @property string|null $meta_keywords
+ * @property string|null $author
+ * @property bool $sitemap_exclude
+ * @property numeric|null $sitemap_priority
+ * @property string|null $sitemap_changefreq
+ * @property string|null $image_alt
+ * @property string|null $image_title
  * @property string|null $canonical
  * @property string|null $old_url
  * @property string|null $redirect_to
@@ -2392,16 +2620,26 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SeoOption newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SeoOption newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SeoOption query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SeoOption whereAuthor($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SeoOption whereCanonical($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SeoOption whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SeoOption whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SeoOption whereFocusKeyword($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SeoOption whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SeoOption whereImageAlt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SeoOption whereImageTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SeoOption whereMetaKeywords($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SeoOption whereMorphableId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SeoOption whereMorphableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SeoOption whereOgImage($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SeoOption whereOldUrl($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SeoOption whereRedirectTo($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SeoOption whereRobotsMeta($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SeoOption whereSitemapChangefreq($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SeoOption whereSitemapExclude($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SeoOption whereSitemapPriority($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SeoOption whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SeoOption whereTwitterImage($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SeoOption whereUpdatedAt($value)
  */
 	class SeoOption extends \Eloquent {}
@@ -2409,7 +2647,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * @property mixed $extra_attributes
+ * @property SchemalessAttributes $extra_attributes
  * @property int $id
  * @property string $key
  * @property array<array-key, mixed> $permissions
@@ -2418,7 +2656,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
  * @property-read int|null $activities_count
- * @property-read string $title
+ * @property-read string|null $title
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
  * @property-read int|null $media_count
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Setting newModelQuery()
@@ -2629,6 +2867,7 @@ namespace App\Models{
 namespace App\Models{
 /**
  * @property int $id
+ * @property int|null $branch_id
  * @property int $user_id
  * @property string $title
  * @property string|null $description
@@ -2637,22 +2876,50 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $completed_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Branch|null $branch
  * @property-read \App\Models\User $user
  * @method static \Database\Factories\TaskFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Task newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Task newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Task query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Task whereCompletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Task whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Task whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Task whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Task whereScheduledFor($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Task whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Task whereTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Task whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Task whereUserId($value)
+ * @method static \App\Query\BranchBuilder<static>|Task forBranch(int $branchId)
+ * @method static \App\Query\BranchBuilder<static>|Task newModelQuery()
+ * @method static \App\Query\BranchBuilder<static>|Task newQuery()
+ * @method static \App\Query\BranchBuilder<static>|Task query()
+ * @method static \App\Query\BranchBuilder<static>|Task whereBranchId($value)
+ * @method static \App\Query\BranchBuilder<static>|Task whereCompletedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|Task whereCreatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|Task whereDescription($value)
+ * @method static \App\Query\BranchBuilder<static>|Task whereId($value)
+ * @method static \App\Query\BranchBuilder<static>|Task whereScheduledFor($value)
+ * @method static \App\Query\BranchBuilder<static>|Task whereStatus($value)
+ * @method static \App\Query\BranchBuilder<static>|Task whereTitle($value)
+ * @method static \App\Query\BranchBuilder<static>|Task whereUpdatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|Task whereUserId($value)
+ * @method static \App\Query\BranchBuilder<static>|Task withAllBranches()
  */
 	class Task extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * @property int $id
+ * @property int $user_id
+ * @property \App\Enums\TaxonomyTypeEnum $type
+ * @property string|null $name
+ * @property string $color
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Taxonomy newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Taxonomy newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Taxonomy query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Taxonomy whereColor($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Taxonomy whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Taxonomy whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Taxonomy whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Taxonomy whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Taxonomy whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Taxonomy whereUserId($value)
+ */
+	class Taxonomy extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -2708,10 +2975,12 @@ namespace App\Models{
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Course> $courses
+ * @property int|null $branch_id
  * @property array<array-key, mixed>|null $languages
  * @property string|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Course> $activeCourses
  * @property-read int|null $active_courses_count
+ * @property-read \App\Models\Branch|null $branch
  * @property-read int|null $courses_count
  * @property-read string $academic_year
  * @property-read int $days_remaining
@@ -2722,25 +2991,28 @@ namespace App\Models{
  * @property-read int|null $translations_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translationsPure
  * @property-read int|null $translations_pure_count
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Term active()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Term byAcademicYear(string $academicYear)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Term current()
+ * @method static \App\Query\BranchBuilder<static>|Term active()
+ * @method static \App\Query\BranchBuilder<static>|Term byAcademicYear(string $academicYear)
+ * @method static \App\Query\BranchBuilder<static>|Term current()
  * @method static \Database\Factories\TermFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Term future()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Term longTerm()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Term newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Term newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Term past()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Term query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Term search($keyword)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Term whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Term whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Term whereEndDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Term whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Term whereLanguages($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Term whereStartDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Term whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Term whereUpdatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|Term forBranch(int $branchId)
+ * @method static \App\Query\BranchBuilder<static>|Term future()
+ * @method static \App\Query\BranchBuilder<static>|Term longTerm()
+ * @method static \App\Query\BranchBuilder<static>|Term newModelQuery()
+ * @method static \App\Query\BranchBuilder<static>|Term newQuery()
+ * @method static \App\Query\BranchBuilder<static>|Term past()
+ * @method static \App\Query\BranchBuilder<static>|Term query()
+ * @method static \App\Query\BranchBuilder<static>|Term search($keyword)
+ * @method static \App\Query\BranchBuilder<static>|Term whereBranchId($value)
+ * @method static \App\Query\BranchBuilder<static>|Term whereCreatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|Term whereDeletedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|Term whereEndDate($value)
+ * @method static \App\Query\BranchBuilder<static>|Term whereId($value)
+ * @method static \App\Query\BranchBuilder<static>|Term whereLanguages($value)
+ * @method static \App\Query\BranchBuilder<static>|Term whereStartDate($value)
+ * @method static \App\Query\BranchBuilder<static>|Term whereStatus($value)
+ * @method static \App\Query\BranchBuilder<static>|Term whereUpdatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|Term withAllBranches()
  */
 	class Term extends \Eloquent {}
 }
@@ -2748,6 +3020,7 @@ namespace App\Models{
 namespace App\Models{
 /**
  * @property int $id
+ * @property int|null $branch_id
  * @property string $subject
  * @property \App\Enums\TicketDepartmentEnum $department
  * @property int $user_id
@@ -2768,6 +3041,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Ticket newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Ticket newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Ticket query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Ticket whereBranchId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Ticket whereClosedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Ticket whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Ticket whereDepartment($value)
@@ -2848,6 +3122,7 @@ namespace App\Models{
  * @property string $password
  * @property \App\Enums\BooleanEnum $status
  * @property \App\Enums\UserTypeEnum $type
+ * @property int|null $branch_id
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -2859,11 +3134,14 @@ namespace App\Models{
  * @property-read int|null $blogs_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Board> $boards
  * @property-read int|null $boards_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Branch> $branches
+ * @property-read int|null $branches_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\CardHistory> $cardHistory
  * @property-read int|null $card_history_count
  * @property-read \App\Models\ParentChild|null $pivot
  * @property-read \Illuminate\Database\Eloquent\Collection<int, User> $children
  * @property-read int|null $children_count
+ * @property-read \App\Models\Branch|null $defaultBranch
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Enrollment> $enrollments
  * @property-read int|null $enrollments_count
  * @property-read mixed $full_name
@@ -2894,6 +3172,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User permission($permissions, $without = false)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User role($roles, $guard = null, $without = false)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereBranchId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereEmailVerifiedAt($value)
@@ -2916,6 +3195,7 @@ namespace App\Models{
 namespace App\Models{
 /**
  * @property int $id
+ * @property int|null $branch_id
  * @property int $exam_attempt_id
  * @property int $question_id
  * @property array<array-key, mixed> $answer_data
@@ -2929,26 +3209,30 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\ExamAttempt $attempt
+ * @property-read \App\Models\Branch|null $branch
  * @property-read \App\Models\Question $question
- * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAnswer correct()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAnswer incorrect()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAnswer newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAnswer newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAnswer partiallyCorrect()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAnswer query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAnswer whereAnswerData($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAnswer whereAnsweredAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAnswer whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAnswer whereExamAttemptId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAnswer whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAnswer whereIsCorrect($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAnswer whereIsPartiallyCorrect($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAnswer whereMaxScore($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAnswer whereQuestionId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAnswer whereReviewedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAnswer whereScore($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAnswer whereTimeSpent($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|UserAnswer whereUpdatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|UserAnswer correct()
+ * @method static \App\Query\BranchBuilder<static>|UserAnswer forBranch(int $branchId)
+ * @method static \App\Query\BranchBuilder<static>|UserAnswer incorrect()
+ * @method static \App\Query\BranchBuilder<static>|UserAnswer newModelQuery()
+ * @method static \App\Query\BranchBuilder<static>|UserAnswer newQuery()
+ * @method static \App\Query\BranchBuilder<static>|UserAnswer partiallyCorrect()
+ * @method static \App\Query\BranchBuilder<static>|UserAnswer query()
+ * @method static \App\Query\BranchBuilder<static>|UserAnswer whereAnswerData($value)
+ * @method static \App\Query\BranchBuilder<static>|UserAnswer whereAnsweredAt($value)
+ * @method static \App\Query\BranchBuilder<static>|UserAnswer whereBranchId($value)
+ * @method static \App\Query\BranchBuilder<static>|UserAnswer whereCreatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|UserAnswer whereExamAttemptId($value)
+ * @method static \App\Query\BranchBuilder<static>|UserAnswer whereId($value)
+ * @method static \App\Query\BranchBuilder<static>|UserAnswer whereIsCorrect($value)
+ * @method static \App\Query\BranchBuilder<static>|UserAnswer whereIsPartiallyCorrect($value)
+ * @method static \App\Query\BranchBuilder<static>|UserAnswer whereMaxScore($value)
+ * @method static \App\Query\BranchBuilder<static>|UserAnswer whereQuestionId($value)
+ * @method static \App\Query\BranchBuilder<static>|UserAnswer whereReviewedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|UserAnswer whereScore($value)
+ * @method static \App\Query\BranchBuilder<static>|UserAnswer whereTimeSpent($value)
+ * @method static \App\Query\BranchBuilder<static>|UserAnswer whereUpdatedAt($value)
+ * @method static \App\Query\BranchBuilder<static>|UserAnswer withAllBranches()
  */
 	class UserAnswer extends \Eloquent {}
 }

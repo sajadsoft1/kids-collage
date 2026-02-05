@@ -58,21 +58,42 @@ class User extends Authenticatable implements HasMedia
     {
         $this->addMediaCollection('avatar')
             ->singleFile()
-            ->useFallbackUrl(url('assets/web/img/instructor-4.jpg'))
+            ->useFallbackUrl(url('assets/images/test/dummy_512x512_000000_eeeeee.png'))
             ->registerMediaConversions(function () {
                 $this->addMediaConversion(Constants::RESOLUTION_512_SQUARE)->fit(Fit::Crop, 512, 512);
             });
 
         $this->addMediaCollection('national_card')
             ->singleFile()
-            ->useFallbackUrl('/assets/images/default/user-avatar.png')
+            ->useFallbackUrl('/assets/images/default/21@2x.png')
             ->registerMediaConversions(function () {
                 $this->addMediaConversion(Constants::RESOLUTION_512_SQUARE)->fit(Fit::Crop, 512, 512);
             });
 
         $this->addMediaCollection('birth_certificate')
             ->singleFile()
-            ->useFallbackUrl('/assets/images/default/user-avatar.png')
+            ->useFallbackUrl('/assets/images/default/21@2x.png')
+            ->registerMediaConversions(function () {
+                $this->addMediaConversion(Constants::RESOLUTION_512_SQUARE)->fit(Fit::Crop, 512, 512);
+            });
+
+        $this->addMediaCollection('resume')
+            ->singleFile()
+            ->useFallbackUrl('/assets/images/default/21@2x.png')
+            ->registerMediaConversions(function () {
+                $this->addMediaConversion(Constants::RESOLUTION_512_SQUARE)->fit(Fit::Crop, 512, 512);
+            });
+
+        $this->addMediaCollection('education_certificates')
+            ->singleFile()
+            ->useFallbackUrl('/assets/images/default/21@2x.png')
+            ->registerMediaConversions(function () {
+                $this->addMediaConversion(Constants::RESOLUTION_512_SQUARE)->fit(Fit::Crop, 512, 512);
+            });
+
+        $this->addMediaCollection('completed_courses')
+            ->singleFile()
+            ->useFallbackUrl('/assets/images/default/21@2x.png')
             ->registerMediaConversions(function () {
                 $this->addMediaConversion(Constants::RESOLUTION_512_SQUARE)->fit(Fit::Crop, 512, 512);
             });
@@ -227,7 +248,11 @@ class User extends Authenticatable implements HasMedia
 
     public function mother(): ?User
     {
-        return $this->parents()->whereHas('profile', fn ($q) => $q->where('gender', GenderEnum::FEMALE))->first();
+        return SmartCache::for(__CLASS__)
+            ->key('mother' . $this->id)
+            ->remember(function () {
+                return $this->parents()->whereHas('profile', fn ($q) => $q->where('gender', GenderEnum::FEMALE))->first();
+            }, 3600);
     }
 
     /** Check if the user has access to a specific branch. */

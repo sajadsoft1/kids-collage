@@ -13,9 +13,9 @@
     <script src="/assets/js/tinymce/tinymce.min.js"></script>
     <script src="/assets/js/chart.umd.min.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/photoswipe@5.4.3/dist/umd/photoswipe.umd.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/photoswipe@5.4.3/dist/umd/photoswipe-lightbox.umd.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/photoswipe@5.4.3/dist/photoswipe.min.css" rel="stylesheet">
+    <script src="/assets/js/photoswipe.umd.min.js"></script>
+    <script src="/assets/js/photoswipe-lightbox.umd.min.js"></script>
+    <link href="/assets/css/photoswipe.min.css" rel="stylesheet">
 
     <link rel="stylesheet" href="/assets/css/flatpickr.min.css">
     <script src="/assets/js/flatpickr.min.js"></script>

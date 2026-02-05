@@ -3,15 +3,16 @@
 declare(strict_types=1);
 
 return [
-    'model' => 'دانش آموز',
+    'model' => 'زبان آموز',
     'teacher' => 'مربی',
     'employee' => 'کارمند',
     'parent' => 'والدین',
-    'user' => 'دانش آموز',
+    'user' => 'زبان آموز',
 
     'validation' => [
         'name_required' => 'وارد کردن نام الزامی است',
         'family_required' => 'وارد کردن نام خانوادگی الزامی است',
+        'at_least_one_parent_required' => 'انتخاب حداقل یکی از پدر یا مادر الزامی است.',
     ],
 
     'exceptions' => [
@@ -29,6 +30,16 @@ return [
         'password_section' => 'از این قسمت می توانید پسورد کاربر را تغییر دهید',
         'parents_info' => 'اطلاعات والدین',
         'salary_info' => 'حقوق ماهیانه',
+        'resume_section' => 'رزومه کاری',
+        'resume_description' => 'توضیحات رزومه کاری',
+        'resume_image' => 'تصویر رزومه کاری',
+        'education_section' => 'مدارک تحصیلی',
+        'education_description' => 'توضیحات مدارک تحصیلی',
+        'education_image' => 'تصویر مدارک تحصیلی',
+        'courses_section' => 'دوره‌های گذرانده شده',
+        'courses_description' => 'توضیحات دوره‌های گذرانده شده',
+        'courses_image' => 'تصویر دوره‌های گذرانده شده',
+        'no_image' => 'تصویری انتخاب نشده',
         'images_section' => 'عکس های کاربر',
         'generatin_password_is_mobile_number' => 'پسورد جدید با موبایل خود کاربر برابر خواهد بود',
         'image' => [
@@ -40,6 +51,15 @@ return [
         'images_gallery' => 'گالری عکس های کاربر',
         'select_father_placeholder' => 'یک پدر را انتخاب کنید',
         'select_mother_placeholder' => 'یک مادر را انتخاب کنید',
+        'select_children_placeholder' => 'یک زبان آموز را انتخاب کنید',
+        'tabs' => [
+            'basic' => 'اطلاعات پایه',
+            'images' => 'تصاویر',
+            'parents' => 'والدین / فرزندان',
+            'salary' => 'حقوق و همکاری',
+            'resume' => 'رزومه و مدارک',
+            'settings' => 'تنظیمات',
+        ],
     ],
 
     'messages' => [
@@ -50,7 +70,7 @@ return [
         'teacher' => 'استاد',
         'employee' => 'کارمند',
         'parent' => 'والدین',
-        'user' => 'دانش آموز',
+        'user' => 'زبان آموز',
     ],
     'profile' => [
         'tabs' => [
@@ -63,4 +83,10 @@ return [
             'logout-tab' => 'خروج',
         ],
     ],
+    'gender' => [
+        'male' => 'پسر',
+        'female' => 'دختر',
+    ],
+
+    'published_status_default_hint' => 'آیا این کاربر اجازه فعالیت در سامانه را خواهد داشت؟',
 ];

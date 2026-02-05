@@ -8,7 +8,17 @@
         "framework"
     ],
     "license": "MIT",
+    "repositories": [
+        {
+            "type": "path",
+            "url": "./packages/karnoweb/livewire-datepicker",
+            "options": {
+                "symlink": true
+            }
+        }
+    ],
     "require": {
+        "karnoweb/livewire-datepicker": "@dev",
         "php": "^8.2",
         "artesaos/seotools": "^1.3",
         "binarytorch/larecipe": "^2.7",

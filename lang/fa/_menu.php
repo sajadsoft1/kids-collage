@@ -23,7 +23,7 @@ return [
     'ticket_management' => 'تیکت ها',
     'report_management' => 'گزارشات',
     'notice_management' => 'اطلاعیه ها',
-    'user_management' => 'دانش آموزان',
+    'user_management' => 'زبان آموزان',
     'teacher_management' => 'مربیان',
     'parent_management' => 'والدین',
     'employee_management' => 'کارمندان',
