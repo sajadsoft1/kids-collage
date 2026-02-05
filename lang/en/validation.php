@@ -314,5 +314,6 @@ return [
         'mother_age' => 'Mother age',
         'mother_education' => 'Mother education',
         'mother_workplace' => 'Mother workplace',
+        'number_of_siblings' => 'Number of siblings',
     ],
 ];

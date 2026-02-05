@@ -55,6 +55,8 @@ class UserTabParents extends Component
 
     public array $children_id = [];
 
+    public ?int $number_of_siblings = null;
+
     public function mount(
         User $user,
         UserTypeEnum $detected_user_type,
@@ -87,6 +89,8 @@ class UserTabParents extends Component
             } elseif ($this->detected_user_type === UserTypeEnum::PARENT) {
                 $this->children_id = $this->user->children()->pluck('id')->toArray();
             }
+            $raw = $this->user->profile?->extra_attributes->get('number_of_siblings');
+            $this->number_of_siblings = $raw !== null && $raw !== '' ? (int) $raw : null;
         }
     }
 
@@ -121,6 +125,7 @@ class UserTabParents extends Component
             ],
             'children_id' => 'nullable|array',
             'children_id.*' => 'exists:users,id',
+            'number_of_siblings' => 'nullable|integer|min:0|max:50',
         ];
 
         return $rules;

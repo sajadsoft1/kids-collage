@@ -25,24 +25,18 @@
 
         {{-- Brand Header with Gradient --}}
         {{-- Sidebar Brand Header --}}
-        <div
-            class="sticky top-0 z-20 bg-gradient-to-b from-primary/80 to-base-100 shadow-lg h-[74px] flex items-center justify-center">
+        <div class="sticky top-0 z-20  h-[60px] flex items-center justify-center">
             {{-- Full logo and name when sidebar expanded --}}
             <div class="flex gap-3 items-center px-4 py-3 w-full hidden-when-collapsed">
-                <a href="{{ route('admin.dashboard') }}" class="flex gap-3 items-center group">
-                    <img src="/assets/images/logo.png" alt="Logo"
-                        class="p-1 w-10 h-10 rounded-2xl shadow-lg transition-transform duration-200 group-hover:scale-105 bg-white/90" />
-                    <span
-                        class="text-xl font-extrabold tracking-tight transition-colors duration-200 select-none text-primary-content group-hover:text-primary">
-                        Lilingo
-                    </span>
+                <a href="{{ route('admin.dashboard') }}">
+                    <img src="/assets/images/lilingo-logo-text.png" alt="Logo" class="p-5 mx-auto w-10/12" />
                 </a>
             </div>
             {{-- Compact logo when sidebar collapsed --}}
             <div class="hidden w-full h-full display-when-collapsed">
                 <a href="{{ route('admin.dashboard') }}" class="flex justify-center items-center w-full h-full group">
                     <span class="relative">
-                        <img src="/assets/images/logo.png" alt="Logo"
+                        <img src="/assets/images/lilingo-logo-text.png" alt="Logo"
                             class="p-1 mx-auto w-10 h-10 rounded-2xl shadow-lg transition-transform duration-200 group-hover:scale-110 bg-white/90" />
                         <span class="sr-only">Lilingo</span>
                     </span>

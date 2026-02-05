@@ -18,7 +18,7 @@ readonly class UpdateUserParentsAction
     /**
      * Update profile parent fields and parent/child relations.
      *
-     * @param  array{type?:string, father_id?:int, mother_id?:int, children_id?:array<int>, father_name?:string, father_phone?:string, mother_name?:string, mother_phone?:string, father_age?:string, father_education?:string, father_workplace?:string, mother_age?:string, mother_education?:string, mother_workplace?:string} $payload
+     * @param  array{type?:string, father_id?:int, mother_id?:int, children_id?:array<int>, father_name?:string, father_phone?:string, mother_name?:string, mother_phone?:string, father_age?:string, father_education?:string, father_workplace?:string, mother_age?:string, mother_education?:string, mother_workplace?:string, number_of_siblings?:int|null} $payload
      * @throws Throwable
      */
     public function handle(User $user, array $payload): User
@@ -36,6 +36,7 @@ readonly class UpdateUserParentsAction
             $user->profile->extra_attributes->set('mother_age', Arr::get($payload, 'mother_age', ''));
             $user->profile->extra_attributes->set('mother_education', Arr::get($payload, 'mother_education', ''));
             $user->profile->extra_attributes->set('mother_workplace', Arr::get($payload, 'mother_workplace', ''));
+            $user->profile->extra_attributes->set('number_of_siblings', Arr::get($payload, 'number_of_siblings'));
             $user->profile->save();
 
             $type = Arr::get($payload, 'type');

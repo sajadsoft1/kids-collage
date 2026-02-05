@@ -2,7 +2,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ isset($title) ? $title . ' - ' . config('app.name') : config('app.name') }}</title>
+    <title>پنل کاربری | Lingo Kids</title>
+    <link rel="icon" type="image/png" href="{{ asset('assets/images/lilingo-logo.png') }}">
 
 
     <link rel="stylesheet" href="/assets/fonts/fontawesome/css/all.min.css">

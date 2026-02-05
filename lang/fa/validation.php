@@ -314,6 +314,7 @@ return [
         'mother_age' => 'سن مادر',
         'mother_education' => 'مدرک تحصیلی مادر',
         'mother_workplace' => 'محل کار مادر',
+        'number_of_siblings' => 'تعداد خواهر و برادر',
         'religion' => 'دین',
         'birth_date' => 'تاریخ تولد',
         'national_code' => 'کد ملی',

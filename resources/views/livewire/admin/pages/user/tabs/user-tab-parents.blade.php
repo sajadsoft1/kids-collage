@@ -20,6 +20,8 @@
                 <div class="lg:col-span-2">
                     <x-textarea :label="trans('validation.attributes.mother_workplace')" wire:model="mother_workplace" />
                 </div>
+                <x-input :label="trans('validation.attributes.number_of_siblings')" wire:model="number_of_siblings" type="number"
+                    min="0" max="50" :placeholder="trans('validation.attributes.number_of_siblings')" />
             </div>
         @elseif($detected_user_type == \App\Enums\UserTypeEnum::USER)
             <x-alert :title="trans('user.validation.at_least_one_parent_required')" icon="o-exclamation-triangle" class="mb-4 alert-info" />
@@ -27,6 +29,8 @@
                 option-value="value" :placeholder="trans('user.page.select_father_placeholder')" placeholder-value="0" option-label="label" single searchable />
             <x-choices-offline :label="trans('validation.attributes.mother_name')" wire:model="mother_id" :options="$female_parents" clearable
                 option-value="value" :placeholder="trans('user.page.select_mother_placeholder')" placeholder-value="0" option-label="label" single searchable />
+            <x-input :label="trans('validation.attributes.number_of_siblings')" wire:model="number_of_siblings" type="number"
+                min="0" max="50" :placeholder="trans('validation.attributes.number_of_siblings')" />
         @else
             <x-choices-offline :label="trans('validation.attributes.children')" wire:model="children_id" :options="$childrens" clearable
                 option-value="value" :placeholder="trans('user.page.select_children_placeholder')" placeholder-value="0" option-label="label" searchable />
