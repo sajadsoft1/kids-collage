@@ -8,6 +8,7 @@ use App\Actions\Room\StoreRoomAction;
 use App\Actions\Room\UpdateRoomAction;
 use App\Models\Room;
 use App\Traits\CrudHelperTrait;
+use App\Traits\HasLearningModal;
 use Illuminate\View\View;
 use Livewire\Component;
 use Mary\Traits\Toast;
@@ -16,6 +17,7 @@ use Throwable;
 class RoomUpdateOrCreate extends Component
 {
     use CrudHelperTrait;
+    use HasLearningModal;
     use Toast;
 
     public Room $model;
@@ -39,6 +41,27 @@ class RoomUpdateOrCreate extends Component
             'name' => 'required|string',
             'location' => 'required|string',
             'capacity' => 'required|integer|min:1',
+        ];
+    }
+
+    /**
+     * Learning modal sections for this page. Used by HasLearningModal trait.
+     *
+     * @return array<int|string, array{title: string, content: string, icon?: string}>
+     */
+    public function getLearningSections(): array
+    {
+        return [
+            'create' => [
+                'title' => trans('room.learning.create.title'),
+                'content' => trans('room.learning.create.content'),
+                'icon' => 'o-plus-circle',
+            ],
+            'edit' => [
+                'title' => trans('room.learning.edit.title'),
+                'content' => trans('room.learning.edit.content'),
+                'icon' => 'o-pencil-square',
+            ],
         ];
     }
 
@@ -77,9 +100,9 @@ class RoomUpdateOrCreate extends Component
                 ['link' => route('admin.room.index'), 'label' => trans('general.page.index.title', ['model' => trans('room.model')])],
                 ['label' => trans('general.page.create.title', ['model' => trans('room.model')])],
             ],
-            'breadcrumbsActions' => [
+            'breadcrumbsActions' => $this->withLearningModalActions([
                 ['link' => route('admin.room.index'), 'icon' => 's-arrow-left'],
-            ],
+            ]),
         ]);
     }
 }

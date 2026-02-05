@@ -7,8 +7,8 @@
 <form wire:submit="submit">
     <x-admin.shared.bread-crumbs :breadcrumbs="$breadcrumbs" :breadcrumbs-actions="$breadcrumbsActions" />
 
-    <x-tabs wire:model="selectedTab" active-class="bg-primary rounded !text-white" label-class="px-4 py-3 font-semibold"
-        label-div-class="p-2 rounded bg-base-100">
+    <x-tabs wire:model="selectedTab" active-class="bg-primary rounded !text-base-content"
+        label-class="px-4 py-3 font-semibold" label-div-class="p-2 rounded bg-base-100">
 
 
         <x-tab name="informations-tab" label="{{ trans('coursetemplate.page.course_template_details') }}"
@@ -63,12 +63,12 @@
 
             <x-accordion wire:model="group">
                 @foreach ($sessions as $index => $session)
-                    <x-collapse name="group_{{ $index }}" class="bg-white">
+                    <x-collapse name="group_{{ $index }}" class="bg-base-100">
                         <x-slot:heading>
                             <div class="p-5">
                                 <div class="flex items-center mb-5 space-x-3">
                                     <div
-                                        class="flex justify-center items-center w-12 h-12 text-2xl text-center text-white rounded-full bg-primary">
+                                        class="flex justify-center items-center w-12 h-12 text-2xl text-center rounded-full text-base-content bg-primary">
                                         {{ $session['order'] }}</div>
                                     <div class="grow">
                                         <x-input wire:model="sessions.{{ $index }}.title" class=""

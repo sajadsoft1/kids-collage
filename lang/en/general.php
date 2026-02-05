@@ -10,6 +10,8 @@ return [
     'back' => 'Back',
     'submit' => 'Submit',
     'cancel' => 'Cancel',
+    'learning' => 'Learn',
+    'help' => 'Help',
 
     'please_select_an_option' => 'Please select an option',
     'yes' => 'Yes',
