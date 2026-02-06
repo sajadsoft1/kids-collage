@@ -45,5 +45,29 @@ return [
         'minutes' => 'minutes',
         'excuse' => 'Excuse',
         'attendance_not_recorded' => 'Your attendance for this session has not been recorded',
+        'by_student' => 'By Student',
+        'by_session' => 'By Session',
+        'all_records' => 'All Records',
+        'total_sessions' => 'Total Sessions',
+        'present_count' => 'Present',
+        'attendance_percent' => 'Attendance %',
+        'view_records' => 'View Records',
+        'absent_count' => 'Absent',
+        'mark_attendance' => 'Mark Attendance',
+    ],
+
+    'learning' => [
+        'all_records' => [
+            'title' => 'All Attendance Records',
+            'content' => '<p>List of every attendance record (each student per session). You can filter by course and student, select multiple rows with checkboxes, and use "All Present" or "All Absent" to update status in bulk.</p>',
+        ],
+        'by_student' => [
+            'title' => 'Summary by Student',
+            'content' => '<p>Each row is one student (enrollment): total sessions, present count, attendance percentage. Use "View Records" to see that student\'s records on the All Records page.</p>',
+        ],
+        'by_session' => [
+            'title' => 'Summary by Session',
+            'content' => '<p>Each row is one course session: course, date and time, present/absent counts, attendance percentage. Use "Mark Attendance" to go to that course page and record attendance for that session.</p>',
+        ],
     ],
 ];

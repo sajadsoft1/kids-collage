@@ -85,6 +85,7 @@ return [
     'enrollment' => 'ثبت نام',
     'session' => 'جلسه',
     'present' => 'حضور',
+    'absent' => 'غایب',
     'arrival_time' => 'زمان ورود',
     'leave_time' => 'زمان خروج',
     'teacher' => 'استاد',

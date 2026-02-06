@@ -112,10 +112,9 @@ final class BlogTable extends PowerGridComponent
             Filter::enumSelect('published_formated', 'published')
                 ->datasource(BooleanEnum::cases()),
 
-            Filter::datepicker('created_at_formatted', 'created_at')
-                ->params([
-                    'maxDate' => now(),
-                ]),
+            PowerGridHelper::filterDatepickerJalali('created_at_formatted', 'created_at', [
+                'maxDate' => now()->format('Y-m-d'),
+            ]),
 
             Filter::select('category_formatted', 'category_id')
                 ->dataSource(Category::where('type', CategoryTypeEnum::BLOG->value)->get()->map(function ($category) {

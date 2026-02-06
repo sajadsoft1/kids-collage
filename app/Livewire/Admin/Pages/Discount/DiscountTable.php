@@ -115,10 +115,9 @@ final class DiscountTable extends PowerGridComponent
             //            Filter::enumSelect('is_active_formatted', 'is_active')
             //                ->datasource(BooleanEnum::cases()),
 
-            Filter::datepicker('created_at_formatted', 'created_at')
-                ->params([
-                    'maxDate' => now(),
-                ]),
+            PowerGridHelper::filterDatepickerJalali('created_at_formatted', 'created_at', [
+                'maxDate' => now()->format('Y-m-d'),
+            ]),
         ];
     }
 

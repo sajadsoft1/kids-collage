@@ -63,6 +63,6 @@ trait HasLearningModal
     {
         $learning = $this->getLearningModalAction();
 
-        return $learning !== [] ? array_merge([$learning], $actions) : $actions;
+        return $learning !== [] ? array_merge($actions, [$learning]) : $actions;
     }
 }

@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\View\View;
 use Livewire\Attributes\Computed;
 use PowerComponents\LivewirePowerGrid\Column;
-use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
@@ -83,10 +82,9 @@ final class ContactUsTable extends PowerGridComponent
     public function filters(): array
     {
         return [
-            Filter::datepicker('created_at_formatted', 'created_at')
-                ->params([
-                    'maxDate' => now(),
-                ]),
+            PowerGridHelper::filterDatepickerJalali('created_at_formatted', 'created_at', [
+                'maxDate' => now()->format('Y-m-d'),
+            ]),
         ];
     }
 

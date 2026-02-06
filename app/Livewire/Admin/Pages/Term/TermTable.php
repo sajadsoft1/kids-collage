@@ -89,14 +89,12 @@ final class TermTable extends PowerGridComponent
             Filter::enumSelect('status_formatted', 'status')
                 ->dataSource(TermStatus::cases()),
 
-            Filter::datepicker('start_date_formatted', 'start_date')
-                ->params([
-                    'maxDate' => now(),
-                ]),
-            Filter::datepicker('end_date_formatted', 'end_date')
-                ->params([
-                    'maxDate' => now(),
-                ]),
+            PowerGridHelper::filterDatepickerJalali('start_date_formatted', 'start_date', [
+                'maxDate' => now()->format('Y-m-d'),
+            ]),
+            PowerGridHelper::filterDatepickerJalali('end_date_formatted', 'end_date', [
+                'maxDate' => now()->format('Y-m-d'),
+            ]),
         ];
     }
 

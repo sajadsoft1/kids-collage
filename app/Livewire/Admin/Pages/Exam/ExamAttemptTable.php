@@ -117,15 +117,13 @@ final class ExamAttemptTable extends PowerGridComponent
             Filter::enumSelect('status', 'status')
                 ->datasource(AttemptStatusEnum::cases()),
 
-            Filter::datepicker('started_at_formatted', 'started_at')
-                ->params([
-                    'maxDate' => now(),
-                ]),
+            PowerGridHelper::filterDatepickerJalali('started_at_formatted', 'started_at', [
+                'maxDate' => now()->format('Y-m-d'),
+            ]),
 
-            Filter::datepicker('completed_at_formatted', 'completed_at')
-                ->params([
-                    'maxDate' => now(),
-                ]),
+            PowerGridHelper::filterDatepickerJalali('completed_at_formatted', 'completed_at', [
+                'maxDate' => now()->format('Y-m-d'),
+            ]),
         ];
     }
 

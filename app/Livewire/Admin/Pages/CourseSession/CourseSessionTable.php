@@ -14,7 +14,6 @@ use Illuminate\View\View;
 use Livewire\Attributes\Computed;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
-use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
@@ -91,10 +90,9 @@ final class CourseSessionTable extends PowerGridComponent
     public function filters(): array
     {
         return [
-            Filter::datepicker('date_formatted', 'date')
-                ->params([
-                    'maxDate' => now(),
-                ]),
+            PowerGridHelper::filterDatepickerJalali('date_formatted', 'date', [
+                'maxDate' => now()->format('Y-m-d'),
+            ]),
         ];
     }
 

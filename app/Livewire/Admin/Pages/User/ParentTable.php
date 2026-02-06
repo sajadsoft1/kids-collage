@@ -15,7 +15,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
-use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
@@ -97,10 +96,9 @@ final class ParentTable extends PowerGridComponent
     public function filters(): array
     {
         return [
-            Filter::datepicker('created_at_formatted', 'created_at')
-                ->params([
-                    'maxDate' => now(),
-                ]),
+            PowerGridHelper::filterDatepickerJalali('created_at_formatted', 'created_at', [
+                'maxDate' => now()->format('Y-m-d'),
+            ]),
         ];
     }
 

@@ -83,10 +83,9 @@ final class CourseTemplateTable extends PowerGridComponent
     public function filters(): array
     {
         return [
-            Filter::datepicker('created_at_formatted', 'created_at')
-                ->params([
-                    'maxDate' => now(),
-                ]),
+            PowerGridHelper::filterDatepickerJalali('created_at_formatted', 'created_at', [
+                'maxDate' => now()->format('Y-m-d'),
+            ]),
 
             Filter::select('category_formatted', 'category_id')
                 ->dataSource(Category::where('type', CategoryTypeEnum::COURSE->value)->get()->map(function ($category) {

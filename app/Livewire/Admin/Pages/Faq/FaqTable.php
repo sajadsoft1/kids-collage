@@ -102,10 +102,9 @@ final class FaqTable extends PowerGridComponent
             Filter::enumSelect('favorite_formated', 'favorite')
                 ->datasource(YesNoEnum::cases()),
 
-            Filter::datepicker('created_at_formatted', 'created_at')
-                ->params([
-                    'maxDate' => now(),
-                ]),
+            PowerGridHelper::filterDatepickerJalali('created_at_formatted', 'created_at', [
+                'maxDate' => now()->format('Y-m-d'),
+            ]),
         ];
     }
 

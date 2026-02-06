@@ -73,8 +73,14 @@ class CourseDetail extends Component
             'room',
         ]);
 
-        // Select first session by default if available
-        if ($this->course->sessions->isNotEmpty()) {
+        // Select session from query or first session by default
+        if (request()->has('session_id')) {
+            $sessionId = (int) request('session_id');
+            if ($this->course->sessions->contains('id', $sessionId)) {
+                $this->selectedSessionId = $sessionId;
+            }
+        }
+        if ( ! $this->selectedSessionId && $this->course->sessions->isNotEmpty()) {
             $this->selectedSessionId = $this->course->sessions->first()->id;
         }
     }

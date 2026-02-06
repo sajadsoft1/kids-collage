@@ -109,10 +109,9 @@ final class CommentTable extends PowerGridComponent
                         'value' => Category::class,
                     ],
                 ])->optionValue('value')->optionLabel('label'),
-            Filter::datepicker('created_at_formatted', 'created_at')
-                ->params([
-                    'maxDate' => now(),
-                ]),
+            PowerGridHelper::filterDatepickerJalali('created_at_formatted', 'created_at', [
+                'maxDate' => now()->format('Y-m-d'),
+            ]),
         ];
     }
 

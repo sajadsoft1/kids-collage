@@ -129,10 +129,9 @@ final class CourseTable extends PowerGridComponent
     public function filters(): array
     {
         return [
-            Filter::datepicker('created_at_formatted', 'created_at')
-                ->params([
-                    'maxDate' => now(),
-                ]),
+            PowerGridHelper::filterDatepickerJalali('created_at_formatted', 'created_at', [
+                'maxDate' => now()->format('Y-m-d'),
+            ]),
 
             Filter::select('teacher_formatted', 'teacher_id')
                 ->dataSource(User::whereHas('roles', function (Builder $query) {

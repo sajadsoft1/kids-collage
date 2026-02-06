@@ -20,7 +20,7 @@ trait PowerGridHelperTrait
         // The persist feature saves the state of columns, sorting, and filters so they can be reused in the future when the Table is loaded again.
         $this->persist(
             tableItems: $this->persistItems,
-            prefix: 'user_' . auth()->id() ?? ''
+            prefix: 'user_' . (auth()->id() ?? '0')
         );
         $setup = [
             PowerGrid::header()
