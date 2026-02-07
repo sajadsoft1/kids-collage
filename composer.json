@@ -10,18 +10,12 @@
     "license": "MIT",
     "repositories": [
         {
-            "type": "path",
-            "url": "./packages/karnoweb/livewire-datepicker",
-            "options": {
-                "symlink": true
-            }
+            "type": "vcs",
+            "url": "https://github.com/karnoweb/livewire-datepicker"
         },
         {
-            "type": "path",
-            "url": "./packages/karnoweb/laravel-ticket-chat",
-            "options": {
-                "symlink": true
-            }
+            "type": "vcs",
+            "url": "https://github.com/karnoweb/laravel-ticket-chat"
         }
     ],
     "require": {
@@ -33,8 +27,8 @@
         "darkaonline/l5-swagger": "^9.0",
         "fruitcake/php-cors": "^1.3",
         "jenssegers/agent": "^2.6",
-        "karnoweb/laravel-ticket-chat": "@dev",
-        "karnoweb/livewire-datepicker": "@dev",
+        "karnoweb/laravel-ticket-chat": "^2.0",
+        "karnoweb/livewire-datepicker": "^1.0",
         "laravel/framework": "^12.0",
         "laravel/horizon": "^5.36",
         "laravel/reverb": "^1.5",
