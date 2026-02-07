@@ -73,6 +73,12 @@ class TeacherMenuBuilder extends BaseMenuBuilder
                 'title' => trans('_menu.survey_management'),
                 'route_name' => 'admin.survey.index',
             ],
+            [
+                'icon' => 'o-ticket',
+                'params' => [],
+                'title' => trans('_menu.ticket_management'),
+                'route_name' => 'admin.ticket-chat.index',
+            ],
         ];
     }
 }

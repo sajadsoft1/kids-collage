@@ -580,6 +580,13 @@ class EmployeeMenuBuilder extends BaseMenuBuilder
                 'access' => false,
             ],
             [
+                'icon' => 'o-ticket',
+                'params' => [],
+                'title' => trans('_menu.ticket_management'),
+                'route_name' => 'admin.ticket-chat.index',
+                'access' => true,
+            ],
+            [
                 'icon' => 'o-chat-bubble-left-right',
                 'params' => [],
                 'title' => trans('_menu.comment_management'),

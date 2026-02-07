@@ -19,6 +19,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Karnoweb\TicketChat\Traits\CanBeDepartmentAgent;
+use Karnoweb\TicketChat\Traits\HasConversations;
+use Karnoweb\TicketChat\Traits\HasTickets;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Image\Enums\Fit;
@@ -28,7 +31,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements HasMedia
 {
-    use CLogsActivity, HasApiTokens, HasFactory, HasRoles, InteractsWithMedia,Notifiable;
+    use CanBeDepartmentAgent, CLogsActivity, HasApiTokens, HasConversations, HasFactory, HasRoles, HasTickets, InteractsWithMedia, Notifiable;
 
     protected $fillable = [
         'profile_id',

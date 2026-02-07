@@ -82,6 +82,7 @@ Route::group(['middleware' => ['admin.panel']], function () {
     require __DIR__ . '/admin/tag.php';
     require __DIR__ . '/admin/teammate.php';
     require __DIR__ . '/admin/term.php';
+    require __DIR__ . '/admin/ticketChat.php';
     require __DIR__ . '/admin/user.php';
     require __DIR__ . '/admin/question.php';
     require __DIR__ . '/admin/questionSubject.php';

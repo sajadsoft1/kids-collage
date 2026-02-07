@@ -276,7 +276,7 @@
             </a>
 
             {{-- Ticket Link --}}
-            <a href="{{ route('admin.ticket.index') }}"
+            <a href="{{ route('admin.ticket-chat.index') }}"
                 class="flex gap-3 items-center p-3 rounded-lg transition-colors hover:bg-base-200">
                 <div class="flex flex-shrink-0 justify-center items-center w-10 h-10 rounded-lg bg-purple-500/10">
                     <x-icon name="o-ticket" class="w-5 h-5 text-purple-500" />

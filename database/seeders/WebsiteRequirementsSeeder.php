@@ -29,6 +29,7 @@ class WebsiteRequirementsSeeder extends Seeder
             ContactUsSeeder::class,   // Contact form submissions
             SocialMediaSeeder::class, // Social media links and settings
             LicenseSeeder::class,     // License information
+            TicketChatSeeder::class,  // Ticket-chat default department
         ]);
 
         $this->command->info('✅ Website Requirements seeded successfully!');

@@ -69,6 +69,12 @@ class Header extends Component
                 'icon' => 'o-book-open',
                 'access' => true,
             ],
+            [
+                'route' => route('admin.ticket-chat.index'),
+                'label' => trans('_menu.ticket_management'),
+                'icon' => 'o-ticket',
+                'access' => true,
+            ],
         ];
     }
 

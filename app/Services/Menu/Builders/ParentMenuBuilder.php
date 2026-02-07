@@ -59,6 +59,12 @@ class ParentMenuBuilder extends BaseMenuBuilder
                     FlashCard::class => 'Index',
                 ]),
             ],
+            [
+                'icon' => 'o-ticket',
+                'params' => [],
+                'title' => trans('_menu.ticket_management'),
+                'route_name' => 'admin.ticket-chat.index',
+            ],
         ];
     }
 }
