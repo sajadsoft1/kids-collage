@@ -1,7 +1,7 @@
 <div>
     <x-admin.shared.bread-crumbs :breadcrumbs="$breadcrumbs" :breadcrumbs-actions="$breadcrumbsActions" />
 
-    @if($this->unreadCount > 0)
+    @if ($this->unreadCount > 0)
         <div class="mb-4">
             <x-badge value="{{ $this->unreadCount }} {{ __('ticket_chat.unread') }}" class="badge-warning" />
         </div>
@@ -21,45 +21,50 @@
 
     {{-- Filters --}}
     <x-card class="mb-6" shadow>
-        <div class="mb-3 flex justify-end">
-            <a href="{{ route('admin.ticket-chat.departments.index') }}" wire:navigate
-                class="link link-hover text-sm font-medium text-primary">
-                {{ __('ticket_chat.departments_manage') }}
-            </a>
-        </div>
-        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-            <x-input wire:model.live.debounce.300ms="search" icon="o-magnifying-glass"
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <x-input wire:model.live.debounce.300ms="search" :label="__('ticket_chat.subject')" icon="o-magnifying-glass"
                 placeholder="{{ __('ticket_chat.subject') }}..." />
-            <x-select wire:model.live="status" placeholder="{{ __('ticket_chat.status') }}" :options="[
+            <x-select wire:model.live="status" :label="__('ticket_chat.status')" :options="[
                 ['id' => '', 'name' => __('general.all')],
                 ['id' => 'open', 'name' => __('ticket_chat.status_open')],
                 ['id' => 'pending', 'name' => __('ticket_chat.status_pending')],
                 ['id' => 'in_progress', 'name' => __('ticket_chat.status_in_progress')],
                 ['id' => 'closed', 'name' => __('ticket_chat.status_closed')],
-            ]" option-value="id" option-label="name" />
-            <x-select wire:model.live="priority" placeholder="{{ __('ticket_chat.priority') }}" :options="[
+            ]" option-value="id"
+                option-label="name" />
+            <x-select wire:model.live="priority" :label="__('ticket_chat.priority')" :options="[
                 ['id' => '', 'name' => __('general.all')],
                 ['id' => 'low', 'name' => __('ticket_chat.priority_low')],
                 ['id' => 'medium', 'name' => __('ticket_chat.priority_medium')],
                 ['id' => 'high', 'name' => __('ticket_chat.priority_high')],
                 ['id' => 'urgent', 'name' => __('ticket_chat.priority_urgent')],
-            ]" option-value="id" option-label="name" />
-            <x-select wire:model.live="department_id" placeholder="{{ __('ticket_chat.department') }}"
-                :options="array_merge([['id' => '', 'name' => __('general.all')]], $this->departmentsList)"
-                option-value="id" option-label="name" />
-            @if(method_exists(auth()->user(), 'departments') && auth()->user()->departments->isNotEmpty())
-                <x-select wire:model.live="filter" :options="[
+            ]" option-value="id"
+                option-label="name" />
+            <x-select wire:model.live="department_id" :label="__('ticket_chat.department')" :options="array_merge([['id' => '', 'name' => __('general.all')]], $this->departmentsList)" option-value="id"
+                option-label="name" />
+            <x-choices wire:model.live="tag_ids" :options="$this->tagsList" :label="__('ticket_chat.tag')" option-value="id"
+                option-label="name" multiple clearable />
+            @if (method_exists(auth()->user(), 'departments') && auth()->user()->departments->isNotEmpty())
+                <x-select wire:model.live="filter" :label="__('ticket_chat.filter_scope')" :options="[
                     ['id' => 'mine', 'name' => __('ticket_chat.my_tickets')],
                     ['id' => 'all', 'name' => __('general.all')],
-                ]" option-value="id" option-label="name" />
+                ]" option-value="id"
+                    option-label="name" />
+                @if ($filter === 'all')
+                    <x-select wire:model.live="assigned" :label="__('ticket_chat.filter_assigned')" :options="[
+                        ['id' => '', 'name' => __('ticket_chat.filter_assigned_all')],
+                        ['id' => 'mine', 'name' => __('ticket_chat.filter_assigned_mine')],
+                        ['id' => 'unassigned', 'name' => __('ticket_chat.filter_assigned_unassigned')],
+                    ]" option-value="id" option-label="name" />
+                @endif
             @endif
         </div>
     </x-card>
 
     {{-- Ticket list as grid --}}
-    @if($this->tickets->count() > 0)
+    @if ($this->tickets->count() > 0)
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            @foreach($this->tickets as $ticket)
+            @foreach ($this->tickets as $ticket)
                 @php
                     $unread = $ticket->unreadCountForUser(auth()->id());
                     $statusBadgeClass = match ($ticket->status->value) {
@@ -77,34 +82,37 @@
                 @endphp
                 <a href="{{ route('admin.ticket-chat.show', ['ticket' => $ticket->id]) }}" wire:navigate
                     wire:key="ticket-{{ $ticket->id }}"
-                    class="card compact border border-base-200 bg-base-100 shadow transition-shadow hover:shadow-lg">
-                    <div class="card-body gap-2 p-4">
+                    class="border shadow transition-shadow card compact border-base-200 bg-base-100 hover:shadow-lg">
+                    <div class="gap-2 p-4 card-body">
                         <div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
-                            <div class="min-w-0 flex-1">
-                                <div class="flex flex-wrap items-center gap-2">
+                            <div class="flex-1 min-w-0">
+                                <div class="flex flex-wrap gap-2 items-center">
                                     <x-icon name="o-ticket" class="size-4 shrink-0 text-primary" />
-                                    <span class="font-mono text-sm font-medium text-primary">{{ $ticket->ticket_number }}</span>
+                                    <span
+                                        class="font-mono text-sm font-medium text-primary">{{ $ticket->ticket_number }}</span>
                                     <x-badge :value="__('ticket_chat.status_' . $ticket->status->value)" :class="$statusBadgeClass" />
                                     <x-badge :value="__('ticket_chat.priority_' . $ticket->priority->value)" :class="$priorityBadgeClass" />
-                                    @if($unread > 0)
+                                    @if ($unread > 0)
                                         <span class="badge badge-warning badge-sm">{{ $unread }}</span>
                                     @endif
                                 </div>
-                                <h3 class="mt-2 line-clamp-2 font-medium">{{ $ticket->title }}</h3>
+                                <h3 class="mt-2 font-medium line-clamp-2">{{ $ticket->title }}</h3>
                                 <dl class="mt-2 space-y-0.5 text-xs text-base-content/60">
-                                    @if($ticket->creator)
+                                    @if ($ticket->creator)
                                         <div class="flex gap-1">
                                             <dt class="shrink-0">{{ __('ticket_chat.creator') }}:</dt>
-                                            <dd>{{ trim($ticket->creator->name . ' ' . ($ticket->creator->family ?? '')) }}</dd>
+                                            <dd>{{ trim($ticket->creator->name . ' ' . ($ticket->creator->family ?? '')) }}
+                                            </dd>
                                         </div>
                                     @endif
-                                    @if($ticket->assignedAgent)
+                                    @if ($ticket->assignedAgent)
                                         <div class="flex gap-1">
                                             <dt class="shrink-0">{{ __('ticket_chat.operator') }}:</dt>
-                                            <dd>{{ trim($ticket->assignedAgent->name . ' ' . ($ticket->assignedAgent->family ?? '')) }}</dd>
+                                            <dd>{{ trim($ticket->assignedAgent->name . ' ' . ($ticket->assignedAgent->family ?? '')) }}
+                                            </dd>
                                         </div>
                                     @endif
-                                    @if($ticket->department)
+                                    @if ($ticket->department)
                                         <div class="flex gap-1">
                                             <dt class="shrink-0">{{ __('ticket_chat.department') }}:</dt>
                                             <dd>{{ $ticket->department->name }}</dd>
@@ -112,7 +120,8 @@
                                     @endif
                                     <div class="flex gap-1">
                                         <dt class="shrink-0">{{ __('ticket_chat.last_message') }}:</dt>
-                                        <dd>{{ $ticket->last_message_at?->diffForHumans() ?? $ticket->created_at->diffForHumans() }}</dd>
+                                        <dd>{{ $ticket->last_message_at?->diffForHumans() ?? $ticket->created_at->diffForHumans() }}
+                                        </dd>
                                     </div>
                                 </dl>
                             </div>
@@ -126,11 +135,12 @@
         </div>
     @else
         <x-card shadow>
-            <div class="flex flex-col items-center justify-center py-12 text-center">
+            <div class="flex flex-col justify-center items-center py-12 text-center">
                 <x-icon name="o-ticket" class="size-16 text-base-content/30" />
                 <h3 class="mt-4 text-lg font-medium">{{ __('ticket_chat.no_tickets') }}</h3>
                 <p class="mt-2 max-w-sm text-sm text-base-content/60">{{ __('ticket_chat.no_tickets_message') }}</p>
-                <x-button icon="o-plus" class="btn-primary mt-6" link="{{ route('admin.ticket-chat.create') }}" wire:navigate>
+                <x-button icon="o-plus" class="mt-6 btn-primary" link="{{ route('admin.ticket-chat.create') }}"
+                    wire:navigate>
                     {{ __('ticket_chat.create_ticket') }}
                 </x-button>
             </div>

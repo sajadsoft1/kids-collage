@@ -139,7 +139,7 @@
     @include('admin.layouts.navbar')
 
     {{-- Main Content Area --}}
-    <div class="flex flex-col flex-1 min-h-0 w-full transition-all duration-300"
+    <div class="flex flex-col flex-1 w-full min-h-0 transition-all duration-300"
         :class="open && isDesktop ? (document.documentElement.dir === 'rtl' ? 'lg:pe-[{{ $sidebarWidth }}rem]' :
             'lg:ps-[{{ $sidebarWidth }}rem]') : ''"
         x-data="{
