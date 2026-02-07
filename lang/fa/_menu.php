@@ -98,6 +98,8 @@ return [
     'question_system' => 'سیستم سوالات',
     'report_cards' => 'کارنامه',
     'certificates_management' => 'گواهینامه‌ها',
+    'certificate_builder' => 'ساخت گواهینامه',
+    'issued_certificates' => 'گواهینامه‌های صادر شده',
     'curriculum_management' => 'برنامه درسی',
     'parent_portal' => 'پورتال والدین',
     'student_portal' => 'پورتال دانش‌آموز',

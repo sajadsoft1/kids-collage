@@ -359,6 +359,32 @@ class Exam extends Model
         $this->extra_attributes->set('rules', $rules);
     }
 
+    /**
+     * Check if this exam is linked to a course via rules (enrolled_in_course = courseId).
+     * Used to include exam results in certificate grade suggestion for that course.
+     */
+    public function isForCourse(int $courseId): bool
+    {
+        $rules = $this->getRules();
+        if ( ! $rules || empty($rules['groups'] ?? [])) {
+            return false;
+        }
+
+        $courseIdStr = (string) $courseId;
+
+        foreach ($rules['groups'] as $group) {
+            foreach ($group['conditions'] ?? [] as $condition) {
+                $field = $condition['field'] ?? '';
+                $value = isset($condition['value']) ? (string) $condition['value'] : '';
+                if ($field === 'enrolled_in_course' && $value === $courseIdStr) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     /** Scope: Get exams accessible by user (based on rules). */
     public function scopeAccessibleByUser($query, User $user)
     {

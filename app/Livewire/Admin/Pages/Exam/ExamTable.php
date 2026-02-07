@@ -69,7 +69,7 @@ final class ExamTable extends PowerGridComponent
             ->add('type_label', fn ($row) => $row->type instanceof ExamTypeEnum ? $row->type->title() : (string) $row->type)
             ->add('status_label', fn ($row) => $row->status instanceof ExamStatusEnum ? $row->status->title() : (string) $row->status)
             ->add('total_score')
-            ->add('duration')
+            ->add('duration_formatted', fn ($row) => PowerGridHelper::fieldDurationFormated($row))
             ->add('questions_count')
             ->add('attempts_count')
             ->add('created_at_formatted', fn ($row) => PowerGridHelper::fieldCreatedAtFormated($row));
@@ -87,7 +87,7 @@ final class ExamTable extends PowerGridComponent
                 ->sortable(),
             Column::make(trans('exam.total_score'), 'total_score', 'total_score')
                 ->sortable(),
-            Column::make(trans('exam.duration'), 'duration', 'duration')
+            Column::make(trans('exam.duration'), 'duration_formatted', 'duration')
                 ->sortable(),
             Column::make(trans('exam.questions_count'), 'questions_count')
                 ->sortable(),
@@ -111,24 +111,25 @@ final class ExamTable extends PowerGridComponent
 
     public function actions(Exam $row): array
     {
+        $softDeleteActions = $this->getSoftDeleteRowActions($row);
+        if ($softDeleteActions !== []) {
+            return $softDeleteActions;
+        }
+
         return [
             PowerGridHelper::btnTranslate($row),
             PowerGridHelper::btnEdit($row),
             PowerGridHelper::btnDelete($row),
             Button::add('taker')
-                ->slot("<i class='fa fa-play text-info'></i>")
-                ->attributes([
-                    'class' => 'btn btn-square md:btn-sm btn-xs',
-                ])
+                ->slot(PowerGridHelper::icon('play', 'text-info'))
+                ->attributes(['class' => 'btn btn-square md:btn-sm btn-xs'])
                 ->can(true)
                 ->route('admin.exam.taker', [$row->id], '_self')
                 ->navigate()
                 ->tooltip(trans('datatable.buttons.taker')),
             Button::add('attempts')
-                ->slot("<i class='fa fa-list text-info'></i>")
-                ->attributes([
-                    'class' => 'btn btn-square md:btn-sm btn-xs',
-                ])
+                ->slot(PowerGridHelper::icon('list', 'text-info'))
+                ->attributes(['class' => 'btn btn-square md:btn-sm btn-xs'])
                 ->can(true)
                 ->route('admin.exam.attempt.index', [$row->id], '_self')
                 ->navigate()

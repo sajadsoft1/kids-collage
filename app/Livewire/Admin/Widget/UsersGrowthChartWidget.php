@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Livewire\Admin\Widget;
 
 use App\Models\Blog;
-use App\Models\Ticket;
 use App\Models\User;
 use Carbon\Carbon;
 use Livewire\Attributes\Computed;
@@ -21,7 +20,7 @@ class UsersGrowthChartWidget extends Component
         $this->months = $months;
     }
 
-    /** Get monthly growth data for users, blogs, and tickets */
+    /** Get monthly growth data for users and blogs */
     #[Computed]
     public function monthlyGrowthData()
     {
@@ -36,7 +35,6 @@ class UsersGrowthChartWidget extends Component
             $data[$monthName] = [
                 'users' => User::whereBetween('created_at', [$monthStart, $monthEnd])->count(),
                 'blogs' => Blog::whereBetween('created_at', [$monthStart, $monthEnd])->count(),
-                'tickets' => Ticket::whereBetween('created_at', [$monthStart, $monthEnd])->count(),
             ];
         }
 

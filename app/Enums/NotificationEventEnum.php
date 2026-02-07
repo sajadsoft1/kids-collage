@@ -36,11 +36,6 @@ enum NotificationEventEnum: string
     case COURSE_SESSION_STARTED = 'course_session_started';
     case COURSE_SESSION_ENDED = 'course_session_ended';
 
-    // Ticket Events
-    case TICKET_CREATED = 'ticket_created';
-    case TICKET_REPLIED = 'ticket_replied';
-    case TICKET_RESOLVED = 'ticket_resolved';
-
     // General Events
     case ANNOUNCEMENT = 'announcement';
     case SYSTEM_ALERT = 'system_alert';
@@ -64,9 +59,6 @@ enum NotificationEventEnum: string
             self::COURSE_SESSION_REMINDER => 'یادآوری جلسه',
             self::COURSE_SESSION_STARTED => 'شروع جلسه',
             self::COURSE_SESSION_ENDED => 'پایان جلسه',
-            self::TICKET_CREATED => 'ایجاد تیکت',
-            self::TICKET_REPLIED => 'پاسخ به تیکت',
-            self::TICKET_RESOLVED => 'حل تیکت',
             self::ANNOUNCEMENT => 'اطلاعیه عمومی',
             self::SYSTEM_ALERT => 'هشدار سیستم',
             self::BIRTHDAY_REMINDER => 'یادآوری تولد',
@@ -91,9 +83,6 @@ enum NotificationEventEnum: string
             self::COURSE_SESSION_REMINDER => 'یادآوری جلسه قبل از شروع',
             self::COURSE_SESSION_STARTED => 'اطلاع‌رسانی شروع جلسه',
             self::COURSE_SESSION_ENDED => 'اطلاع‌رسانی پایان جلسه',
-            self::TICKET_CREATED => 'تایید ایجاد تیکت جدید',
-            self::TICKET_REPLIED => 'اطلاع‌رسانی پاسخ جدید به تیکت',
-            self::TICKET_RESOLVED => 'اطلاع‌رسانی حل تیکت',
             self::ANNOUNCEMENT => 'اطلاعیه‌های عمومی سیستم',
             self::SYSTEM_ALERT => 'هشدارهای مهم سیستم',
             self::BIRTHDAY_REMINDER => 'تبریک تولد',
@@ -123,10 +112,6 @@ enum NotificationEventEnum: string
             self::COURSE_SESSION_STARTED,
             self::COURSE_SESSION_ENDED => 'جلسات دوره',
 
-            self::TICKET_CREATED,
-            self::TICKET_REPLIED,
-            self::TICKET_RESOLVED => 'پشتیبانی',
-
             self::ANNOUNCEMENT,
             self::SYSTEM_ALERT,
             self::BIRTHDAY_REMINDER => 'عمومی',
@@ -150,10 +135,6 @@ enum NotificationEventEnum: string
             self::COURSE_SESSION_REMINDER,
             self::COURSE_SESSION_STARTED,
             self::COURSE_SESSION_ENDED => 'جلسات دوره',
-
-            self::TICKET_CREATED,
-            self::TICKET_REPLIED,
-            self::TICKET_RESOLVED => 'پشتیبانی',
 
             self::ANNOUNCEMENT,
             self::SYSTEM_ALERT,

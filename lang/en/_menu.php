@@ -65,4 +65,7 @@ return [
     'question_subjects' => 'Question Subjects',
     'question_competencies' => 'Question Competencies',
     'courses' => 'Courses',
+    'certificates_management' => 'Certificates',
+    'certificate_builder' => 'Certificate Builder',
+    'issued_certificates' => 'Issued Certificates',
 ];

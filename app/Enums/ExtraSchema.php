@@ -98,21 +98,6 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="label", type="string"),
  * ),
  * @OA\Schema(
- *     schema="TicketDepartmentEnum",
- *     @OA\Property(property="value", type="string", enum={"finance_and_administration", "Sale", "technical"}),
- *     @OA\Property(property="label", type="string"),
- * ),
- * @OA\Schema(
- *     schema="TicketPriorityEnum",
- *     @OA\Property(property="value", type="integer", enum={1, 2, 3, 4}),
- *     @OA\Property(property="label", type="string"),
- * ),
- * @OA\Schema(
- *     schema="TicketStatusEnum",
- *     @OA\Property(property="value", type="string", enum={"open", "close"}),
- *     @OA\Property(property="label", type="string"),
- * ),
- * @OA\Schema(
  *     schema="YesNoEnum",
  *     @OA\Property(property="value", type="boolean", default=1, enum={1, 0}),
  *     @OA\Property(property="label", type="string"),

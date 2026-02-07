@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\Livewire\Admin\Pages\Course;
 
-use App\Enums\CourseLevelEnum;
+use App\Enums\BooleanEnum;
 use App\Enums\CourseTypeEnum;
 use App\Enums\EnrollmentStatusEnum;
 use App\Models\Category;
+use App\Models\CourseTemplateLevel;
 use App\Models\Enrollment;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Computed;
@@ -23,7 +24,7 @@ class CourseListForUser extends Component
 
     public ?int $categoryId = null;
 
-    public ?string $level = null;
+    public string|int|null $level = null;
 
     public ?string $type = null;
 
@@ -44,7 +45,7 @@ class CourseListForUser extends Component
             ])
             ->with(['course' => function ($q) {
                 $q->with(['template' => function ($t) {
-                    $t->with('category');
+                    $t->with(['category', 'level']);
                 }, 'teacher', 'term']);
             }])
             ->when($this->search, function ($q) {
@@ -57,9 +58,9 @@ class CourseListForUser extends Component
                     $query->where('category_id', $this->categoryId);
                 });
             })
-            ->when($this->level, function ($q) {
+            ->when($this->level !== null && $this->level !== '', function ($q) {
                 $q->whereHas('course.template', function ($query) {
-                    $query->where('level', $this->level);
+                    $query->where('course_template_level_id', (int) $this->level);
                 });
             })
             ->when($this->type, function ($q) {
@@ -135,7 +136,15 @@ class CourseListForUser extends Component
     #[Computed]
     public function levels(): array
     {
-        return CourseLevelEnum::options();
+        return CourseTemplateLevel::query()
+            ->where('published', BooleanEnum::ENABLE)
+            ->get()
+            ->map(fn (CourseTemplateLevel $l) => [
+                'value' => $l->id,
+                'label' => $l->title,
+            ])
+            ->values()
+            ->all();
     }
 
     #[Computed]

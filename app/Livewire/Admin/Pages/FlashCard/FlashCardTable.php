@@ -10,6 +10,8 @@ use App\Helpers\PowerGridHelper;
 use App\Models\FlashCard;
 use App\Traits\PowerGridHelperTrait;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Jenssegers\Agent\Agent;
 use Livewire\Attributes\Computed;
@@ -63,23 +65,25 @@ final class FlashCardTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
+        $user = Auth::user();
+
         return FlashCard::query()->when(
-            auth()->user()->type === UserTypeEnum::PARENT,
-            function ($q) {
-                $children = auth()->user()->children->pluck('id')->toArray();
-                $q->whereIn('user_id', [...$children, auth()->id()]);
+            $user->type === UserTypeEnum::PARENT,
+            function ($q) use ($user) {
+                $children = $user->children->pluck('id')->toArray();
+                $q->whereIn('user_id', [...$children, $user->id]);
             }
         )
             ->when(
-                auth()->user()->type === UserTypeEnum::EMPLOYEE,
-                function ($q) {
-                    $q->where('user_id', auth()->id());
+                $user->type === UserTypeEnum::EMPLOYEE,
+                function ($q) use ($user) {
+                    $q->where('user_id', $user->id);
                 }
             )
             ->when(
-                auth()->user()->type === UserTypeEnum::USER,
-                function ($q) {
-                    $q->where('user_id', auth()->id());
+                $user->type === UserTypeEnum::USER,
+                function ($q) use ($user) {
+                    $q->where('user_id', $user->id);
                 }
             );
     }
@@ -97,6 +101,10 @@ final class FlashCardTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('id')
+            ->add('user_formated', fn ($row) => view('admin.datatable-shared.user-info', [
+                'row' => $row->user,
+            ]))
+            ->add('front_formated', fn ($row) => Str::limit($row->front, 20))
             ->add('favorite_formated', fn ($row) => $row->favorite == BooleanEnum::ENABLE ? trans('datatable.yes') : trans('datatable.no'))
             ->add('created_at_formatted', fn ($row) => PowerGridHelper::fieldCreatedAtFormated($row));
     }
@@ -105,7 +113,8 @@ final class FlashCardTable extends PowerGridComponent
     {
         return [
             PowerGridHelper::columnId(),
-            Column::make(trans('flashCard.fields.front'), 'front')
+            Column::make(trans('datatable.user_name'), 'user_formated', 'user_formated'),
+            Column::make(trans('flashCard.fields.front'), 'front_formated', 'front')
                 ->sortable()
                 ->searchable(),
             Column::make(trans('datatable.favorite'), 'favorite_formated'),
@@ -129,7 +138,7 @@ final class FlashCardTable extends PowerGridComponent
     public function actions(FlashCard $row): array
     {
         return [
-            PowerGridHelper::btnToggle($row),
+            PowerGridHelper::btnToggle($row, 'favorite'),
             PowerGridHelper::btnEdit($row),
             PowerGridHelper::btnDelete($row),
         ];

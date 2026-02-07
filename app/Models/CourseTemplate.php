@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Enums\CourseLevelEnum;
 use App\Enums\CourseTypeEnum;
 use App\Facades\SmartCache;
 use App\Helpers\Constants;
@@ -23,6 +22,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -43,7 +43,8 @@ use Spatie\Tags\HasTags;
  * @property string      $title
  * @property string      $description
  * @property int|null    $category_id
- * @property string|null $level
+ * @property int|null    $course_template_level_id
+ * @property int|null    $certificate_template_id
  * @property array|null  $prerequisites
  * @property bool        $is_self_paced
  * @property array|null  $languages
@@ -52,6 +53,8 @@ use Spatie\Tags\HasTags;
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
  *
+ * @property-read CourseTemplateLevel|null               $level
+ * @property-read CertificateTemplate|null               $certificateTemplate
  * @property-read Collection<int, CourseSessionTemplate> $sessionTemplates
  * @property-read Collection<int, Course>                $courses
  * @property-read Collection<int, resource>              $resources
@@ -83,7 +86,8 @@ class CourseTemplate extends Model implements HasMedia
     protected $fillable = [
         'slug',
         'category_id',
-        'level',
+        'course_template_level_id',
+        'certificate_template_id',
         'prerequisites',
         'is_self_paced',
         'type',
@@ -101,7 +105,6 @@ class CourseTemplate extends Model implements HasMedia
         'comment_count' => 'integer',
         'wish_count' => 'integer',
         'languages' => 'array',
-        'level' => CourseLevelEnum::class,
         'type' => CourseTypeEnum::class,
     ];
 
@@ -124,6 +127,18 @@ class CourseTemplate extends Model implements HasMedia
                 $this->addMediaConversion(Constants::RESOLUTION_854_480)->fit(Fit::Crop, 854, 480);
                 $this->addMediaConversion(Constants::RESOLUTION_1280_720)->fit(Fit::Crop, 1280, 720);
             });
+    }
+
+    /** Get the level for this course template. */
+    public function level(): BelongsTo
+    {
+        return $this->belongsTo(CourseTemplateLevel::class, 'course_template_level_id');
+    }
+
+    /** Get the certificate template for this course template. */
+    public function certificateTemplate(): BelongsTo
+    {
+        return $this->belongsTo(CertificateTemplate::class, 'certificate_template_id');
     }
 
     /** Get the session templates for this course template. */
@@ -201,9 +216,9 @@ class CourseTemplate extends Model implements HasMedia
     }
 
     /** Scope for templates by level. */
-    public function scopeByLevel($query, string $level)
+    public function scopeByLevel($query, int $levelId)
     {
-        return $query->where('level', $level);
+        return $query->where('course_template_level_id', $levelId);
     }
 
     public static function latestCourseTemplates()
@@ -211,7 +226,8 @@ class CourseTemplate extends Model implements HasMedia
         return SmartCache::for(__CLASS__)
             ->key('latest_course_templates')
             ->remember(function () {
-                return self::orderBy('id', 'desc')
+                return self::with('level')
+                    ->orderBy('id', 'desc')
                     ->limit(5)
                     ->get();
             }, 3600);

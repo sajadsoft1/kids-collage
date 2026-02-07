@@ -152,7 +152,7 @@ class EmployeeMenuBuilder extends BaseMenuBuilder
                 ]),
             ],
             [
-                'icon' => 'o-video-camera',
+                'icon' => 'o-rectangle-stack', // resource_management: stack or archive icon
                 'params' => [],
                 'title' => trans('_menu.resource_management'),
                 'route_name' => 'admin.resource.index',
@@ -161,7 +161,7 @@ class EmployeeMenuBuilder extends BaseMenuBuilder
                 ]),
             ],
             [
-                'icon' => 'o-video-camera',
+                'icon' => 'o-sparkles', // flashcard: sparkles/idea/lightbulb
                 'params' => [],
                 'title' => trans('_menu.flashcard'),
                 'route_name' => 'admin.flash-card.index',
@@ -170,7 +170,7 @@ class EmployeeMenuBuilder extends BaseMenuBuilder
                 ]),
             ],
             [
-                'icon' => 'o-video-camera',
+                'icon' => 'o-book-open', // my_notebook: open book/notebook icon
                 'params' => [],
                 'title' => trans('_menu.my_notebook'),
                 'route_name' => 'admin.notebook.index',
@@ -204,11 +204,18 @@ class EmployeeMenuBuilder extends BaseMenuBuilder
             ],
             [
                 'icon' => 'o-academic-cap',
-                'badge' => trans('_menu.future_module'),
-                'title' => trans('_menu.certificates_management'),
-                'route_name' => 'admin.feature-module',
-                'params' => ['module' => 'certificates'],
-                'access' => $this->hasAccessToModule('education.certificates'),
+                'title' => trans('_menu.certificate_builder'),
+                'route_name' => 'admin.certificate-template.index',
+                'params' => [],
+                'access' => true,
+            ],
+            [
+                'icon' => 'o-document-check',
+                'title' => trans('_menu.issued_certificates'),
+                'route_name' => 'admin.certificate.index',
+                'params' => [],
+                'exact' => true,
+                'access' => true,
             ],
             [
                 'icon' => 'o-rectangle-stack',
@@ -238,7 +245,6 @@ class EmployeeMenuBuilder extends BaseMenuBuilder
                 'icon' => 'o-calendar-days',
                 'title' => trans('_menu.events_management'),
                 'route_name' => 'admin.event.index',
-                'params' => ['module' => 'events'],
                 'access' => $this->checkPermission([
                     Event::class => 'Index',
                 ]),
@@ -572,15 +578,6 @@ class EmployeeMenuBuilder extends BaseMenuBuilder
                 'title' => trans('_menu.board_management'),
                 'route_name' => 'admin.app.boards',
                 'access' => false,
-            ],
-            [
-                'icon' => 'o-ticket',
-                'params' => [],
-                'title' => trans('_menu.ticket_management'),
-                'route_name' => 'admin.ticket.index',
-                'access' => $this->checkPermission([
-                    \App\Models\Ticket::class => 'Index',
-                ]),
             ],
             [
                 'icon' => 'o-chat-bubble-left-right',

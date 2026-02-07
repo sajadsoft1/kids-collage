@@ -155,9 +155,6 @@
                   icon="lucide.bell">
                   <livewire:admin.widget.notification-list-widget />
               </x-tab>
-              <x-tab name="tickets-tab" label="{{ __('user.profile.tabs.tickets-tab') }}" icon="lucide.ticket">
-                  <livewire:admin.widget.latest-tickets-widget :userId="$user->id" />
-              </x-tab>
               <x-tab name="payments-tab" label="{{ __('user.profile.tabs.payments-tab') }}" icon="lucide.credit-card">
                   <livewire:admin.widget.payment-list-widget :userId="$user->id" />
               </x-tab>

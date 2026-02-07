@@ -1,6 +1,5 @@
 @php
     use App\Enums\BooleanEnum;
-    use App\Enums\CourseLevelEnum;
     use App\Enums\CourseTypeEnum;
     use App\Helpers\Constants;
 @endphp
@@ -38,8 +37,11 @@
                         <x-group :label="trans('validation.attributes.type')" wire:model.live="type" :options="CourseTypeEnum::options()" option-label="label"
                             option-value="value" class="[&:checked]:!btn-primary btn-sm" required />
 
-                        <x-group :label="trans('validation.attributes.level')" wire:model.live="level" :options="CourseLevelEnum::options()" option-label="label"
+                        <x-group :label="trans('validation.attributes.level')" wire:model.live="course_template_level_id" :options="$this->levelOptions()" option-label="label"
                             option-value="value" class="[&:checked]:!btn-primary btn-sm" required />
+                        <x-select :label="trans('certificateTemplate.page.index_title')" wire:model="certificate_template_id"
+                            :options="$this->certificateTemplateOptions()" option-label="label" option-value="value"
+                            :placeholder="trans('general.please_select_an_option')" placeholder-value="" class="mt-4" />
                     </x-card>
 
                     <x-card shadow separator progress-indicator="submit" class="mt-5">

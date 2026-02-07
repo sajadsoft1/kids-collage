@@ -333,7 +333,7 @@ class CourseRuner extends Component
                 ],
                 [
                     'label' => trans('validation.attributes.level'),
-                    'value' => $this->courseTemplate->level?->title() ?? 'N/A',
+                    'value' => $this->courseTemplate->level?->title ?? 'N/A',
                 ],
                 [
                     'label' => trans('validation.attributes.session_count'),

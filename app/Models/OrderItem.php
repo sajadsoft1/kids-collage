@@ -83,11 +83,11 @@ class OrderItem extends Model
     public function getItemTitleAttribute(): string
     {
         if ($this->itemable_type === Enrollment::class) {
-            return $this->itemable->course->courseTemplate->title ?? 'Course Enrollment';
+            return $this->itemable->course->template->title ?? 'Course Enrollment';
         }
 
         if ($this->itemable_type === Course::class) {
-            return $this->itemable->courseTemplate->title ?? 'Course';
+            return $this->itemable->template->title ?? 'Course';
         }
 
         return 'Item';
@@ -98,15 +98,15 @@ class OrderItem extends Model
     {
         if ($this->itemable_type === Enrollment::class) {
             $course = $this->itemable->course;
-            $template = $course->courseTemplate;
+            $template = $course->template;
             $term = $course->term;
-            
+
             return "Enrollment in {$template->title} for {$term->title}";
         }
 
         if ($this->itemable_type === Course::class) {
             $course = $this->itemable;
-            $template = $course->courseTemplate;
+            $template = $course->template;
             $term = $course->term;
             
             return "{$template->title} - {$term->title}";

@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -148,6 +149,18 @@ class Enrollment extends Model
         return $this->certificate !== null;
     }
 
+    /** Check if a certificate can be issued for this enrollment (eligible and not yet issued). */
+    public function canIssueCertificate(): bool
+    {
+        if ($this->hasCertificate()) {
+            return false;
+        }
+
+        $courseTemplate = $this->course->template;
+
+        return $courseTemplate->is_self_paced || $this->attendance_percentage >= 80;
+    }
+
     /** Get the days since enrollment. */
     public function getDaysSinceEnrollmentAttribute(): int
     {
@@ -203,7 +216,7 @@ class Enrollment extends Model
                 $this->logActivity('enrollment.completed');
 
                 // Issue certificate if course is eligible
-                if ($this->course->courseTemplate->is_self_paced || $this->attendance_percentage >= 80) {
+                if ($this->course->template->is_self_paced || $this->attendance_percentage >= 80) {
                     $this->issueCertificate();
                 }
             }
@@ -212,19 +225,78 @@ class Enrollment extends Model
         });
     }
 
+    /** Resolve the certificate template for this enrollment (from course template or default). */
+    public function resolveCertificateTemplate(): ?CertificateTemplate
+    {
+        $courseTemplate = $this->course->template;
+
+        if ($courseTemplate->certificate_template_id) {
+            return $courseTemplate->certificateTemplate;
+        }
+
+        return CertificateTemplate::default()->first();
+    }
+
+    /**
+     * Get the suggested grade (auto-calculated); admin may override when issuing certificate.
+     * When course-linked exam attempts are provided, their average percentage is included in the suggestion.
+     */
+    public function getSuggestedGrade(?Collection $courseExamAttempts = null): string
+    {
+        $attendanceGrade = (float) $this->attendance_percentage;
+        $progressGrade = (float) $this->progress_percent;
+
+        $overallGrade = $this->computeOverallGrade($attendanceGrade, $progressGrade, $courseExamAttempts);
+
+        return $this->overallToLetterGrade($overallGrade);
+    }
+
+    /** Compute overall numeric grade (0–100) from attendance, progress, and optional exam average. */
+    protected function computeOverallGrade(float $attendance, float $progress, ?Collection $courseExamAttempts = null): float
+    {
+        if ($courseExamAttempts !== null && $courseExamAttempts->isNotEmpty()) {
+            $examAvg = $courseExamAttempts->avg('percentage');
+            if ($examAvg !== null) {
+                return ($attendance + $progress + (float) $examAvg) / 3.0;
+            }
+        }
+
+        return ($attendance + $progress) / 2.0;
+    }
+
+    /** Map overall numeric grade (0–100) to letter grade. */
+    protected function overallToLetterGrade(float $overall): string
+    {
+        return match (true) {
+            $overall >= 90 => 'A',
+            $overall >= 80 => 'B',
+            $overall >= 70 => 'C',
+            $overall >= 60 => 'D',
+            default => 'F',
+        };
+    }
+
     /** Issue a certificate for this enrollment. */
-    public function issueCertificate(): Certificate
+    public function issueCertificate(?string $grade = null): Certificate
     {
         if ($this->hasCertificate()) {
             return $this->certificate;
         }
 
+        $template = $this->resolveCertificateTemplate();
+        $finalGrade = $grade !== null && $grade !== '' ? $grade : $this->calculateGrade();
+
         $certificate = $this->certificate()->create([
+            'certificate_template_id' => $template?->id,
             'issue_date' => now(),
-            'grade' => $this->calculateGrade(),
+            'grade' => $finalGrade,
             'certificate_path' => $this->generateCertificatePath(),
             'signature_hash' => $this->generateSignatureHash(),
         ]);
+
+        if ($template) {
+            app(\App\Services\Certificate\CertificatePdfService::class)->generateForCertificate($certificate);
+        }
 
         $this->logActivity('certificate.issued', [
             'certificate_id' => $certificate->id,
@@ -233,21 +305,16 @@ class Enrollment extends Model
         return $certificate;
     }
 
-    /** Calculate the grade for this enrollment. */
+    /** Calculate the grade for this enrollment (no exam data; used when issuing without modal). */
     protected function calculateGrade(): string
     {
-        $attendanceGrade = $this->attendance_percentage;
-        $progressGrade = $this->progress_percent;
+        $overallGrade = $this->computeOverallGrade(
+            (float) $this->attendance_percentage,
+            (float) $this->progress_percent,
+            null
+        );
 
-        $overallGrade = ($attendanceGrade + $progressGrade) / 2;
-
-        return match (true) {
-            $overallGrade >= 90 => 'A',
-            $overallGrade >= 80 => 'B',
-            $overallGrade >= 70 => 'C',
-            $overallGrade >= 60 => 'D',
-            default => 'F',
-        };
+        return $this->overallToLetterGrade($overallGrade);
     }
 
     /** Generate the certificate file path. */
@@ -265,7 +332,7 @@ class Enrollment extends Model
             'enrollment_id' => $this->id,
             'user_id' => $this->user_id,
             'course_id' => $this->course_id,
-            'issue_date' => now()->toISOString(),
+            'issue_date' => now()->toDateString(),
         ];
 
         return hash('sha256', json_encode($data) . config('app.key'));
@@ -276,6 +343,7 @@ class Enrollment extends Model
     {
         return $this->activityLogs()->create([
             'event' => $event,
+            'description' => $event,
             'properties' => $properties,
             'causer_type' => User::class,
             'causer_id' => \Illuminate\Support\Facades\Auth::id(),

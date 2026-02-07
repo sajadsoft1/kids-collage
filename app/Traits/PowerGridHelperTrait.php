@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace App\Traits;
 
 use App\Helpers\StringHelper;
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+use Illuminate\Database\Eloquent\SoftDeletes as SoftDeletesTrait;
+use Illuminate\Support\Str;
 use Jenssegers\Agent\Agent;
 use Livewire\Attributes\On;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
@@ -22,11 +25,18 @@ trait PowerGridHelperTrait
             tableItems: $this->persistItems,
             prefix: 'user_' . (auth()->id() ?? '0')
         );
+
+        $header = PowerGrid::header()
+            ->includeViewOnTop('components.admin.shared.bread-crumbs')
+            ->showToggleColumns()
+            ->showSearchInput();
+
+        if ($this->powerGridModelUsesSoftDeletes()) {
+            $header = $header->showSoftDeletes(showMessage: true);
+        }
+
         $setup = [
-            PowerGrid::header()
-                ->includeViewOnTop('components.admin.shared.bread-crumbs')
-                ->showToggleColumns()
-                ->showSearchInput(),
+            $header,
 
             PowerGrid::footer()
                 ->showPerPage()
@@ -40,6 +50,60 @@ trait PowerGridHelperTrait
         }
 
         return $setup;
+    }
+
+    /** Whether the table datasource model uses Laravel SoftDeletes. */
+    protected function powerGridModelUsesSoftDeletes(): bool
+    {
+        $datasource = $this->datasource();
+        if ( ! $datasource instanceof EloquentBuilder) {
+            return false;
+        }
+        $modelClass = $datasource->getModel();
+
+        return in_array(SoftDeletesTrait::class, class_uses_recursive($modelClass) ?: [], true);
+    }
+
+    /**
+     * Actions to show when the row is soft-deleted (e.g. restore only).
+     * Use in actions(): return $this->getSoftDeleteRowActions($row) ?: [ ... normal actions ... ];
+     *
+     * @return array<int, \PowerComponents\LivewirePowerGrid\Button>
+     */
+    public function getSoftDeleteRowActions(mixed $row): array
+    {
+        if ( ! $this->powerGridModelUsesSoftDeletes() || ! method_exists($row, 'trashed') || ! $row->trashed()) {
+            return [];
+        }
+
+        return [\App\Helpers\PowerGridHelper::btnRestore($row)];
+    }
+
+    /** Restore a soft-deleted row. Call from tables whose model uses SoftDeletes. */
+    public function restoreRow(array|int|string $rowId): void
+    {
+        $id = is_array($rowId) ? (int) ($rowId[0] ?? 0) : (int) $rowId;
+        if ($id <= 0) {
+            return;
+        }
+        if ( ! $this->powerGridModelUsesSoftDeletes()) {
+            return;
+        }
+        $modelClass = $this->datasource()->getModel();
+        $model = $modelClass->withTrashed()->find($id);
+        if ($model === null) {
+            return;
+        }
+        $model->restore();
+        $modelKey = Str::kebab(class_basename($modelClass));
+        $message = trans('general.model_has_restored_successfully', [
+            'model' => trans("{$modelKey}.model"),
+        ]);
+        if (method_exists($this, 'success')) {
+            $this->success($message);
+        } else {
+            session()->flash('success', $message);
+        }
     }
 
     protected function beforePowerGridSetUp(): void {}

@@ -52,6 +52,8 @@ Route::group(['middleware' => ['admin.panel']], function () {
     require __DIR__ . '/admin/blog.php';
     require __DIR__ . '/admin/bulletin.php';
     require __DIR__ . '/admin/category.php';
+    require __DIR__ . '/admin/certificateTemplate.php';
+    require __DIR__ . '/admin/certificate.php';
     require __DIR__ . '/admin/client.php';
     require __DIR__ . '/admin/comment.php';
     require __DIR__ . '/admin/contactUs.php';
@@ -80,7 +82,6 @@ Route::group(['middleware' => ['admin.panel']], function () {
     require __DIR__ . '/admin/tag.php';
     require __DIR__ . '/admin/teammate.php';
     require __DIR__ . '/admin/term.php';
-    require __DIR__ . '/admin/ticket.php';
     require __DIR__ . '/admin/user.php';
     require __DIR__ . '/admin/question.php';
     require __DIR__ . '/admin/questionSubject.php';

@@ -28,6 +28,7 @@ return [
     'model_has_stored_successfully' => ':model با موفقیت ثبت شد',
     'model_has_updated_successfully' => ':model با موفقیت به روز رسانی شد',
     'model_has_deleted_successfully' => ':model با موفقیت حذف شد',
+    'model_has_restored_successfully' => ':model با موفقیت بازگردانی شد',
     'model_has_toggled_successfully' => ':model با موفقیت تغییر وضعیت یافت',
     'model_has_upload_successfully' => ':model  با موفقیت آپلود شد',
     'model_has_Failed_to_upload' => ':model  بارگذاری نشد',
@@ -179,4 +180,6 @@ return [
     'completed' => 'تمام شده',
 
     'published_status_default_hint' => 'امکان استفاده از این داده در بخش های مختلف سایت و داشبورد فراهم میشود',
+    'hours' => 'ساعت',
+    'minutes' => 'دقیقه',
 ];

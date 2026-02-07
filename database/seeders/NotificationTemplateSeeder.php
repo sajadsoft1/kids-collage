@@ -145,9 +145,6 @@ class NotificationTemplateSeeder extends Seeder
             NotificationEventEnum::COURSE_SESSION_REMINDER => $locale === 'fa' ? 'یادآوری جلسه دوره' : 'Course Session Reminder',
             NotificationEventEnum::COURSE_SESSION_STARTED => $locale  === 'fa' ? 'شروع جلسه دوره' : 'Course Session Started',
             NotificationEventEnum::COURSE_SESSION_ENDED => $locale    === 'fa' ? 'پایان جلسه دوره' : 'Course Session Ended',
-            NotificationEventEnum::TICKET_CREATED => $locale          === 'fa' ? 'تیکت جدید' : 'New Ticket',
-            NotificationEventEnum::TICKET_REPLIED => $locale          === 'fa' ? 'پاسخ به تیکت' : 'Ticket Reply',
-            NotificationEventEnum::TICKET_RESOLVED => $locale         === 'fa' ? 'حل تیکت' : 'Ticket Resolved',
             NotificationEventEnum::SYSTEM_ALERT => $locale            === 'fa' ? 'هشدار سیستم' : 'System Alert',
             NotificationEventEnum::ANNOUNCEMENT => $locale            === 'fa' ? 'اطلاعیه جدید' : 'New Announcement',
             NotificationEventEnum::BIRTHDAY_REMINDER => $locale       === 'fa' ? 'تولدت مبارک!' : 'Happy Birthday!',
@@ -173,9 +170,6 @@ class NotificationTemplateSeeder extends Seeder
             NotificationEventEnum::COURSE_SESSION_REMINDER => $locale === 'fa' ? 'یادآوری جلسه پیش رو برای دوره شما.' : 'Upcoming session reminder for your course.',
             NotificationEventEnum::COURSE_SESSION_STARTED => $locale  === 'fa' ? 'جلسه آغاز شده است.' : 'Session is now live.',
             NotificationEventEnum::COURSE_SESSION_ENDED => $locale    === 'fa' ? 'جلسه به پایان رسید.' : 'Session has finished.',
-            NotificationEventEnum::TICKET_CREATED => $locale          === 'fa' ? 'تیکت شما با موفقیت ثبت شد' : 'Your ticket has been created successfully',
-            NotificationEventEnum::TICKET_REPLIED => $locale          === 'fa' ? 'پاسخ جدید به تیکت شما' : 'New reply to your ticket',
-            NotificationEventEnum::TICKET_RESOLVED => $locale         === 'fa' ? 'تیکت شما حل شد' : 'Your ticket has been resolved',
             NotificationEventEnum::SYSTEM_ALERT => $locale            === 'fa' ? 'لطفاً این هشدار را بررسی کنید.' : 'Please review this alert.',
             NotificationEventEnum::ANNOUNCEMENT => $locale            === 'fa' ? 'اطلاعیه جدید منتشر شد.' : 'A new announcement has been published.',
             NotificationEventEnum::BIRTHDAY_REMINDER => $locale       === 'fa' ? '{{user_name}} عزیز، تولدت مبارک!' : 'Happy Birthday, {{user_name}}!',
@@ -277,23 +271,6 @@ class NotificationTemplateSeeder extends Seeder
             NotificationEventEnum::COURSE_SESSION_ENDED => [
                 'user_name',
                 'course_title',
-                'action_url',
-            ],
-            NotificationEventEnum::TICKET_CREATED => [
-                'user_name',
-                'ticket_number',
-                'ticket_subject',
-                'action_url',
-            ],
-            NotificationEventEnum::TICKET_REPLIED => [
-                'user_name',
-                'ticket_number',
-                'reply_message',
-                'action_url',
-            ],
-            NotificationEventEnum::TICKET_RESOLVED => [
-                'user_name',
-                'ticket_number',
                 'action_url',
             ],
             NotificationEventEnum::SYSTEM_ALERT => [

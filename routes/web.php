@@ -80,7 +80,7 @@ use Laravel\Sanctum\PersonalAccessToken;
 //
 // Route::multilingual('sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 // Route::multilingual('sitemap-article.xml', [SitemapController::class, 'article'])->name('sitemap-article');
-Auth::login(User::find(1));
+// Auth::login(User::find(1));
 Route::get('test', function () {
     return new App\Mail\NotificationMail([
         'title' => 'New Notification',
@@ -93,6 +93,14 @@ Route::get('test', function () {
         ],
     ]);
 });
+
+// Public certificate verification and download (validated by hash; id + hash so route always matches)
+Route::get('certificate/verify/{id}/{hash}', [App\Http\Controllers\CertificateController::class, 'verify'])
+    ->name('certificates.verify')
+    ->whereNumber('id');
+Route::get('certificate/download/{id}/{hash}', [App\Http\Controllers\CertificateController::class, 'download'])
+    ->name('certificates.download')
+    ->whereNumber('id');
 
 Route::get('sync-session/{token}', function (Request $request, string $token) {
     $user = TokenLoginAction::run($token);

@@ -29,6 +29,15 @@ class UpdateNotebookAction
     {
         return DB::transaction(function () use ($notebook, $payload) {
             $notebook->update($payload);
+            // Add tag as taxonomy
+            if ( ! empty($payload['tags']) && is_array($payload['tags'])) {
+                // Assuming tags are an array of taxonomy IDs to be linked
+                $notebook->taxonomy()->associate($payload['taxonomy_id']);
+                $notebook->save();
+
+                // If you want to sync many-to-many tags, uncomment and adjust as needed:
+                // $notebook->tags()->sync($payload['tags']);
+            }
 
             return $notebook->refresh();
         });

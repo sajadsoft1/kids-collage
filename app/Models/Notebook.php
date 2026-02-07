@@ -40,7 +40,7 @@ class Notebook extends Model
      */
 
     /** Model Relations -------------------------------------------------------------------------- */
-    public function taxonomy(): BelongsTo
+    public function tag(): BelongsTo
     {
         return $this->belongsTo(Taxonomy::class);
     }

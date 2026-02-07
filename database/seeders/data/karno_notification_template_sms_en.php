@@ -263,57 +263,6 @@ return [
                 ],
             ],
         ],
-        // Ticket Events
-        [
-            'event' => NotificationEventEnum::TICKET_CREATED,
-            'channel' => NotificationChannelEnum::SMS,
-            'data' => [
-                'en' => [
-                    'subject' => null,
-                    'title' => null,
-                    'subtitle' => null,
-                    'body' => 'Kids Collage: Ticket #{{ticket_number}} created. Subject: {{ticket_subject}}',
-                    'cta' => null,
-                    'placeholders' => [
-                        'ticket_number',
-                        'ticket_subject',
-                    ],
-                ],
-            ],
-        ],
-        [
-            'event' => NotificationEventEnum::TICKET_REPLIED,
-            'channel' => NotificationChannelEnum::SMS,
-            'data' => [
-                'en' => [
-                    'subject' => null,
-                    'title' => null,
-                    'subtitle' => null,
-                    'body' => 'Kids Collage: New reply to ticket #{{ticket_number}}. View: {{action_url}}',
-                    'cta' => null,
-                    'placeholders' => [
-                        'ticket_number',
-                        'action_url',
-                    ],
-                ],
-            ],
-        ],
-        [
-            'event' => NotificationEventEnum::TICKET_RESOLVED,
-            'channel' => NotificationChannelEnum::SMS,
-            'data' => [
-                'en' => [
-                    'subject' => null,
-                    'title' => null,
-                    'subtitle' => null,
-                    'body' => 'Kids Collage: Ticket #{{ticket_number}} resolved.',
-                    'cta' => null,
-                    'placeholders' => [
-                        'ticket_number',
-                    ],
-                ],
-            ],
-        ],
         // General Events
         [
             'event' => NotificationEventEnum::ANNOUNCEMENT,

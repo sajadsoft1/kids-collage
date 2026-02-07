@@ -6,7 +6,6 @@ namespace App\Actions\CourseTemplate;
 
 use App\Actions\CourseSessionTemplate\StoreCourseSessionTemplateAction;
 use App\Actions\Translation\SyncTranslationAction;
-use App\Enums\CourseLevelEnum;
 use App\Enums\CourseTypeEnum;
 use App\Models\CourseTemplate;
 use App\Services\File\FileService;
@@ -31,7 +30,8 @@ class StoreCourseTemplateAction
      * @param array{
      *     slug:string,
      *     category_id:int|null,
-     *     level:string|null,
+     *     course_template_level_id:int|null,
+     *     certificate_template_id:int|null,
      *     prerequisites:array|null,
      *     is_self_paced:bool|null,
      *     type:string|null,
@@ -56,7 +56,8 @@ class StoreCourseTemplateAction
             $model = CourseTemplate::create([
                 'slug' => $payload['slug'],
                 'category_id' => $payload['category_id'] ?? null,
-                'level' => $payload['level'] ?? CourseLevelEnum::BIGGINER->value,
+                'course_template_level_id' => $payload['course_template_level_id'] ?? null,
+                'certificate_template_id' => $payload['certificate_template_id'] ?? null,
                 'type' => $payload['type'] ?? CourseTypeEnum::IN_PERSON->value,
                 'prerequisites' => $payload['prerequisites'] ?? [],
                 'is_self_paced' => $payload['type'] === CourseTypeEnum::SELF_PACED->value ? true : false,

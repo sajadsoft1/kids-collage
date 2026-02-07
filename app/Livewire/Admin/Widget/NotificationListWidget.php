@@ -149,7 +149,6 @@ class NotificationListWidget extends Component
             str_contains($type, 'Payment') => 'o-credit-card',
             str_contains($type, 'Enrollment') => 'o-academic-cap',
             str_contains($type, 'Course') => 'o-book-open',
-            str_contains($type, 'Ticket') => 'o-ticket',
             str_contains($type, 'Auth') => 'o-shield-check',
             default => 'o-bell',
         };
@@ -163,7 +162,6 @@ class NotificationListWidget extends Component
             str_contains($type, 'Payment') => 'text-green-500',
             str_contains($type, 'Enrollment') => 'text-purple-500',
             str_contains($type, 'Course') => 'text-orange-500',
-            str_contains($type, 'Ticket') => 'text-yellow-500',
             str_contains($type, 'Auth') => 'text-indigo-500',
             default => 'text-gray-500',
         };

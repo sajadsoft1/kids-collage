@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @property int                 $id
  * @property int                 $enrollment_id
+ * @property int|null            $certificate_template_id
  * @property \Carbon\Carbon      $issue_date
  * @property string              $grade
  * @property string              $certificate_path
@@ -23,7 +24,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  *
- * @property-read Enrollment $enrollment
+ * @property-read Enrollment              $enrollment
+ * @property-read CertificateTemplate|null $certificateTemplate
  */
 class Certificate extends Model
 {
@@ -31,6 +33,7 @@ class Certificate extends Model
 
     protected $fillable = [
         'enrollment_id',
+        'certificate_template_id',
         'issue_date',
         'grade',
         'certificate_path',
@@ -45,6 +48,12 @@ class Certificate extends Model
     public function enrollment(): BelongsTo
     {
         return $this->belongsTo(Enrollment::class);
+    }
+
+    /** Get the certificate template used for this certificate. */
+    public function certificateTemplate(): BelongsTo
+    {
+        return $this->belongsTo(CertificateTemplate::class, 'certificate_template_id');
     }
 
     /** Get the student (user) for this certificate. */
@@ -62,7 +71,7 @@ class Certificate extends Model
     /** Get the course template for this certificate. */
     public function getCourseTemplateAttribute()
     {
-        return $this->course->courseTemplate;
+        return $this->course->template;
     }
 
     /** Get the grade description. */
@@ -97,22 +106,20 @@ class Certificate extends Model
         return $this->verifySignature();
     }
 
-    /** Verify the certificate signature. */
+    /** Verify the certificate signature (recomputed hash matches stored hash). */
     public function verifySignature(): bool
     {
-        $expectedHash = $this->generateExpectedSignatureHash();
-
-        return hash_equals($this->signature_hash, $expectedHash);
+        return hash_equals($this->signature_hash, $this->generateExpectedSignatureHash());
     }
 
-    /** Generate the expected signature hash for verification. */
+    /** Generate the expected signature hash for verification (date-only, matches issuance). */
     protected function generateExpectedSignatureHash(): string
     {
         $data = [
             'enrollment_id' => $this->enrollment_id,
             'user_id' => $this->enrollment->user_id,
             'course_id' => $this->enrollment->course_id,
-            'issue_date' => $this->issue_date->toISOString(),
+            'issue_date' => $this->issue_date->toDateString(),
         ];
 
         return hash('sha256', json_encode($data) . config('app.key'));
@@ -122,7 +129,7 @@ class Certificate extends Model
     public function getVerificationUrlAttribute(): string
     {
         return route('certificates.verify', [
-            'certificate' => $this->id,
+            'id' => $this->id,
             'hash' => $this->signature_hash,
         ]);
     }
@@ -131,7 +138,7 @@ class Certificate extends Model
     public function getDownloadUrlAttribute(): string
     {
         return route('certificates.download', [
-            'certificate' => $this->id,
+            'id' => $this->id,
             'hash' => $this->signature_hash,
         ]);
     }
@@ -151,7 +158,7 @@ class Certificate extends Model
     /** Get the formatted issue date. */
     public function getFormattedIssueDateAttribute(): string
     {
-        return $this->issue_date->format('F j, Y');
+        return jdate($this->issue_date)->format('%A, %d %B %Y');
     }
 
     /** Get the certificate number (for display purposes). */
@@ -163,7 +170,7 @@ class Certificate extends Model
     /** Get the student's full name. */
     public function getStudentNameAttribute(): string
     {
-        return $this->student->name ?? 'Unknown Student';
+        return $this->student->full_name ?? 'Unknown Student';
     }
 
     /** Get the course title. */
@@ -175,7 +182,7 @@ class Certificate extends Model
     /** Get the course level. */
     public function getCourseLevelAttribute(): ?string
     {
-        return $this->courseTemplate->level;
+        return $this->courseTemplate->level?->title;
     }
 
     /** Get the course duration. */
@@ -224,13 +231,13 @@ class Certificate extends Model
     public function getFormattedFileSizeAttribute(): ?string
     {
         $size = $this->file_size;
-        
+
         if ( ! $size) {
             return null;
         }
 
         $units = ['B', 'KB', 'MB', 'GB'];
-        
+
         for ($i = 0; $size >= 1024 && $i < count($units) - 1; $i++) {
             $size /= 1024;
         }
@@ -238,14 +245,17 @@ class Certificate extends Model
         return round($size, 2) . ' ' . $units[$i];
     }
 
-    /** Regenerate the certificate file. */
+    /** Regenerate the certificate PDF using the certificate template. */
     public function regenerateFile(): bool
     {
-        // This would integrate with your PDF generation service
-        // For now, we'll just update the path with a new timestamp
         $newPath = "certificates/certificate_{$this->id}_{$this->enrollment_id}_" . now()->format('YmdHis') . '.pdf';
-        
-        return $this->update(['certificate_path' => $newPath]);
+
+        $this->update(['certificate_path' => $newPath]);
+
+        $service = app(\App\Services\Certificate\CertificatePdfService::class);
+        $service->generateForCertificate($this->refresh());
+
+        return true;
     }
 
     /** Scope for certificates by grade. */

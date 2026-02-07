@@ -72,6 +72,9 @@ return [
         'destroy' => 'Delete',
         'toggle' => 'Toggle Status',
         'set_default' => 'Set as Default',
+        'taker' => 'Take Exam',
+        'attempts' => 'Attempts',
+        'restore' => 'Restore',
     ],
     'empty_table_title' => 'No records found',
     'empty_table_description' => 'Create a new record to get started',
@@ -100,4 +103,5 @@ return [
     'due_date' => 'Due Date',
     'method' => 'Method',
     'transaction_id' => 'Transaction ID',
+    'duration_and' => 'and',
 ];

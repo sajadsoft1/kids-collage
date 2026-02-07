@@ -17,7 +17,7 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="title", type="string", default="Title"),
  *     @OA\Property(property="description", type="string", default="Description"),
  *     @OA\Property(property="slug", type="string", default="title"),
- *     @OA\Property(property="level", ref="#/components/schemas/CourseLevelEnum"),
+ *     @OA\Property(property="level", type="object", description="Course level (id, title)"),
  *     @OA\Property(property="prerequisites", type="array", @OA\Items(type="string"), example={"Basic English"}),
  *     @OA\Property(property="is_self_paced", type="boolean", default=true),
  *     @OA\Property(property="type", ref="#/components/schemas/CourseTypeEnum"),

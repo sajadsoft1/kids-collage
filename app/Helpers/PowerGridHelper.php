@@ -53,6 +53,11 @@ class PowerGridHelper
         return "<i class='fa fa-eye {$class}'></i>";
     }
 
+    public static function iconRestore(string $class = 'text-success'): string
+    {
+        return "<i class='fa fa-rotate-left {$class}'></i>";
+    }
+
     public static function iconToggle(bool|int $status, ?string $class = null): string
     {
         $on = $status ? 'fa-toggle-on text-success' : 'fa-toggle-off text-gray-400';
@@ -115,6 +120,17 @@ class PowerGridHelper
             ->route('admin.dynamic-translate', ['class' => Str::camel($param), 'id' => $row->id], '_self')
             ->navigate()
             ->tooltip(trans('datatable.buttons.translate'));
+    }
+
+    /** Restore button for soft-deleted rows. Calls component method restoreRow($row->id). */
+    public static function btnRestore(mixed $row): Button
+    {
+        return Button::add('restore')
+            ->slot(self::iconRestore())
+            ->attributes(['class' => 'btn btn-square md:btn-sm btn-xs'])
+            ->can(Auth::user()?->hasAnyPermission(PermissionsService::generatePermissionsByModel($row::class, 'Update')) ?? false)
+            ->call('restoreRow', [$row->id])
+            ->tooltip(trans('datatable.buttons.restore'));
     }
 
     public static function btnToggle(mixed $row, string $toggleField = 'published'): Button
@@ -217,6 +233,26 @@ class PowerGridHelper
     public static function fieldUpdatedAtFormated($row): string
     {
         return jdate($row->updated_at)->format('%A, %d %B %Y');
+    }
+
+    /** Format duration (minutes) as "X h and Y min". Uses row field, default "duration". */
+    public static function fieldDurationFormated(mixed $row, string $field = 'duration'): string
+    {
+        $minutes = (int) (is_object($row) ? ($row->{$field} ?? 0) : $row);
+        if ($minutes <= 0) {
+            return '0 ' . trans('attendance.page.minutes');
+        }
+        $hours = (int) floor($minutes / 60);
+        $mins = $minutes % 60;
+        $parts = [];
+        if ($hours > 0) {
+            $parts[] = $hours . ' ' . trans('general.hours');
+        }
+        if ($mins > 0) {
+            $parts[] = $mins . ' ' . trans('general.minutes');
+        }
+
+        return implode(' ' . trans('datatable.duration_and') . ' ', $parts);
     }
 
     public static function fieldCategoryName($row): string

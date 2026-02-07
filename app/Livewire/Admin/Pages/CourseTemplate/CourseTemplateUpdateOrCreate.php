@@ -8,11 +8,11 @@ use App\Actions\CourseTemplate\StoreCourseTemplateAction;
 use App\Actions\CourseTemplate\UpdateCourseTemplateAction;
 use App\Enums\BooleanEnum;
 use App\Enums\CategoryTypeEnum;
-use App\Enums\CourseLevelEnum;
 use App\Enums\CourseTypeEnum;
 use App\Helpers\StringHelper;
 use App\Models\Category;
 use App\Models\CourseTemplate;
+use App\Models\CourseTemplateLevel;
 use App\Traits\CrudHelperTrait;
 use Exception;
 use Illuminate\Validation\Rule;
@@ -33,7 +33,8 @@ class CourseTemplateUpdateOrCreate extends Component
     public string $description = '';
     public string $body = '';
     public string $type = CourseTypeEnum::IN_PERSON->value;
-    public string $level = CourseLevelEnum::BIGGINER->value;
+    public ?int $course_template_level_id = null;
+    public ?int $certificate_template_id = null;
     public array $categories = [];
     public array $tags = [];
     public int $category_id = 0;
@@ -61,7 +62,8 @@ class CourseTemplateUpdateOrCreate extends Component
             $this->description = $this->model->description;
             $this->body = $this->model->body;
             $this->type = $this->model->type->value;
-            $this->level = $this->model->level->value;
+            $this->course_template_level_id = $this->model->course_template_level_id;
+            $this->certificate_template_id = $this->model->certificate_template_id;
             $this->prerequisites = $this->model->prerequisites;
             $this->is_self_paced = $this->model->is_self_paced;
             $this->category_id = $this->model->category_id;
@@ -74,6 +76,9 @@ class CourseTemplateUpdateOrCreate extends Component
                 'type' => $this->model->type->value,
             ])->toArray();
         } else {
+            $this->course_template_level_id = CourseTemplateLevel::query()
+                ->where('published', BooleanEnum::ENABLE)
+                ->value('id');
             $this->updatedSessionsCount(10);
         }
     }
@@ -108,6 +113,28 @@ class CourseTemplateUpdateOrCreate extends Component
         ], $this->sessions);
     }
 
+    /** @return array<int, array{label: string, value: int}> */
+    public function levelOptions(): array
+    {
+        return CourseTemplateLevel::query()
+            ->where('published', BooleanEnum::ENABLE)
+            ->get()
+            ->map(fn (CourseTemplateLevel $l) => ['label' => $l->title, 'value' => $l->id])
+            ->values()
+            ->all();
+    }
+
+    /** @return array<int, array{label: string, value: int}> */
+    public function certificateTemplateOptions(): array
+    {
+        return \App\Models\CertificateTemplate::query()
+            ->orderBy('title')
+            ->get()
+            ->map(fn (\App\Models\CertificateTemplate $t) => ['label' => $t->title, 'value' => $t->id])
+            ->values()
+            ->all();
+    }
+
     protected function rules(): array
     {
         return [
@@ -115,7 +142,8 @@ class CourseTemplateUpdateOrCreate extends Component
             'description' => 'required|string',
             'body' => 'required|string',
             'type' => ['required', Rule::in(CourseTypeEnum::values())],
-            'level' => ['required', Rule::in(CourseLevelEnum::values())],
+            'course_template_level_id' => 'required|exists:course_template_levels,id',
+            'certificate_template_id' => 'nullable|exists:certificate_templates,id',
             'is_self_paced' => 'required|boolean',
             'prerequisites' => 'nullable|array',
             'prerequisites.*' => 'integer|exists:course_templates,id',

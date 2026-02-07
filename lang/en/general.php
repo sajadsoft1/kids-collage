@@ -24,6 +24,7 @@ return [
     'model_has_stored_successfully' => ':model has been stored successfully',
     'model_has_updated_successfully' => ':model has been updated successfully',
     'model_has_deleted_successfully' => ':model has been deleted successfully',
+    'model_has_restored_successfully' => ':model has been restored successfully',
     'model_has_toggled_successfully' => ':model has been toggled successfully',
     'model_has_upload_successfully' => ':model has been uploaded successfully',
     'model_has_Failed_to_upload' => ':model has failed to upload',
@@ -161,4 +162,6 @@ return [
     'all' => 'All',
     'in_progress' => 'In Progress',
     'completed' => 'Completed',
+    'hours' => 'Hours',
+    'minutes' => 'Minutes',
 ];

@@ -345,7 +345,7 @@
                                     </div>
                                     <div class="text-center">
                                         <div class="text-xl font-bold md:text-2xl text-primary">
-                                            {{ $courseTemplate->level->title() ?? 'N/A' }}</div>
+                                            {{ $courseTemplate->level?->title ?? 'N/A' }}</div>
                                         <div class="text-xs text-slate-500">سطح</div>
                                     </div>
                                     <div class="text-center">

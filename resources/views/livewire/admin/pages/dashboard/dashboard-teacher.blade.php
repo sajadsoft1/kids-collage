@@ -38,7 +38,5 @@
             :teacher_id="$teacher->id" wire:key="students-list-widget-{{ $startDate }}-{{ $endDate }}" />
         <livewire:admin.widget.attendance-widget :limit="10" :start_date="$startDate" :end_date="$endDate"
             :teacher_id="$teacher->id" wire:key="attendance-widget-{{ $startDate }}-{{ $endDate }}" />
-        <livewire:admin.widget.latest-tickets-widget :limit="10" :start_date="$startDate" :end_date="$endDate"
-            :userId="$teacher->id" wire:key="latest-tickets-widget-{{ $startDate }}-{{ $endDate }}" />
     </div>
 </div>

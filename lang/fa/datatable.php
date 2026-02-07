@@ -73,6 +73,9 @@ return [
         'destroy' => 'حذف',
         'toggle' => 'تغییر وضعیت',
         'set_default' => 'تنظیم به عنوان پیش فرض',
+        'taker' => 'شرکت در آزمون',
+        'attempts' => 'لیست تلاش‌ها',
+        'restore' => 'بازگردانی',
     ],
     'empty_table_title' => 'رکوردی یافت نشد',
     'empty_table_description' => 'برای شروع یک رکورد جدید ایجاد کنید',
@@ -106,4 +109,5 @@ return [
     'offline' => 'حضوری',
     'yes' => 'بله',
     'no' => 'خیر',
+    'duration_and' => 'و',
 ];

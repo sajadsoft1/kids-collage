@@ -79,6 +79,12 @@ class Course extends Model
         return $this->belongsTo(CourseTemplate::class, 'course_template_id');
     }
 
+    /** Alias for template() for backward compatibility (e.g. PowerGrid export / eager load). */
+    public function courseTemplate(): BelongsTo
+    {
+        return $this->template();
+    }
+
     /** Get the term that this course belongs to. */
     public function term(): BelongsTo
     {

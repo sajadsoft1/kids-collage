@@ -1,3 +1,6 @@
+@php
+    $attemptStatusCompleted = \App\Enums\AttemptStatusEnum::COMPLETED;
+@endphp
 <div class="py-4 md:py-6" x-data="{ activeTab: @entangle('activeTab') }">
     {{-- ═══════════════════════════════════════════════════════════════════════════ --}}
     {{-- HEADER SECTION --}}
@@ -55,7 +58,7 @@
     {{-- ═══════════════════════════════════════════════════════════════════════════ --}}
     {{-- TABS --}}
     {{-- ═══════════════════════════════════════════════════════════════════════════ --}}
-    <x-tabs wire:model="activeTab"active-class="bg-primary rounded !text-white" label-class="px-4 py-3 font-semibold"
+    <x-tabs wire:model="activeTab" active-class="bg-primary rounded !text-white" label-class="px-4 py-3 font-semibold"
         label-div-class="p-2 rounded bg-base-100">
 
         {{-- TAB 1: AVAILABLE EXAMS --}}
@@ -331,7 +334,7 @@
                                             icon="o-eye" wire:navigate>
                                             {{ __('exam_list.view_results') }}
                                         </x-button>
-                                        @if ($attempt->exam->allow_review && $attempt->status === \App\Enums\AttemptStatusEnum::COMPLETED)
+                                        @if ($attempt->exam->allow_review && $attempt->status === $attemptStatusCompleted)
                                             <x-button :link="route('admin.exam.attempt.review', [
                                                 'exam' => $attempt->exam->id,
                                                 'attempt' => $attempt->id,

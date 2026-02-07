@@ -24,7 +24,7 @@ class CourseTemplateController extends Controller
     private function query(array $payload = []): QueryBuilder
     {
         return QueryBuilder::for(CourseTemplate::query())
-            ->with(['media'])
+            ->with(['media', 'level'])
             ->when($limit = Arr::get($payload, 'limit'), fn ($q) => $q->limit($limit))
             ->defaultSort('-id')
             ->allowedSorts([
@@ -108,7 +108,7 @@ class CourseTemplateController extends Controller
 
         return Response::data(
             [
-                'courseTemplate' => CourseTemplateDetailResource::make($courseTemplate->load('courses', 'comments', 'seoOption')),
+                'courseTemplate' => CourseTemplateDetailResource::make($courseTemplate->load('level', 'courses', 'comments', 'seoOption')),
             ]
         );
     }

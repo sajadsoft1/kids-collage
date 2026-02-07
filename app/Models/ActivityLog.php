@@ -35,6 +35,9 @@ class ActivityLog extends Model
 {
     use HasFactory;
 
+    /** Table name from config so it matches the migration (default: activity_log). */
+    protected $table;
+
     protected $fillable = [
         'log_name',
         'description',
@@ -50,6 +53,12 @@ class ActivityLog extends Model
     protected $casts = [
         'properties' => 'array',
     ];
+
+    public function __construct(array $attributes = [])
+    {
+        $this->table = config('activitylog.table_name', 'activity_log');
+        parent::__construct($attributes);
+    }
 
     /** Get the subject of the activity (what the activity is about). */
     public function subject(): MorphTo

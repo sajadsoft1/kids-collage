@@ -28,7 +28,6 @@ class WebsiteRequirementsSeeder extends Seeder
             TeammateSeeder::class,    // Team member profiles
             ContactUsSeeder::class,   // Contact form submissions
             SocialMediaSeeder::class, // Social media links and settings
-            TicketSeeder::class,      // Support ticket system
             LicenseSeeder::class,     // License information
         ]);
 

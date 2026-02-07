@@ -33,7 +33,5 @@
     <div class="grid grid-cols-1 gap-6">
         <livewire:admin.widget.payment-list-widget :limit="10" :start_date="$startDate" :end_date="$endDate"
             :user_id="$user->id" wire:key="payment-list-widget-{{ $startDate }}-{{ $endDate }}" />
-        <livewire:admin.widget.latest-tickets-widget :limit="10" :start_date="$startDate" :end_date="$endDate"
-            :userId="$user->id" wire:key="latest-tickets-widget-{{ $startDate }}-{{ $endDate }}" />
     </div>
 </div>

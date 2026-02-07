@@ -134,7 +134,6 @@ class PaymentWidgetExample
                     {{-- Right Column - Other Widgets --}}
                     <div class="space-y-6">
                         @livewire('admin.widget.notification-list-widget')
-                        @livewire('admin.widget.latest-tickets-widget')
                     </div>
                 </div>
             BLADE;

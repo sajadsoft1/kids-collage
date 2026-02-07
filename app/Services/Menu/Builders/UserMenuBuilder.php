@@ -38,19 +38,19 @@ class UserMenuBuilder extends BaseMenuBuilder
                 'params' => ['user' => $user->id],
             ],
             [
-                'icon' => 'o-calendar',
+                'icon' => 'o-calendar-days',
                 'params' => [],
                 'title' => trans('_menu.calendar'),
                 'route_name' => 'admin.app.calendar',
             ],
             [
-                'icon' => 'o-document-text',
+                'icon' => 'o-clipboard-document',
                 'params' => [],
                 'title' => trans('_menu.exams'),
                 'route_name' => 'admin.exam.list',
             ],
             [
-                'icon' => 'o-document-text',
+                'icon' => 'o-book-open',
                 'params' => [],
                 'title' => trans('_menu.courses'),
                 'route_name' => 'admin.course.list',
@@ -62,7 +62,7 @@ class UserMenuBuilder extends BaseMenuBuilder
                 'route_name' => 'admin.payment.index',
             ],
             [
-                'icon' => 'o-rectangle-stack',
+                'icon' => 'o-sparkles',
                 'params' => [],
                 'title' => trans('_menu.flashcard'),
                 'route_name' => 'admin.flash-card.list',
@@ -72,12 +72,6 @@ class UserMenuBuilder extends BaseMenuBuilder
                 'params' => [],
                 'title' => trans('_menu.survey_management'),
                 'route_name' => 'admin.survey.index',
-            ],
-            [
-                'icon' => 'o-ticket',
-                'params' => [],
-                'title' => trans('_menu.ticket_management'),
-                'route_name' => 'admin.ticket.index',
             ],
         ];
     }

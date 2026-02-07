@@ -25,9 +25,4 @@
             wire:key="popular-blogs-widget-{{ $startDate }}-{{ $endDate }}" />
     </div>
 
-    <!-- Full Width Widget -->
-    <div class="grid grid-cols-1 lg:grid-cols-1 gap-6">
-        <livewire:admin.widget.latest-tickets-widget :limit="10" :start_date="$startDate" :end_date="$endDate"
-            wire:key="latest-tickets-widget-{{ $startDate }}-{{ $endDate }}" />
-    </div>
 </div>

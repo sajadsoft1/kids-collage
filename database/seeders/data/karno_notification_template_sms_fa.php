@@ -263,57 +263,6 @@ return [
                 ],
             ],
         ],
-        // Ticket Events
-        [
-            'event' => NotificationEventEnum::TICKET_CREATED,
-            'channel' => NotificationChannelEnum::SMS,
-            'data' => [
-                'fa' => [
-                    'subject' => null,
-                    'title' => null,
-                    'subtitle' => null,
-                    'body' => 'کیدز کالج: تیکت #{{ticket_number}} ثبت شد. موضوع: {{ticket_subject}}',
-                    'cta' => null,
-                    'placeholders' => [
-                        'ticket_number',
-                        'ticket_subject',
-                    ],
-                ],
-            ],
-        ],
-        [
-            'event' => NotificationEventEnum::TICKET_REPLIED,
-            'channel' => NotificationChannelEnum::SMS,
-            'data' => [
-                'fa' => [
-                    'subject' => null,
-                    'title' => null,
-                    'subtitle' => null,
-                    'body' => 'کیدز کالج: پاسخ جدید به تیکت #{{ticket_number}}. مشاهده: {{action_url}}',
-                    'cta' => null,
-                    'placeholders' => [
-                        'ticket_number',
-                        'action_url',
-                    ],
-                ],
-            ],
-        ],
-        [
-            'event' => NotificationEventEnum::TICKET_RESOLVED,
-            'channel' => NotificationChannelEnum::SMS,
-            'data' => [
-                'fa' => [
-                    'subject' => null,
-                    'title' => null,
-                    'subtitle' => null,
-                    'body' => 'کیدز کالج: تیکت #{{ticket_number}} حل شد.',
-                    'cta' => null,
-                    'placeholders' => [
-                        'ticket_number',
-                    ],
-                ],
-            ],
-        ],
         // General Events
         [
             'event' => NotificationEventEnum::ANNOUNCEMENT,

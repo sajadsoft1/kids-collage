@@ -34,7 +34,5 @@
             :user_ids="$childrenIds" wire:key="attendance-widget-{{ $startDate }}-{{ $endDate }}" />
         <livewire:admin.widget.payment-list-widget :limit="10" :start_date="$startDate" :end_date="$endDate"
             :user_ids="$childrenIds" wire:key="payment-list-widget-{{ $startDate }}-{{ $endDate }}" />
-        <livewire:admin.widget.latest-tickets-widget :limit="10" :start_date="$startDate" :end_date="$endDate"
-            :userId="$parent->id" wire:key="latest-tickets-widget-{{ $startDate }}-{{ $endDate }}" />
     </div>
 </div>

@@ -53,6 +53,18 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ActivityLog progressRelated()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ActivityLog query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ActivityLog recent(int $days = 7)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ActivityLog whereBatchUuid($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ActivityLog whereCauserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ActivityLog whereCauserType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ActivityLog whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ActivityLog whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ActivityLog whereEvent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ActivityLog whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ActivityLog whereLogName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ActivityLog whereProperties($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ActivityLog whereSubjectId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ActivityLog whereSubjectType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ActivityLog whereUpdatedAt($value)
  */
 	class ActivityLog extends \Eloquent {}
 }
@@ -629,13 +641,15 @@ namespace App\Models{
  *
  * @property int                 $id
  * @property int                 $enrollment_id
+ * @property int|null            $certificate_template_id
  * @property \Carbon\Carbon      $issue_date
  * @property string              $grade
  * @property string              $certificate_path
  * @property string              $signature_hash
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
- * @property-read Enrollment $enrollment
+ * @property-read Enrollment              $enrollment
+ * @property-read CertificateTemplate|null $certificateTemplate
  * @property int|null $branch_id
  * @property-read int $age_in_days
  * @property-read float $attendance_percentage
@@ -666,6 +680,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Certificate recent(int $days = 30)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Certificate whereBranchId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Certificate whereCertificatePath($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Certificate whereCertificateTemplateId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Certificate whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Certificate whereEnrollmentId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Certificate whereGrade($value)
@@ -675,6 +690,50 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Certificate whereUpdatedAt($value)
  */
 	class Certificate extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * CertificateTemplate Model
+ * 
+ * Defines reusable certificate designs with placeholders for student name,
+ * course title, date, grade, etc. Used when issuing a certificate for an enrollment.
+ *
+ * @property int                 $id
+ * @property string              $title
+ * @property string              $slug
+ * @property bool                $is_default
+ * @property string              $layout
+ * @property string|null         $header_text
+ * @property string|null         $body_text
+ * @property string|null         $footer_text
+ * @property string|null         $institute_name
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Certificate> $certificates
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, CourseTemplate> $courseTemplates
+ * @property-read int|null $certificates_count
+ * @property-read int|null $course_templates_count
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
+ * @property-read int|null $media_count
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CertificateTemplate default()
+ * @method static \Database\Factories\CertificateTemplateFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CertificateTemplate newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CertificateTemplate newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CertificateTemplate query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CertificateTemplate whereBodyText($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CertificateTemplate whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CertificateTemplate whereFooterText($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CertificateTemplate whereHeaderText($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CertificateTemplate whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CertificateTemplate whereInstituteName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CertificateTemplate whereIsDefault($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CertificateTemplate whereLayout($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CertificateTemplate whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CertificateTemplate whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CertificateTemplate whereUpdatedAt($value)
+ */
+	class CertificateTemplate extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
 }
 
 namespace App\Models{
@@ -875,6 +934,7 @@ namespace App\Models{
  * @property-read \App\Models\Branch|null $branch
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\CourseSession> $completedSessions
  * @property-read int|null $completed_sessions_count
+ * @property-read \App\Models\CourseTemplate $courseTemplate
  * @property-read int|null $enrollments_count
  * @property-read int $available_spots
  * @property-read string $days_of_week_readable
@@ -1068,7 +1128,8 @@ namespace App\Models{
  * @property string      $title
  * @property string      $description
  * @property int|null    $category_id
- * @property string|null $level
+ * @property int|null    $course_template_level_id
+ * @property int|null    $certificate_template_id
  * @property array|null  $prerequisites
  * @property bool        $is_self_paced
  * @property array|null  $languages
@@ -1076,6 +1137,8 @@ namespace App\Models{
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
+ * @property-read CourseTemplateLevel|null               $level
+ * @property-read CertificateTemplate|null               $certificateTemplate
  * @property-read Collection<int, CourseSessionTemplate> $sessionTemplates
  * @property-read Collection<int, Course>                $courses
  * @property-read Collection<int, resource>              $resources
@@ -1119,7 +1182,7 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\WishList> $wishes
  * @property-read int|null $wishes_count
  * @method static \App\Query\BranchBuilder<static>|CourseTemplate byCategory(int $categoryId)
- * @method static \App\Query\BranchBuilder<static>|CourseTemplate byLevel(string $level)
+ * @method static \App\Query\BranchBuilder<static>|CourseTemplate byLevel(int $levelId)
  * @method static \Database\Factories\CourseTemplateFactory factory($count = null, $state = [])
  * @method static \App\Query\BranchBuilder<static>|CourseTemplate forBranch(int $branchId)
  * @method static \App\Query\BranchBuilder<static>|CourseTemplate instructorLed()
@@ -1131,13 +1194,14 @@ namespace App\Models{
  * @method static \App\Query\BranchBuilder<static>|CourseTemplate selfPaced()
  * @method static \App\Query\BranchBuilder<static>|CourseTemplate whereBranchId($value)
  * @method static \App\Query\BranchBuilder<static>|CourseTemplate whereCategoryId($value)
+ * @method static \App\Query\BranchBuilder<static>|CourseTemplate whereCertificateTemplateId($value)
  * @method static \App\Query\BranchBuilder<static>|CourseTemplate whereCommentCount($value)
+ * @method static \App\Query\BranchBuilder<static>|CourseTemplate whereCourseTemplateLevelId($value)
  * @method static \App\Query\BranchBuilder<static>|CourseTemplate whereCreatedAt($value)
  * @method static \App\Query\BranchBuilder<static>|CourseTemplate whereDeletedAt($value)
  * @method static \App\Query\BranchBuilder<static>|CourseTemplate whereId($value)
  * @method static \App\Query\BranchBuilder<static>|CourseTemplate whereIsSelfPaced($value)
  * @method static \App\Query\BranchBuilder<static>|CourseTemplate whereLanguages($value)
- * @method static \App\Query\BranchBuilder<static>|CourseTemplate whereLevel($value)
  * @method static \App\Query\BranchBuilder<static>|CourseTemplate wherePrerequisites($value)
  * @method static \App\Query\BranchBuilder<static>|CourseTemplate whereSlug($value)
  * @method static \App\Query\BranchBuilder<static>|CourseTemplate whereType($value)
@@ -1155,6 +1219,35 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplate withoutTrashed()
  */
 	class CourseTemplate extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
+}
+
+namespace App\Models{
+/**
+ * @property string $title
+ * @property string $description
+ * @property int $id
+ * @property \App\Enums\BooleanEnum $published
+ * @property array<array-key, mixed>|null $languages
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\CourseTemplate> $courseTemplates
+ * @property-read int|null $course_templates_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translations
+ * @property-read int|null $translations_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translationsPure
+ * @property-read int|null $translations_pure_count
+ * @method static \Database\Factories\CourseTemplateLevelFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplateLevel newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplateLevel newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplateLevel query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplateLevel search($keyword)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplateLevel whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplateLevel whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplateLevel whereLanguages($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplateLevel wherePublished($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CourseTemplateLevel whereUpdatedAt($value)
+ */
+	class CourseTemplateLevel extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -1753,7 +1846,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Branch|null $branch
- * @property-read \App\Models\Taxonomy $taxonomy
+ * @property-read \App\Models\Taxonomy|null $tag
  * @property-read \App\Models\User $user
  * @method static \Database\Factories\NotebookFactory factory($count = null, $state = [])
  * @method static \App\Query\BranchBuilder<static>|Notebook forBranch(int $branchId)
@@ -2598,6 +2691,10 @@ namespace App\Models{
  * @property string $morphable_type
  * @property int $morphable_id
  * @property string|null $description
+ * @property string|null $canonical
+ * @property string|null $old_url
+ * @property string|null $redirect_to
+ * @property \App\Enums\SeoRobotsMetaEnum $robots_meta
  * @property string|null $og_image
  * @property string|null $twitter_image
  * @property string|null $focus_keyword
@@ -2608,10 +2705,6 @@ namespace App\Models{
  * @property string|null $sitemap_changefreq
  * @property string|null $image_alt
  * @property string|null $image_title
- * @property string|null $canonical
- * @property string|null $old_url
- * @property string|null $redirect_to
- * @property \App\Enums\SeoRobotsMetaEnum $robots_meta
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Http\Resources\Json\JsonResource|null $morph_resource
@@ -3022,7 +3115,7 @@ namespace App\Models{
  * @property int $id
  * @property int|null $branch_id
  * @property string $subject
- * @property \App\Enums\TicketDepartmentEnum $department
+ * @property int|null $ticket_department_id
  * @property int $user_id
  * @property int|null $closed_by
  * @property \App\Enums\TicketStatusEnum $status
@@ -3033,6 +3126,7 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activities
  * @property-read int|null $activities_count
  * @property-read \App\Models\User|null $closeBy
+ * @property-read \App\Models\TicketDepartment|null $department
  * @property-read int $unread_messages_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\TicketMessage> $messages
  * @property-read int|null $messages_count
@@ -3044,16 +3138,45 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Ticket whereBranchId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Ticket whereClosedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Ticket whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Ticket whereDepartment($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Ticket whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Ticket whereKey($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Ticket wherePriority($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Ticket whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Ticket whereSubject($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Ticket whereTicketDepartmentId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Ticket whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Ticket whereUserId($value)
  */
 	class Ticket extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * @property string $title
+ * @property string $description
+ * @property int $id
+ * @property \App\Enums\BooleanEnum $published
+ * @property array<array-key, mixed>|null $languages
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Ticket> $tickets
+ * @property-read int|null $tickets_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translations
+ * @property-read int|null $translations_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Translation> $translationsPure
+ * @property-read int|null $translations_pure_count
+ * @method static \Database\Factories\TicketDepartmentFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TicketDepartment newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TicketDepartment newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TicketDepartment query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TicketDepartment search($keyword)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TicketDepartment whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TicketDepartment whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TicketDepartment whereLanguages($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TicketDepartment wherePublished($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TicketDepartment whereUpdatedAt($value)
+ */
+	class TicketDepartment extends \Eloquent {}
 }
 
 namespace App\Models{

@@ -18,7 +18,6 @@ use App\Services\Permissions\Models\RolePermissions;
 use App\Services\Permissions\Models\SliderPermissions;
 use App\Services\Permissions\Models\TagPermissions;
 use App\Services\Permissions\Models\TeammatePermissions;
-use App\Services\Permissions\Models\TicketPermissions;
 use App\Services\Permissions\Models\UserPermissions;
 
 class CorePermissions
@@ -27,7 +26,6 @@ class CorePermissions
     {
         return [
             resolve(UserPermissions::class)->all(),
-            resolve(TicketPermissions::class)->all(),
             resolve(TeammatePermissions::class)->all(),
             resolve(TagPermissions::class)->all(),
             resolve(SliderPermissions::class)->all(),
