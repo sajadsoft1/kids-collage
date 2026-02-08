@@ -18,6 +18,10 @@ return [
     ],
 
     'learning' => [
+        'index' => [
+            'title' => 'Room List',
+            'content' => '<p>List of all rooms. Each room has a name, location and capacity. Use this list to manage rooms for scheduling course sessions.</p>',
+        ],
         'create' => [
             'title' => 'Creating a room',
             'content' => '<p>To create a new room, enter the name, location and capacity, then click submit.</p>',

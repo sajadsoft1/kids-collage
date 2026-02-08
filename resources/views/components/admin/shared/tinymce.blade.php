@@ -25,6 +25,5 @@
 @endphp
 
 <div class="{{ $attributes->get('class:div') }}">
-    <x-editor :label="$label" {{ $attributes }} disk="tinymce"
-              :config="$mergedConfig"/>
+    <x-editor :label="$label" {{ $attributes }} :disk="config('filesystems.editor_disk', 'tinymce')" folder="editor" :config="$mergedConfig" />
 </div>

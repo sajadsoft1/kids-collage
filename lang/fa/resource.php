@@ -18,7 +18,7 @@ return [
     'validations' => [
     ],
     'enum' => [
-        'pdf' => 'فایل PDF',
+        'pdf' => 'پی دی اف',
         'video' => 'ویدیو',
         'image' => 'تصویر',
         'audio' => 'صوت',
@@ -28,6 +28,7 @@ return [
     'notifications' => [
     ],
     'page' => [
+        'sessions_count' => ':count جلسه',
         'attached_resources' => 'منابع متصل',
         'attached_resources_description' => 'منابع متصل به این منبع',
         'add_resource' => 'افزودن منبع',
@@ -52,6 +53,12 @@ return [
         'view' => 'مشاهده',
         'loading' => 'در حال بارگذاری...',
         'no_resources_for_session' => 'هیچ منبعی برای این جلسه تعریف نشده است',
+    ],
+    'learning' => [
+        'index' => [
+            'title' => 'لیست منابع',
+            'content' => '<p>لیست همهٔ منابع (فایل، لینک، ویدیو و …). هر منبع دارای نوع، وضعیت نمایش (عمومی/خصوصی)، ترتیب نمایش است و می‌تواند به یک یا چند قالب جلسه متصل شود. از فیلترها برای محدود کردن بر اساس وضعیت یا تاریخ ایجاد استفاده کنید.</p>',
+        ],
     ],
     'attached_resources' => 'منابع متصل',
     'add_relationship' => 'افزودن رابطه',

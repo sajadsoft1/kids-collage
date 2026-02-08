@@ -15,5 +15,6 @@ return [
     'notifications' => [
     ],
     'page' => [
+        'course_template_level_list' => 'Course template levels',
     ],
 ];

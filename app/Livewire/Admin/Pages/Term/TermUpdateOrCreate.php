@@ -41,7 +41,7 @@ class TermUpdateOrCreate extends Component
     protected function rules(): array
     {
         return [
-            'title' => 'required|string',
+            'title' => 'required|string|min:2',
             'description' => 'required|string',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after:start_date',

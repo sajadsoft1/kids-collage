@@ -102,6 +102,7 @@ final class TermTable extends PowerGridComponent
     {
         return [
             PowerGridHelper::btnTranslate($row),
+            PowerGridHelper::btnShow($row),
             PowerGridHelper::btnEdit($row),
             PowerGridHelper::btnDelete($row),
         ];

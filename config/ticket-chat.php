@@ -63,7 +63,7 @@ return [
 
     'attachments' => [
         'disk' => env('TICKET_CHAT_DISK', 'public'),
-        'path' => 'ticket-chat/attachments',
+        'path' => env('TICKET_CHAT_ATTACHMENTS_PATH', ''),
         'max_size_mb' => 10,
         'max_files_per_message' => 5,
         'allowed_mimes' => [

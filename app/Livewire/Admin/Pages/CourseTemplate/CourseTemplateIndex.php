@@ -26,6 +26,7 @@ class CourseTemplateIndex extends Component
                 ['label' => trans('general.page.index.title', ['model' => trans('courseTemplate.model')])],
             ],
             'breadcrumbsActions' => [
+                ['link' => route('admin.course-template-level.index'), 'icon' => 'o-squares-2x2', 'label' => trans('courseTemplate.page.course_template_level_list')],
                 ['link' => route('admin.course-template.create'), 'icon' => 's-plus', 'label' => trans('general.page.create.title', ['model' => trans('courseTemplate.model')])],
             ],
         ]);

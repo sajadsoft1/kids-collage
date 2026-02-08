@@ -6,6 +6,7 @@ namespace App\Livewire\Admin\Pages\Room;
 
 use App\Helpers\PowerGridHelper;
 use App\Models\Room;
+use App\Traits\HasLearningModal;
 use App\Traits\PowerGridHelperTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\View\View;
@@ -16,10 +17,16 @@ use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use Str;
 
+/**
+ * Room index: list of rooms with name, location, capacity.
+ */
 final class RoomTable extends PowerGridComponent
 {
+    use HasLearningModal;
     use PowerGridHelperTrait;
+
     public string $tableName = 'index_room_datatable';
+
     public string $sortDirection = 'desc';
 
     public function boot(): void
@@ -39,8 +46,24 @@ final class RoomTable extends PowerGridComponent
     #[Computed(persist: true)]
     public function breadcrumbsActions(): array
     {
-        return [
+        return $this->withLearningModalActions([
             ['link' => route('admin.room.create'), 'icon' => 's-plus', 'label' => trans('general.page.create.title', ['model' => trans('room.model')])],
+        ]);
+    }
+
+    /**
+     * Learning modal sections for this page.
+     *
+     * @return array<int|string, array{title: string, content: string, icon?: string}>
+     */
+    public function getLearningSections(): array
+    {
+        return [
+            'index' => [
+                'title' => trans('room.learning.index.title'),
+                'content' => trans('room.learning.index.content'),
+                'icon' => 'o-building-office-2',
+            ],
         ];
     }
 

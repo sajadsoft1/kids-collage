@@ -47,14 +47,7 @@ enum ResourceType: string
 
     public function title(): string
     {
-        return match ($this) {
-            self::PDF => 'PDF Document',
-            self::VIDEO => 'Video',
-            self::IMAGE => 'Image',
-            self::AUDIO => 'Audio',
-            self::FILE => 'File',
-            self::LINK => 'Link',
-        };
+        return trans('resource.enum.' . $this->value);
     }
 
     public function isMedia(): bool

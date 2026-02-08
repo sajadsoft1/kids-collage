@@ -18,8 +18,10 @@ use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskCannotBeAccessed;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -59,6 +61,21 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
+        // Purge FTP disks when they fail so next request gets fresh adapter (avoids ftp_chdir null reuse)
+        $exceptions->report(function (Throwable $e) {
+            $shouldPurge = $e instanceof DiskCannotBeAccessed
+                || ($e->getMessage() !== '' && str_contains($e->getMessage(), 'ftp_chdir'));
+            if ($shouldPurge) {
+                try {
+                    Storage::purge('ftp_media');
+                    Storage::purge('ftp_ticket');
+                    Storage::purge('tinymce');
+                } catch (Throwable) {
+                    // ignore
+                }
+            }
+        });
+
         // Handle Livewire exceptions
         $exceptions->render(function (Throwable $e, Request $request) {
             // Check if this is a Livewire request (check both URL and header)

@@ -29,6 +29,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\PersonalAccessToken;
 
 // Route::get('change-locale/{lang}', [UtilityController::class, 'changeLocale'])->name('change-locale');
@@ -93,6 +94,23 @@ Route::get('test', function () {
         ],
     ]);
 });
+
+// Editor upload: use putFileAs so we get the path; return error if upload fails (Mary's route returns base URL when put() fails)
+Route::middleware(['web', 'auth'])->prefix(config('mary.route_prefix'))->post('/mary/upload', function (Request $request) {
+    $request->validate(['file' => 'required|file']);
+    $disk = $request->disk ?? 'public';
+    $folder = $request->folder ?? 'editor';
+    $file = $request->file('file');
+    if ( ! $file?->isValid()) {
+        return response()->json(['error' => 'Invalid file'], 422);
+    }
+    $path = Storage::disk($disk)->putFileAs($folder, $file, $file->hashName(), 'public');
+    if ($path === false) {
+        return response()->json(['error' => 'Upload failed'], 500);
+    }
+
+    return ['location' => Storage::disk($disk)->url($path)];
+})->name('mary.upload');
 
 // Public certificate verification and download (validated by hash; id + hash so route always matches)
 Route::get('certificate/verify/{id}/{hash}', [App\Http\Controllers\CertificateController::class, 'verify'])

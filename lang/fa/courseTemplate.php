@@ -24,6 +24,7 @@ return [
         'course_template_details' => 'جزئیات نمونه دوره',
         'course_list' => 'لیست دوره‌ها',
         'course_session_template_list' => 'لیست نمونه جلسات',
+        'course_template_level_list' => 'سطوح دوره',
         'sessions' => 'جلسات',
     ],
 ];

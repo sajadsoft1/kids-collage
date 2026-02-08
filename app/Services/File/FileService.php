@@ -19,9 +19,19 @@ class FileService
 
     public function addMedia($model, $file, $collection = 'image'): void
     {
-        if ($file) {
-            $model->addMedia($file)->toMediaCollection($collection);
+        if ( ! $file) {
+            return;
         }
+
+        $mediaAdder = $model->addMedia($file);
+
+        // Set file size explicitly for Livewire TemporaryUploadedFile so Spatie does not
+        // try to read size from path (livewire-tmp/...) on the media disk (e.g. FTP).
+        if (method_exists($file, 'getSize') && is_callable([$file, 'getSize'])) {
+            $mediaAdder->setFileSize((int) $file->getSize());
+        }
+
+        $mediaAdder->toMediaCollection($collection);
     }
 
     public function deleteAllMedia($model): void

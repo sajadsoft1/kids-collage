@@ -71,13 +71,13 @@ class Term extends Model
     /** Get the duration of this term in days. */
     public function getDurationDaysAttribute(): int
     {
-        return $this->start_date->diffInDays($this->end_date);
+        return (int) $this->start_date->diffInDays($this->end_date);
     }
 
     /** Get the duration of this term in weeks. */
     public function getDurationWeeksAttribute(): int
     {
-        return $this->start_date->diffInWeeks($this->end_date);
+        return (int) $this->start_date->diffInWeeks($this->end_date);
     }
 
     /** Check if this term is currently active. */

@@ -711,9 +711,7 @@ class EmployeeMenuBuilder extends BaseMenuBuilder
                 'params' => [],
                 'title' => trans('_menu.portfolio_management'),
                 'route_name' => 'admin.portFolio.index',
-                'access' => $this->checkPermission([
-                    \App\Models\PortFolio::class => 'Index',
-                ]),
+                'access' => false,
             ],
             [
                 'icon' => 'o-document-duplicate',
@@ -947,14 +945,6 @@ class EmployeeMenuBuilder extends BaseMenuBuilder
                 'route_name' => 'admin.feature-module',
                 'params' => ['module' => 'languages'],
                 'access' => $this->hasAccessToModule('base_settings.languages'),
-            ],
-            [
-                'icon' => 'o-magnifying-glass-circle',
-                'badge' => trans('_menu.future_module'),
-                'title' => trans('_menu.seo_settings'),
-                'route_name' => 'admin.feature-module',
-                'params' => ['module' => 'seo-settings'],
-                'access' => $this->hasAccessToModule('base_settings.seo_settings'),
             ],
         ];
     }

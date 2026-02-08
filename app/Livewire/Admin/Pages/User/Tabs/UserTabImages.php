@@ -49,6 +49,11 @@ class UserTabImages extends Component
     {
         $payload = $this->validate();
         UpdateUserImagesAction::run($this->user, $payload);
+
+        // Reset file inputs so the view shows media URLs from the model instead of
+        // calling temporaryUrl() on the temp file (which can throw FileNotPreviewableException).
+        $this->reset('avatar', 'national_card', 'birth_certificate');
+
         $this->success(
             title: trans('general.model_has_updated_successfully', ['model' => $this->detected_user_type->title()]),
         );

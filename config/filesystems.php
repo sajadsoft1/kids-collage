@@ -18,6 +18,17 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Editor (TinyMCE) Disk
+    |--------------------------------------------------------------------------
+    |
+    | Disk used for editor image uploads (e.g. TinyMCE). Set EDITOR_DISK in .env
+    | to use a different disk (e.g. ftp_editor).
+    |
+    */
+    'editor_disk' => env('EDITOR_DISK', 'tinymce'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Filesystem Disks
     |--------------------------------------------------------------------------
     |
@@ -54,11 +65,53 @@ return [
             'throw' => false,
             'report' => false,
         ],
+        'tinymce' => [
+            'driver' => 'ftp',
+            'host' => env('FTP_HOST', '3117204815.cloudydl.com'),
+            'username' => env('FTP_USERNAME', 'pz22410'),
+            'password' => env('FTP_PASSWORD'),
+            'port' => (int) env('FTP_PORT', 21),
+            'root' => (string) (env('FTP_MEDIA_ROOT', 'public_html/lilingo')),
+            'url' => rtrim(env('FTP_URL', 'https://dl.lilingo.ir'), '/') . '/lilingo',
+            'passive' => true,
+            'ssl' => env('FTP_SSL', false),
+            'timeout' => (int) env('FTP_TIMEOUT', 30),
+            'visibility' => 'public',
+            'throw' => false,
+        ],
         'MEDIA_DISK' => [
             'driver' => 'local',
             'root' => env('MEDIA_LIBRARY_STORAGE_ROOT_PATH', public_path('media')) ?: public_path('media'),
             'url' => env('APP_URL') ? env('APP_URL') . '/media' : '/media',
             'visibility' => 'public',
+        ],
+        'ftp_media' => [
+            'driver' => 'ftp',
+            'host' => env('FTP_HOST', '3117204815.cloudydl.com'),
+            'username' => env('FTP_USERNAME', 'pz22410'),
+            'password' => env('FTP_PASSWORD'),
+            'port' => (int) env('FTP_PORT', 21),
+            'root' => (string) (env('FTP_MEDIA_ROOT', 'public_html/lilingo/media')),
+            'url' => rtrim(env('FTP_URL', 'https://dl.lilingo.ir'), '/') . '/lilingo/media',
+            'passive' => true,
+            'ssl' => env('FTP_SSL', false),
+            'timeout' => (int) env('FTP_TIMEOUT', 30),
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+        'ftp_ticket' => [
+            'driver' => 'ftp',
+            'host' => env('FTP_HOST', '3117204815.cloudydl.com'),
+            'username' => env('FTP_USERNAME', 'pz22410'),
+            'password' => env('FTP_PASSWORD'),
+            'port' => (int) env('FTP_PORT', 21),
+            'root' => (string) (env('FTP_TICKET_ROOT', 'public_html/lilingo/ticket')),
+            'url' => rtrim(env('FTP_URL', 'https://dl.lilingo.ir'), '/') . '/lilingo/ticket',
+            'passive' => true,
+            'ssl' => env('FTP_SSL', false),
+            'timeout' => (int) env('FTP_TIMEOUT', 30),
+            'visibility' => 'public',
+            'throw' => false,
         ],
         's3' => [
             'driver' => 's3',

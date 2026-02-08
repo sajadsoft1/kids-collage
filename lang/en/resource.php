@@ -28,6 +28,10 @@ return [
     'notifications' => [
     ],
     'page' => [
+        'visibility' => 'Visibility',
+        'public' => 'Public',
+        'private' => 'Private',
+        'sessions_count' => ':count session(s)',
         'session_resources' => 'Session Resources',
         'resource' => 'Resource',
         'loading_resource' => 'Loading resource...',
@@ -40,6 +44,13 @@ return [
         'loading' => 'Loading...',
         'no_resources_for_session' => 'No resources have been defined for this session',
     ],
+    'learning' => [
+        'index' => [
+            'title' => 'Resource List',
+            'content' => '<p>List of all resources (files, links, videos, etc.). Each resource has a type, visibility (public/private), display order, and can be attached to one or more session templates. Use filters to narrow by visibility or creation date.</p>',
+        ],
+    ],
+
     'attached_resources' => 'Attached Resources',
     'add_relationship' => 'Add Relationship',
     'no_relationships' => 'No relationships defined',
