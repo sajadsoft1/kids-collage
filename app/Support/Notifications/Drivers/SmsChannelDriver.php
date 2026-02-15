@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace App\Support\Notifications\Drivers;
 
 use App\Enums\NotificationChannelEnum;
-use App\Enums\NotificationEventEnum;
 use App\Enums\SmsTemplateEnum;
 use App\Services\Sms\SmsManager;
-use App\Support\Notifications\Contracts\NotificationChannelDriver;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
+use Karnoweb\LaravelNotification\Contracts\NotificationChannelDriver;
 use Throwable;
 
 class SmsChannelDriver implements NotificationChannelDriver
@@ -20,13 +19,16 @@ class SmsChannelDriver implements NotificationChannelDriver
         return NotificationChannelEnum::SMS;
     }
 
-    public function send(object $notifiable, NotificationEventEnum $event, array $payload, array $context = []): array
+    /** @param array<string, mixed> $payload */
+    /** @param array<string, mixed> $context */
+    /** @return array<string, mixed> */
+    public function send(object $notifiable, string $event, array $payload, array $context = []): array
     {
         $recipient = $this->resolveRecipient($notifiable, $context);
 
         if ( ! $recipient) {
             Log::warning('SMS recipient could not be resolved for notification.', [
-                'event' => $event->value,
+                'event' => $event,
                 'notifiable' => $notifiable::class,
             ]);
 
@@ -71,7 +73,7 @@ class SmsChannelDriver implements NotificationChannelDriver
             ];
         } catch (Throwable $exception) {
             Log::error('SMS dispatch failed', [
-                'event' => $event->value,
+                'event' => $event,
                 'recipient' => $recipient,
                 'exception' => $exception,
             ]);

@@ -10,13 +10,15 @@ return new class extends Migration {
     /** Run the migrations. */
     public function up(): void
     {
-        Schema::create('notification_logs', function (Blueprint $table): void {
+        $tableName = config('karnoweb-notification.table_prefix', 'karnoweb_') . 'notification_logs';
+
+        Schema::create($tableName, function (Blueprint $table): void {
             $table->id();
             $table->string('event')->index();
             $table->string('channel')->index();
             $table->morphs('notifiable');
             $table->string('notification_class')->nullable();
-            $table->string('status')->default('pending');
+            $table->string('status')->default('queued');
             $table->unsignedTinyInteger('attempts')->default(0);
             $table->timestamp('queued_at')->nullable();
             $table->timestamp('sent_at')->nullable();
@@ -31,6 +33,7 @@ return new class extends Migration {
     /** Reverse the migrations. */
     public function down(): void
     {
-        Schema::dropIfExists('notification_logs');
+        $tableName = config('karnoweb-notification.table_prefix', 'karnoweb_') . 'notification_logs';
+        Schema::dropIfExists($tableName);
     }
 };

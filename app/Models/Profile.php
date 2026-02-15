@@ -8,8 +8,9 @@ use App\Enums\GenderEnum;
 use App\Enums\NotificationChannelEnum;
 use App\Enums\NotificationEventEnum;
 use App\Enums\ReligionEnum;
-use App\Support\Notifications\NotificationChannelRegistry;
-use App\Support\Notifications\NotificationPreferenceResolver;
+use Karnoweb\LaravelNotification\Models\NotificationPreference;
+use Karnoweb\LaravelNotification\NotificationChannelRegistry;
+use Karnoweb\LaravelNotification\NotificationPreferenceResolver;
 use App\Traits\HasUser;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\SchemalessAttributes\Casts\SchemalessAttributes;
@@ -51,20 +52,19 @@ class Profile extends Model
     /** Check if user should receive notification for a specific event and channel */
     public function shouldReceiveNotification(NotificationEventEnum $event, NotificationChannelEnum $channel): bool
     {
-        return app(NotificationPreferenceResolver::class)->shouldSend($this, $event, $channel);
+        return app(NotificationPreferenceResolver::class)->shouldSend($this, $event->value, $channel);
     }
 
-    /** Get all notification settings */
+    /** Get all notification settings (from package table) */
     public function getNotificationSettings(): array
     {
-        return $this->extra_attributes->get('notification_settings', []);
+        return NotificationPreference::getAllForNotifiable($this);
     }
 
-    /** Update notification settings */
+    /** Update notification settings (saved to package table) */
     public function updateNotificationSettings(array $settings): void
     {
         $registry = app(NotificationChannelRegistry::class);
-        $normalized = [];
 
         foreach ($settings as $eventValue => $channels) {
             $eventEnum = NotificationEventEnum::tryFrom($eventValue);
@@ -73,6 +73,7 @@ class Profile extends Model
                 continue;
             }
 
+            $normalized = [];
             foreach ($channels as $channelValue => $enabled) {
                 $channelEnum = NotificationChannelEnum::tryFrom($channelValue);
 
@@ -80,23 +81,22 @@ class Profile extends Model
                     continue;
                 }
 
-                if ( ! $registry->isUserToggleable($eventEnum, $channelEnum)) {
+                if ( ! $registry->isUserToggleable($eventEnum->value, $channelEnum)) {
                     continue;
                 }
 
-                $normalized[$eventEnum->value][$channelEnum->value] = (bool) $enabled;
+                $normalized[$channelEnum->value()] = (bool) $enabled;
             }
-        }
 
-        $this->extra_attributes->set('notification_settings', $normalized);
-        $this->save();
+            NotificationPreference::setChannels($this, $eventEnum->value, $normalized);
+        }
     }
 
     /** Enable notification for a specific event and channel */
     public function enableNotification(NotificationEventEnum $event, NotificationChannelEnum $channel): void
     {
         $settings = $this->getNotificationSettings();
-        $settings[$event->value][$channel->value] = true;
+        $settings[$event->value][$channel->value()] = true;
         $this->updateNotificationSettings($settings);
     }
 
@@ -104,7 +104,7 @@ class Profile extends Model
     public function disableNotification(NotificationEventEnum $event, NotificationChannelEnum $channel): void
     {
         $settings = $this->getNotificationSettings();
-        $settings[$event->value][$channel->value] = false;
+        $settings[$event->value][$channel->value()] = false;
         $this->updateNotificationSettings($settings);
     }
 
@@ -112,8 +112,8 @@ class Profile extends Model
     public function getEnabledChannelsForEvent(NotificationEventEnum $event): array
     {
         return app(NotificationPreferenceResolver::class)
-            ->enabledChannels($this, $event)
-            ->map(static fn (NotificationChannelEnum $channel) => $channel->value)
+            ->enabledChannels($this, $event->value)
+            ->map(static fn ($channel) => $channel->value)
             ->toArray();
     }
 
@@ -123,8 +123,10 @@ class Profile extends Model
         $registry = app(NotificationChannelRegistry::class);
         $resolver = app(NotificationPreferenceResolver::class);
 
-        return collect($registry->channelConfig($event))
-            ->mapWithKeys(function (array $config, string $channelValue) use ($event, $registry, $resolver) {
+        $eventValue = $event->value;
+
+        return collect($registry->channelConfig($eventValue))
+            ->mapWithKeys(function (array $config, string $channelValue) use ($eventValue, $registry, $resolver) {
                 $channelEnum = NotificationChannelEnum::tryFrom($channelValue);
 
                 if ( ! $channelEnum) {
@@ -133,9 +135,9 @@ class Profile extends Model
 
                 return [
                     $channelValue => [
-                        'enabled' => $resolver->shouldSend($this, $event, $channelEnum),
-                        'togglable' => $registry->isUserToggleable($event, $channelEnum),
-                        'default' => $registry->defaultState($event, $channelEnum),
+                        'enabled' => $resolver->shouldSend($this, $eventValue, $channelEnum),
+                        'togglable' => $registry->isUserToggleable($eventValue, $channelEnum),
+                        'default' => $registry->defaultState($eventValue, $channelEnum),
                     ],
                 ];
             })

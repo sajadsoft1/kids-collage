@@ -2,12 +2,8 @@
 
 declare(strict_types=1);
 
-namespace App\Jobs\Notifications;
+namespace Karnoweb\LaravelNotification\Jobs;
 
-use App\Enums\NotificationChannelEnum;
-use App\Enums\NotificationEventEnum;
-use App\Models\NotificationLog;
-use App\Support\Notifications\NotificationChannelRegistry;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Eloquent\Model;
@@ -16,6 +12,9 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Log;
+use Karnoweb\LaravelNotification\Contracts\NotificationChannel;
+use Karnoweb\LaravelNotification\Models\NotificationLog;
+use Karnoweb\LaravelNotification\NotificationChannelRegistry;
 use Throwable;
 
 abstract class SendChannelNotificationJob implements ShouldQueue
@@ -36,15 +35,14 @@ abstract class SendChannelNotificationJob implements ShouldQueue
         protected string|int|null $notifiableId,
         protected array $payload,
         protected array $context = [],
-    ) {
-        // $this->onQueue(config('notification_channels.defaults.queue', 'notifications'));
-    }
+    ) {}
 
-    abstract protected function channel(): NotificationChannelEnum;
+    abstract protected function channel(): NotificationChannel;
 
     public function handle(NotificationChannelRegistry $registry): void
     {
-        $log = NotificationLog::query()->find($this->logId);
+        $logModelClass = config('karnoweb-notification.log_model', NotificationLog::class);
+        $log = $logModelClass::query()->find($this->logId);
 
         if ( ! $log) {
             return;
@@ -66,11 +64,10 @@ abstract class SendChannelNotificationJob implements ShouldQueue
             return;
         }
 
-        $event = NotificationEventEnum::from($this->eventValue);
         $driver = $registry->resolveDriver($this->channel());
 
         try {
-            $response = $driver->send($notifiable, $event, $this->payload, $this->context);
+            $response = $driver->send($notifiable, $this->eventValue, $this->payload, $this->context);
 
             $log->forceFill([
                 'status' => 'sent',
@@ -87,7 +84,7 @@ abstract class SendChannelNotificationJob implements ShouldQueue
             ])->save();
 
             Log::error('Queued notification channel failed', [
-                'channel' => $this->channel()->value,
+                'channel' => $this->channel()->value(),
                 'event' => $this->eventValue,
                 'notifiable_type' => $this->notifiableType,
                 'notifiable_id' => $this->notifiableId,

@@ -2,14 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Support\Notifications\Drivers;
+namespace Karnoweb\LaravelNotification\Drivers;
 
-use App\Enums\NotificationChannelEnum;
-use App\Enums\NotificationEventEnum;
-use App\Support\Notifications\Contracts\NotificationChannelDriver;
 use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Karnoweb\LaravelNotification\Contracts\NotificationChannelDriver;
+use Karnoweb\LaravelNotification\NotificationChannelEnum;
 
 class DatabaseChannelDriver implements NotificationChannelDriver
 {
@@ -18,11 +17,17 @@ class DatabaseChannelDriver implements NotificationChannelDriver
         return NotificationChannelEnum::DATABASE;
     }
 
-    public function send(object $notifiable, NotificationEventEnum $event, array $payload, array $context = []): array
+    /**
+     * @param array<string, mixed> $payload
+     * @param array<string, mixed> $context
+     *
+     * @return array<string, mixed>
+     */
+    public function send(object $notifiable, string $event, array $payload, array $context = []): array
     {
         $data = array_merge(
             [
-                'event' => $event->value,
+                'event' => $event,
                 'channel' => $this->channel()->value,
             ],
             $payload

@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Support\Notifications\Messages;
+namespace Karnoweb\LaravelNotification\Messages;
 
-use App\Enums\NotificationChannelEnum;
-use App\Enums\NotificationEventEnum;
+use Karnoweb\LaravelNotification\Contracts\NotificationChannel;
 
 class NotificationMessage
 {
@@ -14,12 +13,12 @@ class NotificationMessage
      * @param array<string, mixed>                $context
      */
     public function __construct(
-        public readonly NotificationEventEnum $event,
+        public readonly string $event,
         private array $channels = [],
         private array $context = [],
     ) {}
 
-    public static function make(NotificationEventEnum $event): self
+    public static function make(string $event): self
     {
         return new self($event);
     }
@@ -33,10 +32,10 @@ class NotificationMessage
     }
 
     /** @param array<string, mixed> $payload */
-    public function withChannel(NotificationChannelEnum $channel, array $payload): self
+    public function withChannel(NotificationChannel $channel, array $payload): self
     {
         $clone = clone $this;
-        $clone->channels[$channel->value] = $payload;
+        $clone->channels[$channel->value()] = $payload;
 
         return $clone;
     }
@@ -48,9 +47,9 @@ class NotificationMessage
     }
 
     /** @return array<string, mixed> */
-    public function channelPayload(NotificationChannelEnum $channel): array
+    public function channelPayload(NotificationChannel $channel): array
     {
-        return $this->channels[$channel->value] ?? [];
+        return $this->channels[$channel->value()] ?? [];
     }
 
     /** @return array<string, mixed> */

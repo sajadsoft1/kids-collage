@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Permissions\Models;
 
-use App\Models\NotificationTemplate;
+use Karnoweb\LaravelNotification\Models\NotificationTemplate;
 
 class NotificationTemplatePermissions extends BasePermissions
 {

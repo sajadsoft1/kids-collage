@@ -2,18 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Models;
+namespace Karnoweb\LaravelNotification\Models;
 
-use App\Enums\NotificationChannelEnum;
-use App\Enums\NotificationEventEnum;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class NotificationTemplate extends Model
 {
-    use HasFactory;
-
     protected $fillable = [
         'event',
         'channel',
@@ -27,14 +22,20 @@ class NotificationTemplate extends Model
         'is_active',
     ];
 
-    protected $casts = [
-        'event' => NotificationEventEnum::class,
-        'channel' => NotificationChannelEnum::class,
-        'locale' => 'string',
-        'cta' => 'array',
-        'placeholders' => 'array',
-        'is_active' => 'boolean',
-    ];
+    /** @return array<string, string> */
+    protected function casts(): array
+    {
+        return [
+            'cta' => 'array',
+            'placeholders' => 'array',
+            'is_active' => 'boolean',
+        ];
+    }
+
+    public function getTable(): string
+    {
+        return config('karnoweb-notification.table_prefix', 'karnoweb_') . 'notification_templates';
+    }
 
     public function scopeActive(Builder $query): Builder
     {

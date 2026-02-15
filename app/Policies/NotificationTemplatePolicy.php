@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Policies;
 
-use App\Models\NotificationTemplate;
+use Karnoweb\LaravelNotification\Models\NotificationTemplate;
 use App\Models\User;
 use App\Services\Permissions\PermissionsService;
 

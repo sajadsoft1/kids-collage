@@ -7,7 +7,7 @@ namespace App\Livewire\Admin\Pages\NotificationTemplate;
 use App\Enums\NotificationChannelEnum;
 use App\Enums\NotificationEventEnum;
 use App\Helpers\PowerGridHelper;
-use App\Models\NotificationTemplate;
+use Karnoweb\LaravelNotification\Models\NotificationTemplate;
 use App\Traits\PowerGridHelperTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\View\View;
@@ -76,8 +76,8 @@ final class NotificationTemplateTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('id')
-            ->add('event_label', fn (NotificationTemplate $row) => $row->event->title())
-            ->add('channel_label', fn (NotificationTemplate $row) => $row->channel->title())
+            ->add('event_label', fn (NotificationTemplate $row) => NotificationEventEnum::tryFrom($row->event)?->title() ?? $row->event)
+            ->add('channel_label', fn (NotificationTemplate $row) => NotificationChannelEnum::tryFrom($row->channel)?->title() ?? $row->channel)
             ->add('locale')
             ->add('is_active', fn (NotificationTemplate $row) => $row->is_active ? trans('general.active') : trans('general.inactive'))
             ->add('created_at_formatted', fn ($row) => PowerGridHelper::fieldCreatedAtFormated($row));

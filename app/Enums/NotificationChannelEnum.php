@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
-enum NotificationChannelEnum: string
+use Karnoweb\LaravelNotification\Contracts\NotificationChannel;
+
+enum NotificationChannelEnum: string implements NotificationChannel
 {
     use EnumToArray;
 
@@ -60,15 +62,21 @@ enum NotificationChannelEnum: string
         };
     }
 
+    /** Required by NotificationChannel interface (backed enum value). */
+    public function value(): string
+    {
+        return $this->value;
+    }
+
     public function driverBinding(): string
     {
         return match ($this) {
-            self::SMS => 'notifications.channels.sms',
-            self::EMAIL => 'notifications.channels.email',
-            self::DATABASE => 'notifications.channels.database',
-            self::FIREBASE, self::PUSH => 'notifications.channels.firebase',
-            self::TELEGRAM => 'notifications.channels.telegram',
-            self::WHATSAPP => 'notifications.channels.whatsapp',
+            self::SMS => 'karnoweb.notifications.channels.sms',
+            self::EMAIL => 'karnoweb.notifications.channels.email',
+            self::DATABASE => 'karnoweb.notifications.channels.database',
+            self::FIREBASE, self::PUSH => 'karnoweb.notifications.channels.firebase',
+            self::TELEGRAM => 'karnoweb.notifications.channels.telegram',
+            self::WHATSAPP => 'karnoweb.notifications.channels.whatsapp',
         };
     }
 }

@@ -6,10 +6,10 @@ namespace App\Notifications;
 
 use App\Enums\NotificationChannelEnum;
 use App\Enums\NotificationEventEnum;
-use App\Models\NotificationTemplate;
+use Karnoweb\LaravelNotification\Models\NotificationTemplate;
 use App\Models\Profile;
-use App\Support\Notifications\Messages\NotificationMessage;
-use App\Support\Notifications\NotificationDispatcher;
+use Karnoweb\LaravelNotification\Messages\NotificationMessage;
+use Karnoweb\LaravelNotification\NotificationDispatcher;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification;
@@ -76,7 +76,7 @@ abstract class BaseNotification extends Notification implements ShouldQueue
     public function buildMessage(object $notifiable): NotificationMessage
     {
         $context = $this->context($notifiable);
-        $message = NotificationMessage::make($this->event())->withContext($context);
+        $message = NotificationMessage::make($this->event()->value)->withContext($context);
 
         foreach ($this->supportedChannels() as $channel) {
             $payload = $this->buildPayload($channel, $context);
@@ -102,7 +102,7 @@ abstract class BaseNotification extends Notification implements ShouldQueue
 
         $meta = array_filter([
             'event' => $this->event()->value,
-            'channel' => $channel->value,
+            'channel' => $channel->value(),
             'locale' => App::getLocale(),
         ]);
 
@@ -137,7 +137,7 @@ abstract class BaseNotification extends Notification implements ShouldQueue
         return NotificationTemplate::query()
             ->active()
             ->where('event', $this->event()->value)
-            ->where('channel', $channel->value)
+            ->where('channel', $channel->value())
             ->where('locale', $preferredLocale)
             ->first();
     }

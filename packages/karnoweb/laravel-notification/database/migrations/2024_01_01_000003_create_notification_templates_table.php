@@ -7,12 +7,15 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
+    /** Run the migrations. */
     public function up(): void
     {
-        Schema::create('notification_templates', function (Blueprint $table) {
+        $tableName = config('karnoweb-notification.table_prefix', 'karnoweb_') . 'notification_templates';
+
+        Schema::create($tableName, function (Blueprint $table): void {
             $table->id();
             $table->string('event')->index();
-            $table->string('channel');
+            $table->string('channel')->index();
             $table->string('locale', 12)->default('fa');
             $table->string('subject')->nullable();
             $table->string('title')->nullable();
@@ -27,8 +30,10 @@ return new class extends Migration {
         });
     }
 
+    /** Reverse the migrations. */
     public function down(): void
     {
-        Schema::dropIfExists('notification_templates');
+        $tableName = config('karnoweb-notification.table_prefix', 'karnoweb_') . 'notification_templates';
+        Schema::dropIfExists($tableName);
     }
 };

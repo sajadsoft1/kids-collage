@@ -2,17 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Support\Notifications;
+namespace Karnoweb\LaravelNotification;
 
-use App\Enums\NotificationChannelEnum;
-use App\Enums\NotificationEventEnum;
-use App\Jobs\Notifications\SendEmailNotificationJob;
-use App\Jobs\Notifications\SendSmsNotificationJob;
-use App\Models\NotificationLog;
-use App\Models\Profile;
-use App\Support\Notifications\Messages\NotificationMessage;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Log;
+use Karnoweb\LaravelNotification\Messages\NotificationMessage;
+use Karnoweb\LaravelNotification\Models\NotificationLog;
 use Throwable;
 
 class NotificationDispatcher
@@ -26,7 +21,7 @@ class NotificationDispatcher
     public function dispatch(
         object $notifiable,
         NotificationMessage $message,
-        ?Profile $profile = null,
+        ?object $profile = null,
         array $context = []
     ): void {
         $event = $message->event;
@@ -51,7 +46,7 @@ class NotificationDispatcher
     private function sendThroughChannel(
         NotificationChannelEnum $channel,
         object $notifiable,
-        NotificationEventEnum $event,
+        string $event,
         array $payload,
         array $context = []
     ): void {
@@ -87,7 +82,7 @@ class NotificationDispatcher
 
             Log::error('Notification channel failed', [
                 'channel' => $channel->value,
-                'event' => $event->value,
+                'event' => $event,
                 'notifiable_type' => $log->notifiable_type,
                 'notifiable_id' => $log->notifiable_id,
                 'exception' => $throwable,
@@ -102,14 +97,15 @@ class NotificationDispatcher
     private function createLog(
         NotificationChannelEnum $channel,
         object $notifiable,
-        NotificationEventEnum $event,
+        string $event,
         array $payload,
         array $context
     ): NotificationLog {
         $timestamp = Date::now();
+        $logModelClass = config('karnoweb-notification.log_model', NotificationLog::class);
 
-        return NotificationLog::query()->create([
-            'event' => $event->value,
+        return $logModelClass::query()->create([
+            'event' => $event,
             'channel' => $channel->value,
             'notifiable_type' => $this->resolveNotifiableType($notifiable),
             'notifiable_id' => $this->resolveNotifiableKey($notifiable),
@@ -125,7 +121,9 @@ class NotificationDispatcher
 
     private function shouldQueue(NotificationChannelEnum $channel): bool
     {
-        return in_array($channel, [NotificationChannelEnum::EMAIL, NotificationChannelEnum::SMS], true);
+        $queuedChannels = config('karnoweb-notification.queued_channels', ['email', 'sms']);
+
+        return in_array($channel->value, $queuedChannels, true);
     }
 
     /**
@@ -135,33 +133,28 @@ class NotificationDispatcher
     private function queueChannel(
         NotificationChannelEnum $channel,
         NotificationLog $log,
-        NotificationEventEnum $event,
+        string $event,
         array $payload,
         array $context
     ): void {
-        $job = match ($channel) {
-            NotificationChannelEnum::EMAIL => new SendEmailNotificationJob(
-                $log->id,
-                $event->value,
-                $log->notifiable_type,
-                $log->notifiable_id,
-                $payload,
-                $context
-            ),
-            NotificationChannelEnum::SMS => new SendSmsNotificationJob(
-                $log->id,
-                $event->value,
-                $log->notifiable_type,
-                $log->notifiable_id,
-                $payload,
-                $context
-            ),
-            default => null,
-        };
+        $jobClasses = config('karnoweb-notification.queue_jobs', []);
 
-        if ($job) {
-            dispatch($job);
+        $jobClass = $jobClasses[$channel->value] ?? null;
+
+        if ($jobClass === null || ! class_exists($jobClass)) {
+            return;
         }
+
+        $job = new $jobClass(
+            $log->id,
+            $event,
+            $log->notifiable_type,
+            $log->notifiable_id,
+            $payload,
+            $context
+        );
+
+        dispatch($job);
     }
 
     private function resolveNotifiableType(object $notifiable): string

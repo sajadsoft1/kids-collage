@@ -6,7 +6,7 @@ namespace App\Services\Sms;
 
 use App\Enums\SmsSendStatusEnum;
 use App\Enums\SmsTemplateEnum;
-use App\Models\NotificationTemplate;
+use Karnoweb\LaravelNotification\Models\NotificationTemplate;
 use App\Models\Sms as SmsModel;
 use App\Models\User;
 use App\Services\Sms\Contracts\DeliveryReportFetcher;
@@ -69,12 +69,11 @@ class SmsManager
         return $this;
     }
 
-    /** Set template from NotificationTemplate model. */
+    /** Set template from NotificationTemplate model (package: body as message). */
     public function template(NotificationTemplate $template): self
     {
         $this->notificationTemplateId = $template->id;
-        $this->templateText = (string) $template->message_template;
-        $this->inputs = array_merge($this->inputs, (array) $template->inputs);
+        $this->templateText = (string) $template->body;
 
         return $this;
     }

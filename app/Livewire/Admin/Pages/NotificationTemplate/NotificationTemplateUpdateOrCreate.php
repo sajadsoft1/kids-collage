@@ -8,7 +8,7 @@ use App\Actions\NotificationTemplate\StoreNotificationTemplateAction;
 use App\Actions\NotificationTemplate\UpdateNotificationTemplateAction;
 use App\Enums\NotificationChannelEnum;
 use App\Enums\NotificationEventEnum;
-use App\Models\NotificationTemplate;
+use Karnoweb\LaravelNotification\Models\NotificationTemplate;
 use App\Traits\CrudHelperTrait;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;

@@ -2,23 +2,23 @@
 
 declare(strict_types=1);
 
-namespace App\Support\Notifications;
+namespace Karnoweb\LaravelNotification;
 
-use App\Enums\NotificationChannelEnum;
-use App\Enums\NotificationEventEnum;
-use App\Enums\SettingEnum;
-use App\Models\Profile;
-use App\Services\Setting\SettingService;
 use Illuminate\Support\Collection;
+use Karnoweb\LaravelNotification\Contracts\GlobalChannelOverridesResolver;
+use Karnoweb\LaravelNotification\Contracts\NotificationChannel;
+use Karnoweb\LaravelNotification\Contracts\UserChannelOverridesResolver;
 
 class NotificationPreferenceResolver
 {
     public function __construct(
         private readonly NotificationChannelRegistry $registry,
+        private readonly ?GlobalChannelOverridesResolver $globalOverrides = null,
+        private readonly ?UserChannelOverridesResolver $userOverrides = null,
     ) {}
 
     /** @return Collection<int, NotificationChannelEnum> */
-    public function enabledChannels(?Profile $profile, NotificationEventEnum $event): Collection
+    public function enabledChannels(?object $profile, string $event): Collection
     {
         $channelStates = $this->initialStates($event);
         $globalOverrides = $this->globalOverrides($event);
@@ -29,8 +29,8 @@ class NotificationPreferenceResolver
             }
         }
 
-        if ($profile) {
-            $userOverrides = $this->userOverrides($profile, $event);
+        if ($profile !== null && $this->userOverrides !== null) {
+            $userOverrides = $this->userOverrides->get($profile, $event);
 
             foreach ($userOverrides as $channel => $state) {
                 $channelEnum = NotificationChannelEnum::tryFrom($channel);
@@ -54,33 +54,28 @@ class NotificationPreferenceResolver
             ->values();
     }
 
-    public function shouldSend(?Profile $profile, NotificationEventEnum $event, NotificationChannelEnum $channel): bool
+    public function shouldSend(?object $profile, string $event, NotificationChannel|NotificationChannelEnum $channel): bool
     {
+        $channelValue = $channel instanceof NotificationChannelEnum ? $channel->value : $channel->value();
+
         return $this->enabledChannels($profile, $event)
-            ->contains(fn (NotificationChannelEnum $enabledChannel): bool => $enabledChannel === $channel);
+            ->contains(fn (NotificationChannelEnum $enabledChannel): bool => $enabledChannel->value === $channelValue);
     }
 
     /** @return Collection<string, bool> */
-    private function initialStates(NotificationEventEnum $event): Collection
+    private function initialStates(string $event): Collection
     {
         return collect($this->registry->channelConfig($event))
             ->map(fn (array $config): bool => (bool) ($config['enabled'] ?? false));
     }
 
     /** @return Collection<string, bool> */
-    private function globalOverrides(NotificationEventEnum $event): Collection
+    private function globalOverrides(string $event): Collection
     {
-        $settings = SettingService::get(SettingEnum::NOTIFICATION, $event->value, []);
+        if ($this->globalOverrides === null) {
+            return collect([]);
+        }
 
-        return collect(is_array($settings) ? $settings : []);
-    }
-
-    /** @return Collection<string, bool> */
-    private function userOverrides(Profile $profile, NotificationEventEnum $event): Collection
-    {
-        $settings = $profile->getNotificationSettings();
-        $eventSettings = $settings[$event->value] ?? [];
-
-        return collect(is_array($eventSettings) ? $eventSettings : []);
+        return collect($this->globalOverrides->get($event));
     }
 }

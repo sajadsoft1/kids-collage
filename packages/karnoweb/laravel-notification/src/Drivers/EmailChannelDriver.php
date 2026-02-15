@@ -2,24 +2,32 @@
 
 declare(strict_types=1);
 
-namespace App\Support\Notifications\Drivers;
+namespace Karnoweb\LaravelNotification\Drivers;
 
-use App\Enums\NotificationChannelEnum;
-use App\Enums\NotificationEventEnum;
-use App\Mail\NotificationMail;
-use App\Support\Notifications\Contracts\NotificationChannelDriver;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Karnoweb\LaravelNotification\Contracts\NotificationChannelDriver;
+use Karnoweb\LaravelNotification\NotificationChannelEnum;
 use Throwable;
 
 class EmailChannelDriver implements NotificationChannelDriver
 {
+    public function __construct(
+        private readonly string $mailableClass,
+    ) {}
+
     public function channel(): NotificationChannelEnum
     {
         return NotificationChannelEnum::EMAIL;
     }
 
-    public function send(object $notifiable, NotificationEventEnum $event, array $payload, array $context = []): array
+    /**
+     * @param array<string, mixed> $payload
+     * @param array<string, mixed> $context
+     *
+     * @return array<string, mixed>
+     */
+    public function send(object $notifiable, string $event, array $payload, array $context = []): array
     {
         $recipient = $this->resolveRecipient($notifiable, $context);
 
@@ -31,7 +39,7 @@ class EmailChannelDriver implements NotificationChannelDriver
         }
 
         try {
-            $mailable = new NotificationMail($payload);
+            $mailable = new $this->mailableClass($payload);
             Mail::to($recipient)->send($mailable);
 
             return [
@@ -40,7 +48,7 @@ class EmailChannelDriver implements NotificationChannelDriver
             ];
         } catch (Throwable $throwable) {
             Log::error('Failed to send email notification', [
-                'event' => $event->value,
+                'event' => $event,
                 'recipient' => $recipient,
                 'error' => $throwable->getMessage(),
                 'trace' => $throwable->getTraceAsString(),
@@ -53,6 +61,7 @@ class EmailChannelDriver implements NotificationChannelDriver
         }
     }
 
+    /** @param array<string, mixed> $context */
     private function resolveRecipient(object $notifiable, array $context): ?string
     {
         if (isset($context['email']) && $context['email'] !== null) {
