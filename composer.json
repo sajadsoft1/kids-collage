@@ -16,14 +16,6 @@
         "packagist": {
             "type": "composer",
             "url": "https://mirror-composer.runflare.com"
-        },
-        "0": {
-            "type": "vcs",
-            "url": "https://github.com/karnoweb/livewire-datepicker"
-        },
-        "1": {
-            "type": "vcs",
-            "url": "https://github.com/karnoweb/laravel-ticket-chat"
         }
     },
     "require": {
@@ -36,7 +28,7 @@
         "fruitcake/php-cors": "^1.3",
         "jenssegers/agent": "^2.6",
         "karnoweb/laravel-notification": "@dev",
-        "karnoweb/laravel-ticket-chat": "^2.0",
+        "karnoweb/laravel-ticket-chat": "^2.1",
         "karnoweb/livewire-datepicker": "^1.0",
         "laravel/framework": "^12.0",
         "laravel/horizon": "^5.36",
