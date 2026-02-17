@@ -13,9 +13,21 @@
             "type": "path",
             "url": "packages/karnoweb/laravel-notification"
         },
-        "packagist": {
+        "iran-mirror": {
+            "type": "composer",
+            "url": "https://packagist.ir"
+        },
+        "iran-mirror-2": {
             "type": "composer",
             "url": "https://mirror-composer.runflare.com"
+        },
+        "china-aliyun": {
+            "type": "composer",
+            "url": "https://mirrors.aliyun.com/composer"
+        },
+        "china-tencent": {
+            "type": "composer",
+            "url": "https://mirrors.cloud.tencent.com/composer"
         }
     },
     "require": {
