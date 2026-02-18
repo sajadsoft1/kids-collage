@@ -9,9 +9,16 @@
     ],
     "license": "MIT",
     "repositories": {
+        "packagist": {
+            "type": "composer",
+            "url": "https://mirror-composer.runflare.com"
+        },
         "karnoweb/laravel-notification": {
             "type": "path",
-            "url": "packages/karnoweb/laravel-notification"
+            "url": "packages/karnoweb/laravel-notification",
+            "options": {
+                "symlink": false
+            }
         }
     },
     "require": {
