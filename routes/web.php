@@ -81,19 +81,18 @@ use Laravel\Sanctum\PersonalAccessToken;
 //
 // Route::multilingual('sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 // Route::multilingual('sitemap-article.xml', [SitemapController::class, 'article'])->name('sitemap-article');
-Auth::login(User::find(1));
-Route::get('test', function () {
-    return new App\Mail\NotificationMail([
-        'title' => 'New Notification',
-        'subtitle' => 'This is a subtitle',
-        'body' => 'This is a body',
-        'rtl' => true,
-        'cta' => [
-            'url' => 'https://www.google.com',
-            'label' => 'Click here',
-        ],
-    ]);
-});
+//Route::get('test', function () {
+//    return new App\Mail\NotificationMail([
+//        'title' => 'New Notification',
+//        'subtitle' => 'This is a subtitle',
+//        'body' => 'This is a body',
+//        'rtl' => true,
+//        'cta' => [
+//            'url' => 'https://www.google.com',
+//            'label' => 'Click here',
+//        ],
+//    ]);
+//});
 
 // Editor upload: use putFileAs so we get the path; return error if upload fails (Mary's route returns base URL when put() fails)
 Route::middleware(['web', 'auth'])->prefix(config('mary.route_prefix'))->post('/mary/upload', function (Request $request) {
