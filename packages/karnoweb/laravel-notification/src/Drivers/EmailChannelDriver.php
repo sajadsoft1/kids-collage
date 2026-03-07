@@ -64,7 +64,7 @@ class EmailChannelDriver implements NotificationChannelDriver
     /** @param array<string, mixed> $context */
     private function resolveRecipient(object $notifiable, array $context): ?string
     {
-        if (isset($context['email']) && $context['email'] !== null) {
+        if (isset($context['email'])) {
             return $context['email'];
         }
 

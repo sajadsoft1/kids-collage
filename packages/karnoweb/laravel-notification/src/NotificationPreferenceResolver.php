@@ -21,18 +21,14 @@ class NotificationPreferenceResolver
     public function enabledChannels(?object $profile, string $event): Collection
     {
         $channelStates = $this->initialStates($event);
-        $globalOverrides = $this->globalOverrides($event);
-
-        foreach ($globalOverrides as $channel => $state) {
+        foreach ($this->globalOverrides($event) as $channel => $state) {
             if ($channelStates->has($channel)) {
                 $channelStates->put($channel, (bool) $state);
             }
         }
 
         if ($profile !== null && $this->userOverrides !== null) {
-            $userOverrides = $this->userOverrides->get($profile, $event);
-
-            foreach ($userOverrides as $channel => $state) {
+            foreach ($this->userOverrides->get($profile, $event) as $channel => $state) {
                 $channelEnum = NotificationChannelEnum::tryFrom($channel);
 
                 if ( ! $channelEnum) {
