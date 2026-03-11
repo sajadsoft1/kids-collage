@@ -25,7 +25,6 @@ use App\Livewire\Web\Pages\HomePage;
 use App\Livewire\Web\Pages\NewsDetailPage;
 use App\Livewire\Web\Pages\NewsPage;
 use App\Livewire\Web\Pages\SearchPage;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -81,7 +80,7 @@ use Laravel\Sanctum\PersonalAccessToken;
 //
 // Route::multilingual('sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 // Route::multilingual('sitemap-article.xml', [SitemapController::class, 'article'])->name('sitemap-article');
-//Route::get('test', function () {
+// Route::get('test', function () {
 //    return new App\Mail\NotificationMail([
 //        'title' => 'New Notification',
 //        'subtitle' => 'This is a subtitle',
@@ -92,7 +91,7 @@ use Laravel\Sanctum\PersonalAccessToken;
 //            'label' => 'Click here',
 //        ],
 //    ]);
-//});
+// });
 
 // Editor upload: use putFileAs so we get the path; return error if upload fails (Mary's route returns base URL when put() fails)
 Route::middleware(['web', 'auth'])->prefix(config('mary.route_prefix'))->post('/mary/upload', function (Request $request) {

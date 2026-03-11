@@ -6,7 +6,6 @@ namespace Karnoweb\LaravelNotification;
 
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Log;
-use Karnoweb\LaravelNotification\Contracts\NotificationChannelDriver;
 use Karnoweb\LaravelNotification\Messages\NotificationMessage;
 use Karnoweb\LaravelNotification\Models\NotificationLog;
 use Throwable;
@@ -59,7 +58,7 @@ class NotificationDispatcher
             return;
         }
 
-        $log->forceFill([  'status' => 'processing'])->save();
+        $log->forceFill(['status' => 'processing'])->save();
 
         try {
             $response = $this->registry->resolveDriver($channel)->send($notifiable, $event, $payload, $context);

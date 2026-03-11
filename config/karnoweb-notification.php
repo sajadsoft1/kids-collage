@@ -26,11 +26,11 @@ return [
     'queued_channels' => ['email', 'sms'],
 
     'queue_jobs' => [
-        'email' => \App\Jobs\Notifications\SendEmailNotificationJob::class,
-        'sms' => \App\Jobs\Notifications\SendSmsNotificationJob::class,
+        'email' => App\Jobs\Notifications\SendEmailNotificationJob::class,
+        'sms' => App\Jobs\Notifications\SendSmsNotificationJob::class,
     ],
 
-    'log_model' => \App\Models\NotificationLog::class,
+    'log_model' => App\Models\NotificationLog::class,
 
-    'mailable' => \App\Mail\NotificationMail::class,
+    'mailable' => App\Mail\NotificationMail::class,
 ];

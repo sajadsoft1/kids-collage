@@ -4,33 +4,37 @@ declare(strict_types=1);
 
 namespace App\Policies;
 
-use Karnoweb\LaravelNotification\Models\NotificationTemplate;
 use App\Models\User;
 use App\Services\Permissions\PermissionsService;
+use Karnoweb\LaravelNotification\Models\NotificationTemplate;
 
 class NotificationTemplatePolicy
 {
     public function viewAny(User $user): bool
     {
         return true;
+
         return $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(NotificationTemplate::class, 'Index'));
     }
 
     public function view(User $user, NotificationTemplate $notificationTemplate): bool
     {
         return true;
+
         return $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(NotificationTemplate::class, 'Show'));
     }
 
     public function create(User $user): bool
     {
         return true;
+
         return $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(NotificationTemplate::class, 'Store'));
     }
 
     public function update(User $user, NotificationTemplate $notificationTemplate): bool
     {
         return true;
+
         return $user->hasAnyPermission(PermissionsService::generatePermissionsByModel(NotificationTemplate::class, 'Update'));
     }
 

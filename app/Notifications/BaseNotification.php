@@ -6,15 +6,15 @@ namespace App\Notifications;
 
 use App\Enums\NotificationChannelEnum;
 use App\Enums\NotificationEventEnum;
-use Karnoweb\LaravelNotification\Models\NotificationTemplate;
 use App\Models\Profile;
-use Karnoweb\LaravelNotification\Messages\NotificationMessage;
-use Karnoweb\LaravelNotification\NotificationDispatcher;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
+use Karnoweb\LaravelNotification\Messages\NotificationMessage;
+use Karnoweb\LaravelNotification\Models\NotificationTemplate;
+use Karnoweb\LaravelNotification\NotificationDispatcher;
 
 abstract class BaseNotification extends Notification implements ShouldQueue
 {

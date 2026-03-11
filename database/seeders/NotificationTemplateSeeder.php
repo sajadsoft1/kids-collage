@@ -6,8 +6,8 @@ namespace Database\Seeders;
 
 use App\Enums\NotificationChannelEnum;
 use App\Enums\NotificationEventEnum;
-use Karnoweb\LaravelNotification\Models\NotificationTemplate;
 use Illuminate\Database\Seeder;
+use Karnoweb\LaravelNotification\Models\NotificationTemplate;
 
 class NotificationTemplateSeeder extends Seeder
 {

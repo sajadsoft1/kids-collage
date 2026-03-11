@@ -10,10 +10,10 @@ use App\Listeners\DispatchNotification;
 use App\Listeners\SendCourseSessionReminder;
 use App\Support\Notifications\Drivers\SmsChannelDriver;
 use App\Support\Notifications\Resolvers\GlobalChannelOverridesResolver;
-use Karnoweb\LaravelNotification\Contracts\GlobalChannelOverridesResolver as GlobalChannelOverridesResolverContract;
-use Karnoweb\LaravelNotification\NotificationChannelEnum;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
+use Karnoweb\LaravelNotification\Contracts\GlobalChannelOverridesResolver as GlobalChannelOverridesResolverContract;
+use Karnoweb\LaravelNotification\NotificationChannelEnum;
 
 class NotificationServiceProvider extends ServiceProvider
 {

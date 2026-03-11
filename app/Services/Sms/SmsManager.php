@@ -6,7 +6,6 @@ namespace App\Services\Sms;
 
 use App\Enums\SmsSendStatusEnum;
 use App\Enums\SmsTemplateEnum;
-use Karnoweb\LaravelNotification\Models\NotificationTemplate;
 use App\Models\Sms as SmsModel;
 use App\Models\User;
 use App\Services\Sms\Contracts\DeliveryReportFetcher;
@@ -16,6 +15,7 @@ use App\Services\Sms\Exceptions\DriverNotAvailableException;
 use App\Services\Sms\Exceptions\InvalidDriverConfigurationException;
 use App\Services\Sms\Usage\SmsUsageHandler;
 use Illuminate\Contracts\Container\Container;
+use Karnoweb\LaravelNotification\Models\NotificationTemplate;
 use Throwable;
 
 /**

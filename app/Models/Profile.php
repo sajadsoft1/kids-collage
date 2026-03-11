@@ -8,11 +8,11 @@ use App\Enums\GenderEnum;
 use App\Enums\NotificationChannelEnum;
 use App\Enums\NotificationEventEnum;
 use App\Enums\ReligionEnum;
+use App\Traits\HasUser;
+use Illuminate\Database\Eloquent\Model;
 use Karnoweb\LaravelNotification\Models\NotificationPreference;
 use Karnoweb\LaravelNotification\NotificationChannelRegistry;
 use Karnoweb\LaravelNotification\NotificationPreferenceResolver;
-use App\Traits\HasUser;
-use Illuminate\Database\Eloquent\Model;
 use Spatie\SchemalessAttributes\Casts\SchemalessAttributes;
 
 class Profile extends Model

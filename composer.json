@@ -11,7 +11,7 @@
     "repositories": {
         "packagist": {
             "type": "composer",
-            "url": "https://mirror-composer.runflare.com"
+            "url": "https://hub.megan.ir/composer"
         },
         "karnoweb/laravel-notification": {
             "type": "path",
